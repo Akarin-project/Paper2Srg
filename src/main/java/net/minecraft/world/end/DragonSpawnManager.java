@@ -14,6 +14,7 @@ import net.minecraft.world.gen.feature.WorldGenSpikes;
 public enum DragonSpawnManager {
 
     START {;
+        @Override
         public void process(WorldServer worldserver, DragonFightManager enderdragonbattle, List<EntityEnderCrystal> list, int i, BlockPos blockposition) {
             BlockPos blockposition1 = new BlockPos(0, 128, 0);
             Iterator iterator = list.iterator();
@@ -24,20 +25,22 @@ public enum DragonSpawnManager {
                 entityendercrystal.setBeamTarget(blockposition1);
             }
 
-            enderdragonbattle.setRespawnState(null.PREPARING_TO_SUMMON_PILLARS);
+            enderdragonbattle.setRespawnState(PREPARING_TO_SUMMON_PILLARS);
         }
     }, PREPARING_TO_SUMMON_PILLARS {;
+    @Override
     public void process(WorldServer worldserver, DragonFightManager enderdragonbattle, List<EntityEnderCrystal> list, int i, BlockPos blockposition) {
         if (i < 100) {
             if (i == 0 || i == 50 || i == 51 || i == 52 || i >= 95) {
                 worldserver.playEvent(3001, new BlockPos(0, 128, 0), 0);
             }
         } else {
-            enderdragonbattle.setRespawnState(null.SUMMONING_PILLARS);
+            enderdragonbattle.setRespawnState(SUMMONING_PILLARS);
         }
 
     }
 }, SUMMONING_PILLARS {;
+    @Override
     public void process(WorldServer worldserver, DragonFightManager enderdragonbattle, List<EntityEnderCrystal> list, int i, BlockPos blockposition) {
         boolean flag = true;
         boolean flag1 = i % 40 == 0;
@@ -68,7 +71,7 @@ public enum DragonSpawnManager {
                         worldserver.setBlockToAir(blockposition_mutableblockposition);
                     }
 
-                    worldserver.createExplosion((Entity) null, (double) ((float) worldgenender_spike.getCenterX() + 0.5F), (double) worldgenender_spike.getHeight(), (double) ((float) worldgenender_spike.getCenterZ() + 0.5F), 5.0F, true);
+                    worldserver.createExplosion((Entity) null, worldgenender_spike.getCenterX() + 0.5F, worldgenender_spike.getHeight(), worldgenender_spike.getCenterZ() + 0.5F, 5.0F, true);
                     WorldGenSpikes worldgenender = new WorldGenSpikes();
 
                     worldgenender.setSpike(worldgenender_spike);
@@ -77,18 +80,19 @@ public enum DragonSpawnManager {
                     worldgenender.generate(worldserver, new Random(), new BlockPos(worldgenender_spike.getCenterX(), 45, worldgenender_spike.getCenterZ()));
                 }
             } else if (flag1) {
-                enderdragonbattle.setRespawnState(null.SUMMONING_DRAGON);
+                enderdragonbattle.setRespawnState(SUMMONING_DRAGON);
             }
         }
 
     }
 }, SUMMONING_DRAGON {;
+    @Override
     public void process(WorldServer worldserver, DragonFightManager enderdragonbattle, List<EntityEnderCrystal> list, int i, BlockPos blockposition) {
         Iterator iterator;
         EntityEnderCrystal entityendercrystal;
 
         if (i >= 100) {
-            enderdragonbattle.setRespawnState(null.END);
+            enderdragonbattle.setRespawnState(END);
             enderdragonbattle.resetSpikeCrystals();
             iterator = list.iterator();
 
@@ -113,6 +117,7 @@ public enum DragonSpawnManager {
 
     }
 }, END {;
+    @Override
     public void process(WorldServer worldserver, DragonFightManager enderdragonbattle, List<EntityEnderCrystal> list, int i, BlockPos blockposition) {}
 };
 

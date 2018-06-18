@@ -24,6 +24,7 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.server.DefinedStructure;
 import net.minecraft.server.DefinedStructure.a;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityStructure;
@@ -67,7 +68,7 @@ public class Template {
 
     public void takeBlocksFromWorld(World world, BlockPos blockposition, BlockPos blockposition1, boolean flag, @Nullable Block block) {
         if (blockposition1.getX() >= 1 && blockposition1.getY() >= 1 && blockposition1.getZ() >= 1) {
-            BlockPos blockposition2 = blockposition.add((Vec3i) blockposition1).add(-1, -1, -1);
+            BlockPos blockposition2 = blockposition.add(blockposition1).add(-1, -1, -1);
             ArrayList arraylist = Lists.newArrayList();
             ArrayList arraylist1 = Lists.newArrayList();
             ArrayList arraylist2 = Lists.newArrayList();
@@ -119,6 +120,7 @@ public class Template {
                 return !(entity instanceof EntityPlayer);
             }
 
+            @Override
             public boolean apply(@Nullable Object object) {
                 return this.a((Entity) object);
             }
@@ -133,7 +135,7 @@ public class Template {
         for (Iterator iterator = list.iterator(); iterator.hasNext(); this.entities.add(new Template.EntityInfo(vec3d, blockposition2, nbttagcompound))) {
             Entity entity = (Entity) iterator.next();
 
-            vec3d = new Vec3d(entity.posX - (double) blockposition.getX(), entity.posY - (double) blockposition.getY(), entity.posZ - (double) blockposition.getZ());
+            vec3d = new Vec3d(entity.posX - blockposition.getX(), entity.posY - blockposition.getY(), entity.posZ - blockposition.getZ());
             nbttagcompound = new NBTTagCompound();
             entity.writeToNBTOptional(nbttagcompound);
             if (entity instanceof EntityPainting) {
@@ -152,9 +154,9 @@ public class Template {
 
         while (iterator.hasNext()) {
             Template.BlockInfo definedstructure_blockinfo = (Template.BlockInfo) iterator.next();
-            BlockPos blockposition1 = transformedBlockPos(definedstructureinfo, definedstructure_blockinfo.pos).add((Vec3i) blockposition);
+            BlockPos blockposition1 = transformedBlockPos(definedstructureinfo, definedstructure_blockinfo.pos).add(blockposition);
 
-            if (structureboundingbox == null || structureboundingbox.isVecInside((Vec3i) blockposition1)) {
+            if (structureboundingbox == null || structureboundingbox.isVecInside(blockposition1)) {
                 IBlockState iblockdata = definedstructure_blockinfo.blockState;
 
                 if (iblockdata.getBlock() == Blocks.STRUCTURE_BLOCK && definedstructure_blockinfo.tileentityData != null) {
@@ -205,13 +207,13 @@ public class Template {
 
             while (iterator.hasNext()) {
                 definedstructure_blockinfo = (Template.BlockInfo) iterator.next();
-                blockposition1 = transformedBlockPos(definedstructureinfo, definedstructure_blockinfo.pos).add((Vec3i) blockposition);
+                blockposition1 = transformedBlockPos(definedstructureinfo, definedstructure_blockinfo.pos).add(blockposition);
                 Template.BlockInfo definedstructure_blockinfo1 = definedstructureprocessor != null ? definedstructureprocessor.processBlock(world, blockposition1, definedstructure_blockinfo) : definedstructure_blockinfo;
 
                 if (definedstructure_blockinfo1 != null) {
                     Block block1 = definedstructure_blockinfo1.blockState.getBlock();
 
-                    if ((block == null || block != block1) && (!definedstructureinfo.getIgnoreStructureBlock() || block1 != Blocks.STRUCTURE_BLOCK) && (structureboundingbox == null || structureboundingbox.isVecInside((Vec3i) blockposition1))) {
+                    if ((block == null || block != block1) && (!definedstructureinfo.getIgnoreStructureBlock() || block1 != Blocks.STRUCTURE_BLOCK) && (structureboundingbox == null || structureboundingbox.isVecInside(blockposition1))) {
                         IBlockState iblockdata = definedstructure_blockinfo1.blockState.withMirror(definedstructureinfo.getMirror());
                         IBlockState iblockdata1 = iblockdata.withRotation(definedstructureinfo.getRotation());
                         TileEntity tileentity;
@@ -249,8 +251,8 @@ public class Template {
             while (iterator.hasNext()) {
                 definedstructure_blockinfo = (Template.BlockInfo) iterator.next();
                 if (block == null || block != definedstructure_blockinfo.blockState.getBlock()) {
-                    blockposition1 = transformedBlockPos(definedstructureinfo, definedstructure_blockinfo.pos).add((Vec3i) blockposition);
-                    if (structureboundingbox == null || structureboundingbox.isVecInside((Vec3i) blockposition1)) {
+                    blockposition1 = transformedBlockPos(definedstructureinfo, definedstructure_blockinfo.pos).add(blockposition);
+                    if (structureboundingbox == null || structureboundingbox.isVecInside(blockposition1)) {
                         world.notifyNeighborsRespectDebug(blockposition1, definedstructure_blockinfo.blockState.getBlock(), false);
                         if (definedstructure_blockinfo.tileentityData != null) {
                             TileEntity tileentity1 = world.getTileEntity(blockposition1);
@@ -275,12 +277,12 @@ public class Template {
 
         while (iterator.hasNext()) {
             Template.EntityInfo definedstructure_entityinfo = (Template.EntityInfo) iterator.next();
-            BlockPos blockposition1 = transformedBlockPos(definedstructure_entityinfo.blockPos, enumblockmirror, enumblockrotation).add((Vec3i) blockposition);
+            BlockPos blockposition1 = transformedBlockPos(definedstructure_entityinfo.blockPos, enumblockmirror, enumblockrotation).add(blockposition);
 
-            if (structureboundingbox == null || structureboundingbox.isVecInside((Vec3i) blockposition1)) {
+            if (structureboundingbox == null || structureboundingbox.isVecInside(blockposition1)) {
                 NBTTagCompound nbttagcompound = definedstructure_entityinfo.entityData;
                 Vec3d vec3d = transformedVec3d(definedstructure_entityinfo.pos, enumblockmirror, enumblockrotation);
-                Vec3d vec3d1 = vec3d.addVector((double) blockposition.getX(), (double) blockposition.getY(), (double) blockposition.getZ());
+                Vec3d vec3d1 = vec3d.addVector(blockposition.getX(), blockposition.getY(), blockposition.getZ());
                 NBTTagList nbttaglist = new NBTTagList();
 
                 nbttaglist.appendTag(new NBTTagDouble(vec3d1.x));
@@ -421,6 +423,7 @@ public class Template {
 
     public static void registerFixes(DataFixer dataconvertermanager) {
         dataconvertermanager.registerWalker(FixTypes.STRUCTURE, new IDataWalker() {
+            @Override
             public NBTTagCompound process(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
                 NBTTagList nbttaglist;
                 int j;
@@ -630,11 +633,12 @@ public class Template {
 
         @Nullable
         public IBlockState a(int i) {
-            IBlockState iblockdata = (IBlockState) this.b.getByValue(i);
+            IBlockState iblockdata = this.b.getByValue(i);
 
             return iblockdata == null ? a : iblockdata; // Paper - decompile error - Blocks.AIR.getBlockData()
         }
 
+        @Override
         public Iterator<IBlockState> iterator() {
             return this.b.iterator();
         }

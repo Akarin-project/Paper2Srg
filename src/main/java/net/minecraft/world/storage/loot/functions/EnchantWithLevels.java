@@ -8,6 +8,7 @@ import java.util.Random;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.LootEnchantLevel.a;
+import net.minecraft.server.LootItemFunction;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -25,6 +26,7 @@ public class EnchantWithLevels extends LootFunction {
         this.isTreasure = flag;
     }
 
+    @Override
     public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
         return EnchantmentHelper.addRandomEnchantment(random, itemstack, this.randomLevel.generateInt(random), this.isTreasure);
     }
@@ -35,13 +37,14 @@ public class EnchantWithLevels extends LootFunction {
             super(new ResourceLocation("enchant_with_levels"), EnchantWithLevels.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, EnchantWithLevels lootenchantlevel, JsonSerializationContext jsonserializationcontext) {
             jsonobject.add("levels", jsonserializationcontext.serialize(lootenchantlevel.randomLevel));
             jsonobject.addProperty("treasure", Boolean.valueOf(lootenchantlevel.isTreasure));
         }
 
         public EnchantWithLevels a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
-            RandomValueRange lootvaluebounds = (RandomValueRange) JsonUtils.deserializeClass(jsonobject, "levels", jsondeserializationcontext, RandomValueRange.class);
+            RandomValueRange lootvaluebounds = JsonUtils.deserializeClass(jsonobject, "levels", jsondeserializationcontext, RandomValueRange.class);
             boolean flag = JsonUtils.getBoolean(jsonobject, "treasure", false);
 
             return new EnchantWithLevels(alootitemcondition, lootvaluebounds, flag);

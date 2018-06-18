@@ -16,6 +16,7 @@ import net.minecraft.entity.monster.EntityVindicator;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.WorldGenWoodlandMansionPieces;
 import net.minecraft.server.WorldGenWoodlandMansionPieces.a;
 import net.minecraft.server.WorldGenWoodlandMansionPieces.b;
 import net.minecraft.server.WorldGenWoodlandMansionPieces.c;
@@ -67,30 +68,37 @@ public class WoodlandMansionPieces {
             super(null);
         }
 
+        @Override
         public String a(Random random) {
             return "1x1_b" + (random.nextInt(4) + 1);
         }
 
+        @Override
         public String b(Random random) {
             return "1x1_as" + (random.nextInt(4) + 1);
         }
 
+        @Override
         public String a(Random random, boolean flag) {
             return flag ? "1x2_c_stairs" : "1x2_c" + (random.nextInt(4) + 1);
         }
 
+        @Override
         public String b(Random random, boolean flag) {
             return flag ? "1x2_d_stairs" : "1x2_d" + (random.nextInt(5) + 1);
         }
 
+        @Override
         public String c(Random random) {
             return "1x2_se" + (random.nextInt(1) + 1);
         }
 
+        @Override
         public String d(Random random) {
             return "2x2_b" + (random.nextInt(5) + 1);
         }
 
+        @Override
         public String e(Random random) {
             return "2x2_s1";
         }
@@ -106,30 +114,37 @@ public class WoodlandMansionPieces {
             super(null);
         }
 
+        @Override
         public String a(Random random) {
             return "1x1_a" + (random.nextInt(5) + 1);
         }
 
+        @Override
         public String b(Random random) {
             return "1x1_as" + (random.nextInt(4) + 1);
         }
 
+        @Override
         public String a(Random random, boolean flag) {
             return "1x2_a" + (random.nextInt(9) + 1);
         }
 
+        @Override
         public String b(Random random, boolean flag) {
             return "1x2_b" + (random.nextInt(5) + 1);
         }
 
+        @Override
         public String c(Random random) {
             return "1x2_s" + (random.nextInt(2) + 1);
         }
 
+        @Override
         public String d(Random random) {
             return "2x2_a" + (random.nextInt(4) + 1);
         }
 
+        @Override
         public String e(Random random) {
             return "2x2_s1";
         }
@@ -1084,6 +1099,7 @@ public class WoodlandMansionPieces {
             this.setup(definedstructure, this.templatePosition, definedstructureinfo);
         }
 
+        @Override
         protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
             super.writeStructureToNBT(nbttagcompound);
             nbttagcompound.setString("Template", this.d);
@@ -1091,6 +1107,7 @@ public class WoodlandMansionPieces {
             nbttagcompound.setString("Mi", this.placeSettings.getMirror().name());
         }
 
+        @Override
         protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
             this.d = nbttagcompound.getString("Template");
@@ -1099,6 +1116,7 @@ public class WoodlandMansionPieces {
             this.a(definedstructuremanager);
         }
 
+        @Override
         protected void handleDataMarker(String s, BlockPos blockposition, World world, Random random, StructureBoundingBox structureboundingbox) {
             if (s.startsWith("Chest")) {
                 Rotation enumblockrotation = this.placeSettings.getRotation();

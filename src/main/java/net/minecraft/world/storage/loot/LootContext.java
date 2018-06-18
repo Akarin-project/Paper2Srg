@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.LootTableInfo;
 import net.minecraft.server.LootTableInfo.EntityTarget.a;
 import net.minecraft.server.LootTableInfo.a;
 import net.minecraft.util.DamageSource;
@@ -122,12 +123,14 @@ public class LootContext {
                 return LootContext.EntityTarget.fromString(jsonreader.nextString());
             }
 
-            public Object read(JsonReader jsonreader) throws IOException {
+            @Override
+            public LootContext.EntityTarget read(JsonReader jsonreader) throws IOException {
                 return this.a(jsonreader);
             }
 
-            public void write(JsonWriter jsonwriter, Object object) throws IOException {
-                this.a(jsonwriter, (LootContext.EntityTarget) object);
+            @Override
+            public void write(JsonWriter jsonwriter, LootContext.EntityTarget object) throws IOException {
+                this.a(jsonwriter, object);
             }
         }
     }

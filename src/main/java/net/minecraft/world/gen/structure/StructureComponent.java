@@ -72,7 +72,6 @@ public abstract class StructureComponent {
 
     public abstract boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox);
 
-    public StructureBoundingBox getBoundingBox() { return getBoundingBox(); } // Paper - OBFHELPER
     public StructureBoundingBox getBoundingBox() {
         return this.boundingBox;
     }
@@ -201,7 +200,7 @@ public abstract class StructureComponent {
     protected void setBlockState(World world, IBlockState iblockdata, int i, int j, int k, StructureBoundingBox structureboundingbox) {
         BlockPos blockposition = new BlockPos(this.getXWithOffset(i, k), this.getYWithOffset(j), this.getZWithOffset(i, k));
 
-        if (structureboundingbox.isVecInside((Vec3i) blockposition)) {
+        if (structureboundingbox.isVecInside(blockposition)) {
             if (this.mirror != Mirror.NONE) {
                 iblockdata = iblockdata.withMirror(this.mirror);
             }
@@ -220,7 +219,7 @@ public abstract class StructureComponent {
         int j1 = this.getZWithOffset(i, k);
         BlockPos blockposition = new BlockPos(l, i1, j1);
 
-        return !structureboundingbox.isVecInside((Vec3i) blockposition) ? Blocks.AIR.getDefaultState() : world.getBlockState(blockposition);
+        return !structureboundingbox.isVecInside(blockposition) ? Blocks.AIR.getDefaultState() : world.getBlockState(blockposition);
     }
 
     protected int getSkyBrightness(World world, int i, int j, int k, StructureBoundingBox structureboundingbox) {
@@ -229,7 +228,7 @@ public abstract class StructureComponent {
         int j1 = this.getZWithOffset(i, k);
         BlockPos blockposition = new BlockPos(l, i1, j1);
 
-        return !structureboundingbox.isVecInside((Vec3i) blockposition) ? EnumSkyBlock.SKY.defaultLightValue : world.getLightFor(EnumSkyBlock.SKY, blockposition);
+        return !structureboundingbox.isVecInside(blockposition) ? EnumSkyBlock.SKY.defaultLightValue : world.getLightFor(EnumSkyBlock.SKY, blockposition);
     }
 
     protected void fillWithAir(World world, StructureBoundingBox structureboundingbox, int i, int j, int k, int l, int i1, int j1) {
@@ -299,20 +298,20 @@ public abstract class StructureComponent {
     }
 
     protected void randomlyRareFillWithBlocks(World world, StructureBoundingBox structureboundingbox, int i, int j, int k, int l, int i1, int j1, IBlockState iblockdata, boolean flag) {
-        float f = (float) (l - i + 1);
-        float f1 = (float) (i1 - j + 1);
-        float f2 = (float) (j1 - k + 1);
-        float f3 = (float) i + f / 2.0F;
-        float f4 = (float) k + f2 / 2.0F;
+        float f = l - i + 1;
+        float f1 = i1 - j + 1;
+        float f2 = j1 - k + 1;
+        float f3 = i + f / 2.0F;
+        float f4 = k + f2 / 2.0F;
 
         for (int k1 = j; k1 <= i1; ++k1) {
-            float f5 = (float) (k1 - j) / f1;
+            float f5 = (k1 - j) / f1;
 
             for (int l1 = i; l1 <= l; ++l1) {
-                float f6 = ((float) l1 - f3) / (f * 0.5F);
+                float f6 = (l1 - f3) / (f * 0.5F);
 
                 for (int i2 = k; i2 <= j1; ++i2) {
-                    float f7 = ((float) i2 - f4) / (f2 * 0.5F);
+                    float f7 = (i2 - f4) / (f2 * 0.5F);
 
                     if (!flag || this.getBlockStateFromPos(world, l1, k1, i2, structureboundingbox).getMaterial() != Material.AIR) {
                         float f8 = f6 * f6 + f5 * f5 + f7 * f7;
@@ -330,7 +329,7 @@ public abstract class StructureComponent {
     protected void clearCurrentPositionBlocksUpwards(World world, int i, int j, int k, StructureBoundingBox structureboundingbox) {
         BlockPos blockposition = new BlockPos(this.getXWithOffset(i, k), this.getYWithOffset(j), this.getZWithOffset(i, k));
 
-        if (structureboundingbox.isVecInside((Vec3i) blockposition)) {
+        if (structureboundingbox.isVecInside(blockposition)) {
             while (!world.isAirBlock(blockposition) && blockposition.getY() < 255) {
                 world.setBlockState(blockposition, Blocks.AIR.getDefaultState(), 2);
                 blockposition = blockposition.up();
@@ -344,7 +343,7 @@ public abstract class StructureComponent {
         int i1 = this.getYWithOffset(j);
         int j1 = this.getZWithOffset(i, k);
 
-        if (structureboundingbox.isVecInside((Vec3i) (new BlockPos(l, i1, j1)))) {
+        if (structureboundingbox.isVecInside((new BlockPos(l, i1, j1)))) {
             while ((world.isAirBlock(new BlockPos(l, i1, j1)) || world.getBlockState(new BlockPos(l, i1, j1)).getMaterial().isLiquid()) && i1 > 1) {
                 world.setBlockState(new BlockPos(l, i1, j1), iblockdata, 2);
                 --i1;
@@ -360,7 +359,7 @@ public abstract class StructureComponent {
     }
 
     protected boolean generateChest(World world, StructureBoundingBox structureboundingbox, Random random, BlockPos blockposition, ResourceLocation minecraftkey, @Nullable IBlockState iblockdata) {
-        if (structureboundingbox.isVecInside((Vec3i) blockposition) && world.getBlockState(blockposition).getBlock() != Blocks.CHEST) {
+        if (structureboundingbox.isVecInside(blockposition) && world.getBlockState(blockposition).getBlock() != Blocks.CHEST) {
             if (iblockdata == null) {
                 iblockdata = Blocks.CHEST.correctFacing(world, blockposition, Blocks.CHEST.getDefaultState());
             }
@@ -381,7 +380,7 @@ public abstract class StructureComponent {
     protected boolean createDispenser(World world, StructureBoundingBox structureboundingbox, Random random, int i, int j, int k, EnumFacing enumdirection, ResourceLocation minecraftkey) {
         BlockPos blockposition = new BlockPos(this.getXWithOffset(i, k), this.getYWithOffset(j), this.getZWithOffset(i, k));
 
-        if (structureboundingbox.isVecInside((Vec3i) blockposition) && world.getBlockState(blockposition).getBlock() != Blocks.DISPENSER) {
+        if (structureboundingbox.isVecInside(blockposition) && world.getBlockState(blockposition).getBlock() != Blocks.DISPENSER) {
             this.setBlockState(world, Blocks.DISPENSER.getDefaultState().withProperty(BlockDispenser.FACING, enumdirection), i, j, k, structureboundingbox);
             TileEntity tileentity = world.getTileEntity(blockposition);
 

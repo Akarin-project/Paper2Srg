@@ -44,6 +44,7 @@ public interface ITextComponent extends Iterable<ITextComponent> {
 
         public Serializer() {}
 
+        @Override
         public ITextComponent deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             if (jsonelement.isJsonPrimitive()) {
                 return new TextComponentString(jsonelement.getAsString());
@@ -55,7 +56,7 @@ public interface ITextComponent extends Iterable<ITextComponent> {
 
                     while (iterator.hasNext()) {
                         JsonElement jsonelement1 = (JsonElement) iterator.next();
-                        ITextComponent ichatbasecomponent1 = this.deserialize(jsonelement1, (Type) jsonelement1.getClass(), jsondeserializationcontext);
+                        ITextComponent ichatbasecomponent1 = this.deserialize(jsonelement1, jsonelement1.getClass(), jsondeserializationcontext);
 
                         if (ichatbasecomponent == null) {
                             ichatbasecomponent = ichatbasecomponent1;
@@ -150,6 +151,7 @@ public interface ITextComponent extends Iterable<ITextComponent> {
 
         }
 
+        @Override
         public JsonElement serialize(ITextComponent ichatbasecomponent, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
@@ -164,7 +166,7 @@ public interface ITextComponent extends Iterable<ITextComponent> {
                 while (iterator.hasNext()) {
                     ITextComponent ichatbasecomponent1 = (ITextComponent) iterator.next();
 
-                    jsonarray.add(this.serialize(ichatbasecomponent1, (Type) ichatbasecomponent1.getClass(), jsonserializationcontext));
+                    jsonarray.add(this.serialize(ichatbasecomponent1, ichatbasecomponent1.getClass(), jsonserializationcontext));
                 }
 
                 jsonobject.add("extra", jsonarray);
@@ -224,20 +226,12 @@ public interface ITextComponent extends Iterable<ITextComponent> {
 
         @Nullable
         public static ITextComponent jsonToComponent(String s) {
-            return (ITextComponent) JsonUtils.gsonDeserialize(ITextComponent.Serializer.GSON, s, ITextComponent.class, false);
+            return JsonUtils.gsonDeserialize(ITextComponent.Serializer.GSON, s, ITextComponent.class, false);
         }
 
         @Nullable
         public static ITextComponent fromJsonLenient(String s) {
-            return (ITextComponent) JsonUtils.gsonDeserialize(ITextComponent.Serializer.GSON, s, ITextComponent.class, true);
-        }
-
-        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.serialize((ITextComponent) object, type, jsonserializationcontext);
-        }
-
-        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            return this.deserialize(jsonelement, type, jsondeserializationcontext);
+            return JsonUtils.gsonDeserialize(ITextComponent.Serializer.GSON, s, ITextComponent.class, true);
         }
 
         static {

@@ -27,90 +27,111 @@ public class Style {
     private HoverEvent hoverEvent;
     private String insertion;
     private static final Style ROOT = new Style() {
+        @Override
         @Nullable
         public TextFormatting getColor() {
             return null;
         }
 
+        @Override
         public boolean getBold() {
             return false;
         }
 
+        @Override
         public boolean getItalic() {
             return false;
         }
 
+        @Override
         public boolean getStrikethrough() {
             return false;
         }
 
+        @Override
         public boolean getUnderlined() {
             return false;
         }
 
+        @Override
         public boolean getObfuscated() {
             return false;
         }
 
+        @Override
         @Nullable
         public ClickEvent getClickEvent() {
             return null;
         }
 
+        @Override
         @Nullable
         public HoverEvent getHoverEvent() {
             return null;
         }
 
+        @Override
         @Nullable
         public String getInsertion() {
             return null;
         }
 
+        @Override
         public Style setColor(TextFormatting enumchatformat) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style setBold(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style setItalic(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style setStrikethrough(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style setUnderlined(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style setObfuscated(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style setClickEvent(ClickEvent chatclickable) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style setHoverEvent(HoverEvent chathoverable) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style setParentStyle(Style chatmodifier) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public String toString() {
             return "Style.ROOT";
         }
 
+        @Override
         public Style clone() {
             return this;
         }
 
+        @Override
         public Style createDeepCopy() {
             return this;
         }
@@ -216,10 +237,12 @@ public class Style {
         return this.parentStyle == null ? Style.ROOT : this.parentStyle;
     }
 
+    @Override
     public String toString() {
         return "Style{hasParent=" + (this.parentStyle != null) + ", color=" + this.color + ", bold=" + this.bold + ", italic=" + this.italic + ", underlined=" + this.underlined + ", obfuscated=" + this.obfuscated + ", clickEvent=" + this.getClickEvent() + ", hoverEvent=" + this.getHoverEvent() + ", insertion=" + this.getInsertion() + '}';
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -265,6 +288,7 @@ public class Style {
         }
     }
 
+    @Override
     public int hashCode() {
         // CraftBukkit start - fix npe
         int i = color == null ? 0 : this.color.hashCode();
@@ -316,6 +340,7 @@ public class Style {
 
         public Serializer() {}
 
+        @Override
         @Nullable
         public Style deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             if (jsonelement.isJsonObject()) {
@@ -390,6 +415,7 @@ public class Style {
             }
         }
 
+        @Override
         @Nullable
         public JsonElement serialize(Style chatmodifier, Type type, JsonSerializationContext jsonserializationcontext) {
             if (chatmodifier.isEmpty()) {
@@ -443,16 +469,6 @@ public class Style {
 
                 return jsonobject;
             }
-        }
-
-        @Nullable
-        public JsonElement serialize(Style object, Type type, JsonSerializationContext jsonserializationcontext) { // CraftBukkit - fix decompile error
-            return this.serialize((Style) object, type, jsonserializationcontext);
-        }
-
-        @Nullable
-        public Style deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException { // CraftBukkit - fix decompile error
-            return this.deserialize(jsonelement, type, jsondeserializationcontext);
         }
     }
 }

@@ -136,7 +136,7 @@ public class LootTable {
 
         public LootTable a(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "loot table");
-            LootPool[] alootselector = (LootPool[]) JsonUtils.deserializeClass(jsonobject, "pools", new LootPool[0], jsondeserializationcontext, LootPool[].class);
+            LootPool[] alootselector = JsonUtils.deserializeClass(jsonobject, "pools", new LootPool[0], jsondeserializationcontext, LootPool[].class);
 
             return new LootTable(alootselector);
         }
@@ -148,11 +148,13 @@ public class LootTable {
             return jsonobject;
         }
 
-        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a((LootTable) object, type, jsonserializationcontext);
+        @Override
+        public JsonElement serialize(LootTable object, Type type, JsonSerializationContext jsonserializationcontext) {
+            return this.a(object, type, jsonserializationcontext);
         }
 
-        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+        @Override
+        public LootTable deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             return this.a(jsonelement, type, jsondeserializationcontext);
         }
     }

@@ -3,6 +3,7 @@ package net.minecraft.world.storage.loot.properties;
 import com.google.common.collect.Maps;
 import java.util.Map;
 
+import net.minecraft.server.LootEntityProperty;
 import net.minecraft.util.ResourceLocation;
 
 public class EntityPropertyManager {
@@ -25,7 +26,7 @@ public class EntityPropertyManager {
     }
 
     public static LootEntityProperty.a<?> a(ResourceLocation minecraftkey) {
-        LootEntityProperty.a lootentityproperty_a = (LootEntityProperty.a) EntityPropertyManager.NAME_TO_SERIALIZER_MAP.get(minecraftkey);
+        LootEntityProperty.a lootentityproperty_a = EntityPropertyManager.NAME_TO_SERIALIZER_MAP.get(minecraftkey);
 
         if (lootentityproperty_a == null) {
             throw new IllegalArgumentException("Unknown loot entity property \'" + minecraftkey + "\'");
@@ -35,7 +36,7 @@ public class EntityPropertyManager {
     }
 
     public static <T extends EntityProperty> LootEntityProperty.a<T> a(T t0) {
-        LootEntityProperty.a lootentityproperty_a = (LootEntityProperty.a) EntityPropertyManager.CLASS_TO_SERIALIZER_MAP.get(t0.getClass());
+        LootEntityProperty.a lootentityproperty_a = EntityPropertyManager.CLASS_TO_SERIALIZER_MAP.get(t0.getClass());
 
         if (lootentityproperty_a == null) {
             throw new IllegalArgumentException("Unknown loot entity property " + t0);

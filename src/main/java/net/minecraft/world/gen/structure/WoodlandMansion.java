@@ -9,6 +9,7 @@ import java.util.Random;
 
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
+import net.minecraft.server.WorldGenWoodlandMansion;
 import net.minecraft.server.WorldGenWoodlandMansion.a;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -30,10 +31,12 @@ public class WoodlandMansion extends MapGenStructure {
         this.provider = chunkprovidergenerate;
     }
 
+    @Override
     public String getStructureName() {
         return "Mansion";
     }
 
+    @Override
     protected boolean canSpawnStructureAtCoords(int i, int j) {
         int k = i;
         int l = j;
@@ -65,6 +68,7 @@ public class WoodlandMansion extends MapGenStructure {
         return false;
     }
 
+    @Override
     public BlockPos getNearestStructurePos(World world, BlockPos blockposition, boolean flag) {
         this.world = world;
         BiomeProvider worldchunkmanager = world.getBiomeProvider();
@@ -72,6 +76,7 @@ public class WoodlandMansion extends MapGenStructure {
         return worldchunkmanager.isFixedBiome() && worldchunkmanager.getFixedBiome() != Biomes.ROOFED_FOREST ? null : findNearestStructurePosBySpacing(world, this, blockposition, 80, 20, 10387319, true, 100, flag);
     }
 
+    @Override
     protected StructureStart getStructureStart(int i, int j) {
         return new WorldGenWoodlandMansion.a(this.world, this.provider, this.rand, i, j);
     }
@@ -123,6 +128,7 @@ public class WoodlandMansion extends MapGenStructure {
             }
         }
 
+        @Override
         public void generateStructure(World world, Random random, StructureBoundingBox structureboundingbox) {
             super.generateStructure(world, random, structureboundingbox);
             int i = this.boundingBox.minY;
@@ -131,14 +137,14 @@ public class WoodlandMansion extends MapGenStructure {
                 for (int k = structureboundingbox.minZ; k <= structureboundingbox.maxZ; ++k) {
                     BlockPos blockposition = new BlockPos(j, i, k);
 
-                    if (!world.isAirBlock(blockposition) && this.boundingBox.isVecInside((Vec3i) blockposition)) {
+                    if (!world.isAirBlock(blockposition) && this.boundingBox.isVecInside(blockposition)) {
                         boolean flag = false;
                         Iterator iterator = this.components.iterator();
 
                         while (iterator.hasNext()) {
                             StructureComponent structurepiece = (StructureComponent) iterator.next();
 
-                            if (structurepiece.boundingBox.isVecInside((Vec3i) blockposition)) {
+                            if (structurepiece.boundingBox.isVecInside(blockposition)) {
                                 flag = true;
                                 break;
                             }
@@ -161,6 +167,7 @@ public class WoodlandMansion extends MapGenStructure {
 
         }
 
+        @Override
         public boolean isSizeableStructure() {
             return this.c;
         }

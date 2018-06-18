@@ -73,7 +73,7 @@ public class Chunk {
     private boolean isGapLightingUpdated;
     public final Map<BlockPos, TileEntity> tileEntities;
     public final List<Entity>[] entityLists; // Spigot
-    final PaperLightingQueue.LightingQueue lightingQueue = new PaperLightingQueue.LightingQueue(this); // Paper
+    public final PaperLightingQueue.LightingQueue lightingQueue = new PaperLightingQueue.LightingQueue(this); // Paper
     private boolean isTerrainPopulated;
     private boolean isLightPopulated;
     private boolean ticked; private boolean isTicked() { return ticked; }; // Paper - OBFHELPER
@@ -85,7 +85,7 @@ public class Chunk {
     private int queuedLightChecks;
     private final ConcurrentLinkedQueue<BlockPos> tileEntityPosQueue;
     public boolean unloadQueued; public void setShouldUnload(boolean unload) { this.unloadQueued = unload; } public boolean isUnloading() { return unloadQueued; } // Paper - OBFHELPER
-    protected gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<Class>(); // Spigot
+    public gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<Class>(); // Spigot
 
     // Paper start
     // Track the number of minecarts and items
@@ -131,7 +131,7 @@ public class Chunk {
         this.tileEntities = Maps.newHashMap();
         this.queuedLightChecks = 4096;
         this.tileEntityPosQueue = Queues.newConcurrentLinkedQueue();
-        this.entityLists = (List[]) (new List[16]); // Spigot
+        this.entityLists = (new List[16]); // Spigot
         this.world = world;
         this.x = i;
         this.z = j;
@@ -497,6 +497,7 @@ public class Chunk {
                         return CrashReportCategory.getCoordinateInfo(i, j, k);
                     }
 
+                    @Override
                     public Object call() throws Exception {
                         return this.a();
                     }
@@ -772,7 +773,7 @@ public class Chunk {
             tileentity = world.capturedTileEntities.get(blockposition);
         }
         if (tileentity == null) {
-            tileentity = (TileEntity) this.tileEntities.get(blockposition);
+            tileentity = this.tileEntities.get(blockposition);
         }
         // CraftBukkit end
 
@@ -804,7 +805,7 @@ public class Chunk {
         tileentity.setPos(blockposition);
         if (this.getBlockState(blockposition).getBlock() instanceof ITileEntityProvider) {
             if (this.tileEntities.containsKey(blockposition)) {
-                ((TileEntity) this.tileEntities.get(blockposition)).invalidate();
+                this.tileEntities.get(blockposition).invalidate();
             }
 
             tileentity.validate();
@@ -837,7 +838,7 @@ public class Chunk {
     public void removeTileEntity(BlockPos blockposition) { this.removeTileEntity(blockposition); } // Paper - OBFHELPER
     public void removeTileEntity(BlockPos blockposition) {
         if (this.loaded) {
-            TileEntity tileentity = (TileEntity) this.tileEntities.remove(blockposition);
+            TileEntity tileentity = this.tileEntities.remove(blockposition);
 
             if (tileentity != null) {
                 tileentity.invalidate();
@@ -855,7 +856,7 @@ public class Chunk {
         for (int j = 0; j < i; ++j) {
             List entityslice = aentityslice[j]; // Spigot
 
-            this.world.loadEntities((Collection) entityslice);
+            this.world.loadEntities(entityslice);
         }
 
     }
@@ -869,7 +870,7 @@ public class Chunk {
             // Spigot Start
             if ( tileentity instanceof IInventory )
             {
-                for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList((List<org.bukkit.entity.HumanEntity>) ( (IInventory) tileentity ).getViewers() ) )
+                for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList(( (IInventory) tileentity ).getViewers() ) )
                 {
                     if ( h instanceof org.bukkit.craftbukkit.entity.CraftHumanEntity )
                     {
@@ -894,7 +895,7 @@ public class Chunk {
                 // Spigot Start
                 if ( entity instanceof IInventory )
                 {
-                    for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList( (List<org.bukkit.entity.HumanEntity>) ( (IInventory) entity ).getViewers() ) )
+                    for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList( ( (IInventory) entity ).getViewers() ) )
                     {
                         if ( h instanceof org.bukkit.craftbukkit.entity.CraftHumanEntity )
                         {
@@ -1013,7 +1014,7 @@ public class Chunk {
     }
 
     public Random getRandomWithSeed(long i) {
-        return new Random(this.world.getSeed() + (long) (this.x * this.x * 4987142) + (long) (this.x * 5947611) + (long) (this.z * this.z) * 4392871L + (long) (this.z * 389711) ^ i);
+        return new Random(this.world.getSeed() + this.x * this.x * 4987142 + this.x * 5947611 + this.z * this.z * 4392871L + this.z * 389711 ^ i);
     }
 
     public boolean isEmpty() {
@@ -1093,7 +1094,7 @@ public class Chunk {
             random.setSeed(world.getSeed());
             long xRand = random.nextLong() / 2L * 2L + 1L;
             long zRand = random.nextLong() / 2L * 2L + 1L;
-            random.setSeed((long) x * xRand + (long) z * zRand ^ world.getSeed());
+            random.setSeed(x * xRand + z * zRand ^ world.getSeed());
 
             org.bukkit.World world = this.world.getWorld();
             if (world != null) {
@@ -1154,7 +1155,7 @@ public class Chunk {
         }
 
         while (!this.tileEntityPosQueue.isEmpty()) {
-            BlockPos blockposition = (BlockPos) this.tileEntityPosQueue.poll();
+            BlockPos blockposition = this.tileEntityPosQueue.poll();
 
             if (this.getTileEntity(blockposition, Chunk.EnumCreateEntityType.CHECK) == null && this.getBlockState(blockposition).getBlock().hasTileEntity()) {
                 TileEntity tileentity = this.createNewTileEntity(blockposition);
@@ -1371,7 +1372,7 @@ public class Chunk {
 
         for (l = k + 16 - 1; l > this.world.getSeaLevel() || l > 0 && !flag1; --l) {
             blockposition_mutableblockposition.setPos(blockposition_mutableblockposition.getX(), l, blockposition_mutableblockposition.getZ());
-            int i1 = this.getBlockLightOpacity((BlockPos) blockposition_mutableblockposition);
+            int i1 = this.getBlockLightOpacity(blockposition_mutableblockposition);
 
             if (i1 == 255 && blockposition_mutableblockposition.getY() < this.world.getSeaLevel()) {
                 flag1 = true;

@@ -6,6 +6,7 @@ import com.google.gson.JsonSerializationContext;
 import java.util.Random;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.LootItemFunction;
 import net.minecraft.server.LootItemFunctionSetCount.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -22,6 +23,7 @@ public class SetCount extends LootFunction {
         this.countRange = lootvaluebounds;
     }
 
+    @Override
     public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
         itemstack.setCount(this.countRange.generateInt(random));
         return itemstack;
@@ -33,12 +35,13 @@ public class SetCount extends LootFunction {
             super(new ResourceLocation("set_count"), SetCount.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, SetCount lootitemfunctionsetcount, JsonSerializationContext jsonserializationcontext) {
             jsonobject.add("count", jsonserializationcontext.serialize(lootitemfunctionsetcount.countRange));
         }
 
         public SetCount a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
-            return new SetCount(alootitemcondition, (RandomValueRange) JsonUtils.deserializeClass(jsonobject, "count", jsondeserializationcontext, RandomValueRange.class));
+            return new SetCount(alootitemcondition, JsonUtils.deserializeClass(jsonobject, "count", jsondeserializationcontext, RandomValueRange.class));
         }
 
         public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {

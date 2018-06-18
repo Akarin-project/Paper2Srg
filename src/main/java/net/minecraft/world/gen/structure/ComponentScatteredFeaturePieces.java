@@ -24,6 +24,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.WorldGenRegistration;
 import net.minecraft.server.WorldGenRegistration.b;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -59,6 +60,7 @@ public class ComponentScatteredFeaturePieces {
             super(random, i, 64, j, 7, 5, 8);
         }
 
+        @Override
         public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (!this.offsetToAverageGroundLevel(world, structureboundingbox, -1)) {
                 return false;
@@ -80,10 +82,10 @@ public class ComponentScatteredFeaturePieces {
                     for (int j = 0; j < i; ++j) {
                         BlockPos blockposition1 = definedstructure.calculateConnectedPos(definedstructureinfo, new BlockPos(3, -1 - j * 3, 5), definedstructureinfo, new BlockPos(1, 2, 1));
 
-                        definedstructure1.addBlocksToWorldChunk(world, blockposition.add((Vec3i) blockposition1), definedstructureinfo);
+                        definedstructure1.addBlocksToWorldChunk(world, blockposition.add(blockposition1), definedstructureinfo);
                     }
 
-                    BlockPos blockposition2 = blockposition.add((Vec3i) definedstructure.calculateConnectedPos(definedstructureinfo, new BlockPos(3, -1 - i * 3, 5), definedstructureinfo, new BlockPos(3, 5, 7)));
+                    BlockPos blockposition2 = blockposition.add(definedstructure.calculateConnectedPos(definedstructureinfo, new BlockPos(3, -1 - i * 3, 5), definedstructureinfo, new BlockPos(3, 5, 7)));
 
                     definedstructure2.addBlocksToWorldChunk(world, blockposition2, definedstructureinfo);
                     Map map = definedstructure2.getDataBlocks(blockposition2, definedstructureinfo);
@@ -106,7 +108,7 @@ public class ComponentScatteredFeaturePieces {
                 } else {
                     BlockPos blockposition4 = Template.transformedBlockPos(definedstructureinfo, new BlockPos(3, 0, 5));
 
-                    world.setBlockState(blockposition.add((Vec3i) blockposition4), Blocks.SNOW.getDefaultState(), 3);
+                    world.setBlockState(blockposition.add(blockposition4), Blocks.SNOW.getDefaultState(), 3);
                 }
 
                 return true;
@@ -124,16 +126,19 @@ public class ComponentScatteredFeaturePieces {
             super(random, i, 64, j, 7, 7, 9);
         }
 
+        @Override
         protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
             super.writeStructureToNBT(nbttagcompound);
             nbttagcompound.setBoolean("Witch", this.hasWitch);
         }
 
+        @Override
         protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
             this.hasWitch = nbttagcompound.getBoolean("Witch");
         }
 
+        @Override
         public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (!this.offsetToAverageGroundLevel(world, structureboundingbox, 0)) {
                 return false;
@@ -183,12 +188,12 @@ public class ComponentScatteredFeaturePieces {
                     j = this.getYWithOffset(2);
                     int k = this.getZWithOffset(2, 5);
 
-                    if (structureboundingbox.isVecInside((Vec3i) (new BlockPos(i, j, k)))) {
+                    if (structureboundingbox.isVecInside((new BlockPos(i, j, k)))) {
                         this.hasWitch = true;
                         EntityWitch entitywitch = new EntityWitch(world);
 
                         entitywitch.enablePersistence();
-                        entitywitch.setLocationAndAngles((double) i + 0.5D, (double) j, (double) k + 0.5D, 0.0F, 0.0F);
+                        entitywitch.setLocationAndAngles(i + 0.5D, j, k + 0.5D, 0.0F, 0.0F);
                         entitywitch.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(i, j, k)), (IEntityLivingData) null);
                         world.addEntity(entitywitch, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.CHUNK_GEN); // CraftBukkit - add SpawnReason
                     }
@@ -213,6 +218,7 @@ public class ComponentScatteredFeaturePieces {
             super(random, i, 64, j, 12, 10, 15);
         }
 
+        @Override
         protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
             super.writeStructureToNBT(nbttagcompound);
             nbttagcompound.setBoolean("placedMainChest", this.placedMainChest);
@@ -221,6 +227,7 @@ public class ComponentScatteredFeaturePieces {
             nbttagcompound.setBoolean("placedTrap2", this.placedTrap2);
         }
 
+        @Override
         protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
             this.placedMainChest = nbttagcompound.getBoolean("placedMainChest");
@@ -229,6 +236,7 @@ public class ComponentScatteredFeaturePieces {
             this.placedTrap2 = nbttagcompound.getBoolean("placedTrap2");
         }
 
+        @Override
         public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (!this.offsetToAverageGroundLevel(world, structureboundingbox, 0)) {
                 return false;
@@ -418,6 +426,7 @@ public class ComponentScatteredFeaturePieces {
 
             private Stones() {}
 
+            @Override
             public void selectBlocks(Random random, int i, int j, int k, boolean flag) {
                 if (random.nextFloat() < 0.4F) {
                     this.blockstate = Blocks.COBBLESTONE.getDefaultState();
@@ -443,6 +452,7 @@ public class ComponentScatteredFeaturePieces {
             super(random, i, 64, j, 21, 15, 21);
         }
 
+        @Override
         protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
             super.writeStructureToNBT(nbttagcompound);
             nbttagcompound.setBoolean("hasPlacedChest0", this.hasPlacedChest[0]);
@@ -451,6 +461,7 @@ public class ComponentScatteredFeaturePieces {
             nbttagcompound.setBoolean("hasPlacedChest3", this.hasPlacedChest[3]);
         }
 
+        @Override
         protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
             this.hasPlacedChest[0] = nbttagcompound.getBoolean("hasPlacedChest0");
@@ -459,6 +470,7 @@ public class ComponentScatteredFeaturePieces {
             this.hasPlacedChest[3] = nbttagcompound.getBoolean("hasPlacedChest3");
         }
 
+        @Override
         public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
             this.fillWithBlocks(world, structureboundingbox, 0, -4, 0, this.width - 1, 0, this.depth - 1, Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState(), false);
 
@@ -686,6 +698,7 @@ public class ComponentScatteredFeaturePieces {
 
         }
 
+        @Override
         protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
             nbttagcompound.setInteger("Width", this.width);
             nbttagcompound.setInteger("Height", this.height);
@@ -693,6 +706,7 @@ public class ComponentScatteredFeaturePieces {
             nbttagcompound.setInteger("HPos", this.horizontalPos);
         }
 
+        @Override
         protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             this.width = nbttagcompound.getInteger("Width");
             this.height = nbttagcompound.getInteger("Height");
@@ -711,7 +725,7 @@ public class ComponentScatteredFeaturePieces {
                 for (int l = this.boundingBox.minZ; l <= this.boundingBox.maxZ; ++l) {
                     for (int i1 = this.boundingBox.minX; i1 <= this.boundingBox.maxX; ++i1) {
                         blockposition_mutableblockposition.setPos(i1, 64, l);
-                        if (structureboundingbox.isVecInside((Vec3i) blockposition_mutableblockposition)) {
+                        if (structureboundingbox.isVecInside(blockposition_mutableblockposition)) {
                             j += Math.max(world.getTopSolidOrLiquidBlock(blockposition_mutableblockposition).getY(), world.provider.getAverageGroundLevel());
                             ++k;
                         }

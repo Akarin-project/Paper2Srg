@@ -129,7 +129,7 @@ public class TextComponentTranslation extends TextComponentBase {
             Object object1;
 
             if (object instanceof ITextComponent) {
-                object1 = (ITextComponent) object;
+                object1 = object;
             } else {
                 object1 = new TextComponentString(object == null ? "null" : object.toString());
                 ((ITextComponent) object1).getStyle().setParentStyle(this.getStyle());
@@ -139,6 +139,7 @@ public class TextComponentTranslation extends TextComponentBase {
         }
     }
 
+    @Override
     public ITextComponent setStyle(Style chatmodifier) {
         super.setStyle(chatmodifier);
         Object[] aobject = this.formatArgs;
@@ -165,11 +166,13 @@ public class TextComponentTranslation extends TextComponentBase {
         return this;
     }
 
+    @Override
     public Iterator<ITextComponent> iterator() {
         this.ensureInitialized();
-        return Iterators.concat(createDeepCopyIterator((Iterable) this.children), createDeepCopyIterator((Iterable) this.siblings));
+        return Iterators.concat(createDeepCopyIterator(this.children), createDeepCopyIterator(this.siblings));
     }
 
+    @Override
     public String getUnformattedComponentText() {
         this.ensureInitialized();
         StringBuilder stringbuilder = new StringBuilder();
@@ -184,6 +187,7 @@ public class TextComponentTranslation extends TextComponentBase {
         return stringbuilder.toString();
     }
 
+    @Override
     public TextComponentTranslation createCopy() {
         Object[] aobject = new Object[this.formatArgs.length];
 
@@ -209,6 +213,7 @@ public class TextComponentTranslation extends TextComponentBase {
         return chatmessage;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -221,6 +226,7 @@ public class TextComponentTranslation extends TextComponentBase {
         }
     }
 
+    @Override
     public int hashCode() {
         int i = super.hashCode();
 
@@ -229,6 +235,7 @@ public class TextComponentTranslation extends TextComponentBase {
         return i;
     }
 
+    @Override
     public String toString() {
         return "TranslatableComponent{key=\'" + this.key + '\'' + ", args=" + Arrays.toString(this.formatArgs) + ", siblings=" + this.siblings + ", style=" + this.getStyle() + '}';
     }
@@ -239,9 +246,5 @@ public class TextComponentTranslation extends TextComponentBase {
 
     public Object[] getFormatArgs() {
         return this.formatArgs;
-    }
-
-    public ITextComponent createCopy() {
-        return this.createCopy();
     }
 }

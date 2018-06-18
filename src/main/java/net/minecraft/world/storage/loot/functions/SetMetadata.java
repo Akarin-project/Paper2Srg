@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.LootItemFunction;
 import net.minecraft.server.LootItemFunctionSetData.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -25,6 +26,7 @@ public class SetMetadata extends LootFunction {
         this.metaRange = lootvaluebounds;
     }
 
+    @Override
     public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
         if (itemstack.isItemStackDamageable()) {
             SetMetadata.LOGGER.warn("Couldn\'t set data of loot item {}", itemstack);
@@ -41,12 +43,13 @@ public class SetMetadata extends LootFunction {
             super(new ResourceLocation("set_data"), SetMetadata.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, SetMetadata lootitemfunctionsetdata, JsonSerializationContext jsonserializationcontext) {
             jsonobject.add("data", jsonserializationcontext.serialize(lootitemfunctionsetdata.metaRange));
         }
 
         public SetMetadata a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
-            return new SetMetadata(alootitemcondition, (RandomValueRange) JsonUtils.deserializeClass(jsonobject, "data", jsondeserializationcontext, RandomValueRange.class));
+            return new SetMetadata(alootitemcondition, JsonUtils.deserializeClass(jsonobject, "data", jsondeserializationcontext, RandomValueRange.class));
         }
 
         public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {

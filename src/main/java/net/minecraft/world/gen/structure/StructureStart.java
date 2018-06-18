@@ -24,7 +24,6 @@ public abstract class StructureStart {
         this.chunkPosZ = j;
     }
 
-    public StructureBoundingBox getBoundingBox() { return getBoundingBox(); } // Paper - OBFHELPER
     public StructureBoundingBox getBoundingBox() {
         return this.boundingBox;
     }

@@ -14,10 +14,12 @@ public class TextComponentSelector extends TextComponentBase {
         return this.selector;
     }
 
+    @Override
     public String getUnformattedComponentText() {
         return this.selector;
     }
 
+    @Override
     public TextComponentSelector createCopy() {
         TextComponentSelector chatcomponentselector = new TextComponentSelector(this.selector);
 
@@ -33,6 +35,7 @@ public class TextComponentSelector extends TextComponentBase {
         return chatcomponentselector;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -45,11 +48,8 @@ public class TextComponentSelector extends TextComponentBase {
         }
     }
 
+    @Override
     public String toString() {
         return "SelectorComponent{pattern=\'" + this.selector + '\'' + ", siblings=" + this.siblings + ", style=" + this.getStyle() + '}';
-    }
-
-    public ITextComponent createCopy() {
-        return this.createCopy();
     }
 }

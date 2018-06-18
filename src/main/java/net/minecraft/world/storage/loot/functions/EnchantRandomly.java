@@ -22,6 +22,7 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.LootItemFunction;
 import net.minecraft.server.LootItemFunctionEnchant.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -39,6 +40,7 @@ public class EnchantRandomly extends LootFunction {
         this.enchantments = list == null ? Collections.emptyList() : list;
     }
 
+    @Override
     public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
         Enchantment enchantment;
 
@@ -61,7 +63,7 @@ public class EnchantRandomly extends LootFunction {
 
             enchantment = (Enchantment) arraylist.get(random.nextInt(arraylist.size()));
         } else {
-            enchantment = (Enchantment) this.enchantments.get(random.nextInt(this.enchantments.size()));
+            enchantment = this.enchantments.get(random.nextInt(this.enchantments.size()));
         }
 
         int i = MathHelper.getInt(random, enchantment.getMinLevel(), enchantment.getMaxLevel());
@@ -82,6 +84,7 @@ public class EnchantRandomly extends LootFunction {
             super(new ResourceLocation("enchant_randomly"), EnchantRandomly.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, EnchantRandomly lootitemfunctionenchant, JsonSerializationContext jsonserializationcontext) {
             if (!lootitemfunctionenchant.enchantments.isEmpty()) {
                 JsonArray jsonarray = new JsonArray();
@@ -89,7 +92,7 @@ public class EnchantRandomly extends LootFunction {
 
                 while (iterator.hasNext()) {
                     Enchantment enchantment = (Enchantment) iterator.next();
-                    ResourceLocation minecraftkey = (ResourceLocation) Enchantment.REGISTRY.getNameForObject(enchantment);
+                    ResourceLocation minecraftkey = Enchantment.REGISTRY.getNameForObject(enchantment);
 
                     if (minecraftkey == null) {
                         throw new IllegalArgumentException("Don\'t know how to serialize enchantment " + enchantment);
@@ -113,7 +116,7 @@ public class EnchantRandomly extends LootFunction {
                 while (iterator.hasNext()) {
                     JsonElement jsonelement = (JsonElement) iterator.next();
                     String s = JsonUtils.getString(jsonelement, "enchantment");
-                    Enchantment enchantment = (Enchantment) Enchantment.REGISTRY.getObject(new ResourceLocation(s));
+                    Enchantment enchantment = Enchantment.REGISTRY.getObject(new ResourceLocation(s));
 
                     if (enchantment == null) {
                         throw new JsonSyntaxException("Unknown enchantment \'" + s + "\'");

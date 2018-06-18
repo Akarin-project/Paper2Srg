@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.server.LootItemFunction;
 import net.minecraft.server.LootItemFunctionSmelt.a;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -22,6 +23,7 @@ public class Smelt extends LootFunction {
         super(alootitemcondition);
     }
 
+    @Override
     public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
         if (itemstack.isEmpty()) {
             return itemstack;
@@ -46,6 +48,7 @@ public class Smelt extends LootFunction {
             super(new ResourceLocation("furnace_smelt"), Smelt.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, Smelt lootitemfunctionsmelt, JsonSerializationContext jsonserializationcontext) {}
 
         public Smelt a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {

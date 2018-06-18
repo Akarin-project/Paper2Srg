@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.LootItemFunction;
 import net.minecraft.server.LootItemFunctionSetTag.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -25,6 +26,7 @@ public class SetNBT extends LootFunction {
         this.tag = nbttagcompound;
     }
 
+    @Override
     public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
         NBTTagCompound nbttagcompound = itemstack.getTagCompound();
 
@@ -44,6 +46,7 @@ public class SetNBT extends LootFunction {
             super(new ResourceLocation("set_nbt"), SetNBT.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, SetNBT lootitemfunctionsettag, JsonSerializationContext jsonserializationcontext) {
             jsonobject.addProperty("tag", lootitemfunctionsettag.tag.toString());
         }

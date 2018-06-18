@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.init.Biomes;
+import net.minecraft.server.WorldGenRegistration;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -43,10 +44,12 @@ public class MapGenScatteredFeature extends MapGenStructure {
 
     }
 
+    @Override
     public String getStructureName() {
         return "Temple";
     }
 
+    @Override
     protected boolean canSpawnStructureAtCoords(int i, int j) {
         int k = i;
         int l = j;
@@ -88,11 +91,13 @@ public class MapGenScatteredFeature extends MapGenStructure {
         return false;
     }
 
+    @Override
     public BlockPos getNearestStructurePos(World world, BlockPos blockposition, boolean flag) {
         this.world = world;
         return findNearestStructurePosBySpacing(world, this, blockposition, this.maxDistanceBetweenScatteredFeatures, 8, this.world.spigotConfig.largeFeatureSeed, false, 100, flag); // Spigot
     }
 
+    @Override
     protected StructureStart getStructureStart(int i, int j) {
         return new MapGenScatteredFeature.Start(this.world, this.rand, i, j);
     }
@@ -101,7 +106,7 @@ public class MapGenScatteredFeature extends MapGenStructure {
         StructureStart structurestart = this.getStructureAt(blockposition);
 
         if (structurestart != null && structurestart instanceof MapGenScatteredFeature.Start && !structurestart.components.isEmpty()) {
-            StructureComponent structurepiece = (StructureComponent) structurestart.components.get(0);
+            StructureComponent structurepiece = structurestart.components.get(0);
 
             return structurepiece instanceof ComponentScatteredFeaturePieces.SwampHut;
         } else {

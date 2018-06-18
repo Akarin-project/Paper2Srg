@@ -17,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.LootItemFunction;
+import net.minecraft.server.LootItemFunctionSetAttribute;
 import net.minecraft.server.LootItemFunctionSetAttribute.a;
 import net.minecraft.server.LootItemFunctionSetAttribute.b;
 import net.minecraft.util.JsonUtils;
@@ -35,6 +37,7 @@ public class SetAttributes extends LootFunction {
         this.modifiers = alootitemfunctionsetattribute_a;
     }
 
+    @Override
     public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
         LootItemFunctionSetAttribute.a[] alootitemfunctionsetattribute_a = this.modifiers;
         int i = alootitemfunctionsetattribute_a.length;
@@ -108,7 +111,7 @@ public class SetAttributes extends LootFunction {
             String s = JsonUtils.getString(jsonobject, "name");
             String s1 = JsonUtils.getString(jsonobject, "attribute");
             int i = a(JsonUtils.getString(jsonobject, "operation"));
-            RandomValueRange lootvaluebounds = (RandomValueRange) JsonUtils.deserializeClass(jsonobject, "amount", jsondeserializationcontext, RandomValueRange.class);
+            RandomValueRange lootvaluebounds = JsonUtils.deserializeClass(jsonobject, "amount", jsondeserializationcontext, RandomValueRange.class);
             UUID uuid = null;
             EntityEquipmentSlot[] aenumitemslot;
 
@@ -183,6 +186,7 @@ public class SetAttributes extends LootFunction {
             super(new ResourceLocation("set_attributes"), SetAttributes.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, SetAttributes lootitemfunctionsetattribute, JsonSerializationContext jsonserializationcontext) {
             JsonArray jsonarray = new JsonArray();
             LootItemFunctionSetAttribute.a[] alootitemfunctionsetattribute_a = lootitemfunctionsetattribute.modifiers;

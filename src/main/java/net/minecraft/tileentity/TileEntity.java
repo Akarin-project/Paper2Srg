@@ -27,11 +27,11 @@ import org.bukkit.inventory.InventoryHolder;
 public abstract class TileEntity {
 
     public Timing tickTimer = MinecraftTimings.getTileEntityTimings(this); // Paper
-    boolean isLoadingStructure = false; // Paper
+    public boolean isLoadingStructure = false; // Paper
     private static final Logger LOGGER = LogManager.getLogger();
     private static final RegistryNamespaced<ResourceLocation, Class<? extends TileEntity>> REGISTRY = new RegistryNamespaced();
-    protected World world;
-    protected BlockPos pos;
+    public World world;
+    public BlockPos pos;
     protected boolean tileEntityInvalid;
     private int blockMetadata;
     protected Block blockType;
@@ -47,7 +47,7 @@ public abstract class TileEntity {
 
     @Nullable
     public static ResourceLocation getKey(Class<? extends TileEntity> oclass) {
-        return (ResourceLocation) TileEntity.REGISTRY.getNameForObject(oclass);
+        return TileEntity.REGISTRY.getNameForObject(oclass);
     }
 
     static boolean IGNORE_TILE_UPDATES = false; // Paper
@@ -72,7 +72,7 @@ public abstract class TileEntity {
     }
 
     private NBTTagCompound writeInternal(NBTTagCompound nbttagcompound) {
-        ResourceLocation minecraftkey = (ResourceLocation) TileEntity.REGISTRY.getNameForObject(this.getClass());
+        ResourceLocation minecraftkey = TileEntity.REGISTRY.getNameForObject(this.getClass());
 
         if (minecraftkey == null) {
             throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
@@ -91,7 +91,7 @@ public abstract class TileEntity {
         String s = nbttagcompound.getString("id");
 
         try {
-            Class oclass = (Class) TileEntity.REGISTRY.getObject(new ResourceLocation(s));
+            Class oclass = TileEntity.REGISTRY.getObject(new ResourceLocation(s));
 
             if (oclass != null) {
                 tileentity = (TileEntity) oclass.newInstance();
@@ -189,6 +189,7 @@ public abstract class TileEntity {
                 return TileEntity.REGISTRY.getNameForObject(TileEntity.this.getClass()) + " // " + TileEntity.this.getClass().getCanonicalName();
             }
 
+            @Override
             public Object call() throws Exception {
                 return this.a();
             }
@@ -211,6 +212,7 @@ public abstract class TileEntity {
                     }
                 }
 
+                @Override
                 public Object call() throws Exception {
                     return this.a();
                 }
@@ -229,6 +231,7 @@ public abstract class TileEntity {
                     }
                 }
 
+                @Override
                 public Object call() throws Exception {
                     return this.a();
                 }

@@ -18,14 +18,16 @@ public class TextComponentKeybind extends TextComponentBase {
         this.keybind = s;
     }
 
+    @Override
     public String getUnformattedComponentText() {
         if (this.displaySupplier == null) {
-            this.displaySupplier = (Supplier) TextComponentKeybind.displaySupplierFunction.apply(this.keybind);
+            this.displaySupplier = TextComponentKeybind.displaySupplierFunction.apply(this.keybind);
         }
 
-        return (String) this.displaySupplier.get();
+        return this.displaySupplier.get();
     }
 
+    @Override
     public TextComponentKeybind createCopy() {
         TextComponentKeybind chatcomponentkeybind = new TextComponentKeybind(this.keybind);
 
@@ -41,6 +43,7 @@ public class TextComponentKeybind extends TextComponentBase {
         return chatcomponentkeybind;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -53,15 +56,12 @@ public class TextComponentKeybind extends TextComponentBase {
         }
     }
 
+    @Override
     public String toString() {
         return "KeybindComponent{keybind=\'" + this.keybind + '\'' + ", siblings=" + this.siblings + ", style=" + this.getStyle() + '}';
     }
 
     public String getKeybind() {
         return this.keybind;
-    }
-
-    public ITextComponent createCopy() {
-        return this.createCopy();
     }
 }

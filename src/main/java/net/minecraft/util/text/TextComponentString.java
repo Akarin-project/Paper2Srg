@@ -14,10 +14,12 @@ public class TextComponentString extends TextComponentBase {
         return this.text;
     }
 
+    @Override
     public String getUnformattedComponentText() {
         return this.text;
     }
 
+    @Override
     public TextComponentString createCopy() {
         TextComponentString chatcomponenttext = new TextComponentString(this.text);
 
@@ -33,6 +35,7 @@ public class TextComponentString extends TextComponentBase {
         return chatcomponenttext;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -45,11 +48,8 @@ public class TextComponentString extends TextComponentBase {
         }
     }
 
+    @Override
     public String toString() {
         return "TextComponent{text=\'" + this.text + '\'' + ", siblings=" + this.siblings + ", style=" + this.getStyle() + '}';
-    }
-
-    public ITextComponent createCopy() {
-        return this.createCopy();
     }
 }

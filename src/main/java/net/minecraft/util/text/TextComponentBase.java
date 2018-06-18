@@ -14,20 +14,24 @@ public abstract class TextComponentBase implements ITextComponent {
 
     public TextComponentBase() {}
 
+    @Override
     public ITextComponent appendSibling(ITextComponent ichatbasecomponent) {
         ichatbasecomponent.getStyle().setParentStyle(this.getStyle());
         this.siblings.add(ichatbasecomponent);
         return this;
     }
 
+    @Override
     public List<ITextComponent> getSiblings() {
         return this.siblings;
     }
 
+    @Override
     public ITextComponent appendText(String s) {
         return this.appendSibling(new TextComponentString(s));
     }
 
+    @Override
     public ITextComponent setStyle(Style chatmodifier) {
         this.style = chatmodifier;
         Iterator iterator = this.siblings.iterator();
@@ -41,6 +45,7 @@ public abstract class TextComponentBase implements ITextComponent {
         return this;
     }
 
+    @Override
     public Style getStyle() {
         if (this.style == null) {
             this.style = new Style();
@@ -56,10 +61,12 @@ public abstract class TextComponentBase implements ITextComponent {
         return this.style;
     }
 
+    @Override
     public Iterator<ITextComponent> iterator() {
-        return Iterators.concat(Iterators.forArray(new TextComponentBase[] { this}), createDeepCopyIterator((Iterable) this.siblings));
+        return Iterators.concat(Iterators.forArray(new TextComponentBase[] { this}), createDeepCopyIterator(this.siblings)); // Akarin - fix compile error
     }
 
+    @Override
     public final String getUnformattedText() {
         StringBuilder stringbuilder = new StringBuilder();
         Iterator iterator = this.iterator();
@@ -79,6 +86,7 @@ public abstract class TextComponentBase implements ITextComponent {
                 return ichatbasecomponent.iterator();
             }
 
+            @Override
             public Object apply(@Nullable Object object) {
                 return this.a((ITextComponent) object);
             }
@@ -92,6 +100,7 @@ public abstract class TextComponentBase implements ITextComponent {
                 return ichatbasecomponent1;
             }
 
+            @Override
             public Object apply(@Nullable Object object) {
                 return this.a((ITextComponent) object);
             }
@@ -99,6 +108,7 @@ public abstract class TextComponentBase implements ITextComponent {
         return iterator;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -111,10 +121,12 @@ public abstract class TextComponentBase implements ITextComponent {
         }
     }
 
+    @Override
     public int hashCode() {
         return 31 * this.getStyle().hashCode() + this.siblings.hashCode(); // CraftBukkit - fix null pointer
     }
 
+    @Override
     public String toString() {
         return "BaseComponent{style=" + this.style + ", siblings=" + this.siblings + '}';
     }

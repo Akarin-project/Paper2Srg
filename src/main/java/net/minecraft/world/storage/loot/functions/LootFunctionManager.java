@@ -12,6 +12,7 @@ import com.google.gson.JsonSyntaxException;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import net.minecraft.server.LootItemFunction;
 import net.minecraft.server.LootItemFunctions.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -37,7 +38,7 @@ public class LootFunctionManager {
     }
 
     public static LootItemFunction.a<?> a(ResourceLocation minecraftkey) {
-        LootItemFunction.a lootitemfunction_a = (LootItemFunction.a) LootFunctionManager.NAME_TO_SERIALIZER_MAP.get(minecraftkey);
+        LootItemFunction.a lootitemfunction_a = LootFunctionManager.NAME_TO_SERIALIZER_MAP.get(minecraftkey);
 
         if (lootitemfunction_a == null) {
             throw new IllegalArgumentException("Unknown loot item function \'" + minecraftkey + "\'");
@@ -47,7 +48,7 @@ public class LootFunctionManager {
     }
 
     public static <T extends LootFunction> LootItemFunction.a<T> a(T t0) {
-        LootItemFunction.a lootitemfunction_a = (LootItemFunction.a) LootFunctionManager.CLASS_TO_SERIALIZER_MAP.get(t0.getClass());
+        LootItemFunction.a lootitemfunction_a = LootFunctionManager.CLASS_TO_SERIALIZER_MAP.get(t0.getClass());
 
         if (lootitemfunction_a == null) {
             throw new IllegalArgumentException("Unknown loot item function " + t0);
@@ -104,6 +105,7 @@ public class LootFunctionManager {
             return this.a((LootFunction) object, type, jsonserializationcontext);
         }
 
+        @Override
         public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             return this.a(jsonelement, type, jsondeserializationcontext);
         }

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.WorldGenWoodlandMansion;
 import net.minecraft.world.World;
 
 public class MapGenStructureIO {
@@ -28,11 +29,11 @@ public class MapGenStructureIO {
     }
 
     public static String getStructureStartName(StructureStart structurestart) {
-        return (String) MapGenStructureIO.startClassToNameMap.get(structurestart.getClass());
+        return MapGenStructureIO.startClassToNameMap.get(structurestart.getClass());
     }
 
     public static String getStructureComponentName(StructureComponent structurepiece) {
-        return (String) MapGenStructureIO.componentClassToNameMap.get(structurepiece.getClass());
+        return MapGenStructureIO.componentClassToNameMap.get(structurepiece.getClass());
     }
 
     @Nullable
@@ -40,7 +41,7 @@ public class MapGenStructureIO {
         StructureStart structurestart = null;
 
         try {
-            Class oclass = (Class) MapGenStructureIO.startNameToClassMap.get(nbttagcompound.getString("id"));
+            Class oclass = MapGenStructureIO.startNameToClassMap.get(nbttagcompound.getString("id"));
 
             if (oclass != null) {
                 structurestart = (StructureStart) oclass.newInstance();
@@ -63,7 +64,7 @@ public class MapGenStructureIO {
         StructureComponent structurepiece = null;
 
         try {
-            Class oclass = (Class) MapGenStructureIO.componentNameToClassMap.get(nbttagcompound.getString("id"));
+            Class oclass = MapGenStructureIO.componentNameToClassMap.get(nbttagcompound.getString("id"));
 
             if (oclass != null) {
                 structurepiece = (StructureComponent) oclass.newInstance();

@@ -1,4 +1,4 @@
-	package net.minecraft.world;
+package net.minecraft.world;
 
 import com.destroystokyo.paper.event.server.ServerExceptionEvent;
 import com.destroystokyo.paper.exception.ServerInternalException;
@@ -22,7 +22,6 @@ import com.google.common.collect.Sets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import net;
 import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.advancements.FunctionManager;
 import net.minecraft.block.Block;
@@ -159,7 +158,7 @@ public abstract class World implements IBlockAccess {
     public final List<Entity> weatherEffects = Lists.newArrayList();
     protected final IntHashMap<Entity> entitiesById = new IntHashMap();
     private final long cloudColour = 16777215L;
-    private int skylightSubtracted; public int getSkylightSubtracted() { return this.skylightSubtracted; } // Paper - OBFHELPER
+    private int skylightSubtracted;
     protected int updateLCG = (new Random()).nextInt();
     protected final int DIST_HASH_MAGIC = 1013904223;
     protected float prevRainingStrength;
@@ -829,7 +828,6 @@ public abstract class World implements IBlockAccess {
         return this.getLight(blockposition, true);
     }
 
-    public final int getLight(BlockPos blockposition, boolean checkNeighbors) { return this.getLight(blockposition, checkNeighbors); } // Paper - OBFHELPER
     public int getLight(BlockPos blockposition, boolean flag) {
         if (blockposition.getX() >= -30000000 && blockposition.getZ() >= -30000000 && blockposition.getX() < 30000000 && blockposition.getZ() < 30000000) {
             if (flag && this.getBlockState(blockposition).useNeighborBrightness()) {
@@ -1719,7 +1717,7 @@ public abstract class World implements IBlockAccess {
                 BlockPos blockposition = tileentity.getPos();
 
                 // Paper start - Skip ticking in chunks scheduled for unload
-                minecraft.world.chunk.Chunk chunk = this.getChunkIfLoaded(blockposition);
+                net.minecraft.world.chunk.Chunk chunk = this.getChunkIfLoaded(blockposition);
                 boolean shouldTick = chunk != null;
                 if(this.paperConfig.skipEntityTickingInChunksScheduledForUnload)
                     shouldTick = shouldTick && !chunk.isUnloading() && chunk.scheduledForUnload == null;

@@ -32,6 +32,7 @@ public class TextComponentScore extends TextComponentBase {
         this.value = s;
     }
 
+    @Override
     public String getUnformattedComponentText() {
         return this.value;
     }
@@ -54,6 +55,7 @@ public class TextComponentScore extends TextComponentBase {
 
     }
 
+    @Override
     public TextComponentScore createCopy() {
         TextComponentScore chatcomponentscore = new TextComponentScore(this.name, this.objective);
 
@@ -70,6 +72,7 @@ public class TextComponentScore extends TextComponentBase {
         return chatcomponentscore;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -82,11 +85,8 @@ public class TextComponentScore extends TextComponentBase {
         }
     }
 
+    @Override
     public String toString() {
         return "ScoreComponent{name=\'" + this.name + '\'' + "objective=\'" + this.objective + '\'' + ", siblings=" + this.siblings + ", style=" + this.getStyle() + '}';
-    }
-
-    public ITextComponent createCopy() {
-        return this.createCopy();
     }
 }
