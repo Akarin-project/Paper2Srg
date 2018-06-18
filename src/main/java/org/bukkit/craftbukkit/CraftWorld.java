@@ -214,7 +214,7 @@ public class CraftWorld implements World {
     public int getTileEntityCount() {
         // We don't use the full world tile entity list, so we must iterate chunks
         int size = 0;
-        for (minecraft.world.chunk.Chunk chunk : ((ChunkProviderServer) world.getChunkProvider()).id2ChunkMap.values()) {
+        for (net.minecraft.world.chunk.Chunk chunk : ((ChunkProviderServer) world.getChunkProvider()).id2ChunkMap.values()) {
             size += chunk.tileEntities.size();
         }
         return size;

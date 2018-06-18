@@ -16,6 +16,11 @@ import com.destroystokyo.paper.exception.ServerTabCompleteException;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Server;
+import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.command.defaults.HelpCommand;
+import org.bukkit.command.defaults.PluginsCommand;
+import org.bukkit.command.defaults.ReloadCommand;
+import org.bukkit.command.defaults.VersionCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
@@ -43,6 +48,7 @@ public class SimpleCommandMap implements CommandMap {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void registerAll(String fallbackPrefix, List<Command> commands) {
         if (commands != null) {
             for (Command c : commands) {
@@ -54,6 +60,7 @@ public class SimpleCommandMap implements CommandMap {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean register(String fallbackPrefix, Command command) {
         return register(command.getName(), fallbackPrefix, command);
     }
@@ -61,6 +68,7 @@ public class SimpleCommandMap implements CommandMap {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean register(String label, String fallbackPrefix, Command command) {
         command.timings = co.aikar.timings.TimingsManager.getCommandTiming(fallbackPrefix, command); // Spigot
         label = label.toLowerCase(java.util.Locale.ENGLISH).trim();
@@ -124,6 +132,7 @@ public class SimpleCommandMap implements CommandMap {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean dispatch(CommandSender sender, String commandLine) throws CommandException {
         String[] args = PATTERN_ON_SPACE.split(commandLine);
 
@@ -163,6 +172,7 @@ public class SimpleCommandMap implements CommandMap {
         return true;
     }
 
+    @Override
     public synchronized void clearCommands() {
         for (Map.Entry<String, Command> entry : knownCommands.entrySet()) {
             entry.getValue().unregister(this);
@@ -171,15 +181,18 @@ public class SimpleCommandMap implements CommandMap {
         setDefaultCommands();
     }
 
+    @Override
     public Command getCommand(String name) {
         Command target = knownCommands.get(name.toLowerCase(java.util.Locale.ENGLISH));
         return target;
     }
 
+    @Override
     public List<String> tabComplete(CommandSender sender, String cmdLine) {
         return tabComplete(sender, cmdLine, null);
     }
 
+    @Override
     public List<String> tabComplete(CommandSender sender, String cmdLine, Location location) {
         Validate.notNull(sender, "Sender cannot be null");
         Validate.notNull(cmdLine, "Command line cannot null");
@@ -282,6 +295,7 @@ public class SimpleCommandMap implements CommandMap {
     }
 
     // Paper start - Expose Known Commands
+    @Override
     public Map<String, Command> getKnownCommands() {
         return knownCommands;
     }

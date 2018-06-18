@@ -3,7 +3,6 @@ package com.destroystokyo.paper.exception;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-
 /**
  * Thrown when a command throws an exception
  */
