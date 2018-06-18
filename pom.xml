@@ -185,6 +185,17 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>destroystokyo-releases</id>
+            <url>https://destroystokyo.com/repo/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>destroystokyo-snapshots</id>
+            <url>https://destroystokyo.com/repo/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>spigotmc-public</id>
@@ -199,8 +210,20 @@
             <url>https://repo.spongepowered.org/maven/</url>
         </repository>
         <repository>
-            <id>nallar-repo</id>
-            <url>http://repo.nallar.me/</url>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>aikar</id>
+            <url>https://repo.aikar.co/content/groups/aikar/</url>
+        </repository>
+        <repository>
+            <id>destroystokyo-repo</id>
+            <url>https://destroystokyo.com/repo/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>md_5-releases</id>
+            <url>https://repo.md-5.net/content/repositories/releases/</url>
         </repository>
     </repositories>
 
