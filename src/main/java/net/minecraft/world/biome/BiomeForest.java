@@ -21,7 +21,7 @@ public class BiomeForest extends Biome {
     protected static final WorldGenCanopyTree ROOF_TREE = new WorldGenCanopyTree(false);
     private final BiomeForest.Type type;
 
-    public BiomeForest(BiomeForest.Type biomeforest_type, BiomeBase.a biomebase_a) {
+    public BiomeForest(BiomeForest.Type biomeforest_type, Biome.a biomebase_a) {
         super(biomebase_a);
         this.type = biomeforest_type;
         this.decorator.treesPerChunk = 10;
@@ -43,14 +43,16 @@ public class BiomeForest extends Biome {
 
     }
 
+    @Override
     public WorldGenAbstractTree getRandomTreeFeature(Random random) {
-        return (WorldGenAbstractTree) (this.type == BiomeForest.Type.ROOFED && random.nextInt(3) > 0 ? BiomeForest.ROOF_TREE : (this.type != BiomeForest.Type.BIRCH && random.nextInt(5) != 0 ? (random.nextInt(10) == 0 ? BiomeForest.BIG_TREE_FEATURE : BiomeForest.TREE_FEATURE) : BiomeForest.BIRCH_TREE));
+        return this.type == BiomeForest.Type.ROOFED && random.nextInt(3) > 0 ? BiomeForest.ROOF_TREE : (this.type != BiomeForest.Type.BIRCH && random.nextInt(5) != 0 ? (random.nextInt(10) == 0 ? BiomeForest.BIG_TREE_FEATURE : BiomeForest.TREE_FEATURE) : BiomeForest.BIRCH_TREE);
     }
 
+    @Override
     public BlockFlower.EnumFlowerType pickRandomFlower(Random random, BlockPos blockposition) {
         if (this.type == BiomeForest.Type.FLOWER) {
-            double d0 = MathHelper.clamp((1.0D + BiomeForest.GRASS_COLOR_NOISE.getValue((double) blockposition.getX() / 48.0D, (double) blockposition.getZ() / 48.0D)) / 2.0D, 0.0D, 0.9999D);
-            BlockFlower.EnumFlowerType blockflowers_enumflowervarient = BlockFlower.EnumFlowerType.values()[(int) (d0 * (double) BlockFlower.EnumFlowerType.values().length)];
+            double d0 = MathHelper.clamp((1.0D + BiomeForest.GRASS_COLOR_NOISE.getValue(blockposition.getX() / 48.0D, blockposition.getZ() / 48.0D)) / 2.0D, 0.0D, 0.9999D);
+            BlockFlower.EnumFlowerType blockflowers_enumflowervarient = BlockFlower.EnumFlowerType.values()[(int) (d0 * BlockFlower.EnumFlowerType.values().length)];
 
             return blockflowers_enumflowervarient == BlockFlower.EnumFlowerType.BLUE_ORCHID ? BlockFlower.EnumFlowerType.POPPY : blockflowers_enumflowervarient;
         } else {
@@ -58,6 +60,7 @@ public class BiomeForest extends Biome {
         }
     }
 
+    @Override
     public void decorate(World world, Random random, BlockPos blockposition) {
         if (this.type == BiomeForest.Type.ROOFED) {
             this.addMushrooms(world, random, blockposition);
@@ -132,6 +135,7 @@ public class BiomeForest extends Biome {
 
     }
 
+    @Override
     public Class<? extends Biome> getBiomeClass() {
         return BiomeForest.class;
     }

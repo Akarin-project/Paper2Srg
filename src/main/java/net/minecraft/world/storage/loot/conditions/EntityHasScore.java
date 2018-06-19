@@ -16,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.server.LootItemConditionEntityScore.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -32,6 +31,7 @@ public class EntityHasScore implements LootCondition {
         this.target = loottableinfo_entitytarget;
     }
 
+    @Override
     public boolean testCondition(Random random, LootContext loottableinfo) {
         Entity entity = loottableinfo.getEntity(this.target);
 
@@ -67,12 +67,13 @@ public class EntityHasScore implements LootCondition {
         }
     }
 
-    public static class a extends LootItemCondition.a<EntityHasScore> {
+    public static class a extends LootCondition.a<EntityHasScore> {
 
         protected a() {
             super(new ResourceLocation("entity_scores"), EntityHasScore.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, EntityHasScore lootitemconditionentityscore, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject1 = new JsonObject();
             Iterator iterator = lootitemconditionentityscore.scores.entrySet().iterator();
@@ -98,10 +99,11 @@ public class EntityHasScore implements LootCondition {
                 linkedhashmap.put(entry.getKey(), JsonUtils.deserializeClass((JsonElement) entry.getValue(), "score", jsondeserializationcontext, RandomValueRange.class));
             }
 
-            return new EntityHasScore(linkedhashmap, (LootContext.EntityTarget) JsonUtils.deserializeClass(jsonobject, "entity", jsondeserializationcontext, LootContext.EntityTarget.class));
+            return new EntityHasScore(linkedhashmap, JsonUtils.deserializeClass(jsonobject, "entity", jsondeserializationcontext, LootContext.EntityTarget.class));
         }
 
-        public LootCondition b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+        @Override
+        public EntityHasScore b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
             return this.a(jsonobject, jsondeserializationcontext);
         }
     }

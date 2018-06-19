@@ -15,7 +15,7 @@ import net.minecraft.world.gen.feature.WorldGenFossils;
 
 public class BiomeDesert extends Biome {
 
-    public BiomeDesert(BiomeBase.a biomebase_a) {
+    public BiomeDesert(Biome.a biomebase_a) {
         super(biomebase_a);
         this.spawnableCreatureList.clear();
         this.topBlock = Blocks.SAND.getDefaultState();
@@ -41,6 +41,7 @@ public class BiomeDesert extends Biome {
         this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntityHusk.class, 80, 4, 4));
     }
 
+    @Override
     public void decorate(World world, Random random, BlockPos blockposition) {
         super.decorate(world, random, blockposition);
         if (random.nextInt(1000) == 0) {

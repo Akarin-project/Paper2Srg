@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 
-class PaperLightingQueue {
+public class PaperLightingQueue {
     private static final long MAX_TIME = (long) (1000000000 / 20 * .95);
     private static int updatesThisTick;
 
@@ -35,10 +35,10 @@ class PaperLightingQueue {
         }
     }
 
-    static class LightingQueue extends ArrayDeque<Runnable> {
+    public static class LightingQueue extends ArrayDeque<Runnable> {
         final private Chunk chunk;
 
-        LightingQueue(Chunk chunk) {
+        public LightingQueue(Chunk chunk) {
             super();
             this.chunk = chunk;
         }
@@ -72,7 +72,7 @@ class PaperLightingQueue {
         /**
          * Flushes lighting updates to unload the chunk
          */
-        void processUnload() {
+        public void processUnload() {
             if (!chunk.world.paperConfig.queueLightUpdates) {
                 return;
             }

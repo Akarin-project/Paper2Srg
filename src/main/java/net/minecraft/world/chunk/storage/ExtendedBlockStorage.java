@@ -11,7 +11,7 @@ public class ExtendedBlockStorage {
     private final int yBase;
     private int blockRefCount;
     private int tickRefCount;
-    final BlockStateContainer data; // Paper - package
+    public final BlockStateContainer data; // Paper - package
     private NibbleArray blockLight;
     private NibbleArray skyLight;
 

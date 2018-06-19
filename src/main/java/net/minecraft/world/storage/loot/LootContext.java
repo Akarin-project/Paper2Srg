@@ -10,9 +10,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.LootTableInfo;
-import net.minecraft.server.LootTableInfo.EntityTarget.a;
-import net.minecraft.server.LootTableInfo.a;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.WorldServer;
 
@@ -147,22 +144,22 @@ public class LootContext {
             this.a = worldserver;
         }
 
-        public LootTableInfo.a a(float f) {
+        public LootContext.a a(float f) {
             this.b = f;
             return this;
         }
 
-        public LootTableInfo.a a(Entity entity) {
+        public LootContext.a a(Entity entity) {
             this.c = entity;
             return this;
         }
 
-        public LootTableInfo.a a(EntityPlayer entityhuman) {
+        public LootContext.a a(EntityPlayer entityhuman) {
             this.d = entityhuman;
             return this;
         }
 
-        public LootTableInfo.a a(DamageSource damagesource) {
+        public LootContext.a a(DamageSource damagesource) {
             this.e = damagesource;
             return this;
         }

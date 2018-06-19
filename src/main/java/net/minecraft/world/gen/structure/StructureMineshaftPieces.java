@@ -18,7 +18,6 @@ import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.WorldGenMineshaftPieces.c;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.EnumFacing;
@@ -38,7 +37,7 @@ public class StructureMineshaftPieces {
         MapGenStructureIO.registerStructureComponent(StructureMineshaftPieces.Stairs.class, "MSStairs");
     }
 
-    private static WorldGenMineshaftPieces.c a(List<StructureComponent> list, Random random, int i, int j, int k, @Nullable EnumFacing enumdirection, int l, MapGenMineshaft.Type worldgenmineshaft_type) {
+    private static StructureMineshaftPieces.c a(List<StructureComponent> list, Random random, int i, int j, int k, @Nullable EnumFacing enumdirection, int l, MapGenMineshaft.Type worldgenmineshaft_type) {
         int i1 = random.nextInt(100);
         StructureBoundingBox structureboundingbox;
 
@@ -62,25 +61,25 @@ public class StructureMineshaftPieces {
         return null;
     }
 
-    private static WorldGenMineshaftPieces.c b(StructureComponent structurepiece, List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection, int l) {
+    private static StructureMineshaftPieces.c b(StructureComponent structurepiece, List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection, int l) {
         if (l > 8) {
             return null;
         } else if (Math.abs(i - structurepiece.getBoundingBox().minX) <= 80 && Math.abs(k - structurepiece.getBoundingBox().minZ) <= 80) {
-            MapGenMineshaft.Type worldgenmineshaft_type = ((WorldGenMineshaftPieces.c) structurepiece).a;
-            WorldGenMineshaftPieces.c worldgenmineshaftpieces_c = a(list, random, i, j, k, enumdirection, l + 1, worldgenmineshaft_type);
+            MapGenMineshaft.Type worldgenmineshaft_type = ((StructureMineshaftPieces.c) structurepiece).a;
+            StructureMineshaftPieces.c StructureMineshaftPieces_c = a(list, random, i, j, k, enumdirection, l + 1, worldgenmineshaft_type);
 
-            if (worldgenmineshaftpieces_c != null) {
-                list.add(worldgenmineshaftpieces_c);
-                worldgenmineshaftpieces_c.buildComponent(structurepiece, list, random);
+            if (StructureMineshaftPieces_c != null) {
+                list.add(StructureMineshaftPieces_c);
+                StructureMineshaftPieces_c.buildComponent(structurepiece, list, random);
             }
 
-            return worldgenmineshaftpieces_c;
+            return StructureMineshaftPieces_c;
         } else {
             return null;
         }
     }
 
-    public static class Stairs extends WorldGenMineshaftPieces.c {
+    public static class Stairs extends StructureMineshaftPieces.c {
 
         public Stairs() {}
 
@@ -118,6 +117,7 @@ public class StructureMineshaftPieces {
             return StructureComponent.findIntersecting(list, structureboundingbox) != null ? null : structureboundingbox;
         }
 
+        @Override
         public void buildComponent(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
             int i = this.getComponentType();
             EnumFacing enumdirection = this.getCoordBaseMode();
@@ -144,6 +144,7 @@ public class StructureMineshaftPieces {
 
         }
 
+        @Override
         public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (this.isLiquidInStructureBoundingBox(world, structureboundingbox)) {
                 return false;
@@ -160,19 +161,21 @@ public class StructureMineshaftPieces {
         }
     }
 
-    public static class Cross extends WorldGenMineshaftPieces.c {
+    public static class Cross extends StructureMineshaftPieces.c {
 
         private EnumFacing corridorDirection;
         private boolean isMultipleFloors;
 
         public Cross() {}
 
+        @Override
         protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
             super.writeStructureToNBT(nbttagcompound);
             nbttagcompound.setBoolean("tf", this.isMultipleFloors);
             nbttagcompound.setInteger("D", this.corridorDirection.getHorizontalIndex());
         }
 
+        @Override
         protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
             this.isMultipleFloors = nbttagcompound.getBoolean("tf");
@@ -222,6 +225,7 @@ public class StructureMineshaftPieces {
             return StructureComponent.findIntersecting(list, structureboundingbox) != null ? null : structureboundingbox;
         }
 
+        @Override
         public void buildComponent(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
             int i = this.getComponentType();
 
@@ -271,6 +275,7 @@ public class StructureMineshaftPieces {
 
         }
 
+        @Override
         public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (this.isLiquidInStructureBoundingBox(world, structureboundingbox)) {
                 return false;
@@ -313,7 +318,7 @@ public class StructureMineshaftPieces {
         }
     }
 
-    public static class Corridor extends WorldGenMineshaftPieces.c {
+    public static class Corridor extends StructureMineshaftPieces.c {
 
         private boolean hasRails;
         private boolean hasSpiders;
@@ -322,6 +327,7 @@ public class StructureMineshaftPieces {
 
         public Corridor() {}
 
+        @Override
         protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
             super.writeStructureToNBT(nbttagcompound);
             nbttagcompound.setBoolean("hr", this.hasRails);
@@ -330,6 +336,7 @@ public class StructureMineshaftPieces {
             nbttagcompound.setInteger("Num", this.sectionCount);
         }
 
+        @Override
         protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
             this.hasRails = nbttagcompound.getBoolean("hr");
@@ -390,6 +397,7 @@ public class StructureMineshaftPieces {
             return l > 0 ? structureboundingbox : null;
         }
 
+        @Override
         public void buildComponent(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
             int i = this.getComponentType();
             int j = random.nextInt(4);
@@ -466,14 +474,15 @@ public class StructureMineshaftPieces {
 
         }
 
+        @Override
         protected boolean generateChest(World world, StructureBoundingBox structureboundingbox, Random random, int i, int j, int k, ResourceLocation minecraftkey) {
             BlockPos blockposition = new BlockPos(this.getXWithOffset(i, k), this.getYWithOffset(j), this.getZWithOffset(i, k));
 
-            if (structureboundingbox.isVecInside((Vec3i) blockposition) && world.getBlockState(blockposition).getMaterial() == Material.AIR && world.getBlockState(blockposition.down()).getMaterial() != Material.AIR) {
+            if (structureboundingbox.isVecInside(blockposition) && world.getBlockState(blockposition).getMaterial() == Material.AIR && world.getBlockState(blockposition.down()).getMaterial() != Material.AIR) {
                 IBlockState iblockdata = Blocks.RAIL.getDefaultState().withProperty(BlockRail.SHAPE, random.nextBoolean() ? BlockRailBase.EnumRailDirection.NORTH_SOUTH : BlockRailBase.EnumRailDirection.EAST_WEST);
 
                 this.setBlockState(world, iblockdata, i, j, k, structureboundingbox);
-                EntityMinecartChest entityminecartchest = new EntityMinecartChest(world, (double) ((float) blockposition.getX() + 0.5F), (double) ((float) blockposition.getY() + 0.5F), (double) ((float) blockposition.getZ() + 0.5F));
+                EntityMinecartChest entityminecartchest = new EntityMinecartChest(world, blockposition.getX() + 0.5F, blockposition.getY() + 0.5F, blockposition.getZ() + 0.5F);
 
                 entityminecartchest.setLootTable(minecraftkey, random.nextLong());
                 world.spawnEntity(entityminecartchest);
@@ -483,6 +492,7 @@ public class StructureMineshaftPieces {
             }
         }
 
+        @Override
         public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (this.isLiquidInStructureBoundingBox(world, structureboundingbox)) {
                 return false;
@@ -529,7 +539,7 @@ public class StructureMineshaftPieces {
                         int k1 = this.getZWithOffset(1, i1);
                         BlockPos blockposition = new BlockPos(j1, l, k1);
 
-                        if (structureboundingbox.isVecInside((Vec3i) blockposition) && this.getSkyBrightness(world, 1, 0, i1, structureboundingbox) < 8) {
+                        if (structureboundingbox.isVecInside(blockposition) && this.getSkyBrightness(world, 1, 0, i1, structureboundingbox) < 8) {
                             this.spawnerPlaced = true;
                             world.setBlockState(blockposition, Blocks.MOB_SPAWNER.getDefaultState(), 2);
                             TileEntity tileentity = world.getTileEntity(blockposition);
@@ -600,7 +610,7 @@ public class StructureMineshaftPieces {
         }
     }
 
-    public static class Room extends WorldGenMineshaftPieces.c {
+    public static class Room extends StructureMineshaftPieces.c {
 
         private final List<StructureBoundingBox> connectedRooms = Lists.newLinkedList();
 
@@ -612,6 +622,7 @@ public class StructureMineshaftPieces {
             this.boundingBox = new StructureBoundingBox(j, 50, k, j + 7 + random.nextInt(6), 54 + random.nextInt(6), k + 7 + random.nextInt(6));
         }
 
+        @Override
         public void buildComponent(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
             int i = this.getComponentType();
             int j = this.boundingBox.getYSize() - 3 - 1;
@@ -621,7 +632,7 @@ public class StructureMineshaftPieces {
             }
 
             int k;
-            WorldGenMineshaftPieces.c worldgenmineshaftpieces_c;
+            StructureMineshaftPieces.c StructureMineshaftPieces_c;
             StructureBoundingBox structureboundingbox;
 
             for (k = 0; k < this.boundingBox.getXSize(); k += 4) {
@@ -630,9 +641,9 @@ public class StructureMineshaftPieces {
                     break;
                 }
 
-                worldgenmineshaftpieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + k, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
-                if (worldgenmineshaftpieces_c != null) {
-                    structureboundingbox = worldgenmineshaftpieces_c.getBoundingBox();
+                StructureMineshaftPieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + k, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
+                if (StructureMineshaftPieces_c != null) {
+                    structureboundingbox = StructureMineshaftPieces_c.getBoundingBox();
                     this.connectedRooms.add(new StructureBoundingBox(structureboundingbox.minX, structureboundingbox.minY, this.boundingBox.minZ, structureboundingbox.maxX, structureboundingbox.maxY, this.boundingBox.minZ + 1));
                 }
             }
@@ -643,9 +654,9 @@ public class StructureMineshaftPieces {
                     break;
                 }
 
-                worldgenmineshaftpieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + k, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
-                if (worldgenmineshaftpieces_c != null) {
-                    structureboundingbox = worldgenmineshaftpieces_c.getBoundingBox();
+                StructureMineshaftPieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + k, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
+                if (StructureMineshaftPieces_c != null) {
+                    structureboundingbox = StructureMineshaftPieces_c.getBoundingBox();
                     this.connectedRooms.add(new StructureBoundingBox(structureboundingbox.minX, structureboundingbox.minY, this.boundingBox.maxZ - 1, structureboundingbox.maxX, structureboundingbox.maxY, this.boundingBox.maxZ));
                 }
             }
@@ -656,9 +667,9 @@ public class StructureMineshaftPieces {
                     break;
                 }
 
-                worldgenmineshaftpieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.minZ + k, EnumFacing.WEST, i);
-                if (worldgenmineshaftpieces_c != null) {
-                    structureboundingbox = worldgenmineshaftpieces_c.getBoundingBox();
+                StructureMineshaftPieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.minZ + k, EnumFacing.WEST, i);
+                if (StructureMineshaftPieces_c != null) {
+                    structureboundingbox = StructureMineshaftPieces_c.getBoundingBox();
                     this.connectedRooms.add(new StructureBoundingBox(this.boundingBox.minX, structureboundingbox.minY, structureboundingbox.minZ, this.boundingBox.minX + 1, structureboundingbox.maxY, structureboundingbox.maxZ));
                 }
             }
@@ -669,15 +680,16 @@ public class StructureMineshaftPieces {
                     break;
                 }
 
-                worldgenmineshaftpieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.minZ + k, EnumFacing.EAST, i);
-                if (worldgenmineshaftpieces_c != null) {
-                    structureboundingbox = worldgenmineshaftpieces_c.getBoundingBox();
+                StructureMineshaftPieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.minZ + k, EnumFacing.EAST, i);
+                if (StructureMineshaftPieces_c != null) {
+                    structureboundingbox = StructureMineshaftPieces_c.getBoundingBox();
                     this.connectedRooms.add(new StructureBoundingBox(this.boundingBox.maxX - 1, structureboundingbox.minY, structureboundingbox.minZ, this.boundingBox.maxX, structureboundingbox.maxY, structureboundingbox.maxZ));
                 }
             }
 
         }
 
+        @Override
         public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (this.isLiquidInStructureBoundingBox(world, structureboundingbox)) {
                 return false;
@@ -697,6 +709,7 @@ public class StructureMineshaftPieces {
             }
         }
 
+        @Override
         public void offset(int i, int j, int k) {
             super.offset(i, j, k);
             Iterator iterator = this.connectedRooms.iterator();
@@ -709,6 +722,7 @@ public class StructureMineshaftPieces {
 
         }
 
+        @Override
         protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
             super.writeStructureToNBT(nbttagcompound);
             NBTTagList nbttaglist = new NBTTagList();
@@ -723,6 +737,7 @@ public class StructureMineshaftPieces {
             nbttagcompound.setTag("Entrances", nbttaglist);
         }
 
+        @Override
         protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
             NBTTagList nbttaglist = nbttagcompound.getTagList("Entrances", 11);
@@ -745,10 +760,12 @@ public class StructureMineshaftPieces {
             this.a = worldgenmineshaft_type;
         }
 
+        @Override
         protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
             nbttagcompound.setInteger("MST", this.a.ordinal());
         }
 
+        @Override
         protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             this.a = MapGenMineshaft.Type.byId(nbttagcompound.getInteger("MST"));
         }

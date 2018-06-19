@@ -58,9 +58,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionHelper;
 import net.minecraft.potion.PotionType;
 import net.minecraft.server.DebugLoggingPrintStream;
-import net.minecraft.server.DispenserRegistry.a;
-import net.minecraft.server.DispenserRegistry.b;
-import net.minecraft.server.DispenserRegistry.c;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityDispenser;
@@ -103,6 +100,7 @@ public class Bootstrap {
 
     static void registerDispenserBehaviors() {
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.ARROW, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile getProjectileEntity(World world, IPosition iposition, ItemStack itemstack) {
                 EntityTippedArrow entitytippedarrow = new EntityTippedArrow(world, iposition.getX(), iposition.getY(), iposition.getZ());
 
@@ -111,6 +109,7 @@ public class Bootstrap {
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.TIPPED_ARROW, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile getProjectileEntity(World world, IPosition iposition, ItemStack itemstack) {
                 EntityTippedArrow entitytippedarrow = new EntityTippedArrow(world, iposition.getX(), iposition.getY(), iposition.getZ());
 
@@ -120,6 +119,7 @@ public class Bootstrap {
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.SPECTRAL_ARROW, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile getProjectileEntity(World world, IPosition iposition, ItemStack itemstack) {
                 EntitySpectralArrow entityspectralarrow = new EntitySpectralArrow(world, iposition.getX(), iposition.getY(), iposition.getZ());
 
@@ -128,39 +128,48 @@ public class Bootstrap {
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.EGG, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile getProjectileEntity(World world, IPosition iposition, ItemStack itemstack) {
                 return new EntityEgg(world, iposition.getX(), iposition.getY(), iposition.getZ());
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.SNOWBALL, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile getProjectileEntity(World world, IPosition iposition, ItemStack itemstack) {
                 return new EntitySnowball(world, iposition.getX(), iposition.getY(), iposition.getZ());
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.EXPERIENCE_BOTTLE, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile getProjectileEntity(World world, IPosition iposition, ItemStack itemstack) {
                 return new EntityExpBottle(world, iposition.getX(), iposition.getY(), iposition.getZ());
             }
 
+            @Override
             protected float getProjectileInaccuracy() {
                 return super.getProjectileInaccuracy() * 0.5F;
             }
 
+            @Override
             protected float getProjectileVelocity() {
                 return super.getProjectileVelocity() * 1.25F;
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.SPLASH_POTION, new IBehaviorDispenseItem() {
+            @Override
             public ItemStack dispense(IBlockSource isourceblock, final ItemStack itemstack) {
                 return (new BehaviorProjectileDispense() {
+                    @Override
                     protected IProjectile getProjectileEntity(World world, IPosition iposition, ItemStack itemstack1) { // CraftBukkit - decompile issue
                         return new EntityPotion(world, iposition.getX(), iposition.getY(), iposition.getZ(), itemstack1.copy());
                     }
 
+                    @Override
                     protected float getProjectileInaccuracy() {
                         return super.getProjectileInaccuracy() * 0.5F;
                     }
 
+                    @Override
                     protected float getProjectileVelocity() {
                         return super.getProjectileVelocity() * 1.25F;
                     }
@@ -168,16 +177,20 @@ public class Bootstrap {
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.LINGERING_POTION, new IBehaviorDispenseItem() {
+            @Override
             public ItemStack dispense(IBlockSource isourceblock, final ItemStack itemstack) {
                 return (new BehaviorProjectileDispense() {
+                    @Override
                     protected IProjectile getProjectileEntity(World world, IPosition iposition, ItemStack itemstack1) { // CraftBukkit - decompile issue
                         return new EntityPotion(world, iposition.getX(), iposition.getY(), iposition.getZ(), itemstack1.copy());
                     }
 
+                    @Override
                     protected float getProjectileInaccuracy() {
                         return super.getProjectileInaccuracy() * 0.5F;
                     }
 
+                    @Override
                     protected float getProjectileVelocity() {
                         return super.getProjectileVelocity() * 1.25F;
                     }
@@ -185,11 +198,12 @@ public class Bootstrap {
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.SPAWN_EGG, new BehaviorDefaultDispenseItem() {
+            @Override
             public ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
-                EnumFacing enumdirection = (EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING);
-                double d0 = isourceblock.getX() + (double) enumdirection.getFrontOffsetX();
-                double d1 = (double) ((float) (isourceblock.getBlockPos().getY() + enumdirection.getFrontOffsetY()) + 0.2F);
-                double d2 = isourceblock.getZ() + (double) enumdirection.getFrontOffsetZ();
+                EnumFacing enumdirection = isourceblock.getBlockState().getValue(BlockDispenser.FACING);
+                double d0 = isourceblock.getX() + enumdirection.getFrontOffsetX();
+                double d1 = isourceblock.getBlockPos().getY() + enumdirection.getFrontOffsetY() + 0.2F;
+                double d2 = isourceblock.getZ() + enumdirection.getFrontOffsetZ();
                 // Entity entity = ItemMonsterEgg.a(isourceblock.getWorld(), ItemMonsterEgg.h(itemstack), d0, d1, d2);
 
                 // CraftBukkit start
@@ -212,7 +226,7 @@ public class Bootstrap {
                     itemstack.grow(1);
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                     if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                         idispensebehavior.dispense(isourceblock, eventStack);
                         return itemstack;
@@ -234,11 +248,12 @@ public class Bootstrap {
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.FIREWORKS, new BehaviorDefaultDispenseItem() {
+            @Override
             public ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
-                EnumFacing enumdirection = (EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING);
-                double d0 = isourceblock.getX() + (double) enumdirection.getFrontOffsetX();
-                double d1 = (double) ((float) isourceblock.getBlockPos().getY() + 0.2F);
-                double d2 = isourceblock.getZ() + (double) enumdirection.getFrontOffsetZ();
+                EnumFacing enumdirection = isourceblock.getBlockState().getValue(BlockDispenser.FACING);
+                double d0 = isourceblock.getX() + enumdirection.getFrontOffsetX();
+                double d1 = isourceblock.getBlockPos().getY() + 0.2F;
+                double d2 = isourceblock.getZ() + enumdirection.getFrontOffsetZ();
                 // CraftBukkit start
                 World world = isourceblock.getWorld();
                 ItemStack itemstack1 = itemstack.splitStack(1);
@@ -259,7 +274,7 @@ public class Bootstrap {
                     itemstack.grow(1);
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                     if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                         idispensebehavior.dispense(isourceblock, eventStack);
                         return itemstack;
@@ -275,22 +290,24 @@ public class Bootstrap {
                 return itemstack;
             }
 
+            @Override
             protected void playDispenseSound(IBlockSource isourceblock) {
                 isourceblock.getWorld().playEvent(1004, isourceblock.getBlockPos(), 0);
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.FIRE_CHARGE, new BehaviorDefaultDispenseItem() {
+            @Override
             public ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
-                EnumFacing enumdirection = (EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING);
+                EnumFacing enumdirection = isourceblock.getBlockState().getValue(BlockDispenser.FACING);
                 IPosition iposition = BlockDispenser.getDispensePosition(isourceblock);
-                double d0 = iposition.getX() + (double) ((float) enumdirection.getFrontOffsetX() * 0.3F);
-                double d1 = iposition.getY() + (double) ((float) enumdirection.getFrontOffsetY() * 0.3F);
-                double d2 = iposition.getZ() + (double) ((float) enumdirection.getFrontOffsetZ() * 0.3F);
+                double d0 = iposition.getX() + enumdirection.getFrontOffsetX() * 0.3F;
+                double d1 = iposition.getY() + enumdirection.getFrontOffsetY() * 0.3F;
+                double d2 = iposition.getZ() + enumdirection.getFrontOffsetZ() * 0.3F;
                 World world = isourceblock.getWorld();
                 Random random = world.rand;
-                double d3 = random.nextGaussian() * 0.05D + (double) enumdirection.getFrontOffsetX();
-                double d4 = random.nextGaussian() * 0.05D + (double) enumdirection.getFrontOffsetY();
-                double d5 = random.nextGaussian() * 0.05D + (double) enumdirection.getFrontOffsetZ();
+                double d3 = random.nextGaussian() * 0.05D + enumdirection.getFrontOffsetX();
+                double d4 = random.nextGaussian() * 0.05D + enumdirection.getFrontOffsetY();
+                double d5 = random.nextGaussian() * 0.05D + enumdirection.getFrontOffsetZ();
 
                 // CraftBukkit start
                 ItemStack itemstack1 = itemstack.splitStack(1);
@@ -311,7 +328,7 @@ public class Bootstrap {
                     itemstack.grow(1);
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                     if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                         idispensebehavior.dispense(isourceblock, eventStack);
                         return itemstack;
@@ -327,6 +344,7 @@ public class Bootstrap {
                 return itemstack;
             }
 
+            @Override
             protected void playDispenseSound(IBlockSource isourceblock) {
                 isourceblock.getWorld().playEvent(1018, isourceblock.getBlockPos(), 0);
             }
@@ -340,9 +358,10 @@ public class Bootstrap {
         BehaviorDefaultDispenseItem dispensebehavioritem = new BehaviorDefaultDispenseItem() {
             private final BehaviorDefaultDispenseItem b = new BehaviorDefaultDispenseItem();
 
+            @Override
             public ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
                 ItemBucket itembucket = (ItemBucket) itemstack.getItem();
-                BlockPos blockposition = isourceblock.getBlockPos().offset((EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING));
+                BlockPos blockposition = isourceblock.getBlockPos().offset(isourceblock.getBlockState().getValue(BlockDispenser.FACING));
 
                 // CraftBukkit start
                 World world = isourceblock.getWorld();
@@ -365,7 +384,7 @@ public class Bootstrap {
                     if (!event.getItem().equals(craftItem)) {
                         // Chain to handler for new item
                         ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                        IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                        IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                         if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                             idispensebehavior.dispense(isourceblock, eventStack);
                             return itemstack;
@@ -399,18 +418,19 @@ public class Bootstrap {
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.BUCKET, new BehaviorDefaultDispenseItem() {
             private final BehaviorDefaultDispenseItem b = new BehaviorDefaultDispenseItem();
 
+            @Override
             public ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
                 World world = isourceblock.getWorld();
-                BlockPos blockposition = isourceblock.getBlockPos().offset((EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING));
+                BlockPos blockposition = isourceblock.getBlockPos().offset(isourceblock.getBlockState().getValue(BlockDispenser.FACING));
                 IBlockState iblockdata = world.getBlockState(blockposition);
                 Block block = iblockdata.getBlock();
                 Material material = iblockdata.getMaterial();
                 Item item;
 
-                if (Material.WATER.equals(material) && block instanceof BlockLiquid && ((Integer) iblockdata.getValue(BlockLiquid.LEVEL)).intValue() == 0) {
+                if (Material.WATER.equals(material) && block instanceof BlockLiquid && iblockdata.getValue(BlockLiquid.LEVEL).intValue() == 0) {
                     item = Items.WATER_BUCKET;
                 } else {
-                    if (!Material.LAVA.equals(material) || !(block instanceof BlockLiquid) || ((Integer) iblockdata.getValue(BlockLiquid.LEVEL)).intValue() != 0) {
+                    if (!Material.LAVA.equals(material) || !(block instanceof BlockLiquid) || iblockdata.getValue(BlockLiquid.LEVEL).intValue() != 0) {
                         return super.dispenseStack(isourceblock, itemstack);
                     }
 
@@ -433,7 +453,7 @@ public class Bootstrap {
                 if (!event.getItem().equals(craftItem)) {
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                     if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                         idispensebehavior.dispense(isourceblock, eventStack);
                         return itemstack;
@@ -474,7 +494,7 @@ public class Bootstrap {
                 if (!event.getItem().equals(craftItem)) {
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                     if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                         idispensebehavior.dispense(isourceblock, eventStack);
                         return itemstack;
@@ -483,7 +503,7 @@ public class Bootstrap {
                 // CraftBukkit end
 
                 this.b = true;
-                BlockPos blockposition = isourceblock.getBlockPos().offset((EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING));
+                BlockPos blockposition = isourceblock.getBlockPos().offset(isourceblock.getBlockState().getValue(BlockDispenser.FACING));
 
                 if (world.isAirBlock(blockposition)) {
                     // CraftBukkit start - Ignition by dispensing flint and steel
@@ -509,7 +529,7 @@ public class Bootstrap {
                 this.b = true;
                 if (EnumDyeColor.WHITE == EnumDyeColor.byDyeDamage(itemstack.getMetadata())) {
                     World world = isourceblock.getWorld();
-                    BlockPos blockposition = isourceblock.getBlockPos().offset((EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING));
+                    BlockPos blockposition = isourceblock.getBlockPos().offset(isourceblock.getBlockState().getValue(BlockDispenser.FACING));
 
                     // CraftBukkit start
                     org.bukkit.block.Block block = world.getWorld().getBlockAt(isourceblock.getBlockPos().getX(), isourceblock.getBlockPos().getY(), isourceblock.getBlockPos().getZ());
@@ -527,7 +547,7 @@ public class Bootstrap {
                     if (!event.getItem().equals(craftItem)) {
                         // Chain to handler for new item
                         ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                        IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                        IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                         if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                             idispensebehavior.dispense(isourceblock, eventStack);
                             return itemstack;
@@ -572,9 +592,10 @@ public class Bootstrap {
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Item.getItemFromBlock(Blocks.TNT), new BehaviorDefaultDispenseItem() {
+            @Override
             protected ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
                 World world = isourceblock.getWorld();
-                BlockPos blockposition = isourceblock.getBlockPos().offset((EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING));
+                BlockPos blockposition = isourceblock.getBlockPos().offset(isourceblock.getBlockState().getValue(BlockDispenser.FACING));
                 // EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, (double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D, (EntityLiving) null);
 
                 // CraftBukkit start
@@ -582,7 +603,7 @@ public class Bootstrap {
                 org.bukkit.block.Block block = world.getWorld().getBlockAt(isourceblock.getBlockPos().getX(), isourceblock.getBlockPos().getY(), isourceblock.getBlockPos().getZ());
                 CraftItemStack craftItem = CraftItemStack.asCraftMirror(itemstack1);
 
-                BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(), new org.bukkit.util.Vector((double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D));
+                BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(), new org.bukkit.util.Vector(blockposition.getX() + 0.5D, blockposition.getY(), blockposition.getZ() + 0.5D));
                 if (!BlockDispenser.eventFired) {
                    world.getServer().getPluginManager().callEvent(event);
                 }
@@ -596,7 +617,7 @@ public class Bootstrap {
                     itemstack.grow(1);
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                     if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                         idispensebehavior.dispense(isourceblock, eventStack);
                         return itemstack;
@@ -615,7 +636,7 @@ public class Bootstrap {
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Items.SKULL, new DispenserRegistry.b() {
             protected ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
                 World world = isourceblock.getWorld();
-                EnumFacing enumdirection = (EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING);
+                EnumFacing enumdirection = isourceblock.getBlockState().getValue(BlockDispenser.FACING);
                 BlockPos blockposition = isourceblock.getBlockPos().offset(enumdirection);
                 BlockSkull blockskull = Blocks.SKULL;
 
@@ -635,7 +656,7 @@ public class Bootstrap {
                 if (!event.getItem().equals(craftItem)) {
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                     if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                         idispensebehavior.dispense(isourceblock, eventStack);
                         return itemstack;
@@ -688,7 +709,7 @@ public class Bootstrap {
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Item.getItemFromBlock(Blocks.PUMPKIN), new DispenserRegistry.b() {
             protected ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
                 World world = isourceblock.getWorld();
-                BlockPos blockposition = isourceblock.getBlockPos().offset((EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING));
+                BlockPos blockposition = isourceblock.getBlockPos().offset(isourceblock.getBlockState().getValue(BlockDispenser.FACING));
                 BlockPumpkin blockpumpkin = (BlockPumpkin) Blocks.PUMPKIN;
 
                 // CraftBukkit start
@@ -707,7 +728,7 @@ public class Bootstrap {
                 if (!event.getItem().equals(craftItem)) {
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                     if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                         idispensebehavior.dispense(isourceblock, eventStack);
                         return itemstack;
@@ -798,7 +819,7 @@ public class Bootstrap {
         protected ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
             Block block = Block.getBlockFromItem(itemstack.getItem());
             World world = isourceblock.getWorld();
-            EnumFacing enumdirection = (EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING);
+            EnumFacing enumdirection = isourceblock.getBlockState().getValue(BlockDispenser.FACING);
             BlockPos blockposition = isourceblock.getBlockPos().offset(enumdirection);
 
             // CraftBukkit start
@@ -817,7 +838,7 @@ public class Bootstrap {
             if (!event.getItem().equals(craftItem)) {
                 // Chain to handler for new item
                 ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                 if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                     idispensebehavior.dispense(isourceblock, eventStack);
                     return itemstack;
@@ -859,6 +880,7 @@ public class Bootstrap {
 
         public b() {}
 
+        @Override
         protected void playDispenseSound(IBlockSource isourceblock) {
             isourceblock.getWorld().playEvent(this.b ? 1000 : 1001, isourceblock.getBlockPos(), 0);
         }
@@ -873,12 +895,13 @@ public class Bootstrap {
             this.c = entityboat_enumboattype;
         }
 
+        @Override
         public ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
-            EnumFacing enumdirection = (EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING);
+            EnumFacing enumdirection = isourceblock.getBlockState().getValue(BlockDispenser.FACING);
             World world = isourceblock.getWorld();
-            double d0 = isourceblock.getX() + (double) ((float) enumdirection.getFrontOffsetX() * 1.125F);
-            double d1 = isourceblock.getY() + (double) ((float) enumdirection.getFrontOffsetY() * 1.125F);
-            double d2 = isourceblock.getZ() + (double) ((float) enumdirection.getFrontOffsetZ() * 1.125F);
+            double d0 = isourceblock.getX() + enumdirection.getFrontOffsetX() * 1.125F;
+            double d1 = isourceblock.getY() + enumdirection.getFrontOffsetY() * 1.125F;
+            double d2 = isourceblock.getZ() + enumdirection.getFrontOffsetZ() * 1.125F;
             BlockPos blockposition = isourceblock.getBlockPos().offset(enumdirection);
             Material material = world.getBlockState(blockposition).getMaterial();
             double d3;
@@ -913,7 +936,7 @@ public class Bootstrap {
                 itemstack.grow(1);
                 // Chain to handler for new item
                 ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
+                IBehaviorDispenseItem idispensebehavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
                 if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
                     idispensebehavior.dispense(isourceblock, eventStack);
                     return itemstack;
@@ -930,6 +953,7 @@ public class Bootstrap {
             return itemstack;
         }
 
+        @Override
         protected void playDispenseSound(IBlockSource isourceblock) {
             isourceblock.getWorld().playEvent(1000, isourceblock.getBlockPos(), 0);
         }

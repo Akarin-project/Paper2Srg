@@ -323,7 +323,7 @@ public class CraftWorld implements World {
         org.bukkit.Chunk[] craftChunks = new CraftChunk[chunks.length];
 
         for (int i = 0; i < chunks.length; i++) {
-            minecraft.world.chunk.Chunk chunk = (minecraft.world.chunk.Chunk) chunks[i];
+            net.minecraft.world.chunk.Chunk chunk = (net.minecraft.world.chunk.Chunk) chunks[i];
             craftChunks[i] = chunk.bukkitChunk;
         }
 
@@ -356,7 +356,7 @@ public class CraftWorld implements World {
             return false;
         }
 
-        minecraft.world.chunk.Chunk chunk = world.getChunkProvider().getLoadedChunk(x, z);
+        net.minecraft.world.chunk.Chunk chunk = world.getChunkProvider().getLoadedChunk(x, z);
         if (chunk != null) {
             world.getChunkProvider().queueUnload(chunk);
         }
@@ -393,7 +393,7 @@ public class CraftWorld implements World {
         final long chunkKey = ChunkPos.asLong(x, z);
         world.getChunkProvider().droppedChunksSet.remove(chunkKey);
 
-        minecraft.world.chunk.Chunk chunk = null;
+        net.minecraft.world.chunk.Chunk chunk = null;
 
         chunk = world.getChunkProvider().chunkGenerator.generateChunk(x, z);
         PlayerChunkMapEntry playerChunk = world.getPlayerChunkMap().getEntry(x, z);

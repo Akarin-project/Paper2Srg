@@ -79,22 +79,22 @@ public class Item {
     private String unlocalizedName;
 
     public static int getIdFromItem(Item item) {
-        return item == null ? 0 : Item.REGISTRY.getIDForObject((Object) item);
+        return item == null ? 0 : Item.REGISTRY.getIDForObject(item);
     }
 
     public static Item getItemById(int i) {
-        return (Item) Item.REGISTRY.getObjectById(i);
+        return Item.REGISTRY.getObjectById(i);
     }
 
     public static Item getItemFromBlock(Block block) {
-        Item item = (Item) Item.BLOCK_TO_ITEM.get(block);
+        Item item = Item.BLOCK_TO_ITEM.get(block);
 
         return item == null ? Items.AIR : item;
     }
 
     @Nullable
     public static Item getByNameOrId(String s) {
-        Item item = (Item) Item.REGISTRY.getObject(new ResourceLocation(s));
+        Item item = Item.REGISTRY.getObject(new ResourceLocation(s));
 
         if (item == null) {
             try {
@@ -266,7 +266,7 @@ public class Item {
         float f = entityhuman.rotationPitch;
         float f1 = entityhuman.rotationYaw;
         double d0 = entityhuman.posX;
-        double d1 = entityhuman.posY + (double) entityhuman.getEyeHeight();
+        double d1 = entityhuman.posY + entityhuman.getEyeHeight();
         double d2 = entityhuman.posZ;
         Vec3d vec3d = new Vec3d(d0, d1, d2);
         float f2 = MathHelper.cos(-f1 * 0.017453292F - 3.1415927F);
@@ -276,7 +276,7 @@ public class Item {
         float f6 = f3 * f4;
         float f7 = f2 * f4;
         double d3 = 5.0D;
-        Vec3d vec3d1 = vec3d.addVector((double) f6 * 5.0D, (double) f5 * 5.0D, (double) f7 * 5.0D);
+        Vec3d vec3d1 = vec3d.addVector(f6 * 5.0D, f5 * 5.0D, f7 * 5.0D);
 
         return world.rayTraceBlocks(vec3d, vec3d1, flag, !flag, false);
     }
@@ -321,31 +321,36 @@ public class Item {
     }
 
     public static void registerItems() {
-        registerItemBlock(Blocks.AIR, (Item) (new ItemAir(Blocks.AIR)));
+        registerItemBlock(Blocks.AIR, (new ItemAir(Blocks.AIR)));
         registerItemBlock(Blocks.STONE, (new ItemMultiTexture(Blocks.STONE, Blocks.STONE, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockStone.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("stone"));
-        registerItemBlock((Block) Blocks.GRASS, (Item) (new ItemColored(Blocks.GRASS, false)));
+        registerItemBlock(Blocks.GRASS, (new ItemColored(Blocks.GRASS, false)));
         registerItemBlock(Blocks.DIRT, (new ItemMultiTexture(Blocks.DIRT, Blocks.DIRT, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockDirt.DirtType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("dirt"));
         registerItemBlock(Blocks.COBBLESTONE);
         registerItemBlock(Blocks.PLANKS, (new ItemMultiTexture(Blocks.PLANKS, Blocks.PLANKS, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockPlanks.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("wood"));
         registerItemBlock(Blocks.SAPLING, (new ItemMultiTexture(Blocks.SAPLING, Blocks.SAPLING, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockPlanks.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("sapling"));
         registerItemBlock(Blocks.BEDROCK);
-        registerItemBlock((Block) Blocks.SAND, (new ItemMultiTexture(Blocks.SAND, Blocks.SAND, new ItemMultiTexture.a() {
+        registerItemBlock(Blocks.SAND, (new ItemMultiTexture(Blocks.SAND, Blocks.SAND, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockSand.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
@@ -355,18 +360,21 @@ public class Item {
         registerItemBlock(Blocks.IRON_ORE);
         registerItemBlock(Blocks.COAL_ORE);
         registerItemBlock(Blocks.LOG, (new ItemMultiTexture(Blocks.LOG, Blocks.LOG, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockPlanks.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("log"));
         registerItemBlock(Blocks.LOG2, (new ItemMultiTexture(Blocks.LOG2, Blocks.LOG2, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockPlanks.EnumType.byMetadata(itemstack.getMetadata() + 4).getUnlocalizedName();
             }
         })).setUnlocalizedName("log"));
-        registerItemBlock((Block) Blocks.LEAVES, (new ItemLeaves(Blocks.LEAVES)).setUnlocalizedName("leaves"));
-        registerItemBlock((Block) Blocks.LEAVES2, (new ItemLeaves(Blocks.LEAVES2)).setUnlocalizedName("leaves"));
+        registerItemBlock(Blocks.LEAVES, (new ItemLeaves(Blocks.LEAVES)).setUnlocalizedName("leaves"));
+        registerItemBlock(Blocks.LEAVES2, (new ItemLeaves(Blocks.LEAVES2)).setUnlocalizedName("leaves"));
         registerItemBlock(Blocks.SPONGE, (new ItemMultiTexture(Blocks.SPONGE, Blocks.SPONGE, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return (itemstack.getMetadata() & 1) == 1 ? "wet" : "dry";
             }
@@ -376,6 +384,7 @@ public class Item {
         registerItemBlock(Blocks.LAPIS_BLOCK);
         registerItemBlock(Blocks.DISPENSER);
         registerItemBlock(Blocks.SANDSTONE, (new ItemMultiTexture(Blocks.SANDSTONE, Blocks.SANDSTONE, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockSandStone.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
@@ -383,27 +392,29 @@ public class Item {
         registerItemBlock(Blocks.NOTEBLOCK);
         registerItemBlock(Blocks.GOLDEN_RAIL);
         registerItemBlock(Blocks.DETECTOR_RAIL);
-        registerItemBlock((Block) Blocks.STICKY_PISTON, (Item) (new ItemPiston(Blocks.STICKY_PISTON)));
+        registerItemBlock(Blocks.STICKY_PISTON, (new ItemPiston(Blocks.STICKY_PISTON)));
         registerItemBlock(Blocks.WEB);
-        registerItemBlock((Block) Blocks.TALLGRASS, (Item) (new ItemColored(Blocks.TALLGRASS, true)).setSubtypeNames(new String[] { "shrub", "grass", "fern"}));
-        registerItemBlock((Block) Blocks.DEADBUSH);
-        registerItemBlock((Block) Blocks.PISTON, (Item) (new ItemPiston(Blocks.PISTON)));
+        registerItemBlock(Blocks.TALLGRASS, (new ItemColored(Blocks.TALLGRASS, true)).setSubtypeNames(new String[] { "shrub", "grass", "fern"}));
+        registerItemBlock(Blocks.DEADBUSH);
+        registerItemBlock(Blocks.PISTON, (new ItemPiston(Blocks.PISTON)));
         registerItemBlock(Blocks.WOOL, (new ItemCloth(Blocks.WOOL)).setUnlocalizedName("cloth"));
-        registerItemBlock((Block) Blocks.YELLOW_FLOWER, (new ItemMultiTexture(Blocks.YELLOW_FLOWER, Blocks.YELLOW_FLOWER, new ItemMultiTexture.a() {
+        registerItemBlock(Blocks.YELLOW_FLOWER, (new ItemMultiTexture(Blocks.YELLOW_FLOWER, Blocks.YELLOW_FLOWER, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockFlower.EnumFlowerType.getType(BlockFlower.EnumFlowerColor.YELLOW, itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("flower"));
-        registerItemBlock((Block) Blocks.RED_FLOWER, (new ItemMultiTexture(Blocks.RED_FLOWER, Blocks.RED_FLOWER, new ItemMultiTexture.a() {
+        registerItemBlock(Blocks.RED_FLOWER, (new ItemMultiTexture(Blocks.RED_FLOWER, Blocks.RED_FLOWER, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockFlower.EnumFlowerType.getType(BlockFlower.EnumFlowerColor.RED, itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("rose"));
-        registerItemBlock((Block) Blocks.BROWN_MUSHROOM);
-        registerItemBlock((Block) Blocks.RED_MUSHROOM);
+        registerItemBlock(Blocks.BROWN_MUSHROOM);
+        registerItemBlock(Blocks.RED_MUSHROOM);
         registerItemBlock(Blocks.GOLD_BLOCK);
         registerItemBlock(Blocks.IRON_BLOCK);
-        registerItemBlock((Block) Blocks.STONE_SLAB, (new ItemSlab(Blocks.STONE_SLAB, Blocks.STONE_SLAB, Blocks.DOUBLE_STONE_SLAB)).setUnlocalizedName("stoneSlab"));
+        registerItemBlock(Blocks.STONE_SLAB, (new ItemSlab(Blocks.STONE_SLAB, Blocks.STONE_SLAB, Blocks.DOUBLE_STONE_SLAB)).setUnlocalizedName("stoneSlab"));
         registerItemBlock(Blocks.BRICK_BLOCK);
         registerItemBlock(Blocks.TNT);
         registerItemBlock(Blocks.BOOKSHELF);
@@ -416,10 +427,10 @@ public class Item {
         registerItemBlock(Blocks.PURPUR_BLOCK);
         registerItemBlock(Blocks.PURPUR_PILLAR);
         registerItemBlock(Blocks.PURPUR_STAIRS);
-        registerItemBlock((Block) Blocks.PURPUR_SLAB, (new ItemSlab(Blocks.PURPUR_SLAB, Blocks.PURPUR_SLAB, Blocks.PURPUR_DOUBLE_SLAB)).setUnlocalizedName("purpurSlab"));
+        registerItemBlock(Blocks.PURPUR_SLAB, (new ItemSlab(Blocks.PURPUR_SLAB, Blocks.PURPUR_SLAB, Blocks.PURPUR_DOUBLE_SLAB)).setUnlocalizedName("purpurSlab"));
         registerItemBlock(Blocks.MOB_SPAWNER);
         registerItemBlock(Blocks.OAK_STAIRS);
-        registerItemBlock((Block) Blocks.CHEST);
+        registerItemBlock(Blocks.CHEST);
         registerItemBlock(Blocks.DIAMOND_ORE);
         registerItemBlock(Blocks.DIAMOND_BLOCK);
         registerItemBlock(Blocks.CRAFTING_TABLE);
@@ -434,10 +445,10 @@ public class Item {
         registerItemBlock(Blocks.REDSTONE_ORE);
         registerItemBlock(Blocks.REDSTONE_TORCH);
         registerItemBlock(Blocks.STONE_BUTTON);
-        registerItemBlock(Blocks.SNOW_LAYER, (Item) (new ItemSnow(Blocks.SNOW_LAYER)));
+        registerItemBlock(Blocks.SNOW_LAYER, (new ItemSnow(Blocks.SNOW_LAYER)));
         registerItemBlock(Blocks.ICE);
         registerItemBlock(Blocks.SNOW);
-        registerItemBlock((Block) Blocks.CACTUS);
+        registerItemBlock(Blocks.CACTUS);
         registerItemBlock(Blocks.CLAY);
         registerItemBlock(Blocks.JUKEBOX);
         registerItemBlock(Blocks.OAK_FENCE);
@@ -453,11 +464,13 @@ public class Item {
         registerItemBlock(Blocks.LIT_PUMPKIN);
         registerItemBlock(Blocks.TRAPDOOR);
         registerItemBlock(Blocks.MONSTER_EGG, (new ItemMultiTexture(Blocks.MONSTER_EGG, Blocks.MONSTER_EGG, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockSilverfish.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("monsterStoneEgg"));
         registerItemBlock(Blocks.STONEBRICK, (new ItemMultiTexture(Blocks.STONEBRICK, Blocks.STONEBRICK, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockStoneBrick.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
@@ -467,7 +480,7 @@ public class Item {
         registerItemBlock(Blocks.IRON_BARS);
         registerItemBlock(Blocks.GLASS_PANE);
         registerItemBlock(Blocks.MELON_BLOCK);
-        registerItemBlock(Blocks.VINE, (Item) (new ItemColored(Blocks.VINE, false)));
+        registerItemBlock(Blocks.VINE, (new ItemColored(Blocks.VINE, false)));
         registerItemBlock(Blocks.OAK_FENCE_GATE);
         registerItemBlock(Blocks.SPRUCE_FENCE_GATE);
         registerItemBlock(Blocks.BIRCH_FENCE_GATE);
@@ -476,8 +489,8 @@ public class Item {
         registerItemBlock(Blocks.ACACIA_FENCE_GATE);
         registerItemBlock(Blocks.BRICK_STAIRS);
         registerItemBlock(Blocks.STONE_BRICK_STAIRS);
-        registerItemBlock((Block) Blocks.MYCELIUM);
-        registerItemBlock(Blocks.WATERLILY, (Item) (new ItemLilyPad(Blocks.WATERLILY)));
+        registerItemBlock(Blocks.MYCELIUM);
+        registerItemBlock(Blocks.WATERLILY, (new ItemLilyPad(Blocks.WATERLILY)));
         registerItemBlock(Blocks.NETHER_BRICK);
         registerItemBlock(Blocks.NETHER_BRICK_FENCE);
         registerItemBlock(Blocks.NETHER_BRICK_STAIRS);
@@ -487,18 +500,19 @@ public class Item {
         registerItemBlock(Blocks.END_BRICKS);
         registerItemBlock(Blocks.DRAGON_EGG);
         registerItemBlock(Blocks.REDSTONE_LAMP);
-        registerItemBlock((Block) Blocks.WOODEN_SLAB, (new ItemSlab(Blocks.WOODEN_SLAB, Blocks.WOODEN_SLAB, Blocks.DOUBLE_WOODEN_SLAB)).setUnlocalizedName("woodSlab"));
+        registerItemBlock(Blocks.WOODEN_SLAB, (new ItemSlab(Blocks.WOODEN_SLAB, Blocks.WOODEN_SLAB, Blocks.DOUBLE_WOODEN_SLAB)).setUnlocalizedName("woodSlab"));
         registerItemBlock(Blocks.SANDSTONE_STAIRS);
         registerItemBlock(Blocks.EMERALD_ORE);
         registerItemBlock(Blocks.ENDER_CHEST);
-        registerItemBlock((Block) Blocks.TRIPWIRE_HOOK);
+        registerItemBlock(Blocks.TRIPWIRE_HOOK);
         registerItemBlock(Blocks.EMERALD_BLOCK);
         registerItemBlock(Blocks.SPRUCE_STAIRS);
         registerItemBlock(Blocks.BIRCH_STAIRS);
         registerItemBlock(Blocks.JUNGLE_STAIRS);
         registerItemBlock(Blocks.COMMAND_BLOCK);
-        registerItemBlock((Block) Blocks.BEACON);
+        registerItemBlock(Blocks.BEACON);
         registerItemBlock(Blocks.COBBLESTONE_WALL, (new ItemMultiTexture(Blocks.COBBLESTONE_WALL, Blocks.COBBLESTONE_WALL, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockWall.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
@@ -508,10 +522,10 @@ public class Item {
         registerItemBlock(Blocks.TRAPPED_CHEST);
         registerItemBlock(Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE);
         registerItemBlock(Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE);
-        registerItemBlock((Block) Blocks.DAYLIGHT_DETECTOR);
+        registerItemBlock(Blocks.DAYLIGHT_DETECTOR);
         registerItemBlock(Blocks.REDSTONE_BLOCK);
         registerItemBlock(Blocks.QUARTZ_ORE);
-        registerItemBlock((Block) Blocks.HOPPER);
+        registerItemBlock(Blocks.HOPPER);
         registerItemBlock(Blocks.QUARTZ_BLOCK, (new ItemMultiTexture(Blocks.QUARTZ_BLOCK, Blocks.QUARTZ_BLOCK, new String[] { "default", "chiseled", "lines"})).setUnlocalizedName("quartzBlock"));
         registerItemBlock(Blocks.QUARTZ_STAIRS);
         registerItemBlock(Blocks.ACTIVATOR_RAIL);
@@ -528,26 +542,29 @@ public class Item {
         registerItemBlock(Blocks.DARK_OAK_STAIRS);
         registerItemBlock(Blocks.SLIME_BLOCK);
         registerItemBlock(Blocks.GRASS_PATH);
-        registerItemBlock((Block) Blocks.DOUBLE_PLANT, (new ItemMultiTexture(Blocks.DOUBLE_PLANT, Blocks.DOUBLE_PLANT, new ItemMultiTexture.a() {
+        registerItemBlock(Blocks.DOUBLE_PLANT, (new ItemMultiTexture(Blocks.DOUBLE_PLANT, Blocks.DOUBLE_PLANT, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockDoublePlant.EnumPlantType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("doublePlant"));
-        registerItemBlock((Block) Blocks.STAINED_GLASS, (new ItemCloth(Blocks.STAINED_GLASS)).setUnlocalizedName("stainedGlass"));
-        registerItemBlock((Block) Blocks.STAINED_GLASS_PANE, (new ItemCloth(Blocks.STAINED_GLASS_PANE)).setUnlocalizedName("stainedGlassPane"));
+        registerItemBlock(Blocks.STAINED_GLASS, (new ItemCloth(Blocks.STAINED_GLASS)).setUnlocalizedName("stainedGlass"));
+        registerItemBlock(Blocks.STAINED_GLASS_PANE, (new ItemCloth(Blocks.STAINED_GLASS_PANE)).setUnlocalizedName("stainedGlassPane"));
         registerItemBlock(Blocks.PRISMARINE, (new ItemMultiTexture(Blocks.PRISMARINE, Blocks.PRISMARINE, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockPrismarine.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("prismarine"));
         registerItemBlock(Blocks.SEA_LANTERN);
         registerItemBlock(Blocks.RED_SANDSTONE, (new ItemMultiTexture(Blocks.RED_SANDSTONE, Blocks.RED_SANDSTONE, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockRedSandstone.EnumType.byMetadata(itemstack.getMetadata()).getUnlocalizedName();
             }
         })).setUnlocalizedName("redSandStone"));
         registerItemBlock(Blocks.RED_SANDSTONE_STAIRS);
-        registerItemBlock((Block) Blocks.STONE_SLAB2, (new ItemSlab(Blocks.STONE_SLAB2, Blocks.STONE_SLAB2, Blocks.DOUBLE_STONE_SLAB2)).setUnlocalizedName("stoneSlab2"));
+        registerItemBlock(Blocks.STONE_SLAB2, (new ItemSlab(Blocks.STONE_SLAB2, Blocks.STONE_SLAB2, Blocks.DOUBLE_STONE_SLAB2)).setUnlocalizedName("stoneSlab2"));
         registerItemBlock(Blocks.REPEATING_COMMAND_BLOCK);
         registerItemBlock(Blocks.CHAIN_COMMAND_BLOCK);
         registerItemBlock(Blocks.MAGMA);
@@ -556,22 +573,22 @@ public class Item {
         registerItemBlock(Blocks.BONE_BLOCK);
         registerItemBlock(Blocks.STRUCTURE_VOID);
         registerItemBlock(Blocks.OBSERVER);
-        registerItemBlock(Blocks.WHITE_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.WHITE_SHULKER_BOX)));
-        registerItemBlock(Blocks.ORANGE_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.ORANGE_SHULKER_BOX)));
-        registerItemBlock(Blocks.MAGENTA_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.MAGENTA_SHULKER_BOX)));
-        registerItemBlock(Blocks.LIGHT_BLUE_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.LIGHT_BLUE_SHULKER_BOX)));
-        registerItemBlock(Blocks.YELLOW_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.YELLOW_SHULKER_BOX)));
-        registerItemBlock(Blocks.LIME_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.LIME_SHULKER_BOX)));
-        registerItemBlock(Blocks.PINK_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.PINK_SHULKER_BOX)));
-        registerItemBlock(Blocks.GRAY_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.GRAY_SHULKER_BOX)));
-        registerItemBlock(Blocks.SILVER_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.SILVER_SHULKER_BOX)));
-        registerItemBlock(Blocks.CYAN_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.CYAN_SHULKER_BOX)));
-        registerItemBlock(Blocks.PURPLE_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.PURPLE_SHULKER_BOX)));
-        registerItemBlock(Blocks.BLUE_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.BLUE_SHULKER_BOX)));
-        registerItemBlock(Blocks.BROWN_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.BROWN_SHULKER_BOX)));
-        registerItemBlock(Blocks.GREEN_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.GREEN_SHULKER_BOX)));
-        registerItemBlock(Blocks.RED_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.RED_SHULKER_BOX)));
-        registerItemBlock(Blocks.BLACK_SHULKER_BOX, (Item) (new ItemShulkerBox(Blocks.BLACK_SHULKER_BOX)));
+        registerItemBlock(Blocks.WHITE_SHULKER_BOX, (new ItemShulkerBox(Blocks.WHITE_SHULKER_BOX)));
+        registerItemBlock(Blocks.ORANGE_SHULKER_BOX, (new ItemShulkerBox(Blocks.ORANGE_SHULKER_BOX)));
+        registerItemBlock(Blocks.MAGENTA_SHULKER_BOX, (new ItemShulkerBox(Blocks.MAGENTA_SHULKER_BOX)));
+        registerItemBlock(Blocks.LIGHT_BLUE_SHULKER_BOX, (new ItemShulkerBox(Blocks.LIGHT_BLUE_SHULKER_BOX)));
+        registerItemBlock(Blocks.YELLOW_SHULKER_BOX, (new ItemShulkerBox(Blocks.YELLOW_SHULKER_BOX)));
+        registerItemBlock(Blocks.LIME_SHULKER_BOX, (new ItemShulkerBox(Blocks.LIME_SHULKER_BOX)));
+        registerItemBlock(Blocks.PINK_SHULKER_BOX, (new ItemShulkerBox(Blocks.PINK_SHULKER_BOX)));
+        registerItemBlock(Blocks.GRAY_SHULKER_BOX, (new ItemShulkerBox(Blocks.GRAY_SHULKER_BOX)));
+        registerItemBlock(Blocks.SILVER_SHULKER_BOX, (new ItemShulkerBox(Blocks.SILVER_SHULKER_BOX)));
+        registerItemBlock(Blocks.CYAN_SHULKER_BOX, (new ItemShulkerBox(Blocks.CYAN_SHULKER_BOX)));
+        registerItemBlock(Blocks.PURPLE_SHULKER_BOX, (new ItemShulkerBox(Blocks.PURPLE_SHULKER_BOX)));
+        registerItemBlock(Blocks.BLUE_SHULKER_BOX, (new ItemShulkerBox(Blocks.BLUE_SHULKER_BOX)));
+        registerItemBlock(Blocks.BROWN_SHULKER_BOX, (new ItemShulkerBox(Blocks.BROWN_SHULKER_BOX)));
+        registerItemBlock(Blocks.GREEN_SHULKER_BOX, (new ItemShulkerBox(Blocks.GREEN_SHULKER_BOX)));
+        registerItemBlock(Blocks.RED_SHULKER_BOX, (new ItemShulkerBox(Blocks.RED_SHULKER_BOX)));
+        registerItemBlock(Blocks.BLACK_SHULKER_BOX, (new ItemShulkerBox(Blocks.BLACK_SHULKER_BOX)));
         registerItemBlock(Blocks.WHITE_GLAZED_TERRACOTTA);
         registerItemBlock(Blocks.ORANGE_GLAZED_TERRACOTTA);
         registerItemBlock(Blocks.MAGENTA_GLAZED_TERRACOTTA);
@@ -807,11 +824,11 @@ public class Item {
     }
 
     private static void registerItemBlock(Block block) {
-        registerItemBlock(block, (Item) (new ItemBlock(block)));
+        registerItemBlock(block, (new ItemBlock(block)));
     }
 
     protected static void registerItemBlock(Block block, Item item) {
-        registerItem(Block.getIdFromBlock(block), (ResourceLocation) Block.REGISTRY.getNameForObject(block), item);
+        registerItem(Block.getIdFromBlock(block), Block.REGISTRY.getNameForObject(block), item);
         Item.BLOCK_TO_ITEM.put(block, item);
     }
 

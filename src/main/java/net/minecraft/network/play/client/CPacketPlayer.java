@@ -8,25 +8,28 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
 
-    protected double x;
-    protected double y;
-    protected double z;
-    protected float yaw;
-    protected float pitch;
+    public double x;
+    public double y;
+    public double z;
+    public float yaw;
+    public float pitch;
     protected boolean onGround;
-    protected boolean moving;
-    protected boolean rotating;
+    public boolean moving;
+    public boolean rotating;
 
     public CPacketPlayer() {}
 
+    @Override
     public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
         packetlistenerplayin.processPlayer(this);
     }
 
+    @Override
     public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
         this.onGround = packetdataserializer.readUnsignedByte() != 0;
     }
 
+    @Override
     public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
         packetdataserializer.writeByte(this.onGround ? 1 : 0);
     }
@@ -61,12 +64,14 @@ public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
             this.rotating = true;
         }
 
+        @Override
         public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
             this.yaw = packetdataserializer.readFloat();
             this.pitch = packetdataserializer.readFloat();
             super.readPacketData(packetdataserializer);
         }
 
+        @Override
         public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
             packetdataserializer.writeFloat(this.yaw);
             packetdataserializer.writeFloat(this.pitch);
@@ -80,6 +85,7 @@ public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
             this.moving = true;
         }
 
+        @Override
         public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
             this.x = packetdataserializer.readDouble();
             this.y = packetdataserializer.readDouble();
@@ -87,6 +93,7 @@ public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
             super.readPacketData(packetdataserializer);
         }
 
+        @Override
         public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
             packetdataserializer.writeDouble(this.x);
             packetdataserializer.writeDouble(this.y);
@@ -102,6 +109,7 @@ public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
             this.rotating = true;
         }
 
+        @Override
         public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
             this.x = packetdataserializer.readDouble();
             this.y = packetdataserializer.readDouble();
@@ -111,6 +119,7 @@ public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
             super.readPacketData(packetdataserializer);
         }
 
+        @Override
         public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
             packetdataserializer.writeDouble(this.x);
             packetdataserializer.writeDouble(this.y);

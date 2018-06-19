@@ -20,7 +20,6 @@ import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.server.AdvancementProgress.a;
 import net.minecraft.util.JsonUtils;
 
 public class AdvancementProgress implements Comparable<AdvancementProgress> {
@@ -113,7 +112,7 @@ public class AdvancementProgress implements Comparable<AdvancementProgress> {
     }
 
     public boolean grantCriterion(String s) {
-        CriterionProgress criterionprogress = (CriterionProgress) this.criteria.get(s);
+        CriterionProgress criterionprogress = this.criteria.get(s);
 
         if (criterionprogress != null && !criterionprogress.isObtained()) {
             criterionprogress.obtain();
@@ -124,7 +123,7 @@ public class AdvancementProgress implements Comparable<AdvancementProgress> {
     }
 
     public boolean revokeCriterion(String s) {
-        CriterionProgress criterionprogress = (CriterionProgress) this.criteria.get(s);
+        CriterionProgress criterionprogress = this.criteria.get(s);
 
         if (criterionprogress != null && criterionprogress.isObtained()) {
             criterionprogress.reset();
@@ -134,6 +133,7 @@ public class AdvancementProgress implements Comparable<AdvancementProgress> {
         }
     }
 
+    @Override
     public String toString() {
         return "AdvancementProgress{criteria=" + this.criteria + ", requirements=" + Arrays.deepToString(this.requirements) + '}';
     }
@@ -164,7 +164,7 @@ public class AdvancementProgress implements Comparable<AdvancementProgress> {
 
     @Nullable
     public CriterionProgress getCriterionProgress(String s) {
-        return (CriterionProgress) this.criteria.get(s);
+        return this.criteria.get(s);
     }
 
     public Iterable<String> getRemaningCriteria() {
@@ -213,6 +213,7 @@ public class AdvancementProgress implements Comparable<AdvancementProgress> {
         return date;
     }
 
+    @Override
     public int compareTo(AdvancementProgress advancementprogress) {
         Date date = this.getFirstProgressDate();
         Date date1 = advancementprogress.getFirstProgressDate();
@@ -220,15 +221,12 @@ public class AdvancementProgress implements Comparable<AdvancementProgress> {
         return date == null && date1 != null ? 1 : (date != null && date1 == null ? -1 : (date == null && date1 == null ? 0 : date.compareTo(date1)));
     }
 
-    public int compareTo(Object object) {
-        return this.compareTo((AdvancementProgress) object);
-    }
-
     public static class a implements JsonDeserializer<AdvancementProgress>, JsonSerializer<AdvancementProgress> {
 
         public a() {}
 
-        public JsonElement a(AdvancementProgress advancementprogress, Type type, JsonSerializationContext jsonserializationcontext) {
+        @Override
+        public JsonElement serialize(AdvancementProgress advancementprogress, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
             JsonObject jsonobject1 = new JsonObject();
             Iterator iterator = advancementprogress.criteria.entrySet().iterator();
@@ -250,7 +248,8 @@ public class AdvancementProgress implements Comparable<AdvancementProgress> {
             return jsonobject;
         }
 
-        public AdvancementProgress a(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+        @Override
+        public AdvancementProgress deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "advancement");
             JsonObject jsonobject1 = JsonUtils.getJsonObject(jsonobject, "criteria", new JsonObject());
             AdvancementProgress advancementprogress = new AdvancementProgress();
@@ -264,14 +263,6 @@ public class AdvancementProgress implements Comparable<AdvancementProgress> {
             }
 
             return advancementprogress;
-        }
-
-        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            return this.a(jsonelement, type, jsondeserializationcontext);
-        }
-
-        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a((AdvancementProgress) object, type, jsonserializationcontext);
         }
     }
 }

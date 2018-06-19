@@ -13,11 +13,8 @@ public class NettyEncryptingEncoder extends MessageToByteEncoder<ByteBuf> {
         this.encryptionCodec = new NettyEncryptionTranslator(cipher);
     }
 
+    @Override
     protected void encode(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf, ByteBuf bytebuf1) throws Exception {
         this.encryptionCodec.cipher(bytebuf, bytebuf1);
-    }
-
-    protected void encode(ChannelHandlerContext channelhandlercontext, Object object, ByteBuf bytebuf) throws Exception {
-        this.encode(channelhandlercontext, (ByteBuf) object, bytebuf);
     }
 }

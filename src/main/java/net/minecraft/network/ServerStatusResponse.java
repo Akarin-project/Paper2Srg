@@ -32,7 +32,6 @@ public class ServerStatusResponse {
         this.description = ichatbasecomponent;
     }
 
-    public Players getPlayers() { return getPlayers(); } // Paper - OBFHELPER
     public ServerStatusResponse.Players getPlayers() {
         return this.players;
     }
@@ -62,6 +61,7 @@ public class ServerStatusResponse {
         public Serializer() {}
 
         // Paper - decompile fix
+        @Override
         public ServerStatusResponse deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "status");
             ServerStatusResponse serverping = new ServerStatusResponse();
@@ -86,6 +86,7 @@ public class ServerStatusResponse {
         }
 
         // Paper - decompile fix
+        @Override
         public JsonElement serialize(ServerStatusResponse serverping, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
@@ -132,6 +133,7 @@ public class ServerStatusResponse {
             public Serializer() {}
 
             // Paper - decompile fix
+            @Override
             public ServerStatusResponse.Version deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
                 JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "version");
 
@@ -139,6 +141,7 @@ public class ServerStatusResponse {
             }
 
             // Paper - decompile fix
+            @Override
             public JsonElement serialize(ServerStatusResponse.Version serverping_serverdata, Type type, JsonSerializationContext jsonserializationcontext) {
                 JsonObject jsonobject = new JsonObject();
 
@@ -183,6 +186,7 @@ public class ServerStatusResponse {
             public Serializer() {}
 
             // Paper - decompile fix
+            @Override
             public ServerStatusResponse.Players deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
                 JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "players");
                 ServerStatusResponse.Players serverping_serverpingplayersample = new ServerStatusResponse.Players(JsonUtils.getInt(jsonobject, "max"), JsonUtils.getInt(jsonobject, "online"));
@@ -208,6 +212,7 @@ public class ServerStatusResponse {
             }
 
             // Paper - decompile fix
+            @Override
             public JsonElement serialize(ServerStatusResponse.Players serverping_serverpingplayersample, Type type, JsonSerializationContext jsonserializationcontext) {
                 JsonObject jsonobject = new JsonObject();
 

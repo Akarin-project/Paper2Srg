@@ -22,10 +22,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.server.AdvancementRewards.AdvancementCommandListener;
-import net.minecraft.server.AdvancementRewards.a;
-import net.minecraft.server.CustomFunction;
-import net.minecraft.server.LootTableInfo;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -38,13 +34,13 @@ import net.minecraft.world.storage.loot.LootContext;
 
 public class AdvancementRewards {
 
-    public static final AdvancementRewards EMPTY = new AdvancementRewards(0, new ResourceLocation[0], new ResourceLocation[0], CustomFunction.a.a);
+    public static final AdvancementRewards EMPTY = new AdvancementRewards(0, new ResourceLocation[0], new ResourceLocation[0], FunctionObject.a.a);
     private final int experience;
     private final ResourceLocation[] loot;
     private final ResourceLocation[] recipes;
-    private final CustomFunction.a function;
+    private final FunctionObject.a function;
 
-    public AdvancementRewards(int i, ResourceLocation[] aminecraftkey, ResourceLocation[] aminecraftkey1, CustomFunction.a customfunction_a) {
+    public AdvancementRewards(int i, ResourceLocation[] aminecraftkey, ResourceLocation[] aminecraftkey1, FunctionObject.a customfunction_a) {
         this.experience = i;
         this.loot = aminecraftkey;
         this.recipes = aminecraftkey1;
@@ -53,7 +49,7 @@ public class AdvancementRewards {
 
     public void apply(final EntityPlayerMP entityplayer) {
         entityplayer.addExperience(this.experience);
-        LootContext loottableinfo = (new LootTableInfo.a(entityplayer.getServerWorld())).a((Entity) entityplayer).a();
+        LootContext loottableinfo = (new LootContext.a(entityplayer.getServerWorld())).a((Entity) entityplayer).a();
         boolean flag = false;
         ResourceLocation[] aminecraftkey = this.loot;
         int i = aminecraftkey.length;
@@ -195,12 +191,12 @@ public class AdvancementRewards {
                 }
             }
 
-            CustomFunction.a customfunction_a;
+            FunctionObject.a customfunction_a;
 
             if (jsonobject.has("function")) {
-                customfunction_a = new CustomFunction.a(new ResourceLocation(JsonUtils.getString(jsonobject, "function")));
+                customfunction_a = new FunctionObject.a(new ResourceLocation(JsonUtils.getString(jsonobject, "function")));
             } else {
-                customfunction_a = CustomFunction.a.a;
+                customfunction_a = FunctionObject.a.a;
             }
 
             return new AdvancementRewards(i, aminecraftkey, aminecraftkey1, customfunction_a);

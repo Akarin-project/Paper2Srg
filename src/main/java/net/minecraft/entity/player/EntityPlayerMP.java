@@ -247,7 +247,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
         if (worldserver.provider.hasSkyLight() && worldserver.getWorldInfo().getGameType() != GameType.ADVENTURE) {
             int i = Math.max(0, minecraftserver.getSpawnRadius(worldserver));
-            int j = MathHelper.floor(worldserver.getWorldBorder().getClosestDistance((double) blockposition.getX(), (double) blockposition.getZ()));
+            int j = MathHelper.floor(worldserver.getWorldBorder().getClosestDistance(blockposition.getX(), blockposition.getZ()));
 
             if (j < i) {
                 i = j;
@@ -264,6 +264,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
     // CraftBukkit end
 
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         if (this.posY > 300) this.posY = 257; // Paper - bring down to a saner Y level if out of world
@@ -291,6 +292,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     public static void registerFixesPlayerMP(DataFixer dataconvertermanager) {
         dataconvertermanager.registerWalker(FixTypes.PLAYER, new IDataWalker() {
+            @Override
             public NBTTagCompound process(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
                 if (nbttagcompound.hasKey("RootVehicle", 10)) {
                     NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("RootVehicle");
@@ -305,6 +307,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         });
     }
 
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         nbttagcompound.setInteger("playerGameType", this.interactionManager.getGameType().getID());
@@ -336,6 +339,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
 
     // CraftBukkit start - World fallback code, either respawn location or global spawn
+    @Override
     public void setWorld(World world) {
         super.setWorld(world);
         if (world == null) {
@@ -360,11 +364,13 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
     // CraftBukkit end
 
+    @Override
     public void addExperienceLevel(int i) {
         super.addExperienceLevel(i);
         this.lastExperience = -1;
     }
 
+    @Override
     public void onEnchant(ItemStack itemstack, int i) {
         super.onEnchant(itemstack, i);
         this.lastExperience = -1;
@@ -374,24 +380,29 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.openContainer.addListener(this);
     }
 
+    @Override
     public void sendEnterCombat() {
         super.sendEnterCombat();
         this.connection.sendPacket(new SPacketCombatEvent(this.getCombatTracker(), SPacketCombatEvent.Event.ENTER_COMBAT));
     }
 
+    @Override
     public void sendEndCombat() {
         super.sendEndCombat();
         this.connection.sendPacket(new SPacketCombatEvent(this.getCombatTracker(), SPacketCombatEvent.Event.END_COMBAT));
     }
 
+    @Override
     protected void onInsideBlock(IBlockState iblockdata) {
         CriteriaTriggers.ENTER_BLOCK.trigger(this, iblockdata);
     }
 
+    @Override
     protected CooldownTracker createCooldownTracker() {
         return new CooldownTrackerServer(this);
     }
 
+    @Override
     public void onUpdate() {
         // CraftBukkit start
         if (this.joining) {
@@ -466,7 +477,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
                 ItemStack itemstack = this.inventory.getStackInSlot(i);
 
                 if (!itemstack.isEmpty() && itemstack.getItem().isMap()) {
-                    Packet packet = ((ItemMapBase) itemstack.getItem()).createMapDataPacket(itemstack, this.world, (EntityPlayer) this);
+                    Packet packet = ((ItemMapBase) itemstack.getItem()).createMapDataPacket(itemstack, this.world, this);
 
                     if (packet != null) {
                         this.connection.sendPacket(packet);
@@ -488,12 +499,12 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
             if (this.foodStats.getFoodLevel() != this.lastFoodScore) {
                 this.lastFoodScore = this.foodStats.getFoodLevel();
-                this.updateScorePoints(IScoreCriteria.FOOD, MathHelper.ceil((float) this.lastFoodScore));
+                this.updateScorePoints(IScoreCriteria.FOOD, MathHelper.ceil(this.lastFoodScore));
             }
 
             if (this.getAir() != this.lastAirScore) {
                 this.lastAirScore = this.getAir();
-                this.updateScorePoints(IScoreCriteria.AIR, MathHelper.ceil((float) this.lastAirScore));
+                this.updateScorePoints(IScoreCriteria.AIR, MathHelper.ceil(this.lastAirScore));
             }
 
             // CraftBukkit start - Force max health updates
@@ -504,17 +515,17 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
             if (this.getTotalArmorValue() != this.lastArmorScore) {
                 this.lastArmorScore = this.getTotalArmorValue();
-                this.updateScorePoints(IScoreCriteria.ARMOR, MathHelper.ceil((float) this.lastArmorScore));
+                this.updateScorePoints(IScoreCriteria.ARMOR, MathHelper.ceil(this.lastArmorScore));
             }
 
             if (this.experienceTotal != this.lastExperienceScore) {
                 this.lastExperienceScore = this.experienceTotal;
-                this.updateScorePoints(IScoreCriteria.XP, MathHelper.ceil((float) this.lastExperienceScore));
+                this.updateScorePoints(IScoreCriteria.XP, MathHelper.ceil(this.lastExperienceScore));
             }
 
             if (this.experienceLevel != this.lastLevelScore) {
                 this.lastLevelScore = this.experienceLevel;
-                this.updateScorePoints(IScoreCriteria.LEVEL, MathHelper.ceil((float) this.lastLevelScore));
+                this.updateScorePoints(IScoreCriteria.LEVEL, MathHelper.ceil(this.lastLevelScore));
             }
 
             if (this.experienceTotal != this.lastExperience) {
@@ -532,7 +543,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
             }
 
             if (this.oldLevel != this.experienceLevel) {
-                CraftEventFactory.callPlayerLevelChangeEvent(this.world.getServer().getPlayer((EntityPlayerMP) this), this.oldLevel, this.experienceLevel);
+                CraftEventFactory.callPlayerLevelChangeEvent(this.world.getServer().getPlayer(this), this.oldLevel, this.experienceLevel);
                 this.oldLevel = this.experienceLevel;
             }
             // CraftBukkit end
@@ -557,6 +568,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void onDeath(DamageSource damagesource) {
         boolean flag = this.world.getGameRules().getBoolean("showDeathMessages");
 
@@ -589,9 +601,9 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
                 if (scoreboardteambase != null && scoreboardteambase.getDeathMessageVisibility() != Team.EnumVisible.ALWAYS) {
                     if (scoreboardteambase.getDeathMessageVisibility() == Team.EnumVisible.HIDE_FOR_OTHER_TEAMS) {
-                        this.mcServer.getPlayerList().sendMessageToAllTeamMembers((EntityPlayer) this, chatmessage);
+                        this.mcServer.getPlayerList().sendMessageToAllTeamMembers(this, chatmessage);
                     } else if (scoreboardteambase.getDeathMessageVisibility() == Team.EnumVisible.HIDE_FOR_OWN_TEAM) {
-                        this.mcServer.getPlayerList().sendMessageToTeamOrAllPlayers((EntityPlayer) this, chatmessage);
+                        this.mcServer.getPlayerList().sendMessageToTeamOrAllPlayers(this, chatmessage);
                     }
                 } else {
                     this.mcServer.getPlayerList().sendMessage(chatmessage);
@@ -624,7 +636,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         EntityLivingBase entityliving = this.getAttackingEntity();
 
         if (entityliving != null) {
-            EntityList.EntityEggInfo entitytypes_monsteregginfo = (EntityList.EntityEggInfo) EntityList.ENTITY_EGGS.get(EntityList.getKey((Entity) entityliving));
+            EntityList.EntityEggInfo entitytypes_monsteregginfo = EntityList.ENTITY_EGGS.get(EntityList.getKey(entityliving));
 
             if (entitytypes_monsteregginfo != null) {
                 this.addStat(entitytypes_monsteregginfo.entityKilledByStat);
@@ -640,6 +652,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.getCombatTracker().reset();
     }
 
+    @Override
     public void awardKillScore(Entity entity, int i, DamageSource damagesource) {
         if (entity != this) {
             super.awardKillScore(entity, i, damagesource);
@@ -708,6 +721,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return Lists.newArrayList();
     }
 
+    @Override
     public boolean attackEntityFrom(DamageSource damagesource, float f) {
         if (this.isEntityInvulnerable(damagesource)) {
             return false;
@@ -738,6 +752,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public boolean canAttackPlayer(EntityPlayer entityhuman) {
         return !this.canPlayersAttack() ? false : super.canAttackPlayer(entityhuman);
     }
@@ -747,6 +762,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return this.world.pvpMode;
     }
 
+    @Override
     @Nullable
     public Entity changeDimension(int i) {
         if (this.isPlayerSleeping()) return this; // CraftBukkit - SPIGOT-3154
@@ -785,6 +801,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public boolean isSpectatedByPlayer(EntityPlayerMP entityplayer) {
         return entityplayer.isSpectator() ? this.getSpectatingEntity() == this : (this.isSpectator() ? false : super.isSpectatedByPlayer(entityplayer));
     }
@@ -800,11 +817,13 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void onItemPickup(Entity entity, int i) {
         super.onItemPickup(entity, i);
         this.openContainer.detectAndSendChanges();
     }
 
+    @Override
     public EntityPlayer.SleepResult trySleep(BlockPos blockposition) {
         EntityPlayer.SleepResult entityhuman_enumbedresult = super.trySleep(blockposition);
 
@@ -812,7 +831,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
             this.addStat(StatList.SLEEP_IN_BED);
             SPacketUseBed packetplayoutbed = new SPacketUseBed(this, blockposition);
 
-            this.getServerWorld().getEntityTracker().sendToTracking((Entity) this, (Packet) packetplayoutbed);
+            this.getServerWorld().getEntityTracker().sendToTracking(this, packetplayoutbed);
             this.connection.setPlayerLocation(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
             this.connection.sendPacket(packetplayoutbed);
             CriteriaTriggers.SLEPT_IN_BED.trigger(this);
@@ -821,6 +840,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return entityhuman_enumbedresult;
     }
 
+    @Override
     public void wakeUpPlayer(boolean flag, boolean flag1, boolean flag2) {
         if (!this.sleeping) return; // CraftBukkit - Can't leave bed if not in one!
         if (this.isPlayerSleeping()) {
@@ -834,6 +854,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public boolean startRiding(Entity entity, boolean flag) {
         Entity entity1 = this.getRidingEntity();
 
@@ -850,6 +871,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public void dismountRidingEntity() {
         Entity entity = this.getRidingEntity();
 
@@ -869,12 +891,15 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public boolean isEntityInvulnerable(DamageSource damagesource) {
         return super.isEntityInvulnerable(damagesource) || this.isInvulnerableDimensionChange();
     }
 
+    @Override
     protected void updateFallState(double d0, boolean flag, IBlockState iblockdata, BlockPos blockposition) {}
 
+    @Override
     protected void frostWalk(BlockPos blockposition) {
         if (!this.isSpectator()) {
             super.frostWalk(blockposition);
@@ -903,8 +928,9 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         super.updateFallState(d0, flag, iblockdata, blockposition);
     }
 
+    @Override
     public void openEditSign(TileEntitySign tileentitysign) {
-        tileentitysign.setPlayer((EntityPlayer) this);
+        tileentitysign.setPlayer(this);
         this.connection.sendPacket(new SPacketSignEditorOpen(tileentitysign.getPos()));
     }
 
@@ -913,6 +939,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return currentWindowId; // CraftBukkit
     }
 
+    @Override
     public void displayGui(IInteractionObject itileentitycontainer) {
         // CraftBukkit start - Inventory open hook
         if (false && itileentitycontainer instanceof ILootContainer && ((ILootContainer) itileentitycontainer).getLootTable() != null && this.isSpectator()) {
@@ -932,6 +959,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public void displayGUIChest(IInventory iinventory) {
         // CraftBukkit start - Inventory open hook
         // Copied from below
@@ -991,6 +1019,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public void displayVillagerTradeGui(IMerchant imerchant) {
         // CraftBukkit start - Inventory open hook
         Container container = CraftEventFactory.callInventoryOpenEvent(this, new ContainerMerchant(this.inventory, imerchant, this.world));
@@ -1018,6 +1047,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void openGuiHorseInventory(AbstractHorse entityhorseabstract, IInventory iinventory) {
         // CraftBukkit start - Inventory open hook
         Container container = CraftEventFactory.callInventoryOpenEvent(this, new ContainerHorseInventory(this.inventory, iinventory, entityhorseabstract, this));
@@ -1037,23 +1067,26 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.openContainer.addListener(this);
     }
 
+    @Override
     public void openBook(ItemStack itemstack, EnumHand enumhand) {
         Item item = itemstack.getItem();
 
         if (item == Items.WRITTEN_BOOK) {
             PacketBuffer packetdataserializer = new PacketBuffer(Unpooled.buffer());
 
-            packetdataserializer.writeEnumValue((Enum) enumhand);
+            packetdataserializer.writeEnumValue(enumhand);
             this.connection.sendPacket(new SPacketCustomPayload("MC|BOpen", packetdataserializer));
         }
 
     }
 
+    @Override
     public void displayGuiCommandBlock(TileEntityCommandBlock tileentitycommand) {
         tileentitycommand.setSendToClient(true);
-        this.sendTileEntityUpdate((TileEntity) tileentitycommand);
+        this.sendTileEntityUpdate(tileentitycommand);
     }
 
+    @Override
     public void sendSlotContents(Container container, int i, ItemStack itemstack) {
         if (!(container.getSlot(i) instanceof SlotCrafting)) {
             if (container == this.inventoryContainer) {
@@ -1070,6 +1103,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.sendAllContents(container, container.getInventory());
     }
 
+    @Override
     public void sendAllContents(Container container, NonNullList<ItemStack> nonnulllist) {
         this.connection.sendPacket(new SPacketWindowItems(container.windowId, nonnulllist));
         this.connection.sendPacket(new SPacketSetSlot(-1, -1, this.inventory.getItemStack()));
@@ -1080,10 +1114,12 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         // CraftBukkit end
     }
 
+    @Override
     public void sendWindowProperty(Container container, int i, int j) {
         this.connection.sendPacket(new SPacketWindowProperty(container.windowId, i, j));
     }
 
+    @Override
     public void sendAllWindowProperties(Container container, IInventory iinventory) {
         for (int i = 0; i < iinventory.getFieldCount(); ++i) {
             this.connection.sendPacket(new SPacketWindowProperty(container.windowId, i, iinventory.getField(i)));
@@ -1091,6 +1127,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void closeScreen() {
         CraftEventFactory.handleInventoryCloseEvent(this); // CraftBukkit
         this.connection.sendPacket(new SPacketCloseWindow(this.openContainer.windowId));
@@ -1104,7 +1141,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
 
     public void closeContainer() {
-        this.openContainer.onContainerClosed((EntityPlayer) this);
+        this.openContainer.onContainerClosed(this);
         this.openContainer = this.inventoryContainer;
     }
 
@@ -1124,6 +1161,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void addStat(StatBase statistic, int i) {
         if (statistic != null) {
             this.statsFile.increaseStat(this, statistic, i);
@@ -1138,6 +1176,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public void takeStat(StatBase statistic) {
         if (statistic != null) {
             this.statsFile.unlockAchievement(this, statistic, 0);
@@ -1152,10 +1191,12 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public void unlockRecipes(List<IRecipe> list) {
         this.recipeBook.add(list, this);
     }
 
+    @Override
     public void unlockRecipes(ResourceLocation[] aminecraftkey) {
         ArrayList arraylist = Lists.newArrayList();
         ResourceLocation[] aminecraftkey1 = aminecraftkey;
@@ -1173,9 +1214,10 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
             arraylist.add(CraftingManager.getRecipe(minecraftkey));
         }
 
-        this.unlockRecipes((List<IRecipe>) arraylist); // CraftBukkit - decompile error
+        this.unlockRecipes(arraylist); // CraftBukkit - decompile error
     }
 
+    @Override
     public void resetRecipes(List<IRecipe> list) {
         this.recipeBook.remove(list, this);
     }
@@ -1206,10 +1248,12 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
     // CraftBukkit end
 
+    @Override
     public void sendStatusMessage(ITextComponent ichatbasecomponent, boolean flag) {
         this.connection.sendPacket(new SPacketChat(ichatbasecomponent, flag ? ChatType.GAME_INFO : ChatType.CHAT));
     }
 
+    @Override
     protected void onItemUseFinish() {
         if (!this.activeItemStack.isEmpty() && this.isHandActive()) {
             this.connection.sendPacket(new SPacketEntityStatus(this, (byte) 9));
@@ -1256,6 +1300,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.setRightShoulderEntity(entityplayer.getRightShoulderEntity());
     }
 
+    @Override
     protected void onNewPotionEffect(PotionEffect mobeffect) {
         super.onNewPotionEffect(mobeffect);
         this.connection.sendPacket(new SPacketEntityEffect(this.getEntityId(), mobeffect));
@@ -1267,12 +1312,14 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         CriteriaTriggers.EFFECTS_CHANGED.trigger(this);
     }
 
+    @Override
     protected void onChangedPotionEffect(PotionEffect mobeffect, boolean flag) {
         super.onChangedPotionEffect(mobeffect, flag);
         this.connection.sendPacket(new SPacketEntityEffect(this.getEntityId(), mobeffect));
         CriteriaTriggers.EFFECTS_CHANGED.trigger(this);
     }
 
+    @Override
     protected void onFinishedPotionEffect(PotionEffect mobeffect) {
         super.onFinishedPotionEffect(mobeffect);
         this.connection.sendPacket(new SPacketRemoveEntityEffect(this.getEntityId(), mobeffect.getPotion()));
@@ -1283,18 +1330,22 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         CriteriaTriggers.EFFECTS_CHANGED.trigger(this);
     }
 
+    @Override
     public void setPositionAndUpdate(double d0, double d1, double d2) {
         this.connection.setPlayerLocation(d0, d1, d2, this.rotationYaw, this.rotationPitch);
     }
 
+    @Override
     public void onCriticalHit(Entity entity) {
         this.getServerWorld().getEntityTracker().sendToTrackingAndSelf(this, new SPacketAnimation(entity, 4));
     }
 
+    @Override
     public void onEnchantmentCritical(Entity entity) {
         this.getServerWorld().getEntityTracker().sendToTrackingAndSelf(this, new SPacketAnimation(entity, 5));
     }
 
+    @Override
     public void sendPlayerAbilities() {
         if (this.connection != null) {
             this.connection.sendPacket(new SPacketPlayerAbilities(this.capabilities));
@@ -1306,6 +1357,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return (WorldServer) this.world;
     }
 
+    @Override
     public void setGameType(GameType enumgamemode) {
         // CraftBukkit start
         if (enumgamemode == this.interactionManager.getGameType()) {
@@ -1320,7 +1372,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         // CraftBukkit end
 
         this.interactionManager.setGameType(enumgamemode);
-        this.connection.sendPacket(new SPacketChangeGameState(3, (float) enumgamemode.getID()));
+        this.connection.sendPacket(new SPacketChangeGameState(3, enumgamemode.getID()));
         if (enumgamemode == GameType.SPECTATOR) {
             this.spawnShoulderEntities();
             this.dismountRidingEntity();
@@ -1332,18 +1384,22 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.markPotionsDirty();
     }
 
+    @Override
     public boolean isSpectator() {
         return this.interactionManager.getGameType() == GameType.SPECTATOR;
     }
 
+    @Override
     public boolean isCreative() {
         return this.interactionManager.getGameType() == GameType.CREATIVE;
     }
 
+    @Override
     public void sendMessage(ITextComponent ichatbasecomponent) {
         this.connection.sendPacket(new SPacketChat(ichatbasecomponent));
     }
 
+    @Override
     public boolean canUseCommand(int i, String s) {
         /* CraftBukkit start
         if ("seed".equals(s) && !this.server.aa()) {
@@ -1416,6 +1472,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.connection.sendPacket(new SPacketResourcePackSend(s, s1));
     }
 
+    @Override
     public BlockPos getPosition() {
         return new BlockPos(this.posX, this.posY + 0.5D, this.posZ);
     }
@@ -1445,6 +1502,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.entityRemoveQueue.remove(Integer.valueOf(entity.getEntityId()));
     }
 
+    @Override
     protected void updatePotionMetadata() {
         if (this.isSpectator()) {
             this.resetPotionEffectMetadata();
@@ -1457,13 +1515,13 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
 
     public Entity getSpectatingEntity() {
-        return (Entity) (this.spectatingEntity == null ? this : this.spectatingEntity);
+        return this.spectatingEntity == null ? this : this.spectatingEntity;
     }
 
     public void setSpectatingEntity(Entity entity) {
         Entity entity1 = this.getSpectatingEntity();
 
-        this.spectatingEntity = (Entity) (entity == null ? this : entity);
+        this.spectatingEntity = entity == null ? this : entity;
         if (entity1 != this.spectatingEntity) {
             this.connection.sendPacket(new SPacketCamera(this.spectatingEntity));
             this.connection.a(this.spectatingEntity.posX, this.spectatingEntity.posY, this.spectatingEntity.posZ, this.rotationYaw, this.rotationPitch, TeleportCause.SPECTATE); // CraftBukkit
@@ -1471,6 +1529,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     protected void decrementTimeUntilPortal() {
         if (this.timeUntilPortal > 0 && !this.invulnerableDimensionChange) {
             --this.timeUntilPortal;
@@ -1478,6 +1537,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void attackTargetEntityWithCurrentItem(Entity entity) {
         if (this.interactionManager.getGameType() == GameType.SPECTATOR) {
             this.setSpectatingEntity(entity);
@@ -1496,6 +1556,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return listName; // CraftBukkit
     }
 
+    @Override
     public void swingArm(EnumHand enumhand) {
         super.swingArm(enumhand);
         this.resetCooldown();
@@ -1623,7 +1684,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
 
     @Override
-    protected boolean isMovementBlocked() {
+    public boolean isMovementBlocked() {
         return super.isMovementBlocked() || (this.connection != null && this.connection.isDisconnected()); // Paper
     }
 

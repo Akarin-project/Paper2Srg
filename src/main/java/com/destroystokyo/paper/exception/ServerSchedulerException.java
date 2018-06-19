@@ -2,6 +2,7 @@ package com.destroystokyo.paper.exception;
 
 import org.bukkit.scheduler.BukkitTask;
 
+import static com.google.common.base.Preconditions.*;
 
 /**
  * Thrown when a plugin's scheduler fails with an exception

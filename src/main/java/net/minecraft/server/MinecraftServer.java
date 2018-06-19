@@ -39,7 +39,6 @@ import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import co.aikar.timings.MinecraftTimings;
-import net;
 import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.advancements.FunctionManager;
 import net.minecraft.command.ICommandManager;
@@ -1652,10 +1651,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
         return worlds.get(0).getGameRules().getBoolean("sendCommandFeedback");
     }
 
-    @Override
+    // Akarin start
+    /* @Override
     public MinecraftServer getServer() {
         return this;
-    }
+    } */ // Akarin end
 
     public int getMaxWorldSize() {
         return 29999984;
@@ -1730,7 +1730,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
     }
 
     // CraftBukkit start
-    @Deprecated
+    // @Deprecated // Akarin
     public static MinecraftServer getServer() {
         return SERVER;
     }

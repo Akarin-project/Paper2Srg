@@ -22,8 +22,6 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LootItemFunction;
-import net.minecraft.server.LootItemFunctionEnchant.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -78,7 +76,7 @@ public class EnchantRandomly extends LootFunction {
         return itemstack;
     }
 
-    public static class a extends LootItemFunction.a<EnchantRandomly> {
+    public static class a extends LootFunction.a<EnchantRandomly> {
 
         public a() {
             super(new ResourceLocation("enchant_randomly"), EnchantRandomly.class);
@@ -106,7 +104,8 @@ public class EnchantRandomly extends LootFunction {
 
         }
 
-        public EnchantRandomly a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        @Override
+        public EnchantRandomly b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             ArrayList arraylist = Lists.newArrayList();
 
             if (jsonobject.has("enchantments")) {
@@ -127,10 +126,6 @@ public class EnchantRandomly extends LootFunction {
             }
 
             return new EnchantRandomly(alootitemcondition, arraylist);
-        }
-
-        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
-            return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }
 }

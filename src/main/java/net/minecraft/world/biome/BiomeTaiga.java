@@ -28,7 +28,7 @@ public class BiomeTaiga extends Biome {
     private static final WorldGenBlockBlob FOREST_ROCK_GENERATOR = new WorldGenBlockBlob(Blocks.MOSSY_COBBLESTONE, 0);
     private final BiomeTaiga.Type type;
 
-    public BiomeTaiga(BiomeTaiga.Type biometaiga_type, BiomeBase.a biomebase_a) {
+    public BiomeTaiga(BiomeTaiga.Type biometaiga_type, Biome.a biomebase_a) {
         super(biomebase_a);
         this.type = biometaiga_type;
         this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityWolf.class, 8, 4, 4));
@@ -45,14 +45,17 @@ public class BiomeTaiga extends Biome {
 
     }
 
+    @Override
     public WorldGenAbstractTree getRandomTreeFeature(Random random) {
-        return (WorldGenAbstractTree) ((this.type == BiomeTaiga.Type.MEGA || this.type == BiomeTaiga.Type.MEGA_SPRUCE) && random.nextInt(3) == 0 ? (this.type != BiomeTaiga.Type.MEGA_SPRUCE && random.nextInt(13) != 0 ? BiomeTaiga.MEGA_PINE_GENERATOR : BiomeTaiga.MEGA_SPRUCE_GENERATOR) : (random.nextInt(3) == 0 ? BiomeTaiga.PINE_GENERATOR : BiomeTaiga.SPRUCE_GENERATOR));
+        return (this.type == BiomeTaiga.Type.MEGA || this.type == BiomeTaiga.Type.MEGA_SPRUCE) && random.nextInt(3) == 0 ? (this.type != BiomeTaiga.Type.MEGA_SPRUCE && random.nextInt(13) != 0 ? BiomeTaiga.MEGA_PINE_GENERATOR : BiomeTaiga.MEGA_SPRUCE_GENERATOR) : (random.nextInt(3) == 0 ? BiomeTaiga.PINE_GENERATOR : BiomeTaiga.SPRUCE_GENERATOR);
     }
 
+    @Override
     public WorldGenerator getRandomWorldGenForGrass(Random random) {
         return random.nextInt(5) > 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN) : new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
     }
 
+    @Override
     public void decorate(World world, Random random, BlockPos blockposition) {
         int i;
         int j;
@@ -83,6 +86,7 @@ public class BiomeTaiga extends Biome {
         super.decorate(world, random, blockposition);
     }
 
+    @Override
     public void genTerrainBlocks(World world, Random random, ChunkPrimer chunksnapshot, int i, int j, double d0) {
         if (this.type == BiomeTaiga.Type.MEGA || this.type == BiomeTaiga.Type.MEGA_SPRUCE) {
             this.topBlock = Blocks.GRASS.getDefaultState();

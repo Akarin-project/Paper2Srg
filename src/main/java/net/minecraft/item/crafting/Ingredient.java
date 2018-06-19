@@ -13,12 +13,9 @@ import net.minecraft.item.ItemStack;
 public class Ingredient implements Predicate<ItemStack> {
 
     public static final Ingredient EMPTY = new Ingredient(new ItemStack[0], null) {
+        @Override
         public boolean apply(@Nullable ItemStack itemstack) {
             return itemstack.isEmpty();
-        }
-
-        public boolean apply(@Nullable Object object) {
-            return this.apply((ItemStack) object);
         }
     };
     public final ItemStack[] matchingStacks;
@@ -28,6 +25,7 @@ public class Ingredient implements Predicate<ItemStack> {
         this.matchingStacks = aitemstack;
     }
 
+    @Override
     public boolean apply(@Nullable ItemStack itemstack) {
         if (itemstack == null) {
             return false;
@@ -98,10 +96,6 @@ public class Ingredient implements Predicate<ItemStack> {
         }
 
         return Ingredient.EMPTY;
-    }
-
-    public boolean apply(@Nullable Object object) {
-        return this.apply((ItemStack) object);
     }
 
     Ingredient(ItemStack[] aitemstack, Object object) {

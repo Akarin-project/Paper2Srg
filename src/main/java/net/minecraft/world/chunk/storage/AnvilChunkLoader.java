@@ -16,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.ChunkRegionLoader.QueuedChunk;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -69,10 +68,11 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
     // Paper end
 
     // CraftBukkit start - Add async variant, provide compatibility
+    @Override
     @Nullable
     public Chunk loadChunk(World world, int i, int j) throws IOException {
         world.timings.syncChunkLoadDataTimer.startTiming(); // Spigot
-        Object[] data = loadChunk(world, i, j);
+        Object[] data = loadChunk__Async(world, i, j);
         world.timings.syncChunkLoadDataTimer.stopTiming(); // Spigot
         if (data != null) {
             Chunk chunk = (Chunk) data[0];
@@ -84,7 +84,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
         return null;
     }
 
-    public Object[] loadChunk(World world, int i, int j) throws IOException {
+    public Object[] loadChunk__Async(World world, int i, int j) throws IOException {
         // CraftBukkit end
         ChunkPos chunkcoordintpair = new ChunkPos(i, j);
         NBTTagCompound nbttagcompound = SupplierUtils.getIfExists(this.chunksToSave.get(chunkcoordintpair)); // Spigot
@@ -97,13 +97,14 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
                 return null;
             }
 
-            nbttagcompound = this.fixer.process((IFixType) FixTypes.CHUNK, nbttagcompound);
+            nbttagcompound = this.fixer.process(FixTypes.CHUNK, nbttagcompound);
             // CraftBukkit end
         }
 
         return this.a(world, i, j, nbttagcompound);
     }
 
+    @Override
     public boolean isChunkGeneratedAt(int i, int j) {
         ChunkPos chunkcoordintpair = new ChunkPos(i, j);
         Supplier<NBTTagCompound> nbttagcompound = this.chunksToSave.get(chunkcoordintpair); // Spigot
@@ -134,7 +135,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
                     NBTTagList tileEntities = nbttagcompound.getCompoundTag("Level").getTagList("TileEntities", 10);
                     if (tileEntities != null) {
                         for (int te = 0; te < tileEntities.tagCount(); te++) {
-                            NBTTagCompound tileEntity = (NBTTagCompound) tileEntities.getCompoundTagAt(te);
+                            NBTTagCompound tileEntity = tileEntities.getCompoundTagAt(te);
                             int x = tileEntity.getInteger("x") - chunk.x * 16;
                             int z = tileEntity.getInteger("z") - chunk.z * 16;
                             tileEntity.setInteger("x", i * 16 + x);
@@ -155,6 +156,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
         }
     }
 
+    @Override
     public void saveChunk(World world, Chunk chunk, boolean unloaded) throws IOException, MinecraftException { // Spigot
         world.checkSessionLock();
 
@@ -170,6 +172,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
             final boolean worldHasSkyLight = world.provider.hasSkyLight();
             saveEntities(nbttagcompound1, chunk, world);
             Supplier<NBTTagCompound> completion = new Supplier<NBTTagCompound>() {
+                @Override
                 public NBTTagCompound get() {
                     saveBody(nbttagcompound1, chunk, worldTime, worldHasSkyLight);
                     return nbttagcompound;
@@ -196,6 +199,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
         ThreadedFileIOBase.getThreadedIOInstance().queueIO(this);
     }
 
+    @Override
     public boolean writeNextIO() {
         // CraftBukkit start
         return this.processSaveQueueEntry(false);
@@ -260,8 +264,10 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 
     public void saveExtraChunkData(World world, Chunk chunk) throws IOException {}
 
+    @Override
     public void chunkTick() {}
 
+    @Override
     public void flush() {
         try {
             // this.f = true; // CraftBukkit
@@ -280,6 +286,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 
     public static void registerFixes(DataFixer dataconvertermanager) {
         dataconvertermanager.registerWalker(FixTypes.CHUNK, new IDataWalker() {
+            @Override
             public NBTTagCompound process(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
                 if (nbttagcompound.hasKey("Level", 10)) {
                     NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Level");
@@ -404,7 +411,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
             while (iterator1.hasNext()) {
                 NextTickListEntry nextticklistentry = (NextTickListEntry) iterator1.next();
                 NBTTagCompound nbttagcompound2 = new NBTTagCompound();
-                ResourceLocation minecraftkey = (ResourceLocation) Block.REGISTRY.getNameForObject(nextticklistentry.getBlock());
+                ResourceLocation minecraftkey = Block.REGISTRY.getNameForObject(nextticklistentry.getBlock());
 
                 nbttagcompound2.setString("i", minecraftkey == null ? "" : minecraftkey.toString());
                 nbttagcompound2.setInteger("x", nextticklistentry.position.getX());

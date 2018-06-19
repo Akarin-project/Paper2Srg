@@ -7,7 +7,6 @@ import java.util.Random;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.server.LootItemConditionRandomChanceWithLooting.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -22,6 +21,7 @@ public class RandomChanceWithLooting implements LootCondition {
         this.lootingMultiplier = f1;
     }
 
+    @Override
     public boolean testCondition(Random random, LootContext loottableinfo) {
         int i = 0;
 
@@ -29,15 +29,16 @@ public class RandomChanceWithLooting implements LootCondition {
             i = EnchantmentHelper.getLootingModifier((EntityLivingBase) loottableinfo.getKiller());
         }
 
-        return random.nextFloat() < this.chance + (float) i * this.lootingMultiplier;
+        return random.nextFloat() < this.chance + i * this.lootingMultiplier;
     }
 
-    public static class a extends LootItemCondition.a<RandomChanceWithLooting> {
+    public static class a extends LootCondition.a<RandomChanceWithLooting> {
 
         protected a() {
             super(new ResourceLocation("random_chance_with_looting"), RandomChanceWithLooting.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, RandomChanceWithLooting lootitemconditionrandomchancewithlooting, JsonSerializationContext jsonserializationcontext) {
             jsonobject.addProperty("chance", Float.valueOf(lootitemconditionrandomchancewithlooting.chance));
             jsonobject.addProperty("looting_multiplier", Float.valueOf(lootitemconditionrandomchancewithlooting.lootingMultiplier));
@@ -47,7 +48,8 @@ public class RandomChanceWithLooting implements LootCondition {
             return new RandomChanceWithLooting(JsonUtils.getFloat(jsonobject, "chance"), JsonUtils.getFloat(jsonobject, "looting_multiplier"));
         }
 
-        public LootCondition b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+        @Override
+        public RandomChanceWithLooting b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
             return this.a(jsonobject, jsondeserializationcontext);
         }
     }

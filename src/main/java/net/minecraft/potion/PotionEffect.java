@@ -109,6 +109,7 @@ public class PotionEffect implements Comparable<PotionEffect> {
         return this.potion.getName();
     }
 
+    @Override
     public String toString() {
         String s;
 
@@ -129,6 +130,7 @@ public class PotionEffect implements Comparable<PotionEffect> {
         return s;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -141,6 +143,7 @@ public class PotionEffect implements Comparable<PotionEffect> {
         }
     }
 
+    @Override
     public int hashCode() {
         int i = this.potion.hashCode();
 
@@ -180,13 +183,10 @@ public class PotionEffect implements Comparable<PotionEffect> {
         }
     }
 
+    @Override
     public int compareTo(PotionEffect mobeffect) {
         boolean flag = true;
 
         return (this.getDuration() <= 32147 || mobeffect.getDuration() <= 32147) && (!this.getIsAmbient() || !mobeffect.getIsAmbient()) ? ComparisonChain.start().compare(Boolean.valueOf(this.getIsAmbient()), Boolean.valueOf(mobeffect.getIsAmbient())).compare(this.getDuration(), mobeffect.getDuration()).compare(this.getPotion().getLiquidColor(), mobeffect.getPotion().getLiquidColor()).result() : ComparisonChain.start().compare(Boolean.valueOf(this.getIsAmbient()), Boolean.valueOf(mobeffect.getIsAmbient())).compare(this.getPotion().getLiquidColor(), mobeffect.getPotion().getLiquidColor()).result();
-    }
-
-    public int compareTo(Object object) {
-        return this.compareTo((PotionEffect) object);
     }
 }

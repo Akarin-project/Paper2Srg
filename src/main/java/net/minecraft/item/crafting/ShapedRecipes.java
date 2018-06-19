@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.Nullable;
-import net;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -55,6 +54,7 @@ public class ShapedRecipes implements IRecipe {
     }
 
     // CraftBukkit start
+    @Override
     public org.bukkit.inventory.ShapedRecipe toBukkitRecipe() {
         CraftItemStack result = CraftItemStack.asCraftMirror(this.recipeOutput);
         CraftShapedRecipe recipe = new CraftShapedRecipe(result, this);
@@ -111,10 +111,12 @@ public class ShapedRecipes implements IRecipe {
     }
     // CraftBukkit end
 
+    @Override
     public ItemStack getRecipeOutput() {
         return this.recipeOutput;
     }
 
+    @Override
     public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inventorycrafting) {
         NonNullList nonnulllist = NonNullList.withSize(inventorycrafting.getSizeInventory(), ItemStack.EMPTY);
 
@@ -129,10 +131,12 @@ public class ShapedRecipes implements IRecipe {
         return nonnulllist;
     }
 
+    @Override
     public NonNullList<Ingredient> getIngredients() {
         return this.recipeItems;
     }
 
+    @Override
     public boolean matches(InventoryCrafting inventorycrafting, World world) {
         for (int i = 0; i <= 3 - this.recipeWidth; ++i) {
             for (int j = 0; j <= 3 - this.recipeHeight; ++j) {
@@ -158,9 +162,9 @@ public class ShapedRecipes implements IRecipe {
 
                 if (i1 >= 0 && j1 >= 0 && i1 < this.recipeWidth && j1 < this.recipeHeight) {
                     if (flag) {
-                        recipeitemstack = (Ingredient) this.recipeItems.get(this.recipeWidth - i1 - 1 + j1 * this.recipeWidth);
+                        recipeitemstack = this.recipeItems.get(this.recipeWidth - i1 - 1 + j1 * this.recipeWidth);
                     } else {
-                        recipeitemstack = (Ingredient) this.recipeItems.get(i1 + j1 * this.recipeWidth);
+                        recipeitemstack = this.recipeItems.get(i1 + j1 * this.recipeWidth);
                     }
                 }
 
@@ -173,6 +177,7 @@ public class ShapedRecipes implements IRecipe {
         return true;
     }
 
+    @Override
     public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
         return this.getRecipeOutput().copy();
     }
@@ -206,7 +211,7 @@ public class ShapedRecipes implements IRecipe {
         for (int k = 0; k < astring.length; ++k) {
             for (int l = 0; l < astring[k].length(); ++l) {
                 String s = astring[k].substring(l, l + 1);
-                Ingredient recipeitemstack = (Ingredient) map.get(s);
+                Ingredient recipeitemstack = map.get(s);
 
                 if (recipeitemstack == null) {
                     throw new JsonSyntaxException("Pattern references symbol \'" + s + "\' but it\'s not defined in the key");
@@ -358,7 +363,7 @@ public class ShapedRecipes implements IRecipe {
 
     public static ItemStack deserializeItem(JsonObject jsonobject, boolean flag) {
         String s = JsonUtils.getString(jsonobject, "item");
-        Item item = (Item) Item.REGISTRY.getObject(new ResourceLocation(s));
+        Item item = Item.REGISTRY.getObject(new ResourceLocation(s));
 
         if (item == null) {
             throw new JsonSyntaxException("Unknown item \'" + s + "\'");

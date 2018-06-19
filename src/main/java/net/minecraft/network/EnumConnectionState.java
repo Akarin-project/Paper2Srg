@@ -62,7 +62,7 @@ import net.minecraft.network.play.server.SPacketCooldown;
 import net.minecraft.network.play.server.SPacketCustomPayload;
 import net.minecraft.network.play.server.SPacketCustomSound;
 import net.minecraft.network.play.server.SPacketDestroyEntities;
-import net.minecraft.network.play.server.SPacketDisconnect;
+
 import net.minecraft.network.play.server.SPacketDisplayObjective;
 import net.minecraft.network.play.server.SPacketEffect;
 import net.minecraft.network.play.server.SPacketEntity;
@@ -278,20 +278,20 @@ public enum EnumConnectionState {
     }
 
     protected EnumConnectionState registerPacket(EnumPacketDirection enumprotocoldirection, Class<? extends Packet<?>> oclass) {
-        Object object = (BiMap) this.directionMaps.get(enumprotocoldirection);
+        BiMap object = this.directionMaps.get(enumprotocoldirection);
 
         if (object == null) {
             object = HashBiMap.create();
             this.directionMaps.put(enumprotocoldirection, object);
         }
 
-        if (((BiMap) object).containsValue(oclass)) {
-            String s = enumprotocoldirection + " packet " + oclass + " is already known to ID " + ((BiMap) object).inverse().get(oclass);
+        if (object.containsValue(oclass)) {
+            String s = enumprotocoldirection + " packet " + oclass + " is already known to ID " + object.inverse().get(oclass);
 
             LogManager.getLogger().fatal(s);
             throw new IllegalArgumentException(s);
         } else {
-            ((BiMap) object).put(Integer.valueOf(((BiMap) object).size()), oclass);
+            object.put(Integer.valueOf(object.size()), oclass);
             return this;
         }
     }
@@ -316,7 +316,7 @@ public enum EnumConnectionState {
     }
 
     public static EnumConnectionState getFromPacket(Packet<?> packet) {
-        return (EnumConnectionState) EnumConnectionState.STATES_BY_CLASS.get(packet.getClass());
+        return EnumConnectionState.STATES_BY_CLASS.get(packet.getClass());
     }
 
     EnumConnectionState(int i, Object object) {

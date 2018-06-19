@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LootTable.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.math.MathHelper;
 

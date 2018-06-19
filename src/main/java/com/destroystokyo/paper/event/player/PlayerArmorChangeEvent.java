@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.bukkit.Material.*;
 
 /**
  * Called when the player themselves change their armor items

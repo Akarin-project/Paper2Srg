@@ -24,8 +24,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.WorldGenRegistration;
-import net.minecraft.server.WorldGenRegistration.b;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
@@ -45,7 +43,7 @@ public class ComponentScatteredFeaturePieces {
         MapGenStructureIO.registerStructureComponent(ComponentScatteredFeaturePieces.DesertPyramid.class, "TeDP");
         MapGenStructureIO.registerStructureComponent(ComponentScatteredFeaturePieces.JunglePyramid.class, "TeJP");
         MapGenStructureIO.registerStructureComponent(ComponentScatteredFeaturePieces.SwampHut.class, "TeSH");
-        MapGenStructureIO.registerStructureComponent(WorldGenRegistration.b.class, "Iglu");
+        MapGenStructureIO.registerStructureComponent(ComponentScatteredFeaturePieces.b.class, "Iglu");
     }
 
     public static class b extends ComponentScatteredFeaturePieces.Feature {
@@ -71,12 +69,12 @@ public class ComponentScatteredFeaturePieces {
                 MinecraftServer minecraftserver = world.getMinecraftServer();
                 TemplateManager definedstructuremanager = world.getSaveHandler().getStructureTemplateManager();
                 PlacementSettings definedstructureinfo = (new PlacementSettings()).setRotation(aenumblockrotation[random.nextInt(aenumblockrotation.length)]).setReplacedBlock(Blocks.STRUCTURE_VOID).setBoundingBox(structureboundingbox1);
-                Template definedstructure = definedstructuremanager.getTemplate(minecraftserver, WorldGenRegistration.b.e);
+                Template definedstructure = definedstructuremanager.getTemplate(minecraftserver, ComponentScatteredFeaturePieces.b.e);
 
                 definedstructure.addBlocksToWorldChunk(world, blockposition, definedstructureinfo);
                 if (random.nextDouble() < 0.5D) {
-                    Template definedstructure1 = definedstructuremanager.getTemplate(minecraftserver, WorldGenRegistration.b.f);
-                    Template definedstructure2 = definedstructuremanager.getTemplate(minecraftserver, WorldGenRegistration.b.g);
+                    Template definedstructure1 = definedstructuremanager.getTemplate(minecraftserver, ComponentScatteredFeaturePieces.b.f);
+                    Template definedstructure2 = definedstructuremanager.getTemplate(minecraftserver, ComponentScatteredFeaturePieces.b.g);
                     int i = random.nextInt(8) + 4;
 
                     for (int j = 0; j < i; ++j) {

@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionHelper;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
-import net.minecraft.server.ContainerBrewingStand.a;
 
 // CraftBukkit end
 
@@ -32,11 +31,11 @@ public class ContainerBrewingStand extends Container {
     public ContainerBrewingStand(InventoryPlayer playerinventory, IInventory iinventory) {
         player = playerinventory; // CraftBukkit
         this.tileBrewingStand = iinventory;
-        this.addSlotToContainer((Slot) (new ContainerBrewingStand.Potion(iinventory, 0, 56, 51)));
-        this.addSlotToContainer((Slot) (new ContainerBrewingStand.Potion(iinventory, 1, 79, 58)));
-        this.addSlotToContainer((Slot) (new ContainerBrewingStand.Potion(iinventory, 2, 102, 51)));
-        this.slot = this.addSlotToContainer((Slot) (new ContainerBrewingStand.Ingredient(iinventory, 3, 79, 17)));
-        this.addSlotToContainer((Slot) (new ContainerBrewingStand.a(iinventory, 4, 17, 17)));
+        this.addSlotToContainer((new ContainerBrewingStand.Potion(iinventory, 0, 56, 51)));
+        this.addSlotToContainer((new ContainerBrewingStand.Potion(iinventory, 1, 79, 58)));
+        this.addSlotToContainer((new ContainerBrewingStand.Potion(iinventory, 2, 102, 51)));
+        this.slot = this.addSlotToContainer((new ContainerBrewingStand.Ingredient(iinventory, 3, 79, 17)));
+        this.addSlotToContainer((new ContainerBrewingStand.a(iinventory, 4, 17, 17)));
 
         int i;
 
@@ -52,16 +51,18 @@ public class ContainerBrewingStand extends Container {
 
     }
 
+    @Override
     public void addListener(IContainerListener icrafting) {
         super.addListener(icrafting);
         icrafting.sendAllWindowProperties(this, this.tileBrewingStand);
     }
 
+    @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
 
         for (int i = 0; i < this.listeners.size(); ++i) {
-            IContainerListener icrafting = (IContainerListener) this.listeners.get(i);
+            IContainerListener icrafting = this.listeners.get(i);
 
             if (this.prevBrewTime != this.tileBrewingStand.getField(0)) {
                 icrafting.sendWindowProperty(this, 0, this.tileBrewingStand.getField(0));
@@ -76,14 +77,16 @@ public class ContainerBrewingStand extends Container {
         this.prevFuel = this.tileBrewingStand.getField(1);
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer entityhuman) {
         if (!this.checkReachable) return true; // CraftBukkit
         return this.tileBrewingStand.isUsableByPlayer(entityhuman);
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer entityhuman, int i) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = (Slot) this.inventorySlots.get(i);
+        Slot slot = this.inventorySlots.get(i);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
@@ -143,6 +146,7 @@ public class ContainerBrewingStand extends Container {
             super(iinventory, i, j, k);
         }
 
+        @Override
         public boolean isItemValid(ItemStack itemstack) {
             return b_(itemstack);
         }
@@ -151,6 +155,7 @@ public class ContainerBrewingStand extends Container {
             return itemstack.getItem() == Items.BLAZE_POWDER;
         }
 
+        @Override
         public int getSlotStackLimit() {
             return 64;
         }
@@ -162,10 +167,12 @@ public class ContainerBrewingStand extends Container {
             super(iinventory, i, j, k);
         }
 
+        @Override
         public boolean isItemValid(ItemStack itemstack) {
             return PotionHelper.isReagent(itemstack);
         }
 
+        @Override
         public int getSlotStackLimit() {
             return 64;
         }
@@ -177,14 +184,17 @@ public class ContainerBrewingStand extends Container {
             super(iinventory, i, j, k);
         }
 
+        @Override
         public boolean isItemValid(ItemStack itemstack) {
             return canHoldPotion(itemstack);
         }
 
+        @Override
         public int getSlotStackLimit() {
             return 1;
         }
 
+        @Override
         public ItemStack onTake(EntityPlayer entityhuman, ItemStack itemstack) {
             PotionType potionregistry = PotionUtils.getPotionFromItem(itemstack);
 

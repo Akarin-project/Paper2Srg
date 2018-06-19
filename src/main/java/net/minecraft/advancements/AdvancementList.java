@@ -12,8 +12,6 @@ import javax.annotation.Nullable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.server.Advancements;
-import net.minecraft.server.Advancements.a;
 import net.minecraft.util.ResourceLocation;
 
 public class AdvancementList {
@@ -22,7 +20,7 @@ public class AdvancementList {
     public final Map<ResourceLocation, Advancement> advancements = Maps.newHashMap();
     private final Set<Advancement> roots = Sets.newLinkedHashSet();
     private final Set<Advancement> nonRoots = Sets.newLinkedHashSet();
-    private Advancements.a listener;
+    private AdvancementList.a listener;
 
     public AdvancementList() {}
 

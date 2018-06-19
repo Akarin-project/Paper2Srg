@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.WorldGenWoodlandMansion;
 import net.minecraft.world.World;
 
 public class MapGenStructureIO {
@@ -91,7 +90,7 @@ public class MapGenStructureIO {
         registerStructure(MapGenScatteredFeature.Start.class, "Temple");
         registerStructure(StructureOceanMonument.StartMonument.class, "Monument");
         registerStructure(MapGenEndCity.Start.class, "EndCity");
-        registerStructure(WorldGenWoodlandMansion.a.class, "Mansion");
+        registerStructure(WoodlandMansion.a.class, "Mansion");
         StructureMineshaftPieces.registerStructurePieces();
         StructureVillagePieces.registerVillagePieces();
         StructureNetherBridgePieces.registerNetherFortressPieces();

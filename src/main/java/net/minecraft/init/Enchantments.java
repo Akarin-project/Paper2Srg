@@ -35,12 +35,12 @@ public class Enchantments {
     public static final Enchantment INFINITY = getRegisteredEnchantment("infinity");
     public static final Enchantment LUCK_OF_THE_SEA = getRegisteredEnchantment("luck_of_the_sea");
     public static final Enchantment LURE = getRegisteredEnchantment("lure");
-    public static final Enchantment MENDING = getRegisteredEnchantment("mending"); public static final Enchantment MENDING = MENDING; // Paper - OBFHELPER
+    public static final Enchantment MENDING = getRegisteredEnchantment("mending");
     public static final Enchantment VANISHING_CURSE = getRegisteredEnchantment("vanishing_curse");
 
     @Nullable
     private static Enchantment getRegisteredEnchantment(String s) {
-        Enchantment enchantment = (Enchantment) Enchantment.REGISTRY.getObject(new ResourceLocation(s));
+        Enchantment enchantment = Enchantment.REGISTRY.getObject(new ResourceLocation(s));
 
         if (enchantment == null) {
             throw new IllegalStateException("Invalid Enchantment requested: " + s);

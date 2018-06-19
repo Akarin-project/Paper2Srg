@@ -14,17 +14,16 @@ import java.util.Map;
 import java.util.Random;
 import javax.annotation.Nullable;
 
-import net.minecraft.server.LootItemConditions.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
 
 public class LootConditionManager {
 
-    private static final Map<ResourceLocation, LootItemCondition.a<?>> NAME_TO_SERIALIZER_MAP = Maps.newHashMap();
-    private static final Map<Class<? extends LootCondition>, LootItemCondition.a<?>> CLASS_TO_SERIALIZER_MAP = Maps.newHashMap();
+    private static final Map<ResourceLocation, LootCondition.a<?>> NAME_TO_SERIALIZER_MAP = Maps.newHashMap();
+    private static final Map<Class<? extends LootCondition>, LootCondition.a<?>> CLASS_TO_SERIALIZER_MAP = Maps.newHashMap();
 
-    public static <T extends LootCondition> void a(LootItemCondition.a<? extends T> lootitemcondition_a) {
+    public static <T extends LootCondition> void a(LootCondition.a<? extends T> lootitemcondition_a) {
         ResourceLocation minecraftkey = lootitemcondition_a.a();
         Class oclass = lootitemcondition_a.b();
 
@@ -57,8 +56,8 @@ public class LootConditionManager {
         }
     }
 
-    public static LootItemCondition.a<?> a(ResourceLocation minecraftkey) {
-        LootItemCondition.a lootitemcondition_a = (LootItemCondition.a) LootConditionManager.NAME_TO_SERIALIZER_MAP.get(minecraftkey);
+    public static LootCondition.a<?> a(ResourceLocation minecraftkey) {
+        LootCondition.a lootitemcondition_a = LootConditionManager.NAME_TO_SERIALIZER_MAP.get(minecraftkey);
 
         if (lootitemcondition_a == null) {
             throw new IllegalArgumentException("Unknown loot item condition \'" + minecraftkey + "\'");
@@ -67,8 +66,8 @@ public class LootConditionManager {
         }
     }
 
-    public static <T extends LootCondition> LootItemCondition.a<T> a(T t0) {
-        LootItemCondition.a lootitemcondition_a = (LootItemCondition.a) LootConditionManager.CLASS_TO_SERIALIZER_MAP.get(t0.getClass());
+    public static <T extends LootCondition> LootCondition.a<T> a(T t0) {
+        LootCondition.a lootitemcondition_a = LootConditionManager.CLASS_TO_SERIALIZER_MAP.get(t0.getClass());
 
         if (lootitemcondition_a == null) {
             throw new IllegalArgumentException("Unknown loot item condition " + t0);
@@ -78,11 +77,11 @@ public class LootConditionManager {
     }
 
     static {
-        a((LootItemCondition.a) (new LootItemConditionRandomChance.a()));
-        a((LootItemCondition.a) (new LootItemConditionRandomChanceWithLooting.a()));
-        a((LootItemCondition.a) (new LootItemConditionEntityProperty.a()));
-        a((LootItemCondition.a) (new LootItemConditionKilledByPlayer.a()));
-        a((LootItemCondition.a) (new LootItemConditionEntityScore.a()));
+        a(new RandomChance.a());
+        a(new RandomChanceWithLooting.a());
+        a(new EntityHasProperty.a());
+        a(new KilledByPlayer.a());
+        a(new EntityHasScore.a());
     }
 
     public static class a implements JsonDeserializer<LootCondition>, JsonSerializer<LootCondition> {
@@ -93,7 +92,7 @@ public class LootConditionManager {
             JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "condition");
             ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.getString(jsonobject, "condition"));
 
-            LootItemCondition.a lootitemcondition_a;
+            LootCondition.a lootitemcondition_a;
 
             try {
                 lootitemcondition_a = LootConditionManager.a(minecraftkey);
@@ -105,7 +104,7 @@ public class LootConditionManager {
         }
 
         public JsonElement a(LootCondition lootitemcondition, Type type, JsonSerializationContext jsonserializationcontext) {
-            LootItemCondition.a lootitemcondition_a = LootConditionManager.a(lootitemcondition);
+            LootCondition.a lootitemcondition_a = LootConditionManager.a(lootitemcondition);
             JsonObject jsonobject = new JsonObject();
 
             lootitemcondition_a.a(jsonobject, lootitemcondition, jsonserializationcontext);
@@ -113,11 +112,13 @@ public class LootConditionManager {
             return jsonobject;
         }
 
-        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a((LootCondition) object, type, jsonserializationcontext);
+        @Override
+        public JsonElement serialize(LootCondition object, Type type, JsonSerializationContext jsonserializationcontext) {
+            return this.a(object, type, jsonserializationcontext);
         }
 
-        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+        @Override
+        public LootCondition deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             return this.a(jsonelement, type, jsondeserializationcontext);
         }
     }

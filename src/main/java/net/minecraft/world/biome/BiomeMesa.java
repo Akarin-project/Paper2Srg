@@ -10,7 +10,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.server.BiomeMesa.a;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
@@ -32,7 +31,7 @@ public class BiomeMesa extends Biome {
     private final boolean brycePillars;
     private final boolean hasForest;
 
-    public BiomeMesa(boolean flag, boolean flag1, BiomeBase.a biomebase_a) {
+    public BiomeMesa(boolean flag, boolean flag1, Biome.a biomebase_a) {
         super(biomebase_a);
         this.brycePillars = flag;
         this.hasForest = flag1;
@@ -51,14 +50,17 @@ public class BiomeMesa extends Biome {
 
     }
 
+    @Override
     protected BiomeDecorator createBiomeDecorator() {
         return new BiomeMesa.a(null);
     }
 
+    @Override
     public WorldGenAbstractTree getRandomTreeFeature(Random random) {
         return BiomeMesa.TREE_FEATURE;
     }
 
+    @Override
     public void genTerrainBlocks(World world, Random random, ChunkPrimer chunksnapshot, int i, int j, double d0) {
         if (this.clayBands == null || this.worldSeed != world.getSeed()) {
             this.generateBands(world.getSeed());
@@ -79,11 +81,11 @@ public class BiomeMesa extends Biome {
         if (this.brycePillars) {
             k = (i & -16) + (j & 15);
             l = (j & -16) + (i & 15);
-            double d2 = Math.min(Math.abs(d0), this.pillarNoise.getValue((double) k * 0.25D, (double) l * 0.25D));
+            double d2 = Math.min(Math.abs(d0), this.pillarNoise.getValue(k * 0.25D, l * 0.25D));
 
             if (d2 > 0.0D) {
                 double d3 = 0.001953125D;
-                double d4 = Math.abs(this.pillarRoofNoise.getValue((double) k * 0.001953125D, (double) l * 0.001953125D));
+                double d4 = Math.abs(this.pillarRoofNoise.getValue(k * 0.001953125D, l * 0.001953125D));
 
                 d1 = d2 * d2 * 2.5D;
                 double d5 = Math.ceil(d4 * 50.0D) + 14.0D;
@@ -261,7 +263,7 @@ public class BiomeMesa extends Biome {
     }
 
     private IBlockState getBand(int i, int j, int k) {
-        int l = (int) Math.round(this.clayBandsOffsetNoise.getValue((double) i / 512.0D, (double) i / 512.0D) * 2.0D);
+        int l = (int) Math.round(this.clayBandsOffsetNoise.getValue(i / 512.0D, i / 512.0D) * 2.0D);
 
         return this.clayBands[(j + l + 64) % 64];
     }
@@ -270,6 +272,7 @@ public class BiomeMesa extends Biome {
 
         private a() {}
 
+        @Override
         protected void generateOres(World world, Random random) {
             super.generateOres(world, random);
             if (world.paperConfig.disableMesaAdditionalGold) return; // Paper

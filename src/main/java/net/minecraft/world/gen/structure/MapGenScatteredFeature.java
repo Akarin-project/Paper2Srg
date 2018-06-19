@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.init.Biomes;
-import net.minecraft.server.WorldGenRegistration;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -135,7 +134,7 @@ public class MapGenScatteredFeature extends MapGenStructure {
                     this.components.add(worldgenregistration_worldgenwitchhut);
                 } else if (biomebase != Biomes.DESERT && biomebase != Biomes.DESERT_HILLS) {
                     if (biomebase == Biomes.ICE_PLAINS || biomebase == Biomes.COLD_TAIGA) {
-                        WorldGenRegistration.b worldgenregistration_b = new WorldGenRegistration.b(random, i * 16, j * 16);
+                        ComponentScatteredFeaturePieces.b worldgenregistration_b = new ComponentScatteredFeaturePieces.b(random, i * 16, j * 16);
 
                         this.components.add(worldgenregistration_b);
                     }

@@ -14,7 +14,7 @@ public class BiomePlains extends Biome {
 
     protected boolean sunflowers;
 
-    protected BiomePlains(boolean flag, BiomeBase.a biomebase_a) {
+    protected BiomePlains(boolean flag, Biome.a biomebase_a) {
         super(biomebase_a);
         this.sunflowers = flag;
         this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityHorse.class, 5, 2, 6));
@@ -25,8 +25,9 @@ public class BiomePlains extends Biome {
         this.decorator.grassPerChunk = 10;
     }
 
+    @Override
     public BlockFlower.EnumFlowerType pickRandomFlower(Random random, BlockPos blockposition) {
-        double d0 = BiomePlains.GRASS_COLOR_NOISE.getValue((double) blockposition.getX() / 200.0D, (double) blockposition.getZ() / 200.0D);
+        double d0 = BiomePlains.GRASS_COLOR_NOISE.getValue(blockposition.getX() / 200.0D, blockposition.getZ() / 200.0D);
         int i;
 
         if (d0 < -0.8D) {
@@ -53,8 +54,9 @@ public class BiomePlains extends Biome {
         }
     }
 
+    @Override
     public void decorate(World world, Random random, BlockPos blockposition) {
-        double d0 = BiomePlains.GRASS_COLOR_NOISE.getValue((double) (blockposition.getX() + 8) / 200.0D, (double) (blockposition.getZ() + 8) / 200.0D);
+        double d0 = BiomePlains.GRASS_COLOR_NOISE.getValue((blockposition.getX() + 8) / 200.0D, (blockposition.getZ() + 8) / 200.0D);
         int i;
         int j;
         int k;
@@ -90,7 +92,8 @@ public class BiomePlains extends Biome {
         super.decorate(world, random, blockposition);
     }
 
+    @Override
     public WorldGenAbstractTree getRandomTreeFeature(Random random) {
-        return (WorldGenAbstractTree) (random.nextInt(3) == 0 ? BiomePlains.BIG_TREE_FEATURE : BiomePlains.TREE_FEATURE);
+        return random.nextInt(3) == 0 ? BiomePlains.BIG_TREE_FEATURE : BiomePlains.TREE_FEATURE;
     }
 }

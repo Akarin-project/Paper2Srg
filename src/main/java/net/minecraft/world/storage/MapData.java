@@ -63,13 +63,14 @@ public class MapData extends WorldSavedData {
 
     public void calculateMapCenter(double d0, double d1, int i) {
         int j = 128 * (1 << i);
-        int k = MathHelper.floor((d0 + 64.0D) / (double) j);
-        int l = MathHelper.floor((d1 + 64.0D) / (double) j);
+        int k = MathHelper.floor((d0 + 64.0D) / j);
+        int l = MathHelper.floor((d1 + 64.0D) / j);
 
         this.xCenter = k * j + j / 2 - 64;
         this.zCenter = l * j + j / 2 - 64;
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbttagcompound) {
         // CraftBukkit start
         byte dimension = nbttagcompound.getByte("dimension");
@@ -136,6 +137,7 @@ public class MapData extends WorldSavedData {
 
     }
 
+    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
         // CraftBukkit start
         if (this.dimension >= 10) {
@@ -182,11 +184,11 @@ public class MapData extends WorldSavedData {
         }
 
         for (int i = 0; i < this.playersArrayList.size(); ++i) {
-            MapData.MapInfo worldmap_worldmaphumantracker1 = (MapData.MapInfo) this.playersArrayList.get(i);
+            MapData.MapInfo worldmap_worldmaphumantracker1 = this.playersArrayList.get(i);
 
             if (!worldmap_worldmaphumantracker1.player.isDead && (worldmap_worldmaphumantracker1.player.inventory.hasItemStack(itemstack) || itemstack.isOnItemFrame())) {
                 if (!itemstack.isOnItemFrame() && worldmap_worldmaphumantracker1.player.dimension == this.dimension && this.trackingPosition) {
-                    this.a(MapDecoration.Type.PLAYER, worldmap_worldmaphumantracker1.player.world, worldmap_worldmaphumantracker1.player.getUniqueID(), worldmap_worldmaphumantracker1.player.posX, worldmap_worldmaphumantracker1.player.posZ, (double) worldmap_worldmaphumantracker1.player.rotationYaw); // Spigot
+                    this.a(MapDecoration.Type.PLAYER, worldmap_worldmaphumantracker1.player.world, worldmap_worldmaphumantracker1.player.getUniqueID(), worldmap_worldmaphumantracker1.player.posX, worldmap_worldmaphumantracker1.player.posZ, worldmap_worldmaphumantracker1.player.rotationYaw); // Spigot
                 }
             } else {
                 this.playersHashMap.remove(worldmap_worldmaphumantracker1.player);
@@ -198,7 +200,7 @@ public class MapData extends WorldSavedData {
             EntityItemFrame entityitemframe = itemstack.getItemFrame();
             BlockPos blockposition = entityitemframe.getHangingPosition();
 
-            this.a(MapDecoration.Type.FRAME, entityhuman.world, UUID.nameUUIDFromBytes(("frame-" + entityitemframe.getEntityId()).getBytes(Charsets.US_ASCII)), (double) blockposition.getX(), (double) blockposition.getZ(), (double) (entityitemframe.facingDirection.getHorizontalIndex() * 90)); // Spigot
+            this.a(MapDecoration.Type.FRAME, entityhuman.world, UUID.nameUUIDFromBytes(("frame-" + entityitemframe.getEntityId()).getBytes(Charsets.US_ASCII)), blockposition.getX(), blockposition.getZ(), entityitemframe.facingDirection.getHorizontalIndex() * 90); // Spigot
         }
 
         if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("Decorations", 9)) {
@@ -225,15 +227,15 @@ public class MapData extends WorldSavedData {
             nbttaglist = itemstack.getTagCompound().getTagList("Decorations", 10);
         } else {
             nbttaglist = new NBTTagList();
-            itemstack.setTagInfo("Decorations", (NBTBase) nbttaglist);
+            itemstack.setTagInfo("Decorations", nbttaglist);
         }
 
         NBTTagCompound nbttagcompound = new NBTTagCompound();
 
         nbttagcompound.setByte("type", mapicon_type.getIcon());
         nbttagcompound.setString("id", s);
-        nbttagcompound.setDouble("x", (double) blockposition.getX());
-        nbttagcompound.setDouble("z", (double) blockposition.getZ());
+        nbttagcompound.setDouble("x", blockposition.getX());
+        nbttagcompound.setDouble("z", blockposition.getZ());
         nbttagcompound.setDouble("rot", 180.0D);
         nbttaglist.appendTag(nbttagcompound);
         if (mapicon_type.hasMapColor()) {
@@ -246,10 +248,10 @@ public class MapData extends WorldSavedData {
 
     private void a(MapDecoration.Type mapicon_type, World world, UUID s, double d0, double d1, double d2) { // Spigot; string->uuid
         int i = 1 << this.scale;
-        float f = (float) (d0 - (double) this.xCenter) / (float) i;
-        float f1 = (float) (d1 - (double) this.zCenter) / (float) i;
-        byte b0 = (byte) ((int) ((double) (f * 2.0F) + 0.5D));
-        byte b1 = (byte) ((int) ((double) (f1 * 2.0F) + 0.5D));
+        float f = (float) (d0 - this.xCenter) / i;
+        float f1 = (float) (d1 - this.zCenter) / i;
+        byte b0 = (byte) ((int) (f * 2.0F + 0.5D));
+        byte b1 = (byte) ((int) (f1 * 2.0F + 0.5D));
         boolean flag = true;
         byte b2;
 
@@ -303,7 +305,7 @@ public class MapData extends WorldSavedData {
 
     @Nullable
     public Packet<?> getMapPacket(ItemStack itemstack, World world, EntityPlayer entityhuman) {
-        MapData.MapInfo worldmap_worldmaphumantracker = (MapData.MapInfo) this.playersHashMap.get(entityhuman);
+        MapData.MapInfo worldmap_worldmaphumantracker = this.playersHashMap.get(entityhuman);
 
         return worldmap_worldmaphumantracker == null ? null : worldmap_worldmaphumantracker.getPacket(itemstack);
     }
@@ -321,7 +323,7 @@ public class MapData extends WorldSavedData {
     }
 
     public MapData.MapInfo getMapInfo(EntityPlayer entityhuman) {
-        MapData.MapInfo worldmap_worldmaphumantracker = (MapData.MapInfo) this.playersHashMap.get(entityhuman);
+        MapData.MapInfo worldmap_worldmaphumantracker = this.playersHashMap.get(entityhuman);
 
         if (worldmap_worldmaphumantracker == null) {
             worldmap_worldmaphumantracker = new MapData.MapInfo(entityhuman);
@@ -336,11 +338,11 @@ public class MapData extends WorldSavedData {
 
         // Paper start
         private void addSeenPlayers(java.util.Collection<MapDecoration> icons) {
-            org.bukkit.entity.Player player = (org.bukkit.entity.Player) player.getBukkitEntity();
+            org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) player.getBukkitEntity();
             MapData.this.mapDecorations.forEach((uuid, mapIcon) -> {
                 // If this cursor is for a player check visibility with vanish system
                 org.bukkit.entity.Player other = org.bukkit.Bukkit.getPlayer(uuid); // Spigot
-                if (other == null || player.canSee(other)) {
+                if (other == null || bukkitPlayer.canSee(other)) {
                     icons.add(mapIcon);
                 }
             });

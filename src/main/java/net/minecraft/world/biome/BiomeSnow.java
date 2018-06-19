@@ -21,7 +21,7 @@ public class BiomeSnow extends Biome {
     private final WorldGenIceSpike iceSpike = new WorldGenIceSpike();
     private final WorldGenIcePath icePatch = new WorldGenIcePath(4);
 
-    public BiomeSnow(boolean flag, BiomeBase.a biomebase_a) {
+    public BiomeSnow(boolean flag, Biome.a biomebase_a) {
         super(biomebase_a);
         this.superIcy = flag;
         if (flag) {
@@ -45,10 +45,12 @@ public class BiomeSnow extends Biome {
         this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntityStray.class, 80, 4, 4));
     }
 
+    @Override
     public float getSpawningChance() {
         return 0.07F;
     }
 
+    @Override
     public void decorate(World world, Random random, BlockPos blockposition) {
         if (this.superIcy) {
             int i;
@@ -71,6 +73,7 @@ public class BiomeSnow extends Biome {
         super.decorate(world, random, blockposition);
     }
 
+    @Override
     public WorldGenAbstractTree getRandomTreeFeature(Random random) {
         return new WorldGenTaiga2(false);
     }

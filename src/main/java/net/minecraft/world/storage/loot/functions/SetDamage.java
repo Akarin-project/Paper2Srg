@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LootItemFunctionSetDamage.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -26,11 +25,12 @@ public class SetDamage extends LootFunction {
         this.damageRange = lootvaluebounds;
     }
 
+    @Override
     public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
         if (itemstack.isItemStackDamageable()) {
             float f = 1.0F - this.damageRange.generateFloat(random);
 
-            itemstack.setItemDamage(MathHelper.floor(f * (float) itemstack.getMaxDamage()));
+            itemstack.setItemDamage(MathHelper.floor(f * itemstack.getMaxDamage()));
         } else {
             SetDamage.LOGGER.warn("Couldn\'t set damage of loot item {}", itemstack);
         }
@@ -38,21 +38,23 @@ public class SetDamage extends LootFunction {
         return itemstack;
     }
 
-    public static class a extends LootItemFunction.a<SetDamage> {
+    public static class a extends LootFunction.a<SetDamage> {
 
         protected a() {
             super(new ResourceLocation("set_damage"), SetDamage.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, SetDamage lootitemfunctionsetdamage, JsonSerializationContext jsonserializationcontext) {
             jsonobject.add("damage", jsonserializationcontext.serialize(lootitemfunctionsetdamage.damageRange));
         }
 
         public SetDamage a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
-            return new SetDamage(alootitemcondition, (RandomValueRange) JsonUtils.deserializeClass(jsonobject, "damage", jsondeserializationcontext, RandomValueRange.class));
+            return new SetDamage(alootitemcondition, JsonUtils.deserializeClass(jsonobject, "damage", jsondeserializationcontext, RandomValueRange.class));
         }
 
-        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        @Override
+        public SetDamage b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }

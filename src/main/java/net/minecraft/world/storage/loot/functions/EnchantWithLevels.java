@@ -7,8 +7,6 @@ import java.util.Random;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LootEnchantLevel.a;
-import net.minecraft.server.LootItemFunction;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -31,7 +29,7 @@ public class EnchantWithLevels extends LootFunction {
         return EnchantmentHelper.addRandomEnchantment(random, itemstack, this.randomLevel.generateInt(random), this.isTreasure);
     }
 
-    public static class a extends LootItemFunction.a<EnchantWithLevels> {
+    public static class a extends LootFunction.a<EnchantWithLevels> {
 
         public a() {
             super(new ResourceLocation("enchant_with_levels"), EnchantWithLevels.class);
@@ -50,7 +48,8 @@ public class EnchantWithLevels extends LootFunction {
             return new EnchantWithLevels(alootitemcondition, lootvaluebounds, flag);
         }
 
-        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        @Override
+        public EnchantWithLevels b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }

@@ -170,7 +170,7 @@ public abstract class World implements IBlockAccess {
     public WorldProvider provider;
     protected PathWorldListener pathListener = new PathWorldListener();
     protected List<IWorldEventListener> eventListeners;
-    protected IChunkProvider chunkProvider;
+    public IChunkProvider chunkProvider;
     protected final ISaveHandler saveHandler;
     public WorldInfo worldInfo;
     protected boolean findingSpawnPoint;

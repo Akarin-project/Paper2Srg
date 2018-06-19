@@ -138,6 +138,7 @@ public abstract class EntityLiving extends EntityLivingBase {
 
     protected void initEntityAI() {}
 
+    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
@@ -148,7 +149,7 @@ public abstract class EntityLiving extends EntityLivingBase {
     }
 
     public float getPathPriority(PathNodeType pathtype) {
-        Float ofloat = (Float) this.mapPathPriority.get(pathtype);
+        Float ofloat = this.mapPathPriority.get(pathtype);
 
         return ofloat == null ? pathtype.getPriority() : ofloat.floatValue();
     }
@@ -227,6 +228,7 @@ public abstract class EntityLiving extends EntityLivingBase {
 
     public void eatGrassBonus() {}
 
+    @Override
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(EntityLiving.AI_FLAGS, Byte.valueOf((byte) 0));
@@ -245,6 +247,7 @@ public abstract class EntityLiving extends EntityLivingBase {
 
     }
 
+    @Override
     public void onEntityUpdate() {
         super.onEntityUpdate();
         this.world.profiler.startSection("mobBaseTick");
@@ -256,6 +259,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         this.world.profiler.endSection();
     }
 
+    @Override
     protected void playHurtSound(DamageSource damagesource) {
         this.applyEntityAI();
         super.playHurtSound(damagesource);
@@ -265,6 +269,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         this.livingSoundTime = -this.getTalkInterval();
     }
 
+    @Override
     protected int getExperiencePoints(EntityPlayer entityhuman) {
         if (this.experienceValue > 0) {
             int i = this.experienceValue;
@@ -272,13 +277,13 @@ public abstract class EntityLiving extends EntityLivingBase {
             int j;
 
             for (j = 0; j < this.inventoryArmor.size(); ++j) {
-                if (!((ItemStack) this.inventoryArmor.get(j)).isEmpty() && this.inventoryArmorDropChances[j] <= 1.0F) {
+                if (!this.inventoryArmor.get(j).isEmpty() && this.inventoryArmorDropChances[j] <= 1.0F) {
                     i += 1 + this.rand.nextInt(3);
                 }
             }
 
             for (j = 0; j < this.inventoryHands.size(); ++j) {
-                if (!((ItemStack) this.inventoryHands.get(j)).isEmpty() && this.inventoryHandsDropChances[j] <= 1.0F) {
+                if (!this.inventoryHands.get(j).isEmpty() && this.inventoryHandsDropChances[j] <= 1.0F) {
                     i += 1 + this.rand.nextInt(3);
                 }
             }
@@ -297,7 +302,7 @@ public abstract class EntityLiving extends EntityLivingBase {
                 double d2 = this.rand.nextGaussian() * 0.02D;
                 double d3 = 10.0D;
 
-                this.world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width - d0 * 10.0D, this.posY + (double) (this.rand.nextFloat() * this.height) - d1 * 10.0D, this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width - d2 * 10.0D, d0, d1, d2, new int[0]);
+                this.world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width - d0 * 10.0D, this.posY + this.rand.nextFloat() * this.height - d1 * 10.0D, this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width - d2 * 10.0D, d0, d1, d2, new int[0]);
             }
         } else {
             this.world.setEntityState(this, (byte) 20);
@@ -305,6 +310,7 @@ public abstract class EntityLiving extends EntityLivingBase {
 
     }
 
+    @Override
     public void onUpdate() {
         super.onUpdate();
         if (!this.world.isRemote) {
@@ -321,6 +327,7 @@ public abstract class EntityLiving extends EntityLivingBase {
 
     }
 
+    @Override
     protected float updateDistance(float f, float f1) {
         this.bodyHelper.updateRenderAngles();
         return f1;
@@ -336,6 +343,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         return null;
     }
 
+    @Override
     protected void dropFewItems(boolean flag, int i) {
         Item item = this.getDropItem();
 
@@ -354,9 +362,10 @@ public abstract class EntityLiving extends EntityLivingBase {
     }
 
     public static void registerFixesMob(DataFixer dataconvertermanager, Class<?> oclass) {
-        dataconvertermanager.registerWalker(FixTypes.ENTITY, (IDataWalker) (new ItemStackDataLists(oclass, new String[] { "ArmorItems", "HandItems"})));
+        dataconvertermanager.registerWalker(FixTypes.ENTITY, (new ItemStackDataLists(oclass, new String[] { "ArmorItems", "HandItems"})));
     }
 
+    @Override
     public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         nbttagcompound.setBoolean("CanPickUpLoot", this.canPickUpLoot());
@@ -446,6 +455,7 @@ public abstract class EntityLiving extends EntityLivingBase {
 
     }
 
+    @Override
     public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
 
@@ -516,6 +526,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         return null;
     }
 
+    @Override
     protected void dropLoot(boolean flag, int i, DamageSource damagesource) {
         ResourceLocation minecraftkey = this.deathLootTable;
 
@@ -561,11 +572,13 @@ public abstract class EntityLiving extends EntityLivingBase {
         this.moveStrafing = f;
     }
 
+    @Override
     public void setAIMoveSpeed(float f) {
         super.setAIMoveSpeed(f);
         this.setMoveForward(f);
     }
 
+    @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
         this.world.profiler.startSection("looting");
@@ -644,18 +657,18 @@ public abstract class EntityLiving extends EntityLivingBase {
 
             switch (enumitemslot.getSlotType()) {
             case HAND:
-                d0 = (double) this.inventoryHandsDropChances[enumitemslot.getIndex()];
+                d0 = this.inventoryHandsDropChances[enumitemslot.getIndex()];
                 break;
 
             case ARMOR:
-                d0 = (double) this.inventoryArmorDropChances[enumitemslot.getIndex()];
+                d0 = this.inventoryArmorDropChances[enumitemslot.getIndex()];
                 break;
 
             default:
                 d0 = 0.0D;
             }
 
-            if (!itemstack1.isEmpty() && (double) (this.rand.nextFloat() - 0.1F) < d0) {
+            if (!itemstack1.isEmpty() && this.rand.nextFloat() - 0.1F < d0) {
                 this.forceDrops = true; // CraftBukkit
                 this.entityDropItem(itemstack1, 0.0F);
                 this.forceDrops = false; // CraftBukkit
@@ -682,7 +695,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         return true;
     }
 
-    protected boolean canDespawn() {
+    public boolean canDespawn() {
         return true;
     }
 
@@ -712,6 +725,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         }
     }
 
+    @Override
     protected final void updateEntityActionState() {
         ++this.idleTime;
         this.world.profiler.startSection("checkDespawn");
@@ -780,12 +794,12 @@ public abstract class EntityLiving extends EntityLivingBase {
         if (entity instanceof EntityLivingBase) {
             EntityLivingBase entityliving = (EntityLivingBase) entity;
 
-            d2 = entityliving.posY + (double) entityliving.getEyeHeight() - (this.posY + (double) this.getEyeHeight());
+            d2 = entityliving.posY + entityliving.getEyeHeight() - (this.posY + this.getEyeHeight());
         } else {
-            d2 = (entity.getEntityBoundingBox().minY + entity.getEntityBoundingBox().maxY) / 2.0D - (this.posY + (double) this.getEyeHeight());
+            d2 = (entity.getEntityBoundingBox().minY + entity.getEntityBoundingBox().maxY) / 2.0D - (this.posY + this.getEyeHeight());
         }
 
-        double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1);
+        double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1);
         float f2 = (float) (MathHelper.atan2(d1, d0) * 57.2957763671875D) - 90.0F;
         float f3 = (float) (-(MathHelper.atan2(d2, d3) * 57.2957763671875D));
 
@@ -810,17 +824,18 @@ public abstract class EntityLiving extends EntityLivingBase {
     public boolean getCanSpawnHere() {
         IBlockState iblockdata = this.world.getBlockState((new BlockPos(this)).down());
 
-        return iblockdata.canEntitySpawn((Entity) this);
+        return iblockdata.canEntitySpawn(this);
     }
 
     public boolean isNotColliding() {
-        return !this.world.containsAnyLiquid(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && this.world.checkNoEntityCollision(this.getEntityBoundingBox(), (Entity) this);
+        return !this.world.containsAnyLiquid(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this);
     }
 
     public int getMaxSpawnedInChunk() {
         return 4;
     }
 
+    @Override
     public int getMaxFallHeight() {
         if (this.getAttackTarget() == null) {
             return 3;
@@ -836,27 +851,31 @@ public abstract class EntityLiving extends EntityLivingBase {
         }
     }
 
+    @Override
     public Iterable<ItemStack> getHeldEquipment() {
         return this.inventoryHands;
     }
 
+    @Override
     public Iterable<ItemStack> getArmorInventoryList() {
         return this.inventoryArmor;
     }
 
+    @Override
     public ItemStack getItemStackFromSlot(EntityEquipmentSlot enumitemslot) {
         switch (enumitemslot.getSlotType()) {
         case HAND:
-            return (ItemStack) this.inventoryHands.get(enumitemslot.getIndex());
+            return this.inventoryHands.get(enumitemslot.getIndex());
 
         case ARMOR:
-            return (ItemStack) this.inventoryArmor.get(enumitemslot.getIndex());
+            return this.inventoryArmor.get(enumitemslot.getIndex());
 
         default:
             return ItemStack.EMPTY;
         }
     }
 
+    @Override
     public void setItemStackToSlot(EntityEquipmentSlot enumitemslot, ItemStack itemstack) {
         switch (enumitemslot.getSlotType()) {
         case HAND:
@@ -869,6 +888,7 @@ public abstract class EntityLiving extends EntityLivingBase {
 
     }
 
+    @Override
     protected void dropEquipment(boolean flag, int i) {
         EntityEquipmentSlot[] aenumitemslot = EntityEquipmentSlot.values();
         int j = aenumitemslot.length;
@@ -880,11 +900,11 @@ public abstract class EntityLiving extends EntityLivingBase {
 
             switch (enumitemslot.getSlotType()) {
             case HAND:
-                d0 = (double) this.inventoryHandsDropChances[enumitemslot.getIndex()];
+                d0 = this.inventoryHandsDropChances[enumitemslot.getIndex()];
                 break;
 
             case ARMOR:
-                d0 = (double) this.inventoryArmorDropChances[enumitemslot.getIndex()];
+                d0 = this.inventoryArmorDropChances[enumitemslot.getIndex()];
                 break;
 
             default:
@@ -893,7 +913,7 @@ public abstract class EntityLiving extends EntityLivingBase {
 
             boolean flag1 = d0 > 1.0D;
 
-            if (!itemstack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemstack) && (flag || flag1) && (double) (this.rand.nextFloat() - (float) i * 0.01F) < d0) {
+            if (!itemstack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemstack) && (flag || flag1) && this.rand.nextFloat() - i * 0.01F < d0) {
                 if (!flag1 && itemstack.isItemStackDamageable()) {
                     itemstack.setItemDamage(itemstack.getMaxDamage() - this.rand.nextInt(1 + this.rand.nextInt(Math.max(itemstack.getMaxDamage() - 3, 1))));
                 }
@@ -1017,7 +1037,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         float f = difficultydamagescaler.getClampedAdditionalDifficulty();
 
         if (!this.getHeldItemMainhand().isEmpty() && this.rand.nextFloat() < 0.25F * f) {
-            this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, EnchantmentHelper.addRandomEnchantment(this.rand, this.getHeldItemMainhand(), (int) (5.0F + f * (float) this.rand.nextInt(18)), false));
+            this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, EnchantmentHelper.addRandomEnchantment(this.rand, this.getHeldItemMainhand(), (int) (5.0F + f * this.rand.nextInt(18)), false));
         }
 
         EntityEquipmentSlot[] aenumitemslot = EntityEquipmentSlot.values();
@@ -1030,7 +1050,7 @@ public abstract class EntityLiving extends EntityLivingBase {
                 ItemStack itemstack = this.getItemStackFromSlot(enumitemslot);
 
                 if (!itemstack.isEmpty() && this.rand.nextFloat() < 0.5F * f) {
-                    this.setItemStackToSlot(enumitemslot, EnchantmentHelper.addRandomEnchantment(this.rand, itemstack, (int) (5.0F + f * (float) this.rand.nextInt(18)), false));
+                    this.setItemStackToSlot(enumitemslot, EnchantmentHelper.addRandomEnchantment(this.rand, itemstack, (int) (5.0F + f * this.rand.nextInt(18)), false));
                 }
             }
         }
@@ -1081,6 +1101,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         return this.persistenceRequired;
     }
 
+    @Override
     public final boolean processInitialInteract(EntityPlayer entityhuman, EnumHand enumhand) {
         if (this.getLeashed() && this.getLeashHolder() == entityhuman) {
             // CraftBukkit start - fire PlayerUnleashEntityEvent
@@ -1143,7 +1164,7 @@ public abstract class EntityLiving extends EntityLivingBase {
             }
 
             if (!this.world.isRemote && flag && this.world instanceof WorldServer) {
-                ((WorldServer) this.world).getEntityTracker().sendToTracking((Entity) this, (Packet) (new SPacketEntityAttach(this, (Entity) null)));
+                ((WorldServer) this.world).getEntityTracker().sendToTracking(this, (new SPacketEntityAttach(this, (Entity) null)));
             }
         }
 
@@ -1165,7 +1186,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         this.isLeashed = true;
         this.leashHolder = entity;
         if (!this.world.isRemote && flag && this.world instanceof WorldServer) {
-            ((WorldServer) this.world).getEntityTracker().sendToTracking((Entity) this, (Packet) (new SPacketEntityAttach(this, this.leashHolder)));
+            ((WorldServer) this.world).getEntityTracker().sendToTracking(this, (new SPacketEntityAttach(this, this.leashHolder)));
         }
 
         if (this.isRiding()) {
@@ -1174,6 +1195,7 @@ public abstract class EntityLiving extends EntityLivingBase {
 
     }
 
+    @Override
     public boolean startRiding(Entity entity, boolean flag) {
         boolean flag1 = super.startRiding(entity, flag);
 
@@ -1217,6 +1239,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         this.leashNBTTag = null;
     }
 
+    @Override
     public boolean replaceItemInInventory(int i, ItemStack itemstack) {
         EntityEquipmentSlot enumitemslot;
 
@@ -1246,6 +1269,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         }
     }
 
+    @Override
     public boolean canPassengerSteer() {
         return this.canBeSteered() && super.canPassengerSteer();
     }
@@ -1256,30 +1280,32 @@ public abstract class EntityLiving extends EntityLivingBase {
         return enumitemslot1 == enumitemslot || enumitemslot1 == EntityEquipmentSlot.MAINHAND && enumitemslot == EntityEquipmentSlot.OFFHAND || enumitemslot1 == EntityEquipmentSlot.OFFHAND && enumitemslot == EntityEquipmentSlot.MAINHAND;
     }
 
+    @Override
     public boolean isServerWorld() {
         return super.isServerWorld() && !this.isAIDisabled();
     }
 
     public void setNoAI(boolean flag) {
-        byte b0 = ((Byte) this.dataManager.get(EntityLiving.AI_FLAGS)).byteValue();
+        byte b0 = this.dataManager.get(EntityLiving.AI_FLAGS).byteValue();
 
         this.dataManager.set(EntityLiving.AI_FLAGS, Byte.valueOf(flag ? (byte) (b0 | 1) : (byte) (b0 & -2)));
     }
 
     public void setLeftHanded(boolean flag) {
-        byte b0 = ((Byte) this.dataManager.get(EntityLiving.AI_FLAGS)).byteValue();
+        byte b0 = this.dataManager.get(EntityLiving.AI_FLAGS).byteValue();
 
         this.dataManager.set(EntityLiving.AI_FLAGS, Byte.valueOf(flag ? (byte) (b0 | 2) : (byte) (b0 & -3)));
     }
 
     public boolean isAIDisabled() {
-        return (((Byte) this.dataManager.get(EntityLiving.AI_FLAGS)).byteValue() & 1) != 0;
+        return (this.dataManager.get(EntityLiving.AI_FLAGS).byteValue() & 1) != 0;
     }
 
     public boolean isLeftHanded() {
-        return (((Byte) this.dataManager.get(EntityLiving.AI_FLAGS)).byteValue() & 2) != 0;
+        return (this.dataManager.get(EntityLiving.AI_FLAGS).byteValue() & 2) != 0;
     }
 
+    @Override
     public EnumHandSide getPrimaryHand() {
         return this.isLeftHanded() ? EnumHandSide.LEFT : EnumHandSide.RIGHT;
     }

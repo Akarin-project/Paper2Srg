@@ -47,6 +47,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
             return new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Client IO #%d").setDaemon(true).build());
         }
 
+        @Override
         protected Object load() {
             return this.a();
         }
@@ -56,6 +57,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
             return new EpollEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Epoll Client IO #%d").setDaemon(true).build());
         }
 
+        @Override
         protected Object load() {
             return this.a();
         }
@@ -65,6 +67,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
             return new LocalEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Local Client IO #%d").setDaemon(true).build());
         }
 
+        @Override
         protected Object load() {
             return this.a();
         }
@@ -93,6 +96,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
         this.direction = enumprotocoldirection;
     }
 
+    @Override
     public void channelActive(ChannelHandlerContext channelhandlercontext) throws Exception {
         super.channelActive(channelhandlercontext);
         this.channel = channelhandlercontext.channel();
@@ -115,10 +119,12 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
         NetworkManager.LOGGER.debug("Enabled auto read");
     }
 
+    @Override
     public void channelInactive(ChannelHandlerContext channelhandlercontext) throws Exception {
         this.closeChannel(new TextComponentTranslation("disconnect.endOfStream", new Object[0]));
     }
 
+    @Override
     public void exceptionCaught(ChannelHandlerContext channelhandlercontext, Throwable throwable) throws Exception {
         TextComponentTranslation chatmessage;
 
@@ -133,6 +139,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
         if (MinecraftServer.getServer().isDebuggingEnabled()) throwable.printStackTrace(); // Spigot
     }
 
+    @Override
     protected void channelRead0(ChannelHandlerContext channelhandlercontext, Packet<?> packet) throws Exception {
         if (this.channel.isOpen()) {
             try {
@@ -169,12 +176,12 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
     public void sendPacket(Packet<?> packet, GenericFutureListener<? extends Future<? super Void>> genericfuturelistener, GenericFutureListener<? extends Future<? super Void>>... agenericfuturelistener) {
         if (this.isChannelOpen() && this.trySendQueue() && !(packet instanceof SPacketChunkData && !((SPacketChunkData) packet).isReady())) { // Paper - Async-Anti-Xray - Add chunk packets which are not ready or all packets if the queue contains chunk packets which are not ready to the queue and send the packets later in the right order
             //this.m(); // Paper - Async-Anti-Xray - Move to if statement (this.trySendQueue())
-            this.dispatchPacket(packet, (GenericFutureListener[]) ArrayUtils.add(agenericfuturelistener, 0, genericfuturelistener));
+            this.dispatchPacket(packet, ArrayUtils.add(agenericfuturelistener, 0, genericfuturelistener));
         } else {
             this.readWriteLock.writeLock().lock();
 
             try {
-                this.outboundPacketsQueue.add(new NetworkManager.InboundHandlerTuplePacketListener(packet, (GenericFutureListener[]) ArrayUtils.add(agenericfuturelistener, 0, genericfuturelistener)));
+                this.outboundPacketsQueue.add(new NetworkManager.InboundHandlerTuplePacketListener(packet, ArrayUtils.add(agenericfuturelistener, 0, genericfuturelistener)));
             } finally {
                 this.readWriteLock.writeLock().unlock();
             }
@@ -182,10 +189,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
 
     }
 
-    private void dispatchPacket(final Packet<?> packet, @Nullable final GenericFutureListener<? extends Future<? super Void>>[] genericFutureListeners) { this.dispatchPacket(packet, genericFutureListeners); } // Paper - Anti-Xray - OBFHELPER
     private void dispatchPacket(final Packet<?> packet, @Nullable final GenericFutureListener<? extends Future<? super Void>>[] agenericfuturelistener) {
         final EnumConnectionState enumprotocol = EnumConnectionState.getFromPacket(packet);
-        final EnumConnectionState enumprotocol1 = (EnumConnectionState) this.channel.attr(NetworkManager.PROTOCOL_ATTRIBUTE_KEY).get();
+        final EnumConnectionState enumprotocol1 = this.channel.attr(NetworkManager.PROTOCOL_ATTRIBUTE_KEY).get();
 
         if (enumprotocol1 != enumprotocol) {
             NetworkManager.LOGGER.debug("Disabled auto read");
@@ -206,6 +212,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
             channelfuture.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
         } else {
             this.channel.eventLoop().execute(new Runnable() {
+                @Override
                 public void run() {
                     if (enumprotocol != enumprotocol1) {
                         NetworkManager.this.setConnectionState(enumprotocol);
@@ -236,7 +243,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
 
             try {
                 while (!this.outboundPacketsQueue.isEmpty()) {
-                    NetworkManager.InboundHandlerTuplePacketListener networkmanager_queuedpacket = (NetworkManager.InboundHandlerTuplePacketListener) this.getPacketQueue().peek(); // poll -> peek
+                    NetworkManager.InboundHandlerTuplePacketListener networkmanager_queuedpacket = this.getPacketQueue().peek(); // poll -> peek
 
                     if (networkmanager_queuedpacket != null) { // Fix NPE (Spigot bug caused by handleDisconnection())
                         if (networkmanager_queuedpacket.getPacket() instanceof SPacketChunkData && !((SPacketChunkData) networkmanager_queuedpacket.getPacket()).isReady()) { // Check if the peeked packet is a chunk packet which is not ready
@@ -354,10 +361,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
             }
 
         }
-    }
-
-    protected void channelRead0(ChannelHandlerContext channelhandlercontext, Packet object) throws Exception { // CraftBukkit - fix decompile error
-        this.channelRead0(channelhandlercontext, (Packet) object);
     }
 
     static class InboundHandlerTuplePacketListener {

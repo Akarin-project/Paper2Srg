@@ -15,7 +15,7 @@ public class BiomeSavanna extends Biome {
 
     private static final WorldGenSavannaTree SAVANNA_TREE = new WorldGenSavannaTree(false);
 
-    protected BiomeSavanna(BiomeBase.a biomebase_a) {
+    protected BiomeSavanna(Biome.a biomebase_a) {
         super(biomebase_a);
         this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityHorse.class, 1, 2, 6));
         this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityDonkey.class, 1, 1, 1));
@@ -28,10 +28,12 @@ public class BiomeSavanna extends Biome {
         this.decorator.grassPerChunk = 20;
     }
 
+    @Override
     public WorldGenAbstractTree getRandomTreeFeature(Random random) {
-        return (WorldGenAbstractTree) (random.nextInt(5) > 0 ? BiomeSavanna.SAVANNA_TREE : BiomeSavanna.TREE_FEATURE);
+        return random.nextInt(5) > 0 ? BiomeSavanna.SAVANNA_TREE : BiomeSavanna.TREE_FEATURE;
     }
 
+    @Override
     public void decorate(World world, Random random, BlockPos blockposition) {
         BiomeSavanna.DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.GRASS);
 
@@ -46,6 +48,7 @@ public class BiomeSavanna extends Biome {
         super.decorate(world, random, blockposition);
     }
 
+    @Override
     public Class<? extends Biome> getBiomeClass() {
         return BiomeSavanna.class;
     }

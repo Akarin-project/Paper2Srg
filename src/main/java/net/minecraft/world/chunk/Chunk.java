@@ -277,11 +277,11 @@ public class Chunk {
     private void recheckGaps(boolean flag) {
         this.world.profiler.startSection("recheckGaps");
         if (this.world.isAreaLoaded(new BlockPos(this.x * 16 + 8, 0, this.z * 16 + 8), 16)) {
-            this.runOrQueueLightUpdate(() -> recheckGaps(flag)); // Paper - Queue light update
+            this.runOrQueueLightUpdate(() -> recheckGaps__Queued(flag)); // Paper - Queue light update
         }
     }
 
-    private void recheckGaps(boolean flag) {
+    private void recheckGaps__Queued(boolean flag) {
         if (true) {
             // Paper end
             for (int i = 0; i < 16; ++i) {
@@ -636,7 +636,6 @@ public class Chunk {
 
     }
 
-    public final int getLightSubtracted(BlockPos blockposition, int i) { return this.getLightSubtracted(blockposition, i); } // Paper - OBFHELPER
     public int getLightSubtracted(BlockPos blockposition, int i) {
         int j = blockposition.getX() & 15;
         int k = blockposition.getY();
@@ -835,7 +834,6 @@ public class Chunk {
         }
     }
 
-    public void removeTileEntity(BlockPos blockposition) { this.removeTileEntity(blockposition); } // Paper - OBFHELPER
     public void removeTileEntity(BlockPos blockposition) {
         if (this.loaded) {
             TileEntity tileentity = this.tileEntities.remove(blockposition);

@@ -16,10 +16,6 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.command.FunctionObject;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.server.CustomFunction;
-import net.minecraft.server.CustomFunctionData;
-import net.minecraft.server.CustomFunctionData.CustomFunctionListener;
-import net.minecraft.server.CustomFunctionData.a;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
@@ -33,7 +29,7 @@ public class FunctionManager implements ITickable {
     private final Map<ResourceLocation, FunctionObject> functions = Maps.newHashMap();
     private String currentGameLoopFunctionId = "-";
     private FunctionObject gameLoopFunction;
-    private final ArrayDeque<CustomFunctionData.a> commandQueue = new ArrayDeque();
+    private final ArrayDeque<FunctionManager.a> commandQueue = new ArrayDeque();
     private boolean isExecuting = false;
     // CraftBukkit start
     private final ICommandSender gameLoopFunctionSender = new CustomFunctionListener();
@@ -107,7 +103,7 @@ public class FunctionManager implements ITickable {
 
         if (this.isExecuting) {
             if (this.commandQueue.size() < i) {
-                this.commandQueue.addFirst(new CustomFunctionData.a(this, icommandlistener, new CustomFunction.d(customfunction)));
+                this.commandQueue.addFirst(new FunctionManager.a(this, icommandlistener, new FunctionObject.d(customfunction)));
             }
 
             return 0;
@@ -117,10 +113,10 @@ public class FunctionManager implements ITickable {
             try {
                 this.isExecuting = true;
                 int k = 0;
-                CustomFunction.c[] acustomfunction_c = customfunction.a();
+                FunctionObject.c[] acustomfunction_c = customfunction.a();
 
                 for (j = acustomfunction_c.length - 1; j >= 0; --j) {
-                    this.commandQueue.push(new CustomFunctionData.a(this, icommandlistener, acustomfunction_c[j]));
+                    this.commandQueue.push(new FunctionManager.a(this, icommandlistener, acustomfunction_c[j]));
                 }
 
                 do {
@@ -182,15 +178,15 @@ public class FunctionManager implements ITickable {
 
         private final FunctionManager a;
         private final ICommandSender b;
-        private final CustomFunction.c c;
+        private final FunctionObject.c c;
 
-        public a(FunctionManager customfunctiondata, ICommandSender icommandlistener, CustomFunction.c customfunction_c) {
+        public a(FunctionManager customfunctiondata, ICommandSender icommandlistener, FunctionObject.c customfunction_c) {
             this.a = customfunctiondata;
             this.b = icommandlistener;
             this.c = customfunction_c;
         }
 
-        public void a(ArrayDeque<CustomFunctionData.a> arraydeque, int i) {
+        public void a(ArrayDeque<FunctionManager.a> arraydeque, int i) {
             this.c.a(this.a, this.b, arraydeque, i);
         }
 

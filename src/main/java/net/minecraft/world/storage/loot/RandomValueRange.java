@@ -11,7 +11,6 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.util.Random;
 
-import net.minecraft.server.LootValueBounds.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.math.MathHelper;
 
@@ -47,7 +46,7 @@ public class RandomValueRange {
     }
 
     public boolean isInRange(int i) {
-        return (float) i <= this.max && (float) i >= this.min;
+        return i <= this.max && i >= this.min;
     }
 
     public static class a implements JsonDeserializer<RandomValueRange>, JsonSerializer<RandomValueRange> {
@@ -78,11 +77,13 @@ public class RandomValueRange {
             }
         }
 
-        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a((RandomValueRange) object, type, jsonserializationcontext);
+        @Override
+        public JsonElement serialize(RandomValueRange object, Type type, JsonSerializationContext jsonserializationcontext) {
+            return this.a(object, type, jsonserializationcontext);
         }
 
-        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+        @Override
+        public RandomValueRange deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             return this.a(jsonelement, type, jsondeserializationcontext);
         }
     }

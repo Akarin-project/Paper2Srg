@@ -32,7 +32,7 @@ public class ContainerPlayer extends Container {
         this.craftMatrix.resultInventory = this.craftResult; // CraftBukkit - let InventoryCrafting know about its result slot
         this.player = playerinventory; // CraftBukkit - save player
         // CraftBukkit end
-        this.addSlotToContainer((Slot) (new SlotCrafting(playerinventory.player, this.craftMatrix, this.craftResult, 0, 154, 28)));
+        this.addSlotToContainer((new SlotCrafting(playerinventory.player, this.craftMatrix, this.craftResult, 0, 154, 28)));
 
         int i;
         int j;
@@ -47,14 +47,17 @@ public class ContainerPlayer extends Container {
             final EntityEquipmentSlot enumitemslot1 = ContainerPlayer.VALID_EQUIPMENT_SLOTS[i];
 
             this.addSlotToContainer(new Slot(playerinventory, 36 + (3 - i), 8, 8 + i * 18) {
+                @Override
                 public int getSlotStackLimit() {
                     return 1;
                 }
 
+                @Override
                 public boolean isItemValid(ItemStack itemstack) {
                     return enumitemslot1 == EntityLiving.getSlotForItemStack(itemstack); // CraftBukkit - decompile error
                 }
 
+                @Override
                 public boolean canTakeStack(EntityPlayer entityhuman) {
                     ItemStack itemstack = this.getStack();
 
@@ -77,10 +80,12 @@ public class ContainerPlayer extends Container {
         });
     }
 
+    @Override
     public void onCraftMatrixChanged(IInventory iinventory) {
         this.slotChangedCraftingGrid(this.player.world, this.player, this.craftMatrix, this.craftResult);
     }
 
+    @Override
     public void onContainerClosed(EntityPlayer entityhuman) {
         super.onContainerClosed(entityhuman);
         this.craftResult.clear();
@@ -89,13 +94,15 @@ public class ContainerPlayer extends Container {
         }
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer entityhuman) {
         return true;
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer entityhuman, int i) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = (Slot) this.inventorySlots.get(i);
+        Slot slot = this.inventorySlots.get(i);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
@@ -117,13 +124,13 @@ public class ContainerPlayer extends Container {
                 if (!this.mergeItemStack(itemstack1, 9, 45, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (enumitemslot.getSlotType() == EntityEquipmentSlot.Type.ARMOR && !((Slot) this.inventorySlots.get(8 - enumitemslot.getIndex())).getHasStack()) {
+            } else if (enumitemslot.getSlotType() == EntityEquipmentSlot.Type.ARMOR && !this.inventorySlots.get(8 - enumitemslot.getIndex()).getHasStack()) {
                 int j = 8 - enumitemslot.getIndex();
 
                 if (!this.mergeItemStack(itemstack1, j, j + 1, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (enumitemslot == EntityEquipmentSlot.OFFHAND && !((Slot) this.inventorySlots.get(45)).getHasStack()) {
+            } else if (enumitemslot == EntityEquipmentSlot.OFFHAND && !this.inventorySlots.get(45).getHasStack()) {
                 if (!this.mergeItemStack(itemstack1, 45, 46, false)) {
                     return ItemStack.EMPTY;
                 }
@@ -159,6 +166,7 @@ public class ContainerPlayer extends Container {
         return itemstack;
     }
 
+    @Override
     public boolean canMergeSlot(ItemStack itemstack, Slot slot) {
         return slot.inventory != this.craftResult && super.canMergeSlot(itemstack, slot);
     }

@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import net;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JsonUtils;
@@ -42,6 +41,7 @@ public class ShapelessRecipes implements IRecipe {
     }
 
     // CraftBukkit start
+    @Override
     @SuppressWarnings("unchecked")
     public org.bukkit.inventory.ShapelessRecipe toBukkitRecipe() {
         CraftItemStack result = CraftItemStack.asCraftMirror(this.recipeOutput);
@@ -56,14 +56,17 @@ public class ShapelessRecipes implements IRecipe {
     }
     // CraftBukkit end
 
+    @Override
     public ItemStack getRecipeOutput() {
         return this.recipeOutput;
     }
 
+    @Override
     public NonNullList<Ingredient> getIngredients() {
         return this.recipeItems;
     }
 
+    @Override
     public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inventorycrafting) {
         NonNullList nonnulllist = NonNullList.withSize(inventorycrafting.getSizeInventory(), ItemStack.EMPTY);
 
@@ -78,6 +81,7 @@ public class ShapelessRecipes implements IRecipe {
         return nonnulllist;
     }
 
+    @Override
     public boolean matches(InventoryCrafting inventorycrafting, World world) {
         ArrayList arraylist = Lists.newArrayList(this.recipeItems);
 
@@ -109,6 +113,7 @@ public class ShapelessRecipes implements IRecipe {
         return arraylist.isEmpty();
     }
 
+    @Override
     public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
         return this.recipeOutput.copy();
     }

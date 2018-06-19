@@ -24,8 +24,6 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.server.DefinedStructure;
-import net.minecraft.server.DefinedStructure.a;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityStructure;
 import net.minecraft.util.Mirror;
@@ -457,7 +455,7 @@ public class Template {
     }
 
     public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        DefinedStructure.a definedstructure_a = new DefinedStructure.a(null);
+        Template.a definedstructure_a = new Template.a(null);
         NBTTagList nbttaglist = new NBTTagList();
 
         NBTTagCompound nbttagcompound1;
@@ -513,7 +511,7 @@ public class Template {
 
         this.size = new BlockPos(nbttaglist.getIntAt(0), nbttaglist.getIntAt(1), nbttaglist.getIntAt(2));
         this.author = nbttagcompound.getString("author");
-        DefinedStructure.a definedstructure_a = new DefinedStructure.a(null);
+        Template.a definedstructure_a = new Template.a(null);
         NBTTagList nbttaglist1 = nbttagcompound.getTagList("palette", 10);
 
         for (int i = 0; i < nbttaglist1.tagCount(); ++i) {

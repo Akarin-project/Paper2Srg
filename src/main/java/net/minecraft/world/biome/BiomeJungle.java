@@ -30,7 +30,7 @@ public class BiomeJungle extends Biome {
     private static final IBlockState JUNGLE_LEAF = Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
     private static final IBlockState OAK_LEAF = Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
 
-    public BiomeJungle(boolean flag, BiomeBase.a biomebase_a) {
+    public BiomeJungle(boolean flag, Biome.a biomebase_a) {
         super(biomebase_a);
         this.isEdge = flag;
         if (flag) {
@@ -49,14 +49,17 @@ public class BiomeJungle extends Biome {
         this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityChicken.class, 10, 4, 4));
     }
 
+    @Override
     public WorldGenAbstractTree getRandomTreeFeature(Random random) {
-        return (WorldGenAbstractTree) (random.nextInt(10) == 0 ? BiomeJungle.BIG_TREE_FEATURE : (random.nextInt(2) == 0 ? new WorldGenShrub(BiomeJungle.JUNGLE_LOG, BiomeJungle.OAK_LEAF) : (!this.isEdge && random.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, BiomeJungle.JUNGLE_LOG, BiomeJungle.JUNGLE_LEAF) : new WorldGenTrees(false, 4 + random.nextInt(7), BiomeJungle.JUNGLE_LOG, BiomeJungle.JUNGLE_LEAF, true))));
+        return random.nextInt(10) == 0 ? BiomeJungle.BIG_TREE_FEATURE : (random.nextInt(2) == 0 ? new WorldGenShrub(BiomeJungle.JUNGLE_LOG, BiomeJungle.OAK_LEAF) : (!this.isEdge && random.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, BiomeJungle.JUNGLE_LOG, BiomeJungle.JUNGLE_LEAF) : new WorldGenTrees(false, 4 + random.nextInt(7), BiomeJungle.JUNGLE_LOG, BiomeJungle.JUNGLE_LEAF, true)));
     }
 
+    @Override
     public WorldGenerator getRandomWorldGenForGrass(Random random) {
         return random.nextInt(4) == 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN) : new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
     }
 
+    @Override
     public void decorate(World world, Random random, BlockPos blockposition) {
         super.decorate(world, random, blockposition);
         int i = random.nextInt(16) + 8;

@@ -17,7 +17,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.chunk.NibbleArray;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import sun.nio.ch.Net;
 
 public class CraftChunk implements Chunk {
     private WeakReference<net.minecraft.world.chunk.Chunk> weakChunk;

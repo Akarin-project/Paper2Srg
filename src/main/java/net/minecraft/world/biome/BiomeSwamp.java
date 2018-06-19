@@ -17,7 +17,7 @@ public class BiomeSwamp extends Biome {
 
     protected static final IBlockState WATER_LILY = Blocks.WATERLILY.getDefaultState();
 
-    protected BiomeSwamp(BiomeBase.a biomebase_a) {
+    protected BiomeSwamp(Biome.a biomebase_a) {
         super(biomebase_a);
         this.decorator.treesPerChunk = 2;
         this.decorator.flowersPerChunk = 1;
@@ -32,16 +32,19 @@ public class BiomeSwamp extends Biome {
         this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntitySlime.class, 1, 1, 1));
     }
 
+    @Override
     public WorldGenAbstractTree getRandomTreeFeature(Random random) {
         return BiomeSwamp.SWAMP_FEATURE;
     }
 
+    @Override
     public BlockFlower.EnumFlowerType pickRandomFlower(Random random, BlockPos blockposition) {
         return BlockFlower.EnumFlowerType.BLUE_ORCHID;
     }
 
+    @Override
     public void genTerrainBlocks(World world, Random random, ChunkPrimer chunksnapshot, int i, int j, double d0) {
-        double d1 = BiomeSwamp.GRASS_COLOR_NOISE.getValue((double) i * 0.25D, (double) j * 0.25D);
+        double d1 = BiomeSwamp.GRASS_COLOR_NOISE.getValue(i * 0.25D, j * 0.25D);
 
         if (d1 > 0.0D) {
             int k = i & 15;
@@ -63,6 +66,7 @@ public class BiomeSwamp extends Biome {
         this.generateBiomeTerrain(world, random, chunksnapshot, i, j, d0);
     }
 
+    @Override
     public void decorate(World world, Random random, BlockPos blockposition) {
         super.decorate(world, random, blockposition);
         if (random.nextInt(64) == 0) {

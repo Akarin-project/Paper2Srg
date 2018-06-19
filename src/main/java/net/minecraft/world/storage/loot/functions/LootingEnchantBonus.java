@@ -9,7 +9,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LootEnchantFunction.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -27,6 +26,7 @@ public class LootingEnchantBonus extends LootFunction {
         this.limit = i;
     }
 
+    @Override
     public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
         Entity entity = loottableinfo.getKiller();
 
@@ -37,7 +37,7 @@ public class LootingEnchantBonus extends LootFunction {
                 return itemstack;
             }
 
-            float f = (float) i * this.count.generateFloat(random);
+            float f = i * this.count.generateFloat(random);
 
             itemstack.grow(Math.round(f));
             if (this.limit != 0 && itemstack.getCount() > this.limit) {
@@ -48,12 +48,13 @@ public class LootingEnchantBonus extends LootFunction {
         return itemstack;
     }
 
-    public static class a extends LootItemFunction.a<LootingEnchantBonus> {
+    public static class a extends LootFunction.a<LootingEnchantBonus> {
 
         protected a() {
             super(new ResourceLocation("looting_enchant"), LootingEnchantBonus.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, LootingEnchantBonus lootenchantfunction, JsonSerializationContext jsonserializationcontext) {
             jsonobject.add("count", jsonserializationcontext.serialize(lootenchantfunction.count));
             if (lootenchantfunction.limit > 0) {
@@ -65,10 +66,11 @@ public class LootingEnchantBonus extends LootFunction {
         public LootingEnchantBonus a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             int i = JsonUtils.getInt(jsonobject, "limit", 0);
 
-            return new LootingEnchantBonus(alootitemcondition, (RandomValueRange) JsonUtils.deserializeClass(jsonobject, "count", jsondeserializationcontext, RandomValueRange.class), i);
+            return new LootingEnchantBonus(alootitemcondition, JsonUtils.deserializeClass(jsonobject, "count", jsondeserializationcontext, RandomValueRange.class), i);
         }
 
-        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        @Override
+        public LootingEnchantBonus b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }

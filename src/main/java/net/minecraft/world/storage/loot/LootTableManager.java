@@ -17,7 +17,6 @@ import javax.annotation.Nullable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.server.LootTableRegistry.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
@@ -28,8 +27,8 @@ import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 public class LootTableManager {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Gson GSON_INSTANCE = (new GsonBuilder()).registerTypeAdapter(RandomValueRange.class, new LootValueBounds.a()).registerTypeAdapter(LootPool.class, new LootSelector.a()).registerTypeAdapter(LootTable.class, new LootTable.a()).registerTypeHierarchyAdapter(LootEntry.class, new LotoSelectorEntry.a()).registerTypeHierarchyAdapter(LootFunction.class, new LootItemFunctions.a()).registerTypeHierarchyAdapter(LootCondition.class, new LootItemConditions.a()).registerTypeHierarchyAdapter(LootContext.EntityTarget.class, new LootTableInfo.EntityTarget.a()).create();
-    private final LoadingCache<ResourceLocation, LootTable> registeredLootTables = CacheBuilder.newBuilder().build(new LootTableRegistry.a(null));
+    private static final Gson GSON_INSTANCE = (new GsonBuilder()).registerTypeAdapter(RandomValueRange.class, new RandomValueRange.a()).registerTypeAdapter(LootPool.class, new LootPool.a()).registerTypeAdapter(LootTable.class, new LootTable.a()).registerTypeHierarchyAdapter(LootEntry.class, new LootEntry.a()).registerTypeHierarchyAdapter(LootFunction.class, new LootFunctionManager.a()).registerTypeHierarchyAdapter(LootCondition.class, new LootConditionManager.a()).registerTypeHierarchyAdapter(LootContext.EntityTarget.class, new LootContext.EntityTarget.a()).create();
+    private final LoadingCache<ResourceLocation, LootTable> registeredLootTables = CacheBuilder.newBuilder().build(new LootTableManager.a());
     private final File baseFolder;
 
     public LootTableManager(@Nullable File file) {
@@ -38,7 +37,7 @@ public class LootTableManager {
     }
 
     public LootTable getLootTableFromLocation(ResourceLocation minecraftkey) {
-        return (LootTable) this.registeredLootTables.getUnchecked(minecraftkey);
+        return this.registeredLootTables.getUnchecked(minecraftkey);
     }
 
     public void reloadLootTables() {
@@ -96,7 +95,7 @@ public class LootTableManager {
                         }
 
                         try {
-                            return (LootTable) JsonUtils.gsonDeserialize(LootTableManager.GSON_INSTANCE, s, LootTable.class);
+                            return JsonUtils.gsonDeserialize(LootTableManager.GSON_INSTANCE, s, LootTable.class);
                         } catch (IllegalArgumentException | JsonParseException jsonparseexception) {
                             LootTableManager.LOGGER.error("Couldn\'t load loot table {} from {}", minecraftkey, file, jsonparseexception);
                             return LootTable.EMPTY_LOOT_TABLE;
@@ -126,7 +125,7 @@ public class LootTableManager {
                 }
 
                 try {
-                    return (LootTable) JsonUtils.gsonDeserialize(LootTableManager.GSON_INSTANCE, s, LootTable.class);
+                    return JsonUtils.gsonDeserialize(LootTableManager.GSON_INSTANCE, s, LootTable.class);
                 } catch (JsonParseException jsonparseexception) {
                     LootTableManager.LOGGER.error("Couldn\'t load loot table {} from {}", minecraftkey, url, jsonparseexception);
                     return LootTable.EMPTY_LOOT_TABLE;
@@ -136,8 +135,9 @@ public class LootTableManager {
             }
         }
 
-        public Object load(Object object) throws Exception {
-            return this.a((ResourceLocation) object);
+        @Override
+        public LootTable load(ResourceLocation object) throws Exception {
+            return this.a(object);
         }
 
         a(Object object) {

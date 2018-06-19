@@ -16,7 +16,6 @@ import java.util.Random;
 import org.apache.commons.lang3.ArrayUtils;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LootSelector.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
@@ -91,10 +90,10 @@ public class LootPool {
 
         public LootPool a(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "loot pool");
-            LootEntry[] alotoselectorentry = (LootEntry[]) JsonUtils.deserializeClass(jsonobject, "entries", jsondeserializationcontext, LootEntry[].class);
-            LootCondition[] alootitemcondition = (LootCondition[]) JsonUtils.deserializeClass(jsonobject, "conditions", new LootCondition[0], jsondeserializationcontext, LootCondition[].class);
-            RandomValueRange lootvaluebounds = (RandomValueRange) JsonUtils.deserializeClass(jsonobject, "rolls", jsondeserializationcontext, RandomValueRange.class);
-            RandomValueRange lootvaluebounds1 = (RandomValueRange) JsonUtils.deserializeClass(jsonobject, "bonus_rolls", new RandomValueRange(0.0F, 0.0F), jsondeserializationcontext, RandomValueRange.class);
+            LootEntry[] alotoselectorentry = JsonUtils.deserializeClass(jsonobject, "entries", jsondeserializationcontext, LootEntry[].class);
+            LootCondition[] alootitemcondition = JsonUtils.deserializeClass(jsonobject, "conditions", new LootCondition[0], jsondeserializationcontext, LootCondition[].class);
+            RandomValueRange lootvaluebounds = JsonUtils.deserializeClass(jsonobject, "rolls", jsondeserializationcontext, RandomValueRange.class);
+            RandomValueRange lootvaluebounds1 = JsonUtils.deserializeClass(jsonobject, "bonus_rolls", new RandomValueRange(0.0F, 0.0F), jsondeserializationcontext, RandomValueRange.class);
 
             return new LootPool(alotoselectorentry, alootitemcondition, lootvaluebounds, lootvaluebounds1);
         }
@@ -115,11 +114,13 @@ public class LootPool {
             return jsonobject;
         }
 
-        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a((LootPool) object, type, jsonserializationcontext);
+        @Override
+        public JsonElement serialize(LootPool object, Type type, JsonSerializationContext jsonserializationcontext) {
+            return this.a(object, type, jsonserializationcontext);
         }
 
-        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+        @Override
+        public LootPool deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             return this.a(jsonelement, type, jsondeserializationcontext);
         }
     }

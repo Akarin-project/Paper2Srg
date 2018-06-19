@@ -24,7 +24,7 @@ public class NBTTagByteArray extends NBTBase {
         byte[] abyte = new byte[list.size()];
 
         for (int i = 0; i < list.size(); ++i) {
-            Byte obyte = (Byte) list.get(i);
+            Byte obyte = list.get(i);
 
             abyte[i] = obyte == null ? 0 : obyte.byteValue();
         }
@@ -32,25 +32,29 @@ public class NBTTagByteArray extends NBTBase {
         return abyte;
     }
 
+    @Override
     void write(DataOutput dataoutput) throws IOException {
         dataoutput.writeInt(this.data.length);
         dataoutput.write(this.data);
     }
 
+    @Override
     void read(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
         nbtreadlimiter.read(192L);
         int j = datainput.readInt();
        com.google.common.base.Preconditions.checkArgument( j < 1 << 24);
 
-        nbtreadlimiter.read((long) (8 * j));
+        nbtreadlimiter.read(8 * j);
         this.data = new byte[j];
         datainput.readFully(this.data);
     }
 
+    @Override
     public byte getId() {
         return (byte) 7;
     }
 
+    @Override
     public String toString() {
         StringBuilder stringbuilder = new StringBuilder("[B;");
 
@@ -65,6 +69,9 @@ public class NBTTagByteArray extends NBTBase {
         return stringbuilder.append(']').toString();
     }
 
+    @Override
+    public NBTBase copy() { return clone(); } // Akarin
+    @Override
     public NBTBase clone() {
         byte[] abyte = new byte[this.data.length];
 
@@ -72,10 +79,12 @@ public class NBTTagByteArray extends NBTBase {
         return new NBTTagByteArray(abyte);
     }
 
+    @Override
     public boolean equals(Object object) {
         return super.equals(object) && Arrays.equals(this.data, ((NBTTagByteArray) object).data);
     }
 
+    @Override
     public int hashCode() {
         return super.hashCode() ^ Arrays.hashCode(this.data);
     }

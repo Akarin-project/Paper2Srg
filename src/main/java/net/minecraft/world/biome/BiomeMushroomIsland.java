@@ -5,7 +5,7 @@ import net.minecraft.init.Blocks;
 
 public class BiomeMushroomIsland extends Biome {
 
-    public BiomeMushroomIsland(BiomeBase.a biomebase_a) {
+    public BiomeMushroomIsland(Biome.a biomebase_a) {
         super(biomebase_a);
         this.decorator.treesPerChunk = -100;
         this.decorator.flowersPerChunk = -100;

@@ -30,7 +30,6 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.init.Blocks;
-import net.minecraft.server.BiomeBase.a;
 import net.minecraft.util.ObjectIntIdentityMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedRandom;
@@ -90,15 +89,15 @@ public abstract class Biome {
 
     @Nullable
     public static Biome getBiomeForId(int i) {
-        return (Biome) Biome.REGISTRY.getObjectById(i);
+        return Biome.REGISTRY.getObjectById(i);
     }
 
     @Nullable
     public static Biome getMutationForBiome(Biome biomebase) {
-        return (Biome) Biome.MUTATION_TO_BASE_ID_MAP.getByValue(getIdForBiome(biomebase));
+        return Biome.MUTATION_TO_BASE_ID_MAP.getByValue(getIdForBiome(biomebase));
     }
 
-    protected Biome(BiomeBase.a biomebase_a) {
+    protected Biome(Biome.a biomebase_a) {
         this.topBlock = Blocks.GRASS.getDefaultState();
         this.fillerBlock = Blocks.DIRT.getDefaultState();
         this.spawnableMonsterList = Lists.newArrayList();
@@ -140,7 +139,7 @@ public abstract class Biome {
     }
 
     public WorldGenAbstractTree getRandomTreeFeature(Random random) {
-        return (WorldGenAbstractTree) (random.nextInt(10) == 0 ? Biome.BIG_TREE_FEATURE : Biome.TREE_FEATURE);
+        return random.nextInt(10) == 0 ? Biome.BIG_TREE_FEATURE : Biome.TREE_FEATURE;
     }
 
     public WorldGenerator getRandomWorldGenForGrass(Random random) {
@@ -188,9 +187,9 @@ public abstract class Biome {
 
     public final float getTemperature(BlockPos blockposition) {
         if (blockposition.getY() > 64) {
-            float f = (float) (Biome.TEMPERATURE_NOISE.getValue((double) ((float) blockposition.getX() / 8.0F), (double) ((float) blockposition.getZ() / 8.0F)) * 4.0D);
+            float f = (float) (Biome.TEMPERATURE_NOISE.getValue(blockposition.getX() / 8.0F, blockposition.getZ() / 8.0F) * 4.0D);
 
-            return this.getDefaultTemperature() - (f + (float) blockposition.getY() - 64.0F) * 0.05F / 30.0F;
+            return this.getDefaultTemperature() - (f + blockposition.getY() - 64.0F) * 0.05F / 30.0F;
         } else {
             return this.getDefaultTemperature();
         }
@@ -233,7 +232,7 @@ public abstract class Biome {
                         }
 
                         if (l1 < k && (iblockdata == null || iblockdata.getMaterial() == Material.AIR)) {
-                            if (this.getTemperature((BlockPos) blockposition_mutableblockposition.setPos(i, l1, j)) < 0.15F) {
+                            if (this.getTemperature(blockposition_mutableblockposition.setPos(i, l1, j)) < 0.15F) {
                                 iblockdata = Biome.ICE;
                             } else {
                                 iblockdata = Biome.WATER;
@@ -269,7 +268,7 @@ public abstract class Biome {
     }
 
     public Biome.TempCategory getTempCategory() {
-        return (double) this.getDefaultTemperature() < 0.2D ? Biome.TempCategory.COLD : ((double) this.getDefaultTemperature() < 1.0D ? Biome.TempCategory.MEDIUM : Biome.TempCategory.WARM);
+        return this.getDefaultTemperature() < 0.2D ? Biome.TempCategory.COLD : (this.getDefaultTemperature() < 1.0D ? Biome.TempCategory.MEDIUM : Biome.TempCategory.WARM);
     }
 
     @Nullable
@@ -308,74 +307,74 @@ public abstract class Biome {
     }
 
     public static void registerBiomes() {
-        registerBiome(0, "ocean", new BiomeOcean((new BiomeBase.a("Ocean")).c(-1.0F).d(0.1F)));
-        registerBiome(1, "plains", new BiomePlains(false, (new BiomeBase.a("Plains")).c(0.125F).d(0.05F).a(0.8F).b(0.4F)));
-        registerBiome(2, "desert", new BiomeDesert((new BiomeBase.a("Desert")).c(0.125F).d(0.05F).a(2.0F).b(0.0F).a()));
-        registerBiome(3, "extreme_hills", new BiomeHills(BiomeHills.Type.NORMAL, (new BiomeBase.a("Extreme Hills")).c(1.0F).d(0.5F).a(0.2F).b(0.3F)));
-        registerBiome(4, "forest", new BiomeForest(BiomeForest.Type.NORMAL, (new BiomeBase.a("Forest")).a(0.7F).b(0.8F)));
-        registerBiome(5, "taiga", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new BiomeBase.a("Taiga")).c(0.2F).d(0.2F).a(0.25F).b(0.8F)));
-        registerBiome(6, "swampland", new BiomeSwamp((new BiomeBase.a("Swampland")).c(-0.2F).d(0.1F).a(0.8F).b(0.9F).a(14745518)));
-        registerBiome(7, "river", new BiomeRiver((new BiomeBase.a("River")).c(-0.5F).d(0.0F)));
-        registerBiome(8, "hell", new BiomeHell((new BiomeBase.a("Hell")).a(2.0F).b(0.0F).a()));
-        registerBiome(9, "sky", new BiomeEnd((new BiomeBase.a("The End")).a()));
-        registerBiome(10, "frozen_ocean", new BiomeOcean((new BiomeBase.a("FrozenOcean")).c(-1.0F).d(0.1F).a(0.0F).b(0.5F).b()));
-        registerBiome(11, "frozen_river", new BiomeRiver((new BiomeBase.a("FrozenRiver")).c(-0.5F).d(0.0F).a(0.0F).b(0.5F).b()));
-        registerBiome(12, "ice_flats", new BiomeSnow(false, (new BiomeBase.a("Ice Plains")).c(0.125F).d(0.05F).a(0.0F).b(0.5F).b()));
-        registerBiome(13, "ice_mountains", new BiomeSnow(false, (new BiomeBase.a("Ice Mountains")).c(0.45F).d(0.3F).a(0.0F).b(0.5F).b()));
-        registerBiome(14, "mushroom_island", new BiomeMushroomIsland((new BiomeBase.a("MushroomIsland")).c(0.2F).d(0.3F).a(0.9F).b(1.0F)));
-        registerBiome(15, "mushroom_island_shore", new BiomeMushroomIsland((new BiomeBase.a("MushroomIslandShore")).c(0.0F).d(0.025F).a(0.9F).b(1.0F)));
-        registerBiome(16, "beaches", new BiomeBeach((new BiomeBase.a("Beach")).c(0.0F).d(0.025F).a(0.8F).b(0.4F)));
-        registerBiome(17, "desert_hills", new BiomeDesert((new BiomeBase.a("DesertHills")).c(0.45F).d(0.3F).a(2.0F).b(0.0F).a()));
-        registerBiome(18, "forest_hills", new BiomeForest(BiomeForest.Type.NORMAL, (new BiomeBase.a("ForestHills")).c(0.45F).d(0.3F).a(0.7F).b(0.8F)));
-        registerBiome(19, "taiga_hills", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new BiomeBase.a("TaigaHills")).a(0.25F).b(0.8F).c(0.45F).d(0.3F)));
-        registerBiome(20, "smaller_extreme_hills", new BiomeHills(BiomeHills.Type.EXTRA_TREES, (new BiomeBase.a("Extreme Hills Edge")).c(0.8F).d(0.3F).a(0.2F).b(0.3F)));
-        registerBiome(21, "jungle", new BiomeJungle(false, (new BiomeBase.a("Jungle")).a(0.95F).b(0.9F)));
-        registerBiome(22, "jungle_hills", new BiomeJungle(false, (new BiomeBase.a("JungleHills")).c(0.45F).d(0.3F).a(0.95F).b(0.9F)));
-        registerBiome(23, "jungle_edge", new BiomeJungle(true, (new BiomeBase.a("JungleEdge")).a(0.95F).b(0.8F)));
-        registerBiome(24, "deep_ocean", new BiomeOcean((new BiomeBase.a("Deep Ocean")).c(-1.8F).d(0.1F)));
-        registerBiome(25, "stone_beach", new BiomeStoneBeach((new BiomeBase.a("Stone Beach")).c(0.1F).d(0.8F).a(0.2F).b(0.3F)));
-        registerBiome(26, "cold_beach", new BiomeBeach((new BiomeBase.a("Cold Beach")).c(0.0F).d(0.025F).a(0.05F).b(0.3F).b()));
-        registerBiome(27, "birch_forest", new BiomeForest(BiomeForest.Type.BIRCH, (new BiomeBase.a("Birch Forest")).a(0.6F).b(0.6F)));
-        registerBiome(28, "birch_forest_hills", new BiomeForest(BiomeForest.Type.BIRCH, (new BiomeBase.a("Birch Forest Hills")).c(0.45F).d(0.3F).a(0.6F).b(0.6F)));
-        registerBiome(29, "roofed_forest", new BiomeForest(BiomeForest.Type.ROOFED, (new BiomeBase.a("Roofed Forest")).a(0.7F).b(0.8F)));
-        registerBiome(30, "taiga_cold", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new BiomeBase.a("Cold Taiga")).c(0.2F).d(0.2F).a(-0.5F).b(0.4F).b()));
-        registerBiome(31, "taiga_cold_hills", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new BiomeBase.a("Cold Taiga Hills")).c(0.45F).d(0.3F).a(-0.5F).b(0.4F).b()));
-        registerBiome(32, "redwood_taiga", new BiomeTaiga(BiomeTaiga.Type.MEGA, (new BiomeBase.a("Mega Taiga")).a(0.3F).b(0.8F).c(0.2F).d(0.2F)));
-        registerBiome(33, "redwood_taiga_hills", new BiomeTaiga(BiomeTaiga.Type.MEGA, (new BiomeBase.a("Mega Taiga Hills")).c(0.45F).d(0.3F).a(0.3F).b(0.8F)));
-        registerBiome(34, "extreme_hills_with_trees", new BiomeHills(BiomeHills.Type.EXTRA_TREES, (new BiomeBase.a("Extreme Hills+")).c(1.0F).d(0.5F).a(0.2F).b(0.3F)));
-        registerBiome(35, "savanna", new BiomeSavanna((new BiomeBase.a("Savanna")).c(0.125F).d(0.05F).a(1.2F).b(0.0F).a()));
-        registerBiome(36, "savanna_rock", new BiomeSavanna((new BiomeBase.a("Savanna Plateau")).c(1.5F).d(0.025F).a(1.0F).b(0.0F).a()));
-        registerBiome(37, "mesa", new BiomeMesa(false, false, (new BiomeBase.a("Mesa")).a(2.0F).b(0.0F).a()));
-        registerBiome(38, "mesa_rock", new BiomeMesa(false, true, (new BiomeBase.a("Mesa Plateau F")).c(1.5F).d(0.025F).a(2.0F).b(0.0F).a()));
-        registerBiome(39, "mesa_clear_rock", new BiomeMesa(false, false, (new BiomeBase.a("Mesa Plateau")).c(1.5F).d(0.025F).a(2.0F).b(0.0F).a()));
-        registerBiome(127, "void", new BiomeVoid((new BiomeBase.a("The Void")).a()));
-        registerBiome(129, "mutated_plains", new BiomePlains(true, (new BiomeBase.a("Sunflower Plains")).a("plains").c(0.125F).d(0.05F).a(0.8F).b(0.4F)));
-        registerBiome(130, "mutated_desert", new BiomeDesert((new BiomeBase.a("Desert M")).a("desert").c(0.225F).d(0.25F).a(2.0F).b(0.0F).a()));
-        registerBiome(131, "mutated_extreme_hills", new BiomeHills(BiomeHills.Type.MUTATED, (new BiomeBase.a("Extreme Hills M")).a("extreme_hills").c(1.0F).d(0.5F).a(0.2F).b(0.3F)));
-        registerBiome(132, "mutated_forest", new BiomeForest(BiomeForest.Type.FLOWER, (new BiomeBase.a("Flower Forest")).a("forest").d(0.4F).a(0.7F).b(0.8F)));
-        registerBiome(133, "mutated_taiga", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new BiomeBase.a("Taiga M")).a("taiga").c(0.3F).d(0.4F).a(0.25F).b(0.8F)));
-        registerBiome(134, "mutated_swampland", new BiomeSwamp((new BiomeBase.a("Swampland M")).a("swampland").c(-0.1F).d(0.3F).a(0.8F).b(0.9F).a(14745518)));
-        registerBiome(140, "mutated_ice_flats", new BiomeSnow(true, (new BiomeBase.a("Ice Plains Spikes")).a("ice_flats").c(0.425F).d(0.45000002F).a(0.0F).b(0.5F).b()));
-        registerBiome(149, "mutated_jungle", new BiomeJungle(false, (new BiomeBase.a("Jungle M")).a("jungle").c(0.2F).d(0.4F).a(0.95F).b(0.9F)));
-        registerBiome(151, "mutated_jungle_edge", new BiomeJungle(true, (new BiomeBase.a("JungleEdge M")).a("jungle_edge").c(0.2F).d(0.4F).a(0.95F).b(0.8F)));
-        registerBiome(155, "mutated_birch_forest", new BiomeForestMutated((new BiomeBase.a("Birch Forest M")).a("birch_forest").c(0.2F).d(0.4F).a(0.6F).b(0.6F)));
-        registerBiome(156, "mutated_birch_forest_hills", new BiomeForestMutated((new BiomeBase.a("Birch Forest Hills M")).a("birch_forest_hills").c(0.55F).d(0.5F).a(0.6F).b(0.6F)));
-        registerBiome(157, "mutated_roofed_forest", new BiomeForest(BiomeForest.Type.ROOFED, (new BiomeBase.a("Roofed Forest M")).a("roofed_forest").c(0.2F).d(0.4F).a(0.7F).b(0.8F)));
-        registerBiome(158, "mutated_taiga_cold", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new BiomeBase.a("Cold Taiga M")).a("taiga_cold").c(0.3F).d(0.4F).a(-0.5F).b(0.4F).b()));
-        registerBiome(160, "mutated_redwood_taiga", new BiomeTaiga(BiomeTaiga.Type.MEGA_SPRUCE, (new BiomeBase.a("Mega Spruce Taiga")).a("redwood_taiga").c(0.2F).d(0.2F).a(0.25F).b(0.8F)));
-        registerBiome(161, "mutated_redwood_taiga_hills", new BiomeTaiga(BiomeTaiga.Type.MEGA_SPRUCE, (new BiomeBase.a("Redwood Taiga Hills M")).a("redwood_taiga_hills").c(0.2F).d(0.2F).a(0.25F).b(0.8F)));
-        registerBiome(162, "mutated_extreme_hills_with_trees", new BiomeHills(BiomeHills.Type.MUTATED, (new BiomeBase.a("Extreme Hills+ M")).a("extreme_hills_with_trees").c(1.0F).d(0.5F).a(0.2F).b(0.3F)));
-        registerBiome(163, "mutated_savanna", new BiomeSavannaMutated((new BiomeBase.a("Savanna M")).a("savanna").c(0.3625F).d(1.225F).a(1.1F).b(0.0F).a()));
-        registerBiome(164, "mutated_savanna_rock", new BiomeSavannaMutated((new BiomeBase.a("Savanna Plateau M")).a("savanna_rock").c(1.05F).d(1.2125001F).a(1.0F).b(0.0F).a()));
-        registerBiome(165, "mutated_mesa", new BiomeMesa(true, false, (new BiomeBase.a("Mesa (Bryce)")).a("mesa").a(2.0F).b(0.0F).a()));
-        registerBiome(166, "mutated_mesa_rock", new BiomeMesa(false, true, (new BiomeBase.a("Mesa Plateau F M")).a("mesa_rock").c(0.45F).d(0.3F).a(2.0F).b(0.0F).a()));
-        registerBiome(167, "mutated_mesa_clear_rock", new BiomeMesa(false, false, (new BiomeBase.a("Mesa Plateau M")).a("mesa_clear_rock").c(0.45F).d(0.3F).a(2.0F).b(0.0F).a()));
+        registerBiome(0, "ocean", new BiomeOcean((new Biome.a("Ocean")).c(-1.0F).d(0.1F)));
+        registerBiome(1, "plains", new BiomePlains(false, (new Biome.a("Plains")).c(0.125F).d(0.05F).a(0.8F).b(0.4F)));
+        registerBiome(2, "desert", new BiomeDesert((new Biome.a("Desert")).c(0.125F).d(0.05F).a(2.0F).b(0.0F).a()));
+        registerBiome(3, "extreme_hills", new BiomeHills(BiomeHills.Type.NORMAL, (new Biome.a("Extreme Hills")).c(1.0F).d(0.5F).a(0.2F).b(0.3F)));
+        registerBiome(4, "forest", new BiomeForest(BiomeForest.Type.NORMAL, (new Biome.a("Forest")).a(0.7F).b(0.8F)));
+        registerBiome(5, "taiga", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new Biome.a("Taiga")).c(0.2F).d(0.2F).a(0.25F).b(0.8F)));
+        registerBiome(6, "swampland", new BiomeSwamp((new Biome.a("Swampland")).c(-0.2F).d(0.1F).a(0.8F).b(0.9F).a(14745518)));
+        registerBiome(7, "river", new BiomeRiver((new Biome.a("River")).c(-0.5F).d(0.0F)));
+        registerBiome(8, "hell", new BiomeHell((new Biome.a("Hell")).a(2.0F).b(0.0F).a()));
+        registerBiome(9, "sky", new BiomeEnd((new Biome.a("The End")).a()));
+        registerBiome(10, "frozen_ocean", new BiomeOcean((new Biome.a("FrozenOcean")).c(-1.0F).d(0.1F).a(0.0F).b(0.5F).b()));
+        registerBiome(11, "frozen_river", new BiomeRiver((new Biome.a("FrozenRiver")).c(-0.5F).d(0.0F).a(0.0F).b(0.5F).b()));
+        registerBiome(12, "ice_flats", new BiomeSnow(false, (new Biome.a("Ice Plains")).c(0.125F).d(0.05F).a(0.0F).b(0.5F).b()));
+        registerBiome(13, "ice_mountains", new BiomeSnow(false, (new Biome.a("Ice Mountains")).c(0.45F).d(0.3F).a(0.0F).b(0.5F).b()));
+        registerBiome(14, "mushroom_island", new BiomeMushroomIsland((new Biome.a("MushroomIsland")).c(0.2F).d(0.3F).a(0.9F).b(1.0F)));
+        registerBiome(15, "mushroom_island_shore", new BiomeMushroomIsland((new Biome.a("MushroomIslandShore")).c(0.0F).d(0.025F).a(0.9F).b(1.0F)));
+        registerBiome(16, "beaches", new BiomeBeach((new Biome.a("Beach")).c(0.0F).d(0.025F).a(0.8F).b(0.4F)));
+        registerBiome(17, "desert_hills", new BiomeDesert((new Biome.a("DesertHills")).c(0.45F).d(0.3F).a(2.0F).b(0.0F).a()));
+        registerBiome(18, "forest_hills", new BiomeForest(BiomeForest.Type.NORMAL, (new Biome.a("ForestHills")).c(0.45F).d(0.3F).a(0.7F).b(0.8F)));
+        registerBiome(19, "taiga_hills", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new Biome.a("TaigaHills")).a(0.25F).b(0.8F).c(0.45F).d(0.3F)));
+        registerBiome(20, "smaller_extreme_hills", new BiomeHills(BiomeHills.Type.EXTRA_TREES, (new Biome.a("Extreme Hills Edge")).c(0.8F).d(0.3F).a(0.2F).b(0.3F)));
+        registerBiome(21, "jungle", new BiomeJungle(false, (new Biome.a("Jungle")).a(0.95F).b(0.9F)));
+        registerBiome(22, "jungle_hills", new BiomeJungle(false, (new Biome.a("JungleHills")).c(0.45F).d(0.3F).a(0.95F).b(0.9F)));
+        registerBiome(23, "jungle_edge", new BiomeJungle(true, (new Biome.a("JungleEdge")).a(0.95F).b(0.8F)));
+        registerBiome(24, "deep_ocean", new BiomeOcean((new Biome.a("Deep Ocean")).c(-1.8F).d(0.1F)));
+        registerBiome(25, "stone_beach", new BiomeStoneBeach((new Biome.a("Stone Beach")).c(0.1F).d(0.8F).a(0.2F).b(0.3F)));
+        registerBiome(26, "cold_beach", new BiomeBeach((new Biome.a("Cold Beach")).c(0.0F).d(0.025F).a(0.05F).b(0.3F).b()));
+        registerBiome(27, "birch_forest", new BiomeForest(BiomeForest.Type.BIRCH, (new Biome.a("Birch Forest")).a(0.6F).b(0.6F)));
+        registerBiome(28, "birch_forest_hills", new BiomeForest(BiomeForest.Type.BIRCH, (new Biome.a("Birch Forest Hills")).c(0.45F).d(0.3F).a(0.6F).b(0.6F)));
+        registerBiome(29, "roofed_forest", new BiomeForest(BiomeForest.Type.ROOFED, (new Biome.a("Roofed Forest")).a(0.7F).b(0.8F)));
+        registerBiome(30, "taiga_cold", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new Biome.a("Cold Taiga")).c(0.2F).d(0.2F).a(-0.5F).b(0.4F).b()));
+        registerBiome(31, "taiga_cold_hills", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new Biome.a("Cold Taiga Hills")).c(0.45F).d(0.3F).a(-0.5F).b(0.4F).b()));
+        registerBiome(32, "redwood_taiga", new BiomeTaiga(BiomeTaiga.Type.MEGA, (new Biome.a("Mega Taiga")).a(0.3F).b(0.8F).c(0.2F).d(0.2F)));
+        registerBiome(33, "redwood_taiga_hills", new BiomeTaiga(BiomeTaiga.Type.MEGA, (new Biome.a("Mega Taiga Hills")).c(0.45F).d(0.3F).a(0.3F).b(0.8F)));
+        registerBiome(34, "extreme_hills_with_trees", new BiomeHills(BiomeHills.Type.EXTRA_TREES, (new Biome.a("Extreme Hills+")).c(1.0F).d(0.5F).a(0.2F).b(0.3F)));
+        registerBiome(35, "savanna", new BiomeSavanna((new Biome.a("Savanna")).c(0.125F).d(0.05F).a(1.2F).b(0.0F).a()));
+        registerBiome(36, "savanna_rock", new BiomeSavanna((new Biome.a("Savanna Plateau")).c(1.5F).d(0.025F).a(1.0F).b(0.0F).a()));
+        registerBiome(37, "mesa", new BiomeMesa(false, false, (new Biome.a("Mesa")).a(2.0F).b(0.0F).a()));
+        registerBiome(38, "mesa_rock", new BiomeMesa(false, true, (new Biome.a("Mesa Plateau F")).c(1.5F).d(0.025F).a(2.0F).b(0.0F).a()));
+        registerBiome(39, "mesa_clear_rock", new BiomeMesa(false, false, (new Biome.a("Mesa Plateau")).c(1.5F).d(0.025F).a(2.0F).b(0.0F).a()));
+        registerBiome(127, "void", new BiomeVoid((new Biome.a("The Void")).a()));
+        registerBiome(129, "mutated_plains", new BiomePlains(true, (new Biome.a("Sunflower Plains")).a("plains").c(0.125F).d(0.05F).a(0.8F).b(0.4F)));
+        registerBiome(130, "mutated_desert", new BiomeDesert((new Biome.a("Desert M")).a("desert").c(0.225F).d(0.25F).a(2.0F).b(0.0F).a()));
+        registerBiome(131, "mutated_extreme_hills", new BiomeHills(BiomeHills.Type.MUTATED, (new Biome.a("Extreme Hills M")).a("extreme_hills").c(1.0F).d(0.5F).a(0.2F).b(0.3F)));
+        registerBiome(132, "mutated_forest", new BiomeForest(BiomeForest.Type.FLOWER, (new Biome.a("Flower Forest")).a("forest").d(0.4F).a(0.7F).b(0.8F)));
+        registerBiome(133, "mutated_taiga", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new Biome.a("Taiga M")).a("taiga").c(0.3F).d(0.4F).a(0.25F).b(0.8F)));
+        registerBiome(134, "mutated_swampland", new BiomeSwamp((new Biome.a("Swampland M")).a("swampland").c(-0.1F).d(0.3F).a(0.8F).b(0.9F).a(14745518)));
+        registerBiome(140, "mutated_ice_flats", new BiomeSnow(true, (new Biome.a("Ice Plains Spikes")).a("ice_flats").c(0.425F).d(0.45000002F).a(0.0F).b(0.5F).b()));
+        registerBiome(149, "mutated_jungle", new BiomeJungle(false, (new Biome.a("Jungle M")).a("jungle").c(0.2F).d(0.4F).a(0.95F).b(0.9F)));
+        registerBiome(151, "mutated_jungle_edge", new BiomeJungle(true, (new Biome.a("JungleEdge M")).a("jungle_edge").c(0.2F).d(0.4F).a(0.95F).b(0.8F)));
+        registerBiome(155, "mutated_birch_forest", new BiomeForestMutated((new Biome.a("Birch Forest M")).a("birch_forest").c(0.2F).d(0.4F).a(0.6F).b(0.6F)));
+        registerBiome(156, "mutated_birch_forest_hills", new BiomeForestMutated((new Biome.a("Birch Forest Hills M")).a("birch_forest_hills").c(0.55F).d(0.5F).a(0.6F).b(0.6F)));
+        registerBiome(157, "mutated_roofed_forest", new BiomeForest(BiomeForest.Type.ROOFED, (new Biome.a("Roofed Forest M")).a("roofed_forest").c(0.2F).d(0.4F).a(0.7F).b(0.8F)));
+        registerBiome(158, "mutated_taiga_cold", new BiomeTaiga(BiomeTaiga.Type.NORMAL, (new Biome.a("Cold Taiga M")).a("taiga_cold").c(0.3F).d(0.4F).a(-0.5F).b(0.4F).b()));
+        registerBiome(160, "mutated_redwood_taiga", new BiomeTaiga(BiomeTaiga.Type.MEGA_SPRUCE, (new Biome.a("Mega Spruce Taiga")).a("redwood_taiga").c(0.2F).d(0.2F).a(0.25F).b(0.8F)));
+        registerBiome(161, "mutated_redwood_taiga_hills", new BiomeTaiga(BiomeTaiga.Type.MEGA_SPRUCE, (new Biome.a("Redwood Taiga Hills M")).a("redwood_taiga_hills").c(0.2F).d(0.2F).a(0.25F).b(0.8F)));
+        registerBiome(162, "mutated_extreme_hills_with_trees", new BiomeHills(BiomeHills.Type.MUTATED, (new Biome.a("Extreme Hills+ M")).a("extreme_hills_with_trees").c(1.0F).d(0.5F).a(0.2F).b(0.3F)));
+        registerBiome(163, "mutated_savanna", new BiomeSavannaMutated((new Biome.a("Savanna M")).a("savanna").c(0.3625F).d(1.225F).a(1.1F).b(0.0F).a()));
+        registerBiome(164, "mutated_savanna_rock", new BiomeSavannaMutated((new Biome.a("Savanna Plateau M")).a("savanna_rock").c(1.05F).d(1.2125001F).a(1.0F).b(0.0F).a()));
+        registerBiome(165, "mutated_mesa", new BiomeMesa(true, false, (new Biome.a("Mesa (Bryce)")).a("mesa").a(2.0F).b(0.0F).a()));
+        registerBiome(166, "mutated_mesa_rock", new BiomeMesa(false, true, (new Biome.a("Mesa Plateau F M")).a("mesa_rock").c(0.45F).d(0.3F).a(2.0F).b(0.0F).a()));
+        registerBiome(167, "mutated_mesa_clear_rock", new BiomeMesa(false, false, (new Biome.a("Mesa Plateau M")).a("mesa_clear_rock").c(0.45F).d(0.3F).a(2.0F).b(0.0F).a()));
     }
 
     private static void registerBiome(int i, String s, Biome biomebase) {
         Biome.REGISTRY.register(i, new ResourceLocation(s), biomebase);
         if (biomebase.isMutation()) {
-            Biome.MUTATION_TO_BASE_ID_MAP.put(biomebase, getIdForBiome((Biome) Biome.REGISTRY.getObject(new ResourceLocation(biomebase.baseBiomeRegName))));
+            Biome.MUTATION_TO_BASE_ID_MAP.put(biomebase, getIdForBiome(Biome.REGISTRY.getObject(new ResourceLocation(biomebase.baseBiomeRegName))));
         }
 
     }
@@ -397,7 +396,7 @@ public abstract class Biome {
             this.a = s;
         }
 
-        protected BiomeBase.a a(float f) {
+        protected Biome.a a(float f) {
             if (f > 0.1F && f < 0.2F) {
                 throw new IllegalArgumentException("Please avoid temperatures in the range 0.1 - 0.2 because of snow");
             } else {
@@ -406,37 +405,37 @@ public abstract class Biome {
             }
         }
 
-        protected BiomeBase.a b(float f) {
+        protected Biome.a b(float f) {
             this.e = f;
             return this;
         }
 
-        protected BiomeBase.a c(float f) {
+        protected Biome.a c(float f) {
             this.b = f;
             return this;
         }
 
-        protected BiomeBase.a d(float f) {
+        protected Biome.a d(float f) {
             this.c = f;
             return this;
         }
 
-        protected BiomeBase.a a() {
+        protected Biome.a a() {
             this.h = false;
             return this;
         }
 
-        protected BiomeBase.a b() {
+        protected Biome.a b() {
             this.g = true;
             return this;
         }
 
-        protected BiomeBase.a a(int i) {
+        protected Biome.a a(int i) {
             this.f = i;
             return this;
         }
 
-        protected BiomeBase.a a(String s) {
+        protected Biome.a a(String s) {
             this.i = s;
             return this;
         }
@@ -455,6 +454,7 @@ public abstract class Biome {
             this.maxGroupCount = k;
         }
 
+        @Override
         public String toString() {
             return this.entityClass.getSimpleName() + "*(" + this.minGroupCount + "-" + this.maxGroupCount + "):" + this.itemWeight;
         }

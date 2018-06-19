@@ -29,8 +29,6 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketAdvancementInfo;
 import net.minecraft.network.play.server.SPacketSelectAdvancementsTab;
-import net.minecraft.server.CriterionTrigger;
-import net.minecraft.server.MinecraftKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -39,7 +37,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 public class PlayerAdvancements {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Gson GSON = (new GsonBuilder()).registerTypeAdapter(AdvancementProgress.class, new AdvancementProgress.a()).registerTypeAdapter(ResourceLocation.class, new MinecraftKey.a()).setPrettyPrinting().create();
+    private static final Gson GSON = (new GsonBuilder()).registerTypeAdapter(AdvancementProgress.class, new AdvancementProgress.a()).registerTypeAdapter(ResourceLocation.class, new ResourceLocation.a()).setPrettyPrinting().create();
     private static final TypeToken<Map<ResourceLocation, AdvancementProgress>> MAP_TOKEN = new TypeToken<Map<ResourceLocation, AdvancementProgress>>() { // CraftBukkit - decompile error
     };
     private final MinecraftServer server;
@@ -264,7 +262,7 @@ public class PlayerAdvancements {
                         ICriterionTrigger criteriontrigger = CriteriaTriggers.get(criterioninstance.getId());
 
                         if (criteriontrigger != null) {
-                            criteriontrigger.a(this, new CriterionTrigger.a(criterioninstance, advancement, (String) entry.getKey()));
+                            criteriontrigger.a(this, new ICriterionTrigger.a(criterioninstance, advancement, (String) entry.getKey()));
                         }
                     }
                 }
@@ -288,7 +286,7 @@ public class PlayerAdvancements {
                     ICriterionTrigger criteriontrigger = CriteriaTriggers.get(criterioninstance.getId());
 
                     if (criteriontrigger != null) {
-                        criteriontrigger.b(this, new CriterionTrigger.a(criterioninstance, advancement, (String) entry.getKey()));
+                        criteriontrigger.b(this, new ICriterionTrigger.a(criterioninstance, advancement, (String) entry.getKey()));
                     }
                 }
             }

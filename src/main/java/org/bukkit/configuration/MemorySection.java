@@ -1,5 +1,6 @@
 package org.bukkit.configuration;
 
+import static org.bukkit.util.NumberConversions.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -68,6 +69,7 @@ public class MemorySection implements ConfigurationSection {
         this.fullPath = createPath(parent, path);
     }
 
+    @Override
     public Set<String> getKeys(boolean deep) {
         Set<String> result = new LinkedHashSet<String>();
 
@@ -85,6 +87,7 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public Map<String, Object> getValues(boolean deep) {
         Map<String, Object> result = new LinkedHashMap<String, Object>();
 
@@ -102,14 +105,17 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public boolean contains(String path) {
         return contains(path, false);
     }
 
+    @Override
     public boolean contains(String path, boolean ignoreDefault) {
         return ((ignoreDefault) ? get(path, null) : get(path)) != null;
     }
 
+    @Override
     public boolean isSet(String path) {
         Configuration root = getRoot();
         if (root == null) {
@@ -121,22 +127,27 @@ public class MemorySection implements ConfigurationSection {
         return get(path, null) != null;
     }
 
+    @Override
     public String getCurrentPath() {
         return fullPath;
     }
 
+    @Override
     public String getName() {
         return path;
     }
 
+    @Override
     public Configuration getRoot() {
         return root;
     }
 
+    @Override
     public ConfigurationSection getParent() {
         return parent;
     }
 
+    @Override
     public void addDefault(String path, Object value) {
         Validate.notNull(path, "Path cannot be null");
 
@@ -150,6 +161,7 @@ public class MemorySection implements ConfigurationSection {
         root.addDefault(createPath(this, path), value);
     }
 
+    @Override
     public ConfigurationSection getDefaultSection() {
         Configuration root = getRoot();
         Configuration defaults = root == null ? null : root.getDefaults();
@@ -163,6 +175,7 @@ public class MemorySection implements ConfigurationSection {
         return null;
     }
 
+    @Override
     public void set(String path, Object value) {
         Validate.notEmpty(path, "Cannot set to an empty path");
 
@@ -202,10 +215,12 @@ public class MemorySection implements ConfigurationSection {
         }
     }
 
+    @Override
     public Object get(String path) {
         return get(path, getDefault(path));
     }
 
+    @Override
     public Object get(String path, Object def) {
         Validate.notNull(path, "Path cannot be null");
 
@@ -238,6 +253,7 @@ public class MemorySection implements ConfigurationSection {
         return section.get(key, def);
     }
 
+    @Override
     public ConfigurationSection createSection(String path) {
         Validate.notEmpty(path, "Cannot create section at empty path");
         Configuration root = getRoot();
@@ -269,6 +285,7 @@ public class MemorySection implements ConfigurationSection {
         return section.createSection(key);
     }
 
+    @Override
     public ConfigurationSection createSection(String path, Map<?, ?> map) {
         ConfigurationSection section = createSection(path);
 
@@ -284,97 +301,116 @@ public class MemorySection implements ConfigurationSection {
     }
 
     // Primitives
+    @Override
     public String getString(String path) {
         Object def = getDefault(path);
         return getString(path, def != null ? def.toString() : null);
     }
 
+    @Override
     public String getString(String path, String def) {
         Object val = get(path, def);
         return (val != null) ? val.toString() : def;
     }
 
+    @Override
     public boolean isString(String path) {
         Object val = get(path);
         return val instanceof String;
     }
 
+    @Override
     public int getInt(String path) {
         Object def = getDefault(path);
         return getInt(path, (def instanceof Number) ? toInt(def) : 0);
     }
 
+    @Override
     public int getInt(String path, int def) {
         Object val = get(path, def);
         return (val instanceof Number) ? toInt(val) : def;
     }
 
+    @Override
     public boolean isInt(String path) {
         Object val = get(path);
         return val instanceof Integer;
     }
 
+    @Override
     public boolean getBoolean(String path) {
         Object def = getDefault(path);
         return getBoolean(path, (def instanceof Boolean) ? (Boolean) def : false);
     }
 
+    @Override
     public boolean getBoolean(String path, boolean def) {
         Object val = get(path, def);
         return (val instanceof Boolean) ? (Boolean) val : def;
     }
 
+    @Override
     public boolean isBoolean(String path) {
         Object val = get(path);
         return val instanceof Boolean;
     }
 
+    @Override
     public double getDouble(String path) {
         Object def = getDefault(path);
         return getDouble(path, (def instanceof Number) ? toDouble(def) : 0);
     }
 
+    @Override
     public double getDouble(String path, double def) {
         Object val = get(path, def);
         return (val instanceof Number) ? toDouble(val) : def;
     }
 
+    @Override
     public boolean isDouble(String path) {
         Object val = get(path);
         return val instanceof Double;
     }
 
+    @Override
     public long getLong(String path) {
         Object def = getDefault(path);
         return getLong(path, (def instanceof Number) ? toLong(def) : 0);
     }
 
+    @Override
     public long getLong(String path, long def) {
         Object val = get(path, def);
         return (val instanceof Number) ? toLong(val) : def;
     }
 
+    @Override
     public boolean isLong(String path) {
         Object val = get(path);
         return val instanceof Long;
     }
 
     // Java
+    @Override
     public List<?> getList(String path) {
         Object def = getDefault(path);
         return getList(path, (def instanceof List) ? (List<?>) def : null);
     }
 
+    @Override
     public List<?> getList(String path, List<?> def) {
         Object val = get(path, def);
         return (List<?>) ((val instanceof List) ? val : def);
     }
 
+    @Override
     public boolean isList(String path) {
         Object val = get(path);
         return val instanceof List;
     }
 
+    @Override
     public List<String> getStringList(String path) {
         List<?> list = getList(path);
 
@@ -393,6 +429,7 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public List<Integer> getIntegerList(String path) {
         List<?> list = getList(path);
 
@@ -420,6 +457,7 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public List<Boolean> getBooleanList(String path) {
         List<?> list = getList(path);
 
@@ -444,6 +482,7 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public List<Double> getDoubleList(String path) {
         List<?> list = getList(path);
 
@@ -471,6 +510,7 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public List<Float> getFloatList(String path) {
         List<?> list = getList(path);
 
@@ -498,6 +538,7 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public List<Long> getLongList(String path) {
         List<?> list = getList(path);
 
@@ -525,6 +566,7 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public List<Byte> getByteList(String path) {
         List<?> list = getList(path);
 
@@ -552,6 +594,7 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public List<Character> getCharacterList(String path) {
         List<?> list = getList(path);
 
@@ -578,6 +621,7 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public List<Short> getShortList(String path) {
         List<?> list = getList(path);
 
@@ -605,6 +649,7 @@ public class MemorySection implements ConfigurationSection {
         return result;
     }
 
+    @Override
     public List<Map<?, ?>> getMapList(String path) {
         List<?> list = getList(path);
         List<Map<?, ?>> result = new ArrayList<Map<?, ?>>();
@@ -637,54 +682,67 @@ public class MemorySection implements ConfigurationSection {
         return (val != null && clazz.isInstance(val)) ? clazz.cast(val) : def;
     }
 
+    @Override
     public Vector getVector(String path) {
         return getSerializable(path, Vector.class);
     }
 
+    @Override
     public Vector getVector(String path, Vector def) {
         return getSerializable(path, Vector.class, def);
     }
 
+    @Override
     public boolean isVector(String path) {
         return getSerializable(path, Vector.class) != null;
     }
 
+    @Override
     public OfflinePlayer getOfflinePlayer(String path) {
         return getSerializable(path, OfflinePlayer.class);
     }
 
+    @Override
     public OfflinePlayer getOfflinePlayer(String path, OfflinePlayer def) {
         return getSerializable(path, OfflinePlayer.class, def);
     }
 
+    @Override
     public boolean isOfflinePlayer(String path) {
         return getSerializable(path, OfflinePlayer.class) != null;
     }
 
+    @Override
     public ItemStack getItemStack(String path) {
         return getSerializable(path, ItemStack.class);
     }
 
+    @Override
     public ItemStack getItemStack(String path, ItemStack def) {
         return getSerializable(path, ItemStack.class, def);
     }
 
+    @Override
     public boolean isItemStack(String path) {
         return getSerializable(path, ItemStack.class) != null;
     }
 
+    @Override
     public Color getColor(String path) {
         return getSerializable(path, Color.class);
     }
 
+    @Override
     public Color getColor(String path, Color def) {
         return getSerializable(path, Color.class, def);
     }
 
+    @Override
     public boolean isColor(String path) {
         return getSerializable(path, Color.class) != null;
     }
 
+    @Override
     public ConfigurationSection getConfigurationSection(String path) {
         Object val = get(path, null);
         if (val != null) {
@@ -695,6 +753,7 @@ public class MemorySection implements ConfigurationSection {
         return (val instanceof ConfigurationSection) ? createSection(path) : null;
     }
 
+    @Override
     public boolean isConfigurationSection(String path) {
         Object val = get(path);
         return val instanceof ConfigurationSection;

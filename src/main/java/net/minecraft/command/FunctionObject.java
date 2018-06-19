@@ -8,10 +8,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.advancements.FunctionManager;
-import net.minecraft.server.CustomFunction.a;
-import net.minecraft.server.CustomFunction.b;
-import net.minecraft.server.CustomFunction.c;
-import net.minecraft.server.CustomFunction.d;
 import net.minecraft.tileentity.CommandBlockBaseLogic;
 import net.minecraft.util.ResourceLocation;
 
@@ -88,6 +84,7 @@ public class FunctionObject {
             return this.d;
         }
 
+        @Override
         public String toString() {
             return String.valueOf(this.b);
         }
@@ -116,6 +113,7 @@ public class FunctionObject {
 
         }
 
+        @Override
         public String toString() {
             return "/function " + this.a;
         }
@@ -141,6 +139,7 @@ public class FunctionObject {
             // CraftBukkit end
         }
 
+        @Override
         public String toString() {
             return "/" + this.a;
         }

@@ -10,6 +10,7 @@ public class NettyVarint21FrameEncoder extends MessageToByteEncoder<ByteBuf> {
 
     public NettyVarint21FrameEncoder() {}
 
+    @Override
     protected void encode(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf, ByteBuf bytebuf1) throws Exception {
         int i = bytebuf.readableBytes();
         int j = PacketBuffer.getVarIntSize(i);
@@ -23,9 +24,5 @@ public class NettyVarint21FrameEncoder extends MessageToByteEncoder<ByteBuf> {
             packetdataserializer.writeVarInt(i);
             packetdataserializer.writeBytes(bytebuf, bytebuf.readerIndex(), i);
         }
-    }
-
-    protected void encode(ChannelHandlerContext channelhandlercontext, Object object, ByteBuf bytebuf) throws Exception {
-        this.encode(channelhandlercontext, (ByteBuf) object, bytebuf);
     }
 }

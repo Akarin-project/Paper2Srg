@@ -211,7 +211,7 @@ public final class NBTUtil {
         if (!nbttagcompound.hasKey("Name", 8)) {
             return Blocks.AIR.getDefaultState();
         } else {
-            Block block = (Block) Block.REGISTRY.getObject(new ResourceLocation(nbttagcompound.getString("Name")));
+            Block block = Block.REGISTRY.getObject(new ResourceLocation(nbttagcompound.getString("Name")));
             IBlockState iblockdata = block.getDefaultState();
 
             if (nbttagcompound.hasKey("Properties", 10)) {
@@ -245,7 +245,7 @@ public final class NBTUtil {
     }
 
     public static NBTTagCompound writeBlockState(NBTTagCompound nbttagcompound, IBlockState iblockdata) {
-        nbttagcompound.setString("Name", ((ResourceLocation) Block.REGISTRY.getNameForObject(iblockdata.getBlock())).toString());
+        nbttagcompound.setString("Name", Block.REGISTRY.getNameForObject(iblockdata.getBlock()).toString());
         if (!iblockdata.getProperties().isEmpty()) {
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             UnmodifiableIterator unmodifiableiterator = iblockdata.getProperties().entrySet().iterator();

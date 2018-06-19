@@ -19,7 +19,7 @@ public class BiomeHills extends Biome {
     private final WorldGenTaiga2 spruceGenerator;
     private final BiomeHills.Type type;
 
-    protected BiomeHills(BiomeHills.Type biomebighills_type, BiomeBase.a biomebase_a) {
+    protected BiomeHills(BiomeHills.Type biomebighills_type, Biome.a biomebase_a) {
         super(biomebase_a);
         this.silverfishSpawner = new WorldGenMinable(Blocks.MONSTER_EGG.getDefaultState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.STONE), 9);
         this.spruceGenerator = new WorldGenTaiga2(false);
@@ -31,10 +31,12 @@ public class BiomeHills extends Biome {
         this.type = biomebighills_type;
     }
 
+    @Override
     public WorldGenAbstractTree getRandomTreeFeature(Random random) {
-        return (WorldGenAbstractTree) (random.nextInt(3) > 0 ? this.spruceGenerator : super.getRandomTreeFeature(random));
+        return random.nextInt(3) > 0 ? this.spruceGenerator : super.getRandomTreeFeature(random);
     }
 
+    @Override
     public void decorate(World world, Random random, BlockPos blockposition) {
         super.decorate(world, random, blockposition);
         int i = 3 + random.nextInt(6);
@@ -75,6 +77,7 @@ public class BiomeHills extends Biome {
 
     }
 
+    @Override
     public void genTerrainBlocks(World world, Random random, ChunkPrimer chunksnapshot, int i, int j, double d0) {
         this.topBlock = Blocks.GRASS.getDefaultState();
         this.fillerBlock = Blocks.DIRT.getDefaultState();
