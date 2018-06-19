@@ -49,7 +49,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
     }
 
     @Override
-    public Chunk generateChunk(int x, int z) {
+    public Chunk func_185932_a(int x, int z) {
         random.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
 
         Chunk chunk;
@@ -57,7 +57,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
         // Get default biome data for chunk
         CustomBiomeGrid biomegrid = new CustomBiomeGrid();
         biomegrid.biome = new Biome[256];
-        world.getBiomeProvider().getBiomes(biomegrid.biome, x << 4, z << 4, 16, 16);
+        world.func_72959_q().func_76933_b(biomegrid.biome, x << 4, z << 4, 16, 16);
 
         // Try ChunkData method (1.8+)
         CraftChunkData data = (CraftChunkData) generator.generateChunkData(this.world.getWorld(), random, x, z, biomegrid);
@@ -65,7 +65,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
             char[][] sections = data.getRawChunkData();
             chunk = new Chunk(this.world, x, z);
             
-            ExtendedBlockStorage[] csect = chunk.getBlockStorageArray();
+            ExtendedBlockStorage[] csect = chunk.func_76587_i();
             int scnt = Math.min(csect.length, sections.length);
             
             // Loop through returned sections
@@ -77,7 +77,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                 char emptyTest = 0;
                 for (int i = 0; i < 4096; i++) {
                     // Filter invalid block id & data values.
-                    if (Block.BLOCK_STATE_IDS.getByValue(section[i]) == null) {
+                    if (Block.field_176229_d.func_148745_a(section[i]) == null) {
                         section[i] = 0;
                     }
                     emptyTest |= section[i];
@@ -94,7 +94,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
             if (xbtypes != null) {
                 chunk = new Chunk(this.world, x, z);
                 
-                ExtendedBlockStorage[] csect = chunk.getBlockStorageArray();
+                ExtendedBlockStorage[] csect = chunk.func_76587_i();
                 int scnt = Math.min(csect.length, xbtypes.length);
                 
                 // Loop through returned sections
@@ -105,8 +105,8 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                     char[] secBlkID = new char[4096]; // Allocate blk ID bytes
                     short[] bdata = xbtypes[sec];
                     for (int i = 0; i < bdata.length; i++) {
-                        Block b = Block.getBlockById(bdata[i]);
-                        secBlkID[i] = (char) Block.BLOCK_STATE_IDS.get(b.getDefaultState());
+                        Block b = Block.func_149729_e(bdata[i]);
+                        secBlkID[i] = (char) Block.field_176229_d.func_148747_b(b.func_176223_P());
                     }
                     // Build chunk section
                     csect[sec] = new ExtendedBlockStorage(sec << 4, true, secBlkID, this.world.chunkPacketBlockController.getPredefinedBlockData(chunk, sec)); // Paper - Anti-Xray - Add predefined block data
@@ -118,7 +118,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                 if (btypes != null) {
                     chunk = new Chunk(this.world, x, z);
                     
-                    ExtendedBlockStorage[] csect = chunk.getBlockStorageArray();
+                    ExtendedBlockStorage[] csect = chunk.func_76587_i();
                     int scnt = Math.min(csect.length, btypes.length);
                     
                     for (int sec = 0; sec < scnt; sec++) {
@@ -128,8 +128,8 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                         
                         char[] secBlkID = new char[4096]; // Allocate block ID bytes
                         for (int i = 0; i < secBlkID.length; i++) {
-                            Block b = Block.getBlockById(btypes[sec][i] & 0xFF);
-                            secBlkID[i] = (char) Block.BLOCK_STATE_IDS.get(b.getDefaultState());
+                            Block b = Block.func_149729_e(btypes[sec][i] & 0xFF);
+                            secBlkID[i] = (char) Block.field_176229_d.func_148747_b(b.func_176223_P());
                         }
                         csect[sec] = new ExtendedBlockStorage(sec << 4, true, secBlkID, this.world.chunkPacketBlockController.getPredefinedBlockData(chunk, sec)); // Paper - Anti-Xray - Add predefined block data
                     }
@@ -142,7 +142,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                     
                     chunk = new Chunk(this.world, x, z); // Create empty chunk
                     
-                    ExtendedBlockStorage[] csect = chunk.getBlockStorageArray();
+                    ExtendedBlockStorage[] csect = chunk.func_76587_i();
                     
                     scnt = Math.min(scnt, csect.length);
                     // Loop through sections
@@ -163,8 +163,8 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                                             csbytes = new char[16*16*16];
                                         }
                                         
-                                        Block b = Block.getBlockById(blk & 0xFF);
-                                        csbytes[(cy << 8) | (cz << 4) | cx] = (char) Block.BLOCK_STATE_IDS.get(b.getDefaultState());
+                                        Block b = Block.func_149729_e(blk & 0xFF);
+                                        csbytes[(cy << 8) | (cz << 4) | cx] = (char) Block.field_176229_d.func_148747_b(b.func_176223_P());
                                     }
                                 }
                             }
@@ -172,25 +172,25 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
                         // If section built, finish prepping its state
                         if (csbytes != null) {
                             ExtendedBlockStorage cs = csect[sec] = new ExtendedBlockStorage(sec << 4, true, csbytes, this.world.chunkPacketBlockController.getPredefinedBlockData(chunk, sec)); // Paper - Anti-Xray - Add predefined block data
-                            cs.recalculateRefCounts();
+                            cs.func_76672_e();
                         }
                     }
                 }
             }
         }
         // Set biome grid
-        byte[] biomeIndex = chunk.getBiomeArray();
+        byte[] biomeIndex = chunk.func_76605_m();
         for (int i = 0; i < biomeIndex.length; i++) {
-            biomeIndex[i] = (byte) (Biome.REGISTRY.getIDForObject(biomegrid.biome[i]) & 0xFF); // PAIL : rename
+            biomeIndex[i] = (byte) (Biome.field_185377_q.func_148757_b(biomegrid.biome[i]) & 0xFF); // PAIL : rename
         }
         // Initialize lighting
-        chunk.generateSkylightMap();
+        chunk.func_76603_b();
 
         return chunk;
     }
 
     @Override
-    public boolean generateStructures(Chunk chunk, int i, int i1) {
+    public boolean func_185933_a(Chunk chunk, int i, int i1) {
         return false;
     }
 
@@ -211,7 +211,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
     }
 
     public Chunk getChunkAt(int x, int z) {
-        return generateChunk(x, z);
+        return func_185932_a(x, z);
     }
 
     @Override
@@ -225,27 +225,27 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
     }
 
     @Override
-    public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType type, BlockPos position) {
-        Biome biomebase = world.getBiome(position);
+    public List<Biome.SpawnListEntry> func_177458_a(EnumCreatureType type, BlockPos position) {
+        Biome biomebase = world.func_180494_b(position);
 
-        return biomebase == null ? null : biomebase.getSpawnableList(type);
+        return biomebase == null ? null : biomebase.func_76747_a(type);
     }
 
     @Override
-    public boolean isInsideStructure(World world, String type, BlockPos position) {
-        return "Stronghold".equals(type) && this.strongholdGen != null ? this.strongholdGen.isInsideStructure(position) : false;
+    public boolean func_193414_a(World world, String type, BlockPos position) {
+        return "Stronghold".equals(type) && this.strongholdGen != null ? this.strongholdGen.func_175795_b(position) : false;
     }
 
     @Override
-    public BlockPos getNearestStructurePos(World world, String type, BlockPos position, boolean flag) {
-        return "Stronghold".equals(type) && this.strongholdGen != null ? this.strongholdGen.getNearestStructurePos(world, position, flag) : null;
+    public BlockPos func_180513_a(World world, String type, BlockPos position, boolean flag) {
+        return "Stronghold".equals(type) && this.strongholdGen != null ? this.strongholdGen.func_180706_b(world, position, flag) : null;
     }
 
     @Override
-    public void populate(int i, int j) {}
+    public void func_185931_b(int i, int j) {}
 
     @Override
-    public void recreateStructures(Chunk chunk, int i, int j) {
-        strongholdGen.generate(this.world, i, j, (ChunkPrimer) null);
+    public void func_180514_a(Chunk chunk, int i, int j) {
+        strongholdGen.func_186125_a(this.world, i, j, (ChunkPrimer) null);
     }
 }

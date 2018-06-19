@@ -8,35 +8,35 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketSteerBoat implements Packet<INetHandlerPlayServer> {
 
-    private boolean left;
-    private boolean right;
+    private boolean field_187015_a;
+    private boolean field_187016_b;
 
     public CPacketSteerBoat() {}
 
     public CPacketSteerBoat(boolean flag, boolean flag1) {
-        this.left = flag;
-        this.right = flag1;
+        this.field_187015_a = flag;
+        this.field_187016_b = flag1;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.left = packetdataserializer.readBoolean();
-        this.right = packetdataserializer.readBoolean();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_187015_a = packetdataserializer.readBoolean();
+        this.field_187016_b = packetdataserializer.readBoolean();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeBoolean(this.left);
-        packetdataserializer.writeBoolean(this.right);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeBoolean(this.field_187015_a);
+        packetdataserializer.writeBoolean(this.field_187016_b);
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.processSteerBoat(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_184340_a(this);
     }
 
-    public boolean getLeft() {
-        return this.left;
+    public boolean func_187012_a() {
+        return this.field_187015_a;
     }
 
-    public boolean getRight() {
-        return this.right;
+    public boolean func_187014_b() {
+        return this.field_187016_b;
     }
 }

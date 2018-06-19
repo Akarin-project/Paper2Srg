@@ -46,74 +46,74 @@ import org.bukkit.event.entity.EntityCombustEvent;
 
 public abstract class AbstractSkeleton extends EntityMob implements IRangedAttackMob {
 
-    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.createKey(AbstractSkeleton.class, DataSerializers.BOOLEAN);
-    private final EntityAIAttackRangedBow<AbstractSkeleton> aiArrowAttack = new EntityAIAttackRangedBow(this, 1.0D, 20, 15.0F);
-    private final EntityAIAttackMelee aiAttackOnCollide = new EntityAIAttackMelee(this, 1.2D, false) { // CraftBukkit - decompile error
-        public void resetTask() {
-            super.resetTask();
-            AbstractSkeleton.this.setSwingingArms(false);
+    private static final DataParameter<Boolean> field_184728_b = EntityDataManager.func_187226_a(AbstractSkeleton.class, DataSerializers.field_187198_h);
+    private final EntityAIAttackRangedBow<AbstractSkeleton> field_85037_d = new EntityAIAttackRangedBow(this, 1.0D, 20, 15.0F);
+    private final EntityAIAttackMelee field_85038_e = new EntityAIAttackMelee(this, 1.2D, false) { // CraftBukkit - decompile error
+        public void func_75251_c() {
+            super.func_75251_c();
+            AbstractSkeleton.this.func_184724_a(false);
         }
 
-        public void startExecuting() {
-            super.startExecuting();
-            AbstractSkeleton.this.setSwingingArms(true);
+        public void func_75249_e() {
+            super.func_75249_e();
+            AbstractSkeleton.this.func_184724_a(true);
         }
     };
 
     public AbstractSkeleton(World world) {
         super(world);
-        this.setSize(0.6F, 1.99F);
-        this.setCombatTask();
+        this.func_70105_a(0.6F, 1.99F);
+        this.func_85036_m();
     }
 
-    protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIRestrictSun(this));
-        this.tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
-        this.tasks.addTask(3, new EntityAIAvoidEntity(this, EntityWolf.class, 6.0F, 1.0D, 1.2D));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityIronGolem.class, true));
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(1, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(2, new EntityAIRestrictSun(this));
+        this.field_70714_bg.func_75776_a(3, new EntityAIFleeSun(this, 1.0D));
+        this.field_70714_bg.func_75776_a(3, new EntityAIAvoidEntity(this, EntityWolf.class, 6.0F, 1.0D, 1.2D));
+        this.field_70714_bg.func_75776_a(5, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.field_70714_bg.func_75776_a(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.field_70714_bg.func_75776_a(6, new EntityAILookIdle(this));
+        this.field_70715_bh.func_75776_a(1, new EntityAIHurtByTarget(this, false, new Class[0]));
+        this.field_70715_bh.func_75776_a(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+        this.field_70715_bh.func_75776_a(3, new EntityAINearestAttackableTarget(this, EntityIronGolem.class, true));
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(AbstractSkeleton.SWINGING_ARMS, Boolean.valueOf(false));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(AbstractSkeleton.field_184728_b, Boolean.valueOf(false));
     }
 
-    protected void playStepSound(BlockPos blockposition, Block block) {
-        this.playSound(this.getStepSound(), 0.15F, 1.0F);
+    protected void func_180429_a(BlockPos blockposition, Block block) {
+        this.func_184185_a(this.func_190727_o(), 0.15F, 1.0F);
     }
 
-    abstract SoundEvent getStepSound();
+    abstract SoundEvent func_190727_o();
 
-    public EnumCreatureAttribute getCreatureAttribute() {
+    public EnumCreatureAttribute func_70668_bt() {
         return EnumCreatureAttribute.UNDEAD;
     }
 
-    public void onLivingUpdate() {
-        if (this.world.isDaytime() && !this.world.isRemote) {
-            float f = this.getBrightness();
-            BlockPos blockposition = this.getRidingEntity() instanceof EntityBoat ? (new BlockPos(this.posX, (double) Math.round(this.posY), this.posZ)).up() : new BlockPos(this.posX, (double) Math.round(this.posY), this.posZ);
+    public void func_70636_d() {
+        if (this.field_70170_p.func_72935_r() && !this.field_70170_p.field_72995_K) {
+            float f = this.func_70013_c();
+            BlockPos blockposition = this.func_184187_bx() instanceof EntityBoat ? (new BlockPos(this.field_70165_t, (double) Math.round(this.field_70163_u), this.field_70161_v)).func_177984_a() : new BlockPos(this.field_70165_t, (double) Math.round(this.field_70163_u), this.field_70161_v);
 
-            if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.world.canSeeSky(blockposition)) {
+            if (f > 0.5F && this.field_70146_Z.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.field_70170_p.func_175678_i(blockposition)) {
                 boolean flag = true;
-                ItemStack itemstack = this.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+                ItemStack itemstack = this.func_184582_a(EntityEquipmentSlot.HEAD);
 
-                if (!itemstack.isEmpty()) {
-                    if (itemstack.isItemStackDamageable()) {
-                        itemstack.setItemDamage(itemstack.getItemDamage() + this.rand.nextInt(2));
-                        if (itemstack.getItemDamage() >= itemstack.getMaxDamage()) {
-                            this.renderBrokenItemStack(itemstack);
-                            this.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.EMPTY);
+                if (!itemstack.func_190926_b()) {
+                    if (itemstack.func_77984_f()) {
+                        itemstack.func_77964_b(itemstack.func_77952_i() + this.field_70146_Z.nextInt(2));
+                        if (itemstack.func_77952_i() >= itemstack.func_77958_k()) {
+                            this.func_70669_a(itemstack);
+                            this.func_184201_a(EntityEquipmentSlot.HEAD, ItemStack.field_190927_a);
                         }
                     }
 
@@ -123,127 +123,127 @@ public abstract class AbstractSkeleton extends EntityMob implements IRangedAttac
                 if (flag) {
                     // CraftBukkit start
                     EntityCombustEvent event = new EntityCombustEvent(this.getBukkitEntity(), 8);
-                    this.world.getServer().getPluginManager().callEvent(event);
+                    this.field_70170_p.getServer().getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {
-                        this.setFire(event.getDuration());
+                        this.func_70015_d(event.getDuration());
                     }
                     // CraftBukkit end
                 }
             }
         }
 
-        super.onLivingUpdate();
+        super.func_70636_d();
     }
 
-    public void updateRidden() {
-        super.updateRidden();
-        if (this.getRidingEntity() instanceof EntityCreature) {
-            EntityCreature entitycreature = (EntityCreature) this.getRidingEntity();
+    public void func_70098_U() {
+        super.func_70098_U();
+        if (this.func_184187_bx() instanceof EntityCreature) {
+            EntityCreature entitycreature = (EntityCreature) this.func_184187_bx();
 
-            this.renderYawOffset = entitycreature.renderYawOffset;
+            this.field_70761_aq = entitycreature.field_70761_aq;
         }
 
     }
 
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficultydamagescaler) {
-        super.setEquipmentBasedOnDifficulty(difficultydamagescaler);
-        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
+    protected void func_180481_a(DifficultyInstance difficultydamagescaler) {
+        super.func_180481_a(difficultydamagescaler);
+        this.func_184201_a(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.field_151031_f));
     }
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
-        groupdataentity = super.onInitialSpawn(difficultydamagescaler, groupdataentity);
-        this.setEquipmentBasedOnDifficulty(difficultydamagescaler);
-        this.setEnchantmentBasedOnDifficulty(difficultydamagescaler);
-        this.setCombatTask();
-        this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficultydamagescaler.getClampedAdditionalDifficulty());
-        if (this.getItemStackFromSlot(EntityEquipmentSlot.HEAD).isEmpty()) {
-            Calendar calendar = this.world.getCurrentDate();
+    public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
+        groupdataentity = super.func_180482_a(difficultydamagescaler, groupdataentity);
+        this.func_180481_a(difficultydamagescaler);
+        this.func_180483_b(difficultydamagescaler);
+        this.func_85036_m();
+        this.func_98053_h(this.field_70146_Z.nextFloat() < 0.55F * difficultydamagescaler.func_180170_c());
+        if (this.func_184582_a(EntityEquipmentSlot.HEAD).func_190926_b()) {
+            Calendar calendar = this.field_70170_p.func_83015_S();
 
-            if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && this.rand.nextFloat() < 0.25F) {
-                this.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(this.rand.nextFloat() < 0.1F ? Blocks.LIT_PUMPKIN : Blocks.PUMPKIN));
-                this.inventoryArmorDropChances[EntityEquipmentSlot.HEAD.getIndex()] = 0.0F;
+            if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && this.field_70146_Z.nextFloat() < 0.25F) {
+                this.func_184201_a(EntityEquipmentSlot.HEAD, new ItemStack(this.field_70146_Z.nextFloat() < 0.1F ? Blocks.field_150428_aP : Blocks.field_150423_aK));
+                this.field_184655_bs[EntityEquipmentSlot.HEAD.func_188454_b()] = 0.0F;
             }
         }
 
         return groupdataentity;
     }
 
-    public void setCombatTask() {
-        if (this.world != null && !this.world.isRemote) {
-            this.tasks.removeTask((EntityAIBase) this.aiAttackOnCollide);
-            this.tasks.removeTask((EntityAIBase) this.aiArrowAttack);
-            ItemStack itemstack = this.getHeldItemMainhand();
+    public void func_85036_m() {
+        if (this.field_70170_p != null && !this.field_70170_p.field_72995_K) {
+            this.field_70714_bg.func_85156_a((EntityAIBase) this.field_85038_e);
+            this.field_70714_bg.func_85156_a((EntityAIBase) this.field_85037_d);
+            ItemStack itemstack = this.func_184614_ca();
 
-            if (itemstack.getItem() == Items.BOW) {
+            if (itemstack.func_77973_b() == Items.field_151031_f) {
                 byte b0 = 20;
 
-                if (this.world.getDifficulty() != EnumDifficulty.HARD) {
+                if (this.field_70170_p.func_175659_aa() != EnumDifficulty.HARD) {
                     b0 = 40;
                 }
 
-                this.aiArrowAttack.setAttackCooldown(b0);
-                this.tasks.addTask(4, this.aiArrowAttack);
+                this.field_85037_d.func_189428_b(b0);
+                this.field_70714_bg.func_75776_a(4, this.field_85037_d);
             } else {
-                this.tasks.addTask(4, this.aiAttackOnCollide);
+                this.field_70714_bg.func_75776_a(4, this.field_85038_e);
             }
 
         }
     }
 
-    public void attackEntityWithRangedAttack(EntityLivingBase entityliving, float f) {
-        EntityArrow entityarrow = this.getArrow(f);
-        double d0 = entityliving.posX - this.posX;
-        double d1 = entityliving.getEntityBoundingBox().minY + (double) (entityliving.height / 3.0F) - entityarrow.posY;
-        double d2 = entityliving.posZ - this.posZ;
-        double d3 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
+    public void func_82196_d(EntityLivingBase entityliving, float f) {
+        EntityArrow entityarrow = this.func_190726_a(f);
+        double d0 = entityliving.field_70165_t - this.field_70165_t;
+        double d1 = entityliving.func_174813_aQ().field_72338_b + (double) (entityliving.field_70131_O / 3.0F) - entityarrow.field_70163_u;
+        double d2 = entityliving.field_70161_v - this.field_70161_v;
+        double d3 = (double) MathHelper.func_76133_a(d0 * d0 + d2 * d2);
 
-        entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float) (14 - this.world.getDifficulty().getDifficultyId() * 4));
+        entityarrow.func_70186_c(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float) (14 - this.field_70170_p.func_175659_aa().func_151525_a() * 4));
         // CraftBukkit start
-        org.bukkit.event.entity.EntityShootBowEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callEntityShootBowEvent(this, this.getHeldItemMainhand(), this.getHeldItemOffhand(), entityarrow, 0.8F); // Paper
+        org.bukkit.event.entity.EntityShootBowEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callEntityShootBowEvent(this, this.func_184614_ca(), this.func_184592_cb(), entityarrow, 0.8F); // Paper
         if (event.isCancelled()) {
             event.getProjectile().remove();
             return;
         }
 
         if (event.getProjectile() == entityarrow.getBukkitEntity()) {
-            world.spawnEntity(entityarrow);
+            field_70170_p.func_72838_d(entityarrow);
         }
         // CraftBukkit end
-        this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+        this.func_184185_a(SoundEvents.field_187866_fi, 1.0F, 1.0F / (this.func_70681_au().nextFloat() * 0.4F + 0.8F));
         // this.world.addEntity(entityarrow); // CraftBukkit - moved up
     }
 
-    protected EntityArrow getArrow(float f) {
-        EntityTippedArrow entitytippedarrow = new EntityTippedArrow(this.world, this);
+    protected EntityArrow func_190726_a(float f) {
+        EntityTippedArrow entitytippedarrow = new EntityTippedArrow(this.field_70170_p, this);
 
-        entitytippedarrow.setEnchantmentEffectsFromEntity((EntityLivingBase) this, f);
+        entitytippedarrow.func_190547_a((EntityLivingBase) this, f);
         return entitytippedarrow;
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.setCombatTask();
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.func_85036_m();
     }
 
-    public void setItemStackToSlot(EntityEquipmentSlot enumitemslot, ItemStack itemstack) {
-        super.setItemStackToSlot(enumitemslot, itemstack);
-        if (!this.world.isRemote && enumitemslot == EntityEquipmentSlot.MAINHAND) {
-            this.setCombatTask();
+    public void func_184201_a(EntityEquipmentSlot enumitemslot, ItemStack itemstack) {
+        super.func_184201_a(enumitemslot, itemstack);
+        if (!this.field_70170_p.field_72995_K && enumitemslot == EntityEquipmentSlot.MAINHAND) {
+            this.func_85036_m();
         }
 
     }
 
-    public float getEyeHeight() {
+    public float func_70047_e() {
         return 1.74F;
     }
 
-    public double getYOffset() {
+    public double func_70033_W() {
         return -0.6D;
     }
 
-    public void setSwingingArms(boolean flag) {
-        this.dataManager.set(AbstractSkeleton.SWINGING_ARMS, Boolean.valueOf(flag));
+    public void func_184724_a(boolean flag) {
+        this.field_70180_af.func_187227_b(AbstractSkeleton.field_184728_b, Boolean.valueOf(flag));
     }
 }

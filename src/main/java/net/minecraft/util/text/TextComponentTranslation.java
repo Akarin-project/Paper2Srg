@@ -14,17 +14,17 @@ import net.minecraft.util.text.translation.I18n;
 
 public class TextComponentTranslation extends TextComponentBase {
 
-    private final String key;
-    private final Object[] formatArgs;
-    private final Object syncLock = new Object();
-    private long lastTranslationUpdateTimeInMilliseconds = -1L;
+    private final String field_150276_d;
+    private final Object[] field_150277_e;
+    private final Object field_150274_f = new Object();
+    private long field_150275_g = -1L;
     @VisibleForTesting
-    List<ITextComponent> children = Lists.newArrayList();
-    public static final Pattern STRING_VARIABLE_PATTERN = Pattern.compile("%(?:(\\d+)\\$)?([A-Za-z%]|$)");
+    List<ITextComponent> field_150278_b = Lists.newArrayList();
+    public static final Pattern field_150279_c = Pattern.compile("%(?:(\\d+)\\$)?([A-Za-z%]|$)");
 
     public TextComponentTranslation(String s, Object... aobject) {
-        this.key = s;
-        this.formatArgs = aobject;
+        this.field_150276_d = s;
+        this.field_150277_e = aobject;
         Object[] aobject1 = aobject;
         int i = aobject.length;
 
@@ -32,34 +32,34 @@ public class TextComponentTranslation extends TextComponentBase {
             Object object = aobject1[j];
 
             if (object instanceof ITextComponent) {
-                ((ITextComponent) object).getStyle().setParentStyle(this.getStyle());
+                ((ITextComponent) object).func_150256_b().func_150221_a(this.func_150256_b());
             }
         }
 
     }
 
     @VisibleForTesting
-    synchronized void ensureInitialized() {
-        Object object = this.syncLock;
+    synchronized void func_150270_g() {
+        Object object = this.field_150274_f;
 
-        synchronized (this.syncLock) {
-            long i = I18n.getLastTranslationUpdateTimeInMilliseconds();
+        synchronized (this.field_150274_f) {
+            long i = I18n.func_150827_a();
 
-            if (i == this.lastTranslationUpdateTimeInMilliseconds) {
+            if (i == this.field_150275_g) {
                 return;
             }
 
-            this.lastTranslationUpdateTimeInMilliseconds = i;
-            this.children.clear();
+            this.field_150275_g = i;
+            this.field_150278_b.clear();
         }
 
         try {
-            this.initializeFromFormat(I18n.translateToLocal(this.key));
+            this.func_150269_b(I18n.func_74838_a(this.field_150276_d));
         } catch (TextComponentTranslationFormatException chatmessageexception) {
-            this.children.clear();
+            this.field_150278_b.clear();
 
             try {
-                this.initializeFromFormat(I18n.translateToFallback(this.key));
+                this.func_150269_b(I18n.func_150826_b(this.field_150276_d));
             } catch (TextComponentTranslationFormatException chatmessageexception1) {
                 throw chatmessageexception;
             }
@@ -67,9 +67,9 @@ public class TextComponentTranslation extends TextComponentBase {
 
     }
 
-    protected void initializeFromFormat(String s) {
+    protected void func_150269_b(String s) {
         boolean flag = false;
-        Matcher matcher = TextComponentTranslation.STRING_VARIABLE_PATTERN.matcher(s);
+        Matcher matcher = TextComponentTranslation.field_150279_c.matcher(s);
         int i = 0;
         int j = 0;
 
@@ -83,8 +83,8 @@ public class TextComponentTranslation extends TextComponentBase {
                 if (l > j) {
                     TextComponentString chatcomponenttext = new TextComponentString(String.format(s.substring(j, l), new Object[0]));
 
-                    chatcomponenttext.getStyle().setParentStyle(this.getStyle());
-                    this.children.add(chatcomponenttext);
+                    chatcomponenttext.func_150256_b().func_150221_a(this.func_150256_b());
+                    this.field_150278_b.add(chatcomponenttext);
                 }
 
                 String s1 = matcher.group(2);
@@ -93,8 +93,8 @@ public class TextComponentTranslation extends TextComponentBase {
                 if ("%".equals(s1) && "%%".equals(s2)) {
                     TextComponentString chatcomponenttext1 = new TextComponentString("%");
 
-                    chatcomponenttext1.getStyle().setParentStyle(this.getStyle());
-                    this.children.add(chatcomponenttext1);
+                    chatcomponenttext1.func_150256_b().func_150221_a(this.func_150256_b());
+                    this.field_150278_b.add(chatcomponenttext1);
                 } else {
                     if (!"s".equals(s1)) {
                         throw new TextComponentTranslationFormatException(this, "Unsupported format: \'" + s2 + "\'");
@@ -103,8 +103,8 @@ public class TextComponentTranslation extends TextComponentBase {
                     String s3 = matcher.group(1);
                     int i1 = s3 != null ? Integer.parseInt(s3) - 1 : i++;
 
-                    if (i1 < this.formatArgs.length) {
-                        this.children.add(this.getFormatArgumentAsComponent(i1));
+                    if (i1 < this.field_150277_e.length) {
+                        this.field_150278_b.add(this.func_150272_a(i1));
                     }
                 }
             }
@@ -112,8 +112,8 @@ public class TextComponentTranslation extends TextComponentBase {
             if (j < s.length()) {
                 TextComponentString chatcomponenttext2 = new TextComponentString(String.format(s.substring(j), new Object[0]));
 
-                chatcomponenttext2.getStyle().setParentStyle(this.getStyle());
-                this.children.add(chatcomponenttext2);
+                chatcomponenttext2.func_150256_b().func_150221_a(this.func_150256_b());
+                this.field_150278_b.add(chatcomponenttext2);
             }
 
         } catch (IllegalFormatException illegalformatexception) {
@@ -121,99 +121,94 @@ public class TextComponentTranslation extends TextComponentBase {
         }
     }
 
-    private ITextComponent getFormatArgumentAsComponent(int i) {
-        if (i >= this.formatArgs.length) {
+    private ITextComponent func_150272_a(int i) {
+        if (i >= this.field_150277_e.length) {
             throw new TextComponentTranslationFormatException(this, i);
         } else {
-            Object object = this.formatArgs[i];
+            Object object = this.field_150277_e[i];
             Object object1;
 
             if (object instanceof ITextComponent) {
-                object1 = object;
+                object1 = (ITextComponent) object;
             } else {
                 object1 = new TextComponentString(object == null ? "null" : object.toString());
-                ((ITextComponent) object1).getStyle().setParentStyle(this.getStyle());
+                ((ITextComponent) object1).func_150256_b().func_150221_a(this.func_150256_b());
             }
 
             return (ITextComponent) object1;
         }
     }
 
-    @Override
-    public ITextComponent setStyle(Style chatmodifier) {
-        super.setStyle(chatmodifier);
-        Object[] aobject = this.formatArgs;
+    public ITextComponent func_150255_a(Style chatmodifier) {
+        super.func_150255_a(chatmodifier);
+        Object[] aobject = this.field_150277_e;
         int i = aobject.length;
 
         for (int j = 0; j < i; ++j) {
             Object object = aobject[j];
 
             if (object instanceof ITextComponent) {
-                ((ITextComponent) object).getStyle().setParentStyle(this.getStyle());
+                ((ITextComponent) object).func_150256_b().func_150221_a(this.func_150256_b());
             }
         }
 
-        if (this.lastTranslationUpdateTimeInMilliseconds > -1L) {
-            Iterator iterator = this.children.iterator();
+        if (this.field_150275_g > -1L) {
+            Iterator iterator = this.field_150278_b.iterator();
 
             while (iterator.hasNext()) {
                 ITextComponent ichatbasecomponent = (ITextComponent) iterator.next();
 
-                ichatbasecomponent.getStyle().setParentStyle(chatmodifier);
+                ichatbasecomponent.func_150256_b().func_150221_a(chatmodifier);
             }
         }
 
         return this;
     }
 
-    @Override
     public Iterator<ITextComponent> iterator() {
-        this.ensureInitialized();
-        return Iterators.concat(createDeepCopyIterator(this.children), createDeepCopyIterator(this.siblings));
+        this.func_150270_g();
+        return Iterators.concat(func_150262_a((Iterable) this.field_150278_b), func_150262_a((Iterable) this.field_150264_a));
     }
 
-    @Override
-    public String getUnformattedComponentText() {
-        this.ensureInitialized();
+    public String func_150261_e() {
+        this.func_150270_g();
         StringBuilder stringbuilder = new StringBuilder();
-        Iterator iterator = this.children.iterator();
+        Iterator iterator = this.field_150278_b.iterator();
 
         while (iterator.hasNext()) {
             ITextComponent ichatbasecomponent = (ITextComponent) iterator.next();
 
-            stringbuilder.append(ichatbasecomponent.getUnformattedComponentText());
+            stringbuilder.append(ichatbasecomponent.func_150261_e());
         }
 
         return stringbuilder.toString();
     }
 
-    @Override
-    public TextComponentTranslation createCopy() {
-        Object[] aobject = new Object[this.formatArgs.length];
+    public TextComponentTranslation func_150259_f() {
+        Object[] aobject = new Object[this.field_150277_e.length];
 
-        for (int i = 0; i < this.formatArgs.length; ++i) {
-            if (this.formatArgs[i] instanceof ITextComponent) {
-                aobject[i] = ((ITextComponent) this.formatArgs[i]).createCopy();
+        for (int i = 0; i < this.field_150277_e.length; ++i) {
+            if (this.field_150277_e[i] instanceof ITextComponent) {
+                aobject[i] = ((ITextComponent) this.field_150277_e[i]).func_150259_f();
             } else {
-                aobject[i] = this.formatArgs[i];
+                aobject[i] = this.field_150277_e[i];
             }
         }
 
-        TextComponentTranslation chatmessage = new TextComponentTranslation(this.key, aobject);
+        TextComponentTranslation chatmessage = new TextComponentTranslation(this.field_150276_d, aobject);
 
-        chatmessage.setStyle(this.getStyle().createShallowCopy());
-        Iterator iterator = this.getSiblings().iterator();
+        chatmessage.func_150255_a(this.func_150256_b().func_150232_l());
+        Iterator iterator = this.func_150253_a().iterator();
 
         while (iterator.hasNext()) {
             ITextComponent ichatbasecomponent = (ITextComponent) iterator.next();
 
-            chatmessage.appendSibling(ichatbasecomponent.createCopy());
+            chatmessage.func_150257_a(ichatbasecomponent.func_150259_f());
         }
 
         return chatmessage;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -222,29 +217,31 @@ public class TextComponentTranslation extends TextComponentBase {
         } else {
             TextComponentTranslation chatmessage = (TextComponentTranslation) object;
 
-            return Arrays.equals(this.formatArgs, chatmessage.formatArgs) && this.key.equals(chatmessage.key) && super.equals(object);
+            return Arrays.equals(this.field_150277_e, chatmessage.field_150277_e) && this.field_150276_d.equals(chatmessage.field_150276_d) && super.equals(object);
         }
     }
 
-    @Override
     public int hashCode() {
         int i = super.hashCode();
 
-        i = 31 * i + this.key.hashCode();
-        i = 31 * i + Arrays.hashCode(this.formatArgs);
+        i = 31 * i + this.field_150276_d.hashCode();
+        i = 31 * i + Arrays.hashCode(this.field_150277_e);
         return i;
     }
 
-    @Override
     public String toString() {
-        return "TranslatableComponent{key=\'" + this.key + '\'' + ", args=" + Arrays.toString(this.formatArgs) + ", siblings=" + this.siblings + ", style=" + this.getStyle() + '}';
+        return "TranslatableComponent{key=\'" + this.field_150276_d + '\'' + ", args=" + Arrays.toString(this.field_150277_e) + ", siblings=" + this.field_150264_a + ", style=" + this.func_150256_b() + '}';
     }
 
-    public String getKey() {
-        return this.key;
+    public String func_150268_i() {
+        return this.field_150276_d;
     }
 
-    public Object[] getFormatArgs() {
-        return this.formatArgs;
+    public Object[] func_150271_j() {
+        return this.field_150277_e;
+    }
+
+    public ITextComponent func_150259_f() {
+        return this.func_150259_f();
     }
 }

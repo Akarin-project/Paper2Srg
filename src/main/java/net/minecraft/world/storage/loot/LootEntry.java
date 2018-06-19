@@ -13,29 +13,30 @@ import java.util.Collection;
 import java.util.Random;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.LotoSelectorEntry.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 
 public abstract class LootEntry {
 
-    protected final int weight; public int getWeight() { return weight; } // Paper - OBFHELPER
-    protected final int quality; public int getQuality() { return quality; } // Paper - OBFHELPER
-    protected final LootCondition[] conditions;
+    protected final int field_186364_c; public int getWeight() { return field_186364_c; } // Paper - OBFHELPER
+    protected final int field_186365_d; public int getQuality() { return field_186365_d; } // Paper - OBFHELPER
+    protected final LootCondition[] field_186366_e;
 
     protected LootEntry(int i, int j, LootCondition[] alootitemcondition) {
-        this.weight = i;
-        this.quality = j;
-        this.conditions = alootitemcondition;
+        this.field_186364_c = i;
+        this.field_186365_d = j;
+        this.field_186366_e = alootitemcondition;
     }
 
-    public int getEffectiveWeight(float f) {
+    public int func_186361_a(float f) {
         // Paper start - Offer an alternative loot formula to refactor how luck bonus applies
         // SEE: https://luckformula.emc.gs for details and data
         if (lastLuck != null && lastLuck == f) {
             return lastWeight;
         }
         // This is vanilla
-        float qualityModifer = this.getQuality() * f;
+        float qualityModifer = (float) this.getQuality() * f;
         double baseWeight = (this.getWeight() + qualityModifer);
         if (com.destroystokyo.paper.PaperConfig.useAlternativeLuckFormula) {
             // Random boost to avoid losing precision in the final int cast on return
@@ -58,33 +59,33 @@ public abstract class LootEntry {
     private int lastWeight = 0;
     // Paper end
 
-    public abstract void addLoot(Collection<ItemStack> collection, Random random, LootContext loottableinfo);
+    public abstract void func_186363_a(Collection<ItemStack> collection, Random random, LootContext loottableinfo);
 
-    protected abstract void serialize(JsonObject jsonobject, JsonSerializationContext jsonserializationcontext);
+    protected abstract void func_186362_a(JsonObject jsonobject, JsonSerializationContext jsonserializationcontext);
 
     public static class a implements JsonDeserializer<LootEntry>, JsonSerializer<LootEntry> {
 
         public a() {}
 
         public LootEntry a(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "loot item");
-            String s = JsonUtils.getString(jsonobject, "type");
-            int i = JsonUtils.getInt(jsonobject, "weight", 1);
-            int j = JsonUtils.getInt(jsonobject, "quality", 0);
+            JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "loot item");
+            String s = JsonUtils.func_151200_h(jsonobject, "type");
+            int i = JsonUtils.func_151208_a(jsonobject, "weight", 1);
+            int j = JsonUtils.func_151208_a(jsonobject, "quality", 0);
             LootCondition[] alootitemcondition;
 
             if (jsonobject.has("conditions")) {
-                alootitemcondition = JsonUtils.deserializeClass(jsonobject, "conditions", jsondeserializationcontext, LootCondition[].class);
+                alootitemcondition = (LootCondition[]) JsonUtils.func_188174_a(jsonobject, "conditions", jsondeserializationcontext, LootCondition[].class);
             } else {
                 alootitemcondition = new LootCondition[0];
             }
 
             if ("item".equals(s)) {
-                return LootEntryItem.deserialize(jsonobject, jsondeserializationcontext, i, j, alootitemcondition);
+                return LootEntryItem.func_186367_a(jsonobject, jsondeserializationcontext, i, j, alootitemcondition);
             } else if ("loot_table".equals(s)) {
-                return LootEntryTable.deserialize(jsonobject, jsondeserializationcontext, i, j, alootitemcondition);
+                return LootEntryTable.func_186370_a(jsonobject, jsondeserializationcontext, i, j, alootitemcondition);
             } else if ("empty".equals(s)) {
-                return LootEntryEmpty.deserialize(jsonobject, jsondeserializationcontext, i, j, alootitemcondition);
+                return LootEntryEmpty.func_186372_a(jsonobject, jsondeserializationcontext, i, j, alootitemcondition);
             } else {
                 throw new JsonSyntaxException("Unknown loot entry type \'" + s + "\'");
             }
@@ -93,10 +94,10 @@ public abstract class LootEntry {
         public JsonElement a(LootEntry lotoselectorentry, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
-            jsonobject.addProperty("weight", Integer.valueOf(lotoselectorentry.weight));
-            jsonobject.addProperty("quality", Integer.valueOf(lotoselectorentry.quality));
-            if (lotoselectorentry.conditions.length > 0) {
-                jsonobject.add("conditions", jsonserializationcontext.serialize(lotoselectorentry.conditions));
+            jsonobject.addProperty("weight", Integer.valueOf(lotoselectorentry.field_186364_c));
+            jsonobject.addProperty("quality", Integer.valueOf(lotoselectorentry.field_186365_d));
+            if (lotoselectorentry.field_186366_e.length > 0) {
+                jsonobject.add("conditions", jsonserializationcontext.serialize(lotoselectorentry.field_186366_e));
             }
 
             if (lotoselectorentry instanceof LootEntryItem) {
@@ -111,16 +112,14 @@ public abstract class LootEntry {
                 jsonobject.addProperty("type", "empty");
             }
 
-            lotoselectorentry.serialize(jsonobject, jsonserializationcontext);
+            lotoselectorentry.func_186362_a(jsonobject, jsonserializationcontext);
             return jsonobject;
         }
 
-        @Override
         public JsonElement serialize(LootEntry object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a(object, type, jsonserializationcontext);
+            return this.a((LootEntry) object, type, jsonserializationcontext);
         }
 
-        @Override
         public LootEntry deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             return this.a(jsonelement, type, jsondeserializationcontext);
         }

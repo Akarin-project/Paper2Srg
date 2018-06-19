@@ -42,81 +42,81 @@ import net.minecraft.util.text.Style;
 
 public class AdvancementManager {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    public static final Gson GSON = (new GsonBuilder()).registerTypeHierarchyAdapter(Advancement.Builder.class, new JsonDeserializer() {
+    private static final Logger field_192782_a = LogManager.getLogger();
+    public static final Gson field_192783_b = (new GsonBuilder()).registerTypeHierarchyAdapter(Advancement.Builder.class, new JsonDeserializer() {
         public Advancement.Builder a(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "advancement");
+            JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "advancement");
 
-            return Advancement.Builder.deserialize(jsonobject, jsondeserializationcontext);
+            return Advancement.Builder.func_192059_a(jsonobject, jsondeserializationcontext);
         }
 
         public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             return this.a(jsonelement, type, jsondeserializationcontext);
         }
     }).registerTypeAdapter(AdvancementRewards.class, new AdvancementRewards.a()).registerTypeHierarchyAdapter(ITextComponent.class, new ITextComponent.Serializer()).registerTypeHierarchyAdapter(Style.class, new Style.Serializer()).registerTypeAdapterFactory(new EnumTypeAdapterFactory()).create();
-    public static final AdvancementList ADVANCEMENT_LIST = new AdvancementList();
-    public final File advancementsDir;
-    private boolean hasErrored;
+    public static final AdvancementList field_192784_c = new AdvancementList();
+    public final File field_192785_d;
+    private boolean field_193768_e;
 
     public AdvancementManager(@Nullable File file) {
-        this.advancementsDir = file;
-        this.reload();
+        this.field_192785_d = file;
+        this.func_192779_a();
     }
 
-    public void reload() {
-        this.hasErrored = false;
-        AdvancementManager.ADVANCEMENT_LIST.clear();
-        Map map = this.loadCustomAdvancements();
+    public void func_192779_a() {
+        this.field_193768_e = false;
+        AdvancementManager.field_192784_c.func_192087_a();
+        Map map = this.func_192781_c();
 
-        this.loadBuiltInAdvancements(map);
-        AdvancementManager.ADVANCEMENT_LIST.loadAdvancements(map);
-        Iterator iterator = AdvancementManager.ADVANCEMENT_LIST.getRoots().iterator();
+        this.func_192777_a(map);
+        AdvancementManager.field_192784_c.func_192083_a(map);
+        Iterator iterator = AdvancementManager.field_192784_c.func_192088_b().iterator();
 
         while (iterator.hasNext()) {
             Advancement advancement = (Advancement) iterator.next();
 
-            if (advancement.getDisplay() != null) {
-                AdvancementTreeNode.layout(advancement);
+            if (advancement.func_192068_c() != null) {
+                AdvancementTreeNode.func_192323_a(advancement);
             }
         }
 
     }
 
-    public boolean hasErrored() {
-        return this.hasErrored;
+    public boolean func_193767_b() {
+        return this.field_193768_e;
     }
 
-    private Map<ResourceLocation, Advancement.Builder> loadCustomAdvancements() {
-        if (this.advancementsDir == null) {
+    private Map<ResourceLocation, Advancement.Builder> func_192781_c() {
+        if (this.field_192785_d == null) {
             return Maps.newHashMap();
         } else {
             HashMap hashmap = Maps.newHashMap();
 
-            this.advancementsDir.mkdirs();
-            Iterator iterator = FileUtils.listFiles(this.advancementsDir, new String[] { "json"}, true).iterator();
+            this.field_192785_d.mkdirs();
+            Iterator iterator = FileUtils.listFiles(this.field_192785_d, new String[] { "json"}, true).iterator();
 
             while (iterator.hasNext()) {
                 File file = (File) iterator.next();
-                String s = FilenameUtils.removeExtension(this.advancementsDir.toURI().relativize(file.toURI()).toString());
+                String s = FilenameUtils.removeExtension(this.field_192785_d.toURI().relativize(file.toURI()).toString());
                 String[] astring = s.split("/", 2);
 
                 if (astring.length == 2) {
                     ResourceLocation minecraftkey = new ResourceLocation(astring[0], astring[1]);
 
                     try {
-                        Advancement.Builder advancement_serializedadvancement = (Advancement.Builder) JsonUtils.gsonDeserialize(AdvancementManager.GSON, FileUtils.readFileToString(file, StandardCharsets.UTF_8), Advancement.Builder.class);
+                        Advancement.Builder advancement_serializedadvancement = (Advancement.Builder) JsonUtils.func_188178_a(AdvancementManager.field_192783_b, FileUtils.readFileToString(file, StandardCharsets.UTF_8), Advancement.Builder.class);
 
                         if (advancement_serializedadvancement == null) {
-                            AdvancementManager.LOGGER.error("Couldn\'t load custom advancement " + minecraftkey + " from " + file + " as it\'s empty or null");
+                            AdvancementManager.field_192782_a.error("Couldn\'t load custom advancement " + minecraftkey + " from " + file + " as it\'s empty or null");
                         } else {
                             hashmap.put(minecraftkey, advancement_serializedadvancement);
                         }
                     } catch (IllegalArgumentException | JsonParseException jsonparseexception) {
-                        AdvancementManager.LOGGER.error("Parsing error loading custom advancement " + minecraftkey, jsonparseexception);
-                        this.hasErrored = true;
+                        AdvancementManager.field_192782_a.error("Parsing error loading custom advancement " + minecraftkey, jsonparseexception);
+                        this.field_193768_e = true;
                     } catch (IOException ioexception) {
-                        AdvancementManager.LOGGER.error("Couldn\'t read custom advancement " + minecraftkey + " from " + file, ioexception);
-                        this.hasErrored = true;
+                        AdvancementManager.field_192782_a.error("Couldn\'t read custom advancement " + minecraftkey + " from " + file, ioexception);
+                        this.field_193768_e = true;
                     }
                 }
             }
@@ -125,15 +125,15 @@ public class AdvancementManager {
         }
     }
 
-    private void loadBuiltInAdvancements(Map<ResourceLocation, Advancement.Builder> map) {
+    private void func_192777_a(Map<ResourceLocation, Advancement.Builder> map) {
         FileSystem filesystem = null;
 
         try {
             URL url = AdvancementManager.class.getResource("/assets/.mcassetsroot");
 
             if (url == null) {
-                AdvancementManager.LOGGER.error("Couldn\'t find .mcassetsroot");
-                this.hasErrored = true;
+                AdvancementManager.field_192782_a.error("Couldn\'t find .mcassetsroot");
+                this.field_193768_e = true;
             } else {
                 URI uri = url.toURI();
                 java.nio.file.Path java_nio_file_path;
@@ -142,8 +142,8 @@ public class AdvancementManager {
                     java_nio_file_path = Paths.get(CraftingManager.class.getResource("/assets/minecraft/advancements").toURI());
                 } else {
                     if (!"jar".equals(uri.getScheme())) {
-                        AdvancementManager.LOGGER.error("Unsupported scheme " + uri + " trying to list all built-in advancements (NYI?)");
-                        this.hasErrored = true;
+                        AdvancementManager.field_192782_a.error("Unsupported scheme " + uri + " trying to list all built-in advancements (NYI?)");
+                        this.field_193768_e = true;
                         return;
                     }
 
@@ -171,15 +171,15 @@ public class AdvancementManager {
 
                             try {
                                 bufferedreader = Files.newBufferedReader(java_nio_file_path1);
-                                Advancement.Builder advancement_serializedadvancement = (Advancement.Builder) JsonUtils.fromJson(AdvancementManager.GSON, (Reader) bufferedreader, Advancement.Builder.class);
+                                Advancement.Builder advancement_serializedadvancement = (Advancement.Builder) JsonUtils.func_193839_a(AdvancementManager.field_192783_b, (Reader) bufferedreader, Advancement.Builder.class);
 
                                 map.put(minecraftkey, advancement_serializedadvancement);
                             } catch (JsonParseException jsonparseexception) {
-                                AdvancementManager.LOGGER.error("Parsing error loading built-in advancement " + minecraftkey, jsonparseexception);
-                                this.hasErrored = true;
+                                AdvancementManager.field_192782_a.error("Parsing error loading built-in advancement " + minecraftkey, jsonparseexception);
+                                this.field_193768_e = true;
                             } catch (IOException ioexception) {
-                                AdvancementManager.LOGGER.error("Couldn\'t read advancement " + minecraftkey + " from " + java_nio_file_path1, ioexception);
-                                this.hasErrored = true;
+                                AdvancementManager.field_192782_a.error("Couldn\'t read advancement " + minecraftkey + " from " + java_nio_file_path1, ioexception);
+                                this.field_193768_e = true;
                             } finally {
                                 IOUtils.closeQuietly(bufferedreader);
                             }
@@ -189,19 +189,19 @@ public class AdvancementManager {
 
             }
         } catch (IOException | URISyntaxException urisyntaxexception) {
-            AdvancementManager.LOGGER.error("Couldn\'t get a list of all built-in advancement files", urisyntaxexception);
-            this.hasErrored = true;
+            AdvancementManager.field_192782_a.error("Couldn\'t get a list of all built-in advancement files", urisyntaxexception);
+            this.field_193768_e = true;
         } finally {
             IOUtils.closeQuietly(filesystem);
         }
     }
 
     @Nullable
-    public Advancement getAdvancement(ResourceLocation minecraftkey) {
-        return AdvancementManager.ADVANCEMENT_LIST.getAdvancement(minecraftkey);
+    public Advancement func_192778_a(ResourceLocation minecraftkey) {
+        return AdvancementManager.field_192784_c.func_192084_a(minecraftkey);
     }
 
-    public Iterable<Advancement> getAdvancements() {
-        return AdvancementManager.ADVANCEMENT_LIST.getAdvancements();
+    public Iterable<Advancement> func_192780_b() {
+        return AdvancementManager.field_192784_c.func_192089_c();
     }
 }

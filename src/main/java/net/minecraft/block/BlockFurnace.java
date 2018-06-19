@@ -27,18 +27,18 @@ import net.minecraft.world.World;
 
 public class BlockFurnace extends BlockContainer {
 
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    private final boolean isBurning;
-    private static boolean keepInventory;
+    public static final PropertyDirection field_176447_a = BlockHorizontal.field_185512_D;
+    private final boolean field_149932_b;
+    private static boolean field_149934_M;
 
     protected BlockFurnace(boolean flag) {
-        super(Material.ROCK);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockFurnace.FACING, EnumFacing.NORTH));
-        this.isBurning = flag;
+        super(Material.field_151576_e);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockFurnace.field_176447_a, EnumFacing.NORTH));
+        this.field_149932_b = flag;
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Item.getItemFromBlock(Blocks.FURNACE);
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Item.func_150898_a(Blocks.field_150460_al);
     }
 
     // Paper start - Removed override of onPlace that was reversing placement direction when
@@ -72,114 +72,114 @@ public class BlockFurnace extends BlockContainer {
     */
     // Paper end
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        if (world.isRemote) {
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        if (world.field_72995_K) {
             return true;
         } else {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityFurnace) {
-                entityhuman.displayGUIChest((TileEntityFurnace) tileentity);
-                entityhuman.addStat(StatList.FURNACE_INTERACTION);
+                entityhuman.func_71007_a((TileEntityFurnace) tileentity);
+                entityhuman.func_71029_a(StatList.field_188061_aa);
             }
 
             return true;
         }
     }
 
-    public static void setState(boolean flag, World world, BlockPos blockposition) {
-        IBlockState iblockdata = world.getBlockState(blockposition);
-        TileEntity tileentity = world.getTileEntity(blockposition);
+    public static void func_176446_a(boolean flag, World world, BlockPos blockposition) {
+        IBlockState iblockdata = world.func_180495_p(blockposition);
+        TileEntity tileentity = world.func_175625_s(blockposition);
 
-        BlockFurnace.keepInventory = true;
+        BlockFurnace.field_149934_M = true;
         if (flag) {
-            world.setBlockState(blockposition, Blocks.LIT_FURNACE.getDefaultState().withProperty(BlockFurnace.FACING, iblockdata.getValue(BlockFurnace.FACING)), 3);
-            world.setBlockState(blockposition, Blocks.LIT_FURNACE.getDefaultState().withProperty(BlockFurnace.FACING, iblockdata.getValue(BlockFurnace.FACING)), 3);
+            world.func_180501_a(blockposition, Blocks.field_150470_am.func_176223_P().func_177226_a(BlockFurnace.field_176447_a, iblockdata.func_177229_b(BlockFurnace.field_176447_a)), 3);
+            world.func_180501_a(blockposition, Blocks.field_150470_am.func_176223_P().func_177226_a(BlockFurnace.field_176447_a, iblockdata.func_177229_b(BlockFurnace.field_176447_a)), 3);
         } else {
-            world.setBlockState(blockposition, Blocks.FURNACE.getDefaultState().withProperty(BlockFurnace.FACING, iblockdata.getValue(BlockFurnace.FACING)), 3);
-            world.setBlockState(blockposition, Blocks.FURNACE.getDefaultState().withProperty(BlockFurnace.FACING, iblockdata.getValue(BlockFurnace.FACING)), 3);
+            world.func_180501_a(blockposition, Blocks.field_150460_al.func_176223_P().func_177226_a(BlockFurnace.field_176447_a, iblockdata.func_177229_b(BlockFurnace.field_176447_a)), 3);
+            world.func_180501_a(blockposition, Blocks.field_150460_al.func_176223_P().func_177226_a(BlockFurnace.field_176447_a, iblockdata.func_177229_b(BlockFurnace.field_176447_a)), 3);
         }
 
-        BlockFurnace.keepInventory = false;
+        BlockFurnace.field_149934_M = false;
         if (tileentity != null) {
-            tileentity.validate();
-            world.setTileEntity(blockposition, tileentity);
+            tileentity.func_145829_t();
+            world.func_175690_a(blockposition, tileentity);
         }
 
     }
 
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity func_149915_a(World world, int i) {
         return new TileEntityFurnace();
     }
 
-    public IBlockState getStateForPlacement(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
-        return this.getDefaultState().withProperty(BlockFurnace.FACING, entityliving.getHorizontalFacing().getOpposite());
+    public IBlockState func_180642_a(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
+        return this.func_176223_P().func_177226_a(BlockFurnace.field_176447_a, entityliving.func_174811_aO().func_176734_d());
     }
 
-    public void onBlockPlacedBy(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
-        world.setBlockState(blockposition, iblockdata.withProperty(BlockFurnace.FACING, entityliving.getHorizontalFacing().getOpposite()), 2);
-        if (itemstack.hasDisplayName()) {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_180633_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
+        world.func_180501_a(blockposition, iblockdata.func_177226_a(BlockFurnace.field_176447_a, entityliving.func_174811_aO().func_176734_d()), 2);
+        if (itemstack.func_82837_s()) {
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityFurnace) {
-                ((TileEntityFurnace) tileentity).setCustomInventoryName(itemstack.getDisplayName());
+                ((TileEntityFurnace) tileentity).func_145951_a(itemstack.func_82833_r());
             }
         }
 
     }
 
-    public void breakBlock(World world, BlockPos blockposition, IBlockState iblockdata) {
-        if (!BlockFurnace.keepInventory) {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_180663_b(World world, BlockPos blockposition, IBlockState iblockdata) {
+        if (!BlockFurnace.field_149934_M) {
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityFurnace) {
-                InventoryHelper.dropInventoryItems(world, blockposition, (TileEntityFurnace) tileentity);
-                world.updateComparatorOutputLevel(blockposition, this);
+                InventoryHelper.func_180175_a(world, blockposition, (TileEntityFurnace) tileentity);
+                world.func_175666_e(blockposition, this);
             }
         }
 
-        super.breakBlock(world, blockposition, iblockdata);
+        super.func_180663_b(world, blockposition, iblockdata);
     }
 
-    public boolean hasComparatorInputOverride(IBlockState iblockdata) {
+    public boolean func_149740_M(IBlockState iblockdata) {
         return true;
     }
 
-    public int getComparatorInputOverride(IBlockState iblockdata, World world, BlockPos blockposition) {
-        return Container.calcRedstone(world.getTileEntity(blockposition));
+    public int func_180641_l(IBlockState iblockdata, World world, BlockPos blockposition) {
+        return Container.func_178144_a(world.func_175625_s(blockposition));
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(Blocks.FURNACE);
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(Blocks.field_150460_al);
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.MODEL;
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        EnumFacing enumdirection = EnumFacing.getFront(i);
+    public IBlockState func_176203_a(int i) {
+        EnumFacing enumdirection = EnumFacing.func_82600_a(i);
 
-        if (enumdirection.getAxis() == EnumFacing.Axis.Y) {
+        if (enumdirection.func_176740_k() == EnumFacing.Axis.Y) {
             enumdirection = EnumFacing.NORTH;
         }
 
-        return this.getDefaultState().withProperty(BlockFurnace.FACING, enumdirection);
+        return this.func_176223_P().func_177226_a(BlockFurnace.field_176447_a, enumdirection);
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((EnumFacing) iblockdata.getValue(BlockFurnace.FACING)).getIndex();
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((EnumFacing) iblockdata.func_177229_b(BlockFurnace.field_176447_a)).func_176745_a();
     }
 
-    public IBlockState withRotation(IBlockState iblockdata, Rotation enumblockrotation) {
-        return iblockdata.withProperty(BlockFurnace.FACING, enumblockrotation.rotate((EnumFacing) iblockdata.getValue(BlockFurnace.FACING)));
+    public IBlockState func_185499_a(IBlockState iblockdata, Rotation enumblockrotation) {
+        return iblockdata.func_177226_a(BlockFurnace.field_176447_a, enumblockrotation.func_185831_a((EnumFacing) iblockdata.func_177229_b(BlockFurnace.field_176447_a)));
     }
 
-    public IBlockState withMirror(IBlockState iblockdata, Mirror enumblockmirror) {
-        return iblockdata.withRotation(enumblockmirror.toRotation((EnumFacing) iblockdata.getValue(BlockFurnace.FACING)));
+    public IBlockState func_185471_a(IBlockState iblockdata, Mirror enumblockmirror) {
+        return iblockdata.func_185907_a(enumblockmirror.func_185800_a((EnumFacing) iblockdata.func_177229_b(BlockFurnace.field_176447_a)));
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockFurnace.FACING});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockFurnace.field_176447_a});
     }
 }

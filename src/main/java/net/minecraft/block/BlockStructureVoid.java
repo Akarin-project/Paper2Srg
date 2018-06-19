@@ -15,40 +15,40 @@ import net.minecraft.world.World;
 
 public class BlockStructureVoid extends Block {
 
-    private static final AxisAlignedBB STRUCTURE_VOID_AABB = new AxisAlignedBB(0.3D, 0.3D, 0.3D, 0.7D, 0.7D, 0.7D);
+    private static final AxisAlignedBB field_189875_a = new AxisAlignedBB(0.3D, 0.3D, 0.3D, 0.7D, 0.7D, 0.7D);
 
     protected BlockStructureVoid() {
-        super(Material.STRUCTURE_VOID);
+        super(Material.field_189963_J);
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.INVISIBLE;
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockStructureVoid.NULL_AABB;
+    public AxisAlignedBB func_180646_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockStructureVoid.field_185506_k;
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockStructureVoid.STRUCTURE_VOID_AABB;
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockStructureVoid.field_189875_a;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {}
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {}
 
-    public EnumPushReaction getMobilityFlag(IBlockState iblockdata) {
+    public EnumPushReaction func_149656_h(IBlockState iblockdata) {
         return EnumPushReaction.DESTROY;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.UNDEFINED;
     }
 }

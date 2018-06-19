@@ -16,84 +16,84 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockPrismarine extends Block {
 
-    public static final PropertyEnum<BlockPrismarine.EnumType> VARIANT = PropertyEnum.create("variant", BlockPrismarine.EnumType.class);
-    public static final int ROUGH_META = BlockPrismarine.EnumType.ROUGH.getMetadata();
-    public static final int BRICKS_META = BlockPrismarine.EnumType.BRICKS.getMetadata();
-    public static final int DARK_META = BlockPrismarine.EnumType.DARK.getMetadata();
+    public static final PropertyEnum<BlockPrismarine.EnumType> field_176332_a = PropertyEnum.func_177709_a("variant", BlockPrismarine.EnumType.class);
+    public static final int field_176331_b = BlockPrismarine.EnumType.ROUGH.func_176807_a();
+    public static final int field_176333_M = BlockPrismarine.EnumType.BRICKS.func_176807_a();
+    public static final int field_176334_N = BlockPrismarine.EnumType.DARK.func_176807_a();
 
     public BlockPrismarine() {
-        super(Material.ROCK);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.ROUGH));
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151576_e);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockPrismarine.field_176332_a, BlockPrismarine.EnumType.ROUGH));
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public String getLocalizedName() {
-        return I18n.translateToLocal(this.getUnlocalizedName() + "." + BlockPrismarine.EnumType.ROUGH.getUnlocalizedName() + ".name");
+    public String func_149732_F() {
+        return I18n.func_74838_a(this.func_149739_a() + "." + BlockPrismarine.EnumType.ROUGH.func_176809_c() + ".name");
     }
 
-    public MapColor getMapColor(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return iblockdata.getValue(BlockPrismarine.VARIANT) == BlockPrismarine.EnumType.ROUGH ? MapColor.CYAN : MapColor.DIAMOND;
+    public MapColor func_180659_g(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return iblockdata.func_177229_b(BlockPrismarine.field_176332_a) == BlockPrismarine.EnumType.ROUGH ? MapColor.field_151679_y : MapColor.field_151648_G;
     }
 
-    public int damageDropped(IBlockState iblockdata) {
-        return ((BlockPrismarine.EnumType) iblockdata.getValue(BlockPrismarine.VARIANT)).getMetadata();
+    public int func_180651_a(IBlockState iblockdata) {
+        return ((BlockPrismarine.EnumType) iblockdata.func_177229_b(BlockPrismarine.field_176332_a)).func_176807_a();
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((BlockPrismarine.EnumType) iblockdata.getValue(BlockPrismarine.VARIANT)).getMetadata();
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((BlockPrismarine.EnumType) iblockdata.func_177229_b(BlockPrismarine.field_176332_a)).func_176807_a();
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockPrismarine.VARIANT});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockPrismarine.field_176332_a});
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.byMetadata(i));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockPrismarine.field_176332_a, BlockPrismarine.EnumType.func_176810_a(i));
     }
 
-    public void getSubBlocks(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
-        nonnulllist.add(new ItemStack(this, 1, BlockPrismarine.ROUGH_META));
-        nonnulllist.add(new ItemStack(this, 1, BlockPrismarine.BRICKS_META));
-        nonnulllist.add(new ItemStack(this, 1, BlockPrismarine.DARK_META));
+    public void func_149666_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+        nonnulllist.add(new ItemStack(this, 1, BlockPrismarine.field_176331_b));
+        nonnulllist.add(new ItemStack(this, 1, BlockPrismarine.field_176333_M));
+        nonnulllist.add(new ItemStack(this, 1, BlockPrismarine.field_176334_N));
     }
 
     public static enum EnumType implements IStringSerializable {
 
         ROUGH(0, "prismarine", "rough"), BRICKS(1, "prismarine_bricks", "bricks"), DARK(2, "dark_prismarine", "dark");
 
-        private static final BlockPrismarine.EnumType[] META_LOOKUP = new BlockPrismarine.EnumType[values().length];
-        private final int meta;
-        private final String name;
-        private final String unlocalizedName;
+        private static final BlockPrismarine.EnumType[] field_176813_d = new BlockPrismarine.EnumType[values().length];
+        private final int field_176814_e;
+        private final String field_176811_f;
+        private final String field_176812_g;
 
         private EnumType(int i, String s, String s1) {
-            this.meta = i;
-            this.name = s;
-            this.unlocalizedName = s1;
+            this.field_176814_e = i;
+            this.field_176811_f = s;
+            this.field_176812_g = s1;
         }
 
-        public int getMetadata() {
-            return this.meta;
+        public int func_176807_a() {
+            return this.field_176814_e;
         }
 
         public String toString() {
-            return this.name;
+            return this.field_176811_f;
         }
 
-        public static BlockPrismarine.EnumType byMetadata(int i) {
-            if (i < 0 || i >= BlockPrismarine.EnumType.META_LOOKUP.length) {
+        public static BlockPrismarine.EnumType func_176810_a(int i) {
+            if (i < 0 || i >= BlockPrismarine.EnumType.field_176813_d.length) {
                 i = 0;
             }
 
-            return BlockPrismarine.EnumType.META_LOOKUP[i];
+            return BlockPrismarine.EnumType.field_176813_d[i];
         }
 
-        public String getName() {
-            return this.name;
+        public String func_176610_l() {
+            return this.field_176811_f;
         }
 
-        public String getUnlocalizedName() {
-            return this.unlocalizedName;
+        public String func_176809_c() {
+            return this.field_176812_g;
         }
 
         static {
@@ -103,7 +103,7 @@ public class BlockPrismarine extends Block {
             for (int j = 0; j < i; ++j) {
                 BlockPrismarine.EnumType blockprismarine_enumprismarinevariant = ablockprismarine_enumprismarinevariant[j];
 
-                BlockPrismarine.EnumType.META_LOOKUP[blockprismarine_enumprismarinevariant.getMetadata()] = blockprismarine_enumprismarinevariant;
+                BlockPrismarine.EnumType.field_176813_d[blockprismarine_enumprismarinevariant.func_176807_a()] = blockprismarine_enumprismarinevariant;
             }
 
         }

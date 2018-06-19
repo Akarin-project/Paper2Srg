@@ -25,27 +25,27 @@ import org.bukkit.event.entity.EntityInteractEvent;
 
 public class BlockRedstoneOre extends Block {
 
-    private final boolean isOn;
+    private final boolean field_150187_a;
 
     public BlockRedstoneOre(boolean flag) {
-        super(Material.ROCK);
+        super(Material.field_151576_e);
         if (flag) {
-            this.setTickRandomly(true);
+            this.func_149675_a(true);
         }
 
-        this.isOn = flag;
+        this.field_150187_a = flag;
     }
 
-    public int tickRate(World world) {
+    public int func_149738_a(World world) {
         return 30;
     }
 
-    public void onBlockClicked(World world, BlockPos blockposition, EntityPlayer entityhuman) {
+    public void func_180649_a(World world, BlockPos blockposition, EntityPlayer entityhuman) {
         this.interact(world, blockposition, entityhuman); // CraftBukkit - add entityhuman
-        super.onBlockClicked(world, blockposition, entityhuman);
+        super.func_180649_a(world, blockposition, entityhuman);
     }
 
-    public void onEntityWalk(World world, BlockPos blockposition, Entity entity) {
+    public void func_176199_a(World world, BlockPos blockposition, Entity entity) {
         // CraftBukkit start
         // this.interact(world, blockposition);
         // super.stepOn(world, blockposition, entity);
@@ -53,64 +53,64 @@ public class BlockRedstoneOre extends Block {
             org.bukkit.event.player.PlayerInteractEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callPlayerInteractEvent((EntityPlayer) entity, org.bukkit.event.block.Action.PHYSICAL, blockposition, null, null, null);
             if (!event.isCancelled()) {
                 this.interact(world, blockposition, entity); // add entity
-                super.onEntityWalk(world, blockposition, entity);
+                super.func_176199_a(world, blockposition, entity);
             }
         } else {
-            EntityInteractEvent event = new EntityInteractEvent(entity.getBukkitEntity(), world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()));
+            EntityInteractEvent event = new EntityInteractEvent(entity.getBukkitEntity(), world.getWorld().getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p()));
             world.getServer().getPluginManager().callEvent(event);
             if (!event.isCancelled()) {
                 this.interact(world, blockposition, entity); // add entity
-                super.onEntityWalk(world, blockposition, entity);
+                super.func_176199_a(world, blockposition, entity);
             }
         }
         // CraftBukkit end
     }
 
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
         this.interact(world, blockposition, entityhuman); // CraftBukkit - add entityhuman
-        return super.onBlockActivated(world, blockposition, iblockdata, entityhuman, enumhand, enumdirection, f, f1, f2);
+        return super.func_180639_a(world, blockposition, iblockdata, entityhuman, enumhand, enumdirection, f, f1, f2);
     }
 
     private void interact(World world, BlockPos blockposition, Entity entity) { // CraftBukkit - add Entity
-        this.spawnParticles(world, blockposition);
-        if (this == Blocks.REDSTONE_ORE) {
+        this.func_180691_e(world, blockposition);
+        if (this == Blocks.field_150450_ax) {
             // CraftBukkit start
-            if (CraftEventFactory.callEntityChangeBlockEvent(entity, blockposition, Blocks.LIT_REDSTONE_ORE, 0).isCancelled()) {
+            if (CraftEventFactory.callEntityChangeBlockEvent(entity, blockposition, Blocks.field_150439_ay, 0).isCancelled()) {
                 return;
             }
             // CraftBukkit end
-            world.setBlockState(blockposition, Blocks.LIT_REDSTONE_ORE.getDefaultState());
+            world.func_175656_a(blockposition, Blocks.field_150439_ay.func_176223_P());
         }
 
     }
 
-    public void updateTick(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        if (this == Blocks.LIT_REDSTONE_ORE) {
+    public void func_180650_b(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        if (this == Blocks.field_150439_ay) {
             // CraftBukkit start
-            if (CraftEventFactory.callBlockFadeEvent(world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()), Blocks.REDSTONE_ORE).isCancelled()) {
+            if (CraftEventFactory.callBlockFadeEvent(world.getWorld().getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p()), Blocks.field_150450_ax).isCancelled()) {
                 return;
             }
             // CraftBukkit end
-            world.setBlockState(blockposition, Blocks.REDSTONE_ORE.getDefaultState());
+            world.func_175656_a(blockposition, Blocks.field_150450_ax.func_176223_P());
         }
 
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.REDSTONE;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_151137_ax;
     }
 
-    public int quantityDroppedWithBonus(int i, Random random) {
-        return this.quantityDropped(random) + random.nextInt(i + 1);
+    public int func_149679_a(int i, Random random) {
+        return this.func_149745_a(random) + random.nextInt(i + 1);
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 4 + random.nextInt(2);
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
-        super.dropBlockAsItemWithChance(world, blockposition, iblockdata, f, i);
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
+        super.func_180653_a(world, blockposition, iblockdata, f, i);
         /* CraftBukkit start - Delegated to getExpDrop
         if (this.getDropType(iblockdata, world.random, i) != Item.getItemOf(this)) {
             int j = 1 + world.random.nextInt(5);
@@ -123,8 +123,8 @@ public class BlockRedstoneOre extends Block {
 
     @Override
     public int getExpDrop(World world, IBlockState data, int i) {
-        if (this.getItemDropped(data, world.rand, i) != Item.getItemFromBlock(this)) {
-            int j = 1 + world.rand.nextInt(5);
+        if (this.func_180660_a(data, world.field_73012_v, i) != Item.func_150898_a(this)) {
+            int j = 1 + world.field_73012_v.nextInt(5);
 
             return j;
         }
@@ -132,51 +132,51 @@ public class BlockRedstoneOre extends Block {
         // CraftBukkit end
     }
 
-    private void spawnParticles(World world, BlockPos blockposition) {
-        Random random = world.rand;
+    private void func_180691_e(World world, BlockPos blockposition) {
+        Random random = world.field_73012_v;
         double d0 = 0.0625D;
 
         for (int i = 0; i < 6; ++i) {
-            double d1 = (double) ((float) blockposition.getX() + random.nextFloat());
-            double d2 = (double) ((float) blockposition.getY() + random.nextFloat());
-            double d3 = (double) ((float) blockposition.getZ() + random.nextFloat());
+            double d1 = (double) ((float) blockposition.func_177958_n() + random.nextFloat());
+            double d2 = (double) ((float) blockposition.func_177956_o() + random.nextFloat());
+            double d3 = (double) ((float) blockposition.func_177952_p() + random.nextFloat());
 
-            if (i == 0 && !world.getBlockState(blockposition.up()).isOpaqueCube()) {
-                d2 = (double) blockposition.getY() + 0.0625D + 1.0D;
+            if (i == 0 && !world.func_180495_p(blockposition.func_177984_a()).func_185914_p()) {
+                d2 = (double) blockposition.func_177956_o() + 0.0625D + 1.0D;
             }
 
-            if (i == 1 && !world.getBlockState(blockposition.down()).isOpaqueCube()) {
-                d2 = (double) blockposition.getY() - 0.0625D;
+            if (i == 1 && !world.func_180495_p(blockposition.func_177977_b()).func_185914_p()) {
+                d2 = (double) blockposition.func_177956_o() - 0.0625D;
             }
 
-            if (i == 2 && !world.getBlockState(blockposition.south()).isOpaqueCube()) {
-                d3 = (double) blockposition.getZ() + 0.0625D + 1.0D;
+            if (i == 2 && !world.func_180495_p(blockposition.func_177968_d()).func_185914_p()) {
+                d3 = (double) blockposition.func_177952_p() + 0.0625D + 1.0D;
             }
 
-            if (i == 3 && !world.getBlockState(blockposition.north()).isOpaqueCube()) {
-                d3 = (double) blockposition.getZ() - 0.0625D;
+            if (i == 3 && !world.func_180495_p(blockposition.func_177978_c()).func_185914_p()) {
+                d3 = (double) blockposition.func_177952_p() - 0.0625D;
             }
 
-            if (i == 4 && !world.getBlockState(blockposition.east()).isOpaqueCube()) {
-                d1 = (double) blockposition.getX() + 0.0625D + 1.0D;
+            if (i == 4 && !world.func_180495_p(blockposition.func_177974_f()).func_185914_p()) {
+                d1 = (double) blockposition.func_177958_n() + 0.0625D + 1.0D;
             }
 
-            if (i == 5 && !world.getBlockState(blockposition.west()).isOpaqueCube()) {
-                d1 = (double) blockposition.getX() - 0.0625D;
+            if (i == 5 && !world.func_180495_p(blockposition.func_177976_e()).func_185914_p()) {
+                d1 = (double) blockposition.func_177958_n() - 0.0625D;
             }
 
-            if (d1 < (double) blockposition.getX() || d1 > (double) (blockposition.getX() + 1) || d2 < 0.0D || d2 > (double) (blockposition.getY() + 1) || d3 < (double) blockposition.getZ() || d3 > (double) (blockposition.getZ() + 1)) {
-                world.spawnParticle(EnumParticleTypes.REDSTONE, d1, d2, d3, 0.0D, 0.0D, 0.0D, new int[0]);
+            if (d1 < (double) blockposition.func_177958_n() || d1 > (double) (blockposition.func_177958_n() + 1) || d2 < 0.0D || d2 > (double) (blockposition.func_177956_o() + 1) || d3 < (double) blockposition.func_177952_p() || d3 > (double) (blockposition.func_177952_p() + 1)) {
+                world.func_175688_a(EnumParticleTypes.REDSTONE, d1, d2, d3, 0.0D, 0.0D, 0.0D, new int[0]);
             }
         }
 
     }
 
-    protected ItemStack getSilkTouchDrop(IBlockState iblockdata) {
-        return new ItemStack(Blocks.REDSTONE_ORE);
+    protected ItemStack func_180643_i(IBlockState iblockdata) {
+        return new ItemStack(Blocks.field_150450_ax);
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(Item.getItemFromBlock(Blocks.REDSTONE_ORE), 1, this.damageDropped(iblockdata));
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(Item.func_150898_a(Blocks.field_150450_ax), 1, this.func_180651_a(iblockdata));
     }
 }

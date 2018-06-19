@@ -9,35 +9,35 @@ import net.minecraft.util.math.BlockPos;
 
 public class SPacketEffect implements Packet<INetHandlerPlayClient> {
 
-    private int soundType;
-    private BlockPos soundPos;
-    private int soundData;
-    private boolean serverWide;
+    private int field_149251_a;
+    private BlockPos field_179747_b;
+    private int field_149249_b;
+    private boolean field_149246_f;
 
     public SPacketEffect() {}
 
     public SPacketEffect(int i, BlockPos blockposition, int j, boolean flag) {
-        this.soundType = i;
-        this.soundPos = blockposition;
-        this.soundData = j;
-        this.serverWide = flag;
+        this.field_149251_a = i;
+        this.field_179747_b = blockposition;
+        this.field_149249_b = j;
+        this.field_149246_f = flag;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.soundType = packetdataserializer.readInt();
-        this.soundPos = packetdataserializer.readBlockPos();
-        this.soundData = packetdataserializer.readInt();
-        this.serverWide = packetdataserializer.readBoolean();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149251_a = packetdataserializer.readInt();
+        this.field_179747_b = packetdataserializer.func_179259_c();
+        this.field_149249_b = packetdataserializer.readInt();
+        this.field_149246_f = packetdataserializer.readBoolean();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeInt(this.soundType);
-        packetdataserializer.writeBlockPos(this.soundPos);
-        packetdataserializer.writeInt(this.soundData);
-        packetdataserializer.writeBoolean(this.serverWide);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeInt(this.field_149251_a);
+        packetdataserializer.func_179255_a(this.field_179747_b);
+        packetdataserializer.writeInt(this.field_149249_b);
+        packetdataserializer.writeBoolean(this.field_149246_f);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleEffect(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147277_a(this);
     }
 }

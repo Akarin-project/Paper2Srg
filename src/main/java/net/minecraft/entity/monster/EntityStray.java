@@ -22,40 +22,40 @@ public class EntityStray extends AbstractSkeleton {
         super(world);
     }
 
-    public static void registerFixesStray(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityStray.class);
+    public static void func_190728_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityStray.class);
     }
 
-    public boolean getCanSpawnHere() {
-        return super.getCanSpawnHere() && this.world.canSeeSky(new BlockPos(this));
+    public boolean func_70601_bi() {
+        return super.func_70601_bi() && this.field_70170_p.func_175678_i(new BlockPos(this));
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_STRAY;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_189968_an;
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_STRAY_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_190032_gu;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_STRAY_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_190034_gw;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_STRAY_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_190033_gv;
     }
 
-    SoundEvent getStepSound() {
-        return SoundEvents.ENTITY_STRAY_STEP;
+    SoundEvent func_190727_o() {
+        return SoundEvents.field_190035_gx;
     }
 
-    protected EntityArrow getArrow(float f) {
-        EntityArrow entityarrow = super.getArrow(f);
+    protected EntityArrow func_190726_a(float f) {
+        EntityArrow entityarrow = super.func_190726_a(f);
 
         if (entityarrow instanceof EntityTippedArrow) {
-            ((EntityTippedArrow) entityarrow).addEffect(new PotionEffect(MobEffects.SLOWNESS, 600));
+            ((EntityTippedArrow) entityarrow).func_184558_a(new PotionEffect(MobEffects.field_76421_d, 600));
         }
 
         return entityarrow;

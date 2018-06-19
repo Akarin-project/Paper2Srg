@@ -10,6 +10,8 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
 
+import org.yaml.snakeyaml.representer.SafeRepresenter.RepresentMap;
+
 public class YamlRepresenter extends Representer {
 
     public YamlRepresenter() {

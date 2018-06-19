@@ -15,63 +15,63 @@ import net.minecraft.world.World;
 
 public class ItemTool extends Item {
 
-    private final Set<Block> effectiveBlocks;
-    protected float efficiency;
-    protected float attackDamage;
-    protected float attackSpeed;
-    protected Item.ToolMaterial toolMaterial;
+    private final Set<Block> field_150914_c;
+    protected float field_77864_a;
+    protected float field_77865_bY;
+    protected float field_185065_c;
+    protected Item.ToolMaterial field_77862_b;
 
     protected ItemTool(float f, float f1, Item.ToolMaterial item_enumtoolmaterial, Set<Block> set) {
-        this.efficiency = 4.0F;
-        this.toolMaterial = item_enumtoolmaterial;
-        this.effectiveBlocks = set;
-        this.maxStackSize = 1;
-        this.setMaxDamage(item_enumtoolmaterial.getMaxUses());
-        this.efficiency = item_enumtoolmaterial.getEfficiency();
-        this.attackDamage = f + item_enumtoolmaterial.getAttackDamage();
-        this.attackSpeed = f1;
-        this.setCreativeTab(CreativeTabs.TOOLS);
+        this.field_77864_a = 4.0F;
+        this.field_77862_b = item_enumtoolmaterial;
+        this.field_150914_c = set;
+        this.field_77777_bU = 1;
+        this.func_77656_e(item_enumtoolmaterial.func_77997_a());
+        this.field_77864_a = item_enumtoolmaterial.func_77998_b();
+        this.field_77865_bY = f + item_enumtoolmaterial.func_78000_c();
+        this.field_185065_c = f1;
+        this.func_77637_a(CreativeTabs.field_78040_i);
     }
 
     protected ItemTool(Item.ToolMaterial item_enumtoolmaterial, Set<Block> set) {
         this(0.0F, 0.0F, item_enumtoolmaterial, set);
     }
 
-    public float getDestroySpeed(ItemStack itemstack, IBlockState iblockdata) {
-        return this.effectiveBlocks.contains(iblockdata.getBlock()) ? this.efficiency : 1.0F;
+    public float func_150893_a(ItemStack itemstack, IBlockState iblockdata) {
+        return this.field_150914_c.contains(iblockdata.func_177230_c()) ? this.field_77864_a : 1.0F;
     }
 
-    public boolean hitEntity(ItemStack itemstack, EntityLivingBase entityliving, EntityLivingBase entityliving1) {
-        itemstack.damageItem(2, entityliving1);
+    public boolean func_77644_a(ItemStack itemstack, EntityLivingBase entityliving, EntityLivingBase entityliving1) {
+        itemstack.func_77972_a(2, entityliving1);
         return true;
     }
 
-    public boolean onBlockDestroyed(ItemStack itemstack, World world, IBlockState iblockdata, BlockPos blockposition, EntityLivingBase entityliving) {
-        if (!world.isRemote && (double) iblockdata.getBlockHardness(world, blockposition) != 0.0D) {
-            itemstack.damageItem(1, entityliving);
+    public boolean func_179218_a(ItemStack itemstack, World world, IBlockState iblockdata, BlockPos blockposition, EntityLivingBase entityliving) {
+        if (!world.field_72995_K && (double) iblockdata.func_185887_b(world, blockposition) != 0.0D) {
+            itemstack.func_77972_a(1, entityliving);
         }
 
         return true;
     }
 
-    public int getItemEnchantability() {
-        return this.toolMaterial.getEnchantability();
+    public int func_77619_b() {
+        return this.field_77862_b.func_77995_e();
     }
 
-    public String getToolMaterialName() {
-        return this.toolMaterial.toString();
+    public String func_77861_e() {
+        return this.field_77862_b.toString();
     }
 
-    public boolean getIsRepairable(ItemStack itemstack, ItemStack itemstack1) {
-        return this.toolMaterial.getRepairItem() == itemstack1.getItem() ? true : super.getIsRepairable(itemstack, itemstack1);
+    public boolean func_82789_a(ItemStack itemstack, ItemStack itemstack1) {
+        return this.field_77862_b.func_150995_f() == itemstack1.func_77973_b() ? true : super.func_82789_a(itemstack, itemstack1);
     }
 
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot enumitemslot) {
-        Multimap multimap = super.getItemAttributeModifiers(enumitemslot);
+    public Multimap<String, AttributeModifier> func_111205_h(EntityEquipmentSlot enumitemslot) {
+        Multimap multimap = super.func_111205_h(enumitemslot);
 
         if (enumitemslot == EntityEquipmentSlot.MAINHAND) {
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ItemTool.ATTACK_DAMAGE_MODIFIER, "Tool modifier", (double) this.attackDamage, 0));
-            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ItemTool.ATTACK_SPEED_MODIFIER, "Tool modifier", (double) this.attackSpeed, 0));
+            multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(ItemTool.field_111210_e, "Tool modifier", (double) this.field_77865_bY, 0));
+            multimap.put(SharedMonsterAttributes.field_188790_f.func_111108_a(), new AttributeModifier(ItemTool.field_185050_h, "Tool modifier", (double) this.field_185065_c, 0));
         }
 
         return multimap;

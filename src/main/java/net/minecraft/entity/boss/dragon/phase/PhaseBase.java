@@ -13,41 +13,41 @@ import net.minecraft.util.math.Vec3d;
 
 public abstract class PhaseBase implements IPhase {
 
-    protected final EntityDragon dragon;
+    protected final EntityDragon field_188661_a;
 
     public PhaseBase(EntityDragon entityenderdragon) {
-        this.dragon = entityenderdragon;
+        this.field_188661_a = entityenderdragon;
     }
 
-    public boolean getIsStationary() {
+    public boolean func_188654_a() {
         return false;
     }
 
-    public void doClientRenderEffects() {}
+    public void func_188657_b() {}
 
-    public void doLocalUpdate() {}
+    public void func_188659_c() {}
 
-    public void onCrystalDestroyed(EntityEnderCrystal entityendercrystal, BlockPos blockposition, DamageSource damagesource, @Nullable EntityPlayer entityhuman) {}
+    public void func_188655_a(EntityEnderCrystal entityendercrystal, BlockPos blockposition, DamageSource damagesource, @Nullable EntityPlayer entityhuman) {}
 
-    public void initPhase() {}
+    public void func_188660_d() {}
 
-    public void removeAreaEffect() {}
+    public void func_188658_e() {}
 
-    public float getMaxRiseOrFall() {
+    public float func_188651_f() {
         return 0.6F;
     }
 
     @Nullable
-    public Vec3d getTargetLocation() {
+    public Vec3d func_188650_g() {
         return null;
     }
 
-    public float getAdjustedDamage(MultiPartEntityPart entitycomplexpart, DamageSource damagesource, float f) {
+    public float func_188656_a(MultiPartEntityPart entitycomplexpart, DamageSource damagesource, float f) {
         return f;
     }
 
-    public float getYawFactor() {
-        float f = MathHelper.sqrt(this.dragon.motionX * this.dragon.motionX + this.dragon.motionZ * this.dragon.motionZ) + 1.0F;
+    public float func_188653_h() {
+        float f = MathHelper.func_76133_a(this.field_188661_a.field_70159_w * this.field_188661_a.field_70159_w + this.field_188661_a.field_70179_y * this.field_188661_a.field_70179_y) + 1.0F;
         float f1 = Math.min(f, 40.0F);
 
         return 0.7F / f1 / f;

@@ -58,24 +58,24 @@ class CraftMetaPotion extends CraftMetaItem implements PotionMeta {
 
     CraftMetaPotion(NBTTagCompound tag) {
         super(tag);
-        if (tag.hasKey(DEFAULT_POTION.NBT)) {
-            type = CraftPotionUtil.toBukkit(tag.getString(DEFAULT_POTION.NBT));
+        if (tag.func_74764_b(DEFAULT_POTION.NBT)) {
+            type = CraftPotionUtil.toBukkit(tag.func_74779_i(DEFAULT_POTION.NBT));
         }
-        if (tag.hasKey(POTION_COLOR.NBT)) {
-            color = Color.fromRGB(tag.getInteger(POTION_COLOR.NBT));
+        if (tag.func_74764_b(POTION_COLOR.NBT)) {
+            color = Color.fromRGB(tag.func_74762_e(POTION_COLOR.NBT));
         }
-        if (tag.hasKey(POTION_EFFECTS.NBT)) {
-            NBTTagList list = tag.getTagList(POTION_EFFECTS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
-            int length = list.tagCount();
+        if (tag.func_74764_b(POTION_EFFECTS.NBT)) {
+            NBTTagList list = tag.func_150295_c(POTION_EFFECTS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
+            int length = list.func_74745_c();
             customEffects = new ArrayList<PotionEffect>(length);
 
             for (int i = 0; i < length; i++) {
-                NBTTagCompound effect = list.getCompoundTagAt(i);
-                PotionEffectType type = PotionEffectType.getById(effect.getByte(ID.NBT));
-                int amp = effect.getByte(AMPLIFIER.NBT);
-                int duration = effect.getInteger(DURATION.NBT);
-                boolean ambient = effect.getBoolean(AMBIENT.NBT);
-                boolean particles = effect.getBoolean(SHOW_PARTICLES.NBT);
+                NBTTagCompound effect = list.func_150305_b(i);
+                PotionEffectType type = PotionEffectType.getById(effect.func_74771_c(ID.NBT));
+                int amp = effect.func_74771_c(AMPLIFIER.NBT);
+                int duration = effect.func_74762_e(DURATION.NBT);
+                boolean ambient = effect.func_74767_n(AMBIENT.NBT);
+                boolean particles = effect.func_74767_n(SHOW_PARTICLES.NBT);
                 customEffects.add(new PotionEffect(type, duration, amp, ambient, particles));
             }
         }
@@ -107,24 +107,24 @@ class CraftMetaPotion extends CraftMetaItem implements PotionMeta {
     void applyToItem(NBTTagCompound tag) {
         super.applyToItem(tag);
 
-        tag.setString(DEFAULT_POTION.NBT, CraftPotionUtil.fromBukkit(type));
+        tag.func_74778_a(DEFAULT_POTION.NBT, CraftPotionUtil.fromBukkit(type));
 
         if (hasColor()) {
-            tag.setInteger(POTION_COLOR.NBT, color.asRGB());
+            tag.func_74768_a(POTION_COLOR.NBT, color.asRGB());
         }
 
         if (customEffects != null) {
             NBTTagList effectList = new NBTTagList();
-            tag.setTag(POTION_EFFECTS.NBT, effectList);
+            tag.func_74782_a(POTION_EFFECTS.NBT, effectList);
 
             for (PotionEffect effect : customEffects) {
                 NBTTagCompound effectData = new NBTTagCompound();
-                effectData.setByte(ID.NBT, (byte) effect.getType().getId());
-                effectData.setByte(AMPLIFIER.NBT, (byte) effect.getAmplifier());
-                effectData.setInteger(DURATION.NBT, effect.getDuration());
-                effectData.setBoolean(AMBIENT.NBT, effect.isAmbient());
-                effectData.setBoolean(SHOW_PARTICLES.NBT, effect.hasParticles());
-                effectList.appendTag(effectData);
+                effectData.func_74774_a(ID.NBT, (byte) effect.getType().getId());
+                effectData.func_74774_a(AMPLIFIER.NBT, (byte) effect.getAmplifier());
+                effectData.func_74768_a(DURATION.NBT, effect.getDuration());
+                effectData.func_74757_a(AMBIENT.NBT, effect.isAmbient());
+                effectData.func_74757_a(SHOW_PARTICLES.NBT, effect.hasParticles());
+                effectList.func_74742_a(effectData);
             }
         }
     }

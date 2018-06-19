@@ -19,8 +19,8 @@ public class CraftFish extends AbstractProjectile implements Fish {
     }
 
     public ProjectileSource getShooter() {
-        if (getHandle().angler != null) {
-            return getHandle().angler.getBukkitEntity();
+        if (getHandle().field_146042_b != null) {
+            return getHandle().field_146042_b.getBukkitEntity();
         }
 
         return null;
@@ -28,7 +28,7 @@ public class CraftFish extends AbstractProjectile implements Fish {
 
     public void setShooter(ProjectileSource shooter) {
         if (shooter instanceof CraftHumanEntity) {
-            getHandle().angler = (EntityPlayer) ((CraftHumanEntity) shooter).entity;
+            getHandle().field_146042_b = (EntityPlayer) ((CraftHumanEntity) shooter).entity;
         }
     }
 
@@ -50,7 +50,7 @@ public class CraftFish extends AbstractProjectile implements Fish {
         EntityFishHook hook = getHandle();
 
         if (this.biteChance == -1) {
-            if (hook.world.isRainingAt(new BlockPos(MathHelper.floor(hook.posX), MathHelper.floor(hook.posY) + 1, MathHelper.floor(hook.posZ)))) {
+            if (hook.field_70170_p.func_175727_C(new BlockPos(MathHelper.func_76128_c(hook.field_70165_t), MathHelper.func_76128_c(hook.field_70163_u) + 1, MathHelper.func_76128_c(hook.field_70161_v)))) {
                 return 1/300.0;
             }
             return 1/500.0;
@@ -67,8 +67,8 @@ public class CraftFish extends AbstractProjectile implements Fish {
     @Override
     public void remove() {
         super.remove();
-        if (getHandle().angler != null) {
-            getHandle().angler.fishEntity = null;
+        if (getHandle().field_146042_b != null) {
+            getHandle().field_146042_b.field_71104_cf = null;
         }
     }
     // Paper end

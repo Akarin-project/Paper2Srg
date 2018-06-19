@@ -18,20 +18,20 @@ public class CraftEnchantingTable extends CraftBlockEntityState<TileEntityEnchan
     @Override
     public String getCustomName() {
         TileEntityEnchantmentTable enchant = this.getSnapshot();
-        return enchant.hasCustomName() ? enchant.getName() : null;
+        return enchant.func_145818_k_() ? enchant.func_70005_c_() : null;
     }
 
     @Override
     public void setCustomName(String name) {
-        this.getSnapshot().setCustomName(name);
+        this.getSnapshot().func_145920_a(name);
     }
 
     @Override
     public void applyTo(TileEntityEnchantmentTable enchantingTable) {
         super.applyTo(enchantingTable);
 
-        if (!this.getSnapshot().hasCustomName()) {
-            enchantingTable.setCustomName(null);
+        if (!this.getSnapshot().func_145818_k_()) {
+            enchantingTable.func_145920_a(null);
         }
     }
 }

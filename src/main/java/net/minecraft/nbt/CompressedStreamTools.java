@@ -18,13 +18,13 @@ import net.minecraft.util.ReportedException;
 
 public class CompressedStreamTools {
 
-    public static NBTTagCompound readCompressed(InputStream inputstream) throws IOException {
+    public static NBTTagCompound func_74796_a(InputStream inputstream) throws IOException {
         DataInputStream datainputstream = new DataInputStream(new BufferedInputStream(new GZIPInputStream(inputstream)));
 
         NBTTagCompound nbttagcompound;
 
         try {
-            nbttagcompound = read((DataInput) datainputstream, NBTSizeTracker.INFINITE);
+            nbttagcompound = func_152456_a((DataInput) datainputstream, NBTSizeTracker.field_152451_a);
         } finally {
             datainputstream.close();
         }
@@ -32,29 +32,29 @@ public class CompressedStreamTools {
         return nbttagcompound;
     }
 
-    public static void writeCompressed(NBTTagCompound nbttagcompound, OutputStream outputstream) throws IOException {
+    public static void func_74799_a(NBTTagCompound nbttagcompound, OutputStream outputstream) throws IOException {
         DataOutputStream dataoutputstream = new DataOutputStream(new BufferedOutputStream(new GZIPOutputStream(outputstream)));
 
         try {
-            write(nbttagcompound, (DataOutput) dataoutputstream);
+            func_74800_a(nbttagcompound, (DataOutput) dataoutputstream);
         } finally {
             dataoutputstream.close();
         }
 
     }
 
-    public static NBTTagCompound read(DataInputStream datainputstream) throws IOException {
-        return read((DataInput) datainputstream, NBTSizeTracker.INFINITE);
+    public static NBTTagCompound func_74794_a(DataInputStream datainputstream) throws IOException {
+        return func_152456_a((DataInput) datainputstream, NBTSizeTracker.field_152451_a);
     }
 
-    public static NBTTagCompound read(DataInput datainput, NBTSizeTracker nbtreadlimiter) throws IOException {
+    public static NBTTagCompound func_152456_a(DataInput datainput, NBTSizeTracker nbtreadlimiter) throws IOException {
         // Spigot start
         if ( datainput instanceof io.netty.buffer.ByteBufInputStream )
         {
             datainput = new DataInputStream(new org.spigotmc.LimitStream((InputStream) datainput, nbtreadlimiter));
         }
         // Spigot end
-        NBTBase nbtbase = read(datainput, 0, nbtreadlimiter);
+        NBTBase nbtbase = func_152455_a(datainput, 0, nbtreadlimiter);
 
         if (nbtbase instanceof NBTTagCompound) {
             return (NBTTagCompound) nbtbase;
@@ -63,35 +63,35 @@ public class CompressedStreamTools {
         }
     }
 
-    public static void write(NBTTagCompound nbttagcompound, DataOutput dataoutput) throws IOException {
-        writeTag((NBTBase) nbttagcompound, dataoutput);
+    public static void func_74800_a(NBTTagCompound nbttagcompound, DataOutput dataoutput) throws IOException {
+        func_150663_a((NBTBase) nbttagcompound, dataoutput);
     }
 
-    private static void writeTag(NBTBase nbtbase, DataOutput dataoutput) throws IOException {
-        dataoutput.writeByte(nbtbase.getId());
-        if (nbtbase.getId() != 0) {
+    private static void func_150663_a(NBTBase nbtbase, DataOutput dataoutput) throws IOException {
+        dataoutput.writeByte(nbtbase.func_74732_a());
+        if (nbtbase.func_74732_a() != 0) {
             dataoutput.writeUTF("");
-            nbtbase.write(dataoutput);
+            nbtbase.func_74734_a(dataoutput);
         }
     }
 
-    private static NBTBase read(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
+    private static NBTBase func_152455_a(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
         byte b0 = datainput.readByte();
 
         if (b0 == 0) {
             return new NBTTagEnd();
         } else {
             datainput.readUTF();
-            NBTBase nbtbase = NBTBase.createNewByType(b0);
+            NBTBase nbtbase = NBTBase.func_150284_a(b0);
 
             try {
-                nbtbase.read(datainput, i, nbtreadlimiter);
+                nbtbase.func_152446_a(datainput, i, nbtreadlimiter);
                 return nbtbase;
             } catch (IOException ioexception) {
-                CrashReport crashreport = CrashReport.makeCrashReport(ioexception, "Loading NBT data");
-                CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("NBT Tag");
+                CrashReport crashreport = CrashReport.func_85055_a(ioexception, "Loading NBT data");
+                CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("NBT Tag");
 
-                crashreportsystemdetails.addCrashSection("Tag type", (Object) Byte.valueOf(b0));
+                crashreportsystemdetails.func_71507_a("Tag type", (Object) Byte.valueOf(b0));
                 throw new ReportedException(crashreport);
             }
         }

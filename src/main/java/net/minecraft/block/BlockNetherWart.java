@@ -20,79 +20,79 @@ import net.minecraft.world.World;
 
 public class BlockNetherWart extends BlockBush {
 
-    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 3);
-    private static final AxisAlignedBB[] NETHER_WART_AABB = new AxisAlignedBB[] { new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.3125D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.6875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D)};
+    public static final PropertyInteger field_176486_a = PropertyInteger.func_177719_a("age", 0, 3);
+    private static final AxisAlignedBB[] field_185519_c = new AxisAlignedBB[] { new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.3125D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.6875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D)};
 
     protected BlockNetherWart() {
-        super(Material.PLANTS, MapColor.RED);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockNetherWart.AGE, Integer.valueOf(0)));
-        this.setTickRandomly(true);
-        this.setCreativeTab((CreativeTabs) null);
+        super(Material.field_151585_k, MapColor.field_151645_D);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockNetherWart.field_176486_a, Integer.valueOf(0)));
+        this.func_149675_a(true);
+        this.func_149647_a((CreativeTabs) null);
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockNetherWart.NETHER_WART_AABB[((Integer) iblockdata.getValue(BlockNetherWart.AGE)).intValue()];
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockNetherWart.field_185519_c[((Integer) iblockdata.func_177229_b(BlockNetherWart.field_176486_a)).intValue()];
     }
 
-    protected boolean canSustainBush(IBlockState iblockdata) {
-        return iblockdata.getBlock() == Blocks.SOUL_SAND;
+    protected boolean func_185514_i(IBlockState iblockdata) {
+        return iblockdata.func_177230_c() == Blocks.field_150425_aM;
     }
 
-    public boolean canBlockStay(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return this.canSustainBush(world.getBlockState(blockposition.down()));
+    public boolean func_180671_f(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return this.func_185514_i(world.func_180495_p(blockposition.func_177977_b()));
     }
 
-    public void updateTick(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        int i = ((Integer) iblockdata.getValue(BlockNetherWart.AGE)).intValue();
+    public void func_180650_b(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        int i = ((Integer) iblockdata.func_177229_b(BlockNetherWart.field_176486_a)).intValue();
 
         if (i < 3 && random.nextInt(Math.max(1, (int) (100.0F / world.spigotConfig.wartModifier) * 10)) == 0) { // Spigot
-            iblockdata = iblockdata.withProperty(BlockNetherWart.AGE, Integer.valueOf(i + 1));
+            iblockdata = iblockdata.func_177226_a(BlockNetherWart.field_176486_a, Integer.valueOf(i + 1));
             // world.setTypeAndData(blockposition, iblockdata, 2); // CraftBukkit
-            org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockGrowEvent(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), this, getMetaFromState(iblockdata)); // CraftBukkit
+            org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockGrowEvent(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), this, func_176201_c(iblockdata)); // CraftBukkit
         }
 
-        super.updateTick(world, blockposition, iblockdata, random);
+        super.func_180650_b(world, blockposition, iblockdata, random);
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
-        if (!world.isRemote) {
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
+        if (!world.field_72995_K) {
             int j = 1;
 
-            if (((Integer) iblockdata.getValue(BlockNetherWart.AGE)).intValue() >= 3) {
-                j = 2 + world.rand.nextInt(3);
+            if (((Integer) iblockdata.func_177229_b(BlockNetherWart.field_176486_a)).intValue() >= 3) {
+                j = 2 + world.field_73012_v.nextInt(3);
                 if (i > 0) {
-                    j += world.rand.nextInt(i + 1);
+                    j += world.field_73012_v.nextInt(i + 1);
                 }
             }
 
             for (int k = 0; k < j; ++k) {
-                spawnAsEntity(world, blockposition, new ItemStack(Items.NETHER_WART));
+                func_180635_a(world, blockposition, new ItemStack(Items.field_151075_bm));
             }
 
         }
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.AIR;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_190931_a;
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 0;
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(Items.NETHER_WART);
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(Items.field_151075_bm);
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockNetherWart.AGE, Integer.valueOf(i));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockNetherWart.field_176486_a, Integer.valueOf(i));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((Integer) iblockdata.getValue(BlockNetherWart.AGE)).intValue();
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((Integer) iblockdata.func_177229_b(BlockNetherWart.field_176486_a)).intValue();
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockNetherWart.AGE});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockNetherWart.field_176486_a});
     }
 }

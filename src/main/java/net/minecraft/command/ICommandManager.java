@@ -8,11 +8,11 @@ import net.minecraft.util.math.BlockPos;
 
 public interface ICommandManager {
 
-    int executeCommand(ICommandSender icommandlistener, String s);
+    int func_71556_a(ICommandSender icommandlistener, String s);
 
-    List<String> getTabCompletions(ICommandSender icommandlistener, String s, @Nullable BlockPos blockposition);
+    List<String> func_180524_a(ICommandSender icommandlistener, String s, @Nullable BlockPos blockposition);
 
-    List<ICommand> getPossibleCommands(ICommandSender icommandlistener);
+    List<ICommand> func_71557_a(ICommandSender icommandlistener);
 
-    Map<String, ICommand> getCommands();
+    Map<String, ICommand> func_71555_a();
 }

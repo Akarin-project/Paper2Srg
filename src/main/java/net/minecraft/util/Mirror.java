@@ -4,14 +4,14 @@ public enum Mirror {
 
     NONE("no_mirror"), LEFT_RIGHT("mirror_left_right"), FRONT_BACK("mirror_front_back");
 
-    private final String name;
-    private static final String[] mirrorNames = new String[values().length];
+    private final String field_185807_d;
+    private static final String[] field_185808_e = new String[values().length];
 
     private Mirror(String s) {
-        this.name = s;
+        this.field_185807_d = s;
     }
 
-    public int mirrorRotation(int i, int j) {
+    public int func_185802_a(int i, int j) {
         int k = j / 2;
         int l = i > k ? i - j : i;
 
@@ -27,13 +27,13 @@ public enum Mirror {
         }
     }
 
-    public Rotation toRotation(EnumFacing enumdirection) {
-        EnumFacing.Axis enumdirection_enumaxis = enumdirection.getAxis();
+    public Rotation func_185800_a(EnumFacing enumdirection) {
+        EnumFacing.Axis enumdirection_enumaxis = enumdirection.func_176740_k();
 
         return (this != Mirror.LEFT_RIGHT || enumdirection_enumaxis != EnumFacing.Axis.Z) && (this != Mirror.FRONT_BACK || enumdirection_enumaxis != EnumFacing.Axis.X) ? Rotation.NONE : Rotation.CLOCKWISE_180;
     }
 
-    public EnumFacing mirror(EnumFacing enumdirection) {
+    public EnumFacing func_185803_b(EnumFacing enumdirection) {
         switch (this) {
         case FRONT_BACK:
             if (enumdirection == EnumFacing.WEST) {
@@ -70,7 +70,7 @@ public enum Mirror {
         for (int k = 0; k < j; ++k) {
             Mirror enumblockmirror = aenumblockmirror[k];
 
-            Mirror.mirrorNames[i++] = enumblockmirror.name;
+            Mirror.field_185808_e[i++] = enumblockmirror.field_185807_d;
         }
 
     }

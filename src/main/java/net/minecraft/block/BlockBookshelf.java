@@ -11,15 +11,15 @@ import net.minecraft.item.Item;
 public class BlockBookshelf extends Block {
 
     public BlockBookshelf() {
-        super(Material.WOOD);
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151575_d);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 3;
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.BOOK;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_151122_aG;
     }
 }

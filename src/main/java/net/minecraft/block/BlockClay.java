@@ -11,15 +11,15 @@ import net.minecraft.item.Item;
 public class BlockClay extends Block {
 
     public BlockClay() {
-        super(Material.CLAY);
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151571_B);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.CLAY_BALL;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_151119_aD;
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 4;
     }
 }

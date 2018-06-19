@@ -15,8 +15,8 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerHorseInventory extends Container {
 
-    private final IInventory horseInventory;
-    private final AbstractHorse horse;
+    private final IInventory field_111243_a;
+    private final AbstractHorse field_111242_f;
 
     // CraftBukkit start
     org.bukkit.craftbukkit.inventory.CraftInventoryView bukkitEntity;
@@ -28,96 +28,96 @@ public class ContainerHorseInventory extends Container {
             return bukkitEntity;
         }
 
-        return bukkitEntity = new CraftInventoryView(player.player.getBukkitEntity(), horseInventory.getOwner().getInventory(), this);
+        return bukkitEntity = new CraftInventoryView(player.field_70458_d.getBukkitEntity(), field_111243_a.getOwner().getInventory(), this);
     }
 
     public ContainerHorseInventory(IInventory iinventory, final IInventory iinventory1, final AbstractHorse entityhorseabstract, EntityPlayer entityhuman) {
         player = (InventoryPlayer) iinventory;
         // CraftBukkit end
-        this.horseInventory = iinventory1;
-        this.horse = entityhorseabstract;
+        this.field_111243_a = iinventory1;
+        this.field_111242_f = entityhorseabstract;
         boolean flag = true;
 
-        iinventory1.openInventory(entityhuman);
+        iinventory1.func_174889_b(entityhuman);
         boolean flag1 = true;
 
-        this.addSlotToContainer(new Slot(iinventory1, 0, 8, 18) {
-            public boolean isItemValid(ItemStack itemstack) {
-                return itemstack.getItem() == Items.SADDLE && !this.getHasStack() && entityhorseabstract.canBeSaddled();
+        this.func_75146_a(new Slot(iinventory1, 0, 8, 18) {
+            public boolean func_75214_a(ItemStack itemstack) {
+                return itemstack.func_77973_b() == Items.field_151141_av && !this.func_75216_d() && entityhorseabstract.func_190685_dA();
             }
         });
-        this.addSlotToContainer(new Slot(iinventory1, 1, 8, 36) {
-            public boolean isItemValid(ItemStack itemstack) {
-                return entityhorseabstract.isArmor(itemstack);
+        this.func_75146_a(new Slot(iinventory1, 1, 8, 36) {
+            public boolean func_75214_a(ItemStack itemstack) {
+                return entityhorseabstract.func_190682_f(itemstack);
             }
 
-            public int getSlotStackLimit() {
+            public int func_75219_a() {
                 return 1;
             }
         });
         int i;
         int j;
 
-        if (entityhorseabstract instanceof AbstractChestHorse && ((AbstractChestHorse) entityhorseabstract).hasChest()) {
+        if (entityhorseabstract instanceof AbstractChestHorse && ((AbstractChestHorse) entityhorseabstract).func_190695_dh()) {
             for (i = 0; i < 3; ++i) {
-                for (j = 0; j < ((AbstractChestHorse) entityhorseabstract).getInventoryColumns(); ++j) {
-                    this.addSlotToContainer(new Slot(iinventory1, 2 + j + i * ((AbstractChestHorse) entityhorseabstract).getInventoryColumns(), 80 + j * 18, 18 + i * 18));
+                for (j = 0; j < ((AbstractChestHorse) entityhorseabstract).func_190696_dl(); ++j) {
+                    this.func_75146_a(new Slot(iinventory1, 2 + j + i * ((AbstractChestHorse) entityhorseabstract).func_190696_dl(), 80 + j * 18, 18 + i * 18));
                 }
             }
         }
 
         for (i = 0; i < 3; ++i) {
             for (j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(iinventory, j + i * 9 + 9, 8 + j * 18, 102 + i * 18 + -18));
+                this.func_75146_a(new Slot(iinventory, j + i * 9 + 9, 8 + j * 18, 102 + i * 18 + -18));
             }
         }
 
         for (i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(iinventory, i, 8 + i * 18, 142));
+            this.func_75146_a(new Slot(iinventory, i, 8 + i * 18, 142));
         }
 
     }
 
-    public boolean canInteractWith(EntityPlayer entityhuman) {
-        return this.horseInventory.isUsableByPlayer(entityhuman) && this.horse.isEntityAlive() && this.horse.getDistance((Entity) entityhuman) < 8.0F;
+    public boolean func_75145_c(EntityPlayer entityhuman) {
+        return this.field_111243_a.func_70300_a(entityhuman) && this.field_111242_f.func_70089_S() && this.field_111242_f.func_70032_d((Entity) entityhuman) < 8.0F;
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer entityhuman, int i) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = (Slot) this.inventorySlots.get(i);
+    public ItemStack func_82846_b(EntityPlayer entityhuman, int i) {
+        ItemStack itemstack = ItemStack.field_190927_a;
+        Slot slot = (Slot) this.field_75151_b.get(i);
 
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+        if (slot != null && slot.func_75216_d()) {
+            ItemStack itemstack1 = slot.func_75211_c();
 
-            itemstack = itemstack1.copy();
-            if (i < this.horseInventory.getSizeInventory()) {
-                if (!this.mergeItemStack(itemstack1, this.horseInventory.getSizeInventory(), this.inventorySlots.size(), true)) {
-                    return ItemStack.EMPTY;
+            itemstack = itemstack1.func_77946_l();
+            if (i < this.field_111243_a.func_70302_i_()) {
+                if (!this.func_75135_a(itemstack1, this.field_111243_a.func_70302_i_(), this.field_75151_b.size(), true)) {
+                    return ItemStack.field_190927_a;
                 }
-            } else if (this.getSlot(1).isItemValid(itemstack1) && !this.getSlot(1).getHasStack()) {
-                if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
-                    return ItemStack.EMPTY;
+            } else if (this.func_75139_a(1).func_75214_a(itemstack1) && !this.func_75139_a(1).func_75216_d()) {
+                if (!this.func_75135_a(itemstack1, 1, 2, false)) {
+                    return ItemStack.field_190927_a;
                 }
-            } else if (this.getSlot(0).isItemValid(itemstack1)) {
-                if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
-                    return ItemStack.EMPTY;
+            } else if (this.func_75139_a(0).func_75214_a(itemstack1)) {
+                if (!this.func_75135_a(itemstack1, 0, 1, false)) {
+                    return ItemStack.field_190927_a;
                 }
-            } else if (this.horseInventory.getSizeInventory() <= 2 || !this.mergeItemStack(itemstack1, 2, this.horseInventory.getSizeInventory(), false)) {
-                return ItemStack.EMPTY;
+            } else if (this.field_111243_a.func_70302_i_() <= 2 || !this.func_75135_a(itemstack1, 2, this.field_111243_a.func_70302_i_(), false)) {
+                return ItemStack.field_190927_a;
             }
 
-            if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+            if (itemstack1.func_190926_b()) {
+                slot.func_75215_d(ItemStack.field_190927_a);
             } else {
-                slot.onSlotChanged();
+                slot.func_75218_e();
             }
         }
 
         return itemstack;
     }
 
-    public void onContainerClosed(EntityPlayer entityhuman) {
-        super.onContainerClosed(entityhuman);
-        this.horseInventory.closeInventory(entityhuman);
+    public void func_75134_a(EntityPlayer entityhuman) {
+        super.func_75134_a(entityhuman);
+        this.field_111243_a.func_174886_c(entityhuman);
     }
 }

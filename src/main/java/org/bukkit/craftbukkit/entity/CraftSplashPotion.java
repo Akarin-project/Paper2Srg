@@ -23,7 +23,7 @@ public class CraftSplashPotion extends CraftThrownPotion implements SplashPotion
         // The ItemStack must be a potion.
         Validate.isTrue(item.getType() == Material.SPLASH_POTION, "ItemStack must be a splash potion. This item stack was " + item.getType() + ".");
 
-        getHandle().setItem(CraftItemStack.asNMSCopy(item));
+        getHandle().func_184541_a(CraftItemStack.asNMSCopy(item));
     }
 
     @Override

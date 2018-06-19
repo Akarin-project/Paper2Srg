@@ -8,70 +8,70 @@ import net.minecraft.util.math.MathHelper;
 
 public class NBTTagDouble extends NBTPrimitive {
 
-    private double data;
+    private double field_74755_a;
 
     NBTTagDouble() {}
 
     public NBTTagDouble(double d0) {
-        this.data = d0;
+        this.field_74755_a = d0;
     }
 
-    void write(DataOutput dataoutput) throws IOException {
-        dataoutput.writeDouble(this.data);
+    void func_74734_a(DataOutput dataoutput) throws IOException {
+        dataoutput.writeDouble(this.field_74755_a);
     }
 
-    void read(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
-        nbtreadlimiter.read(128L);
-        this.data = datainput.readDouble();
+    void func_152446_a(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
+        nbtreadlimiter.func_152450_a(128L);
+        this.field_74755_a = datainput.readDouble();
     }
 
-    public byte getId() {
+    public byte func_74732_a() {
         return (byte) 6;
     }
 
     public String toString() {
-        return this.data + "d";
+        return this.field_74755_a + "d";
     }
 
-    public NBTTagDouble copy() {
-        return new NBTTagDouble(this.data);
+    public NBTTagDouble func_74737_b() {
+        return new NBTTagDouble(this.field_74755_a);
     }
 
     public boolean equals(Object object) {
-        return super.equals(object) && this.data == ((NBTTagDouble) object).data;
+        return super.equals(object) && this.field_74755_a == ((NBTTagDouble) object).field_74755_a;
     }
 
     public int hashCode() {
-        long i = Double.doubleToLongBits(this.data);
+        long i = Double.doubleToLongBits(this.field_74755_a);
 
         return super.hashCode() ^ (int) (i ^ i >>> 32);
     }
 
-    public long getLong() {
-        return (long) Math.floor(this.data);
+    public long func_150291_c() {
+        return (long) Math.floor(this.field_74755_a);
     }
 
-    public int getInt() {
-        return MathHelper.floor(this.data);
+    public int func_150287_d() {
+        return MathHelper.func_76128_c(this.field_74755_a);
     }
 
-    public short getShort() {
-        return (short) (MathHelper.floor(this.data) & '\uffff');
+    public short func_150289_e() {
+        return (short) (MathHelper.func_76128_c(this.field_74755_a) & '\uffff');
     }
 
-    public byte getByte() {
-        return (byte) (MathHelper.floor(this.data) & 255);
+    public byte func_150290_f() {
+        return (byte) (MathHelper.func_76128_c(this.field_74755_a) & 255);
     }
 
-    public double getDouble() {
-        return this.data;
+    public double func_150286_g() {
+        return this.field_74755_a;
     }
 
-    public float getFloat() {
-        return (float) this.data;
+    public float func_150288_h() {
+        return (float) this.field_74755_a;
     }
 
     public NBTBase clone() {
-        return this.copy();
+        return this.func_74737_b();
     }
 }

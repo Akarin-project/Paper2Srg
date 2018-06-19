@@ -28,12 +28,12 @@ public class CraftProfileBanList implements org.bukkit.BanList {
     public org.bukkit.BanEntry getBanEntry(String target) {
         Validate.notNull(target, "Target cannot be null");
 
-        GameProfile profile = MinecraftServer.getServer().getPlayerProfileCache().getGameProfileForUsername(target);
+        GameProfile profile = MinecraftServer.getServer().func_152358_ax().func_152655_a(target);
         if (profile == null) {
             return null;
         }
 
-        UserListBansEntry entry = (UserListBansEntry) list.getEntry(profile);
+        UserListBansEntry entry = (UserListBansEntry) list.func_152683_b(profile);
         if (entry == null) {
             return null;
         }
@@ -45,7 +45,7 @@ public class CraftProfileBanList implements org.bukkit.BanList {
     public org.bukkit.BanEntry addBan(String target, String reason, Date expires, String source) {
         Validate.notNull(target, "Ban target cannot be null");
 
-        GameProfile profile = MinecraftServer.getServer().getPlayerProfileCache().getGameProfileForUsername(target);
+        GameProfile profile = MinecraftServer.getServer().func_152358_ax().func_152655_a(target);
         if (profile == null) {
             return null;
         }
@@ -54,10 +54,10 @@ public class CraftProfileBanList implements org.bukkit.BanList {
                 StringUtils.isBlank(source) ? null : source, expires,
                 StringUtils.isBlank(reason) ? null : reason);
 
-        list.addEntry(entry);
+        list.func_152687_a(entry);
 
         try {
-            list.writeChanges();
+            list.func_152678_f();
         } catch (IOException ex) {
             Bukkit.getLogger().log(Level.SEVERE, "Failed to save banned-players.json, {0}", ex.getMessage());
         }
@@ -70,7 +70,7 @@ public class CraftProfileBanList implements org.bukkit.BanList {
         ImmutableSet.Builder<org.bukkit.BanEntry> builder = ImmutableSet.builder();
         
         for (UserListEntry entry : list.getValues()) {
-            GameProfile profile = (GameProfile) entry.getValue();
+            GameProfile profile = (GameProfile) entry.func_152640_f();
             builder.add(new CraftProfileBanEntry(profile, (UserListBansEntry) entry, list));
         }
 
@@ -81,19 +81,19 @@ public class CraftProfileBanList implements org.bukkit.BanList {
     public boolean isBanned(String target) {
         Validate.notNull(target, "Target cannot be null");
 
-        GameProfile profile = MinecraftServer.getServer().getPlayerProfileCache().getGameProfileForUsername(target);
+        GameProfile profile = MinecraftServer.getServer().func_152358_ax().func_152655_a(target);
         if (profile == null) {
             return false;
         }
 
-        return list.isBanned(profile);
+        return list.func_152702_a(profile);
     }
 
     @Override
     public void pardon(String target) {
         Validate.notNull(target, "Target cannot be null");
 
-        GameProfile profile = MinecraftServer.getServer().getPlayerProfileCache().getGameProfileForUsername(target);
-        list.removeEntry(profile);
+        GameProfile profile = MinecraftServer.getServer().func_152358_ax().func_152655_a(target);
+        list.func_152684_c(profile);
     }
 }

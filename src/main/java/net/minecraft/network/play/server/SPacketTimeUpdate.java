@@ -11,40 +11,40 @@ public class SPacketTimeUpdate implements Packet<INetHandlerPlayClient> {
     // World Age in ticks
     // Not changed by server commands
     // World Age must not be negative
-    private long totalWorldTime;
+    private long field_149369_a;
     // Time of Day in ticks
     // If negative the sun will stop moving at the Math.abs of the time
     // Displayed in the debug screen (F3)
-    private long worldTime;
+    private long field_149368_b;
 
     public SPacketTimeUpdate() {}
 
     public SPacketTimeUpdate(long i, long j, boolean flag) {
-        this.totalWorldTime = i;
-        this.worldTime = j;
+        this.field_149369_a = i;
+        this.field_149368_b = j;
         if (!flag) {
-            this.worldTime = -this.worldTime;
-            if (this.worldTime == 0L) {
-                this.worldTime = -1L;
+            this.field_149368_b = -this.field_149368_b;
+            if (this.field_149368_b == 0L) {
+                this.field_149368_b = -1L;
             }
         }
 
         // Paper start
-        this.totalWorldTime = this.totalWorldTime % 192000;
+        this.field_149369_a = this.field_149369_a % 192000;
         // Paper end
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.totalWorldTime = packetdataserializer.readLong();
-        this.worldTime = packetdataserializer.readLong();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149369_a = packetdataserializer.readLong();
+        this.field_149368_b = packetdataserializer.readLong();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeLong(this.totalWorldTime);
-        packetdataserializer.writeLong(this.worldTime);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeLong(this.field_149369_a);
+        packetdataserializer.writeLong(this.field_149368_b);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleTimeUpdate(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147285_a(this);
     }
 }

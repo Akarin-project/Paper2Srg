@@ -14,12 +14,12 @@ public class CraftBoat extends CraftVehicle implements Boat {
 
     @Override
     public TreeSpecies getWoodType() {
-        return getTreeSpecies(getHandle().getBoatType());
+        return getTreeSpecies(getHandle().func_184453_r());
     }
 
     @Override
     public void setWoodType(TreeSpecies species) {
-        getHandle().setBoatType(getBoatType(species));
+        getHandle().func_184458_a(getBoatType(species));
     }
 
     public double getMaxSpeed() {

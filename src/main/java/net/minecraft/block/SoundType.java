@@ -5,53 +5,53 @@ import net.minecraft.util.SoundEvent;
 
 public class SoundType {
 
-    public static final SoundType WOOD = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_WOOD_BREAK, SoundEvents.BLOCK_WOOD_STEP, SoundEvents.BLOCK_WOOD_PLACE, SoundEvents.BLOCK_WOOD_HIT, SoundEvents.BLOCK_WOOD_FALL);
-    public static final SoundType GROUND = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_GRAVEL_BREAK, SoundEvents.BLOCK_GRAVEL_STEP, SoundEvents.BLOCK_GRAVEL_PLACE, SoundEvents.BLOCK_GRAVEL_HIT, SoundEvents.BLOCK_GRAVEL_FALL);
-    public static final SoundType PLANT = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_GRASS_BREAK, SoundEvents.BLOCK_GRASS_STEP, SoundEvents.BLOCK_GRASS_PLACE, SoundEvents.BLOCK_GRASS_HIT, SoundEvents.BLOCK_GRASS_FALL);
-    public static final SoundType STONE = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_STONE_BREAK, SoundEvents.BLOCK_STONE_STEP, SoundEvents.BLOCK_STONE_PLACE, SoundEvents.BLOCK_STONE_HIT, SoundEvents.BLOCK_STONE_FALL);
-    public static final SoundType METAL = new SoundType(1.0F, 1.5F, SoundEvents.BLOCK_METAL_BREAK, SoundEvents.BLOCK_METAL_STEP, SoundEvents.BLOCK_METAL_PLACE, SoundEvents.BLOCK_METAL_HIT, SoundEvents.BLOCK_METAL_FALL);
-    public static final SoundType GLASS = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_GLASS_BREAK, SoundEvents.BLOCK_GLASS_STEP, SoundEvents.BLOCK_GLASS_PLACE, SoundEvents.BLOCK_GLASS_HIT, SoundEvents.BLOCK_GLASS_FALL);
-    public static final SoundType CLOTH = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_CLOTH_BREAK, SoundEvents.BLOCK_CLOTH_STEP, SoundEvents.BLOCK_CLOTH_PLACE, SoundEvents.BLOCK_CLOTH_HIT, SoundEvents.BLOCK_CLOTH_FALL);
-    public static final SoundType SAND = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_SAND_BREAK, SoundEvents.BLOCK_SAND_STEP, SoundEvents.BLOCK_SAND_PLACE, SoundEvents.BLOCK_SAND_HIT, SoundEvents.BLOCK_SAND_FALL);
-    public static final SoundType SNOW = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_SNOW_BREAK, SoundEvents.BLOCK_SNOW_STEP, SoundEvents.BLOCK_SNOW_PLACE, SoundEvents.BLOCK_SNOW_HIT, SoundEvents.BLOCK_SNOW_FALL);
-    public static final SoundType LADDER = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_LADDER_BREAK, SoundEvents.BLOCK_LADDER_STEP, SoundEvents.BLOCK_LADDER_PLACE, SoundEvents.BLOCK_LADDER_HIT, SoundEvents.BLOCK_LADDER_FALL);
-    public static final SoundType ANVIL = new SoundType(0.3F, 1.0F, SoundEvents.BLOCK_ANVIL_BREAK, SoundEvents.BLOCK_ANVIL_STEP, SoundEvents.BLOCK_ANVIL_PLACE, SoundEvents.BLOCK_ANVIL_HIT, SoundEvents.BLOCK_ANVIL_FALL);
-    public static final SoundType SLIME = new SoundType(1.0F, 1.0F, SoundEvents.BLOCK_SLIME_BREAK, SoundEvents.BLOCK_SLIME_STEP, SoundEvents.BLOCK_SLIME_PLACE, SoundEvents.BLOCK_SLIME_HIT, SoundEvents.BLOCK_SLIME_FALL);
-    public final float volume;
-    public final float pitch;
-    private final SoundEvent breakSound;
-    private final SoundEvent stepSound;
-    private final SoundEvent placeSound;
-    private final SoundEvent hitSound;
-    private final SoundEvent fallSound;
+    public static final SoundType field_185848_a = new SoundType(1.0F, 1.0F, SoundEvents.field_187881_gQ, SoundEvents.field_187897_gY, SoundEvents.field_187891_gV, SoundEvents.field_187889_gU, SoundEvents.field_187887_gT);
+    public static final SoundType field_185849_b = new SoundType(1.0F, 1.0F, SoundEvents.field_187581_bW, SoundEvents.field_187668_ca, SoundEvents.field_187587_bZ, SoundEvents.field_187585_bY, SoundEvents.field_187583_bX);
+    public static final SoundType field_185850_c = new SoundType(1.0F, 1.0F, SoundEvents.field_187571_bR, SoundEvents.field_187579_bV, SoundEvents.field_187577_bU, SoundEvents.field_187575_bT, SoundEvents.field_187573_bS);
+    public static final SoundType field_185851_d = new SoundType(1.0F, 1.0F, SoundEvents.field_187835_fT, SoundEvents.field_187902_gb, SoundEvents.field_187845_fY, SoundEvents.field_187843_fX, SoundEvents.field_187841_fW);
+    public static final SoundType field_185852_e = new SoundType(1.0F, 1.5F, SoundEvents.field_187766_dk, SoundEvents.field_187778_dq, SoundEvents.field_187772_dn, SoundEvents.field_187770_dm, SoundEvents.field_187768_dl);
+    public static final SoundType field_185853_f = new SoundType(1.0F, 1.0F, SoundEvents.field_187561_bM, SoundEvents.field_187569_bQ, SoundEvents.field_187567_bP, SoundEvents.field_187565_bO, SoundEvents.field_187563_bN);
+    public static final SoundType field_185854_g = new SoundType(1.0F, 1.0F, SoundEvents.field_187546_ae, SoundEvents.field_187554_ai, SoundEvents.field_187552_ah, SoundEvents.field_187550_ag, SoundEvents.field_187548_af);
+    public static final SoundType field_185855_h = new SoundType(1.0F, 1.0F, SoundEvents.field_187747_eB, SoundEvents.field_187755_eF, SoundEvents.field_187753_eE, SoundEvents.field_187751_eD, SoundEvents.field_187749_eC);
+    public static final SoundType field_185856_i = new SoundType(1.0F, 1.0F, SoundEvents.field_187807_fF, SoundEvents.field_187815_fJ, SoundEvents.field_187813_fI, SoundEvents.field_187811_fH, SoundEvents.field_187809_fG);
+    public static final SoundType field_185857_j = new SoundType(1.0F, 1.0F, SoundEvents.field_187641_cS, SoundEvents.field_187653_cW, SoundEvents.field_187650_cV, SoundEvents.field_187647_cU, SoundEvents.field_187644_cT);
+    public static final SoundType field_185858_k = new SoundType(0.3F, 1.0F, SoundEvents.field_187677_b, SoundEvents.field_187695_h, SoundEvents.field_187692_g, SoundEvents.field_187686_e, SoundEvents.field_187683_d);
+    public static final SoundType field_185859_l = new SoundType(1.0F, 1.0F, SoundEvents.field_187872_fl, SoundEvents.field_187888_ft, SoundEvents.field_187884_fr, SoundEvents.field_187878_fo, SoundEvents.field_187876_fn);
+    public final float field_185860_m;
+    public final float field_185861_n;
+    private final SoundEvent field_185862_o;
+    private final SoundEvent field_185863_p;
+    private final SoundEvent field_185864_q;
+    private final SoundEvent field_185865_r;
+    private final SoundEvent field_185866_s;
 
     public SoundType(float f, float f1, SoundEvent soundeffect, SoundEvent soundeffect1, SoundEvent soundeffect2, SoundEvent soundeffect3, SoundEvent soundeffect4) {
-        this.volume = f;
-        this.pitch = f1;
-        this.breakSound = soundeffect;
-        this.stepSound = soundeffect1;
-        this.placeSound = soundeffect2;
-        this.hitSound = soundeffect3;
-        this.fallSound = soundeffect4;
+        this.field_185860_m = f;
+        this.field_185861_n = f1;
+        this.field_185862_o = soundeffect;
+        this.field_185863_p = soundeffect1;
+        this.field_185864_q = soundeffect2;
+        this.field_185865_r = soundeffect3;
+        this.field_185866_s = soundeffect4;
     }
 
-    public float getVolume() {
-        return this.volume;
+    public float func_185843_a() {
+        return this.field_185860_m;
     }
 
-    public float getPitch() {
-        return this.pitch;
+    public float func_185847_b() {
+        return this.field_185861_n;
     }
 
-    public SoundEvent getStepSound() {
-        return this.stepSound;
+    public SoundEvent func_185844_d() {
+        return this.field_185863_p;
     }
 
-    public SoundEvent getPlaceSound() {
-        return this.placeSound;
+    public SoundEvent func_185841_e() {
+        return this.field_185864_q;
     }
 
-    public SoundEvent getFallSound() {
-        return this.fallSound;
+    public SoundEvent func_185842_g() {
+        return this.field_185866_s;
     }
 }

@@ -13,49 +13,49 @@ import java.util.Map.Entry;
 
 public class RConThreadMain extends RConThreadBase {
 
-    private int rconPort;
-    private final int serverPort;
-    private String hostname;
-    private ServerSocket serverSocket;
-    private final String rconPassword;
-    private Map<SocketAddress, RConThreadClient> clientThreads;
+    private int field_72647_g;
+    private final int field_72651_h;
+    private String field_72652_i;
+    private ServerSocket field_72649_j;
+    private final String field_72650_k;
+    private Map<SocketAddress, RConThreadClient> field_72648_l;
 
     public RConThreadMain(IServer iminecraftserver) {
         super(iminecraftserver, "RCON Listener");
-        this.rconPort = iminecraftserver.getIntProperty("rcon.port", 0);
-        this.rconPassword = iminecraftserver.getStringProperty("rcon.password", "");
-        this.hostname = iminecraftserver.getStringProperty("rcon.ip", iminecraftserver.getHostname()); // Paper
-        this.serverPort = iminecraftserver.getPort();
-        if (0 == this.rconPort) {
-            this.rconPort = this.serverPort + 10;
-            this.logInfo("Setting default rcon port to " + this.rconPort);
-            iminecraftserver.setProperty("rcon.port", (Object) Integer.valueOf(this.rconPort));
-            if (this.rconPassword.isEmpty()) {
-                iminecraftserver.setProperty("rcon.password", (Object) "");
+        this.field_72647_g = iminecraftserver.func_71327_a("rcon.port", 0);
+        this.field_72650_k = iminecraftserver.func_71330_a("rcon.password", "");
+        this.field_72652_i = iminecraftserver.func_71330_a("rcon.ip", iminecraftserver.func_71277_t()); // Paper
+        this.field_72651_h = iminecraftserver.func_71234_u();
+        if (0 == this.field_72647_g) {
+            this.field_72647_g = this.field_72651_h + 10;
+            this.func_72609_b("Setting default rcon port to " + this.field_72647_g);
+            iminecraftserver.func_71328_a("rcon.port", (Object) Integer.valueOf(this.field_72647_g));
+            if (this.field_72650_k.isEmpty()) {
+                iminecraftserver.func_71328_a("rcon.password", (Object) "");
             }
 
-            iminecraftserver.saveProperties();
+            iminecraftserver.func_71326_a();
         }
 
-        if (this.hostname.isEmpty()) {
-            this.hostname = "0.0.0.0";
+        if (this.field_72652_i.isEmpty()) {
+            this.field_72652_i = "0.0.0.0";
         }
 
-        this.initClientThreadList();
-        this.serverSocket = null;
+        this.func_72646_f();
+        this.field_72649_j = null;
     }
 
-    private void initClientThreadList() {
-        this.clientThreads = Maps.newHashMap();
+    private void func_72646_f() {
+        this.field_72648_l = Maps.newHashMap();
     }
 
-    private void cleanClientThreadsMap() {
-        Iterator iterator = this.clientThreads.entrySet().iterator();
+    private void func_72645_g() {
+        Iterator iterator = this.field_72648_l.entrySet().iterator();
 
         while (iterator.hasNext()) {
             Entry entry = (Entry) iterator.next();
 
-            if (!((RConThreadClient) entry.getValue()).isRunning()) {
+            if (!((RConThreadClient) entry.getValue()).func_72613_c()) {
                 iterator.remove();
             }
         }
@@ -63,49 +63,49 @@ public class RConThreadMain extends RConThreadBase {
     }
 
     public void run() {
-        this.logInfo("RCON running on " + this.hostname + ":" + this.rconPort);
+        this.func_72609_b("RCON running on " + this.field_72652_i + ":" + this.field_72647_g);
 
         try {
-            while (this.running) {
+            while (this.field_72619_a) {
                 try {
-                    Socket socket = this.serverSocket.accept();
+                    Socket socket = this.field_72649_j.accept();
 
                     socket.setSoTimeout(500);
-                    RConThreadClient remotecontrolsession = new RConThreadClient(this.server, socket);
+                    RConThreadClient remotecontrolsession = new RConThreadClient(this.field_72617_b, socket);
 
-                    remotecontrolsession.startThread();
-                    this.clientThreads.put(socket.getRemoteSocketAddress(), remotecontrolsession);
-                    this.cleanClientThreadsMap();
+                    remotecontrolsession.func_72602_a();
+                    this.field_72648_l.put(socket.getRemoteSocketAddress(), remotecontrolsession);
+                    this.func_72645_g();
                 } catch (SocketTimeoutException sockettimeoutexception) {
-                    this.cleanClientThreadsMap();
+                    this.func_72645_g();
                 } catch (IOException ioexception) {
-                    if (this.running) {
-                        this.logInfo("IO: " + ioexception.getMessage());
+                    if (this.field_72619_a) {
+                        this.func_72609_b("IO: " + ioexception.getMessage());
                     }
                 }
             }
         } finally {
-            this.closeServerSocket(this.serverSocket);
+            this.func_72608_b(this.field_72649_j);
         }
 
     }
 
-    public void startThread() {
-        if (this.rconPassword.isEmpty()) {
-            this.logWarning("No rcon password set in \'" + this.server.getSettingsFilename() + "\', rcon disabled!");
-        } else if (0 < this.rconPort && '\uffff' >= this.rconPort) {
-            if (!this.running) {
+    public void func_72602_a() {
+        if (this.field_72650_k.isEmpty()) {
+            this.func_72606_c("No rcon password set in \'" + this.field_72617_b.func_71329_c() + "\', rcon disabled!");
+        } else if (0 < this.field_72647_g && '\uffff' >= this.field_72647_g) {
+            if (!this.field_72619_a) {
                 try {
-                    this.serverSocket = new ServerSocket(this.rconPort, 0, InetAddress.getByName(this.hostname));
-                    this.serverSocket.setSoTimeout(500);
-                    super.startThread();
+                    this.field_72649_j = new ServerSocket(this.field_72647_g, 0, InetAddress.getByName(this.field_72652_i));
+                    this.field_72649_j.setSoTimeout(500);
+                    super.func_72602_a();
                 } catch (IOException ioexception) {
-                    this.logWarning("Unable to initialise rcon on " + this.hostname + ":" + this.rconPort + " : " + ioexception.getMessage());
+                    this.func_72606_c("Unable to initialise rcon on " + this.field_72652_i + ":" + this.field_72647_g + " : " + ioexception.getMessage());
                 }
 
             }
         } else {
-            this.logWarning("Invalid rcon port " + this.rconPort + " found in \'" + this.server.getSettingsFilename() + "\', rcon disabled!");
+            this.func_72606_c("Invalid rcon port " + this.field_72647_g + " found in \'" + this.field_72617_b.func_71329_c() + "\', rcon disabled!");
         }
     }
 }

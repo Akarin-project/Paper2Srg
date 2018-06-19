@@ -15,78 +15,78 @@ import net.minecraft.world.gen.feature.WorldGenEndPodium;
 
 public class PhaseHoldingPattern extends PhaseBase {
 
-    private Path currentPath;
-    private Vec3d targetLocation;
-    private boolean clockwise;
+    private Path field_188677_b;
+    private Vec3d field_188678_c;
+    private boolean field_188679_d;
 
     public PhaseHoldingPattern(EntityDragon entityenderdragon) {
         super(entityenderdragon);
     }
 
-    public PhaseList<PhaseHoldingPattern> getType() {
-        return PhaseList.HOLDING_PATTERN;
+    public PhaseList<PhaseHoldingPattern> func_188652_i() {
+        return PhaseList.field_188741_a;
     }
 
-    public void doLocalUpdate() {
-        double d0 = this.targetLocation == null ? 0.0D : this.targetLocation.squareDistanceTo(this.dragon.posX, this.dragon.posY, this.dragon.posZ);
+    public void func_188659_c() {
+        double d0 = this.field_188678_c == null ? 0.0D : this.field_188678_c.func_186679_c(this.field_188661_a.field_70165_t, this.field_188661_a.field_70163_u, this.field_188661_a.field_70161_v);
 
-        if (d0 < 100.0D || d0 > 22500.0D || this.dragon.collidedHorizontally || this.dragon.collidedVertically) {
-            this.findNewTarget();
+        if (d0 < 100.0D || d0 > 22500.0D || this.field_188661_a.field_70123_F || this.field_188661_a.field_70124_G) {
+            this.func_188675_j();
         }
 
     }
 
-    public void initPhase() {
-        this.currentPath = null;
-        this.targetLocation = null;
+    public void func_188660_d() {
+        this.field_188677_b = null;
+        this.field_188678_c = null;
     }
 
     @Nullable
-    public Vec3d getTargetLocation() {
-        return this.targetLocation;
+    public Vec3d func_188650_g() {
+        return this.field_188678_c;
     }
 
-    private void findNewTarget() {
+    private void func_188675_j() {
         int i;
 
-        if (this.currentPath != null && this.currentPath.isFinished()) {
-            BlockPos blockposition = this.dragon.world.getTopSolidOrLiquidBlock(new BlockPos(WorldGenEndPodium.END_PODIUM_LOCATION));
+        if (this.field_188677_b != null && this.field_188677_b.func_75879_b()) {
+            BlockPos blockposition = this.field_188661_a.field_70170_p.func_175672_r(new BlockPos(WorldGenEndPodium.field_186139_a));
 
-            i = this.dragon.getFightManager() == null ? 0 : this.dragon.getFightManager().getNumAliveCrystals();
-            if (this.dragon.getRNG().nextInt(i + 3) == 0) {
-                this.dragon.getPhaseManager().setPhase(PhaseList.LANDING_APPROACH);
+            i = this.field_188661_a.func_184664_cU() == null ? 0 : this.field_188661_a.func_184664_cU().func_186092_c();
+            if (this.field_188661_a.func_70681_au().nextInt(i + 3) == 0) {
+                this.field_188661_a.func_184670_cT().func_188758_a(PhaseList.field_188743_c);
                 return;
             }
 
             double d0 = 64.0D;
-            EntityPlayer entityhuman = this.dragon.world.getNearestAttackablePlayer(blockposition, d0, d0);
+            EntityPlayer entityhuman = this.field_188661_a.field_70170_p.func_184139_a(blockposition, d0, d0);
 
             if (entityhuman != null) {
-                d0 = entityhuman.getDistanceSqToCenter(blockposition) / 512.0D;
+                d0 = entityhuman.func_174831_c(blockposition) / 512.0D;
             }
 
-            if (entityhuman != null && (this.dragon.getRNG().nextInt(MathHelper.abs((int) d0) + 2) == 0 || this.dragon.getRNG().nextInt(i + 2) == 0)) {
-                this.strafePlayer(entityhuman);
+            if (entityhuman != null && (this.field_188661_a.func_70681_au().nextInt(MathHelper.func_76130_a((int) d0) + 2) == 0 || this.field_188661_a.func_70681_au().nextInt(i + 2) == 0)) {
+                this.func_188674_a(entityhuman);
                 return;
             }
         }
 
-        if (this.currentPath == null || this.currentPath.isFinished()) {
-            int j = this.dragon.initPathPoints();
+        if (this.field_188677_b == null || this.field_188677_b.func_75879_b()) {
+            int j = this.field_188661_a.func_184671_o();
 
             i = j;
-            if (this.dragon.getRNG().nextInt(8) == 0) {
-                this.clockwise = !this.clockwise;
+            if (this.field_188661_a.func_70681_au().nextInt(8) == 0) {
+                this.field_188679_d = !this.field_188679_d;
                 i = j + 6;
             }
 
-            if (this.clockwise) {
+            if (this.field_188679_d) {
                 ++i;
             } else {
                 --i;
             }
 
-            if (this.dragon.getFightManager() != null && this.dragon.getFightManager().getNumAliveCrystals() >= 0) {
+            if (this.field_188661_a.func_184664_cU() != null && this.field_188661_a.func_184664_cU().func_186092_c() >= 0) {
                 i %= 12;
                 if (i < 0) {
                     i += 12;
@@ -97,42 +97,42 @@ public class PhaseHoldingPattern extends PhaseBase {
                 i += 12;
             }
 
-            this.currentPath = this.dragon.findPath(j, i, (PathPoint) null);
-            if (this.currentPath != null) {
-                this.currentPath.incrementPathIndex();
+            this.field_188677_b = this.field_188661_a.func_184666_a(j, i, (PathPoint) null);
+            if (this.field_188677_b != null) {
+                this.field_188677_b.func_75875_a();
             }
         }
 
-        this.navigateToNextPathNode();
+        this.func_188676_k();
     }
 
-    private void strafePlayer(EntityPlayer entityhuman) {
-        this.dragon.getPhaseManager().setPhase(PhaseList.STRAFE_PLAYER);
-        ((PhaseStrafePlayer) this.dragon.getPhaseManager().getPhase(PhaseList.STRAFE_PLAYER)).setTarget(entityhuman);
+    private void func_188674_a(EntityPlayer entityhuman) {
+        this.field_188661_a.func_184670_cT().func_188758_a(PhaseList.field_188742_b);
+        ((PhaseStrafePlayer) this.field_188661_a.func_184670_cT().func_188757_b(PhaseList.field_188742_b)).func_188686_a(entityhuman);
     }
 
-    private void navigateToNextPathNode() {
-        if (this.currentPath != null && !this.currentPath.isFinished()) {
-            Vec3d vec3d = this.currentPath.getCurrentPos();
+    private void func_188676_k() {
+        if (this.field_188677_b != null && !this.field_188677_b.func_75879_b()) {
+            Vec3d vec3d = this.field_188677_b.func_186310_f();
 
-            this.currentPath.incrementPathIndex();
-            double d0 = vec3d.x;
-            double d1 = vec3d.z;
+            this.field_188677_b.func_75875_a();
+            double d0 = vec3d.field_72450_a;
+            double d1 = vec3d.field_72449_c;
 
             double d2;
 
             do {
-                d2 = vec3d.y + (double) (this.dragon.getRNG().nextFloat() * 20.0F);
-            } while (d2 < vec3d.y);
+                d2 = vec3d.field_72448_b + (double) (this.field_188661_a.func_70681_au().nextFloat() * 20.0F);
+            } while (d2 < vec3d.field_72448_b);
 
-            this.targetLocation = new Vec3d(d0, d2, d1);
+            this.field_188678_c = new Vec3d(d0, d2, d1);
         }
 
     }
 
-    public void onCrystalDestroyed(EntityEnderCrystal entityendercrystal, BlockPos blockposition, DamageSource damagesource, @Nullable EntityPlayer entityhuman) {
-        if (entityhuman != null && !entityhuman.capabilities.disableDamage) {
-            this.strafePlayer(entityhuman);
+    public void func_188655_a(EntityEnderCrystal entityendercrystal, BlockPos blockposition, DamageSource damagesource, @Nullable EntityPlayer entityhuman) {
+        if (entityhuman != null && !entityhuman.field_71075_bZ.field_75102_a) {
+            this.func_188674_a(entityhuman);
         }
 
     }

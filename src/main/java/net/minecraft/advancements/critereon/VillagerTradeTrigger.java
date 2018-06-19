@@ -22,51 +22,51 @@ import net.minecraft.util.ResourceLocation;
 
 public class VillagerTradeTrigger implements ICriterionTrigger<CriterionTriggerVillagerTrade.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("villager_trade");
-    private final Map<PlayerAdvancements, CriterionTriggerVillagerTrade.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_192237_a = new ResourceLocation("villager_trade");
+    private final Map<PlayerAdvancements, CriterionTriggerVillagerTrade.a> field_192238_b = Maps.newHashMap();
 
     public VillagerTradeTrigger() {}
 
-    public ResourceLocation getId() {
-        return VillagerTradeTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return VillagerTradeTrigger.field_192237_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerVillagerTrade.b> criteriontrigger_a) {
-        CriterionTriggerVillagerTrade.a criteriontriggervillagertrade_a = (CriterionTriggerVillagerTrade.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerVillagerTrade.a criteriontriggervillagertrade_a = (CriterionTriggerVillagerTrade.a) this.field_192238_b.get(advancementdataplayer);
 
         if (criteriontriggervillagertrade_a == null) {
             criteriontriggervillagertrade_a = new CriterionTriggerVillagerTrade.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggervillagertrade_a);
+            this.field_192238_b.put(advancementdataplayer, criteriontriggervillagertrade_a);
         }
 
         criteriontriggervillagertrade_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerVillagerTrade.b> criteriontrigger_a) {
-        CriterionTriggerVillagerTrade.a criteriontriggervillagertrade_a = (CriterionTriggerVillagerTrade.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerVillagerTrade.a criteriontriggervillagertrade_a = (CriterionTriggerVillagerTrade.a) this.field_192238_b.get(advancementdataplayer);
 
         if (criteriontriggervillagertrade_a != null) {
             criteriontriggervillagertrade_a.b(criteriontrigger_a);
             if (criteriontriggervillagertrade_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192238_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192238_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerVillagerTrade.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        EntityPredicate criterionconditionentity = EntityPredicate.deserialize(jsonobject.get("villager"));
-        ItemPredicate criterionconditionitem = ItemPredicate.deserialize(jsonobject.get("item"));
+        EntityPredicate criterionconditionentity = EntityPredicate.func_192481_a(jsonobject.get("villager"));
+        ItemPredicate criterionconditionitem = ItemPredicate.func_192492_a(jsonobject.get("item"));
 
         return new CriterionTriggerVillagerTrade.b(criterionconditionentity, criterionconditionitem);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, EntityVillager entityvillager, ItemStack itemstack) {
-        CriterionTriggerVillagerTrade.a criteriontriggervillagertrade_a = (CriterionTriggerVillagerTrade.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_192234_a(EntityPlayerMP entityplayer, EntityVillager entityvillager, ItemStack itemstack) {
+        CriterionTriggerVillagerTrade.a criteriontriggervillagertrade_a = (CriterionTriggerVillagerTrade.a) this.field_192238_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggervillagertrade_a != null) {
             criteriontriggervillagertrade_a.a(entityplayer, entityvillager, itemstack);
@@ -74,7 +74,7 @@ public class VillagerTradeTrigger implements ICriterionTrigger<CriterionTriggerV
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -134,13 +134,13 @@ public class VillagerTradeTrigger implements ICriterionTrigger<CriterionTriggerV
         private final ItemPredicate b;
 
         public b(EntityPredicate criterionconditionentity, ItemPredicate criterionconditionitem) {
-            super(VillagerTradeTrigger.ID);
+            super(VillagerTradeTrigger.field_192237_a);
             this.a = criterionconditionentity;
             this.b = criterionconditionitem;
         }
 
         public boolean a(EntityPlayerMP entityplayer, EntityVillager entityvillager, ItemStack itemstack) {
-            return !this.a.test(entityplayer, entityvillager) ? false : this.b.test(itemstack);
+            return !this.a.func_192482_a(entityplayer, entityvillager) ? false : this.b.func_192493_a(itemstack);
         }
     }
 }

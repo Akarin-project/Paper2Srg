@@ -20,8 +20,8 @@ import net.minecraft.world.World;
 
 public class EntityLlamaSpit extends Entity implements IProjectile {
 
-    public EntityLivingBase owner; // CraftBukkit - type
-    private NBTTagCompound ownerNbt;
+    public EntityLivingBase field_190539_a; // CraftBukkit - type
+    private NBTTagCompound field_190540_b;
 
     public EntityLlamaSpit(World world) {
         super(world);
@@ -29,97 +29,97 @@ public class EntityLlamaSpit extends Entity implements IProjectile {
 
     public EntityLlamaSpit(World world, EntityLlama entityllama) {
         super(world);
-        this.owner = entityllama;
-        this.setPosition(entityllama.posX - (double) (entityllama.width + 1.0F) * 0.5D * (double) MathHelper.sin(entityllama.renderYawOffset * 0.017453292F), entityllama.posY + (double) entityllama.getEyeHeight() - 0.10000000149011612D, entityllama.posZ + (double) (entityllama.width + 1.0F) * 0.5D * (double) MathHelper.cos(entityllama.renderYawOffset * 0.017453292F));
-        this.setSize(0.25F, 0.25F);
+        this.field_190539_a = entityllama;
+        this.func_70107_b(entityllama.field_70165_t - (double) (entityllama.field_70130_N + 1.0F) * 0.5D * (double) MathHelper.func_76126_a(entityllama.field_70761_aq * 0.017453292F), entityllama.field_70163_u + (double) entityllama.func_70047_e() - 0.10000000149011612D, entityllama.field_70161_v + (double) (entityllama.field_70130_N + 1.0F) * 0.5D * (double) MathHelper.func_76134_b(entityllama.field_70761_aq * 0.017453292F));
+        this.func_70105_a(0.25F, 0.25F);
     }
 
-    public void onUpdate() {
-        super.onUpdate();
-        if (this.ownerNbt != null) {
-            this.restoreOwnerFromSave();
+    public void func_70071_h_() {
+        super.func_70071_h_();
+        if (this.field_190540_b != null) {
+            this.func_190537_j();
         }
 
-        Vec3d vec3d = new Vec3d(this.posX, this.posY, this.posZ);
-        Vec3d vec3d1 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-        RayTraceResult movingobjectposition = this.world.rayTraceBlocks(vec3d, vec3d1);
+        Vec3d vec3d = new Vec3d(this.field_70165_t, this.field_70163_u, this.field_70161_v);
+        Vec3d vec3d1 = new Vec3d(this.field_70165_t + this.field_70159_w, this.field_70163_u + this.field_70181_x, this.field_70161_v + this.field_70179_y);
+        RayTraceResult movingobjectposition = this.field_70170_p.func_72933_a(vec3d, vec3d1);
 
-        vec3d = new Vec3d(this.posX, this.posY, this.posZ);
-        vec3d1 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+        vec3d = new Vec3d(this.field_70165_t, this.field_70163_u, this.field_70161_v);
+        vec3d1 = new Vec3d(this.field_70165_t + this.field_70159_w, this.field_70163_u + this.field_70181_x, this.field_70161_v + this.field_70179_y);
         if (movingobjectposition != null) {
-            vec3d1 = new Vec3d(movingobjectposition.hitVec.x, movingobjectposition.hitVec.y, movingobjectposition.hitVec.z);
+            vec3d1 = new Vec3d(movingobjectposition.field_72307_f.field_72450_a, movingobjectposition.field_72307_f.field_72448_b, movingobjectposition.field_72307_f.field_72449_c);
         }
 
-        Entity entity = this.getHitEntity(vec3d, vec3d1);
+        Entity entity = this.func_190538_a(vec3d, vec3d1);
 
         if (entity != null) {
             movingobjectposition = new RayTraceResult(entity);
         }
 
         if (movingobjectposition != null) {
-            this.onHit(movingobjectposition);
+            this.func_190536_a(movingobjectposition);
         }
 
-        this.posX += this.motionX;
-        this.posY += this.motionY;
-        this.posZ += this.motionZ;
-        float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        this.field_70165_t += this.field_70159_w;
+        this.field_70163_u += this.field_70181_x;
+        this.field_70161_v += this.field_70179_y;
+        float f = MathHelper.func_76133_a(this.field_70159_w * this.field_70159_w + this.field_70179_y * this.field_70179_y);
 
-        this.rotationYaw = (float) (MathHelper.atan2(this.motionX, this.motionZ) * 57.2957763671875D);
+        this.field_70177_z = (float) (MathHelper.func_181159_b(this.field_70159_w, this.field_70179_y) * 57.2957763671875D);
 
-        for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, (double) f) * 57.2957763671875D); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
+        for (this.field_70125_A = (float) (MathHelper.func_181159_b(this.field_70181_x, (double) f) * 57.2957763671875D); this.field_70125_A - this.field_70127_C < -180.0F; this.field_70127_C -= 360.0F) {
             ;
         }
 
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
-            this.prevRotationPitch += 360.0F;
+        while (this.field_70125_A - this.field_70127_C >= 180.0F) {
+            this.field_70127_C += 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw < -180.0F) {
-            this.prevRotationYaw -= 360.0F;
+        while (this.field_70177_z - this.field_70126_B < -180.0F) {
+            this.field_70126_B -= 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw >= 180.0F) {
-            this.prevRotationYaw += 360.0F;
+        while (this.field_70177_z - this.field_70126_B >= 180.0F) {
+            this.field_70126_B += 360.0F;
         }
 
-        this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
-        this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
+        this.field_70125_A = this.field_70127_C + (this.field_70125_A - this.field_70127_C) * 0.2F;
+        this.field_70177_z = this.field_70126_B + (this.field_70177_z - this.field_70126_B) * 0.2F;
         float f1 = 0.99F;
         float f2 = 0.06F;
 
-        if (!this.world.isMaterialInBB(this.getEntityBoundingBox(), Material.AIR)) {
-            this.setDead();
-        } else if (this.isInWater()) {
-            this.setDead();
+        if (!this.field_70170_p.func_72875_a(this.func_174813_aQ(), Material.field_151579_a)) {
+            this.func_70106_y();
+        } else if (this.func_70090_H()) {
+            this.func_70106_y();
         } else {
-            this.motionX *= 0.9900000095367432D;
-            this.motionY *= 0.9900000095367432D;
-            this.motionZ *= 0.9900000095367432D;
-            if (!this.hasNoGravity()) {
-                this.motionY -= 0.05999999865889549D;
+            this.field_70159_w *= 0.9900000095367432D;
+            this.field_70181_x *= 0.9900000095367432D;
+            this.field_70179_y *= 0.9900000095367432D;
+            if (!this.func_189652_ae()) {
+                this.field_70181_x -= 0.05999999865889549D;
             }
 
-            this.setPosition(this.posX, this.posY, this.posZ);
+            this.func_70107_b(this.field_70165_t, this.field_70163_u, this.field_70161_v);
         }
     }
 
     @Nullable
-    private Entity getHitEntity(Vec3d vec3d, Vec3d vec3d1) {
+    private Entity func_190538_a(Vec3d vec3d, Vec3d vec3d1) {
         Entity entity = null;
-        List list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(this.motionX, this.motionY, this.motionZ).grow(1.0D));
+        List list = this.field_70170_p.func_72839_b(this, this.func_174813_aQ().func_72321_a(this.field_70159_w, this.field_70181_x, this.field_70179_y).func_186662_g(1.0D));
         double d0 = 0.0D;
         Iterator iterator = list.iterator();
 
         while (iterator.hasNext()) {
             Entity entity1 = (Entity) iterator.next();
 
-            if (entity1 != this.owner) {
-                AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow(0.30000001192092896D);
-                RayTraceResult movingobjectposition = axisalignedbb.calculateIntercept(vec3d, vec3d1);
+            if (entity1 != this.field_190539_a) {
+                AxisAlignedBB axisalignedbb = entity1.func_174813_aQ().func_186662_g(0.30000001192092896D);
+                RayTraceResult movingobjectposition = axisalignedbb.func_72327_a(vec3d, vec3d1);
 
                 if (movingobjectposition != null) {
-                    double d1 = vec3d.squareDistanceTo(movingobjectposition.hitVec);
+                    double d1 = vec3d.func_72436_e(movingobjectposition.field_72307_f);
 
                     if (d1 < d0 || d0 == 0.0D) {
                         entity = entity1;
@@ -132,77 +132,77 @@ public class EntityLlamaSpit extends Entity implements IProjectile {
         return entity;
     }
 
-    public void shoot(double d0, double d1, double d2, float f, float f1) {
-        float f2 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+    public void func_70186_c(double d0, double d1, double d2, float f, float f1) {
+        float f2 = MathHelper.func_76133_a(d0 * d0 + d1 * d1 + d2 * d2);
 
         d0 /= (double) f2;
         d1 /= (double) f2;
         d2 /= (double) f2;
-        d0 += this.rand.nextGaussian() * 0.007499999832361937D * (double) f1;
-        d1 += this.rand.nextGaussian() * 0.007499999832361937D * (double) f1;
-        d2 += this.rand.nextGaussian() * 0.007499999832361937D * (double) f1;
+        d0 += this.field_70146_Z.nextGaussian() * 0.007499999832361937D * (double) f1;
+        d1 += this.field_70146_Z.nextGaussian() * 0.007499999832361937D * (double) f1;
+        d2 += this.field_70146_Z.nextGaussian() * 0.007499999832361937D * (double) f1;
         d0 *= (double) f;
         d1 *= (double) f;
         d2 *= (double) f;
-        this.motionX = d0;
-        this.motionY = d1;
-        this.motionZ = d2;
-        float f3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
+        this.field_70159_w = d0;
+        this.field_70181_x = d1;
+        this.field_70179_y = d2;
+        float f3 = MathHelper.func_76133_a(d0 * d0 + d2 * d2);
 
-        this.rotationYaw = (float) (MathHelper.atan2(d0, d2) * 57.2957763671875D);
-        this.rotationPitch = (float) (MathHelper.atan2(d1, (double) f3) * 57.2957763671875D);
-        this.prevRotationYaw = this.rotationYaw;
-        this.prevRotationPitch = this.rotationPitch;
+        this.field_70177_z = (float) (MathHelper.func_181159_b(d0, d2) * 57.2957763671875D);
+        this.field_70125_A = (float) (MathHelper.func_181159_b(d1, (double) f3) * 57.2957763671875D);
+        this.field_70126_B = this.field_70177_z;
+        this.field_70127_C = this.field_70125_A;
     }
 
-    public void onHit(RayTraceResult movingobjectposition) {
+    public void func_190536_a(RayTraceResult movingobjectposition) {
         org.bukkit.craftbukkit.event.CraftEventFactory.callProjectileHitEvent(this, movingobjectposition); // Craftbukkit - Call event
-        if (movingobjectposition.entityHit != null && this.owner != null) {
-            movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeIndirectDamage(this, this.owner).setProjectile(), 1.0F);
+        if (movingobjectposition.field_72308_g != null && this.field_190539_a != null) {
+            movingobjectposition.field_72308_g.func_70097_a(DamageSource.func_188403_a(this, this.field_190539_a).func_76349_b(), 1.0F);
         }
 
-        if (!this.world.isRemote) {
-            this.setDead();
-        }
-
-    }
-
-    protected void entityInit() {}
-
-    protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        if (nbttagcompound.hasKey("Owner", 10)) {
-            this.ownerNbt = nbttagcompound.getCompoundTag("Owner");
+        if (!this.field_70170_p.field_72995_K) {
+            this.func_70106_y();
         }
 
     }
 
-    protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        if (this.owner != null) {
+    protected void func_70088_a() {}
+
+    protected void func_70037_a(NBTTagCompound nbttagcompound) {
+        if (nbttagcompound.func_150297_b("Owner", 10)) {
+            this.field_190540_b = nbttagcompound.func_74775_l("Owner");
+        }
+
+    }
+
+    protected void func_70014_b(NBTTagCompound nbttagcompound) {
+        if (this.field_190539_a != null) {
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-            UUID uuid = this.owner.getUniqueID();
+            UUID uuid = this.field_190539_a.func_110124_au();
 
-            nbttagcompound1.setUniqueId("OwnerUUID", uuid);
-            nbttagcompound.setTag("Owner", nbttagcompound1);
+            nbttagcompound1.func_186854_a("OwnerUUID", uuid);
+            nbttagcompound.func_74782_a("Owner", nbttagcompound1);
         }
 
     }
 
-    private void restoreOwnerFromSave() {
-        if (this.ownerNbt != null && this.ownerNbt.hasUniqueId("OwnerUUID")) {
-            UUID uuid = this.ownerNbt.getUniqueId("OwnerUUID");
-            List list = this.world.getEntitiesWithinAABB(EntityLlama.class, this.getEntityBoundingBox().grow(15.0D));
+    private void func_190537_j() {
+        if (this.field_190540_b != null && this.field_190540_b.func_186855_b("OwnerUUID")) {
+            UUID uuid = this.field_190540_b.func_186857_a("OwnerUUID");
+            List list = this.field_70170_p.func_72872_a(EntityLlama.class, this.func_174813_aQ().func_186662_g(15.0D));
             Iterator iterator = list.iterator();
 
             while (iterator.hasNext()) {
                 EntityLlama entityllama = (EntityLlama) iterator.next();
 
-                if (entityllama.getUniqueID().equals(uuid)) {
-                    this.owner = entityllama;
+                if (entityllama.func_110124_au().equals(uuid)) {
+                    this.field_190539_a = entityllama;
                     break;
                 }
             }
         }
 
-        this.ownerNbt = null;
+        this.field_190540_b = null;
     }
 }

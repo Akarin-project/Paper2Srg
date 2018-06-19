@@ -11,41 +11,41 @@ public class UserListOps extends UserList<GameProfile, UserListOpsEntry> {
         super(file);
     }
 
-    protected UserListEntry<GameProfile> createEntry(JsonObject jsonobject) {
+    protected UserListEntry<GameProfile> func_152682_a(JsonObject jsonobject) {
         return new UserListOpsEntry(jsonobject);
     }
 
-    public String[] getKeys() {
-        String[] astring = new String[this.getValues().size()];
+    public String[] func_152685_a() {
+        String[] astring = new String[this.func_152688_e().size()];
         int i = 0;
 
         UserListOpsEntry oplistentry;
 
-        for (Iterator iterator = this.getValues().values().iterator(); iterator.hasNext(); astring[i++] = ((GameProfile) oplistentry.getValue()).getName()) {
+        for (Iterator iterator = this.func_152688_e().values().iterator(); iterator.hasNext(); astring[i++] = ((GameProfile) oplistentry.func_152640_f()).getName()) {
             oplistentry = (UserListOpsEntry) iterator.next();
         }
 
         return astring;
     }
 
-    public int getObjectKey(GameProfile gameprofile) {
-        UserListOpsEntry oplistentry = (UserListOpsEntry) this.getEntry(gameprofile);
+    public int func_152681_a(GameProfile gameprofile) {
+        UserListOpsEntry oplistentry = (UserListOpsEntry) this.func_152683_b(gameprofile);
 
-        return oplistentry != null ? oplistentry.getPermissionLevel() : 0;
+        return oplistentry != null ? oplistentry.func_152644_a() : 0;
     }
 
-    public boolean bypassesPlayerLimit(GameProfile gameprofile) {
-        UserListOpsEntry oplistentry = (UserListOpsEntry) this.getEntry(gameprofile);
+    public boolean func_183026_b(GameProfile gameprofile) {
+        UserListOpsEntry oplistentry = (UserListOpsEntry) this.func_152683_b(gameprofile);
 
-        return oplistentry != null ? oplistentry.bypassesPlayerLimit() : false;
+        return oplistentry != null ? oplistentry.func_183024_b() : false;
     }
 
-    protected String getObjectKey(GameProfile gameprofile) {
+    protected String func_152681_a(GameProfile gameprofile) {
         return gameprofile.getId().toString();
     }
 
-    public GameProfile getGameProfileFromName(String s) {
-        Iterator iterator = this.getValues().values().iterator();
+    public GameProfile func_152700_a(String s) {
+        Iterator iterator = this.func_152688_e().values().iterator();
 
         UserListOpsEntry oplistentry;
 
@@ -55,12 +55,12 @@ public class UserListOps extends UserList<GameProfile, UserListOpsEntry> {
             }
 
             oplistentry = (UserListOpsEntry) iterator.next();
-        } while (!s.equalsIgnoreCase(((GameProfile) oplistentry.getValue()).getName()));
+        } while (!s.equalsIgnoreCase(((GameProfile) oplistentry.func_152640_f()).getName()));
 
-        return (GameProfile) oplistentry.getValue();
+        return (GameProfile) oplistentry.func_152640_f();
     }
 
-    protected String getObjectKey(Object object) {
-        return this.getObjectKey((GameProfile) object);
+    protected String func_152681_a(Object object) {
+        return this.func_152681_a((GameProfile) object);
     }
 }

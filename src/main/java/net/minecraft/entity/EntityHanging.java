@@ -32,7 +32,7 @@ import org.bukkit.event.hanging.HangingBreakEvent;
 
 public abstract class EntityHanging extends Entity {
 
-    private static final Predicate<Entity> IS_HANGING_ENTITY = new Predicate() {
+    private static final Predicate<Entity> field_184524_c = new Predicate() {
         public boolean a(@Nullable Entity entity) {
             return entity instanceof EntityHanging;
         }
@@ -41,58 +41,58 @@ public abstract class EntityHanging extends Entity {
             return this.a((Entity) object);
         }
     };
-    private int tickCounter1;
-    public BlockPos hangingPosition;
+    private int field_70520_f;
+    public BlockPos field_174861_a;
     @Nullable
-    public EnumFacing facingDirection;
+    public EnumFacing field_174860_b;
 
     public EntityHanging(World world) {
         super(world);
-        this.setSize(0.5F, 0.5F);
+        this.func_70105_a(0.5F, 0.5F);
     }
 
     public EntityHanging(World world, BlockPos blockposition) {
         this(world);
-        this.hangingPosition = blockposition;
+        this.field_174861_a = blockposition;
     }
 
-    protected void entityInit() {}
+    protected void func_70088_a() {}
 
-    public void updateFacingWithBoundingBox(EnumFacing enumdirection) {
+    public void func_174859_a(EnumFacing enumdirection) {
         Validate.notNull(enumdirection);
-        Validate.isTrue(enumdirection.getAxis().isHorizontal());
-        this.facingDirection = enumdirection;
-        this.rotationYaw = (float) (this.facingDirection.getHorizontalIndex() * 90);
-        this.prevRotationYaw = this.rotationYaw;
-        this.updateBoundingBox();
+        Validate.isTrue(enumdirection.func_176740_k().func_176722_c());
+        this.field_174860_b = enumdirection;
+        this.field_70177_z = (float) (this.field_174860_b.func_176736_b() * 90);
+        this.field_70126_B = this.field_70177_z;
+        this.func_174856_o();
     }
 
     // CraftBukkit start - break out BB calc into own method
     public static AxisAlignedBB calculateBoundingBox(Entity entity, BlockPos blockPosition, EnumFacing direction, int width, int height) {
-        double d0 = (double) blockPosition.getX() + 0.5D;
-        double d1 = (double) blockPosition.getY() + 0.5D;
-        double d2 = (double) blockPosition.getZ() + 0.5D;
+        double d0 = (double) blockPosition.func_177958_n() + 0.5D;
+        double d1 = (double) blockPosition.func_177956_o() + 0.5D;
+        double d2 = (double) blockPosition.func_177952_p() + 0.5D;
         double d3 = 0.46875D;
-        double d4 = offs(width);
-        double d5 = offs(height);
+        double d4 = func_190202_a(width);
+        double d5 = func_190202_a(height);
 
-        d0 -= (double) direction.getFrontOffsetX() * 0.46875D;
-        d2 -= (double) direction.getFrontOffsetZ() * 0.46875D;
+        d0 -= (double) direction.func_82601_c() * 0.46875D;
+        d2 -= (double) direction.func_82599_e() * 0.46875D;
         d1 += d5;
-        EnumFacing enumdirection = direction.rotateYCCW();
+        EnumFacing enumdirection = direction.func_176735_f();
 
-        d0 += d4 * (double) enumdirection.getFrontOffsetX();
-        d2 += d4 * (double) enumdirection.getFrontOffsetZ();
+        d0 += d4 * (double) enumdirection.func_82601_c();
+        d2 += d4 * (double) enumdirection.func_82599_e();
         if (entity != null) {
-            entity.posX = d0;
-            entity.posY = d1;
-            entity.posZ = d2;
+            entity.field_70165_t = d0;
+            entity.field_70163_u = d1;
+            entity.field_70161_v = d2;
         }
         double d6 = (double) width;
         double d7 = (double) height;
         double d8 = (double) width;
 
-        if (direction.getAxis() == EnumFacing.Axis.Z) {
+        if (direction.func_176740_k() == EnumFacing.Axis.Z) {
             d8 = 1.0D;
         } else {
             d6 = 1.0D;
@@ -104,30 +104,30 @@ public abstract class EntityHanging extends Entity {
         return new AxisAlignedBB(d0 - d6, d1 - d7, d2 - d8, d0 + d6, d1 + d7, d2 + d8);
     }
 
-    protected void updateBoundingBox() {
-        if (this.facingDirection != null) {
+    protected void func_174856_o() {
+        if (this.field_174860_b != null) {
             // CraftBukkit start code moved in to calculateBoundingBox
-            this.setEntityBoundingBox(calculateBoundingBox(this, this.hangingPosition, this.facingDirection, this.getWidthPixels(), this.getHeightPixels()));
+            this.func_174826_a(calculateBoundingBox(this, this.field_174861_a, this.field_174860_b, this.func_82329_d(), this.func_82330_g()));
             // CraftBukkit end
         }
     }
 
-    private static double offs(int i) { // CraftBukkit - static
+    private static double func_190202_a(int i) { // CraftBukkit - static
         return i % 32 == 0 ? 0.5D : 0.0D;
     }
 
-    public void onUpdate() {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        if (this.tickCounter1++ == this.world.spigotConfig.hangingTickFrequency && !this.world.isRemote) { // Spigot
-            this.tickCounter1 = 0;
-            if (!this.isDead && !this.onValidSurface()) {
+    public void func_70071_h_() {
+        this.field_70169_q = this.field_70165_t;
+        this.field_70167_r = this.field_70163_u;
+        this.field_70166_s = this.field_70161_v;
+        if (this.field_70520_f++ == this.field_70170_p.spigotConfig.hangingTickFrequency && !this.field_70170_p.field_72995_K) { // Spigot
+            this.field_70520_f = 0;
+            if (!this.field_70128_L && !this.func_70518_d()) {
                 // CraftBukkit start - fire break events
-                Material material = this.world.getBlockState(new BlockPos(this)).getMaterial();
+                Material material = this.field_70170_p.func_180495_p(new BlockPos(this)).func_185904_a();
                 HangingBreakEvent.RemoveCause cause;
 
-                if (!material.equals(Material.AIR)) {
+                if (!material.equals(Material.field_151579_a)) {
                     // TODO: This feels insufficient to catch 100% of suffocation cases
                     cause = HangingBreakEvent.RemoveCause.OBSTRUCTION;
                 } else {
@@ -135,27 +135,27 @@ public abstract class EntityHanging extends Entity {
                 }
 
                 HangingBreakEvent event = new HangingBreakEvent((Hanging) this.getBukkitEntity(), cause);
-                this.world.getServer().getPluginManager().callEvent(event);
+                this.field_70170_p.getServer().getPluginManager().callEvent(event);
 
-                if (isDead || event.isCancelled()) {
+                if (field_70128_L || event.isCancelled()) {
                     return;
                 }
                 // CraftBukkit end
-                this.setDead();
-                this.onBroken((Entity) null);
+                this.func_70106_y();
+                this.func_110128_b((Entity) null);
             }
         }
 
     }
 
-    public boolean onValidSurface() {
-        if (!this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
+    public boolean func_70518_d() {
+        if (!this.field_70170_p.func_184144_a(this, this.func_174813_aQ()).isEmpty()) {
             return false;
         } else {
-            int i = Math.max(1, this.getWidthPixels() / 16);
-            int j = Math.max(1, this.getHeightPixels() / 16);
-            BlockPos blockposition = this.hangingPosition.offset(this.facingDirection.getOpposite());
-            EnumFacing enumdirection = this.facingDirection.rotateYCCW();
+            int i = Math.max(1, this.func_82329_d() / 16);
+            int j = Math.max(1, this.func_82330_g() / 16);
+            BlockPos blockposition = this.field_174861_a.func_177972_a(this.field_174860_b.func_176734_d());
+            EnumFacing enumdirection = this.field_174860_b.func_176735_f();
             BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos();
 
             for (int k = 0; k < i; ++k) {
@@ -163,149 +163,149 @@ public abstract class EntityHanging extends Entity {
                     int i1 = (i - 1) / -2;
                     int j1 = (j - 1) / -2;
 
-                    blockposition_mutableblockposition.setPos(blockposition).move(enumdirection, k + i1).move(EnumFacing.UP, l + j1);
-                    IBlockState iblockdata = this.world.getBlockState(blockposition_mutableblockposition);
+                    blockposition_mutableblockposition.func_189533_g(blockposition).func_189534_c(enumdirection, k + i1).func_189534_c(EnumFacing.UP, l + j1);
+                    IBlockState iblockdata = this.field_70170_p.func_180495_p(blockposition_mutableblockposition);
 
-                    if (!iblockdata.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockdata)) {
+                    if (!iblockdata.func_185904_a().func_76220_a() && !BlockRedstoneDiode.func_185546_B(iblockdata)) {
                         return false;
                     }
                 }
             }
 
-            return this.world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox(), EntityHanging.IS_HANGING_ENTITY).isEmpty();
+            return this.field_70170_p.func_175674_a(this, this.func_174813_aQ(), EntityHanging.field_184524_c).isEmpty();
         }
     }
 
-    public boolean canBeCollidedWith() {
+    public boolean func_70067_L() {
         return true;
     }
 
-    public boolean hitByEntity(Entity entity) {
-        return entity instanceof EntityPlayer ? this.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) entity), 0.0F) : false;
+    public boolean func_85031_j(Entity entity) {
+        return entity instanceof EntityPlayer ? this.func_70097_a(DamageSource.func_76365_a((EntityPlayer) entity), 0.0F) : false;
     }
 
-    public EnumFacing getHorizontalFacing() {
-        return this.facingDirection;
+    public EnumFacing func_174811_aO() {
+        return this.field_174860_b;
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        if (this.isEntityInvulnerable(damagesource)) {
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        if (this.func_180431_b(damagesource)) {
             return false;
         } else {
-            if (!this.isDead && !this.world.isRemote) {
+            if (!this.field_70128_L && !this.field_70170_p.field_72995_K) {
                 // CraftBukkit start - fire break events
                 HangingBreakEvent event = new HangingBreakEvent((Hanging) this.getBukkitEntity(), HangingBreakEvent.RemoveCause.DEFAULT);
-                if (damagesource.getTrueSource() != null) {
-                    event = new HangingBreakByEntityEvent((Hanging) this.getBukkitEntity(), damagesource.getTrueSource() == null ? null : damagesource.getTrueSource().getBukkitEntity(), damagesource.isExplosion() ? HangingBreakEvent.RemoveCause.EXPLOSION : HangingBreakEvent.RemoveCause.ENTITY);
-                } else if (damagesource.isExplosion()) {
+                if (damagesource.func_76346_g() != null) {
+                    event = new HangingBreakByEntityEvent((Hanging) this.getBukkitEntity(), damagesource.func_76346_g() == null ? null : damagesource.func_76346_g().getBukkitEntity(), damagesource.func_94541_c() ? HangingBreakEvent.RemoveCause.EXPLOSION : HangingBreakEvent.RemoveCause.ENTITY);
+                } else if (damagesource.func_94541_c()) {
                     event = new HangingBreakEvent((Hanging) this.getBukkitEntity(), HangingBreakEvent.RemoveCause.EXPLOSION);
                 }
 
-                this.world.getServer().getPluginManager().callEvent(event);
+                this.field_70170_p.getServer().getPluginManager().callEvent(event);
 
-                if (this.isDead || event.isCancelled()) {
+                if (this.field_70128_L || event.isCancelled()) {
                     return true;
                 }
                 // CraftBukkit end
 
-                this.setDead();
-                this.markVelocityChanged();
-                this.onBroken(damagesource.getTrueSource());
+                this.func_70106_y();
+                this.func_70018_K();
+                this.func_110128_b(damagesource.func_76346_g());
             }
 
             return true;
         }
     }
 
-    public void move(MoverType enummovetype, double d0, double d1, double d2) {
-        if (!this.world.isRemote && !this.isDead && d0 * d0 + d1 * d1 + d2 * d2 > 0.0D) {
-            if (this.isDead) return; // CraftBukkit
+    public void func_70091_d(MoverType enummovetype, double d0, double d1, double d2) {
+        if (!this.field_70170_p.field_72995_K && !this.field_70128_L && d0 * d0 + d1 * d1 + d2 * d2 > 0.0D) {
+            if (this.field_70128_L) return; // CraftBukkit
 
             // CraftBukkit start - fire break events
             // TODO - Does this need its own cause? Seems to only be triggered by pistons
             HangingBreakEvent event = new HangingBreakEvent((Hanging) this.getBukkitEntity(), HangingBreakEvent.RemoveCause.PHYSICS);
-            this.world.getServer().getPluginManager().callEvent(event);
+            this.field_70170_p.getServer().getPluginManager().callEvent(event);
 
-            if (this.isDead || event.isCancelled()) {
+            if (this.field_70128_L || event.isCancelled()) {
                 return;
             }
             // CraftBukkit end
 
-            this.setDead();
-            this.onBroken((Entity) null);
+            this.func_70106_y();
+            this.func_110128_b((Entity) null);
         }
 
     }
 
-    public void addVelocity(double d0, double d1, double d2) {
-        if (false && !this.world.isRemote && !this.isDead && d0 * d0 + d1 * d1 + d2 * d2 > 0.0D) { // CraftBukkit - not needed
-            this.setDead();
-            this.onBroken((Entity) null);
+    public void func_70024_g(double d0, double d1, double d2) {
+        if (false && !this.field_70170_p.field_72995_K && !this.field_70128_L && d0 * d0 + d1 * d1 + d2 * d2 > 0.0D) { // CraftBukkit - not needed
+            this.func_70106_y();
+            this.func_110128_b((Entity) null);
         }
 
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setByte("Facing", (byte) this.facingDirection.getHorizontalIndex());
-        BlockPos blockposition = this.getHangingPosition();
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74774_a("Facing", (byte) this.field_174860_b.func_176736_b());
+        BlockPos blockposition = this.func_174857_n();
 
-        nbttagcompound.setInteger("TileX", blockposition.getX());
-        nbttagcompound.setInteger("TileY", blockposition.getY());
-        nbttagcompound.setInteger("TileZ", blockposition.getZ());
+        nbttagcompound.func_74768_a("TileX", blockposition.func_177958_n());
+        nbttagcompound.func_74768_a("TileY", blockposition.func_177956_o());
+        nbttagcompound.func_74768_a("TileZ", blockposition.func_177952_p());
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        this.hangingPosition = new BlockPos(nbttagcompound.getInteger("TileX"), nbttagcompound.getInteger("TileY"), nbttagcompound.getInteger("TileZ"));
-        this.updateFacingWithBoundingBox(EnumFacing.getHorizontal(nbttagcompound.getByte("Facing")));
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        this.field_174861_a = new BlockPos(nbttagcompound.func_74762_e("TileX"), nbttagcompound.func_74762_e("TileY"), nbttagcompound.func_74762_e("TileZ"));
+        this.func_174859_a(EnumFacing.func_176731_b(nbttagcompound.func_74771_c("Facing")));
     }
 
-    public abstract int getWidthPixels();
+    public abstract int func_82329_d();
 
-    public abstract int getHeightPixels();
+    public abstract int func_82330_g();
 
-    public abstract void onBroken(@Nullable Entity entity);
+    public abstract void func_110128_b(@Nullable Entity entity);
 
-    public abstract void playPlaceSound();
+    public abstract void func_184523_o();
 
-    public EntityItem entityDropItem(ItemStack itemstack, float f) {
-        EntityItem entityitem = new EntityItem(this.world, this.posX + (double) ((float) this.facingDirection.getFrontOffsetX() * 0.15F), this.posY + (double) f, this.posZ + (double) ((float) this.facingDirection.getFrontOffsetZ() * 0.15F), itemstack);
+    public EntityItem func_70099_a(ItemStack itemstack, float f) {
+        EntityItem entityitem = new EntityItem(this.field_70170_p, this.field_70165_t + (double) ((float) this.field_174860_b.func_82601_c() * 0.15F), this.field_70163_u + (double) f, this.field_70161_v + (double) ((float) this.field_174860_b.func_82599_e() * 0.15F), itemstack);
 
-        entityitem.setDefaultPickupDelay();
-        this.world.spawnEntity(entityitem);
+        entityitem.func_174869_p();
+        this.field_70170_p.func_72838_d(entityitem);
         return entityitem;
     }
 
-    protected boolean shouldSetPosAfterLoading() {
+    protected boolean func_142008_O() {
         return false;
     }
 
-    public void setPosition(double d0, double d1, double d2) {
-        this.hangingPosition = new BlockPos(d0, d1, d2);
-        this.updateBoundingBox();
-        this.isAirBorne = true;
+    public void func_70107_b(double d0, double d1, double d2) {
+        this.field_174861_a = new BlockPos(d0, d1, d2);
+        this.func_174856_o();
+        this.field_70160_al = true;
     }
 
-    public BlockPos getHangingPosition() {
-        return this.hangingPosition;
+    public BlockPos func_174857_n() {
+        return this.field_174861_a;
     }
 
-    public float getRotatedYaw(Rotation enumblockrotation) {
-        if (this.facingDirection != null && this.facingDirection.getAxis() != EnumFacing.Axis.Y) {
+    public float func_184229_a(Rotation enumblockrotation) {
+        if (this.field_174860_b != null && this.field_174860_b.func_176740_k() != EnumFacing.Axis.Y) {
             switch (enumblockrotation) {
             case CLOCKWISE_180:
-                this.facingDirection = this.facingDirection.getOpposite();
+                this.field_174860_b = this.field_174860_b.func_176734_d();
                 break;
 
             case COUNTERCLOCKWISE_90:
-                this.facingDirection = this.facingDirection.rotateYCCW();
+                this.field_174860_b = this.field_174860_b.func_176735_f();
                 break;
 
             case CLOCKWISE_90:
-                this.facingDirection = this.facingDirection.rotateY();
+                this.field_174860_b = this.field_174860_b.func_176746_e();
             }
         }
 
-        float f = MathHelper.wrapDegrees(this.rotationYaw);
+        float f = MathHelper.func_76142_g(this.field_70177_z);
 
         switch (enumblockrotation) {
         case CLOCKWISE_180:
@@ -322,9 +322,9 @@ public abstract class EntityHanging extends Entity {
         }
     }
 
-    public float getMirroredYaw(Mirror enumblockmirror) {
-        return this.getRotatedYaw(enumblockmirror.toRotation(this.facingDirection));
+    public float func_184217_a(Mirror enumblockmirror) {
+        return this.func_184229_a(enumblockmirror.func_185800_a(this.field_174860_b));
     }
 
-    public void onStruckByLightning(EntityLightningBolt entitylightning) {}
+    public void func_70077_a(EntityLightningBolt entitylightning) {}
 }

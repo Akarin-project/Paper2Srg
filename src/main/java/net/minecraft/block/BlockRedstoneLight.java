@@ -14,77 +14,77 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 
 public class BlockRedstoneLight extends Block {
 
-    private final boolean isOn;
+    private final boolean field_150171_a;
 
     public BlockRedstoneLight(boolean flag) {
-        super(Material.REDSTONE_LIGHT);
-        this.isOn = flag;
+        super(Material.field_151591_t);
+        this.field_150171_a = flag;
         if (flag) {
-            this.setLightLevel(1.0F);
+            this.func_149715_a(1.0F);
         }
 
     }
 
-    public void onBlockAdded(World world, BlockPos blockposition, IBlockState iblockdata) {
-        if (!world.isRemote) {
-            if (this.isOn && !world.isBlockPowered(blockposition)) {
+    public void func_176213_c(World world, BlockPos blockposition, IBlockState iblockdata) {
+        if (!world.field_72995_K) {
+            if (this.field_150171_a && !world.func_175640_z(blockposition)) {
                 // CraftBukkit start
-                if (CraftEventFactory.callRedstoneChange(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), 15, 0).getNewCurrent() != 0) {
+                if (CraftEventFactory.callRedstoneChange(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), 15, 0).getNewCurrent() != 0) {
                     return;
                 }
                 // CraftBukkit end
-                world.setBlockState(blockposition, Blocks.REDSTONE_LAMP.getDefaultState(), 2);
-            } else if (!this.isOn && world.isBlockPowered(blockposition)) {
+                world.func_180501_a(blockposition, Blocks.field_150379_bu.func_176223_P(), 2);
+            } else if (!this.field_150171_a && world.func_175640_z(blockposition)) {
                 // CraftBukkit start
-                if (CraftEventFactory.callRedstoneChange(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), 0, 15).getNewCurrent() != 15) {
+                if (CraftEventFactory.callRedstoneChange(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), 0, 15).getNewCurrent() != 15) {
                     return;
                 }
                 // CraftBukkit end
-                world.setBlockState(blockposition, Blocks.LIT_REDSTONE_LAMP.getDefaultState(), 2);
+                world.func_180501_a(blockposition, Blocks.field_150374_bv.func_176223_P(), 2);
             }
 
         }
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        if (!world.isRemote) {
-            if (this.isOn && !world.isBlockPowered(blockposition)) {
-                world.scheduleUpdate(blockposition, (Block) this, 4);
-            } else if (!this.isOn && world.isBlockPowered(blockposition)) {
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        if (!world.field_72995_K) {
+            if (this.field_150171_a && !world.func_175640_z(blockposition)) {
+                world.func_175684_a(blockposition, (Block) this, 4);
+            } else if (!this.field_150171_a && world.func_175640_z(blockposition)) {
                 // CraftBukkit start
-                if (CraftEventFactory.callRedstoneChange(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), 0, 15).getNewCurrent() != 15) {
+                if (CraftEventFactory.callRedstoneChange(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), 0, 15).getNewCurrent() != 15) {
                     return;
                 }
                 // CraftBukkit end
-                world.setBlockState(blockposition, Blocks.LIT_REDSTONE_LAMP.getDefaultState(), 2);
+                world.func_180501_a(blockposition, Blocks.field_150374_bv.func_176223_P(), 2);
             }
 
         }
     }
 
-    public void updateTick(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        if (!world.isRemote) {
-            if (this.isOn && !world.isBlockPowered(blockposition)) {
+    public void func_180650_b(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        if (!world.field_72995_K) {
+            if (this.field_150171_a && !world.func_175640_z(blockposition)) {
                 // CraftBukkit start
-                if (CraftEventFactory.callRedstoneChange(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), 15, 0).getNewCurrent() != 0) {
+                if (CraftEventFactory.callRedstoneChange(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), 15, 0).getNewCurrent() != 0) {
                     return;
                 }
                 // CraftBukkit end
-                world.setBlockState(blockposition, Blocks.REDSTONE_LAMP.getDefaultState(), 2);
+                world.func_180501_a(blockposition, Blocks.field_150379_bu.func_176223_P(), 2);
             }
 
         }
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Item.getItemFromBlock(Blocks.REDSTONE_LAMP);
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Item.func_150898_a(Blocks.field_150379_bu);
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(Blocks.REDSTONE_LAMP);
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(Blocks.field_150379_bu);
     }
 
-    protected ItemStack getSilkTouchDrop(IBlockState iblockdata) {
-        return new ItemStack(Blocks.REDSTONE_LAMP);
+    protected ItemStack func_180643_i(IBlockState iblockdata) {
+        return new ItemStack(Blocks.field_150379_bu);
     }
 }

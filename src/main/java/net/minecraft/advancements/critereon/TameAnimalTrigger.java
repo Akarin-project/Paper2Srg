@@ -21,50 +21,50 @@ import net.minecraft.util.ResourceLocation;
 
 public class TameAnimalTrigger implements ICriterionTrigger<CriterionTriggerTamedAnimal.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("tame_animal");
-    private final Map<PlayerAdvancements, CriterionTriggerTamedAnimal.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_193179_a = new ResourceLocation("tame_animal");
+    private final Map<PlayerAdvancements, CriterionTriggerTamedAnimal.a> field_193180_b = Maps.newHashMap();
 
     public TameAnimalTrigger() {}
 
-    public ResourceLocation getId() {
-        return TameAnimalTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return TameAnimalTrigger.field_193179_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerTamedAnimal.b> criteriontrigger_a) {
-        CriterionTriggerTamedAnimal.a criteriontriggertamedanimal_a = (CriterionTriggerTamedAnimal.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerTamedAnimal.a criteriontriggertamedanimal_a = (CriterionTriggerTamedAnimal.a) this.field_193180_b.get(advancementdataplayer);
 
         if (criteriontriggertamedanimal_a == null) {
             criteriontriggertamedanimal_a = new CriterionTriggerTamedAnimal.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggertamedanimal_a);
+            this.field_193180_b.put(advancementdataplayer, criteriontriggertamedanimal_a);
         }
 
         criteriontriggertamedanimal_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerTamedAnimal.b> criteriontrigger_a) {
-        CriterionTriggerTamedAnimal.a criteriontriggertamedanimal_a = (CriterionTriggerTamedAnimal.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerTamedAnimal.a criteriontriggertamedanimal_a = (CriterionTriggerTamedAnimal.a) this.field_193180_b.get(advancementdataplayer);
 
         if (criteriontriggertamedanimal_a != null) {
             criteriontriggertamedanimal_a.b(criteriontrigger_a);
             if (criteriontriggertamedanimal_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_193180_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_193180_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerTamedAnimal.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        EntityPredicate criterionconditionentity = EntityPredicate.deserialize(jsonobject.get("entity"));
+        EntityPredicate criterionconditionentity = EntityPredicate.func_192481_a(jsonobject.get("entity"));
 
         return new CriterionTriggerTamedAnimal.b(criterionconditionentity);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, EntityAnimal entityanimal) {
-        CriterionTriggerTamedAnimal.a criteriontriggertamedanimal_a = (CriterionTriggerTamedAnimal.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_193178_a(EntityPlayerMP entityplayer, EntityAnimal entityanimal) {
+        CriterionTriggerTamedAnimal.a criteriontriggertamedanimal_a = (CriterionTriggerTamedAnimal.a) this.field_193180_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggertamedanimal_a != null) {
             criteriontriggertamedanimal_a.a(entityplayer, entityanimal);
@@ -72,7 +72,7 @@ public class TameAnimalTrigger implements ICriterionTrigger<CriterionTriggerTame
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -131,12 +131,12 @@ public class TameAnimalTrigger implements ICriterionTrigger<CriterionTriggerTame
         private final EntityPredicate a;
 
         public b(EntityPredicate criterionconditionentity) {
-            super(TameAnimalTrigger.ID);
+            super(TameAnimalTrigger.field_193179_a);
             this.a = criterionconditionentity;
         }
 
         public boolean a(EntityPlayerMP entityplayer, EntityAnimal entityanimal) {
-            return this.a.test(entityplayer, entityanimal);
+            return this.a.func_192482_a(entityplayer, entityanimal);
         }
     }
 }

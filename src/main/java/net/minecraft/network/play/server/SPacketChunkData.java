@@ -24,12 +24,12 @@ import com.destroystokyo.paper.antixray.PacketPlayOutMapChunkInfo; // Anti-Xray
 
 public class SPacketChunkData implements Packet<INetHandlerPlayClient> {
 
-    private int chunkX;
-    private int chunkZ;
-    private int availableSections;
-    private byte[] buffer;
-    private List<NBTTagCompound> tileEntityTags;
-    private boolean fullChunk;
+    private int field_149284_a;
+    private int field_149282_b;
+    private int field_186948_c;
+    private byte[] field_186949_d;
+    private List<NBTTagCompound> field_189557_e;
+    private boolean field_149279_g;
     private volatile boolean ready = false; // Paper - Async-Anti-Xray - Ready flag for the network manager
 
     // Paper start - Async-Anti-Xray - Set the ready flag to true
@@ -39,38 +39,38 @@ public class SPacketChunkData implements Packet<INetHandlerPlayClient> {
     // Paper end
 
     public SPacketChunkData(Chunk chunk, int i) {
-        PacketPlayOutMapChunkInfo packetPlayOutMapChunkInfo = chunk.world.chunkPacketBlockController.getPacketPlayOutMapChunkInfo(this, chunk, i); // Paper - Anti-Xray - Add chunk packet info
-        this.chunkX = chunk.x;
-        this.chunkZ = chunk.z;
-        this.fullChunk = i == '\uffff';
-        boolean flag = chunk.getWorld().provider.hasSkyLight();
+        PacketPlayOutMapChunkInfo packetPlayOutMapChunkInfo = chunk.field_76637_e.chunkPacketBlockController.getPacketPlayOutMapChunkInfo(this, chunk, i); // Paper - Anti-Xray - Add chunk packet info
+        this.field_149284_a = chunk.field_76635_g;
+        this.field_149282_b = chunk.field_76647_h;
+        this.field_149279_g = i == '\uffff';
+        boolean flag = chunk.func_177412_p().field_73011_w.func_191066_m();
 
-        this.buffer = new byte[this.calculateChunkSize(chunk, flag, i)];
+        this.field_186949_d = new byte[this.func_189556_a(chunk, flag, i)];
 
         // Paper start - Anti-Xray - Add chunk packet info
         if (packetPlayOutMapChunkInfo != null) {
-            packetPlayOutMapChunkInfo.setData(this.buffer);
+            packetPlayOutMapChunkInfo.setData(this.field_186949_d);
         }
         // Paper end
 
-        this.availableSections = this.writeChunk(new PacketBuffer(this.getWriteBuffer()), chunk, flag, i, packetPlayOutMapChunkInfo); // Paper - Anti-Xray - Add chunk packet info
-        this.tileEntityTags = Lists.newArrayList();
-        Iterator iterator = chunk.getTileEntityMap().entrySet().iterator();
+        this.field_186948_c = this.writeChunk(new PacketBuffer(this.func_186945_f()), chunk, flag, i, packetPlayOutMapChunkInfo); // Paper - Anti-Xray - Add chunk packet info
+        this.field_189557_e = Lists.newArrayList();
+        Iterator iterator = chunk.func_177434_r().entrySet().iterator();
 
         while (iterator.hasNext()) {
             Entry entry = (Entry) iterator.next();
             BlockPos blockposition = (BlockPos) entry.getKey();
             TileEntity tileentity = (TileEntity) entry.getValue();
-            int j = blockposition.getY() >> 4;
+            int j = blockposition.func_177956_o() >> 4;
 
-            if (this.isFullChunk() || (i & 1 << j) != 0) {
-                NBTTagCompound nbttagcompound = tileentity.getUpdateTag();
+            if (this.func_149274_i() || (i & 1 << j) != 0) {
+                NBTTagCompound nbttagcompound = tileentity.func_189517_E_();
 
-                this.tileEntityTags.add(nbttagcompound);
+                this.field_189557_e.add(nbttagcompound);
             }
         }
 
-        chunk.world.chunkPacketBlockController.modifyBlocks(this, packetPlayOutMapChunkInfo); // Paper - Anti-Xray - Modify blocks
+        chunk.field_76637_e.chunkPacketBlockController.modifyBlocks(this, packetPlayOutMapChunkInfo); // Paper - Anti-Xray - Modify blocks
     }
 
     // Paper start - Async-Anti-Xray - Getter and Setter for the ready flag
@@ -83,61 +83,61 @@ public class SPacketChunkData implements Packet<INetHandlerPlayClient> {
     }
     // Paper end
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.chunkX = packetdataserializer.readInt();
-        this.chunkZ = packetdataserializer.readInt();
-        this.fullChunk = packetdataserializer.readBoolean();
-        this.availableSections = packetdataserializer.readVarInt();
-        int i = packetdataserializer.readVarInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149284_a = packetdataserializer.readInt();
+        this.field_149282_b = packetdataserializer.readInt();
+        this.field_149279_g = packetdataserializer.readBoolean();
+        this.field_186948_c = packetdataserializer.func_150792_a();
+        int i = packetdataserializer.func_150792_a();
 
         if (i > 2097152) {
             throw new RuntimeException("Chunk Packet trying to allocate too much memory on read.");
         } else {
-            this.buffer = new byte[i];
-            packetdataserializer.readBytes(this.buffer);
-            int j = packetdataserializer.readVarInt();
+            this.field_186949_d = new byte[i];
+            packetdataserializer.readBytes(this.field_186949_d);
+            int j = packetdataserializer.func_150792_a();
 
-            this.tileEntityTags = Lists.newArrayList();
+            this.field_189557_e = Lists.newArrayList();
 
             for (int k = 0; k < j; ++k) {
-                this.tileEntityTags.add(packetdataserializer.readCompoundTag());
+                this.field_189557_e.add(packetdataserializer.func_150793_b());
             }
 
         }
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeInt(this.chunkX);
-        packetdataserializer.writeInt(this.chunkZ);
-        packetdataserializer.writeBoolean(this.fullChunk);
-        packetdataserializer.writeVarInt(this.availableSections);
-        packetdataserializer.writeVarInt(this.buffer.length);
-        packetdataserializer.writeBytes(this.buffer);
-        packetdataserializer.writeVarInt(this.tileEntityTags.size());
-        Iterator iterator = this.tileEntityTags.iterator();
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeInt(this.field_149284_a);
+        packetdataserializer.writeInt(this.field_149282_b);
+        packetdataserializer.writeBoolean(this.field_149279_g);
+        packetdataserializer.func_150787_b(this.field_186948_c);
+        packetdataserializer.func_150787_b(this.field_186949_d.length);
+        packetdataserializer.writeBytes(this.field_186949_d);
+        packetdataserializer.func_150787_b(this.field_189557_e.size());
+        Iterator iterator = this.field_189557_e.iterator();
 
         while (iterator.hasNext()) {
             NBTTagCompound nbttagcompound = (NBTTagCompound) iterator.next();
 
-            packetdataserializer.writeCompoundTag(nbttagcompound);
+            packetdataserializer.func_150786_a(nbttagcompound);
         }
 
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleChunkData(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147263_a(this);
     }
 
-    private ByteBuf getWriteBuffer() {
-        ByteBuf bytebuf = Unpooled.wrappedBuffer(this.buffer);
+    private ByteBuf func_186945_f() {
+        ByteBuf bytebuf = Unpooled.wrappedBuffer(this.field_186949_d);
 
         bytebuf.writerIndex(0);
         return bytebuf;
     }
 
     // Paper start - Anti-Xray - Support default method
-    public int writeChunk(PacketBuffer packetDataSerializer, Chunk chunk, boolean writeSkyLightArray, int chunkSectionSelector) { return this.extractChunkData(packetDataSerializer, chunk, writeSkyLightArray, chunkSectionSelector); } // OBFHELPER
-    public int extractChunkData(PacketBuffer packetdataserializer, Chunk chunk, boolean flag, int i) {
+    public int writeChunk(PacketBuffer packetDataSerializer, Chunk chunk, boolean writeSkyLightArray, int chunkSectionSelector) { return this.func_189555_a(packetDataSerializer, chunk, writeSkyLightArray, chunkSectionSelector); } // OBFHELPER
+    public int func_189555_a(PacketBuffer packetdataserializer, Chunk chunk, boolean flag, int i) {
         return this.a(packetdataserializer, chunk, flag, i, null);
     }
     // Paper end
@@ -145,54 +145,54 @@ public class SPacketChunkData implements Packet<INetHandlerPlayClient> {
     public int writeChunk(PacketBuffer packetDataSerializer, Chunk chunk, boolean writeSkyLightArray, int chunkSectionSelector, PacketPlayOutMapChunkInfo packetPlayOutMapChunkInfo) { return this.a(packetDataSerializer, chunk, writeSkyLightArray, chunkSectionSelector, packetPlayOutMapChunkInfo); } // Paper - Anti-Xray - OBFHELPER
     public int a(PacketBuffer packetdataserializer, Chunk chunk, boolean flag, int i, PacketPlayOutMapChunkInfo packetPlayOutMapChunkInfo) { // Paper - Anti-Xray - Add chunk packet info
         int j = 0;
-        ExtendedBlockStorage[] achunksection = chunk.getBlockStorageArray();
+        ExtendedBlockStorage[] achunksection = chunk.func_76587_i();
         int k = 0;
 
         for (int l = achunksection.length; k < l; ++k) {
             ExtendedBlockStorage chunksection = achunksection[k];
 
-            if (chunksection != Chunk.NULL_BLOCK_STORAGE && (!this.isFullChunk() || !chunksection.isEmpty()) && (i & 1 << k) != 0) {
+            if (chunksection != Chunk.field_186036_a && (!this.func_149274_i() || !chunksection.func_76663_a()) && (i & 1 << k) != 0) {
                 j |= 1 << k;
-                chunksection.getData().writeBlocks(packetdataserializer, packetPlayOutMapChunkInfo, k); // Paper - Anti-Xray - Add chunk packet info
-                packetdataserializer.writeBytes(chunksection.getBlockLight().getData());
+                chunksection.func_186049_g().writeBlocks(packetdataserializer, packetPlayOutMapChunkInfo, k); // Paper - Anti-Xray - Add chunk packet info
+                packetdataserializer.writeBytes(chunksection.func_76661_k().func_177481_a());
                 if (flag) {
-                    packetdataserializer.writeBytes(chunksection.getSkyLight().getData());
+                    packetdataserializer.writeBytes(chunksection.func_76671_l().func_177481_a());
                 }
             }
         }
 
-        if (this.isFullChunk()) {
-            packetdataserializer.writeBytes(chunk.getBiomeArray());
+        if (this.func_149274_i()) {
+            packetdataserializer.writeBytes(chunk.func_76605_m());
         }
 
         return j;
     }
 
-    protected int calculateChunkSize(Chunk chunk, boolean flag, int i) {
+    protected int func_189556_a(Chunk chunk, boolean flag, int i) {
         int j = 0;
-        ExtendedBlockStorage[] achunksection = chunk.getBlockStorageArray();
+        ExtendedBlockStorage[] achunksection = chunk.func_76587_i();
         int k = 0;
 
         for (int l = achunksection.length; k < l; ++k) {
             ExtendedBlockStorage chunksection = achunksection[k];
 
-            if (chunksection != Chunk.NULL_BLOCK_STORAGE && (!this.isFullChunk() || !chunksection.isEmpty()) && (i & 1 << k) != 0) {
-                j += chunksection.getData().getSerializedSize();
-                j += chunksection.getBlockLight().getData().length;
+            if (chunksection != Chunk.field_186036_a && (!this.func_149274_i() || !chunksection.func_76663_a()) && (i & 1 << k) != 0) {
+                j += chunksection.func_186049_g().func_186018_a();
+                j += chunksection.func_76661_k().func_177481_a().length;
                 if (flag) {
-                    j += chunksection.getSkyLight().getData().length;
+                    j += chunksection.func_76671_l().func_177481_a().length;
                 }
             }
         }
 
-        if (this.isFullChunk()) {
-            j += chunk.getBiomeArray().length;
+        if (this.func_149274_i()) {
+            j += chunk.func_76605_m().length;
         }
 
         return j;
     }
 
-    public boolean isFullChunk() {
-        return this.fullChunk;
+    public boolean func_149274_i() {
+        return this.field_149279_g;
     }
 }

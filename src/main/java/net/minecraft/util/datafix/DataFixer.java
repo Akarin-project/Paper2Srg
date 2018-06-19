@@ -12,39 +12,39 @@ import net.minecraft.util.Util;
 
 public class DataFixer implements IDataFixer {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final Map<IFixType, List<IDataWalker>> walkerMap = Maps.newHashMap();
-    private final Map<IFixType, List<IFixableData>> fixMap = Maps.newHashMap();
-    private final int version;
+    private static final Logger field_188259_a = LogManager.getLogger();
+    private final Map<IFixType, List<IDataWalker>> field_188260_b = Maps.newHashMap();
+    private final Map<IFixType, List<IFixableData>> field_188261_c = Maps.newHashMap();
+    private final int field_188262_d;
 
     public DataFixer(int i) {
-        this.version = i;
+        this.field_188262_d = i;
     }
 
-    public NBTTagCompound process(IFixType dataconvertertype, NBTTagCompound nbttagcompound) {
-        int i = nbttagcompound.hasKey("DataVersion", 99) ? nbttagcompound.getInteger("DataVersion") : -1;
+    public NBTTagCompound func_188257_a(IFixType dataconvertertype, NBTTagCompound nbttagcompound) {
+        int i = nbttagcompound.func_150297_b("DataVersion", 99) ? nbttagcompound.func_74762_e("DataVersion") : -1;
 
-        return i >= 1343 ? nbttagcompound : this.process(dataconvertertype, nbttagcompound, i);
+        return i >= 1343 ? nbttagcompound : this.func_188251_a(dataconvertertype, nbttagcompound, i);
     }
 
-    public NBTTagCompound process(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i) {
-        if (i < this.version) {
-            nbttagcompound = this.processFixes(dataconvertertype, nbttagcompound, i);
-            nbttagcompound = this.processWalkers(dataconvertertype, nbttagcompound, i);
+    public NBTTagCompound func_188251_a(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i) {
+        if (i < this.field_188262_d) {
+            nbttagcompound = this.func_188252_b(dataconvertertype, nbttagcompound, i);
+            nbttagcompound = this.func_188253_c(dataconvertertype, nbttagcompound, i);
         }
 
         return nbttagcompound;
     }
 
-    private NBTTagCompound processFixes(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i) {
-        List list = (List) this.fixMap.get(dataconvertertype);
+    private NBTTagCompound func_188252_b(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i) {
+        List list = (List) this.field_188261_c.get(dataconvertertype);
 
         if (list != null) {
             for (int j = 0; j < list.size(); ++j) {
                 IFixableData idataconverter = (IFixableData) list.get(j);
 
-                if (idataconverter.getFixVersion() > i) {
-                    nbttagcompound = idataconverter.fixTagCompound(nbttagcompound);
+                if (idataconverter.func_188216_a() > i) {
+                    nbttagcompound = idataconverter.func_188217_a(nbttagcompound);
                 }
             }
         }
@@ -52,36 +52,36 @@ public class DataFixer implements IDataFixer {
         return nbttagcompound;
     }
 
-    private NBTTagCompound processWalkers(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i) {
-        List list = (List) this.walkerMap.get(dataconvertertype);
+    private NBTTagCompound func_188253_c(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i) {
+        List list = (List) this.field_188260_b.get(dataconvertertype);
 
         if (list != null) {
             for (int j = 0; j < list.size(); ++j) {
-                nbttagcompound = ((IDataWalker) list.get(j)).process(this, nbttagcompound, i);
+                nbttagcompound = ((IDataWalker) list.get(j)).func_188266_a(this, nbttagcompound, i);
             }
         }
 
         return nbttagcompound;
     }
 
-    public void registerWalker(FixTypes dataconvertertypes, IDataWalker datainspector) {
-        this.registerVanillaWalker((IFixType) dataconvertertypes, datainspector);
+    public void func_188258_a(FixTypes dataconvertertypes, IDataWalker datainspector) {
+        this.func_188255_a((IFixType) dataconvertertypes, datainspector);
     }
 
-    public void registerVanillaWalker(IFixType dataconvertertype, IDataWalker datainspector) {
-        this.getTypeList(this.walkerMap, dataconvertertype).add(datainspector);
+    public void func_188255_a(IFixType dataconvertertype, IDataWalker datainspector) {
+        this.func_188254_a(this.field_188260_b, dataconvertertype).add(datainspector);
     }
 
-    public void registerFix(IFixType dataconvertertype, IFixableData idataconverter) {
-        List list = this.getTypeList(this.fixMap, dataconvertertype);
-        int i = idataconverter.getFixVersion();
+    public void func_188256_a(IFixType dataconvertertype, IFixableData idataconverter) {
+        List list = this.func_188254_a(this.field_188261_c, dataconvertertype);
+        int i = idataconverter.func_188216_a();
 
-        if (i > this.version) {
-            DataFixer.LOGGER.warn("Ignored fix registered for version: {} as the DataVersion of the game is: {}", Integer.valueOf(i), Integer.valueOf(this.version));
+        if (i > this.field_188262_d) {
+            DataFixer.field_188259_a.warn("Ignored fix registered for version: {} as the DataVersion of the game is: {}", Integer.valueOf(i), Integer.valueOf(this.field_188262_d));
         } else {
-            if (!list.isEmpty() && ((IFixableData) Util.getLastElement(list)).getFixVersion() > i) {
+            if (!list.isEmpty() && ((IFixableData) Util.func_184878_a(list)).func_188216_a() > i) {
                 for (int j = 0; j < list.size(); ++j) {
-                    if (((IFixableData) list.get(j)).getFixVersion() > i) {
+                    if (((IFixableData) list.get(j)).func_188216_a() > i) {
                         list.add(j, idataconverter);
                         break;
                     }
@@ -93,7 +93,7 @@ public class DataFixer implements IDataFixer {
         }
     }
 
-    private <V> List<V> getTypeList(Map<IFixType, List<V>> map, IFixType dataconvertertype) {
+    private <V> List<V> func_188254_a(Map<IFixType, List<V>> map, IFixType dataconvertertype) {
         Object object = (List) map.get(dataconvertertype);
 
         if (object == null) {

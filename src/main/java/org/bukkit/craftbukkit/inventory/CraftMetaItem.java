@@ -269,23 +269,23 @@ class CraftMetaItem implements ItemMeta, Repairable {
     }
 
     CraftMetaItem(NBTTagCompound tag) {
-        if (tag.hasKey(DISPLAY.NBT)) {
-            NBTTagCompound display = tag.getCompoundTag(DISPLAY.NBT);
+        if (tag.func_74764_b(DISPLAY.NBT)) {
+            NBTTagCompound display = tag.func_74775_l(DISPLAY.NBT);
 
-            if (display.hasKey(NAME.NBT)) {
-                displayName = limit( display.getString(NAME.NBT), 1024 ); // Spigot
+            if (display.func_74764_b(NAME.NBT)) {
+                displayName = limit( display.func_74779_i(NAME.NBT), 1024 ); // Spigot
             }
 
-            if (display.hasKey(LOCNAME.NBT)) {
-                locName = display.getString(LOCNAME.NBT);
+            if (display.func_74764_b(LOCNAME.NBT)) {
+                locName = display.func_74779_i(LOCNAME.NBT);
             }
 
-            if (display.hasKey(LORE.NBT)) {
-                NBTTagList list = display.getTagList(LORE.NBT, CraftMagicNumbers.NBT.TAG_STRING);
-                lore = new ArrayList<String>(list.tagCount());
+            if (display.func_74764_b(LORE.NBT)) {
+                NBTTagList list = display.func_150295_c(LORE.NBT, CraftMagicNumbers.NBT.TAG_STRING);
+                lore = new ArrayList<String>(list.func_74745_c());
 
-                for (int index = 0; index < list.tagCount(); index++) {
-                    String line = limit( list.getStringTagAt(index), 1024 ); // Spigot
+                for (int index = 0; index < list.func_74745_c(); index++) {
+                    String line = limit( list.func_150307_f(index), 1024 ); // Spigot
                     lore.add(line);
                 }
             }
@@ -293,35 +293,35 @@ class CraftMetaItem implements ItemMeta, Repairable {
 
         this.enchantments = buildEnchantments(tag, ENCHANTMENTS);
 
-        if (tag.hasKey(REPAIR.NBT)) {
-            repairCost = tag.getInteger(REPAIR.NBT);
+        if (tag.func_74764_b(REPAIR.NBT)) {
+            repairCost = tag.func_74762_e(REPAIR.NBT);
         }
 
-        if (tag.hasKey(HIDEFLAGS.NBT)) {
-            hideFlag = tag.getInteger(HIDEFLAGS.NBT);
+        if (tag.func_74764_b(HIDEFLAGS.NBT)) {
+            hideFlag = tag.func_74762_e(HIDEFLAGS.NBT);
         }
-        if (tag.hasKey(UNBREAKABLE.NBT)) {
-            unbreakable = tag.getBoolean(UNBREAKABLE.NBT);
+        if (tag.func_74764_b(UNBREAKABLE.NBT)) {
+            unbreakable = tag.func_74767_n(UNBREAKABLE.NBT);
         }
 
-        if (tag.getTag(ATTRIBUTES.NBT) instanceof NBTTagList) {
+        if (tag.func_74781_a(ATTRIBUTES.NBT) instanceof NBTTagList) {
             NBTTagList save = null;
-            NBTTagList nbttaglist = tag.getTagList(ATTRIBUTES.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
+            NBTTagList nbttaglist = tag.func_150295_c(ATTRIBUTES.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
 
             // Spigot start
             gnu.trove.map.hash.TObjectDoubleHashMap<String> attributeTracker = new gnu.trove.map.hash.TObjectDoubleHashMap<String>();
             gnu.trove.map.hash.TObjectDoubleHashMap<String> attributeTrackerX = new gnu.trove.map.hash.TObjectDoubleHashMap<String>();
             Map<String, IAttribute> attributesByName = new HashMap<String, IAttribute>();
             attributeTracker.put( "generic.maxHealth", 20.0 );
-            attributesByName.put( "generic.maxHealth", SharedMonsterAttributes.MAX_HEALTH );
+            attributesByName.put( "generic.maxHealth", SharedMonsterAttributes.field_111267_a );
             attributeTracker.put( "generic.followRange", 32.0 );
-            attributesByName.put( "generic.followRange", SharedMonsterAttributes.FOLLOW_RANGE );
+            attributesByName.put( "generic.followRange", SharedMonsterAttributes.field_111265_b );
             attributeTracker.put( "generic.knockbackResistance", 0.0 );
-            attributesByName.put( "generic.knockbackResistance", SharedMonsterAttributes.KNOCKBACK_RESISTANCE );
+            attributesByName.put( "generic.knockbackResistance", SharedMonsterAttributes.field_111266_c );
             attributeTracker.put( "generic.movementSpeed", 0.7 );
-            attributesByName.put( "generic.movementSpeed", SharedMonsterAttributes.MOVEMENT_SPEED );
+            attributesByName.put( "generic.movementSpeed", SharedMonsterAttributes.field_111263_d );
             attributeTracker.put( "generic.attackDamage", 1.0 );
-            attributesByName.put( "generic.attackDamage", SharedMonsterAttributes.ATTACK_DAMAGE );
+            attributesByName.put( "generic.attackDamage", SharedMonsterAttributes.field_111264_e );
             NBTTagList oldList = nbttaglist;
             nbttaglist = new NBTTagList();
 
@@ -329,37 +329,37 @@ class CraftMetaItem implements ItemMeta, Repairable {
             List<NBTTagCompound> op1 = new ArrayList<NBTTagCompound>();
             List<NBTTagCompound> op2 = new ArrayList<NBTTagCompound>();
 
-            for ( int i = 0; i < oldList.tagCount(); ++i )
+            for ( int i = 0; i < oldList.func_74745_c(); ++i )
             {
-                NBTTagCompound nbttagcompound = oldList.getCompoundTagAt( i );
+                NBTTagCompound nbttagcompound = oldList.func_150305_b( i );
                 if ( nbttagcompound == null ) continue;
 
-                if ( !nbttagcompound.hasKey(ATTRIBUTES_UUID_HIGH.NBT, 99) )
+                if ( !nbttagcompound.func_150297_b(ATTRIBUTES_UUID_HIGH.NBT, 99) )
                 {
                     continue;
                 }
-                if ( !nbttagcompound.hasKey(ATTRIBUTES_UUID_LOW.NBT, 99)  )
+                if ( !nbttagcompound.func_150297_b(ATTRIBUTES_UUID_LOW.NBT, 99)  )
                 {
                     continue;
                 }
-                if ( !( nbttagcompound.getTag( ATTRIBUTES_IDENTIFIER.NBT ) instanceof NBTTagString ) || !CraftItemFactory.KNOWN_NBT_ATTRIBUTE_NAMES.contains( nbttagcompound.getString( ATTRIBUTES_IDENTIFIER.NBT ) ) )
+                if ( !( nbttagcompound.func_74781_a( ATTRIBUTES_IDENTIFIER.NBT ) instanceof NBTTagString ) || !CraftItemFactory.KNOWN_NBT_ATTRIBUTE_NAMES.contains( nbttagcompound.func_74779_i( ATTRIBUTES_IDENTIFIER.NBT ) ) )
                 {
                     continue;
                 }
-                if ( !( nbttagcompound.getTag( ATTRIBUTES_NAME.NBT ) instanceof NBTTagString ) || nbttagcompound.getString( ATTRIBUTES_NAME.NBT ).isEmpty() )
+                if ( !( nbttagcompound.func_74781_a( ATTRIBUTES_NAME.NBT ) instanceof NBTTagString ) || nbttagcompound.func_74779_i( ATTRIBUTES_NAME.NBT ).isEmpty() )
                 {
                     continue;
                 }
-                if ( !nbttagcompound.hasKey(ATTRIBUTES_VALUE.NBT, 99) )
+                if ( !nbttagcompound.func_150297_b(ATTRIBUTES_VALUE.NBT, 99) )
                 {
                     continue;
                 }
-                if ( !nbttagcompound.hasKey(ATTRIBUTES_TYPE.NBT, 99) || nbttagcompound.getInteger( ATTRIBUTES_TYPE.NBT ) < 0 || nbttagcompound.getInteger( ATTRIBUTES_TYPE.NBT ) > 2 )
+                if ( !nbttagcompound.func_150297_b(ATTRIBUTES_TYPE.NBT, 99) || nbttagcompound.func_74762_e( ATTRIBUTES_TYPE.NBT ) < 0 || nbttagcompound.func_74762_e( ATTRIBUTES_TYPE.NBT ) > 2 )
                 {
                     continue;
                 }
 
-                switch ( nbttagcompound.getInteger( ATTRIBUTES_TYPE.NBT ) )
+                switch ( nbttagcompound.func_74762_e( ATTRIBUTES_TYPE.NBT ) )
                 {
                     case 0:
                         op0.add( nbttagcompound );
@@ -374,18 +374,18 @@ class CraftMetaItem implements ItemMeta, Repairable {
             }
             for ( NBTTagCompound nbtTagCompound : op0 )
             {
-                String name = nbtTagCompound.getString( ATTRIBUTES_IDENTIFIER.NBT );
+                String name = nbtTagCompound.func_74779_i( ATTRIBUTES_IDENTIFIER.NBT );
                 if ( attributeTracker.containsKey( name ) )
                 {
                     double val = attributeTracker.get( name );
-                    val += nbtTagCompound.getDouble( ATTRIBUTES_VALUE.NBT );
-                    if ( val != attributesByName.get( name ).clampValue( val ) )
+                    val += nbtTagCompound.func_74769_h( ATTRIBUTES_VALUE.NBT );
+                    if ( val != attributesByName.get( name ).func_111109_a( val ) )
                     {
                         continue;
                     }
                     attributeTracker.put( name, val );
                 }
-                nbttaglist.appendTag( nbtTagCompound );
+                nbttaglist.func_74742_a( nbtTagCompound );
             }
             for ( String name : attributeTracker.keySet() )
             {
@@ -393,60 +393,60 @@ class CraftMetaItem implements ItemMeta, Repairable {
             }
             for ( NBTTagCompound nbtTagCompound : op1 )
             {
-                String name = nbtTagCompound.getString( ATTRIBUTES_IDENTIFIER.NBT );
+                String name = nbtTagCompound.func_74779_i( ATTRIBUTES_IDENTIFIER.NBT );
                 if ( attributeTracker.containsKey( name ) )
                 {
                     double val = attributeTracker.get( name );
                     double valX = attributeTrackerX.get( name );
-                    val += valX * nbtTagCompound.getDouble( ATTRIBUTES_VALUE.NBT );
-                    if ( val != attributesByName.get( name ).clampValue( val ) )
+                    val += valX * nbtTagCompound.func_74769_h( ATTRIBUTES_VALUE.NBT );
+                    if ( val != attributesByName.get( name ).func_111109_a( val ) )
                     {
                         continue;
                     }
                     attributeTracker.put( name, val );
                 }
-                nbttaglist.appendTag( nbtTagCompound );
+                nbttaglist.func_74742_a( nbtTagCompound );
             }
             for ( NBTTagCompound nbtTagCompound : op2 )
             {
-                String name = nbtTagCompound.getString( ATTRIBUTES_IDENTIFIER.NBT );
+                String name = nbtTagCompound.func_74779_i( ATTRIBUTES_IDENTIFIER.NBT );
                 if ( attributeTracker.containsKey( name ) )
                 {
                     double val = attributeTracker.get( name );
-                    val += val * nbtTagCompound.getDouble( ATTRIBUTES_VALUE.NBT );
-                    if ( val != attributesByName.get( name ).clampValue( val ) )
+                    val += val * nbtTagCompound.func_74769_h( ATTRIBUTES_VALUE.NBT );
+                    if ( val != attributesByName.get( name ).func_111109_a( val ) )
                     {
                         continue;
                     }
                     attributeTracker.put( name, val );
                 }
-                nbttaglist.appendTag( nbtTagCompound );
+                nbttaglist.func_74742_a( nbtTagCompound );
             }
 
             // Spigot end
 
-            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                if (!(nbttaglist.getCompoundTagAt(i) instanceof NBTTagCompound)) {
+            for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+                if (!(nbttaglist.func_150305_b(i) instanceof NBTTagCompound)) {
                     continue;
                 }
-                NBTTagCompound nbttagcompound = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
+                NBTTagCompound nbttagcompound = (NBTTagCompound) nbttaglist.func_150305_b(i);
 
-                if (!nbttagcompound.hasKey(ATTRIBUTES_UUID_HIGH.NBT, CraftMagicNumbers.NBT.TAG_ANY_NUMBER)) {
+                if (!nbttagcompound.func_150297_b(ATTRIBUTES_UUID_HIGH.NBT, CraftMagicNumbers.NBT.TAG_ANY_NUMBER)) {
                     continue;
                 }
-                if (!nbttagcompound.hasKey(ATTRIBUTES_UUID_LOW.NBT, CraftMagicNumbers.NBT.TAG_ANY_NUMBER)) {
+                if (!nbttagcompound.func_150297_b(ATTRIBUTES_UUID_LOW.NBT, CraftMagicNumbers.NBT.TAG_ANY_NUMBER)) {
                     continue;
                 }
-                if (!(nbttagcompound.getTag(ATTRIBUTES_IDENTIFIER.NBT) instanceof NBTTagString) || !CraftItemFactory.KNOWN_NBT_ATTRIBUTE_NAMES.contains(nbttagcompound.getString(ATTRIBUTES_IDENTIFIER.NBT))) {
+                if (!(nbttagcompound.func_74781_a(ATTRIBUTES_IDENTIFIER.NBT) instanceof NBTTagString) || !CraftItemFactory.KNOWN_NBT_ATTRIBUTE_NAMES.contains(nbttagcompound.func_74779_i(ATTRIBUTES_IDENTIFIER.NBT))) {
                     continue;
                 }
-                if (!(nbttagcompound.getTag(ATTRIBUTES_NAME.NBT) instanceof NBTTagString) || nbttagcompound.getString(ATTRIBUTES_NAME.NBT).isEmpty()) {
+                if (!(nbttagcompound.func_74781_a(ATTRIBUTES_NAME.NBT) instanceof NBTTagString) || nbttagcompound.func_74779_i(ATTRIBUTES_NAME.NBT).isEmpty()) {
                     continue;
                 }
-                if (!nbttagcompound.hasKey(ATTRIBUTES_VALUE.NBT, CraftMagicNumbers.NBT.TAG_ANY_NUMBER)) {
+                if (!nbttagcompound.func_150297_b(ATTRIBUTES_VALUE.NBT, CraftMagicNumbers.NBT.TAG_ANY_NUMBER)) {
                     continue;
                 }
-                if (!nbttagcompound.hasKey(ATTRIBUTES_TYPE.NBT, CraftMagicNumbers.NBT.TAG_ANY_NUMBER) || nbttagcompound.getInteger(ATTRIBUTES_TYPE.NBT) < 0 || nbttagcompound.getInteger(ATTRIBUTES_TYPE.NBT) > 2) {
+                if (!nbttagcompound.func_150297_b(ATTRIBUTES_TYPE.NBT, CraftMagicNumbers.NBT.TAG_ANY_NUMBER) || nbttagcompound.func_74762_e(ATTRIBUTES_TYPE.NBT) < 0 || nbttagcompound.func_74762_e(ATTRIBUTES_TYPE.NBT) > 2) {
                     continue;
                 }
 
@@ -455,37 +455,37 @@ class CraftMetaItem implements ItemMeta, Repairable {
                 }
 
                 NBTTagCompound entry = new NBTTagCompound();
-                entry.setTag(ATTRIBUTES_UUID_HIGH.NBT, nbttagcompound.getTag(ATTRIBUTES_UUID_HIGH.NBT));
-                entry.setTag(ATTRIBUTES_UUID_LOW.NBT, nbttagcompound.getTag(ATTRIBUTES_UUID_LOW.NBT));
-                entry.setTag(ATTRIBUTES_IDENTIFIER.NBT, nbttagcompound.getTag(ATTRIBUTES_IDENTIFIER.NBT));
-                entry.setTag(ATTRIBUTES_NAME.NBT, nbttagcompound.getTag(ATTRIBUTES_NAME.NBT));
-                entry.setTag(ATTRIBUTES_VALUE.NBT, nbttagcompound.getTag(ATTRIBUTES_VALUE.NBT));
-                entry.setTag(ATTRIBUTES_TYPE.NBT, nbttagcompound.getTag(ATTRIBUTES_TYPE.NBT));
-                save.appendTag(entry);
+                entry.func_74782_a(ATTRIBUTES_UUID_HIGH.NBT, nbttagcompound.func_74781_a(ATTRIBUTES_UUID_HIGH.NBT));
+                entry.func_74782_a(ATTRIBUTES_UUID_LOW.NBT, nbttagcompound.func_74781_a(ATTRIBUTES_UUID_LOW.NBT));
+                entry.func_74782_a(ATTRIBUTES_IDENTIFIER.NBT, nbttagcompound.func_74781_a(ATTRIBUTES_IDENTIFIER.NBT));
+                entry.func_74782_a(ATTRIBUTES_NAME.NBT, nbttagcompound.func_74781_a(ATTRIBUTES_NAME.NBT));
+                entry.func_74782_a(ATTRIBUTES_VALUE.NBT, nbttagcompound.func_74781_a(ATTRIBUTES_VALUE.NBT));
+                entry.func_74782_a(ATTRIBUTES_TYPE.NBT, nbttagcompound.func_74781_a(ATTRIBUTES_TYPE.NBT));
+                save.func_74742_a(entry);
             }
 
             unhandledTags.put(ATTRIBUTES.NBT, save);
         }
 
-        Set<String> keys = tag.getKeySet();
+        Set<String> keys = tag.func_150296_c();
         for (String key : keys) {
             if (!getHandledTags().contains(key)) {
-                unhandledTags.put(key, tag.getTag(key));
+                unhandledTags.put(key, tag.func_74781_a(key));
             }
         }
     }
 
     static EnchantmentMap buildEnchantments(NBTTagCompound tag, ItemMetaKey key) { // Paper
-        if (!tag.hasKey(key.NBT)) {
+        if (!tag.func_74764_b(key.NBT)) {
             return null;
         }
 
-        NBTTagList ench = tag.getTagList(key.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
+        NBTTagList ench = tag.func_150295_c(key.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
         EnchantmentMap enchantments = new EnchantmentMap(); // Paper
 
-        for (int i = 0; i < ench.tagCount(); i++) {
-            int id = 0xffff & ((NBTTagCompound) ench.getCompoundTagAt(i)).getShort(ENCHANTMENTS_ID.NBT);
-            int level = 0xffff & ((NBTTagCompound) ench.getCompoundTagAt(i)).getShort(ENCHANTMENTS_LVL.NBT);
+        for (int i = 0; i < ench.func_74745_c(); i++) {
+            int id = 0xffff & ((NBTTagCompound) ench.func_150305_b(i)).func_74765_d(ENCHANTMENTS_ID.NBT);
+            int level = 0xffff & ((NBTTagCompound) ench.func_150305_b(i)).func_74765_d(ENCHANTMENTS_LVL.NBT);
 
             Enchantment enchant = Enchantment.getById(id);
             if (enchant != null) {
@@ -534,12 +534,12 @@ class CraftMetaItem implements ItemMeta, Repairable {
         if (internal != null) {
             ByteArrayInputStream buf = new ByteArrayInputStream(Base64.decodeBase64(internal));
             try {
-                internalTag = CompressedStreamTools.readCompressed(buf);
+                internalTag = CompressedStreamTools.func_74796_a(buf);
                 deserializeInternal(internalTag);
-                Set<String> keys = internalTag.getKeySet();
+                Set<String> keys = internalTag.func_150296_c();
                 for (String key : keys) {
                     if (!getHandledTags().contains(key)) {
-                        unhandledTags.put(key, internalTag.getTag(key));
+                        unhandledTags.put(key, internalTag.func_74781_a(key));
                     }
                 }
             } catch (IOException ex) {
@@ -588,21 +588,21 @@ class CraftMetaItem implements ItemMeta, Repairable {
         }
 
         if (hideFlag != 0) {
-            itemTag.setInteger(HIDEFLAGS.NBT, hideFlag);
+            itemTag.func_74768_a(HIDEFLAGS.NBT, hideFlag);
         }
 
         applyEnchantments(enchantments, itemTag, ENCHANTMENTS);
 
         if (hasRepairCost()) {
-            itemTag.setInteger(REPAIR.NBT, repairCost);
+            itemTag.func_74768_a(REPAIR.NBT, repairCost);
         }
 
         if (isUnbreakable()) {
-            itemTag.setBoolean(UNBREAKABLE.NBT, unbreakable);
+            itemTag.func_74757_a(UNBREAKABLE.NBT, unbreakable);
         }
 
         for (Map.Entry<String, NBTBase> e : unhandledTags.entrySet()) {
-            itemTag.setTag(e.getKey(), e.getValue());
+            itemTag.func_74782_a(e.getKey(), e.getValue());
         }
     }
 
@@ -613,7 +613,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
 
         NBTTagList tagList = new NBTTagList();
         for (String value : list) {
-            tagList.appendTag(new NBTTagString(value));
+            tagList.func_74742_a(new NBTTagString(value));
         }
 
         return tagList;
@@ -629,23 +629,23 @@ class CraftMetaItem implements ItemMeta, Repairable {
         for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
             NBTTagCompound subtag = new NBTTagCompound();
 
-            subtag.setShort(ENCHANTMENTS_ID.NBT, (short) entry.getKey().getId());
-            subtag.setShort(ENCHANTMENTS_LVL.NBT, entry.getValue().shortValue());
+            subtag.func_74777_a(ENCHANTMENTS_ID.NBT, (short) entry.getKey().getId());
+            subtag.func_74777_a(ENCHANTMENTS_LVL.NBT, entry.getValue().shortValue());
 
-            list.appendTag(subtag);
+            list.func_74742_a(subtag);
         }
 
-        tag.setTag(key.NBT, list);
+        tag.func_74782_a(key.NBT, list);
     }
 
     void setDisplayTag(NBTTagCompound tag, String key, NBTBase value) {
-        final NBTTagCompound display = tag.getCompoundTag(DISPLAY.NBT);
+        final NBTTagCompound display = tag.func_74775_l(DISPLAY.NBT);
 
-        if (!tag.hasKey(DISPLAY.NBT)) {
-            tag.setTag(DISPLAY.NBT, display);
+        if (!tag.func_74764_b(DISPLAY.NBT)) {
+            tag.func_74782_a(DISPLAY.NBT, display);
         }
 
-        display.setTag(key, value);
+        display.func_74782_a(key, value);
     }
 
     @Overridden
@@ -938,11 +938,11 @@ class CraftMetaItem implements ItemMeta, Repairable {
         if (!internalTags.isEmpty()) {
             NBTTagCompound internal = new NBTTagCompound();
             for (Map.Entry<String, NBTBase> e : internalTags.entrySet()) {
-                internal.setTag(e.getKey(), e.getValue());
+                internal.func_74782_a(e.getKey(), e.getValue());
             }
             try {
                 ByteArrayOutputStream buf = new ByteArrayOutputStream();
-                CompressedStreamTools.writeCompressed(internal, buf);
+                CompressedStreamTools.func_74799_a(internal, buf);
                 builder.put("internal", Base64.encodeBase64String(buf.toByteArray()));
             } catch (IOException ex) {
                 Logger.getLogger(CraftMetaItem.class.getName()).log(Level.SEVERE, null, ex);

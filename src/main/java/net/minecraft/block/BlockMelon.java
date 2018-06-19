@@ -12,19 +12,19 @@ import net.minecraft.item.Item;
 public class BlockMelon extends Block {
 
     protected BlockMelon() {
-        super(Material.GOURD, MapColor.LIME);
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151572_C, MapColor.field_151672_u);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.MELON;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_151127_ba;
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 3 + random.nextInt(5);
     }
 
-    public int quantityDroppedWithBonus(int i, Random random) {
-        return Math.min(9, this.quantityDropped(random) + random.nextInt(1 + i));
+    public int func_149679_a(int i, Random random) {
+        return Math.min(9, this.func_149745_a(random) + random.nextInt(1 + i));
     }
 }

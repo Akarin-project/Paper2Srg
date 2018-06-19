@@ -1,6 +1,5 @@
 package com.destroystokyo.paper.event.server;
 
-import static java.util.Objects.requireNonNull;
 
 import com.destroystokyo.paper.network.StatusClient;
 import com.destroystokyo.paper.profile.PlayerProfile;

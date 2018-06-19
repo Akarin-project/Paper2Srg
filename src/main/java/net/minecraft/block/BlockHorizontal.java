@@ -9,7 +9,7 @@ import net.minecraft.util.EnumFacing;
 
 public abstract class BlockHorizontal extends Block {
 
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", (Predicate) EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyDirection field_185512_D = PropertyDirection.func_177712_a("facing", (Predicate) EnumFacing.Plane.HORIZONTAL);
 
     protected BlockHorizontal(Material material) {
         super(material);

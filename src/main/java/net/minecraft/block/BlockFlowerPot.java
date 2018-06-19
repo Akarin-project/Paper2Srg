@@ -33,231 +33,231 @@ import net.minecraft.world.chunk.Chunk;
 
 public class BlockFlowerPot extends BlockContainer {
 
-    public static final PropertyInteger LEGACY_DATA = PropertyInteger.create("legacy_data", 0, 15);
-    public static final PropertyEnum<BlockFlowerPot.EnumFlowerType> CONTENTS = PropertyEnum.create("contents", BlockFlowerPot.EnumFlowerType.class);
-    protected static final AxisAlignedBB FLOWER_POT_AABB = new AxisAlignedBB(0.3125D, 0.0D, 0.3125D, 0.6875D, 0.375D, 0.6875D);
+    public static final PropertyInteger field_176444_a = PropertyInteger.func_177719_a("legacy_data", 0, 15);
+    public static final PropertyEnum<BlockFlowerPot.EnumFlowerType> field_176443_b = PropertyEnum.func_177709_a("contents", BlockFlowerPot.EnumFlowerType.class);
+    protected static final AxisAlignedBB field_185570_c = new AxisAlignedBB(0.3125D, 0.0D, 0.3125D, 0.6875D, 0.375D, 0.6875D);
 
     public BlockFlowerPot() {
-        super(Material.CIRCUITS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockFlowerPot.CONTENTS, BlockFlowerPot.EnumFlowerType.EMPTY).withProperty(BlockFlowerPot.LEGACY_DATA, Integer.valueOf(0)));
+        super(Material.field_151594_q);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockFlowerPot.field_176443_b, BlockFlowerPot.EnumFlowerType.EMPTY).func_177226_a(BlockFlowerPot.field_176444_a, Integer.valueOf(0)));
     }
 
-    public String getLocalizedName() {
-        return I18n.translateToLocal("item.flowerPot.name");
+    public String func_149732_F() {
+        return I18n.func_74838_a("item.flowerPot.name");
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockFlowerPot.FLOWER_POT_AABB;
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockFlowerPot.field_185570_c;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.MODEL;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
-        TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(world, blockposition);
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
+        TileEntityFlowerPot tileentityflowerpot = this.func_176442_d(world, blockposition);
 
         if (tileentityflowerpot == null) {
             return false;
         } else {
-            ItemStack itemstack1 = tileentityflowerpot.getFlowerItemStack();
+            ItemStack itemstack1 = tileentityflowerpot.func_184403_b();
 
-            if (itemstack1.isEmpty()) {
-                if (!this.canBePotted(itemstack)) {
+            if (itemstack1.func_190926_b()) {
+                if (!this.func_190951_a(itemstack)) {
                     return false;
                 }
 
-                tileentityflowerpot.setItemStack(itemstack);
-                entityhuman.addStat(StatList.FLOWER_POTTED);
-                if (!entityhuman.capabilities.isCreativeMode) {
-                    itemstack.shrink(1);
+                tileentityflowerpot.func_190614_a(itemstack);
+                entityhuman.func_71029_a(StatList.field_188088_V);
+                if (!entityhuman.field_71075_bZ.field_75098_d) {
+                    itemstack.func_190918_g(1);
                 }
             } else {
-                if (itemstack.isEmpty()) {
-                    entityhuman.setHeldItem(enumhand, itemstack1);
-                } else if (!entityhuman.addItemStackToInventory(itemstack1)) {
-                    entityhuman.dropItem(itemstack1, false);
+                if (itemstack.func_190926_b()) {
+                    entityhuman.func_184611_a(enumhand, itemstack1);
+                } else if (!entityhuman.func_191521_c(itemstack1)) {
+                    entityhuman.func_71019_a(itemstack1, false);
                 }
 
-                tileentityflowerpot.setItemStack(ItemStack.EMPTY);
+                tileentityflowerpot.func_190614_a(ItemStack.field_190927_a);
             }
 
-            tileentityflowerpot.markDirty();
-            world.notifyBlockUpdate(blockposition, iblockdata, iblockdata, 3);
+            tileentityflowerpot.func_70296_d();
+            world.func_184138_a(blockposition, iblockdata, iblockdata, 3);
             return true;
         }
     }
 
-    private boolean canBePotted(ItemStack itemstack) {
-        Block block = Block.getBlockFromItem(itemstack.getItem());
+    private boolean func_190951_a(ItemStack itemstack) {
+        Block block = Block.func_149634_a(itemstack.func_77973_b());
 
-        if (block != Blocks.YELLOW_FLOWER && block != Blocks.RED_FLOWER && block != Blocks.CACTUS && block != Blocks.BROWN_MUSHROOM && block != Blocks.RED_MUSHROOM && block != Blocks.SAPLING && block != Blocks.DEADBUSH) {
-            int i = itemstack.getMetadata();
+        if (block != Blocks.field_150327_N && block != Blocks.field_150328_O && block != Blocks.field_150434_aF && block != Blocks.field_150338_P && block != Blocks.field_150337_Q && block != Blocks.field_150345_g && block != Blocks.field_150330_I) {
+            int i = itemstack.func_77960_j();
 
-            return block == Blocks.TALLGRASS && i == BlockTallGrass.EnumType.FERN.getMeta();
+            return block == Blocks.field_150329_H && i == BlockTallGrass.EnumType.FERN.func_177044_a();
         } else {
             return true;
         }
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(world, blockposition);
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        TileEntityFlowerPot tileentityflowerpot = this.func_176442_d(world, blockposition);
 
         if (tileentityflowerpot != null) {
-            ItemStack itemstack = tileentityflowerpot.getFlowerItemStack();
+            ItemStack itemstack = tileentityflowerpot.func_184403_b();
 
-            if (!itemstack.isEmpty()) {
+            if (!itemstack.func_190926_b()) {
                 return itemstack;
             }
         }
 
-        return new ItemStack(Items.FLOWER_POT);
+        return new ItemStack(Items.field_151162_bE);
     }
 
-    public boolean canPlaceBlockAt(World world, BlockPos blockposition) {
-        return super.canPlaceBlockAt(world, blockposition) && world.getBlockState(blockposition.down()).isTopSolid();
+    public boolean func_176196_c(World world, BlockPos blockposition) {
+        return super.func_176196_c(world, blockposition) && world.func_180495_p(blockposition.func_177977_b()).func_185896_q();
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        if (!world.getBlockState(blockposition.down()).isTopSolid()) {
-            this.dropBlockAsItem(world, blockposition, iblockdata, 0);
-            world.setBlockToAir(blockposition);
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        if (!world.func_180495_p(blockposition.func_177977_b()).func_185896_q()) {
+            this.func_176226_b(world, blockposition, iblockdata, 0);
+            world.func_175698_g(blockposition);
         }
 
     }
 
-    public void breakBlock(World world, BlockPos blockposition, IBlockState iblockdata) {
-        TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(world, blockposition);
+    public void func_180663_b(World world, BlockPos blockposition, IBlockState iblockdata) {
+        TileEntityFlowerPot tileentityflowerpot = this.func_176442_d(world, blockposition);
 
-        if (tileentityflowerpot != null && tileentityflowerpot.getFlowerPotItem() != null) {
-            spawnAsEntity(world, blockposition, new ItemStack(tileentityflowerpot.getFlowerPotItem(), 1, tileentityflowerpot.getFlowerPotData()));
+        if (tileentityflowerpot != null && tileentityflowerpot.func_145965_a() != null) {
+            func_180635_a(world, blockposition, new ItemStack(tileentityflowerpot.func_145965_a(), 1, tileentityflowerpot.func_145966_b()));
         }
 
-        super.breakBlock(world, blockposition, iblockdata);
+        super.func_180663_b(world, blockposition, iblockdata);
     }
 
-    public void onBlockHarvested(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman) {
-        super.onBlockHarvested(world, blockposition, iblockdata, entityhuman);
-        if (entityhuman.capabilities.isCreativeMode) {
-            TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(world, blockposition);
+    public void func_176208_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman) {
+        super.func_176208_a(world, blockposition, iblockdata, entityhuman);
+        if (entityhuman.field_71075_bZ.field_75098_d) {
+            TileEntityFlowerPot tileentityflowerpot = this.func_176442_d(world, blockposition);
 
             if (tileentityflowerpot != null) {
-                tileentityflowerpot.setItemStack(ItemStack.EMPTY);
+                tileentityflowerpot.func_190614_a(ItemStack.field_190927_a);
             }
         }
 
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.FLOWER_POT;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_151162_bE;
     }
 
     @Nullable
-    private TileEntityFlowerPot getTileEntity(World world, BlockPos blockposition) {
-        TileEntity tileentity = world.getTileEntity(blockposition);
+    private TileEntityFlowerPot func_176442_d(World world, BlockPos blockposition) {
+        TileEntity tileentity = world.func_175625_s(blockposition);
 
         return tileentity instanceof TileEntityFlowerPot ? (TileEntityFlowerPot) tileentity : null;
     }
 
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity func_149915_a(World world, int i) {
         Object object = null;
         int j = 0;
 
         switch (i) {
         case 1:
-            object = Blocks.RED_FLOWER;
-            j = BlockFlower.EnumFlowerType.POPPY.getMeta();
+            object = Blocks.field_150328_O;
+            j = BlockFlower.EnumFlowerType.POPPY.func_176968_b();
             break;
 
         case 2:
-            object = Blocks.YELLOW_FLOWER;
+            object = Blocks.field_150327_N;
             break;
 
         case 3:
-            object = Blocks.SAPLING;
-            j = BlockPlanks.EnumType.OAK.getMetadata();
+            object = Blocks.field_150345_g;
+            j = BlockPlanks.EnumType.OAK.func_176839_a();
             break;
 
         case 4:
-            object = Blocks.SAPLING;
-            j = BlockPlanks.EnumType.SPRUCE.getMetadata();
+            object = Blocks.field_150345_g;
+            j = BlockPlanks.EnumType.SPRUCE.func_176839_a();
             break;
 
         case 5:
-            object = Blocks.SAPLING;
-            j = BlockPlanks.EnumType.BIRCH.getMetadata();
+            object = Blocks.field_150345_g;
+            j = BlockPlanks.EnumType.BIRCH.func_176839_a();
             break;
 
         case 6:
-            object = Blocks.SAPLING;
-            j = BlockPlanks.EnumType.JUNGLE.getMetadata();
+            object = Blocks.field_150345_g;
+            j = BlockPlanks.EnumType.JUNGLE.func_176839_a();
             break;
 
         case 7:
-            object = Blocks.RED_MUSHROOM;
+            object = Blocks.field_150337_Q;
             break;
 
         case 8:
-            object = Blocks.BROWN_MUSHROOM;
+            object = Blocks.field_150338_P;
             break;
 
         case 9:
-            object = Blocks.CACTUS;
+            object = Blocks.field_150434_aF;
             break;
 
         case 10:
-            object = Blocks.DEADBUSH;
+            object = Blocks.field_150330_I;
             break;
 
         case 11:
-            object = Blocks.TALLGRASS;
-            j = BlockTallGrass.EnumType.FERN.getMeta();
+            object = Blocks.field_150329_H;
+            j = BlockTallGrass.EnumType.FERN.func_177044_a();
             break;
 
         case 12:
-            object = Blocks.SAPLING;
-            j = BlockPlanks.EnumType.ACACIA.getMetadata();
+            object = Blocks.field_150345_g;
+            j = BlockPlanks.EnumType.ACACIA.func_176839_a();
             break;
 
         case 13:
-            object = Blocks.SAPLING;
-            j = BlockPlanks.EnumType.DARK_OAK.getMetadata();
+            object = Blocks.field_150345_g;
+            j = BlockPlanks.EnumType.DARK_OAK.func_176839_a();
         }
 
-        return new TileEntityFlowerPot(Item.getItemFromBlock((Block) object), j);
+        return new TileEntityFlowerPot(Item.func_150898_a((Block) object), j);
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockFlowerPot.CONTENTS, BlockFlowerPot.LEGACY_DATA});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockFlowerPot.field_176443_b, BlockFlowerPot.field_176444_a});
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((Integer) iblockdata.getValue(BlockFlowerPot.LEGACY_DATA)).intValue();
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((Integer) iblockdata.func_177229_b(BlockFlowerPot.field_176444_a)).intValue();
     }
 
-    public IBlockState getActualState(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+    public IBlockState func_176221_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
         BlockFlowerPot.EnumFlowerType blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.EMPTY;
-        TileEntity tileentity = iblockaccess instanceof ChunkCache ? ((ChunkCache) iblockaccess).getTileEntity(blockposition, Chunk.EnumCreateEntityType.CHECK) : iblockaccess.getTileEntity(blockposition);
+        TileEntity tileentity = iblockaccess instanceof ChunkCache ? ((ChunkCache) iblockaccess).func_190300_a(blockposition, Chunk.EnumCreateEntityType.CHECK) : iblockaccess.func_175625_s(blockposition);
 
         if (tileentity instanceof TileEntityFlowerPot) {
             TileEntityFlowerPot tileentityflowerpot = (TileEntityFlowerPot) tileentity;
-            Item item = tileentityflowerpot.getFlowerPotItem();
+            Item item = tileentityflowerpot.func_145965_a();
 
             if (item instanceof ItemBlock) {
-                int i = tileentityflowerpot.getFlowerPotData();
-                Block block = Block.getBlockFromItem(item);
+                int i = tileentityflowerpot.func_145966_b();
+                Block block = Block.func_149634_a(item);
 
-                if (block == Blocks.SAPLING) {
-                    switch (BlockPlanks.EnumType.byMetadata(i)) {
+                if (block == Blocks.field_150345_g) {
+                    switch (BlockPlanks.EnumType.func_176837_a(i)) {
                     case OAK:
                         blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.OAK_SAPLING;
                         break;
@@ -285,7 +285,7 @@ public class BlockFlowerPot extends BlockContainer {
                     default:
                         blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.EMPTY;
                     }
-                } else if (block == Blocks.TALLGRASS) {
+                } else if (block == Blocks.field_150329_H) {
                     switch (i) {
                     case 0:
                         blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.DEAD_BUSH;
@@ -298,10 +298,10 @@ public class BlockFlowerPot extends BlockContainer {
                     default:
                         blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.EMPTY;
                     }
-                } else if (block == Blocks.YELLOW_FLOWER) {
+                } else if (block == Blocks.field_150327_N) {
                     blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.DANDELION;
-                } else if (block == Blocks.RED_FLOWER) {
-                    switch (BlockFlower.EnumFlowerType.getType(BlockFlower.EnumFlowerColor.RED, i)) {
+                } else if (block == Blocks.field_150328_O) {
+                    switch (BlockFlower.EnumFlowerType.func_176967_a(BlockFlower.EnumFlowerColor.RED, i)) {
                     case POPPY:
                         blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.POPPY;
                         break;
@@ -341,22 +341,22 @@ public class BlockFlowerPot extends BlockContainer {
                     default:
                         blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.EMPTY;
                     }
-                } else if (block == Blocks.RED_MUSHROOM) {
+                } else if (block == Blocks.field_150337_Q) {
                     blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.MUSHROOM_RED;
-                } else if (block == Blocks.BROWN_MUSHROOM) {
+                } else if (block == Blocks.field_150338_P) {
                     blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.MUSHROOM_BROWN;
-                } else if (block == Blocks.DEADBUSH) {
+                } else if (block == Blocks.field_150330_I) {
                     blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.DEAD_BUSH;
-                } else if (block == Blocks.CACTUS) {
+                } else if (block == Blocks.field_150434_aF) {
                     blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerType.CACTUS;
                 }
             }
         }
 
-        return iblockdata.withProperty(BlockFlowerPot.CONTENTS, blockflowerpot_enumflowerpotcontents);
+        return iblockdata.func_177226_a(BlockFlowerPot.field_176443_b, blockflowerpot_enumflowerpotcontents);
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.UNDEFINED;
     }
 
@@ -364,18 +364,18 @@ public class BlockFlowerPot extends BlockContainer {
 
         EMPTY("empty"), POPPY("rose"), BLUE_ORCHID("blue_orchid"), ALLIUM("allium"), HOUSTONIA("houstonia"), RED_TULIP("red_tulip"), ORANGE_TULIP("orange_tulip"), WHITE_TULIP("white_tulip"), PINK_TULIP("pink_tulip"), OXEYE_DAISY("oxeye_daisy"), DANDELION("dandelion"), OAK_SAPLING("oak_sapling"), SPRUCE_SAPLING("spruce_sapling"), BIRCH_SAPLING("birch_sapling"), JUNGLE_SAPLING("jungle_sapling"), ACACIA_SAPLING("acacia_sapling"), DARK_OAK_SAPLING("dark_oak_sapling"), MUSHROOM_RED("mushroom_red"), MUSHROOM_BROWN("mushroom_brown"), DEAD_BUSH("dead_bush"), FERN("fern"), CACTUS("cactus");
 
-        private final String name;
+        private final String field_177006_w;
 
         private EnumFlowerType(String s) {
-            this.name = s;
+            this.field_177006_w = s;
         }
 
         public String toString() {
-            return this.name;
+            return this.field_177006_w;
         }
 
-        public String getName() {
-            return this.name;
+        public String func_176610_l() {
+            return this.field_177006_w;
         }
     }
 }

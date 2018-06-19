@@ -36,128 +36,128 @@ import net.minecraft.util.text.TextFormatting;
 
 public class ServerCommandManager extends CommandHandler implements ICommandListener {
 
-    private final MinecraftServer server;
+    private final MinecraftServer field_184880_a;
 
     public ServerCommandManager(MinecraftServer minecraftserver) {
-        this.server = minecraftserver;
-        this.registerCommand((ICommand) (new CommandTime()));
-        this.registerCommand((ICommand) (new CommandGameMode()));
-        this.registerCommand((ICommand) (new CommandDifficulty()));
-        this.registerCommand((ICommand) (new CommandDefaultGameMode()));
-        this.registerCommand((ICommand) (new CommandKill()));
-        this.registerCommand((ICommand) (new CommandToggleDownfall()));
-        this.registerCommand((ICommand) (new CommandWeather()));
-        this.registerCommand((ICommand) (new CommandXP()));
-        this.registerCommand((ICommand) (new CommandTP()));
-        this.registerCommand((ICommand) (new CommandTeleport()));
-        this.registerCommand((ICommand) (new CommandGive()));
-        this.registerCommand((ICommand) (new CommandReplaceItem()));
-        this.registerCommand((ICommand) (new CommandStats()));
-        this.registerCommand((ICommand) (new CommandEffect()));
-        this.registerCommand((ICommand) (new CommandEnchant()));
-        this.registerCommand((ICommand) (new CommandParticle()));
-        this.registerCommand((ICommand) (new CommandEmote()));
-        this.registerCommand((ICommand) (new CommandShowSeed()));
-        this.registerCommand((ICommand) (new CommandHelp()));
-        this.registerCommand((ICommand) (new CommandDebug()));
-        this.registerCommand((ICommand) (new CommandMessage()));
-        this.registerCommand((ICommand) (new CommandBroadcast()));
-        this.registerCommand((ICommand) (new CommandSetSpawnpoint()));
-        this.registerCommand((ICommand) (new CommandSetDefaultSpawnpoint()));
-        this.registerCommand((ICommand) (new CommandGameRule()));
-        this.registerCommand((ICommand) (new CommandClearInventory()));
-        this.registerCommand((ICommand) (new CommandTestFor()));
-        this.registerCommand((ICommand) (new CommandSpreadPlayers()));
-        this.registerCommand((ICommand) (new CommandPlaySound()));
-        this.registerCommand((ICommand) (new CommandScoreboard()));
-        this.registerCommand((ICommand) (new CommandExecuteAt()));
-        this.registerCommand((ICommand) (new CommandTrigger()));
-        this.registerCommand((ICommand) (new AdvancementCommand()));
-        this.registerCommand((ICommand) (new RecipeCommand()));
-        this.registerCommand((ICommand) (new CommandSummon()));
-        this.registerCommand((ICommand) (new CommandSetBlock()));
-        this.registerCommand((ICommand) (new CommandFill()));
-        this.registerCommand((ICommand) (new CommandClone()));
-        this.registerCommand((ICommand) (new CommandCompare()));
-        this.registerCommand((ICommand) (new CommandBlockData()));
-        this.registerCommand((ICommand) (new CommandTestForBlock()));
-        this.registerCommand((ICommand) (new CommandMessageRaw()));
-        this.registerCommand((ICommand) (new CommandWorldBorder()));
-        this.registerCommand((ICommand) (new CommandTitle()));
-        this.registerCommand((ICommand) (new CommandEntityData()));
-        this.registerCommand((ICommand) (new CommandStopSound()));
-        this.registerCommand((ICommand) (new CommandLocate()));
-        this.registerCommand((ICommand) (new CommandReload()));
-        this.registerCommand((ICommand) (new CommandFunction()));
-        if (minecraftserver.isDedicatedServer()) {
-            this.registerCommand((ICommand) (new CommandOp()));
-            this.registerCommand((ICommand) (new CommandDeOp()));
-            this.registerCommand((ICommand) (new CommandStop()));
-            this.registerCommand((ICommand) (new CommandSaveAll()));
-            this.registerCommand((ICommand) (new CommandSaveOff()));
-            this.registerCommand((ICommand) (new CommandSaveOn()));
-            this.registerCommand((ICommand) (new CommandBanIp()));
-            this.registerCommand((ICommand) (new CommandPardonIp()));
-            this.registerCommand((ICommand) (new CommandBanPlayer()));
-            this.registerCommand((ICommand) (new CommandListBans()));
-            this.registerCommand((ICommand) (new CommandPardonPlayer()));
-            this.registerCommand((ICommand) (new CommandServerKick()));
-            this.registerCommand((ICommand) (new CommandListPlayers()));
-            this.registerCommand((ICommand) (new CommandWhitelist()));
-            this.registerCommand((ICommand) (new CommandSetPlayerTimeout()));
+        this.field_184880_a = minecraftserver;
+        this.func_71560_a((ICommand) (new CommandTime()));
+        this.func_71560_a((ICommand) (new CommandGameMode()));
+        this.func_71560_a((ICommand) (new CommandDifficulty()));
+        this.func_71560_a((ICommand) (new CommandDefaultGameMode()));
+        this.func_71560_a((ICommand) (new CommandKill()));
+        this.func_71560_a((ICommand) (new CommandToggleDownfall()));
+        this.func_71560_a((ICommand) (new CommandWeather()));
+        this.func_71560_a((ICommand) (new CommandXP()));
+        this.func_71560_a((ICommand) (new CommandTP()));
+        this.func_71560_a((ICommand) (new CommandTeleport()));
+        this.func_71560_a((ICommand) (new CommandGive()));
+        this.func_71560_a((ICommand) (new CommandReplaceItem()));
+        this.func_71560_a((ICommand) (new CommandStats()));
+        this.func_71560_a((ICommand) (new CommandEffect()));
+        this.func_71560_a((ICommand) (new CommandEnchant()));
+        this.func_71560_a((ICommand) (new CommandParticle()));
+        this.func_71560_a((ICommand) (new CommandEmote()));
+        this.func_71560_a((ICommand) (new CommandShowSeed()));
+        this.func_71560_a((ICommand) (new CommandHelp()));
+        this.func_71560_a((ICommand) (new CommandDebug()));
+        this.func_71560_a((ICommand) (new CommandMessage()));
+        this.func_71560_a((ICommand) (new CommandBroadcast()));
+        this.func_71560_a((ICommand) (new CommandSetSpawnpoint()));
+        this.func_71560_a((ICommand) (new CommandSetDefaultSpawnpoint()));
+        this.func_71560_a((ICommand) (new CommandGameRule()));
+        this.func_71560_a((ICommand) (new CommandClearInventory()));
+        this.func_71560_a((ICommand) (new CommandTestFor()));
+        this.func_71560_a((ICommand) (new CommandSpreadPlayers()));
+        this.func_71560_a((ICommand) (new CommandPlaySound()));
+        this.func_71560_a((ICommand) (new CommandScoreboard()));
+        this.func_71560_a((ICommand) (new CommandExecuteAt()));
+        this.func_71560_a((ICommand) (new CommandTrigger()));
+        this.func_71560_a((ICommand) (new AdvancementCommand()));
+        this.func_71560_a((ICommand) (new RecipeCommand()));
+        this.func_71560_a((ICommand) (new CommandSummon()));
+        this.func_71560_a((ICommand) (new CommandSetBlock()));
+        this.func_71560_a((ICommand) (new CommandFill()));
+        this.func_71560_a((ICommand) (new CommandClone()));
+        this.func_71560_a((ICommand) (new CommandCompare()));
+        this.func_71560_a((ICommand) (new CommandBlockData()));
+        this.func_71560_a((ICommand) (new CommandTestForBlock()));
+        this.func_71560_a((ICommand) (new CommandMessageRaw()));
+        this.func_71560_a((ICommand) (new CommandWorldBorder()));
+        this.func_71560_a((ICommand) (new CommandTitle()));
+        this.func_71560_a((ICommand) (new CommandEntityData()));
+        this.func_71560_a((ICommand) (new CommandStopSound()));
+        this.func_71560_a((ICommand) (new CommandLocate()));
+        this.func_71560_a((ICommand) (new CommandReload()));
+        this.func_71560_a((ICommand) (new CommandFunction()));
+        if (minecraftserver.func_71262_S()) {
+            this.func_71560_a((ICommand) (new CommandOp()));
+            this.func_71560_a((ICommand) (new CommandDeOp()));
+            this.func_71560_a((ICommand) (new CommandStop()));
+            this.func_71560_a((ICommand) (new CommandSaveAll()));
+            this.func_71560_a((ICommand) (new CommandSaveOff()));
+            this.func_71560_a((ICommand) (new CommandSaveOn()));
+            this.func_71560_a((ICommand) (new CommandBanIp()));
+            this.func_71560_a((ICommand) (new CommandPardonIp()));
+            this.func_71560_a((ICommand) (new CommandBanPlayer()));
+            this.func_71560_a((ICommand) (new CommandListBans()));
+            this.func_71560_a((ICommand) (new CommandPardonPlayer()));
+            this.func_71560_a((ICommand) (new CommandServerKick()));
+            this.func_71560_a((ICommand) (new CommandListPlayers()));
+            this.func_71560_a((ICommand) (new CommandWhitelist()));
+            this.func_71560_a((ICommand) (new CommandSetPlayerTimeout()));
         } else {
-            this.registerCommand((ICommand) (new CommandPublishLocalServer()));
+            this.func_71560_a((ICommand) (new CommandPublishLocalServer()));
         }
 
-        CommandBase.setCommandListener((ICommandListener) this);
+        CommandBase.func_71529_a((ICommandListener) this);
     }
 
-    public void notifyListener(ICommandSender icommandlistener, ICommand icommand, int i, String s, Object... aobject) {
+    public void func_152372_a(ICommandSender icommandlistener, ICommand icommand, int i, String s, Object... aobject) {
         boolean flag = true;
-        MinecraftServer minecraftserver = this.server;
+        MinecraftServer minecraftserver = this.field_184880_a;
 
-        if (!icommandlistener.sendCommandFeedback()) {
+        if (!icommandlistener.func_174792_t_()) {
             flag = false;
         }
 
-        TextComponentTranslation chatmessage = new TextComponentTranslation("chat.type.admin", new Object[] { icommandlistener.getName(), new TextComponentTranslation(s, aobject)});
+        TextComponentTranslation chatmessage = new TextComponentTranslation("chat.type.admin", new Object[] { icommandlistener.func_70005_c_(), new TextComponentTranslation(s, aobject)});
 
-        chatmessage.getStyle().setColor(TextFormatting.GRAY);
-        chatmessage.getStyle().setItalic(Boolean.valueOf(true));
+        chatmessage.func_150256_b().func_150238_a(TextFormatting.GRAY);
+        chatmessage.func_150256_b().func_150217_b(Boolean.valueOf(true));
         if (flag) {
-            Iterator iterator = minecraftserver.getPlayerList().getPlayers().iterator();
+            Iterator iterator = minecraftserver.func_184103_al().func_181057_v().iterator();
 
             while (iterator.hasNext()) {
                 EntityPlayer entityhuman = (EntityPlayer) iterator.next();
 
-                if (entityhuman != icommandlistener && minecraftserver.getPlayerList().canSendCommands(entityhuman.getGameProfile()) && icommand.checkPermission(this.server, icommandlistener)) {
-                    boolean flag1 = icommandlistener instanceof MinecraftServer && this.server.shouldBroadcastConsoleToOps();
-                    boolean flag2 = icommandlistener instanceof RConConsoleSource && this.server.shouldBroadcastRconToOps();
+                if (entityhuman != icommandlistener && minecraftserver.func_184103_al().func_152596_g(entityhuman.func_146103_bH()) && icommand.func_184882_a(this.field_184880_a, icommandlistener)) {
+                    boolean flag1 = icommandlistener instanceof MinecraftServer && this.field_184880_a.func_183002_r();
+                    boolean flag2 = icommandlistener instanceof RConConsoleSource && this.field_184880_a.func_181034_q();
 
                     if (flag1 || flag2 || !(icommandlistener instanceof RConConsoleSource) && !(icommandlistener instanceof MinecraftServer)) {
-                        entityhuman.sendMessage(chatmessage);
+                        entityhuman.func_145747_a(chatmessage);
                     }
                 }
             }
         }
 
-        if (icommandlistener != minecraftserver && minecraftserver.worlds[0].getGameRules().getBoolean("logAdminCommands") && !org.spigotmc.SpigotConfig.silentCommandBlocks) { // Spigot
-            minecraftserver.sendMessage(chatmessage);
+        if (icommandlistener != minecraftserver && minecraftserver.field_71305_c[0].func_82736_K().func_82766_b("logAdminCommands") && !org.spigotmc.SpigotConfig.silentCommandBlocks) { // Spigot
+            minecraftserver.func_145747_a(chatmessage);
         }
 
-        boolean flag3 = minecraftserver.worlds[0].getGameRules().getBoolean("sendCommandFeedback");
+        boolean flag3 = minecraftserver.field_71305_c[0].func_82736_K().func_82766_b("sendCommandFeedback");
 
         if (icommandlistener instanceof CommandBlockBaseLogic) {
-            flag3 = ((CommandBlockBaseLogic) icommandlistener).shouldTrackOutput();
+            flag3 = ((CommandBlockBaseLogic) icommandlistener).func_175571_m();
         }
 
         if ((i & 1) != 1 && flag3 || icommandlistener instanceof MinecraftServer) {
-            icommandlistener.sendMessage(new TextComponentTranslation(s, aobject));
+            icommandlistener.func_145747_a(new TextComponentTranslation(s, aobject));
         }
 
     }
 
-    protected MinecraftServer getServer() {
-        return this.server;
+    protected MinecraftServer func_184879_a() {
+        return this.field_184880_a;
     }
 }

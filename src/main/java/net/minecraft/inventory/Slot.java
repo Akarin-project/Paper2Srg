@@ -5,77 +5,77 @@ import net.minecraft.item.ItemStack;
 
 public class Slot {
 
-    public final int slotIndex;
-    public final IInventory inventory;
-    public int slotNumber;
-    public int xPos;
-    public int yPos;
+    public final int field_75225_a;
+    public final IInventory field_75224_c;
+    public int field_75222_d;
+    public int field_75223_e;
+    public int field_75221_f;
 
     public Slot(IInventory iinventory, int i, int j, int k) {
-        this.inventory = iinventory;
-        this.slotIndex = i;
-        this.xPos = j;
-        this.yPos = k;
+        this.field_75224_c = iinventory;
+        this.field_75225_a = i;
+        this.field_75223_e = j;
+        this.field_75221_f = k;
     }
 
-    public void onSlotChange(ItemStack itemstack, ItemStack itemstack1) {
-        int i = itemstack1.getCount() - itemstack.getCount();
+    public void func_75220_a(ItemStack itemstack, ItemStack itemstack1) {
+        int i = itemstack1.func_190916_E() - itemstack.func_190916_E();
 
         if (i > 0) {
-            this.onCrafting(itemstack1, i);
+            this.func_75210_a(itemstack1, i);
         }
 
     }
 
-    protected void onCrafting(ItemStack itemstack, int i) {}
+    protected void func_75210_a(ItemStack itemstack, int i) {}
 
-    protected void onSwapCraft(int i) {}
+    protected void func_190900_b(int i) {}
 
-    protected void onCrafting(ItemStack itemstack) {}
+    protected void func_75208_c(ItemStack itemstack) {}
 
-    public ItemStack onTake(EntityPlayer entityhuman, ItemStack itemstack) {
-        this.onSlotChanged();
+    public ItemStack func_190901_a(EntityPlayer entityhuman, ItemStack itemstack) {
+        this.func_75218_e();
         return itemstack;
     }
 
-    public boolean isItemValid(ItemStack itemstack) {
+    public boolean func_75214_a(ItemStack itemstack) {
         return true;
     }
 
-    public ItemStack getStack() {
-        return this.inventory.getStackInSlot(this.slotIndex);
+    public ItemStack func_75211_c() {
+        return this.field_75224_c.func_70301_a(this.field_75225_a);
     }
 
-    public boolean getHasStack() {
-        return !this.getStack().isEmpty();
+    public boolean func_75216_d() {
+        return !this.func_75211_c().func_190926_b();
     }
 
-    public void putStack(ItemStack itemstack) {
-        this.inventory.setInventorySlotContents(this.slotIndex, itemstack);
-        this.onSlotChanged();
+    public void func_75215_d(ItemStack itemstack) {
+        this.field_75224_c.func_70299_a(this.field_75225_a, itemstack);
+        this.func_75218_e();
     }
 
-    public void onSlotChanged() {
-        this.inventory.markDirty();
+    public void func_75218_e() {
+        this.field_75224_c.func_70296_d();
     }
 
-    public int getSlotStackLimit() {
-        return this.inventory.getInventoryStackLimit();
+    public int func_75219_a() {
+        return this.field_75224_c.func_70297_j_();
     }
 
-    public int getItemStackLimit(ItemStack itemstack) {
-        return this.getSlotStackLimit();
+    public int func_178170_b(ItemStack itemstack) {
+        return this.func_75219_a();
     }
 
-    public ItemStack decrStackSize(int i) {
-        return this.inventory.decrStackSize(this.slotIndex, i);
+    public ItemStack func_75209_a(int i) {
+        return this.field_75224_c.func_70298_a(this.field_75225_a, i);
     }
 
-    public boolean isHere(IInventory iinventory, int i) {
-        return iinventory == this.inventory && i == this.slotIndex;
+    public boolean func_75217_a(IInventory iinventory, int i) {
+        return iinventory == this.field_75224_c && i == this.field_75225_a;
     }
 
-    public boolean canTakeStack(EntityPlayer entityhuman) {
+    public boolean func_82869_a(EntityPlayer entityhuman) {
         return true;
     }
 }

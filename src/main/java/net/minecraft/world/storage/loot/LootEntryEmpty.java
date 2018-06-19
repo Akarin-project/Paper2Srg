@@ -15,11 +15,11 @@ public class LootEntryEmpty extends LootEntry {
         super(i, j, alootitemcondition);
     }
 
-    public void addLoot(Collection<ItemStack> collection, Random random, LootContext loottableinfo) {}
+    public void func_186363_a(Collection<ItemStack> collection, Random random, LootContext loottableinfo) {}
 
-    protected void serialize(JsonObject jsonobject, JsonSerializationContext jsonserializationcontext) {}
+    protected void func_186362_a(JsonObject jsonobject, JsonSerializationContext jsonserializationcontext) {}
 
-    public static LootEntryEmpty deserialize(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, int i, int j, LootCondition[] alootitemcondition) {
+    public static LootEntryEmpty func_186372_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, int i, int j, LootCondition[] alootitemcondition) {
         return new LootEntryEmpty(i, j, alootitemcondition);
     }
 }

@@ -7,23 +7,23 @@ import org.apache.logging.log4j.Logger;
 
 public class LoggingPrintStream extends PrintStream {
 
-    protected static final Logger LOGGER = LogManager.getLogger();
-    protected final String domain;
+    protected static final Logger field_179884_a = LogManager.getLogger();
+    protected final String field_179883_b;
 
     public LoggingPrintStream(String s, OutputStream outputstream) {
         super(outputstream);
-        this.domain = s;
+        this.field_179883_b = s;
     }
 
     public void println(String s) {
-        this.logString(s);
+        this.func_179882_a(s);
     }
 
     public void println(Object object) {
-        this.logString(String.valueOf(object));
+        this.func_179882_a(String.valueOf(object));
     }
 
-    protected void logString(String s) {
-        LoggingPrintStream.LOGGER.info("[{}]: {}", this.domain, s);
+    protected void func_179882_a(String s) {
+        LoggingPrintStream.field_179884_a.info("[{}]: {}", this.field_179883_b, s);
     }
 }

@@ -25,9 +25,9 @@ import org.apache.logging.log4j.Logger;
 
 public class CryptManager {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger field_180198_a = LogManager.getLogger();
 
-    public static KeyPair generateKeyPair() {
+    public static KeyPair func_75891_b() {
         try {
             KeyPairGenerator keypairgenerator = KeyPairGenerator.getInstance("RSA");
 
@@ -35,21 +35,21 @@ public class CryptManager {
             return keypairgenerator.generateKeyPair();
         } catch (NoSuchAlgorithmException nosuchalgorithmexception) {
             nosuchalgorithmexception.printStackTrace();
-            CryptManager.LOGGER.error("Key pair generation failed!");
+            CryptManager.field_180198_a.error("Key pair generation failed!");
             return null;
         }
     }
 
-    public static byte[] getServerIdHash(String s, PublicKey publickey, SecretKey secretkey) {
+    public static byte[] func_75895_a(String s, PublicKey publickey, SecretKey secretkey) {
         try {
-            return digestOperation("SHA-1", new byte[][] { s.getBytes("ISO_8859_1"), secretkey.getEncoded(), publickey.getEncoded()});
+            return func_75893_a("SHA-1", new byte[][] { s.getBytes("ISO_8859_1"), secretkey.getEncoded(), publickey.getEncoded()});
         } catch (UnsupportedEncodingException unsupportedencodingexception) {
             unsupportedencodingexception.printStackTrace();
             return null;
         }
     }
 
-    private static byte[] digestOperation(String s, byte[]... abyte) {
+    private static byte[] func_75893_a(String s, byte[]... abyte) {
         try {
             MessageDigest messagedigest = MessageDigest.getInstance(s);
             byte[][] abyte1 = abyte;
@@ -68,7 +68,7 @@ public class CryptManager {
         }
     }
 
-    public static PublicKey decodePublicKey(byte[] abyte) {
+    public static PublicKey func_75896_a(byte[] abyte) {
         try {
             X509EncodedKeySpec x509encodedkeyspec = new X509EncodedKeySpec(abyte);
             KeyFactory keyfactory = KeyFactory.getInstance("RSA");
@@ -80,32 +80,32 @@ public class CryptManager {
             ;
         }
 
-        CryptManager.LOGGER.error("Public key reconstitute failed!");
+        CryptManager.field_180198_a.error("Public key reconstitute failed!");
         return null;
     }
 
-    public static SecretKey decryptSharedKey(PrivateKey privatekey, byte[] abyte) {
-        return new SecretKeySpec(decryptData(privatekey, abyte), "AES");
+    public static SecretKey func_75887_a(PrivateKey privatekey, byte[] abyte) {
+        return new SecretKeySpec(func_75889_b(privatekey, abyte), "AES");
     }
 
-    public static byte[] decryptData(Key key, byte[] abyte) {
-        return cipherOperation(2, key, abyte);
+    public static byte[] func_75889_b(Key key, byte[] abyte) {
+        return func_75885_a(2, key, abyte);
     }
 
-    private static byte[] cipherOperation(int i, Key key, byte[] abyte) {
+    private static byte[] func_75885_a(int i, Key key, byte[] abyte) {
         try {
-            return createTheCipherInstance(i, key.getAlgorithm(), key).doFinal(abyte);
+            return func_75886_a(i, key.getAlgorithm(), key).doFinal(abyte);
         } catch (IllegalBlockSizeException illegalblocksizeexception) {
             illegalblocksizeexception.printStackTrace();
         } catch (BadPaddingException badpaddingexception) {
             badpaddingexception.printStackTrace();
         }
 
-        CryptManager.LOGGER.error("Cipher data failed!");
+        CryptManager.field_180198_a.error("Cipher data failed!");
         return null;
     }
 
-    private static Cipher createTheCipherInstance(int i, String s, Key key) {
+    private static Cipher func_75886_a(int i, String s, Key key) {
         try {
             Cipher cipher = Cipher.getInstance(s);
 
@@ -119,11 +119,11 @@ public class CryptManager {
             nosuchpaddingexception.printStackTrace();
         }
 
-        CryptManager.LOGGER.error("Cipher creation failed!");
+        CryptManager.field_180198_a.error("Cipher creation failed!");
         return null;
     }
 
-    public static Cipher createNetCipherInstance(int i, Key key) {
+    public static Cipher func_151229_a(int i, Key key) {
         try {
             Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding");
 

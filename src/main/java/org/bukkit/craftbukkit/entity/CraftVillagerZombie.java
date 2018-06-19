@@ -29,11 +29,11 @@ public class CraftVillagerZombie extends CraftZombie implements ZombieVillager {
 
     @Override
     public Villager.Profession getVillagerProfession() {
-        return Villager.Profession.values()[getHandle().getProfession() + Villager.Profession.FARMER.ordinal()];
+        return Villager.Profession.values()[getHandle().func_190736_dl() + Villager.Profession.FARMER.ordinal()];
     }
 
     @Override
     public void setVillagerProfession(Villager.Profession profession) {
-        getHandle().setProfession(profession == null ? 0 : profession.ordinal() - Villager.Profession.FARMER.ordinal());
+        getHandle().func_190733_a(profession == null ? 0 : profession.ordinal() - Villager.Profession.FARMER.ordinal());
     }
 }

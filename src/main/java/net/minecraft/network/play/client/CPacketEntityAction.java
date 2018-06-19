@@ -8,34 +8,34 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketEntityAction implements Packet<INetHandlerPlayServer> {
 
-    private int entityID;
-    private CPacketEntityAction.Action action;
-    private int auxData;
+    private int field_149517_a;
+    private CPacketEntityAction.Action field_149515_b;
+    private int field_149516_c;
 
     public CPacketEntityAction() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.entityID = packetdataserializer.readVarInt();
-        this.action = (CPacketEntityAction.Action) packetdataserializer.readEnumValue(CPacketEntityAction.Action.class);
-        this.auxData = packetdataserializer.readVarInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149517_a = packetdataserializer.func_150792_a();
+        this.field_149515_b = (CPacketEntityAction.Action) packetdataserializer.func_179257_a(CPacketEntityAction.Action.class);
+        this.field_149516_c = packetdataserializer.func_150792_a();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.entityID);
-        packetdataserializer.writeEnumValue((Enum) this.action);
-        packetdataserializer.writeVarInt(this.auxData);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_149517_a);
+        packetdataserializer.func_179249_a((Enum) this.field_149515_b);
+        packetdataserializer.func_150787_b(this.field_149516_c);
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.processEntityAction(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_147357_a(this);
     }
 
-    public CPacketEntityAction.Action getAction() {
-        return this.action;
+    public CPacketEntityAction.Action func_180764_b() {
+        return this.field_149515_b;
     }
 
-    public int getAuxData() {
-        return this.auxData;
+    public int func_149512_e() {
+        return this.field_149516_c;
     }
 
     public static enum Action {

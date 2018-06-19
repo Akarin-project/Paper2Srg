@@ -7,13 +7,13 @@ public class ArmorStandSilent implements IFixableData {
 
     public ArmorStandSilent() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 147;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        if ("ArmorStand".equals(nbttagcompound.getString("id")) && nbttagcompound.getBoolean("Silent") && !nbttagcompound.getBoolean("Marker")) {
-            nbttagcompound.removeTag("Silent");
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        if ("ArmorStand".equals(nbttagcompound.func_74779_i("id")) && nbttagcompound.func_74767_n("Silent") && !nbttagcompound.func_74767_n("Marker")) {
+            nbttagcompound.func_82580_o("Silent");
         }
 
         return nbttagcompound;

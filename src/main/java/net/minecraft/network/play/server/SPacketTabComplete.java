@@ -8,37 +8,37 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketTabComplete implements Packet<INetHandlerPlayClient> {
 
-    private String[] matches;
+    private String[] field_149632_a;
 
     public SPacketTabComplete() {}
 
     public SPacketTabComplete(String[] astring) {
-        this.matches = astring;
+        this.field_149632_a = astring;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.matches = new String[packetdataserializer.readVarInt()];
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149632_a = new String[packetdataserializer.func_150792_a()];
 
-        for (int i = 0; i < this.matches.length; ++i) {
-            this.matches[i] = packetdataserializer.readString(32767);
+        for (int i = 0; i < this.field_149632_a.length; ++i) {
+            this.field_149632_a[i] = packetdataserializer.func_150789_c(32767);
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.matches.length);
-        String[] astring = this.matches;
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_149632_a.length);
+        String[] astring = this.field_149632_a;
         int i = astring.length;
 
         for (int j = 0; j < i; ++j) {
             String s = astring[j];
 
-            packetdataserializer.writeString(s);
+            packetdataserializer.func_180714_a(s);
         }
 
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleTabComplete(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147274_a(this);
     }
 }

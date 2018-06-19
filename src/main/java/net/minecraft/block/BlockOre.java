@@ -18,38 +18,38 @@ import net.minecraft.world.World;
 public class BlockOre extends Block {
 
     public BlockOre() {
-        this(Material.ROCK.getMaterialMapColor());
+        this(Material.field_151576_e.func_151565_r());
     }
 
     public BlockOre(MapColor materialmapcolor) {
-        super(Material.ROCK, materialmapcolor);
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151576_e, materialmapcolor);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return this == Blocks.COAL_ORE ? Items.COAL : (this == Blocks.DIAMOND_ORE ? Items.DIAMOND : (this == Blocks.LAPIS_ORE ? Items.DYE : (this == Blocks.EMERALD_ORE ? Items.EMERALD : (this == Blocks.QUARTZ_ORE ? Items.QUARTZ : Item.getItemFromBlock(this)))));
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return this == Blocks.field_150365_q ? Items.field_151044_h : (this == Blocks.field_150482_ag ? Items.field_151045_i : (this == Blocks.field_150369_x ? Items.field_151100_aR : (this == Blocks.field_150412_bA ? Items.field_151166_bC : (this == Blocks.field_150449_bY ? Items.field_151128_bU : Item.func_150898_a(this)))));
     }
 
-    public int quantityDropped(Random random) {
-        return this == Blocks.LAPIS_ORE ? 4 + random.nextInt(5) : 1;
+    public int func_149745_a(Random random) {
+        return this == Blocks.field_150369_x ? 4 + random.nextInt(5) : 1;
     }
 
-    public int quantityDroppedWithBonus(int i, Random random) {
-        if (i > 0 && Item.getItemFromBlock(this) != this.getItemDropped((IBlockState) this.getBlockState().getValidStates().iterator().next(), random, i)) {
+    public int func_149679_a(int i, Random random) {
+        if (i > 0 && Item.func_150898_a(this) != this.func_180660_a((IBlockState) this.func_176194_O().func_177619_a().iterator().next(), random, i)) {
             int j = random.nextInt(i + 2) - 1;
 
             if (j < 0) {
                 j = 0;
             }
 
-            return this.quantityDropped(random) * (j + 1);
+            return this.func_149745_a(random) * (j + 1);
         } else {
-            return this.quantityDropped(random);
+            return this.func_149745_a(random);
         }
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
-        super.dropBlockAsItemWithChance(world, blockposition, iblockdata, f, i);
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
+        super.func_180653_a(world, blockposition, iblockdata, f, i);
         /* CraftBukkit start - Delegated to getExpDrop
         if (this.getDropType(iblockdata, world.random, i) != Item.getItemOf(this)) {
             int j = 0;
@@ -74,19 +74,19 @@ public class BlockOre extends Block {
 
     @Override
     public int getExpDrop(World world, IBlockState iblockdata, int i) {
-        if (this.getItemDropped(iblockdata, world.rand, i) != Item.getItemFromBlock(this)) {
+        if (this.func_180660_a(iblockdata, world.field_73012_v, i) != Item.func_150898_a(this)) {
             int j = 0;
 
-            if (this == Blocks.COAL_ORE) {
-                j = MathHelper.getInt(world.rand, 0, 2);
-            } else if (this == Blocks.DIAMOND_ORE) {
-                j = MathHelper.getInt(world.rand, 3, 7);
-            } else if (this == Blocks.EMERALD_ORE) {
-                j = MathHelper.getInt(world.rand, 3, 7);
-            } else if (this == Blocks.LAPIS_ORE) {
-                j = MathHelper.getInt(world.rand, 2, 5);
-            } else if (this == Blocks.QUARTZ_ORE) {
-                j = MathHelper.getInt(world.rand, 2, 5);
+            if (this == Blocks.field_150365_q) {
+                j = MathHelper.func_76136_a(world.field_73012_v, 0, 2);
+            } else if (this == Blocks.field_150482_ag) {
+                j = MathHelper.func_76136_a(world.field_73012_v, 3, 7);
+            } else if (this == Blocks.field_150412_bA) {
+                j = MathHelper.func_76136_a(world.field_73012_v, 3, 7);
+            } else if (this == Blocks.field_150369_x) {
+                j = MathHelper.func_76136_a(world.field_73012_v, 2, 5);
+            } else if (this == Blocks.field_150449_bY) {
+                j = MathHelper.func_76136_a(world.field_73012_v, 2, 5);
             }
 
             return j;
@@ -96,11 +96,11 @@ public class BlockOre extends Block {
         // CraftBukkit end
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
         return new ItemStack(this);
     }
 
-    public int damageDropped(IBlockState iblockdata) {
-        return this == Blocks.LAPIS_ORE ? EnumDyeColor.BLUE.getDyeDamage() : 0;
+    public int func_180651_a(IBlockState iblockdata) {
+        return this == Blocks.field_150369_x ? EnumDyeColor.BLUE.func_176767_b() : 0;
     }
 }

@@ -6,11 +6,11 @@ public enum EnumRarity {
 
     COMMON(TextFormatting.WHITE, "Common"), UNCOMMON(TextFormatting.YELLOW, "Uncommon"), RARE(TextFormatting.AQUA, "Rare"), EPIC(TextFormatting.LIGHT_PURPLE, "Epic");
 
-    public final TextFormatting rarityColor;
-    public final String rarityName;
+    public final TextFormatting field_77937_e;
+    public final String field_77934_f;
 
     private EnumRarity(TextFormatting enumchatformat, String s) {
-        this.rarityColor = enumchatformat;
-        this.rarityName = s;
+        this.field_77937_e = enumchatformat;
+        this.field_77934_f = s;
     }
 }

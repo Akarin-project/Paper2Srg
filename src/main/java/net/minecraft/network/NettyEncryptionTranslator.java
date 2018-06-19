@@ -7,43 +7,43 @@ import javax.crypto.ShortBufferException;
 
 public class NettyEncryptionTranslator {
 
-    private final Cipher cipher;
-    private byte[] inputBuffer = new byte[0];
-    private byte[] outputBuffer = new byte[0];
+    private final Cipher field_150507_a;
+    private byte[] field_150505_b = new byte[0];
+    private byte[] field_150506_c = new byte[0];
 
     protected NettyEncryptionTranslator(Cipher cipher) {
-        this.cipher = cipher;
+        this.field_150507_a = cipher;
     }
 
-    private byte[] bufToBytes(ByteBuf bytebuf) {
+    private byte[] func_150502_a(ByteBuf bytebuf) {
         int i = bytebuf.readableBytes();
 
-        if (this.inputBuffer.length < i) {
-            this.inputBuffer = new byte[i];
+        if (this.field_150505_b.length < i) {
+            this.field_150505_b = new byte[i];
         }
 
-        bytebuf.readBytes(this.inputBuffer, 0, i);
-        return this.inputBuffer;
+        bytebuf.readBytes(this.field_150505_b, 0, i);
+        return this.field_150505_b;
     }
 
-    protected ByteBuf decipher(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf) throws ShortBufferException {
+    protected ByteBuf func_150503_a(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf) throws ShortBufferException {
         int i = bytebuf.readableBytes();
-        byte[] abyte = this.bufToBytes(bytebuf);
-        ByteBuf bytebuf1 = channelhandlercontext.alloc().heapBuffer(this.cipher.getOutputSize(i));
+        byte[] abyte = this.func_150502_a(bytebuf);
+        ByteBuf bytebuf1 = channelhandlercontext.alloc().heapBuffer(this.field_150507_a.getOutputSize(i));
 
-        bytebuf1.writerIndex(this.cipher.update(abyte, 0, i, bytebuf1.array(), bytebuf1.arrayOffset()));
+        bytebuf1.writerIndex(this.field_150507_a.update(abyte, 0, i, bytebuf1.array(), bytebuf1.arrayOffset()));
         return bytebuf1;
     }
 
-    protected void cipher(ByteBuf bytebuf, ByteBuf bytebuf1) throws ShortBufferException {
+    protected void func_150504_a(ByteBuf bytebuf, ByteBuf bytebuf1) throws ShortBufferException {
         int i = bytebuf.readableBytes();
-        byte[] abyte = this.bufToBytes(bytebuf);
-        int j = this.cipher.getOutputSize(i);
+        byte[] abyte = this.func_150502_a(bytebuf);
+        int j = this.field_150507_a.getOutputSize(i);
 
-        if (this.outputBuffer.length < j) {
-            this.outputBuffer = new byte[j];
+        if (this.field_150506_c.length < j) {
+            this.field_150506_c = new byte[j];
         }
 
-        bytebuf1.writeBytes(this.outputBuffer, 0, this.cipher.update(abyte, 0, i, this.outputBuffer));
+        bytebuf1.writeBytes(this.field_150506_c, 0, this.field_150507_a.update(abyte, 0, i, this.field_150506_c));
     }
 }

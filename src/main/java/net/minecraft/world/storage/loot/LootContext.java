@@ -10,73 +10,75 @@ import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.LootTableInfo.EntityTarget.a;
+import net.minecraft.server.LootTableInfo.a;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.WorldServer;
 
 public class LootContext {
 
-    private final float luck;
-    private final WorldServer world;
-    private final LootTableManager lootTableManager;
+    private final float field_186498_a;
+    private final WorldServer field_186499_b;
+    private final LootTableManager field_186500_c;
     @Nullable
-    private final Entity lootedEntity;
+    private final Entity field_186501_d;
     @Nullable
-    private final EntityPlayer player;
+    private final EntityPlayer field_186502_e;
     @Nullable
-    private final DamageSource damageSource;
-    private final Set<LootTable> lootTables = Sets.newLinkedHashSet();
+    private final DamageSource field_186503_f;
+    private final Set<LootTable> field_186504_g = Sets.newLinkedHashSet();
 
     public LootContext(float f, WorldServer worldserver, LootTableManager loottableregistry, @Nullable Entity entity, @Nullable EntityPlayer entityhuman, @Nullable DamageSource damagesource) {
-        this.luck = f;
-        this.world = worldserver;
-        this.lootTableManager = loottableregistry;
-        this.lootedEntity = entity;
-        this.player = entityhuman;
-        this.damageSource = damagesource;
+        this.field_186498_a = f;
+        this.field_186499_b = worldserver;
+        this.field_186500_c = loottableregistry;
+        this.field_186501_d = entity;
+        this.field_186502_e = entityhuman;
+        this.field_186503_f = damagesource;
     }
 
     @Nullable
-    public Entity getLootedEntity() {
-        return this.lootedEntity;
+    public Entity func_186493_a() {
+        return this.field_186501_d;
     }
 
     @Nullable
-    public Entity getKillerPlayer() {
-        return this.player;
+    public Entity func_186495_b() {
+        return this.field_186502_e;
     }
 
     @Nullable
-    public Entity getKiller() {
-        return this.damageSource == null ? null : this.damageSource.getTrueSource();
+    public Entity func_186492_c() {
+        return this.field_186503_f == null ? null : this.field_186503_f.func_76346_g();
     }
 
-    public boolean addLootTable(LootTable loottable) {
-        return this.lootTables.add(loottable);
+    public boolean func_186496_a(LootTable loottable) {
+        return this.field_186504_g.add(loottable);
     }
 
-    public void removeLootTable(LootTable loottable) {
-        this.lootTables.remove(loottable);
+    public void func_186490_b(LootTable loottable) {
+        this.field_186504_g.remove(loottable);
     }
 
-    public LootTableManager getLootTableManager() {
-        return this.lootTableManager;
+    public LootTableManager func_186497_e() {
+        return this.field_186500_c;
     }
 
-    public float getLuck() {
-        return this.luck;
+    public float func_186491_f() {
+        return this.field_186498_a;
     }
 
     @Nullable
-    public Entity getEntity(LootContext.EntityTarget loottableinfo_entitytarget) {
+    public Entity func_186494_a(LootContext.EntityTarget loottableinfo_entitytarget) {
         switch (loottableinfo_entitytarget) {
         case THIS:
-            return this.getLootedEntity();
+            return this.func_186493_a();
 
         case KILLER:
-            return this.getKiller();
+            return this.func_186492_c();
 
         case KILLER_PLAYER:
-            return this.getKillerPlayer();
+            return this.func_186495_b();
 
         default:
             return null;
@@ -87,20 +89,20 @@ public class LootContext {
 
         THIS("this"), KILLER("killer"), KILLER_PLAYER("killer_player");
 
-        private final String targetType;
+        private final String field_186488_d;
 
         private EntityTarget(String s) {
-            this.targetType = s;
+            this.field_186488_d = s;
         }
 
-        public static LootContext.EntityTarget fromString(String s) {
+        public static LootContext.EntityTarget func_186482_a(String s) {
             LootContext.EntityTarget[] aloottableinfo_entitytarget = values();
             int i = aloottableinfo_entitytarget.length;
 
             for (int j = 0; j < i; ++j) {
                 LootContext.EntityTarget loottableinfo_entitytarget = aloottableinfo_entitytarget[j];
 
-                if (loottableinfo_entitytarget.targetType.equals(s)) {
+                if (loottableinfo_entitytarget.field_186488_d.equals(s)) {
                     return loottableinfo_entitytarget;
                 }
             }
@@ -113,21 +115,19 @@ public class LootContext {
             public a() {}
 
             public void a(JsonWriter jsonwriter, LootContext.EntityTarget loottableinfo_entitytarget) throws IOException {
-                jsonwriter.value(loottableinfo_entitytarget.targetType);
+                jsonwriter.value(loottableinfo_entitytarget.field_186488_d);
             }
 
             public LootContext.EntityTarget a(JsonReader jsonreader) throws IOException {
-                return LootContext.EntityTarget.fromString(jsonreader.nextString());
+                return LootContext.EntityTarget.func_186482_a(jsonreader.nextString());
             }
 
-            @Override
-            public LootContext.EntityTarget read(JsonReader jsonreader) throws IOException {
+            public Object read(JsonReader jsonreader) throws IOException {
                 return this.a(jsonreader);
             }
 
-            @Override
-            public void write(JsonWriter jsonwriter, LootContext.EntityTarget object) throws IOException {
-                this.a(jsonwriter, object);
+            public void write(JsonWriter jsonwriter, Object object) throws IOException {
+                this.a(jsonwriter, (LootContext.EntityTarget) object);
             }
         }
     }
@@ -144,28 +144,28 @@ public class LootContext {
             this.a = worldserver;
         }
 
-        public LootContext.a a(float f) {
+        public LootTableInfo.a a(float f) {
             this.b = f;
             return this;
         }
 
-        public LootContext.a a(Entity entity) {
+        public LootTableInfo.a a(Entity entity) {
             this.c = entity;
             return this;
         }
 
-        public LootContext.a a(EntityPlayer entityhuman) {
+        public LootTableInfo.a a(EntityPlayer entityhuman) {
             this.d = entityhuman;
             return this;
         }
 
-        public LootContext.a a(DamageSource damagesource) {
+        public LootTableInfo.a a(DamageSource damagesource) {
             this.e = damagesource;
             return this;
         }
 
         public LootContext a() {
-            return new LootContext(this.b, this.a, this.a.getLootTableManager(), this.c, this.d, this.e);
+            return new LootContext(this.b, this.a, this.a.func_184146_ak(), this.c, this.d, this.e);
         }
     }
 }

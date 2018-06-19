@@ -32,111 +32,111 @@ import net.minecraft.world.World;
 
 public class BlockBrewingStand extends BlockContainer {
 
-    public static final PropertyBool[] HAS_BOTTLE = new PropertyBool[] { PropertyBool.create("has_bottle_0"), PropertyBool.create("has_bottle_1"), PropertyBool.create("has_bottle_2")};
-    protected static final AxisAlignedBB BASE_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D);
-    protected static final AxisAlignedBB STICK_AABB = new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 0.5625D, 0.875D, 0.5625D);
+    public static final PropertyBool[] field_176451_a = new PropertyBool[] { PropertyBool.func_177716_a("has_bottle_0"), PropertyBool.func_177716_a("has_bottle_1"), PropertyBool.func_177716_a("has_bottle_2")};
+    protected static final AxisAlignedBB field_185555_b = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D);
+    protected static final AxisAlignedBB field_185556_c = new AxisAlignedBB(0.4375D, 0.0D, 0.4375D, 0.5625D, 0.875D, 0.5625D);
 
     public BlockBrewingStand() {
-        super(Material.IRON);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockBrewingStand.HAS_BOTTLE[0], Boolean.valueOf(false)).withProperty(BlockBrewingStand.HAS_BOTTLE[1], Boolean.valueOf(false)).withProperty(BlockBrewingStand.HAS_BOTTLE[2], Boolean.valueOf(false)));
+        super(Material.field_151573_f);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockBrewingStand.field_176451_a[0], Boolean.valueOf(false)).func_177226_a(BlockBrewingStand.field_176451_a[1], Boolean.valueOf(false)).func_177226_a(BlockBrewingStand.field_176451_a[2], Boolean.valueOf(false)));
     }
 
-    public String getLocalizedName() {
-        return I18n.translateToLocal("item.brewingStand.name");
+    public String func_149732_F() {
+        return I18n.func_74838_a("item.brewingStand.name");
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.MODEL;
     }
 
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity func_149915_a(World world, int i) {
         return new TileEntityBrewingStand();
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public void addCollisionBoxToList(IBlockState iblockdata, World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity, boolean flag) {
-        addCollisionBoxToList(blockposition, axisalignedbb, list, BlockBrewingStand.STICK_AABB);
-        addCollisionBoxToList(blockposition, axisalignedbb, list, BlockBrewingStand.BASE_AABB);
+    public void func_185477_a(IBlockState iblockdata, World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity, boolean flag) {
+        func_185492_a(blockposition, axisalignedbb, list, BlockBrewingStand.field_185556_c);
+        func_185492_a(blockposition, axisalignedbb, list, BlockBrewingStand.field_185555_b);
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockBrewingStand.BASE_AABB;
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockBrewingStand.field_185555_b;
     }
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        if (world.isRemote) {
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        if (world.field_72995_K) {
             return true;
         } else {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityBrewingStand) {
-                entityhuman.displayGUIChest((TileEntityBrewingStand) tileentity);
-                entityhuman.addStat(StatList.BREWINGSTAND_INTERACTION);
+                entityhuman.func_71007_a((TileEntityBrewingStand) tileentity);
+                entityhuman.func_71029_a(StatList.field_188081_O);
             }
 
             return true;
         }
     }
 
-    public void onBlockPlacedBy(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
-        if (itemstack.hasDisplayName()) {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_180633_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
+        if (itemstack.func_82837_s()) {
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityBrewingStand) {
-                ((TileEntityBrewingStand) tileentity).setName(itemstack.getDisplayName());
+                ((TileEntityBrewingStand) tileentity).func_145937_a(itemstack.func_82833_r());
             }
         }
 
     }
 
-    public void breakBlock(World world, BlockPos blockposition, IBlockState iblockdata) {
-        TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_180663_b(World world, BlockPos blockposition, IBlockState iblockdata) {
+        TileEntity tileentity = world.func_175625_s(blockposition);
 
         if (tileentity instanceof TileEntityBrewingStand) {
-            InventoryHelper.dropInventoryItems(world, blockposition, (TileEntityBrewingStand) tileentity);
+            InventoryHelper.func_180175_a(world, blockposition, (TileEntityBrewingStand) tileentity);
         }
 
-        super.breakBlock(world, blockposition, iblockdata);
+        super.func_180663_b(world, blockposition, iblockdata);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.BREWING_STAND;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_151067_bt;
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(Items.BREWING_STAND);
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(Items.field_151067_bt);
     }
 
-    public boolean hasComparatorInputOverride(IBlockState iblockdata) {
+    public boolean func_149740_M(IBlockState iblockdata) {
         return true;
     }
 
-    public int getComparatorInputOverride(IBlockState iblockdata, World world, BlockPos blockposition) {
-        return Container.calcRedstone(world.getTileEntity(blockposition));
+    public int func_180641_l(IBlockState iblockdata, World world, BlockPos blockposition) {
+        return Container.func_178144_a(world.func_175625_s(blockposition));
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        IBlockState iblockdata = this.getDefaultState();
+    public IBlockState func_176203_a(int i) {
+        IBlockState iblockdata = this.func_176223_P();
 
         for (int j = 0; j < 3; ++j) {
-            iblockdata = iblockdata.withProperty(BlockBrewingStand.HAS_BOTTLE[j], Boolean.valueOf((i & 1 << j) > 0));
+            iblockdata = iblockdata.func_177226_a(BlockBrewingStand.field_176451_a[j], Boolean.valueOf((i & 1 << j) > 0));
         }
 
         return iblockdata;
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         int i = 0;
 
         for (int j = 0; j < 3; ++j) {
-            if (((Boolean) iblockdata.getValue(BlockBrewingStand.HAS_BOTTLE[j])).booleanValue()) {
+            if (((Boolean) iblockdata.func_177229_b(BlockBrewingStand.field_176451_a[j])).booleanValue()) {
                 i |= 1 << j;
             }
         }
@@ -144,11 +144,11 @@ public class BlockBrewingStand extends BlockContainer {
         return i;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockBrewingStand.HAS_BOTTLE[0], BlockBrewingStand.HAS_BOTTLE[1], BlockBrewingStand.HAS_BOTTLE[2]});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockBrewingStand.field_176451_a[0], BlockBrewingStand.field_176451_a[1], BlockBrewingStand.field_176451_a[2]});
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.UNDEFINED;
     }
 }

@@ -22,8 +22,8 @@ public final class CraftProfileBanEntry implements org.bukkit.BanEntry {
         this.profile = profile;
         this.created = entry.getCreated() != null ? new Date(entry.getCreated().getTime()) : null;
         this.source = entry.getSource();
-        this.expiration = entry.getBanEndDate() != null ? new Date(entry.getBanEndDate().getTime()) : null;
-        this.reason = entry.getBanReason();
+        this.expiration = entry.func_73680_d() != null ? new Date(entry.func_73680_d().getTime()) : null;
+        this.reason = entry.func_73686_f();
     }
 
     @Override
@@ -78,9 +78,9 @@ public final class CraftProfileBanEntry implements org.bukkit.BanEntry {
     @Override
     public void save() {
         UserListBansEntry entry = new UserListBansEntry(profile, this.created, this.source, this.expiration, this.reason);
-        this.list.addEntry(entry);
+        this.list.func_152687_a(entry);
         try {
-            this.list.writeChanges();
+            this.list.func_152678_f();
         } catch (IOException ex) {
             Bukkit.getLogger().log(Level.SEVERE, "Failed to save banned-players.json, {0}", ex.getMessage());
         }

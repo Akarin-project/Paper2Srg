@@ -12,28 +12,28 @@ import net.minecraft.world.WorldServer;
 
 public class CPacketSpectate implements Packet<INetHandlerPlayServer> {
 
-    private UUID id;
+    private UUID field_179729_a;
 
     public CPacketSpectate() {}
 
     public CPacketSpectate(UUID uuid) {
-        this.id = uuid;
+        this.field_179729_a = uuid;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.id = packetdataserializer.readUniqueId();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_179729_a = packetdataserializer.func_179253_g();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeUniqueId(this.id);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179252_a(this.field_179729_a);
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.handleSpectate(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_175088_a(this);
     }
 
     @Nullable
-    public Entity getEntity(WorldServer worldserver) {
-        return worldserver.getEntityFromUuid(this.id);
+    public Entity func_179727_a(WorldServer worldserver) {
+        return worldserver.func_175733_a(this.field_179729_a);
     }
 }

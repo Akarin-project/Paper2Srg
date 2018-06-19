@@ -25,104 +25,104 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 
 public class BlockCocoa extends BlockHorizontal implements IGrowable {
 
-    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 2);
-    protected static final AxisAlignedBB[] COCOA_EAST_AABB = new AxisAlignedBB[] { new AxisAlignedBB(0.6875D, 0.4375D, 0.375D, 0.9375D, 0.75D, 0.625D), new AxisAlignedBB(0.5625D, 0.3125D, 0.3125D, 0.9375D, 0.75D, 0.6875D), new AxisAlignedBB(0.4375D, 0.1875D, 0.25D, 0.9375D, 0.75D, 0.75D)};
-    protected static final AxisAlignedBB[] COCOA_WEST_AABB = new AxisAlignedBB[] { new AxisAlignedBB(0.0625D, 0.4375D, 0.375D, 0.3125D, 0.75D, 0.625D), new AxisAlignedBB(0.0625D, 0.3125D, 0.3125D, 0.4375D, 0.75D, 0.6875D), new AxisAlignedBB(0.0625D, 0.1875D, 0.25D, 0.5625D, 0.75D, 0.75D)};
-    protected static final AxisAlignedBB[] COCOA_NORTH_AABB = new AxisAlignedBB[] { new AxisAlignedBB(0.375D, 0.4375D, 0.0625D, 0.625D, 0.75D, 0.3125D), new AxisAlignedBB(0.3125D, 0.3125D, 0.0625D, 0.6875D, 0.75D, 0.4375D), new AxisAlignedBB(0.25D, 0.1875D, 0.0625D, 0.75D, 0.75D, 0.5625D)};
-    protected static final AxisAlignedBB[] COCOA_SOUTH_AABB = new AxisAlignedBB[] { new AxisAlignedBB(0.375D, 0.4375D, 0.6875D, 0.625D, 0.75D, 0.9375D), new AxisAlignedBB(0.3125D, 0.3125D, 0.5625D, 0.6875D, 0.75D, 0.9375D), new AxisAlignedBB(0.25D, 0.1875D, 0.4375D, 0.75D, 0.75D, 0.9375D)};
+    public static final PropertyInteger field_176501_a = PropertyInteger.func_177719_a("age", 0, 2);
+    protected static final AxisAlignedBB[] field_185535_b = new AxisAlignedBB[] { new AxisAlignedBB(0.6875D, 0.4375D, 0.375D, 0.9375D, 0.75D, 0.625D), new AxisAlignedBB(0.5625D, 0.3125D, 0.3125D, 0.9375D, 0.75D, 0.6875D), new AxisAlignedBB(0.4375D, 0.1875D, 0.25D, 0.9375D, 0.75D, 0.75D)};
+    protected static final AxisAlignedBB[] field_185536_c = new AxisAlignedBB[] { new AxisAlignedBB(0.0625D, 0.4375D, 0.375D, 0.3125D, 0.75D, 0.625D), new AxisAlignedBB(0.0625D, 0.3125D, 0.3125D, 0.4375D, 0.75D, 0.6875D), new AxisAlignedBB(0.0625D, 0.1875D, 0.25D, 0.5625D, 0.75D, 0.75D)};
+    protected static final AxisAlignedBB[] field_185537_d = new AxisAlignedBB[] { new AxisAlignedBB(0.375D, 0.4375D, 0.0625D, 0.625D, 0.75D, 0.3125D), new AxisAlignedBB(0.3125D, 0.3125D, 0.0625D, 0.6875D, 0.75D, 0.4375D), new AxisAlignedBB(0.25D, 0.1875D, 0.0625D, 0.75D, 0.75D, 0.5625D)};
+    protected static final AxisAlignedBB[] field_185538_e = new AxisAlignedBB[] { new AxisAlignedBB(0.375D, 0.4375D, 0.6875D, 0.625D, 0.75D, 0.9375D), new AxisAlignedBB(0.3125D, 0.3125D, 0.5625D, 0.6875D, 0.75D, 0.9375D), new AxisAlignedBB(0.25D, 0.1875D, 0.4375D, 0.75D, 0.75D, 0.9375D)};
 
     public BlockCocoa() {
-        super(Material.PLANTS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockCocoa.FACING, EnumFacing.NORTH).withProperty(BlockCocoa.AGE, Integer.valueOf(0)));
-        this.setTickRandomly(true);
+        super(Material.field_151585_k);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockCocoa.field_185512_D, EnumFacing.NORTH).func_177226_a(BlockCocoa.field_176501_a, Integer.valueOf(0)));
+        this.func_149675_a(true);
     }
 
-    public void updateTick(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        if (!this.canBlockStay(world, blockposition, iblockdata)) {
-            this.dropBlock(world, blockposition, iblockdata);
-        } else if (world.rand.nextInt(Math.max(1, (int) (100.0F / world.spigotConfig.cocoaModifier) * 5)) == 0) { // Spigot
-            int i = ((Integer) iblockdata.getValue(BlockCocoa.AGE)).intValue();
+    public void func_180650_b(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        if (!this.func_176499_e(world, blockposition, iblockdata)) {
+            this.func_176500_f(world, blockposition, iblockdata);
+        } else if (world.field_73012_v.nextInt(Math.max(1, (int) (100.0F / world.spigotConfig.cocoaModifier) * 5)) == 0) { // Spigot
+            int i = ((Integer) iblockdata.func_177229_b(BlockCocoa.field_176501_a)).intValue();
 
             if (i < 2) {
                 // CraftBukkit start
-                IBlockState data = iblockdata.withProperty(AGE, Integer.valueOf(i + 1));
-                CraftEventFactory.handleBlockGrowEvent(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), this, getMetaFromState(data));
+                IBlockState data = iblockdata.func_177226_a(field_176501_a, Integer.valueOf(i + 1));
+                CraftEventFactory.handleBlockGrowEvent(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), this, func_176201_c(data));
                 // CraftBukkit end
             }
         }
 
     }
 
-    public boolean canBlockStay(World world, BlockPos blockposition, IBlockState iblockdata) {
-        blockposition = blockposition.offset((EnumFacing) iblockdata.getValue(BlockCocoa.FACING));
-        IBlockState iblockdata1 = world.getBlockState(blockposition);
+    public boolean func_176499_e(World world, BlockPos blockposition, IBlockState iblockdata) {
+        blockposition = blockposition.func_177972_a((EnumFacing) iblockdata.func_177229_b(BlockCocoa.field_185512_D));
+        IBlockState iblockdata1 = world.func_180495_p(blockposition);
 
-        return iblockdata1.getBlock() == Blocks.LOG && iblockdata1.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.JUNGLE;
+        return iblockdata1.func_177230_c() == Blocks.field_150364_r && iblockdata1.func_177229_b(BlockOldLog.field_176301_b) == BlockPlanks.EnumType.JUNGLE;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        int i = ((Integer) iblockdata.getValue(BlockCocoa.AGE)).intValue();
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        int i = ((Integer) iblockdata.func_177229_b(BlockCocoa.field_176501_a)).intValue();
 
-        switch ((EnumFacing) iblockdata.getValue(BlockCocoa.FACING)) {
+        switch ((EnumFacing) iblockdata.func_177229_b(BlockCocoa.field_185512_D)) {
         case SOUTH:
-            return BlockCocoa.COCOA_SOUTH_AABB[i];
+            return BlockCocoa.field_185538_e[i];
 
         case NORTH:
         default:
-            return BlockCocoa.COCOA_NORTH_AABB[i];
+            return BlockCocoa.field_185537_d[i];
 
         case WEST:
-            return BlockCocoa.COCOA_WEST_AABB[i];
+            return BlockCocoa.field_185536_c[i];
 
         case EAST:
-            return BlockCocoa.COCOA_EAST_AABB[i];
+            return BlockCocoa.field_185535_b[i];
         }
     }
 
-    public IBlockState withRotation(IBlockState iblockdata, Rotation enumblockrotation) {
-        return iblockdata.withProperty(BlockCocoa.FACING, enumblockrotation.rotate((EnumFacing) iblockdata.getValue(BlockCocoa.FACING)));
+    public IBlockState func_185499_a(IBlockState iblockdata, Rotation enumblockrotation) {
+        return iblockdata.func_177226_a(BlockCocoa.field_185512_D, enumblockrotation.func_185831_a((EnumFacing) iblockdata.func_177229_b(BlockCocoa.field_185512_D)));
     }
 
-    public IBlockState withMirror(IBlockState iblockdata, Mirror enumblockmirror) {
-        return iblockdata.withRotation(enumblockmirror.toRotation((EnumFacing) iblockdata.getValue(BlockCocoa.FACING)));
+    public IBlockState func_185471_a(IBlockState iblockdata, Mirror enumblockmirror) {
+        return iblockdata.func_185907_a(enumblockmirror.func_185800_a((EnumFacing) iblockdata.func_177229_b(BlockCocoa.field_185512_D)));
     }
 
-    public void onBlockPlacedBy(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
-        EnumFacing enumdirection = EnumFacing.fromAngle((double) entityliving.rotationYaw);
+    public void func_180633_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
+        EnumFacing enumdirection = EnumFacing.func_176733_a((double) entityliving.field_70177_z);
 
-        world.setBlockState(blockposition, iblockdata.withProperty(BlockCocoa.FACING, enumdirection), 2);
+        world.func_180501_a(blockposition, iblockdata.func_177226_a(BlockCocoa.field_185512_D, enumdirection), 2);
     }
 
-    public IBlockState getStateForPlacement(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
-        if (!enumdirection.getAxis().isHorizontal()) {
+    public IBlockState func_180642_a(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
+        if (!enumdirection.func_176740_k().func_176722_c()) {
             enumdirection = EnumFacing.NORTH;
         }
 
-        return this.getDefaultState().withProperty(BlockCocoa.FACING, enumdirection.getOpposite()).withProperty(BlockCocoa.AGE, Integer.valueOf(0));
+        return this.func_176223_P().func_177226_a(BlockCocoa.field_185512_D, enumdirection.func_176734_d()).func_177226_a(BlockCocoa.field_176501_a, Integer.valueOf(0));
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        if (!this.canBlockStay(world, blockposition, iblockdata)) {
-            this.dropBlock(world, blockposition, iblockdata);
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        if (!this.func_176499_e(world, blockposition, iblockdata)) {
+            this.func_176500_f(world, blockposition, iblockdata);
         }
 
     }
 
-    private void dropBlock(World world, BlockPos blockposition, IBlockState iblockdata) {
-        world.setBlockState(blockposition, Blocks.AIR.getDefaultState(), 3);
-        this.dropBlockAsItem(world, blockposition, iblockdata, 0);
+    private void func_176500_f(World world, BlockPos blockposition, IBlockState iblockdata) {
+        world.func_180501_a(blockposition, Blocks.field_150350_a.func_176223_P(), 3);
+        this.func_176226_b(world, blockposition, iblockdata, 0);
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
-        int j = ((Integer) iblockdata.getValue(BlockCocoa.AGE)).intValue();
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
+        int j = ((Integer) iblockdata.func_177229_b(BlockCocoa.field_176501_a)).intValue();
         byte b0 = 1;
 
         if (j >= 2) {
@@ -130,47 +130,47 @@ public class BlockCocoa extends BlockHorizontal implements IGrowable {
         }
 
         for (int k = 0; k < b0; ++k) {
-            spawnAsEntity(world, blockposition, new ItemStack(Items.DYE, 1, EnumDyeColor.BROWN.getDyeDamage()));
+            func_180635_a(world, blockposition, new ItemStack(Items.field_151100_aR, 1, EnumDyeColor.BROWN.func_176767_b()));
         }
 
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(Items.DYE, 1, EnumDyeColor.BROWN.getDyeDamage());
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(Items.field_151100_aR, 1, EnumDyeColor.BROWN.func_176767_b());
     }
 
-    public boolean canGrow(World world, BlockPos blockposition, IBlockState iblockdata, boolean flag) {
-        return ((Integer) iblockdata.getValue(BlockCocoa.AGE)).intValue() < 2;
+    public boolean func_176473_a(World world, BlockPos blockposition, IBlockState iblockdata, boolean flag) {
+        return ((Integer) iblockdata.func_177229_b(BlockCocoa.field_176501_a)).intValue() < 2;
     }
 
-    public boolean canUseBonemeal(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
+    public boolean func_180670_a(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
         return true;
     }
 
-    public void grow(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
+    public void func_176474_b(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
         // CraftBukkit start
-        IBlockState data = iblockdata.withProperty(AGE, Integer.valueOf(((Integer) iblockdata.getValue(AGE)).intValue() + 1));
-        CraftEventFactory.handleBlockGrowEvent(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), this, getMetaFromState(data));
+        IBlockState data = iblockdata.func_177226_a(field_176501_a, Integer.valueOf(((Integer) iblockdata.func_177229_b(field_176501_a)).intValue() + 1));
+        CraftEventFactory.handleBlockGrowEvent(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), this, func_176201_c(data));
         // CraftBukkit end
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockCocoa.FACING, EnumFacing.getHorizontal(i)).withProperty(BlockCocoa.AGE, Integer.valueOf((i & 15) >> 2));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockCocoa.field_185512_D, EnumFacing.func_176731_b(i)).func_177226_a(BlockCocoa.field_176501_a, Integer.valueOf((i & 15) >> 2));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         byte b0 = 0;
-        int i = b0 | ((EnumFacing) iblockdata.getValue(BlockCocoa.FACING)).getHorizontalIndex();
+        int i = b0 | ((EnumFacing) iblockdata.func_177229_b(BlockCocoa.field_185512_D)).func_176736_b();
 
-        i |= ((Integer) iblockdata.getValue(BlockCocoa.AGE)).intValue() << 2;
+        i |= ((Integer) iblockdata.func_177229_b(BlockCocoa.field_176501_a)).intValue() << 2;
         return i;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockCocoa.FACING, BlockCocoa.AGE});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockCocoa.field_185512_D, BlockCocoa.field_176501_a});
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.UNDEFINED;
     }
 }

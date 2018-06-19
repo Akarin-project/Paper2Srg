@@ -12,11 +12,11 @@ import net.minecraft.util.text.TextComponentString;
 
 public class SPacketCombatEvent implements Packet<INetHandlerPlayClient> {
 
-    public SPacketCombatEvent.Event eventType;
-    public int playerId;
-    public int entityId;
-    public int duration;
-    public ITextComponent deathMessage;
+    public SPacketCombatEvent.Event field_179776_a;
+    public int field_179774_b;
+    public int field_179775_c;
+    public int field_179772_d;
+    public ITextComponent field_179773_e;
 
     public SPacketCombatEvent() {}
 
@@ -25,55 +25,55 @@ public class SPacketCombatEvent implements Packet<INetHandlerPlayClient> {
     }
 
     public SPacketCombatEvent(CombatTracker combattracker, SPacketCombatEvent.Event packetplayoutcombatevent_enumcombateventtype, boolean flag) {
-        this.eventType = packetplayoutcombatevent_enumcombateventtype;
-        EntityLivingBase entityliving = combattracker.getBestAttacker();
+        this.field_179776_a = packetplayoutcombatevent_enumcombateventtype;
+        EntityLivingBase entityliving = combattracker.func_94550_c();
 
         switch (packetplayoutcombatevent_enumcombateventtype) {
         case END_COMBAT:
-            this.duration = combattracker.getCombatDuration();
-            this.entityId = entityliving == null ? -1 : entityliving.getEntityId();
+            this.field_179772_d = combattracker.func_180134_f();
+            this.field_179775_c = entityliving == null ? -1 : entityliving.func_145782_y();
             break;
 
         case ENTITY_DIED:
-            this.playerId = combattracker.getFighter().getEntityId();
-            this.entityId = entityliving == null ? -1 : entityliving.getEntityId();
+            this.field_179774_b = combattracker.func_180135_h().func_145782_y();
+            this.field_179775_c = entityliving == null ? -1 : entityliving.func_145782_y();
             if (flag) {
-                this.deathMessage = combattracker.getDeathMessage();
+                this.field_179773_e = combattracker.func_151521_b();
             } else {
-                this.deathMessage = new TextComponentString("");
+                this.field_179773_e = new TextComponentString("");
             }
         }
 
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.eventType = (SPacketCombatEvent.Event) packetdataserializer.readEnumValue(SPacketCombatEvent.Event.class);
-        if (this.eventType == SPacketCombatEvent.Event.END_COMBAT) {
-            this.duration = packetdataserializer.readVarInt();
-            this.entityId = packetdataserializer.readInt();
-        } else if (this.eventType == SPacketCombatEvent.Event.ENTITY_DIED) {
-            this.playerId = packetdataserializer.readVarInt();
-            this.entityId = packetdataserializer.readInt();
-            this.deathMessage = packetdataserializer.readTextComponent();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_179776_a = (SPacketCombatEvent.Event) packetdataserializer.func_179257_a(SPacketCombatEvent.Event.class);
+        if (this.field_179776_a == SPacketCombatEvent.Event.END_COMBAT) {
+            this.field_179772_d = packetdataserializer.func_150792_a();
+            this.field_179775_c = packetdataserializer.readInt();
+        } else if (this.field_179776_a == SPacketCombatEvent.Event.ENTITY_DIED) {
+            this.field_179774_b = packetdataserializer.func_150792_a();
+            this.field_179775_c = packetdataserializer.readInt();
+            this.field_179773_e = packetdataserializer.func_179258_d();
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeEnumValue((Enum) this.eventType);
-        if (this.eventType == SPacketCombatEvent.Event.END_COMBAT) {
-            packetdataserializer.writeVarInt(this.duration);
-            packetdataserializer.writeInt(this.entityId);
-        } else if (this.eventType == SPacketCombatEvent.Event.ENTITY_DIED) {
-            packetdataserializer.writeVarInt(this.playerId);
-            packetdataserializer.writeInt(this.entityId);
-            packetdataserializer.writeTextComponent(this.deathMessage);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179249_a((Enum) this.field_179776_a);
+        if (this.field_179776_a == SPacketCombatEvent.Event.END_COMBAT) {
+            packetdataserializer.func_150787_b(this.field_179772_d);
+            packetdataserializer.writeInt(this.field_179775_c);
+        } else if (this.field_179776_a == SPacketCombatEvent.Event.ENTITY_DIED) {
+            packetdataserializer.func_150787_b(this.field_179774_b);
+            packetdataserializer.writeInt(this.field_179775_c);
+            packetdataserializer.func_179256_a(this.field_179773_e);
         }
 
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleCombatEvent(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_175098_a(this);
     }
 
     public static enum Event {

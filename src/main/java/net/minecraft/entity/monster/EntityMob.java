@@ -25,75 +25,75 @@ public abstract class EntityMob extends EntityCreature implements IMob {
 
     public EntityMob(World world) {
         super(world);
-        this.experienceValue = 5;
+        this.field_70728_aV = 5;
     }
 
-    public SoundCategory getSoundCategory() {
+    public SoundCategory func_184176_by() {
         return SoundCategory.HOSTILE;
     }
 
-    public void onLivingUpdate() {
-        this.updateArmSwingProgress();
-        float f = this.getBrightness();
+    public void func_70636_d() {
+        this.func_82168_bl();
+        float f = this.func_70013_c();
 
         if (f > 0.5F) {
-            this.idleTime += 2;
+            this.field_70708_bq += 2;
         }
 
-        super.onLivingUpdate();
+        super.func_70636_d();
     }
 
-    public void onUpdate() {
-        super.onUpdate();
-        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
-            this.setDead();
+    public void func_70071_h_() {
+        super.func_70071_h_();
+        if (!this.field_70170_p.field_72995_K && this.field_70170_p.func_175659_aa() == EnumDifficulty.PEACEFUL) {
+            this.func_70106_y();
         }
 
     }
 
-    protected SoundEvent getSwimSound() {
-        return SoundEvents.ENTITY_HOSTILE_SWIM;
+    protected SoundEvent func_184184_Z() {
+        return SoundEvents.field_187593_cC;
     }
 
-    protected SoundEvent getSplashSound() {
-        return SoundEvents.ENTITY_HOSTILE_SPLASH;
+    protected SoundEvent func_184181_aa() {
+        return SoundEvents.field_187591_cB;
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        return this.isEntityInvulnerable(damagesource) ? false : super.attackEntityFrom(damagesource, f);
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        return this.func_180431_b(damagesource) ? false : super.func_70097_a(damagesource, f);
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_HOSTILE_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187741_cz;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_HOSTILE_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187738_cy;
     }
 
-    protected SoundEvent getFallSound(int i) {
-        return i > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
+    protected SoundEvent func_184588_d(int i) {
+        return i > 4 ? SoundEvents.field_187735_cx : SoundEvents.field_187589_cA;
     }
 
-    public boolean attackEntityAsMob(Entity entity) {
-        float f = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+    public boolean func_70652_k(Entity entity) {
+        float f = (float) this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e();
         int i = 0;
 
         if (entity instanceof EntityLivingBase) {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase) entity).getCreatureAttribute());
-            i += EnchantmentHelper.getKnockbackModifier((EntityLivingBase) this);
+            f += EnchantmentHelper.func_152377_a(this.func_184614_ca(), ((EntityLivingBase) entity).func_70668_bt());
+            i += EnchantmentHelper.func_77501_a((EntityLivingBase) this);
         }
 
-        boolean flag = entity.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+        boolean flag = entity.func_70097_a(DamageSource.func_76358_a(this), f);
 
         if (flag) {
             if (i > 0 && entity instanceof EntityLivingBase) {
-                ((EntityLivingBase) entity).knockBack(this, (float) i * 0.5F, (double) MathHelper.sin(this.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
-                this.motionX *= 0.6D;
-                this.motionZ *= 0.6D;
+                ((EntityLivingBase) entity).func_70653_a(this, (float) i * 0.5F, (double) MathHelper.func_76126_a(this.field_70177_z * 0.017453292F), (double) (-MathHelper.func_76134_b(this.field_70177_z * 0.017453292F)));
+                this.field_70159_w *= 0.6D;
+                this.field_70179_y *= 0.6D;
             }
 
-            int j = EnchantmentHelper.getFireAspectModifier(this);
+            int j = EnchantmentHelper.func_90036_a(this);
 
             if (j > 0) {
                 // CraftBukkit start - Call a combust event when somebody hits with a fire enchanted item
@@ -101,70 +101,70 @@ public abstract class EntityMob extends EntityCreature implements IMob {
                 org.bukkit.Bukkit.getPluginManager().callEvent(combustEvent);
 
                 if (!combustEvent.isCancelled()) {
-                    entity.setFire(combustEvent.getDuration());
+                    entity.func_70015_d(combustEvent.getDuration());
                 }
                 // CraftBukkit end
             }
 
             if (entity instanceof EntityPlayer) {
                 EntityPlayer entityhuman = (EntityPlayer) entity;
-                ItemStack itemstack = this.getHeldItemMainhand();
-                ItemStack itemstack1 = entityhuman.isHandActive() ? entityhuman.getActiveItemStack() : ItemStack.EMPTY;
+                ItemStack itemstack = this.func_184614_ca();
+                ItemStack itemstack1 = entityhuman.func_184587_cr() ? entityhuman.func_184607_cu() : ItemStack.field_190927_a;
 
-                if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem() instanceof ItemAxe && itemstack1.getItem() == Items.SHIELD) {
-                    float f1 = 0.25F + (float) EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+                if (!itemstack.func_190926_b() && !itemstack1.func_190926_b() && itemstack.func_77973_b() instanceof ItemAxe && itemstack1.func_77973_b() == Items.field_185159_cQ) {
+                    float f1 = 0.25F + (float) EnchantmentHelper.func_185293_e(this) * 0.05F;
 
-                    if (this.rand.nextFloat() < f1) {
-                        entityhuman.getCooldownTracker().setCooldown(Items.SHIELD, 100);
-                        this.world.setEntityState(entityhuman, (byte) 30);
+                    if (this.field_70146_Z.nextFloat() < f1) {
+                        entityhuman.func_184811_cZ().func_185145_a(Items.field_185159_cQ, 100);
+                        this.field_70170_p.func_72960_a(entityhuman, (byte) 30);
                     }
                 }
             }
 
-            this.applyEnchantments((EntityLivingBase) this, entity);
+            this.func_174815_a((EntityLivingBase) this, entity);
         }
 
         return flag;
     }
 
-    public float getBlockPathWeight(BlockPos blockposition) {
-        return 0.5F - this.world.getLightBrightness(blockposition);
+    public float func_180484_a(BlockPos blockposition) {
+        return 0.5F - this.field_70170_p.func_175724_o(blockposition);
     }
 
-    protected boolean isValidLightLevel() {
-        BlockPos blockposition = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+    protected boolean func_70814_o() {
+        BlockPos blockposition = new BlockPos(this.field_70165_t, this.func_174813_aQ().field_72338_b, this.field_70161_v);
 
-        if (this.world.getLightFor(EnumSkyBlock.SKY, blockposition) > this.rand.nextInt(32)) {
+        if (this.field_70170_p.func_175642_b(EnumSkyBlock.SKY, blockposition) > this.field_70146_Z.nextInt(32)) {
             return false;
         } else {
             //int i = this.world.getLightLevel(blockposition); // Paper
             boolean passes; // Paper
-            if (this.world.isThundering()) {
-                int j = this.world.getSkylightSubtracted();
+            if (this.field_70170_p.func_72911_I()) {
+                int j = this.field_70170_p.func_175657_ab();
 
-                this.world.setSkylightSubtracted(10);
-                passes = !world.isLightLevel(blockposition, this.rand.nextInt(9)); // Paper
-                this.world.setSkylightSubtracted(j);
-            } else { passes = !world.isLightLevel(blockposition, this.rand.nextInt(9)); } // Paper
+                this.field_70170_p.func_175692_b(10);
+                passes = !field_70170_p.isLightLevel(blockposition, this.field_70146_Z.nextInt(9)); // Paper
+                this.field_70170_p.func_175692_b(j);
+            } else { passes = !field_70170_p.isLightLevel(blockposition, this.field_70146_Z.nextInt(9)); } // Paper
 
             return passes; // Paper
         }
     }
 
-    public boolean getCanSpawnHere() {
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && super.getCanSpawnHere();
+    public boolean func_70601_bi() {
+        return this.field_70170_p.func_175659_aa() != EnumDifficulty.PEACEFUL && this.func_70814_o() && super.func_70601_bi();
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110140_aT().func_111150_b(SharedMonsterAttributes.field_111264_e);
     }
 
-    protected boolean canDropLoot() {
+    protected boolean func_146066_aG() {
         return true;
     }
 
-    public boolean isPreventingPlayerRest(EntityPlayer entityhuman) {
+    public boolean func_191990_c(EntityPlayer entityhuman) {
         return true;
     }
 }

@@ -4,33 +4,33 @@ import net.minecraft.entity.EntityLiving;
 
 public class EntityAIOpenDoor extends EntityAIDoorInteract {
 
-    boolean closeDoor;
-    int closeDoorTemporisation;
+    boolean field_75361_i;
+    int field_75360_j;
 
     public EntityAIOpenDoor(EntityLiving entityinsentient, boolean flag) {
         super(entityinsentient);
-        this.entity = entityinsentient;
-        this.closeDoor = flag;
+        this.field_75356_a = entityinsentient;
+        this.field_75361_i = flag;
     }
 
-    public boolean shouldContinueExecuting() {
-        return this.closeDoor && this.closeDoorTemporisation > 0 && super.shouldContinueExecuting();
+    public boolean func_75253_b() {
+        return this.field_75361_i && this.field_75360_j > 0 && super.func_75253_b();
     }
 
-    public void startExecuting() {
-        this.closeDoorTemporisation = 20;
-        this.doorBlock.toggleDoor(this.entity.world, this.doorPosition, true);
+    public void func_75249_e() {
+        this.field_75360_j = 20;
+        this.field_151504_e.func_176512_a(this.field_75356_a.field_70170_p, this.field_179507_b, true);
     }
 
-    public void resetTask() {
-        if (this.closeDoor) {
-            this.doorBlock.toggleDoor(this.entity.world, this.doorPosition, false);
+    public void func_75251_c() {
+        if (this.field_75361_i) {
+            this.field_151504_e.func_176512_a(this.field_75356_a.field_70170_p, this.field_179507_b, false);
         }
 
     }
 
-    public void updateTask() {
-        --this.closeDoorTemporisation;
-        super.updateTask();
+    public void func_75246_d() {
+        --this.field_75360_j;
+        super.func_75246_d();
     }
 }

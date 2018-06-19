@@ -8,30 +8,30 @@ import net.minecraft.util.datafix.IFixableData;
 
 public class EntityHealth implements IFixableData {
 
-    private static final Set<String> ENTITY_LIST = Sets.newHashSet(new String[] { "ArmorStand", "Bat", "Blaze", "CaveSpider", "Chicken", "Cow", "Creeper", "EnderDragon", "Enderman", "Endermite", "EntityHorse", "Ghast", "Giant", "Guardian", "LavaSlime", "MushroomCow", "Ozelot", "Pig", "PigZombie", "Rabbit", "Sheep", "Shulker", "Silverfish", "Skeleton", "Slime", "SnowMan", "Spider", "Squid", "Villager", "VillagerGolem", "Witch", "WitherBoss", "Wolf", "Zombie"});
+    private static final Set<String> field_188218_a = Sets.newHashSet(new String[] { "ArmorStand", "Bat", "Blaze", "CaveSpider", "Chicken", "Cow", "Creeper", "EnderDragon", "Enderman", "Endermite", "EntityHorse", "Ghast", "Giant", "Guardian", "LavaSlime", "MushroomCow", "Ozelot", "Pig", "PigZombie", "Rabbit", "Sheep", "Shulker", "Silverfish", "Skeleton", "Slime", "SnowMan", "Spider", "Squid", "Villager", "VillagerGolem", "Witch", "WitherBoss", "Wolf", "Zombie"});
 
     public EntityHealth() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 109;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        if (EntityHealth.ENTITY_LIST.contains(nbttagcompound.getString("id"))) {
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        if (EntityHealth.field_188218_a.contains(nbttagcompound.func_74779_i("id"))) {
             float f;
 
-            if (nbttagcompound.hasKey("HealF", 99)) {
-                f = nbttagcompound.getFloat("HealF");
-                nbttagcompound.removeTag("HealF");
+            if (nbttagcompound.func_150297_b("HealF", 99)) {
+                f = nbttagcompound.func_74760_g("HealF");
+                nbttagcompound.func_82580_o("HealF");
             } else {
-                if (!nbttagcompound.hasKey("Health", 99)) {
+                if (!nbttagcompound.func_150297_b("Health", 99)) {
                     return nbttagcompound;
                 }
 
-                f = nbttagcompound.getFloat("Health");
+                f = nbttagcompound.func_74760_g("Health");
             }
 
-            nbttagcompound.setFloat("Health", f);
+            nbttagcompound.func_74776_a("Health", f);
         }
 
         return nbttagcompound;

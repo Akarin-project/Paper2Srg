@@ -20,45 +20,45 @@ public class EnchantmentFrostWalker extends Enchantment {
 
     public EnchantmentFrostWalker(Enchantment.Rarity enchantment_rarity, EntityEquipmentSlot... aenumitemslot) {
         super(enchantment_rarity, EnumEnchantmentType.ARMOR_FEET, aenumitemslot);
-        this.setName("frostWalker");
+        this.func_77322_b("frostWalker");
     }
 
-    public int getMinEnchantability(int i) {
+    public int func_77321_a(int i) {
         return i * 10;
     }
 
-    public int getMaxEnchantability(int i) {
-        return this.getMinEnchantability(i) + 15;
+    public int func_77317_b(int i) {
+        return this.func_77321_a(i) + 15;
     }
 
-    public boolean isTreasureEnchantment() {
+    public boolean func_185261_e() {
         return true;
     }
 
-    public int getMaxLevel() {
+    public int func_77325_b() {
         return 2;
     }
 
-    public static void freezeNearby(EntityLivingBase entityliving, World world, BlockPos blockposition, int i) {
-        if (entityliving.onGround) {
+    public static void func_185266_a(EntityLivingBase entityliving, World world, BlockPos blockposition, int i) {
+        if (entityliving.field_70122_E) {
             float f = (float) Math.min(16, 2 + i);
             BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos(0, 0, 0);
-            Iterator iterator = BlockPos.getAllInBoxMutable(blockposition.add((double) (-f), -1.0D, (double) (-f)), blockposition.add((double) f, -1.0D, (double) f)).iterator();
+            Iterator iterator = BlockPos.func_177975_b(blockposition.func_177963_a((double) (-f), -1.0D, (double) (-f)), blockposition.func_177963_a((double) f, -1.0D, (double) f)).iterator();
 
             while (iterator.hasNext()) {
                 BlockPos.MutableBlockPos blockposition_mutableblockposition1 = (BlockPos.MutableBlockPos) iterator.next();
 
-                if (blockposition_mutableblockposition1.distanceSqToCenter(entityliving.posX, entityliving.posY, entityliving.posZ) <= (double) (f * f)) {
-                    blockposition_mutableblockposition.setPos(blockposition_mutableblockposition1.getX(), blockposition_mutableblockposition1.getY() + 1, blockposition_mutableblockposition1.getZ());
-                    IBlockState iblockdata = world.getBlockState(blockposition_mutableblockposition);
+                if (blockposition_mutableblockposition1.func_177957_d(entityliving.field_70165_t, entityliving.field_70163_u, entityliving.field_70161_v) <= (double) (f * f)) {
+                    blockposition_mutableblockposition.func_181079_c(blockposition_mutableblockposition1.func_177958_n(), blockposition_mutableblockposition1.func_177956_o() + 1, blockposition_mutableblockposition1.func_177952_p());
+                    IBlockState iblockdata = world.func_180495_p(blockposition_mutableblockposition);
 
-                    if (iblockdata.getMaterial() == Material.AIR) {
-                        IBlockState iblockdata1 = world.getBlockState(blockposition_mutableblockposition1);
+                    if (iblockdata.func_185904_a() == Material.field_151579_a) {
+                        IBlockState iblockdata1 = world.func_180495_p(blockposition_mutableblockposition1);
 
-                        if (iblockdata1.getMaterial() == Material.WATER && ((Integer) iblockdata1.getValue(BlockLiquid.LEVEL)).intValue() == 0 && world.mayPlace(Blocks.FROSTED_ICE, blockposition_mutableblockposition1, false, EnumFacing.DOWN, (Entity) null)) {
+                        if (iblockdata1.func_185904_a() == Material.field_151586_h && ((Integer) iblockdata1.func_177229_b(BlockLiquid.field_176367_b)).intValue() == 0 && world.func_190527_a(Blocks.field_185778_de, blockposition_mutableblockposition1, false, EnumFacing.DOWN, (Entity) null)) {
                             // CraftBukkit Start - Call EntityBlockFormEvent for Frost Walker
-                            if (org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockFormEvent(world, blockposition_mutableblockposition1, Blocks.FROSTED_ICE.getDefaultState(), entityliving)) {
-                                world.scheduleUpdate(blockposition_mutableblockposition1.toImmutable(), Blocks.FROSTED_ICE, MathHelper.getInt(entityliving.getRNG(), 60, 120));
+                            if (org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockFormEvent(world, blockposition_mutableblockposition1, Blocks.field_185778_de.func_176223_P(), entityliving)) {
+                                world.func_175684_a(blockposition_mutableblockposition1.func_185334_h(), Blocks.field_185778_de, MathHelper.func_76136_a(entityliving.func_70681_au(), 60, 120));
                             }
                             // CraftBukkit End
                         }
@@ -69,7 +69,7 @@ public class EnchantmentFrostWalker extends Enchantment {
         }
     }
 
-    public boolean canApplyTogether(Enchantment enchantment) {
-        return super.canApplyTogether(enchantment) && enchantment != Enchantments.DEPTH_STRIDER;
+    public boolean func_77326_a(Enchantment enchantment) {
+        return super.func_77326_a(enchantment) && enchantment != Enchantments.field_185300_i;
     }
 }

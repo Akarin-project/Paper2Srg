@@ -8,5 +8,5 @@ import net.minecraft.world.World;
 public interface ITileEntityProvider {
 
     @Nullable
-    TileEntity createNewTileEntity(World world, int i);
+    TileEntity func_149915_a(World world, int i);
 }

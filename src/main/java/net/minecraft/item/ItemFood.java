@@ -16,89 +16,89 @@ import net.minecraft.world.World;
 
 public class ItemFood extends Item {
 
-    public final int itemUseDuration;
-    private final int healAmount;
-    private final float saturationModifier;
-    private final boolean isWolfsFavoriteMeat;
-    private boolean alwaysEdible;
-    private PotionEffect potionId;
-    private float potionEffectProbability;
+    public final int field_77855_a;
+    private final int field_77853_b;
+    private final float field_77854_c;
+    private final boolean field_77856_bY;
+    private boolean field_77852_bZ;
+    private PotionEffect field_77851_ca;
+    private float field_77858_cd;
 
     public ItemFood(int i, float f, boolean flag) {
-        this.itemUseDuration = 32;
-        this.healAmount = i;
-        this.isWolfsFavoriteMeat = flag;
-        this.saturationModifier = f;
-        this.setCreativeTab(CreativeTabs.FOOD);
+        this.field_77855_a = 32;
+        this.field_77853_b = i;
+        this.field_77856_bY = flag;
+        this.field_77854_c = f;
+        this.func_77637_a(CreativeTabs.field_78039_h);
     }
 
     public ItemFood(int i, boolean flag) {
         this(i, 0.6F, flag);
     }
 
-    public ItemStack onItemUseFinish(ItemStack itemstack, World world, EntityLivingBase entityliving) {
+    public ItemStack func_77654_b(ItemStack itemstack, World world, EntityLivingBase entityliving) {
         if (entityliving instanceof EntityPlayer) {
             EntityPlayer entityhuman = (EntityPlayer) entityliving;
 
-            entityhuman.getFoodStats().addStats(this, itemstack);
-            world.playSound((EntityPlayer) null, entityhuman.posX, entityhuman.posY, entityhuman.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-            this.onFoodEaten(itemstack, world, entityhuman);
-            entityhuman.addStat(StatList.getObjectUseStats((Item) this));
+            entityhuman.func_71024_bL().func_151686_a(this, itemstack);
+            world.func_184148_a((EntityPlayer) null, entityhuman.field_70165_t, entityhuman.field_70163_u, entityhuman.field_70161_v, SoundEvents.field_187739_dZ, SoundCategory.PLAYERS, 0.5F, world.field_73012_v.nextFloat() * 0.1F + 0.9F);
+            this.func_77849_c(itemstack, world, entityhuman);
+            entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
             if (entityhuman instanceof EntityPlayerMP) {
-                CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) entityhuman, itemstack);
+                CriteriaTriggers.field_193138_y.func_193148_a((EntityPlayerMP) entityhuman, itemstack);
             }
         }
 
-        itemstack.shrink(1);
+        itemstack.func_190918_g(1);
         return itemstack;
     }
 
-    protected void onFoodEaten(ItemStack itemstack, World world, EntityPlayer entityhuman) {
-        if (!world.isRemote && this.potionId != null && world.rand.nextFloat() < this.potionEffectProbability) {
-            entityhuman.addPotionEffect(new PotionEffect(this.potionId));
+    protected void func_77849_c(ItemStack itemstack, World world, EntityPlayer entityhuman) {
+        if (!world.field_72995_K && this.field_77851_ca != null && world.field_73012_v.nextFloat() < this.field_77858_cd) {
+            entityhuman.func_70690_d(new PotionEffect(this.field_77851_ca));
         }
 
     }
 
-    public int getMaxItemUseDuration(ItemStack itemstack) {
+    public int func_77626_a(ItemStack itemstack) {
         return 32;
     }
 
-    public EnumAction getItemUseAction(ItemStack itemstack) {
+    public EnumAction func_77661_b(ItemStack itemstack) {
         return EnumAction.EAT;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (entityhuman.canEat(this.alwaysEdible)) {
-            entityhuman.setActiveHand(enumhand);
+        if (entityhuman.func_71043_e(this.field_77852_bZ)) {
+            entityhuman.func_184598_c(enumhand);
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         } else {
             return new ActionResult(EnumActionResult.FAIL, itemstack);
         }
     }
 
-    public int getHealAmount(ItemStack itemstack) {
-        return this.healAmount;
+    public int func_150905_g(ItemStack itemstack) {
+        return this.field_77853_b;
     }
 
-    public float getSaturationModifier(ItemStack itemstack) {
-        return this.saturationModifier;
+    public float func_150906_h(ItemStack itemstack) {
+        return this.field_77854_c;
     }
 
-    public boolean isWolfsFavoriteMeat() {
-        return this.isWolfsFavoriteMeat;
+    public boolean func_77845_h() {
+        return this.field_77856_bY;
     }
 
-    public ItemFood setPotionEffect(PotionEffect mobeffect, float f) {
-        this.potionId = mobeffect;
-        this.potionEffectProbability = f;
+    public ItemFood func_185070_a(PotionEffect mobeffect, float f) {
+        this.field_77851_ca = mobeffect;
+        this.field_77858_cd = f;
         return this;
     }
 
-    public ItemFood setAlwaysEdible() {
-        this.alwaysEdible = true;
+    public ItemFood func_77848_i() {
+        this.field_77852_bZ = true;
         return this;
     }
 }

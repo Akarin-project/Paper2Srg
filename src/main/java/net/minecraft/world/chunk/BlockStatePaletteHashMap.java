@@ -9,23 +9,23 @@ import net.minecraft.util.IntIdentityHashBiMap;
 
 public class BlockStatePaletteHashMap implements IBlockStatePalette {
 
-    private final IntIdentityHashBiMap<IBlockState> statePaletteMap;
-    private final IBlockStatePaletteResizer paletteResizer;
-    private final int bits;
+    private final IntIdentityHashBiMap<IBlockState> field_186046_a;
+    private final IBlockStatePaletteResizer field_186047_b;
+    private final int field_186048_c;
 
     public BlockStatePaletteHashMap(int i, IBlockStatePaletteResizer datapaletteexpandable) {
-        this.bits = i;
-        this.paletteResizer = datapaletteexpandable;
-        this.statePaletteMap = new IntIdentityHashBiMap(1 << i);
+        this.field_186048_c = i;
+        this.field_186047_b = datapaletteexpandable;
+        this.field_186046_a = new IntIdentityHashBiMap(1 << i);
     }
 
-    public int idFor(IBlockState iblockdata) {
-        int i = this.statePaletteMap.getId(iblockdata);
+    public int func_186041_a(IBlockState iblockdata) {
+        int i = this.field_186046_a.func_186815_a(iblockdata);
 
         if (i == -1) {
-            i = this.statePaletteMap.add(iblockdata);
-            if (i >= 1 << this.bits) {
-                i = this.paletteResizer.onResize(this.bits + 1, iblockdata);
+            i = this.field_186046_a.func_186808_c(iblockdata);
+            if (i >= 1 << this.field_186048_c) {
+                i = this.field_186047_b.func_186008_a(this.field_186048_c + 1, iblockdata);
             }
         }
 
@@ -33,26 +33,26 @@ public class BlockStatePaletteHashMap implements IBlockStatePalette {
     }
 
     @Nullable
-    public IBlockState getBlockState(int i) {
-        return (IBlockState) this.statePaletteMap.get(i);
+    public IBlockState func_186039_a(int i) {
+        return (IBlockState) this.field_186046_a.func_186813_a(i);
     }
 
-    public void write(PacketBuffer packetdataserializer) {
-        int i = this.statePaletteMap.size();
+    public void func_186037_b(PacketBuffer packetdataserializer) {
+        int i = this.field_186046_a.func_186810_b();
 
-        packetdataserializer.writeVarInt(i);
+        packetdataserializer.func_150787_b(i);
 
         for (int j = 0; j < i; ++j) {
-            packetdataserializer.writeVarInt(Block.BLOCK_STATE_IDS.get(this.statePaletteMap.get(j)));
+            packetdataserializer.func_150787_b(Block.field_176229_d.func_148747_b(this.field_186046_a.func_186813_a(j)));
         }
 
     }
 
-    public int getSerializedSize() {
-        int i = PacketBuffer.getVarIntSize(this.statePaletteMap.size());
+    public int func_186040_a() {
+        int i = PacketBuffer.func_150790_a(this.field_186046_a.func_186810_b());
 
-        for (int j = 0; j < this.statePaletteMap.size(); ++j) {
-            i += PacketBuffer.getVarIntSize(Block.BLOCK_STATE_IDS.get(this.statePaletteMap.get(j)));
+        for (int j = 0; j < this.field_186046_a.func_186810_b(); ++j) {
+            i += PacketBuffer.func_150790_a(Block.field_176229_d.func_148747_b(this.field_186046_a.func_186813_a(j)));
         }
 
         return i;

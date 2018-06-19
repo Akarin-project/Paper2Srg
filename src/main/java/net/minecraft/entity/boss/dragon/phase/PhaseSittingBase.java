@@ -11,16 +11,16 @@ public abstract class PhaseSittingBase extends PhaseBase {
         super(entityenderdragon);
     }
 
-    public boolean getIsStationary() {
+    public boolean func_188654_a() {
         return true;
     }
 
-    public float getAdjustedDamage(MultiPartEntityPart entitycomplexpart, DamageSource damagesource, float f) {
-        if (damagesource.getImmediateSource() instanceof EntityArrow) {
-            damagesource.getImmediateSource().setFire(1);
+    public float func_188656_a(MultiPartEntityPart entitycomplexpart, DamageSource damagesource, float f) {
+        if (damagesource.func_76364_f() instanceof EntityArrow) {
+            damagesource.func_76364_f().func_70015_d(1);
             return 0.0F;
         } else {
-            return super.getAdjustedDamage(entitycomplexpart, damagesource, f);
+            return super.func_188656_a(entitycomplexpart, damagesource, f);
         }
     }
 }

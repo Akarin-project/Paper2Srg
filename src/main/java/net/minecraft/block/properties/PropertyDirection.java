@@ -14,15 +14,15 @@ public class PropertyDirection extends PropertyEnum<EnumFacing> {
         super(s, EnumFacing.class, collection);
     }
 
-    public static PropertyDirection create(String s) {
-        return create(s, Predicates.alwaysTrue());
+    public static PropertyDirection func_177714_a(String s) {
+        return func_177712_a(s, Predicates.alwaysTrue());
     }
 
-    public static PropertyDirection create(String s, Predicate<EnumFacing> predicate) {
-        return create(s, Collections2.filter(Lists.newArrayList(EnumFacing.values()), predicate));
+    public static PropertyDirection func_177712_a(String s, Predicate<EnumFacing> predicate) {
+        return func_177713_a(s, Collections2.filter(Lists.newArrayList(EnumFacing.values()), predicate));
     }
 
-    public static PropertyDirection create(String s, Collection<EnumFacing> collection) {
+    public static PropertyDirection func_177713_a(String s, Collection<EnumFacing> collection) {
         return new PropertyDirection(s, collection);
     }
 }

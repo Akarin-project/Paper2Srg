@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 public class PropertyInteger extends PropertyHelper<Integer> {
 
-    private final ImmutableSet<Integer> allowedValues;
+    private final ImmutableSet<Integer> field_177720_a;
 
     protected PropertyInteger(String s, int i, int j) {
         super(s, Integer.class);
@@ -23,12 +23,12 @@ public class PropertyInteger extends PropertyHelper<Integer> {
                 hashset.add(Integer.valueOf(k));
             }
 
-            this.allowedValues = ImmutableSet.copyOf(hashset);
+            this.field_177720_a = ImmutableSet.copyOf(hashset);
         }
     }
 
-    public Collection<Integer> getAllowedValues() {
-        return this.allowedValues;
+    public Collection<Integer> func_177700_c() {
+        return this.field_177720_a;
     }
 
     public boolean equals(Object object) {
@@ -37,7 +37,7 @@ public class PropertyInteger extends PropertyHelper<Integer> {
         } else if (object instanceof PropertyInteger && super.equals(object)) {
             PropertyInteger blockstateinteger = (PropertyInteger) object;
 
-            return this.allowedValues.equals(blockstateinteger.allowedValues);
+            return this.field_177720_a.equals(blockstateinteger.field_177720_a);
         } else {
             return false;
         }
@@ -48,28 +48,28 @@ public class PropertyInteger extends PropertyHelper<Integer> {
     public int hashCode() {
         int hash = hashCode;
         if (hash == 0) {
-            hash = 31 * super.hashCode() + this.allowedValues.hashCode();
+            hash = 31 * super.hashCode() + this.field_177720_a.hashCode();
             hashCode = hash;
         }
         return hash;
     }
     // Spigot end
 
-    public static PropertyInteger create(String s, int i, int j) {
+    public static PropertyInteger func_177719_a(String s, int i, int j) {
         return new PropertyInteger(s, i, j);
     }
 
-    public Optional<Integer> parseValue(String s) {
+    public Optional<Integer> func_185929_b(String s) {
         try {
             Integer integer = Integer.valueOf(s);
 
-            return this.allowedValues.contains(integer) ? Optional.of(integer) : Optional.absent();
+            return this.field_177720_a.contains(integer) ? Optional.of(integer) : Optional.absent();
         } catch (NumberFormatException numberformatexception) {
             return Optional.absent();
         }
     }
 
-    public String getName(Integer integer) {
+    public String func_177702_a(Integer integer) {
         return integer.toString();
     }
 }

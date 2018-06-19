@@ -8,24 +8,24 @@ public class RedundantChanceTags implements IFixableData {
 
     public RedundantChanceTags() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 113;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
         NBTTagList nbttaglist;
 
-        if (nbttagcompound.hasKey("HandDropChances", 9)) {
-            nbttaglist = nbttagcompound.getTagList("HandDropChances", 5);
-            if (nbttaglist.tagCount() == 2 && nbttaglist.getFloatAt(0) == 0.0F && nbttaglist.getFloatAt(1) == 0.0F) {
-                nbttagcompound.removeTag("HandDropChances");
+        if (nbttagcompound.func_150297_b("HandDropChances", 9)) {
+            nbttaglist = nbttagcompound.func_150295_c("HandDropChances", 5);
+            if (nbttaglist.func_74745_c() == 2 && nbttaglist.func_150308_e(0) == 0.0F && nbttaglist.func_150308_e(1) == 0.0F) {
+                nbttagcompound.func_82580_o("HandDropChances");
             }
         }
 
-        if (nbttagcompound.hasKey("ArmorDropChances", 9)) {
-            nbttaglist = nbttagcompound.getTagList("ArmorDropChances", 5);
-            if (nbttaglist.tagCount() == 4 && nbttaglist.getFloatAt(0) == 0.0F && nbttaglist.getFloatAt(1) == 0.0F && nbttaglist.getFloatAt(2) == 0.0F && nbttaglist.getFloatAt(3) == 0.0F) {
-                nbttagcompound.removeTag("ArmorDropChances");
+        if (nbttagcompound.func_150297_b("ArmorDropChances", 9)) {
+            nbttaglist = nbttagcompound.func_150295_c("ArmorDropChances", 5);
+            if (nbttaglist.func_74745_c() == 4 && nbttaglist.func_150308_e(0) == 0.0F && nbttaglist.func_150308_e(1) == 0.0F && nbttaglist.func_150308_e(2) == 0.0F && nbttaglist.func_150308_e(3) == 0.0F) {
+                nbttagcompound.func_82580_o("ArmorDropChances");
             }
         }
 

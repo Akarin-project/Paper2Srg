@@ -40,13 +40,13 @@ import net.minecraft.util.text.TextComponentString;
 
 public abstract class CommandBase implements ICommand {
 
-    private static ICommandListener commandListener;
-    private static final Splitter COMMA_SPLITTER = Splitter.on(',');
-    private static final Splitter EQUAL_SPLITTER = Splitter.on('=').limit(2);
+    private static ICommandListener field_71533_a;
+    private static final Splitter field_190796_b = Splitter.on(',');
+    private static final Splitter field_190797_c = Splitter.on('=').limit(2);
 
     public CommandBase() {}
 
-    protected static SyntaxErrorException toSyntaxException(JsonParseException jsonparseexception) {
+    protected static SyntaxErrorException func_184889_a(JsonParseException jsonparseexception) {
         Throwable throwable = ExceptionUtils.getRootCause(jsonparseexception);
         String s = "";
 
@@ -60,40 +60,37 @@ public abstract class CommandBase implements ICommand {
         return new SyntaxErrorException("commands.tellraw.jsonException", new Object[] { s});
     }
 
-    public static NBTTagCompound entityToNBT(Entity entity) {
-        NBTTagCompound nbttagcompound = entity.writeToNBT(new NBTTagCompound());
+    public static NBTTagCompound func_184887_a(Entity entity) {
+        NBTTagCompound nbttagcompound = entity.func_189511_e(new NBTTagCompound());
 
         if (entity instanceof EntityPlayer) {
-            ItemStack itemstack = ((EntityPlayer) entity).inventory.getCurrentItem();
+            ItemStack itemstack = ((EntityPlayer) entity).field_71071_by.func_70448_g();
 
-            if (!itemstack.isEmpty()) {
-                nbttagcompound.setTag("SelectedItem", itemstack.writeToNBT(new NBTTagCompound()));
+            if (!itemstack.func_190926_b()) {
+                nbttagcompound.func_74782_a("SelectedItem", itemstack.func_77955_b(new NBTTagCompound()));
             }
         }
 
         return nbttagcompound;
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 4;
     }
 
-    @Override
-    public List<String> getAliases() {
+    public List<String> func_71514_a() {
         return Collections.emptyList();
     }
 
-    @Override
-    public boolean checkPermission(MinecraftServer minecraftserver, ICommandSender icommandlistener) {
-        return icommandlistener.canUseCommand(this.getRequiredPermissionLevel(), this.getName());
+    public boolean func_184882_a(MinecraftServer minecraftserver, ICommandSender icommandlistener) {
+        return icommandlistener.func_70003_b(this.func_82362_a(), this.func_71517_b());
     }
 
-    @Override
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
         return Collections.emptyList();
     }
 
-    public static int parseInt(String s) throws NumberInvalidException {
+    public static int func_175755_a(String s) throws NumberInvalidException {
         try {
             return Integer.parseInt(s);
         } catch (NumberFormatException numberformatexception) {
@@ -101,12 +98,12 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static int parseInt(String s, int i) throws NumberInvalidException {
-        return parseInt(s, i, Integer.MAX_VALUE);
+    public static int func_180528_a(String s, int i) throws NumberInvalidException {
+        return func_175764_a(s, i, Integer.MAX_VALUE);
     }
 
-    public static int parseInt(String s, int i, int j) throws NumberInvalidException {
-        int k = parseInt(s);
+    public static int func_175764_a(String s, int i, int j) throws NumberInvalidException {
+        int k = func_175755_a(s);
 
         if (k < i) {
             throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] { Integer.valueOf(k), Integer.valueOf(i)});
@@ -117,7 +114,7 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static long parseLong(String s) throws NumberInvalidException {
+    public static long func_175766_b(String s) throws NumberInvalidException {
         try {
             return Long.parseLong(s);
         } catch (NumberFormatException numberformatexception) {
@@ -125,8 +122,8 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static long parseLong(String s, long i, long j) throws NumberInvalidException {
-        long k = parseLong(s);
+    public static long func_175760_a(String s, long i, long j) throws NumberInvalidException {
+        long k = func_175766_b(s);
 
         if (k < i) {
             throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] { Long.valueOf(k), Long.valueOf(i)});
@@ -137,13 +134,13 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static BlockPos parseBlockPos(ICommandSender icommandlistener, String[] astring, int i, boolean flag) throws NumberInvalidException {
-        BlockPos blockposition = icommandlistener.getPosition();
+    public static BlockPos func_175757_a(ICommandSender icommandlistener, String[] astring, int i, boolean flag) throws NumberInvalidException {
+        BlockPos blockposition = icommandlistener.func_180425_c();
 
-        return new BlockPos(parseDouble(blockposition.getX(), astring[i], -30000000, 30000000, flag), parseDouble(blockposition.getY(), astring[i + 1], 0, 256, false), parseDouble(blockposition.getZ(), astring[i + 2], -30000000, 30000000, flag));
+        return new BlockPos(func_175769_b((double) blockposition.func_177958_n(), astring[i], -30000000, 30000000, flag), func_175769_b((double) blockposition.func_177956_o(), astring[i + 1], 0, 256, false), func_175769_b((double) blockposition.func_177952_p(), astring[i + 2], -30000000, 30000000, flag));
     }
 
-    public static double parseDouble(String s) throws NumberInvalidException {
+    public static double func_175765_c(String s) throws NumberInvalidException {
         try {
             double d0 = Double.parseDouble(s);
 
@@ -157,12 +154,12 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static double parseDouble(String s, double d0) throws NumberInvalidException {
-        return parseDouble(s, d0, Double.MAX_VALUE);
+    public static double func_180526_a(String s, double d0) throws NumberInvalidException {
+        return func_175756_a(s, d0, Double.MAX_VALUE);
     }
 
-    public static double parseDouble(String s, double d0, double d1) throws NumberInvalidException {
-        double d2 = parseDouble(s);
+    public static double func_175756_a(String s, double d0, double d1) throws NumberInvalidException {
+        double d2 = func_175765_c(s);
 
         if (d2 < d0) {
             throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d2)}), String.format("%.2f", new Object[] { Double.valueOf(d0)})});
@@ -173,7 +170,7 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static boolean parseBoolean(String s) throws CommandException {
+    public static boolean func_180527_d(String s) throws CommandException {
         if (!"true".equals(s) && !"1".equals(s)) {
             if (!"false".equals(s) && !"0".equals(s)) {
                 throw new CommandException("commands.generic.boolean.invalid", new Object[] { s});
@@ -185,7 +182,7 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static EntityPlayerMP getCommandSenderAsPlayer(ICommandSender icommandlistener) throws PlayerNotFoundException {
+    public static EntityPlayerMP func_71521_c(ICommandSender icommandlistener) throws PlayerNotFoundException {
         if (icommandlistener instanceof EntityPlayerMP) {
             return (EntityPlayerMP) icommandlistener;
         } else {
@@ -193,27 +190,27 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static List<EntityPlayerMP> getPlayers(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
-        List list = EntitySelector.getPlayers(icommandlistener, s);
+    public static List<EntityPlayerMP> func_193513_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
+        List list = EntitySelector.func_193531_b(icommandlistener, s);
 
-        return list.isEmpty() ? Lists.newArrayList(new EntityPlayerMP[] { getPlayer(minecraftserver, (EntityPlayerMP) null, s)}) : list;
+        return (List) (list.isEmpty() ? Lists.newArrayList(new EntityPlayerMP[] { func_193512_a(minecraftserver, (EntityPlayerMP) null, s)}) : list);
     }
 
-    public static EntityPlayerMP getPlayer(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
-        return getPlayer(minecraftserver, EntitySelector.matchOnePlayer(icommandlistener, s), s);
+    public static EntityPlayerMP func_184888_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
+        return func_193512_a(minecraftserver, EntitySelector.func_82386_a(icommandlistener, s), s);
     }
 
-    private static EntityPlayerMP getPlayer(MinecraftServer minecraftserver, @Nullable EntityPlayerMP entityplayer, String s) throws CommandException {
+    private static EntityPlayerMP func_193512_a(MinecraftServer minecraftserver, @Nullable EntityPlayerMP entityplayer, String s) throws CommandException {
         if (entityplayer == null) {
             try {
-                entityplayer = minecraftserver.getPlayerList().getPlayerByUUID(UUID.fromString(s));
+                entityplayer = minecraftserver.func_184103_al().func_177451_a(UUID.fromString(s));
             } catch (IllegalArgumentException illegalargumentexception) {
                 ;
             }
         }
 
         if (entityplayer == null) {
-            entityplayer = minecraftserver.getPlayerList().getPlayerByUsername(s);
+            entityplayer = minecraftserver.func_184103_al().func_152612_a(s);
         }
 
         if (entityplayer == null) {
@@ -223,24 +220,24 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static Entity getEntity(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
-        return getEntity(minecraftserver, icommandlistener, s, Entity.class);
+    public static Entity func_184885_b(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
+        return func_184884_a(minecraftserver, icommandlistener, s, Entity.class);
     }
 
-    public static <T extends Entity> T getEntity(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s, Class<? extends T> oclass) throws CommandException {
-        Object object = EntitySelector.matchOneEntity(icommandlistener, s, oclass);
+    public static <T extends Entity> T func_184884_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s, Class<? extends T> oclass) throws CommandException {
+        Object object = EntitySelector.func_179652_a(icommandlistener, s, oclass);
 
         if (object == null) {
-            object = minecraftserver.getPlayerList().getPlayerByUsername(s);
+            object = minecraftserver.func_184103_al().func_152612_a(s);
         }
 
         if (object == null) {
             try {
                 UUID uuid = UUID.fromString(s);
 
-                object = minecraftserver.getEntityFromUuid(uuid);
+                object = minecraftserver.func_175576_a(uuid);
                 if (object == null) {
-                    object = minecraftserver.getPlayerList().getPlayerByUUID(uuid);
+                    object = minecraftserver.func_184103_al().func_177451_a(uuid);
                 }
             } catch (IllegalArgumentException illegalargumentexception) {
                 if (s.split("-").length == 5) {
@@ -256,15 +253,15 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static List<Entity> getEntityList(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
-        return EntitySelector.isSelector(s) ? EntitySelector.matchEntities(icommandlistener, s, Entity.class) : Lists.newArrayList(new Entity[] { getEntity(minecraftserver, icommandlistener, s)});
+    public static List<Entity> func_184890_c(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
+        return (List) (EntitySelector.func_82378_b(s) ? EntitySelector.func_179656_b(icommandlistener, s, Entity.class) : Lists.newArrayList(new Entity[] { func_184885_b(minecraftserver, icommandlistener, s)}));
     }
 
-    public static String getPlayerName(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
+    public static String func_184886_d(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
         try {
-            return getPlayer(minecraftserver, icommandlistener, s).getName();
+            return func_184888_a(minecraftserver, icommandlistener, s).func_70005_c_();
         } catch (CommandException commandexception) {
-            if (EntitySelector.isSelector(s)) {
+            if (EntitySelector.func_82378_b(s)) {
                 throw commandexception;
             } else {
                 return s;
@@ -272,14 +269,14 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static String getEntityName(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
+    public static String func_184891_e(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
         try {
-            return getPlayer(minecraftserver, icommandlistener, s).getName();
+            return func_184888_a(minecraftserver, icommandlistener, s).func_70005_c_();
         } catch (PlayerNotFoundException exceptionplayernotfound) {
             try {
-                return getEntity(minecraftserver, icommandlistener, s).getCachedUniqueIdString();
+                return func_184885_b(minecraftserver, icommandlistener, s).func_189512_bd();
             } catch (EntityNotFoundException exceptionentitynotfound) {
-                if (EntitySelector.isSelector(s)) {
+                if (EntitySelector.func_82378_b(s)) {
                     throw exceptionentitynotfound;
                 } else {
                     return s;
@@ -288,25 +285,25 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static ITextComponent getChatComponentFromNthArg(ICommandSender icommandlistener, String[] astring, int i) throws CommandException {
-        return getChatComponentFromNthArg(icommandlistener, astring, i, false);
+    public static ITextComponent func_147178_a(ICommandSender icommandlistener, String[] astring, int i) throws CommandException {
+        return func_147176_a(icommandlistener, astring, i, false);
     }
 
-    public static ITextComponent getChatComponentFromNthArg(ICommandSender icommandlistener, String[] astring, int i, boolean flag) throws CommandException {
+    public static ITextComponent func_147176_a(ICommandSender icommandlistener, String[] astring, int i, boolean flag) throws CommandException {
         TextComponentString chatcomponenttext = new TextComponentString("");
 
         for (int j = i; j < astring.length; ++j) {
             if (j > i) {
-                chatcomponenttext.appendText(" ");
+                chatcomponenttext.func_150258_a(" ");
             }
 
             Object object = new TextComponentString(astring[j]);
 
             if (flag) {
-                ITextComponent ichatbasecomponent = EntitySelector.matchEntitiesToTextComponent(icommandlistener, astring[j]);
+                ITextComponent ichatbasecomponent = EntitySelector.func_150869_b(icommandlistener, astring[j]);
 
                 if (ichatbasecomponent == null) {
-                    if (EntitySelector.isSelector(astring[j])) {
+                    if (EntitySelector.func_82378_b(astring[j])) {
                         throw new PlayerNotFoundException("commands.generic.selector.notFound", new Object[] { astring[j]});
                     }
                 } else {
@@ -314,13 +311,13 @@ public abstract class CommandBase implements ICommand {
                 }
             }
 
-            chatcomponenttext.appendSibling((ITextComponent) object);
+            chatcomponenttext.func_150257_a((ITextComponent) object);
         }
 
         return chatcomponenttext;
     }
 
-    public static String buildString(String[] astring, int i) {
+    public static String func_180529_a(String[] astring, int i) {
         StringBuilder stringbuilder = new StringBuilder();
 
         for (int j = i; j < astring.length; ++j) {
@@ -336,11 +333,11 @@ public abstract class CommandBase implements ICommand {
         return stringbuilder.toString();
     }
 
-    public static CommandBase.CoordinateArg parseCoordinate(double d0, String s, boolean flag) throws NumberInvalidException {
-        return parseCoordinate(d0, s, -30000000, 30000000, flag);
+    public static CommandBase.CoordinateArg func_175770_a(double d0, String s, boolean flag) throws NumberInvalidException {
+        return func_175767_a(d0, s, -30000000, 30000000, flag);
     }
 
-    public static CommandBase.CoordinateArg parseCoordinate(double d0, String s, int i, int j, boolean flag) throws NumberInvalidException {
+    public static CommandBase.CoordinateArg func_175767_a(double d0, String s, int i, int j, boolean flag) throws NumberInvalidException {
         boolean flag1 = s.startsWith("~");
 
         if (flag1 && Double.isNaN(d0)) {
@@ -355,7 +352,7 @@ public abstract class CommandBase implements ICommand {
                     s = s.substring(1);
                 }
 
-                d1 += parseDouble(s);
+                d1 += func_175765_c(s);
                 if (!flag2 && !flag1 && flag) {
                     d1 += 0.5D;
                 }
@@ -364,11 +361,11 @@ public abstract class CommandBase implements ICommand {
             double d2 = d1 + (flag1 ? d0 : 0.0D);
 
             if (i != 0 || j != 0) {
-                if (d2 < i) {
+                if (d2 < (double) i) {
                     throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d2)}), Integer.valueOf(i)});
                 }
 
-                if (d2 > j) {
+                if (d2 > (double) j) {
                     throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d2)}), Integer.valueOf(j)});
                 }
             }
@@ -377,11 +374,11 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static double parseDouble(double d0, String s, boolean flag) throws NumberInvalidException {
-        return parseDouble(d0, s, -30000000, 30000000, flag);
+    public static double func_175761_b(double d0, String s, boolean flag) throws NumberInvalidException {
+        return func_175769_b(d0, s, -30000000, 30000000, flag);
     }
 
-    public static double parseDouble(double d0, String s, int i, int j, boolean flag) throws NumberInvalidException {
+    public static double func_175769_b(double d0, String s, int i, int j, boolean flag) throws NumberInvalidException {
         boolean flag1 = s.startsWith("~");
 
         if (flag1 && Double.isNaN(d0)) {
@@ -396,18 +393,18 @@ public abstract class CommandBase implements ICommand {
                     s = s.substring(1);
                 }
 
-                d1 += parseDouble(s);
+                d1 += func_175765_c(s);
                 if (!flag2 && !flag1 && flag) {
                     d1 += 0.5D;
                 }
             }
 
             if (i != 0 || j != 0) {
-                if (d1 < i) {
+                if (d1 < (double) i) {
                     throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d1)}), Integer.valueOf(i)});
                 }
 
-                if (d1 > j) {
+                if (d1 > (double) j) {
                     throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d1)}), Integer.valueOf(j)});
                 }
             }
@@ -416,9 +413,9 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static Item getItemByText(ICommandSender icommandlistener, String s) throws NumberInvalidException {
+    public static Item func_147179_f(ICommandSender icommandlistener, String s) throws NumberInvalidException {
         ResourceLocation minecraftkey = new ResourceLocation(s);
-        Item item = Item.REGISTRY.getObject(minecraftkey);
+        Item item = (Item) Item.field_150901_e.func_82594_a(minecraftkey);
 
         if (item == null) {
             throw new NumberInvalidException("commands.give.item.notFound", new Object[] { minecraftkey});
@@ -427,17 +424,17 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    public static Block getBlockByText(ICommandSender icommandlistener, String s) throws NumberInvalidException {
+    public static Block func_147180_g(ICommandSender icommandlistener, String s) throws NumberInvalidException {
         ResourceLocation minecraftkey = new ResourceLocation(s);
 
-        if (!Block.REGISTRY.containsKey(minecraftkey)) {
+        if (!Block.field_149771_c.func_148741_d(minecraftkey)) {
             throw new NumberInvalidException("commands.give.block.notFound", new Object[] { minecraftkey});
         } else {
-            return Block.REGISTRY.getObject(minecraftkey);
+            return (Block) Block.field_149771_c.func_82594_a(minecraftkey);
         }
     }
 
-    public static IBlockState convertArgToBlockState(Block block, String s) throws NumberInvalidException, InvalidBlockStateException {
+    public static IBlockState func_190794_a(Block block, String s) throws NumberInvalidException, InvalidBlockStateException {
         try {
             int i = Integer.parseInt(s);
 
@@ -446,51 +443,50 @@ public abstract class CommandBase implements ICommand {
             } else if (i > 15) {
                 throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] { Integer.valueOf(i), Integer.valueOf(15)});
             } else {
-                return block.getStateFromMeta(Integer.parseInt(s));
+                return block.func_176203_a(Integer.parseInt(s));
             }
         } catch (RuntimeException runtimeexception) {
             try {
-                Map map = getBlockStatePropertyValueMap(block, s);
-                IBlockState iblockdata = block.getDefaultState();
+                Map map = func_190795_c(block, s);
+                IBlockState iblockdata = block.func_176223_P();
 
                 Entry entry;
 
-                for (Iterator iterator = map.entrySet().iterator(); iterator.hasNext(); iblockdata = getBlockState(iblockdata, (IProperty) entry.getKey(), (Comparable) entry.getValue())) {
+                for (Iterator iterator = map.entrySet().iterator(); iterator.hasNext(); iblockdata = func_190793_a(iblockdata, (IProperty) entry.getKey(), (Comparable) entry.getValue())) {
                     entry = (Entry) iterator.next();
                 }
 
                 return iblockdata;
             } catch (RuntimeException runtimeexception1) {
-                throw new InvalidBlockStateException("commands.generic.blockstate.invalid", new Object[] { s, Block.REGISTRY.getNameForObject(block)});
+                throw new InvalidBlockStateException("commands.generic.blockstate.invalid", new Object[] { s, Block.field_149771_c.func_177774_c(block)});
             }
         }
     }
 
-    private static <T extends Comparable<T>> IBlockState getBlockState(IBlockState iblockdata, IProperty<T> iblockstate, Comparable<?> comparable) {
-        return iblockdata.withProperty(iblockstate, (T) comparable); // Paper - fix decompiler error
+    private static <T extends Comparable<T>> IBlockState func_190793_a(IBlockState iblockdata, IProperty<T> iblockstate, Comparable<?> comparable) {
+        return iblockdata.func_177226_a(iblockstate, (T) comparable); // Paper - fix decompiler error
     }
 
-    public static Predicate<IBlockState> convertArgToBlockStatePredicate(final Block block, String s) throws InvalidBlockStateException {
+    public static Predicate<IBlockState> func_190791_b(final Block block, String s) throws InvalidBlockStateException {
         if (!"*".equals(s) && !"-1".equals(s)) {
             try {
                 final int i = Integer.parseInt(s);
 
                 return new Predicate() {
                     public boolean a(@Nullable IBlockState iblockdata) {
-                        return i == iblockdata.getBlock().getMetaFromState(iblockdata);
+                        return i == iblockdata.func_177230_c().func_176201_c(iblockdata);
                     }
 
-                    @Override
                     public boolean apply(@Nullable Object object) {
                         return this.a((IBlockState) object);
                     }
                 };
             } catch (RuntimeException runtimeexception) {
-                final Map map = getBlockStatePropertyValueMap(block, s);
+                final Map map = func_190795_c(block, s);
 
                 return new Predicate() {
                     public boolean a(@Nullable IBlockState iblockdata) {
-                        if (iblockdata != null && block == iblockdata.getBlock()) {
+                        if (iblockdata != null && block == iblockdata.func_177230_c()) {
                             Iterator iterator = map.entrySet().iterator();
 
                             Entry entry;
@@ -501,7 +497,7 @@ public abstract class CommandBase implements ICommand {
                                 }
 
                                 entry = (Entry) iterator.next();
-                            } while (iblockdata.getValue((IProperty) entry.getKey()).equals(entry.getValue()));
+                            } while (iblockdata.func_177229_b((IProperty) entry.getKey()).equals(entry.getValue()));
 
                             return false;
                         } else {
@@ -509,7 +505,6 @@ public abstract class CommandBase implements ICommand {
                         }
                     }
 
-                    @Override
                     public boolean apply(@Nullable Object object) {
                         return this.a((IBlockState) object);
                     }
@@ -520,14 +515,14 @@ public abstract class CommandBase implements ICommand {
         }
     }
 
-    private static Map<IProperty<?>, Comparable<?>> getBlockStatePropertyValueMap(Block block, String s) throws InvalidBlockStateException {
+    private static Map<IProperty<?>, Comparable<?>> func_190795_c(Block block, String s) throws InvalidBlockStateException {
         HashMap hashmap = Maps.newHashMap();
 
         if ("default".equals(s)) {
-            return block.getDefaultState().getProperties();
+            return block.func_176223_P().func_177228_b();
         } else {
-            BlockStateContainer blockstatelist = block.getBlockState();
-            Iterator iterator = CommandBase.COMMA_SPLITTER.split(s).iterator();
+            BlockStateContainer blockstatelist = block.func_176194_O();
+            Iterator iterator = CommandBase.field_190796_b.split(s).iterator();
 
             while (true) {
                 if (!iterator.hasNext()) {
@@ -535,19 +530,19 @@ public abstract class CommandBase implements ICommand {
                 }
 
                 String s1 = (String) iterator.next();
-                Iterator iterator1 = CommandBase.EQUAL_SPLITTER.split(s1).iterator();
+                Iterator iterator1 = CommandBase.field_190797_c.split(s1).iterator();
 
                 if (!iterator1.hasNext()) {
                     break;
                 }
 
-                IProperty iblockstate = blockstatelist.getProperty((String) iterator1.next());
+                IProperty iblockstate = blockstatelist.func_185920_a((String) iterator1.next());
 
                 if (iblockstate == null || !iterator1.hasNext()) {
                     break;
                 }
 
-                Comparable comparable = getValueHelper(iblockstate, (String) iterator1.next());
+                Comparable comparable = func_190792_a(iblockstate, (String) iterator1.next());
 
                 if (comparable == null) {
                     break;
@@ -556,16 +551,16 @@ public abstract class CommandBase implements ICommand {
                 hashmap.put(iblockstate, comparable);
             }
 
-            throw new InvalidBlockStateException("commands.generic.blockstate.invalid", new Object[] { s, Block.REGISTRY.getNameForObject(block)});
+            throw new InvalidBlockStateException("commands.generic.blockstate.invalid", new Object[] { s, Block.field_149771_c.func_177774_c(block)});
         }
     }
 
     @Nullable
-    private static <T extends Comparable<T>> T getValueHelper(IProperty<T> iblockstate, String s) {
-        return iblockstate.parseValue(s).orNull(); // Paper - fix decompiler error
+    private static <T extends Comparable<T>> T func_190792_a(IProperty<T> iblockstate, String s) {
+        return iblockstate.func_185929_b(s).orNull(); // Paper - fix decompiler error
     }
 
-    public static String joinNiceString(Object[] aobject) {
+    public static String func_71527_a(Object[] aobject) {
         StringBuilder stringbuilder = new StringBuilder();
 
         for (int i = 0; i < aobject.length; ++i) {
@@ -585,29 +580,29 @@ public abstract class CommandBase implements ICommand {
         return stringbuilder.toString();
     }
 
-    public static ITextComponent join(List<ITextComponent> list) {
+    public static ITextComponent func_180530_a(List<ITextComponent> list) {
         TextComponentString chatcomponenttext = new TextComponentString("");
 
         for (int i = 0; i < list.size(); ++i) {
             if (i > 0) {
                 if (i == list.size() - 1) {
-                    chatcomponenttext.appendText(" and ");
+                    chatcomponenttext.func_150258_a(" and ");
                 } else if (i > 0) {
-                    chatcomponenttext.appendText(", ");
+                    chatcomponenttext.func_150258_a(", ");
                 }
             }
 
-            chatcomponenttext.appendSibling(list.get(i));
+            chatcomponenttext.func_150257_a((ITextComponent) list.get(i));
         }
 
         return chatcomponenttext;
     }
 
-    public static String joinNiceStringFromCollection(Collection<String> collection) {
-        return joinNiceString(collection.toArray(new String[collection.size()]));
+    public static String func_96333_a(Collection<String> collection) {
+        return func_71527_a(collection.toArray(new String[collection.size()]));
     }
 
-    public static List<String> getTabCompletionCoordinate(String[] astring, int i, @Nullable BlockPos blockposition) {
+    public static List<String> func_175771_a(String[] astring, int i, @Nullable BlockPos blockposition) {
         if (blockposition == null) {
             return Lists.newArrayList(new String[] { "~"});
         } else {
@@ -615,22 +610,22 @@ public abstract class CommandBase implements ICommand {
             String s;
 
             if (j == i) {
-                s = Integer.toString(blockposition.getX());
+                s = Integer.toString(blockposition.func_177958_n());
             } else if (j == i + 1) {
-                s = Integer.toString(blockposition.getY());
+                s = Integer.toString(blockposition.func_177956_o());
             } else {
                 if (j != i + 2) {
                     return Collections.emptyList();
                 }
 
-                s = Integer.toString(blockposition.getZ());
+                s = Integer.toString(blockposition.func_177952_p());
             }
 
             return Lists.newArrayList(new String[] { s});
         }
     }
 
-    public static List<String> getTabCompletionCoordinateXZ(String[] astring, int i, @Nullable BlockPos blockposition) {
+    public static List<String> func_181043_b(String[] astring, int i, @Nullable BlockPos blockposition) {
         if (blockposition == null) {
             return Lists.newArrayList(new String[] { "~"});
         } else {
@@ -638,29 +633,29 @@ public abstract class CommandBase implements ICommand {
             String s;
 
             if (j == i) {
-                s = Integer.toString(blockposition.getX());
+                s = Integer.toString(blockposition.func_177958_n());
             } else {
                 if (j != i + 1) {
                     return Collections.emptyList();
                 }
 
-                s = Integer.toString(blockposition.getZ());
+                s = Integer.toString(blockposition.func_177952_p());
             }
 
             return Lists.newArrayList(new String[] { s});
         }
     }
 
-    public static boolean doesStringStartWith(String s, String s1) {
+    public static boolean func_71523_a(String s, String s1) {
         return s1.regionMatches(true, 0, s, 0, s.length());
     }
 
-    public static List<String> getListMatchingLast(String[] args, String... matches) { return getListOfStringsMatchingLastWord(args, matches); } // Paper - OBFHELPER
-    public static List<String> getListOfStringsMatchingLastWord(String[] astring, String... astring1) {
-        return getListOfStringsMatchingLastWord(astring, Arrays.asList(astring1));
+    public static List<String> getListMatchingLast(String[] args, String... matches) { return func_71530_a(args, matches); } // Paper - OBFHELPER
+    public static List<String> func_71530_a(String[] astring, String... astring1) {
+        return func_175762_a(astring, (Collection) Arrays.asList(astring1));
     }
 
-    public static List<String> getListOfStringsMatchingLastWord(String[] astring, Collection<?> collection) {
+    public static List<String> func_175762_a(String[] astring, Collection<?> collection) {
         String s = astring[astring.length - 1];
         ArrayList arraylist = Lists.newArrayList();
 
@@ -670,7 +665,7 @@ public abstract class CommandBase implements ICommand {
             while (iterator.hasNext()) {
                 String s1 = (String) iterator.next();
 
-                if (doesStringStartWith(s, s1)) {
+                if (func_71523_a(s, s1)) {
                     arraylist.add(s1);
                 }
             }
@@ -681,7 +676,7 @@ public abstract class CommandBase implements ICommand {
                 while (iterator.hasNext()) {
                     Object object = iterator.next();
 
-                    if (object instanceof ResourceLocation && doesStringStartWith(s, ((ResourceLocation) object).getResourcePath())) {
+                    if (object instanceof ResourceLocation && func_71523_a(s, ((ResourceLocation) object).func_110623_a())) {
                         arraylist.add(String.valueOf(object));
                     }
                 }
@@ -691,53 +686,55 @@ public abstract class CommandBase implements ICommand {
         return arraylist;
     }
 
-    @Override
-    public boolean isUsernameIndex(String[] astring, int i) {
+    public boolean func_82358_a(String[] astring, int i) {
         return false;
     }
 
-    public static void notifyCommandListener(ICommandSender icommandlistener, ICommand icommand, String s, Object... aobject) {
-        notifyCommandListener(icommandlistener, icommand, 0, s, aobject);
+    public static void func_152373_a(ICommandSender icommandlistener, ICommand icommand, String s, Object... aobject) {
+        func_152374_a(icommandlistener, icommand, 0, s, aobject);
     }
 
-    public static void notifyCommandListener(ICommandSender icommandlistener, ICommand icommand, int i, String s, Object... aobject) {
-        if (CommandBase.commandListener != null) {
-            CommandBase.commandListener.notifyListener(icommandlistener, icommand, i, s, aobject);
+    public static void func_152374_a(ICommandSender icommandlistener, ICommand icommand, int i, String s, Object... aobject) {
+        if (CommandBase.field_71533_a != null) {
+            CommandBase.field_71533_a.func_152372_a(icommandlistener, icommand, i, s, aobject);
         }
 
     }
 
-    public static void setCommandListener(ICommandListener icommanddispatcher) {
-        CommandBase.commandListener = icommanddispatcher;
+    public static void func_71529_a(ICommandListener icommanddispatcher) {
+        CommandBase.field_71533_a = icommanddispatcher;
     }
 
-    @Override
     public int compareTo(ICommand icommand) {
-        return this.getName().compareTo(icommand.getName());
+        return this.func_71517_b().compareTo(icommand.func_71517_b());
+    }
+
+    public int compareTo(ICommand object) { // Paper - fix decompile error
+        return this.compareTo((ICommand) object);
     }
 
     public static class CoordinateArg {
 
-        private final double result;
-        private final double amount;
-        private final boolean isRelative;
+        private final double field_179633_a;
+        private final double field_179631_b;
+        private final boolean field_179632_c;
 
         protected CoordinateArg(double d0, double d1, boolean flag) {
-            this.result = d0;
-            this.amount = d1;
-            this.isRelative = flag;
+            this.field_179633_a = d0;
+            this.field_179631_b = d1;
+            this.field_179632_c = flag;
         }
 
-        public double getResult() {
-            return this.result;
+        public double func_179628_a() {
+            return this.field_179633_a;
         }
 
-        public double getAmount() {
-            return this.amount;
+        public double func_179629_b() {
+            return this.field_179631_b;
         }
 
-        public boolean isRelative() {
-            return this.isRelative;
+        public boolean func_179630_c() {
+            return this.field_179632_c;
         }
     }
 }

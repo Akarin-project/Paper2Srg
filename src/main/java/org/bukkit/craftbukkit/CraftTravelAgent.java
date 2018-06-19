@@ -11,7 +11,7 @@ public class CraftTravelAgent extends Teleporter implements TravelAgent {
 
     public static TravelAgent DEFAULT = null;
 
-    private int searchRadius = world.paperConfig.portalSearchRadius; // Paper - Configurable search radius
+    private int searchRadius = field_85192_a.paperConfig.portalSearchRadius; // Paper - Configurable search radius
     private int creationRadius = 16;
     private boolean canCreatePortal = true;
 
@@ -40,14 +40,14 @@ public class CraftTravelAgent extends Teleporter implements TravelAgent {
 
     @Override
     public Location findPortal(Location location) {
-        Teleporter pta = ((CraftWorld) location.getWorld()).getHandle().getDefaultTeleporter();
+        Teleporter pta = ((CraftWorld) location.getWorld()).getHandle().func_85176_s();
         BlockPos found = pta.findPortal(location.getX(), location.getY(), location.getZ(), this.getSearchRadius());
-        return found != null ? new Location(location.getWorld(), found.getX(), found.getY(), found.getZ(), location.getYaw(), location.getPitch()) : null;
+        return found != null ? new Location(location.getWorld(), found.func_177958_n(), found.func_177956_o(), found.func_177952_p(), location.getYaw(), location.getPitch()) : null;
     }
 
     @Override
     public boolean createPortal(Location location) {
-        Teleporter pta = ((CraftWorld) location.getWorld()).getHandle().getDefaultTeleporter();
+        Teleporter pta = ((CraftWorld) location.getWorld()).getHandle().func_85176_s();
         return pta.createPortal(location.getX(), location.getY(), location.getZ(), this.getCreationRadius());
     }
 

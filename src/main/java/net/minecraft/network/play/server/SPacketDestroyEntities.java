@@ -8,37 +8,37 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketDestroyEntities implements Packet<INetHandlerPlayClient> {
 
-    private int[] entityIDs;
+    private int[] field_149100_a;
 
     public SPacketDestroyEntities() {}
 
     public SPacketDestroyEntities(int... aint) {
-        this.entityIDs = aint;
+        this.field_149100_a = aint;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.entityIDs = new int[packetdataserializer.readVarInt()];
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149100_a = new int[packetdataserializer.func_150792_a()];
 
-        for (int i = 0; i < this.entityIDs.length; ++i) {
-            this.entityIDs[i] = packetdataserializer.readVarInt();
+        for (int i = 0; i < this.field_149100_a.length; ++i) {
+            this.field_149100_a[i] = packetdataserializer.func_150792_a();
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.entityIDs.length);
-        int[] aint = this.entityIDs;
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_149100_a.length);
+        int[] aint = this.field_149100_a;
         int i = aint.length;
 
         for (int j = 0; j < i; ++j) {
             int k = aint[j];
 
-            packetdataserializer.writeVarInt(k);
+            packetdataserializer.func_150787_b(k);
         }
 
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleDestroyEntities(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147238_a(this);
     }
 }

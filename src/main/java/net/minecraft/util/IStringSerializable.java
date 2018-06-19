@@ -2,5 +2,5 @@ package net.minecraft.util;
 
 public interface IStringSerializable {
 
-    String getName();
+    String func_176610_l();
 }

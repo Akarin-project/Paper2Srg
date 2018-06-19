@@ -48,10 +48,10 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
     CraftMetaSkull(NBTTagCompound tag) {
         super(tag);
 
-        if (tag.hasKey(SKULL_OWNER.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
-            profile = NBTUtil.readGameProfileFromNBT(tag.getCompoundTag(SKULL_OWNER.NBT));
-        } else if (tag.hasKey(SKULL_OWNER.NBT, CraftMagicNumbers.NBT.TAG_STRING) && !tag.getString(SKULL_OWNER.NBT).isEmpty()) {
-            profile = new GameProfile(null, tag.getString(SKULL_OWNER.NBT));
+        if (tag.func_150297_b(SKULL_OWNER.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
+            profile = NBTUtil.func_152459_a(tag.func_74775_l(SKULL_OWNER.NBT));
+        } else if (tag.func_150297_b(SKULL_OWNER.NBT, CraftMagicNumbers.NBT.TAG_STRING) && !tag.func_74779_i(SKULL_OWNER.NBT).isEmpty()) {
+            profile = new GameProfile(null, tag.func_74779_i(SKULL_OWNER.NBT));
         }
     }
 
@@ -64,8 +64,8 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
 
     @Override
     void deserializeInternal(NBTTagCompound tag) {
-        if (tag.hasKey(SKULL_PROFILE.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
-            profile = NBTUtil.readGameProfileFromNBT(tag.getCompoundTag(SKULL_PROFILE.NBT));
+        if (tag.func_150297_b(SKULL_PROFILE.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
+            profile = NBTUtil.func_152459_a(tag.func_74775_l(SKULL_PROFILE.NBT));
         }
     }
 
@@ -73,7 +73,7 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
     void serializeInternal(final Map<String, NBTBase> internalTags) {
         if (profile != null) {
             NBTTagCompound nbtData = new NBTTagCompound();
-            NBTUtil.writeGameProfile(nbtData, profile);
+            NBTUtil.func_180708_a(nbtData, profile);
             internalTags.put(SKULL_PROFILE.NBT, nbtData);
         }
     }
@@ -88,8 +88,8 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
             profile = com.google.common.util.concurrent.Futures.getUnchecked(TileEntitySkull.b(profile, com.google.common.base.Predicates.alwaysTrue(), true)); // Spigot
 
             NBTTagCompound owner = new NBTTagCompound();
-            NBTUtil.writeGameProfile(owner, profile);
-            tag.setTag(SKULL_OWNER.NBT, owner);
+            NBTUtil.func_180708_a(owner, profile);
+            tag.func_74782_a(SKULL_OWNER.NBT, owner);
         }
     }
 
@@ -163,8 +163,8 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
         } else {
             // Paper start - Use Online Players Skull
             GameProfile newProfile = null;
-            EntityPlayerMP player = MinecraftServer.getServer().getPlayerList().getPlayerByUsername(name);
-            if (player != null) newProfile = player.getGameProfile();
+            EntityPlayerMP player = MinecraftServer.getServer().func_184103_al().func_152612_a(name);
+            if (player != null) newProfile = player.func_146103_bH();
             if (newProfile == null) newProfile = new GameProfile(null, name);
             profile = newProfile;
             // Paper end

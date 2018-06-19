@@ -27,18 +27,18 @@ import org.bukkit.entity.HumanEntity;
 
 public class InventoryMerchant implements IInventory {
 
-    private final IMerchant merchant;
-    private final NonNullList<ItemStack> slots;
-    private final EntityPlayer player;
-    private MerchantRecipe currentRecipe;
-    public int currentRecipeIndex;
+    private final IMerchant field_70476_a;
+    private final NonNullList<ItemStack> field_70474_b;
+    private final EntityPlayer field_70475_c;
+    private MerchantRecipe field_70472_d;
+    public int field_70473_e;
 
     // CraftBukkit start - add fields and methods
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
     private int maxStack = MAX_STACK;
 
     public List<ItemStack> getContents() {
-        return this.slots;
+        return this.field_70474_b;
     }
 
     public void onOpen(CraftHumanEntity who) {
@@ -58,27 +58,27 @@ public class InventoryMerchant implements IInventory {
     }
 
     public org.bukkit.inventory.InventoryHolder getOwner() {
-        return (merchant instanceof EntityVillager) ? (CraftVillager) ((EntityVillager) this.merchant).getBukkitEntity() : null;
+        return (field_70476_a instanceof EntityVillager) ? (CraftVillager) ((EntityVillager) this.field_70476_a).getBukkitEntity() : null;
     }
 
     @Override
     public Location getLocation() {
-        return (merchant instanceof EntityVillager) ? ((EntityVillager) this.merchant).getBukkitEntity().getLocation() : null;
+        return (field_70476_a instanceof EntityVillager) ? ((EntityVillager) this.field_70476_a).getBukkitEntity().getLocation() : null;
     }
     // CraftBukkit end
 
     public InventoryMerchant(EntityPlayer entityhuman, IMerchant imerchant) {
-        this.slots = NonNullList.withSize(3, ItemStack.EMPTY);
-        this.player = entityhuman;
-        this.merchant = imerchant;
+        this.field_70474_b = NonNullList.func_191197_a(3, ItemStack.field_190927_a);
+        this.field_70475_c = entityhuman;
+        this.field_70476_a = imerchant;
     }
 
-    public int getSizeInventory() {
-        return this.slots.size();
+    public int func_70302_i_() {
+        return this.field_70474_b.size();
     }
 
-    public boolean isEmpty() {
-        Iterator iterator = this.slots.iterator();
+    public boolean func_191420_l() {
+        Iterator iterator = this.field_70474_b.iterator();
 
         ItemStack itemstack;
 
@@ -88,142 +88,142 @@ public class InventoryMerchant implements IInventory {
             }
 
             itemstack = (ItemStack) iterator.next();
-        } while (itemstack.isEmpty());
+        } while (itemstack.func_190926_b());
 
         return false;
     }
 
-    public ItemStack getStackInSlot(int i) {
-        return (ItemStack) this.slots.get(i);
+    public ItemStack func_70301_a(int i) {
+        return (ItemStack) this.field_70474_b.get(i);
     }
 
-    public ItemStack decrStackSize(int i, int j) {
-        ItemStack itemstack = (ItemStack) this.slots.get(i);
+    public ItemStack func_70298_a(int i, int j) {
+        ItemStack itemstack = (ItemStack) this.field_70474_b.get(i);
 
-        if (i == 2 && !itemstack.isEmpty()) {
-            return ItemStackHelper.getAndSplit(this.slots, i, itemstack.getCount());
+        if (i == 2 && !itemstack.func_190926_b()) {
+            return ItemStackHelper.func_188382_a(this.field_70474_b, i, itemstack.func_190916_E());
         } else {
-            ItemStack itemstack1 = ItemStackHelper.getAndSplit(this.slots, i, j);
+            ItemStack itemstack1 = ItemStackHelper.func_188382_a(this.field_70474_b, i, j);
 
-            if (!itemstack1.isEmpty() && this.inventoryResetNeededOnSlotChange(i)) {
-                this.resetRecipeAndSlots();
+            if (!itemstack1.func_190926_b() && this.func_70469_d(i)) {
+                this.func_70470_g();
             }
 
             return itemstack1;
         }
     }
 
-    private boolean inventoryResetNeededOnSlotChange(int i) {
+    private boolean func_70469_d(int i) {
         return i == 0 || i == 1;
     }
 
-    public ItemStack removeStackFromSlot(int i) {
-        return ItemStackHelper.getAndRemove(this.slots, i);
+    public ItemStack func_70304_b(int i) {
+        return ItemStackHelper.func_188383_a(this.field_70474_b, i);
     }
 
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
-        this.slots.set(i, itemstack);
-        if (!itemstack.isEmpty() && itemstack.getCount() > this.getInventoryStackLimit()) {
-            itemstack.setCount(this.getInventoryStackLimit());
+    public void func_70299_a(int i, ItemStack itemstack) {
+        this.field_70474_b.set(i, itemstack);
+        if (!itemstack.func_190926_b() && itemstack.func_190916_E() > this.func_70297_j_()) {
+            itemstack.func_190920_e(this.func_70297_j_());
         }
 
-        if (this.inventoryResetNeededOnSlotChange(i)) {
-            this.resetRecipeAndSlots();
+        if (this.func_70469_d(i)) {
+            this.func_70470_g();
         }
 
     }
 
-    public String getName() {
+    public String func_70005_c_() {
         return "mob.villager";
     }
 
-    public boolean hasCustomName() {
+    public boolean func_145818_k_() {
         return false;
     }
 
-    public ITextComponent getDisplayName() {
-        return (ITextComponent) (this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
+    public ITextComponent func_145748_c_() {
+        return (ITextComponent) (this.func_145818_k_() ? new TextComponentString(this.func_70005_c_()) : new TextComponentTranslation(this.func_70005_c_(), new Object[0]));
     }
 
-    public int getInventoryStackLimit() {
+    public int func_70297_j_() {
         return maxStack; // CraftBukkit
     }
 
-    public boolean isUsableByPlayer(EntityPlayer entityhuman) {
-        return this.merchant.getCustomer() == entityhuman;
+    public boolean func_70300_a(EntityPlayer entityhuman) {
+        return this.field_70476_a.func_70931_l_() == entityhuman;
     }
 
-    public void openInventory(EntityPlayer entityhuman) {}
+    public void func_174889_b(EntityPlayer entityhuman) {}
 
-    public void closeInventory(EntityPlayer entityhuman) {}
+    public void func_174886_c(EntityPlayer entityhuman) {}
 
-    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+    public boolean func_94041_b(int i, ItemStack itemstack) {
         return true;
     }
 
-    public void markDirty() {
-        this.resetRecipeAndSlots();
+    public void func_70296_d() {
+        this.func_70470_g();
     }
 
-    public void resetRecipeAndSlots() {
-        this.currentRecipe = null;
-        ItemStack itemstack = (ItemStack) this.slots.get(0);
-        ItemStack itemstack1 = (ItemStack) this.slots.get(1);
+    public void func_70470_g() {
+        this.field_70472_d = null;
+        ItemStack itemstack = (ItemStack) this.field_70474_b.get(0);
+        ItemStack itemstack1 = (ItemStack) this.field_70474_b.get(1);
 
-        if (itemstack.isEmpty()) {
+        if (itemstack.func_190926_b()) {
             itemstack = itemstack1;
-            itemstack1 = ItemStack.EMPTY;
+            itemstack1 = ItemStack.field_190927_a;
         }
 
-        if (itemstack.isEmpty()) {
-            this.setInventorySlotContents(2, ItemStack.EMPTY);
+        if (itemstack.func_190926_b()) {
+            this.func_70299_a(2, ItemStack.field_190927_a);
         } else {
-            MerchantRecipeList merchantrecipelist = this.merchant.getRecipes(this.player);
+            MerchantRecipeList merchantrecipelist = this.field_70476_a.func_70934_b(this.field_70475_c);
 
             if (merchantrecipelist != null) {
-                MerchantRecipe merchantrecipe = merchantrecipelist.canRecipeBeUsed(itemstack, itemstack1, this.currentRecipeIndex);
+                MerchantRecipe merchantrecipe = merchantrecipelist.func_77203_a(itemstack, itemstack1, this.field_70473_e);
 
-                if (merchantrecipe != null && !merchantrecipe.isRecipeDisabled()) {
-                    this.currentRecipe = merchantrecipe;
-                    this.setInventorySlotContents(2, merchantrecipe.getItemToSell().copy());
-                } else if (!itemstack1.isEmpty()) {
-                    merchantrecipe = merchantrecipelist.canRecipeBeUsed(itemstack1, itemstack, this.currentRecipeIndex);
-                    if (merchantrecipe != null && !merchantrecipe.isRecipeDisabled()) {
-                        this.currentRecipe = merchantrecipe;
-                        this.setInventorySlotContents(2, merchantrecipe.getItemToSell().copy());
+                if (merchantrecipe != null && !merchantrecipe.func_82784_g()) {
+                    this.field_70472_d = merchantrecipe;
+                    this.func_70299_a(2, merchantrecipe.func_77397_d().func_77946_l());
+                } else if (!itemstack1.func_190926_b()) {
+                    merchantrecipe = merchantrecipelist.func_77203_a(itemstack1, itemstack, this.field_70473_e);
+                    if (merchantrecipe != null && !merchantrecipe.func_82784_g()) {
+                        this.field_70472_d = merchantrecipe;
+                        this.func_70299_a(2, merchantrecipe.func_77397_d().func_77946_l());
                     } else {
-                        this.setInventorySlotContents(2, ItemStack.EMPTY);
+                        this.func_70299_a(2, ItemStack.field_190927_a);
                     }
                 } else {
-                    this.setInventorySlotContents(2, ItemStack.EMPTY);
+                    this.func_70299_a(2, ItemStack.field_190927_a);
                 }
             }
 
-            this.merchant.verifySellingItem(this.getStackInSlot(2));
+            this.field_70476_a.func_110297_a_(this.func_70301_a(2));
         }
 
     }
 
-    public MerchantRecipe getCurrentRecipe() {
-        return this.currentRecipe;
+    public MerchantRecipe func_70468_h() {
+        return this.field_70472_d;
     }
 
-    public void setCurrentRecipeIndex(int i) {
-        this.currentRecipeIndex = i;
-        this.resetRecipeAndSlots();
+    public void func_70471_c(int i) {
+        this.field_70473_e = i;
+        this.func_70470_g();
     }
 
-    public int getField(int i) {
+    public int func_174887_a_(int i) {
         return 0;
     }
 
-    public void setField(int i, int j) {}
+    public void func_174885_b(int i, int j) {}
 
-    public int getFieldCount() {
+    public int func_174890_g() {
         return 0;
     }
 
-    public void clear() {
-        this.slots.clear();
+    public void func_174888_l() {
+        this.field_70474_b.clear();
     }
 }

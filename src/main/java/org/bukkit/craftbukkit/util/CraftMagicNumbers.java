@@ -59,34 +59,34 @@ public final class CraftMagicNumbers implements UnsafeValues {
     @Deprecated
     // A bad method for bad magic.
     public static int getId(Block block) {
-        return Block.getIdFromBlock(block);
+        return Block.func_149682_b(block);
     }
 
     public static Material getMaterial(Block block) {
-        return Material.getMaterial(Block.getIdFromBlock(block));
+        return Material.getMaterial(Block.func_149682_b(block));
     }
 
     public static Item getItem(Material material) {
         // TODO: Don't use ID
-        Item item = Item.getItemById(material.getId());
+        Item item = Item.func_150899_d(material.getId());
         return item;
     }
 
     @Deprecated
     // A bad method for bad magic.
     public static Item getItem(int id) {
-        return Item.getItemById(id);
+        return Item.func_150899_d(id);
     }
 
     @Deprecated
     // A bad method for bad magic.
     public static int getId(Item item) {
-        return Item.getIdFromItem(item);
+        return Item.func_150891_b(item);
     }
 
     public static Material getMaterial(Item item) {
         // TODO: Don't use ID
-        Material material = Material.getMaterial(Item.getIdFromItem(item));
+        Material material = Material.getMaterial(Item.func_150891_b(item));
 
         if (material == null) {
             return Material.AIR;
@@ -100,10 +100,10 @@ public final class CraftMagicNumbers implements UnsafeValues {
             return null;
         }
         // TODO: Don't use ID
-        Block block = Block.getBlockById(material.getId());
+        Block block = Block.func_149729_e(material.getId());
 
         if (block == null) {
-            return Blocks.AIR;
+            return Blocks.field_150350_a;
         }
 
         return block;
@@ -111,13 +111,13 @@ public final class CraftMagicNumbers implements UnsafeValues {
 
     @Override
     public Material getMaterialFromInternalName(String name) {
-        return getMaterial((Item) Item.REGISTRY.getObject(new ResourceLocation(name)));
+        return getMaterial((Item) Item.field_150901_e.func_82594_a(new ResourceLocation(name)));
     }
 
     @Override
     public List<String> tabCompleteInternalMaterialName(String token, List<String> completions) {
         ArrayList<String> results = Lists.newArrayList();
-        for (ResourceLocation key : (Set<ResourceLocation>)Item.REGISTRY.getKeys()) {
+        for (ResourceLocation key : (Set<ResourceLocation>)Item.field_150901_e.func_148742_b()) {
             results.add(key.toString());
         }
         return StringUtil.copyPartialMatches(token, results, completions);
@@ -128,7 +128,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
         net.minecraft.item.ItemStack nmsStack = CraftItemStack.asNMSCopy(stack);
 
         try {
-            nmsStack.setTagCompound((NBTTagCompound) JsonToNBT.getTagFromJson(arguments));
+            nmsStack.func_77982_d((NBTTagCompound) JsonToNBT.func_180713_a(arguments));
         } catch (NBTException ex) {
             Logger.getLogger(CraftMagicNumbers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -151,9 +151,9 @@ public final class CraftMagicNumbers implements UnsafeValues {
     @Override
     public List<String> tabCompleteInternalStatisticOrAchievementName(String token, List<String> completions) {
         List<String> matches = new ArrayList<String>();
-        Iterator iterator = StatList.ALL_STATS.iterator();
+        Iterator iterator = StatList.field_75940_b.iterator();
         while (iterator.hasNext()) {
-            String statistic = ((net.minecraft.stats.StatBase) iterator.next()).statId;
+            String statistic = ((net.minecraft.stats.StatBase) iterator.next()).field_75975_e;
             if (statistic.startsWith(token)) {
                 matches.add(statistic);
             }
@@ -167,13 +167,13 @@ public final class CraftMagicNumbers implements UnsafeValues {
             throw new IllegalArgumentException("Advancement " + key + " already exists.");
         }
 
-        net.minecraft.advancements.Advancement.Builder nms = (net.minecraft.advancements.Advancement.Builder) JsonUtils.gsonDeserialize(AdvancementManager.GSON, advancement, net.minecraft.advancements.Advancement.Builder.class);
+        net.minecraft.advancements.Advancement.Builder nms = (net.minecraft.advancements.Advancement.Builder) JsonUtils.func_188178_a(AdvancementManager.field_192783_b, advancement, net.minecraft.advancements.Advancement.Builder.class);
         if (nms != null) {
-            AdvancementManager.ADVANCEMENT_LIST.loadAdvancements(Maps.newHashMap(Collections.singletonMap(CraftNamespacedKey.toMinecraft(key), nms)));
+            AdvancementManager.field_192784_c.func_192083_a(Maps.newHashMap(Collections.singletonMap(CraftNamespacedKey.toMinecraft(key), nms)));
             Advancement bukkit = Bukkit.getAdvancement(key);
 
             if (bukkit != null) {
-                File file = new File(MinecraftServer.getServer().getAdvancementManager().advancementsDir, key.getNamespace() + File.separator + key.getKey() + ".json");
+                File file = new File(MinecraftServer.getServer().func_191949_aK().field_192785_d, key.getNamespace() + File.separator + key.getKey() + ".json");
                 file.getParentFile().mkdirs();
 
                 try {
@@ -182,7 +182,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
                     Bukkit.getLogger().log(Level.SEVERE, "Error saving advancement " + key, ex);
                 }
 
-                MinecraftServer.getServer().getPlayerList().reloadResources();
+                MinecraftServer.getServer().func_184103_al().func_193244_w();
 
                 return bukkit;
             }
@@ -193,7 +193,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
 
     @Override
     public boolean removeAdvancement(NamespacedKey key) {
-        File file = new File(MinecraftServer.getServer().getAdvancementManager().advancementsDir, key.getNamespace() + File.separator + key.getKey() + ".json");
+        File file = new File(MinecraftServer.getServer().func_191949_aK().field_192785_d, key.getNamespace() + File.separator + key.getKey() + ".json");
         return file.delete();
     }
 

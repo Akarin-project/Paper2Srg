@@ -34,51 +34,51 @@ import net.minecraft.util.ResourceLocation;
 
 public class CriteriaTriggers {
 
-    private static final Map<ResourceLocation, ICriterionTrigger<?>> REGISTRY = Maps.newHashMap();
-    public static final ImpossibleTrigger IMPOSSIBLE = (ImpossibleTrigger) register((ICriterionTrigger) (new ImpossibleTrigger()));
-    public static final KilledTrigger PLAYER_KILLED_ENTITY = (KilledTrigger) register((ICriterionTrigger) (new KilledTrigger(new ResourceLocation("player_killed_entity"))));
-    public static final KilledTrigger ENTITY_KILLED_PLAYER = (KilledTrigger) register((ICriterionTrigger) (new KilledTrigger(new ResourceLocation("entity_killed_player"))));
-    public static final EnterBlockTrigger ENTER_BLOCK = (EnterBlockTrigger) register((ICriterionTrigger) (new EnterBlockTrigger()));
-    public static final InventoryChangeTrigger INVENTORY_CHANGED = (InventoryChangeTrigger) register((ICriterionTrigger) (new InventoryChangeTrigger()));
-    public static final RecipeUnlockedTrigger RECIPE_UNLOCKED = (RecipeUnlockedTrigger) register((ICriterionTrigger) (new RecipeUnlockedTrigger()));
-    public static final PlayerHurtEntityTrigger PLAYER_HURT_ENTITY = (PlayerHurtEntityTrigger) register((ICriterionTrigger) (new PlayerHurtEntityTrigger()));
-    public static final EntityHurtPlayerTrigger ENTITY_HURT_PLAYER = (EntityHurtPlayerTrigger) register((ICriterionTrigger) (new EntityHurtPlayerTrigger()));
-    public static final EnchantedItemTrigger ENCHANTED_ITEM = (EnchantedItemTrigger) register((ICriterionTrigger) (new EnchantedItemTrigger()));
-    public static final BrewedPotionTrigger BREWED_POTION = (BrewedPotionTrigger) register((ICriterionTrigger) (new BrewedPotionTrigger()));
-    public static final ConstructBeaconTrigger CONSTRUCT_BEACON = (ConstructBeaconTrigger) register((ICriterionTrigger) (new ConstructBeaconTrigger()));
-    public static final UsedEnderEyeTrigger USED_ENDER_EYE = (UsedEnderEyeTrigger) register((ICriterionTrigger) (new UsedEnderEyeTrigger()));
-    public static final SummonedEntityTrigger SUMMONED_ENTITY = (SummonedEntityTrigger) register((ICriterionTrigger) (new SummonedEntityTrigger()));
-    public static final BredAnimalsTrigger BRED_ANIMALS = (BredAnimalsTrigger) register((ICriterionTrigger) (new BredAnimalsTrigger()));
-    public static final PositionTrigger LOCATION = (PositionTrigger) register((ICriterionTrigger) (new PositionTrigger(new ResourceLocation("location"))));
-    public static final PositionTrigger SLEPT_IN_BED = (PositionTrigger) register((ICriterionTrigger) (new PositionTrigger(new ResourceLocation("slept_in_bed"))));
-    public static final CuredZombieVillagerTrigger CURED_ZOMBIE_VILLAGER = (CuredZombieVillagerTrigger) register((ICriterionTrigger) (new CuredZombieVillagerTrigger()));
-    public static final VillagerTradeTrigger VILLAGER_TRADE = (VillagerTradeTrigger) register((ICriterionTrigger) (new VillagerTradeTrigger()));
-    public static final ItemDurabilityTrigger ITEM_DURABILITY_CHANGED = (ItemDurabilityTrigger) register((ICriterionTrigger) (new ItemDurabilityTrigger()));
-    public static final LevitationTrigger LEVITATION = (LevitationTrigger) register((ICriterionTrigger) (new LevitationTrigger()));
-    public static final ChangeDimensionTrigger CHANGED_DIMENSION = (ChangeDimensionTrigger) register((ICriterionTrigger) (new ChangeDimensionTrigger()));
-    public static final TickTrigger TICK = (TickTrigger) register((ICriterionTrigger) (new TickTrigger()));
-    public static final TameAnimalTrigger TAME_ANIMAL = (TameAnimalTrigger) register((ICriterionTrigger) (new TameAnimalTrigger()));
-    public static final PlacedBlockTrigger PLACED_BLOCK = (PlacedBlockTrigger) register((ICriterionTrigger) (new PlacedBlockTrigger()));
-    public static final ConsumeItemTrigger CONSUME_ITEM = (ConsumeItemTrigger) register((ICriterionTrigger) (new ConsumeItemTrigger()));
-    public static final EffectsChangedTrigger EFFECTS_CHANGED = (EffectsChangedTrigger) register((ICriterionTrigger) (new EffectsChangedTrigger()));
-    public static final UsedTotemTrigger USED_TOTEM = (UsedTotemTrigger) register((ICriterionTrigger) (new UsedTotemTrigger()));
-    public static final NetherTravelTrigger NETHER_TRAVEL = (NetherTravelTrigger) register((ICriterionTrigger) (new NetherTravelTrigger()));
+    private static final Map<ResourceLocation, ICriterionTrigger<?>> field_192139_s = Maps.newHashMap();
+    public static final ImpossibleTrigger field_192121_a = (ImpossibleTrigger) func_192118_a((ICriterionTrigger) (new ImpossibleTrigger()));
+    public static final KilledTrigger field_192122_b = (KilledTrigger) func_192118_a((ICriterionTrigger) (new KilledTrigger(new ResourceLocation("player_killed_entity"))));
+    public static final KilledTrigger field_192123_c = (KilledTrigger) func_192118_a((ICriterionTrigger) (new KilledTrigger(new ResourceLocation("entity_killed_player"))));
+    public static final EnterBlockTrigger field_192124_d = (EnterBlockTrigger) func_192118_a((ICriterionTrigger) (new EnterBlockTrigger()));
+    public static final InventoryChangeTrigger field_192125_e = (InventoryChangeTrigger) func_192118_a((ICriterionTrigger) (new InventoryChangeTrigger()));
+    public static final RecipeUnlockedTrigger field_192126_f = (RecipeUnlockedTrigger) func_192118_a((ICriterionTrigger) (new RecipeUnlockedTrigger()));
+    public static final PlayerHurtEntityTrigger field_192127_g = (PlayerHurtEntityTrigger) func_192118_a((ICriterionTrigger) (new PlayerHurtEntityTrigger()));
+    public static final EntityHurtPlayerTrigger field_192128_h = (EntityHurtPlayerTrigger) func_192118_a((ICriterionTrigger) (new EntityHurtPlayerTrigger()));
+    public static final EnchantedItemTrigger field_192129_i = (EnchantedItemTrigger) func_192118_a((ICriterionTrigger) (new EnchantedItemTrigger()));
+    public static final BrewedPotionTrigger field_192130_j = (BrewedPotionTrigger) func_192118_a((ICriterionTrigger) (new BrewedPotionTrigger()));
+    public static final ConstructBeaconTrigger field_192131_k = (ConstructBeaconTrigger) func_192118_a((ICriterionTrigger) (new ConstructBeaconTrigger()));
+    public static final UsedEnderEyeTrigger field_192132_l = (UsedEnderEyeTrigger) func_192118_a((ICriterionTrigger) (new UsedEnderEyeTrigger()));
+    public static final SummonedEntityTrigger field_192133_m = (SummonedEntityTrigger) func_192118_a((ICriterionTrigger) (new SummonedEntityTrigger()));
+    public static final BredAnimalsTrigger field_192134_n = (BredAnimalsTrigger) func_192118_a((ICriterionTrigger) (new BredAnimalsTrigger()));
+    public static final PositionTrigger field_192135_o = (PositionTrigger) func_192118_a((ICriterionTrigger) (new PositionTrigger(new ResourceLocation("location"))));
+    public static final PositionTrigger field_192136_p = (PositionTrigger) func_192118_a((ICriterionTrigger) (new PositionTrigger(new ResourceLocation("slept_in_bed"))));
+    public static final CuredZombieVillagerTrigger field_192137_q = (CuredZombieVillagerTrigger) func_192118_a((ICriterionTrigger) (new CuredZombieVillagerTrigger()));
+    public static final VillagerTradeTrigger field_192138_r = (VillagerTradeTrigger) func_192118_a((ICriterionTrigger) (new VillagerTradeTrigger()));
+    public static final ItemDurabilityTrigger field_193132_s = (ItemDurabilityTrigger) func_192118_a((ICriterionTrigger) (new ItemDurabilityTrigger()));
+    public static final LevitationTrigger field_193133_t = (LevitationTrigger) func_192118_a((ICriterionTrigger) (new LevitationTrigger()));
+    public static final ChangeDimensionTrigger field_193134_u = (ChangeDimensionTrigger) func_192118_a((ICriterionTrigger) (new ChangeDimensionTrigger()));
+    public static final TickTrigger field_193135_v = (TickTrigger) func_192118_a((ICriterionTrigger) (new TickTrigger()));
+    public static final TameAnimalTrigger field_193136_w = (TameAnimalTrigger) func_192118_a((ICriterionTrigger) (new TameAnimalTrigger()));
+    public static final PlacedBlockTrigger field_193137_x = (PlacedBlockTrigger) func_192118_a((ICriterionTrigger) (new PlacedBlockTrigger()));
+    public static final ConsumeItemTrigger field_193138_y = (ConsumeItemTrigger) func_192118_a((ICriterionTrigger) (new ConsumeItemTrigger()));
+    public static final EffectsChangedTrigger field_193139_z = (EffectsChangedTrigger) func_192118_a((ICriterionTrigger) (new EffectsChangedTrigger()));
+    public static final UsedTotemTrigger field_193130_A = (UsedTotemTrigger) func_192118_a((ICriterionTrigger) (new UsedTotemTrigger()));
+    public static final NetherTravelTrigger field_193131_B = (NetherTravelTrigger) func_192118_a((ICriterionTrigger) (new NetherTravelTrigger()));
 
-    private static <T extends ICriterionTrigger> T register(T t0) {
-        if (CriteriaTriggers.REGISTRY.containsKey(t0.getId())) {
-            throw new IllegalArgumentException("Duplicate criterion id " + t0.getId());
+    private static <T extends ICriterionTrigger> T func_192118_a(T t0) {
+        if (CriteriaTriggers.field_192139_s.containsKey(t0.func_192163_a())) {
+            throw new IllegalArgumentException("Duplicate criterion id " + t0.func_192163_a());
         } else {
-            CriteriaTriggers.REGISTRY.put(t0.getId(), t0);
+            CriteriaTriggers.field_192139_s.put(t0.func_192163_a(), t0);
             return t0;
         }
     }
 
     @Nullable
-    public static <T extends ICriterionInstance> ICriterionTrigger<T> get(ResourceLocation minecraftkey) {
-        return (ICriterionTrigger) CriteriaTriggers.REGISTRY.get(minecraftkey);
+    public static <T extends ICriterionInstance> ICriterionTrigger<T> func_192119_a(ResourceLocation minecraftkey) {
+        return (ICriterionTrigger) CriteriaTriggers.field_192139_s.get(minecraftkey);
     }
 
-    public static Iterable<? extends ICriterionTrigger<?>> getAll() {
-        return CriteriaTriggers.REGISTRY.values();
+    public static Iterable<? extends ICriterionTrigger<?>> func_192120_a() {
+        return CriteriaTriggers.field_192139_s.values();
     }
 }

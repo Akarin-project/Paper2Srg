@@ -19,33 +19,33 @@ public class CommandWhitelist extends CommandBase {
 
     public CommandWhitelist() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "whitelist";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 3;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.whitelist.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 1) {
             throw new WrongUsageException("commands.whitelist.usage", new Object[0]);
         } else {
             if ("on".equals(astring[0])) {
-                minecraftserver.getPlayerList().setWhiteListEnabled(true);
-                notifyCommandListener(icommandlistener, (ICommand) this, "commands.whitelist.enabled", new Object[0]);
+                minecraftserver.func_184103_al().func_72371_a(true);
+                func_152373_a(icommandlistener, (ICommand) this, "commands.whitelist.enabled", new Object[0]);
             } else if ("off".equals(astring[0])) {
-                minecraftserver.getPlayerList().setWhiteListEnabled(false);
-                notifyCommandListener(icommandlistener, (ICommand) this, "commands.whitelist.disabled", new Object[0]);
+                minecraftserver.func_184103_al().func_72371_a(false);
+                func_152373_a(icommandlistener, (ICommand) this, "commands.whitelist.disabled", new Object[0]);
             } else if ("list".equals(astring[0])) {
-                icommandlistener.sendMessage(new TextComponentTranslation("commands.whitelist.list", new Object[] { Integer.valueOf(minecraftserver.getPlayerList().getWhitelistedPlayerNames().length), Integer.valueOf(minecraftserver.getPlayerList().getAvailablePlayerDat().length)}));
-                String[] astring1 = minecraftserver.getPlayerList().getWhitelistedPlayerNames();
+                icommandlistener.func_145747_a(new TextComponentTranslation("commands.whitelist.list", new Object[] { Integer.valueOf(minecraftserver.func_184103_al().func_152598_l().length), Integer.valueOf(minecraftserver.func_184103_al().func_72373_m().length)}));
+                String[] astring1 = minecraftserver.func_184103_al().func_152598_l();
 
-                icommandlistener.sendMessage(new TextComponentString(joinNiceString((Object[]) astring1)));
+                icommandlistener.func_145747_a(new TextComponentString(func_71527_a((Object[]) astring1)));
             } else {
                 GameProfile gameprofile;
 
@@ -65,7 +65,7 @@ public class CommandWhitelist extends CommandBase {
                     */
                     this.whitelist(minecraftserver, astring[1], true);
                     // Paper end
-                    notifyCommandListener(icommandlistener, (ICommand) this, "commands.whitelist.add.success", new Object[] { astring[1]});
+                    func_152373_a(icommandlistener, (ICommand) this, "commands.whitelist.add.success", new Object[] { astring[1]});
                 } else if ("remove".equals(astring[0])) {
                     if (astring.length < 2) {
                         throw new WrongUsageException("commands.whitelist.remove.usage", new Object[0]);
@@ -83,27 +83,27 @@ public class CommandWhitelist extends CommandBase {
                     */
                     this.whitelist(minecraftserver, astring[1], false);
                     // Paper end
-                    notifyCommandListener(icommandlistener, (ICommand) this, "commands.whitelist.remove.success", new Object[] { astring[1]});
+                    func_152373_a(icommandlistener, (ICommand) this, "commands.whitelist.remove.success", new Object[] { astring[1]});
                 } else if ("reload".equals(astring[0])) {
-                    minecraftserver.getPlayerList().reloadWhitelist();
-                    notifyCommandListener(icommandlistener, (ICommand) this, "commands.whitelist.reloaded", new Object[0]);
+                    minecraftserver.func_184103_al().func_187244_a();
+                    func_152373_a(icommandlistener, (ICommand) this, "commands.whitelist.reloaded", new Object[0]);
                 }
             }
 
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
         if (astring.length == 1) {
-            return getListOfStringsMatchingLastWord(astring, new String[] { "on", "off", "list", "add", "remove", "reload"});
+            return func_71530_a(astring, new String[] { "on", "off", "list", "add", "remove", "reload"});
         } else {
             if (astring.length == 2) {
                 if ("remove".equals(astring[0])) {
-                    return getListOfStringsMatchingLastWord(astring, minecraftserver.getPlayerList().getWhitelistedPlayerNames());
+                    return func_71530_a(astring, minecraftserver.func_184103_al().func_152598_l());
                 }
 
                 if ("add".equals(astring[0])) {
-                    return getListOfStringsMatchingLastWord(astring, minecraftserver.getPlayerProfileCache().getUsernames());
+                    return func_71530_a(astring, minecraftserver.func_152358_ax().func_152654_a());
                 }
             }
 
@@ -120,11 +120,11 @@ public class CommandWhitelist extends CommandBase {
      * @param add whether we're adding or removing from the whitelist
      */
     private void whitelist(MinecraftServer mcserver, String playerName, boolean add) throws CommandException {
-        if (mcserver.isServerInOnlineMode()) {
+        if (mcserver.func_71266_T()) {
             // The reason we essentially copy/pasta NMS code here is because the NMS online-only version
             // is capable of providing feedback to the person running the command based on whether or
             // not the player is a real online-mode account
-            GameProfile gameprofile = mcserver.getPlayerProfileCache().getGameProfileForUsername(playerName);
+            GameProfile gameprofile = mcserver.func_152358_ax().func_152655_a(playerName);
             if (gameprofile == null) {
                 if (add) {
                     throw new CommandException("commands.whitelist.add.failed", new Object[] { playerName});
@@ -134,9 +134,9 @@ public class CommandWhitelist extends CommandBase {
             }
 
             if (add) {
-                mcserver.getPlayerList().addWhitelistedPlayer(gameprofile);
+                mcserver.func_184103_al().func_152601_d(gameprofile);
             } else {
-                mcserver.getPlayerList().removePlayerFromWhitelist(gameprofile);
+                mcserver.func_184103_al().func_152597_c(gameprofile);
             }
         } else {
             // versus our offline version, which will always report success all of the time

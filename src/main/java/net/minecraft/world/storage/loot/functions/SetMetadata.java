@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.LootItemFunctionSetData.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -16,42 +17,39 @@ import net.minecraft.world.storage.loot.conditions.LootCondition;
 
 public class SetMetadata extends LootFunction {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final RandomValueRange metaRange;
+    private static final Logger field_186572_a = LogManager.getLogger();
+    private final RandomValueRange field_186573_b;
 
     public SetMetadata(LootCondition[] alootitemcondition, RandomValueRange lootvaluebounds) {
         super(alootitemcondition);
-        this.metaRange = lootvaluebounds;
+        this.field_186573_b = lootvaluebounds;
     }
 
-    @Override
-    public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
-        if (itemstack.isItemStackDamageable()) {
-            SetMetadata.LOGGER.warn("Couldn\'t set data of loot item {}", itemstack);
+    public ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo) {
+        if (itemstack.func_77984_f()) {
+            SetMetadata.field_186572_a.warn("Couldn\'t set data of loot item {}", itemstack);
         } else {
-            itemstack.setItemDamage(this.metaRange.generateInt(random));
+            itemstack.func_77964_b(this.field_186573_b.func_186511_a(random));
         }
 
         return itemstack;
     }
 
-    public static class a extends LootFunction.a<SetMetadata> {
+    public static class a extends LootItemFunction.a<SetMetadata> {
 
         protected a() {
             super(new ResourceLocation("set_data"), SetMetadata.class);
         }
 
-        @Override
         public void a(JsonObject jsonobject, SetMetadata lootitemfunctionsetdata, JsonSerializationContext jsonserializationcontext) {
-            jsonobject.add("data", jsonserializationcontext.serialize(lootitemfunctionsetdata.metaRange));
+            jsonobject.add("data", jsonserializationcontext.serialize(lootitemfunctionsetdata.field_186573_b));
         }
 
         public SetMetadata a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
-            return new SetMetadata(alootitemcondition, JsonUtils.deserializeClass(jsonobject, "data", jsondeserializationcontext, RandomValueRange.class));
+            return new SetMetadata(alootitemcondition, (RandomValueRange) JsonUtils.func_188174_a(jsonobject, "data", jsondeserializationcontext, RandomValueRange.class));
         }
 
-        @Override
-        public SetMetadata b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }

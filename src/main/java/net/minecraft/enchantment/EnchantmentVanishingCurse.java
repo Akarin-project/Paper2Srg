@@ -6,26 +6,26 @@ public class EnchantmentVanishingCurse extends Enchantment {
 
     public EnchantmentVanishingCurse(Enchantment.Rarity enchantment_rarity, EntityEquipmentSlot... aenumitemslot) {
         super(enchantment_rarity, EnumEnchantmentType.ALL, aenumitemslot);
-        this.setName("vanishing_curse");
+        this.func_77322_b("vanishing_curse");
     }
 
-    public int getMinEnchantability(int i) {
+    public int func_77321_a(int i) {
         return 25;
     }
 
-    public int getMaxEnchantability(int i) {
+    public int func_77317_b(int i) {
         return 50;
     }
 
-    public int getMaxLevel() {
+    public int func_77325_b() {
         return 1;
     }
 
-    public boolean isTreasureEnchantment() {
+    public boolean func_185261_e() {
         return true;
     }
 
-    public boolean isCurse() {
+    public boolean func_190936_d() {
         return true;
     }
 }

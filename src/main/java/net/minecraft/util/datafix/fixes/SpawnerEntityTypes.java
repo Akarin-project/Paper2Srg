@@ -8,36 +8,36 @@ public class SpawnerEntityTypes implements IFixableData {
 
     public SpawnerEntityTypes() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 107;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        if (!"MobSpawner".equals(nbttagcompound.getString("id"))) {
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        if (!"MobSpawner".equals(nbttagcompound.func_74779_i("id"))) {
             return nbttagcompound;
         } else {
-            if (nbttagcompound.hasKey("EntityId", 8)) {
-                String s = nbttagcompound.getString("EntityId");
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("SpawnData");
+            if (nbttagcompound.func_150297_b("EntityId", 8)) {
+                String s = nbttagcompound.func_74779_i("EntityId");
+                NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("SpawnData");
 
-                nbttagcompound1.setString("id", s.isEmpty() ? "Pig" : s);
-                nbttagcompound.setTag("SpawnData", nbttagcompound1);
-                nbttagcompound.removeTag("EntityId");
+                nbttagcompound1.func_74778_a("id", s.isEmpty() ? "Pig" : s);
+                nbttagcompound.func_74782_a("SpawnData", nbttagcompound1);
+                nbttagcompound.func_82580_o("EntityId");
             }
 
-            if (nbttagcompound.hasKey("SpawnPotentials", 9)) {
-                NBTTagList nbttaglist = nbttagcompound.getTagList("SpawnPotentials", 10);
+            if (nbttagcompound.func_150297_b("SpawnPotentials", 9)) {
+                NBTTagList nbttaglist = nbttagcompound.func_150295_c("SpawnPotentials", 10);
 
-                for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                    NBTTagCompound nbttagcompound2 = nbttaglist.getCompoundTagAt(i);
+                for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+                    NBTTagCompound nbttagcompound2 = nbttaglist.func_150305_b(i);
 
-                    if (nbttagcompound2.hasKey("Type", 8)) {
-                        NBTTagCompound nbttagcompound3 = nbttagcompound2.getCompoundTag("Properties");
+                    if (nbttagcompound2.func_150297_b("Type", 8)) {
+                        NBTTagCompound nbttagcompound3 = nbttagcompound2.func_74775_l("Properties");
 
-                        nbttagcompound3.setString("id", nbttagcompound2.getString("Type"));
-                        nbttagcompound2.setTag("Entity", nbttagcompound3);
-                        nbttagcompound2.removeTag("Type");
-                        nbttagcompound2.removeTag("Properties");
+                        nbttagcompound3.func_74778_a("id", nbttagcompound2.func_74779_i("Type"));
+                        nbttagcompound2.func_74782_a("Entity", nbttagcompound3);
+                        nbttagcompound2.func_82580_o("Type");
+                        nbttagcompound2.func_82580_o("Properties");
                     }
                 }
             }

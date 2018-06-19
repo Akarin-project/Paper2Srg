@@ -58,8 +58,8 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void func_70071_h_() {
+        super.func_70071_h_();
         tryPutInHopper();
     }
 
@@ -70,44 +70,37 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     }
     // Paper end
 
-    private NonNullList<ItemStack> minecartContainerItems;
-    private boolean dropContentsWhenDead;
-    private ResourceLocation lootTable;
-    private long lootTableSeed;@Override
-    public long getLootTableSeed() { return lootTableSeed; } // Paper - OBFHELPER
+    private NonNullList<ItemStack> field_94113_a;
+    private boolean field_94112_b;
+    private ResourceLocation field_184290_c;
+    private long field_184291_d;public long getLootTableSeed() { return field_184291_d; } // Paper - OBFHELPER
 
     // CraftBukkit start
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
     private int maxStack = MAX_STACK;
 
-    @Override
     public List<ItemStack> getContents() {
-        return this.minecartContainerItems;
+        return this.field_94113_a;
     }
 
-    @Override
     public void onOpen(CraftHumanEntity who) {
         transaction.add(who);
     }
 
-    @Override
     public void onClose(CraftHumanEntity who) {
         transaction.remove(who);
     }
 
-    @Override
     public List<HumanEntity> getViewers() {
         return transaction;
     }
 
-    @Override
     public InventoryHolder getOwner() {
         org.bukkit.entity.Entity cart = getBukkitEntity();
         if(cart instanceof InventoryHolder) return (InventoryHolder) cart;
         return null;
     }
 
-    @Override
     public void setMaxStackSize(int size) {
         maxStack = size;
     }
@@ -120,28 +113,26 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     public EntityMinecartContainer(World world) {
         super(world);
-        this.minecartContainerItems = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY); // CraftBukkit - SPIGOT-3513
-        this.dropContentsWhenDead = true;
+        this.field_94113_a = NonNullList.func_191197_a(this.func_70302_i_(), ItemStack.field_190927_a); // CraftBukkit - SPIGOT-3513
+        this.field_94112_b = true;
     }
 
     public EntityMinecartContainer(World world, double d0, double d1, double d2) {
         super(world, d0, d1, d2);
-        this.minecartContainerItems = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY); // CraftBukkit - SPIGOT-3513
-        this.dropContentsWhenDead = true;
+        this.field_94113_a = NonNullList.func_191197_a(this.func_70302_i_(), ItemStack.field_190927_a); // CraftBukkit - SPIGOT-3513
+        this.field_94112_b = true;
     }
 
-    @Override
-    public void killMinecart(DamageSource damagesource) {
-        super.killMinecart(damagesource);
-        if (this.world.getGameRules().getBoolean("doEntityDrops")) {
-            InventoryHelper.dropInventoryItems(this.world, this, this);
+    public void func_94095_a(DamageSource damagesource) {
+        super.func_94095_a(damagesource);
+        if (this.field_70170_p.func_82736_K().func_82766_b("doEntityDrops")) {
+            InventoryHelper.func_180176_a(this.field_70170_p, this, this);
         }
 
     }
 
-    @Override
-    public boolean isEmpty() {
-        Iterator iterator = this.minecartContainerItems.iterator();
+    public boolean func_191420_l() {
+        Iterator iterator = this.field_94113_a.iterator();
 
         ItemStack itemstack;
 
@@ -151,215 +142,191 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
             }
 
             itemstack = (ItemStack) iterator.next();
-        } while (itemstack.isEmpty());
+        } while (itemstack.func_190926_b());
 
         return false;
     }
 
-    @Override
-    public ItemStack getStackInSlot(int i) {
-        this.addLoot((EntityPlayer) null);
-        return this.minecartContainerItems.get(i);
+    public ItemStack func_70301_a(int i) {
+        this.func_184288_f((EntityPlayer) null);
+        return (ItemStack) this.field_94113_a.get(i);
     }
 
-    @Override
-    public ItemStack decrStackSize(int i, int j) {
-        this.addLoot((EntityPlayer) null);
-        return ItemStackHelper.getAndSplit(this.minecartContainerItems, i, j);
+    public ItemStack func_70298_a(int i, int j) {
+        this.func_184288_f((EntityPlayer) null);
+        return ItemStackHelper.func_188382_a(this.field_94113_a, i, j);
     }
 
-    @Override
-    public ItemStack removeStackFromSlot(int i) {
-        this.addLoot((EntityPlayer) null);
-        ItemStack itemstack = this.minecartContainerItems.get(i);
+    public ItemStack func_70304_b(int i) {
+        this.func_184288_f((EntityPlayer) null);
+        ItemStack itemstack = (ItemStack) this.field_94113_a.get(i);
 
-        if (itemstack.isEmpty()) {
-            return ItemStack.EMPTY;
+        if (itemstack.func_190926_b()) {
+            return ItemStack.field_190927_a;
         } else {
-            this.minecartContainerItems.set(i, ItemStack.EMPTY);
+            this.field_94113_a.set(i, ItemStack.field_190927_a);
             return itemstack;
         }
     }
 
-    @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
-        this.addLoot((EntityPlayer) null);
-        this.minecartContainerItems.set(i, itemstack);
-        if (!itemstack.isEmpty() && itemstack.getCount() > this.getInventoryStackLimit()) {
-            itemstack.setCount(this.getInventoryStackLimit());
+    public void func_70299_a(int i, ItemStack itemstack) {
+        this.func_184288_f((EntityPlayer) null);
+        this.field_94113_a.set(i, itemstack);
+        if (!itemstack.func_190926_b() && itemstack.func_190916_E() > this.func_70297_j_()) {
+            itemstack.func_190920_e(this.func_70297_j_());
         }
 
     }
 
-    @Override
-    public void markDirty() {}
+    public void func_70296_d() {}
 
-    @Override
-    public boolean isUsableByPlayer(EntityPlayer entityhuman) {
-        return this.isDead ? false : entityhuman.getDistanceSq(this) <= 64.0D;
+    public boolean func_70300_a(EntityPlayer entityhuman) {
+        return this.field_70128_L ? false : entityhuman.func_70068_e(this) <= 64.0D;
     }
 
-    @Override
-    public void openInventory(EntityPlayer entityhuman) {}
+    public void func_174889_b(EntityPlayer entityhuman) {}
 
-    @Override
-    public void closeInventory(EntityPlayer entityhuman) {}
+    public void func_174886_c(EntityPlayer entityhuman) {}
 
-    @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+    public boolean func_94041_b(int i, ItemStack itemstack) {
         return true;
     }
 
-    @Override
-    public int getInventoryStackLimit() {
+    public int func_70297_j_() {
         return maxStack; // CraftBukkit
     }
 
-    @Override
     @Nullable
-    public Entity changeDimension(int i) {
-        this.dropContentsWhenDead = false;
-        return super.changeDimension(i);
+    public Entity func_184204_a(int i) {
+        this.field_94112_b = false;
+        return super.func_184204_a(i);
     }
 
-    @Override
-    public void setDead() {
-        if (this.dropContentsWhenDead) {
-            InventoryHelper.dropInventoryItems(this.world, this, this);
+    public void func_70106_y() {
+        if (this.field_94112_b) {
+            InventoryHelper.func_180176_a(this.field_70170_p, this, this);
         }
 
-        super.setDead();
+        super.func_70106_y();
     }
 
-    @Override
-    public void setDropItemsWhenDead(boolean flag) {
-        this.dropContentsWhenDead = flag;
+    public void func_184174_b(boolean flag) {
+        this.field_94112_b = flag;
     }
 
-    public static void addDataFixers(DataFixer dataconvertermanager, Class<?> oclass) {
-        EntityMinecart.registerFixesMinecart(dataconvertermanager, oclass);
-        dataconvertermanager.registerWalker(FixTypes.ENTITY, (new ItemStackDataLists(oclass, new String[] { "Items"})));
+    public static void func_190574_b(DataFixer dataconvertermanager, Class<?> oclass) {
+        EntityMinecart.func_189669_a(dataconvertermanager, oclass);
+        dataconvertermanager.func_188258_a(FixTypes.ENTITY, (IDataWalker) (new ItemStackDataLists(oclass, new String[] { "Items"})));
     }
 
-    @Override
-    protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
+    protected void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
         lootableData.saveNbt(nbttagcompound); // Paper
-        if (this.lootTable != null) {
-            nbttagcompound.setString("LootTable", this.lootTable.toString());
-            if (this.lootTableSeed != 0L) {
-                nbttagcompound.setLong("LootTableSeed", this.lootTableSeed);
+        if (this.field_184290_c != null) {
+            nbttagcompound.func_74778_a("LootTable", this.field_184290_c.toString());
+            if (this.field_184291_d != 0L) {
+                nbttagcompound.func_74772_a("LootTableSeed", this.field_184291_d);
             }
         } if (true) { // Paper - Always save the items, Table may stick around
-            ItemStackHelper.saveAllItems(nbttagcompound, this.minecartContainerItems);
+            ItemStackHelper.func_191282_a(nbttagcompound, this.field_94113_a);
         }
 
     }
 
-    @Override
-    protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
+    protected void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
         lootableData.loadNbt(nbttagcompound); // Paper
-        this.minecartContainerItems = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-        if (nbttagcompound.hasKey("LootTable", 8)) {
-            this.lootTable = new ResourceLocation(nbttagcompound.getString("LootTable"));
-            this.lootTableSeed = nbttagcompound.getLong("LootTableSeed");
+        this.field_94113_a = NonNullList.func_191197_a(this.func_70302_i_(), ItemStack.field_190927_a);
+        if (nbttagcompound.func_150297_b("LootTable", 8)) {
+            this.field_184290_c = new ResourceLocation(nbttagcompound.func_74779_i("LootTable"));
+            this.field_184291_d = nbttagcompound.func_74763_f("LootTableSeed");
         } if (true) { // Paper - always load the items, table may still remain
-            ItemStackHelper.loadAllItems(nbttagcompound, this.minecartContainerItems);
+            ItemStackHelper.func_191283_b(nbttagcompound, this.field_94113_a);
         }
 
     }
 
-    @Override
-    public boolean processInitialInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        if (!this.world.isRemote) {
-            entityhuman.displayGUIChest(this);
+    public boolean func_184230_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        if (!this.field_70170_p.field_72995_K) {
+            entityhuman.func_71007_a(this);
         }
 
         return true;
     }
 
-    @Override
-    protected void applyDrag() {
+    protected void func_94101_h() {
         float f = 0.98F;
 
-        if (this.lootTable == null) {
-            int i = 15 - Container.calcRedstoneFromInventory(this);
+        if (this.field_184290_c == null) {
+            int i = 15 - Container.func_94526_b((IInventory) this);
 
-            f += i * 0.001F;
+            f += (float) i * 0.001F;
         }
 
-        this.motionX *= f;
-        this.motionY *= 0.0D;
-        this.motionZ *= f;
+        this.field_70159_w *= (double) f;
+        this.field_70181_x *= 0.0D;
+        this.field_70179_y *= (double) f;
     }
 
-    @Override
-    public int getField(int i) {
+    public int func_174887_a_(int i) {
         return 0;
     }
 
-    @Override
-    public void setField(int i, int j) {}
+    public void func_174885_b(int i, int j) {}
 
-    @Override
-    public int getFieldCount() {
+    public int func_174890_g() {
         return 0;
     }
 
-    @Override
-    public boolean isLocked() {
+    public boolean func_174893_q_() {
         return false;
     }
 
-    @Override
-    public void setLockCode(LockCode chestlock) {}
+    public void func_174892_a(LockCode chestlock) {}
 
-    @Override
-    public LockCode getLockCode() {
-        return LockCode.EMPTY_CODE;
+    public LockCode func_174891_i() {
+        return LockCode.field_180162_a;
     }
 
-    public void addLoot(@Nullable EntityPlayer entityhuman) {
+    public void func_184288_f(@Nullable EntityPlayer entityhuman) {
         if (lootableData.shouldReplenish(entityhuman)) { // Paper
-            LootTable loottable = this.world.getLootTableManager().getLootTableFromLocation(this.lootTable);
+            LootTable loottable = this.field_70170_p.func_184146_ak().func_186521_a(this.field_184290_c);
 
             lootableData.processRefill(entityhuman); // Paper
             Random random;
 
-            if (this.lootTableSeed == 0L) {
+            if (this.field_184291_d == 0L) {
                 random = new Random();
             } else {
-                random = new Random(this.lootTableSeed);
+                random = new Random(this.field_184291_d);
             }
 
-            LootContext.a loottableinfo_a = new LootContext.a((WorldServer) this.world);
+            LootTableInfo.a loottableinfo_a = new LootTableInfo.a((WorldServer) this.field_70170_p);
 
             if (entityhuman != null) {
-                loottableinfo_a.a(entityhuman.getLuck());
+                loottableinfo_a.a(entityhuman.func_184817_da());
             }
 
-            loottable.fillInventory(this, random, loottableinfo_a.a());
+            loottable.func_186460_a(this, random, loottableinfo_a.a());
         }
 
     }
 
-    @Override
-    public void clear() {
-        this.addLoot((EntityPlayer) null);
-        this.minecartContainerItems.clear();
+    public void func_174888_l() {
+        this.func_184288_f((EntityPlayer) null);
+        this.field_94113_a.clear();
     }
 
-    public void setLootTable(ResourceLocation minecraftkey, long i) {
-        this.lootTable = minecraftkey;
-        this.lootTableSeed = i;
+    public void setLootTable(ResourceLocation key, long seed) { func_184289_a(key, seed);} // Paper - OBFHELPER
+    public void func_184289_a(ResourceLocation minecraftkey, long i) {
+        this.field_184290_c = minecraftkey;
+        this.field_184291_d = i;
     }
 
 
-    public ResourceLocation getLootTableKey() { return getLootTable(); } // Paper - OBFHELPER
-    @Override
-    public ResourceLocation getLootTable() {
-        return this.lootTable;
+    public ResourceLocation getLootTableKey() { return func_184276_b(); } // Paper - OBFHELPER
+    public ResourceLocation func_184276_b() {
+        return this.field_184290_c;
     }
 
     // Paper start
@@ -377,10 +344,9 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     @Override
     public World getNMSWorld() {
-        return this.world;
+        return this.field_70170_p;
     }
 
-    @Override
     public String getLootTableName() {
         final ResourceLocation key = getLootTableKey();
         return key != null ? key.toString() : null;
@@ -396,7 +362,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     @Override
     public void clearLootTable() {
         //noinspection RedundantCast
-        this.lootTable = null;
+        this.field_184290_c = (ResourceLocation) null;
     }
     // Paper end
 }

@@ -10,66 +10,66 @@ import net.minecraft.util.JsonUtils;
 
 public class DamageSourcePredicate {
 
-    public static DamageSourcePredicate ANY = new DamageSourcePredicate();
-    private final Boolean isProjectile;
-    private final Boolean isExplosion;
-    private final Boolean bypassesArmor;
-    private final Boolean bypassesInvulnerability;
-    private final Boolean bypassesMagic;
-    private final Boolean isFire;
-    private final Boolean isMagic;
-    private final EntityPredicate directEntity;
-    private final EntityPredicate sourceEntity;
+    public static DamageSourcePredicate field_192449_a = new DamageSourcePredicate();
+    private final Boolean field_192450_b;
+    private final Boolean field_192451_c;
+    private final Boolean field_192452_d;
+    private final Boolean field_192453_e;
+    private final Boolean field_192454_f;
+    private final Boolean field_192455_g;
+    private final Boolean field_192456_h;
+    private final EntityPredicate field_193419_i;
+    private final EntityPredicate field_193420_j;
 
     public DamageSourcePredicate() {
-        this.isProjectile = null;
-        this.isExplosion = null;
-        this.bypassesArmor = null;
-        this.bypassesInvulnerability = null;
-        this.bypassesMagic = null;
-        this.isFire = null;
-        this.isMagic = null;
-        this.directEntity = EntityPredicate.ANY;
-        this.sourceEntity = EntityPredicate.ANY;
+        this.field_192450_b = null;
+        this.field_192451_c = null;
+        this.field_192452_d = null;
+        this.field_192453_e = null;
+        this.field_192454_f = null;
+        this.field_192455_g = null;
+        this.field_192456_h = null;
+        this.field_193419_i = EntityPredicate.field_192483_a;
+        this.field_193420_j = EntityPredicate.field_192483_a;
     }
 
     public DamageSourcePredicate(@Nullable Boolean obool, @Nullable Boolean obool1, @Nullable Boolean obool2, @Nullable Boolean obool3, @Nullable Boolean obool4, @Nullable Boolean obool5, @Nullable Boolean obool6, EntityPredicate criterionconditionentity, EntityPredicate criterionconditionentity1) {
-        this.isProjectile = obool;
-        this.isExplosion = obool1;
-        this.bypassesArmor = obool2;
-        this.bypassesInvulnerability = obool3;
-        this.bypassesMagic = obool4;
-        this.isFire = obool5;
-        this.isMagic = obool6;
-        this.directEntity = criterionconditionentity;
-        this.sourceEntity = criterionconditionentity1;
+        this.field_192450_b = obool;
+        this.field_192451_c = obool1;
+        this.field_192452_d = obool2;
+        this.field_192453_e = obool3;
+        this.field_192454_f = obool4;
+        this.field_192455_g = obool5;
+        this.field_192456_h = obool6;
+        this.field_193419_i = criterionconditionentity;
+        this.field_193420_j = criterionconditionentity1;
     }
 
-    public boolean test(EntityPlayerMP entityplayer, DamageSource damagesource) {
-        return this == DamageSourcePredicate.ANY ? true : (this.isProjectile != null && this.isProjectile.booleanValue() != damagesource.isProjectile() ? false : (this.isExplosion != null && this.isExplosion.booleanValue() != damagesource.isExplosion() ? false : (this.bypassesArmor != null && this.bypassesArmor.booleanValue() != damagesource.isUnblockable() ? false : (this.bypassesInvulnerability != null && this.bypassesInvulnerability.booleanValue() != damagesource.canHarmInCreative() ? false : (this.bypassesMagic != null && this.bypassesMagic.booleanValue() != damagesource.isDamageAbsolute() ? false : (this.isFire != null && this.isFire.booleanValue() != damagesource.isFireDamage() ? false : (this.isMagic != null && this.isMagic.booleanValue() != damagesource.isMagicDamage() ? false : (!this.directEntity.test(entityplayer, damagesource.getImmediateSource()) ? false : this.sourceEntity.test(entityplayer, damagesource.getTrueSource())))))))));
+    public boolean func_193418_a(EntityPlayerMP entityplayer, DamageSource damagesource) {
+        return this == DamageSourcePredicate.field_192449_a ? true : (this.field_192450_b != null && this.field_192450_b.booleanValue() != damagesource.func_76352_a() ? false : (this.field_192451_c != null && this.field_192451_c.booleanValue() != damagesource.func_94541_c() ? false : (this.field_192452_d != null && this.field_192452_d.booleanValue() != damagesource.func_76363_c() ? false : (this.field_192453_e != null && this.field_192453_e.booleanValue() != damagesource.func_76357_e() ? false : (this.field_192454_f != null && this.field_192454_f.booleanValue() != damagesource.func_151517_h() ? false : (this.field_192455_g != null && this.field_192455_g.booleanValue() != damagesource.func_76347_k() ? false : (this.field_192456_h != null && this.field_192456_h.booleanValue() != damagesource.func_82725_o() ? false : (!this.field_193419_i.func_192482_a(entityplayer, damagesource.func_76364_f()) ? false : this.field_193420_j.func_192482_a(entityplayer, damagesource.func_76346_g())))))))));
     }
 
-    public static DamageSourcePredicate deserialize(@Nullable JsonElement jsonelement) {
+    public static DamageSourcePredicate func_192447_a(@Nullable JsonElement jsonelement) {
         if (jsonelement != null && !jsonelement.isJsonNull()) {
-            JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "damage type");
-            Boolean obool = optionalBoolean(jsonobject, "is_projectile");
-            Boolean obool1 = optionalBoolean(jsonobject, "is_explosion");
-            Boolean obool2 = optionalBoolean(jsonobject, "bypasses_armor");
-            Boolean obool3 = optionalBoolean(jsonobject, "bypasses_invulnerability");
-            Boolean obool4 = optionalBoolean(jsonobject, "bypasses_magic");
-            Boolean obool5 = optionalBoolean(jsonobject, "is_fire");
-            Boolean obool6 = optionalBoolean(jsonobject, "is_magic");
-            EntityPredicate criterionconditionentity = EntityPredicate.deserialize(jsonobject.get("direct_entity"));
-            EntityPredicate criterionconditionentity1 = EntityPredicate.deserialize(jsonobject.get("source_entity"));
+            JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "damage type");
+            Boolean obool = func_192448_a(jsonobject, "is_projectile");
+            Boolean obool1 = func_192448_a(jsonobject, "is_explosion");
+            Boolean obool2 = func_192448_a(jsonobject, "bypasses_armor");
+            Boolean obool3 = func_192448_a(jsonobject, "bypasses_invulnerability");
+            Boolean obool4 = func_192448_a(jsonobject, "bypasses_magic");
+            Boolean obool5 = func_192448_a(jsonobject, "is_fire");
+            Boolean obool6 = func_192448_a(jsonobject, "is_magic");
+            EntityPredicate criterionconditionentity = EntityPredicate.func_192481_a(jsonobject.get("direct_entity"));
+            EntityPredicate criterionconditionentity1 = EntityPredicate.func_192481_a(jsonobject.get("source_entity"));
 
             return new DamageSourcePredicate(obool, obool1, obool2, obool3, obool4, obool5, obool6, criterionconditionentity, criterionconditionentity1);
         } else {
-            return DamageSourcePredicate.ANY;
+            return DamageSourcePredicate.field_192449_a;
         }
     }
 
     @Nullable
-    private static Boolean optionalBoolean(JsonObject jsonobject, String s) {
-        return jsonobject.has(s) ? Boolean.valueOf(JsonUtils.getBoolean(jsonobject, s)) : null;
+    private static Boolean func_192448_a(JsonObject jsonobject, String s) {
+        return jsonobject.has(s) ? Boolean.valueOf(JsonUtils.func_151212_i(jsonobject, s)) : null;
     }
 }

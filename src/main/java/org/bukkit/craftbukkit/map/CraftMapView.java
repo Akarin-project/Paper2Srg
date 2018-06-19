@@ -31,7 +31,7 @@ public final class CraftMapView implements MapView {
     }
 
     public short getId() {
-        String text = worldMap.mapName;
+        String text = worldMap.field_76190_i;
         if (text.startsWith("map_")) {
             try {
                 return Short.parseShort(text.substring("map_".length()));
@@ -49,15 +49,15 @@ public final class CraftMapView implements MapView {
     }
 
     public Scale getScale() {
-        return Scale.valueOf(worldMap.scale);
+        return Scale.valueOf(worldMap.field_76197_d);
     }
 
     public void setScale(Scale scale) {
-        worldMap.scale = scale.getValue();
+        worldMap.field_76197_d = scale.getValue();
     }
 
     public World getWorld() {
-        byte dimension = worldMap.dimension;
+        byte dimension = worldMap.field_76200_c;
         for (World world : Bukkit.getServer().getWorlds()) {
             if (((CraftWorld) world).getHandle().dimension == dimension) {
                 return world;
@@ -67,23 +67,23 @@ public final class CraftMapView implements MapView {
     }
 
     public void setWorld(World world) {
-        worldMap.dimension = (byte) ((CraftWorld) world).getHandle().dimension;
+        worldMap.field_76200_c = (byte) ((CraftWorld) world).getHandle().dimension;
     }
 
     public int getCenterX() {
-        return worldMap.xCenter;
+        return worldMap.field_76201_a;
     }
 
     public int getCenterZ() {
-        return worldMap.zCenter;
+        return worldMap.field_76199_b;
     }
 
     public void setCenterX(int x) {
-        worldMap.xCenter = x;
+        worldMap.field_76201_a = x;
     }
 
     public void setCenterZ(int z) {
-        worldMap.zCenter = z;
+        worldMap.field_76199_b = z;
     }
 
     public List<MapRenderer> getRenderers() {
@@ -169,11 +169,11 @@ public final class CraftMapView implements MapView {
 
     @Override
     public boolean isUnlimitedTracking() {
-        return worldMap.unlimitedTracking;
+        return worldMap.field_191096_f;
     }
 
     @Override
     public void setUnlimitedTracking(boolean unlimited) {
-        worldMap.unlimitedTracking = unlimited;
+        worldMap.field_191096_f = unlimited;
     }
 }

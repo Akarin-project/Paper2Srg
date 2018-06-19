@@ -34,53 +34,53 @@ import net.minecraft.world.WorldServer;
 
 public class PlacedBlockTrigger implements ICriterionTrigger<CriterionTriggerPlacedBlock.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("placed_block");
-    private final Map<PlayerAdvancements, CriterionTriggerPlacedBlock.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_193174_a = new ResourceLocation("placed_block");
+    private final Map<PlayerAdvancements, CriterionTriggerPlacedBlock.a> field_193175_b = Maps.newHashMap();
 
     public PlacedBlockTrigger() {}
 
-    public ResourceLocation getId() {
-        return PlacedBlockTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return PlacedBlockTrigger.field_193174_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerPlacedBlock.b> criteriontrigger_a) {
-        CriterionTriggerPlacedBlock.a criteriontriggerplacedblock_a = (CriterionTriggerPlacedBlock.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerPlacedBlock.a criteriontriggerplacedblock_a = (CriterionTriggerPlacedBlock.a) this.field_193175_b.get(advancementdataplayer);
 
         if (criteriontriggerplacedblock_a == null) {
             criteriontriggerplacedblock_a = new CriterionTriggerPlacedBlock.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerplacedblock_a);
+            this.field_193175_b.put(advancementdataplayer, criteriontriggerplacedblock_a);
         }
 
         criteriontriggerplacedblock_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerPlacedBlock.b> criteriontrigger_a) {
-        CriterionTriggerPlacedBlock.a criteriontriggerplacedblock_a = (CriterionTriggerPlacedBlock.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerPlacedBlock.a criteriontriggerplacedblock_a = (CriterionTriggerPlacedBlock.a) this.field_193175_b.get(advancementdataplayer);
 
         if (criteriontriggerplacedblock_a != null) {
             criteriontriggerplacedblock_a.b(criteriontrigger_a);
             if (criteriontriggerplacedblock_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_193175_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_193175_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerPlacedBlock.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         Block block = null;
 
         if (jsonobject.has("block")) {
-            ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.getString(jsonobject, "block"));
+            ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.func_151200_h(jsonobject, "block"));
 
-            if (!Block.REGISTRY.containsKey(minecraftkey)) {
+            if (!Block.field_149771_c.func_148741_d(minecraftkey)) {
                 throw new JsonSyntaxException("Unknown block type \'" + minecraftkey + "\'");
             }
 
-            block = (Block) Block.REGISTRY.getObject(minecraftkey);
+            block = (Block) Block.field_149771_c.func_82594_a(minecraftkey);
         }
 
         HashMap hashmap = null;
@@ -90,24 +90,24 @@ public class PlacedBlockTrigger implements ICriterionTrigger<CriterionTriggerPla
                 throw new JsonSyntaxException("Can\'t define block state without a specific block type");
             }
 
-            BlockStateContainer blockstatelist = block.getBlockState();
+            BlockStateContainer blockstatelist = block.func_176194_O();
 
             IProperty iblockstate;
             Optional optional;
 
-            for (Iterator iterator = JsonUtils.getJsonObject(jsonobject, "state").entrySet().iterator(); iterator.hasNext(); hashmap.put(iblockstate, optional.get())) {
+            for (Iterator iterator = JsonUtils.func_152754_s(jsonobject, "state").entrySet().iterator(); iterator.hasNext(); hashmap.put(iblockstate, optional.get())) {
                 Entry entry = (Entry) iterator.next();
 
-                iblockstate = blockstatelist.getProperty((String) entry.getKey());
+                iblockstate = blockstatelist.func_185920_a((String) entry.getKey());
                 if (iblockstate == null) {
-                    throw new JsonSyntaxException("Unknown block state property \'" + (String) entry.getKey() + "\' for block \'" + Block.REGISTRY.getNameForObject(block) + "\'");
+                    throw new JsonSyntaxException("Unknown block state property \'" + (String) entry.getKey() + "\' for block \'" + Block.field_149771_c.func_177774_c(block) + "\'");
                 }
 
-                String s = JsonUtils.getString((JsonElement) entry.getValue(), (String) entry.getKey());
+                String s = JsonUtils.func_151206_a((JsonElement) entry.getValue(), (String) entry.getKey());
 
-                optional = iblockstate.parseValue(s);
+                optional = iblockstate.func_185929_b(s);
                 if (!optional.isPresent()) {
-                    throw new JsonSyntaxException("Invalid block state value \'" + s + "\' for property \'" + (String) entry.getKey() + "\' on block \'" + Block.REGISTRY.getNameForObject(block) + "\'");
+                    throw new JsonSyntaxException("Invalid block state value \'" + s + "\' for property \'" + (String) entry.getKey() + "\' on block \'" + Block.field_149771_c.func_177774_c(block) + "\'");
                 }
 
                 if (hashmap == null) {
@@ -116,23 +116,23 @@ public class PlacedBlockTrigger implements ICriterionTrigger<CriterionTriggerPla
             }
         }
 
-        LocationPredicate criterionconditionlocation = LocationPredicate.deserialize(jsonobject.get("location"));
-        ItemPredicate criterionconditionitem = ItemPredicate.deserialize(jsonobject.get("item"));
+        LocationPredicate criterionconditionlocation = LocationPredicate.func_193454_a(jsonobject.get("location"));
+        ItemPredicate criterionconditionitem = ItemPredicate.func_192492_a(jsonobject.get("item"));
 
         return new CriterionTriggerPlacedBlock.b(block, hashmap, criterionconditionlocation, criterionconditionitem);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, BlockPos blockposition, ItemStack itemstack) {
-        IBlockState iblockdata = entityplayer.world.getBlockState(blockposition);
-        CriterionTriggerPlacedBlock.a criteriontriggerplacedblock_a = (CriterionTriggerPlacedBlock.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_193173_a(EntityPlayerMP entityplayer, BlockPos blockposition, ItemStack itemstack) {
+        IBlockState iblockdata = entityplayer.field_70170_p.func_180495_p(blockposition);
+        CriterionTriggerPlacedBlock.a criteriontriggerplacedblock_a = (CriterionTriggerPlacedBlock.a) this.field_193175_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerplacedblock_a != null) {
-            criteriontriggerplacedblock_a.a(iblockdata, blockposition, entityplayer.getServerWorld(), itemstack);
+            criteriontriggerplacedblock_a.a(iblockdata, blockposition, entityplayer.func_71121_q(), itemstack);
         }
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -194,7 +194,7 @@ public class PlacedBlockTrigger implements ICriterionTrigger<CriterionTriggerPla
         private final ItemPredicate d;
 
         public b(@Nullable Block block, @Nullable Map<IProperty<?>, Object> map, LocationPredicate criterionconditionlocation, ItemPredicate criterionconditionitem) {
-            super(PlacedBlockTrigger.ID);
+            super(PlacedBlockTrigger.field_193174_a);
             this.a = block;
             this.b = map;
             this.c = criterionconditionlocation;
@@ -202,7 +202,7 @@ public class PlacedBlockTrigger implements ICriterionTrigger<CriterionTriggerPla
         }
 
         public boolean a(IBlockState iblockdata, BlockPos blockposition, WorldServer worldserver, ItemStack itemstack) {
-            if (this.a != null && iblockdata.getBlock() != this.a) {
+            if (this.a != null && iblockdata.func_177230_c() != this.a) {
                 return false;
             } else {
                 if (this.b != null) {
@@ -211,13 +211,13 @@ public class PlacedBlockTrigger implements ICriterionTrigger<CriterionTriggerPla
                     while (iterator.hasNext()) {
                         Entry entry = (Entry) iterator.next();
 
-                        if (iblockdata.getValue((IProperty) entry.getKey()) != entry.getValue()) {
+                        if (iblockdata.func_177229_b((IProperty) entry.getKey()) != entry.getValue()) {
                             return false;
                         }
                     }
                 }
 
-                return !this.c.test(worldserver, (float) blockposition.getX(), (float) blockposition.getY(), (float) blockposition.getZ()) ? false : this.d.test(itemstack);
+                return !this.c.func_193453_a(worldserver, (float) blockposition.func_177958_n(), (float) blockposition.func_177956_o(), (float) blockposition.func_177952_p()) ? false : this.d.func_192493_a(itemstack);
             }
         }
     }

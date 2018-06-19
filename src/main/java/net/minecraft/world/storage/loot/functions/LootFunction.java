@@ -6,22 +6,23 @@ import com.google.gson.JsonSerializationContext;
 import java.util.Random;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.LootItemFunction.a;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 
 public abstract class LootFunction {
 
-    private final LootCondition[] conditions;
+    private final LootCondition[] field_186555_a;
 
     protected LootFunction(LootCondition[] alootitemcondition) {
-        this.conditions = alootitemcondition;
+        this.field_186555_a = alootitemcondition;
     }
 
-    public abstract ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo);
+    public abstract ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo);
 
-    public LootCondition[] getConditions() {
-        return this.conditions;
+    public LootCondition[] func_186554_a() {
+        return this.field_186555_a;
     }
 
     public abstract static class a<T extends LootFunction> {

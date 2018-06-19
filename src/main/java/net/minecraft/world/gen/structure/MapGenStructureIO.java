@@ -11,93 +11,93 @@ import net.minecraft.world.World;
 
 public class MapGenStructureIO {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static final Map<String, Class<? extends StructureStart>> startNameToClassMap = Maps.newHashMap();
-    private static final Map<Class<? extends StructureStart>, String> startClassToNameMap = Maps.newHashMap();
-    private static final Map<String, Class<? extends StructureComponent>> componentNameToClassMap = Maps.newHashMap();
-    private static final Map<Class<? extends StructureComponent>, String> componentClassToNameMap = Maps.newHashMap();
+    private static final Logger field_151687_a = LogManager.getLogger();
+    private static final Map<String, Class<? extends StructureStart>> field_143040_a = Maps.newHashMap();
+    private static final Map<Class<? extends StructureStart>, String> field_143038_b = Maps.newHashMap();
+    private static final Map<String, Class<? extends StructureComponent>> field_143039_c = Maps.newHashMap();
+    private static final Map<Class<? extends StructureComponent>, String> field_143037_d = Maps.newHashMap();
 
-    private static void registerStructure(Class<? extends StructureStart> oclass, String s) {
-        MapGenStructureIO.startNameToClassMap.put(s, oclass);
-        MapGenStructureIO.startClassToNameMap.put(oclass, s);
+    private static void func_143034_b(Class<? extends StructureStart> oclass, String s) {
+        MapGenStructureIO.field_143040_a.put(s, oclass);
+        MapGenStructureIO.field_143038_b.put(oclass, s);
     }
 
-    static void registerStructureComponent(Class<? extends StructureComponent> oclass, String s) {
-        MapGenStructureIO.componentNameToClassMap.put(s, oclass);
-        MapGenStructureIO.componentClassToNameMap.put(oclass, s);
+    static void func_143031_a(Class<? extends StructureComponent> oclass, String s) {
+        MapGenStructureIO.field_143039_c.put(s, oclass);
+        MapGenStructureIO.field_143037_d.put(oclass, s);
     }
 
-    public static String getStructureStartName(StructureStart structurestart) {
-        return MapGenStructureIO.startClassToNameMap.get(structurestart.getClass());
+    public static String func_143033_a(StructureStart structurestart) {
+        return (String) MapGenStructureIO.field_143038_b.get(structurestart.getClass());
     }
 
-    public static String getStructureComponentName(StructureComponent structurepiece) {
-        return MapGenStructureIO.componentClassToNameMap.get(structurepiece.getClass());
+    public static String func_143036_a(StructureComponent structurepiece) {
+        return (String) MapGenStructureIO.field_143037_d.get(structurepiece.getClass());
     }
 
     @Nullable
-    public static StructureStart getStructureStart(NBTTagCompound nbttagcompound, World world) {
+    public static StructureStart func_143035_a(NBTTagCompound nbttagcompound, World world) {
         StructureStart structurestart = null;
 
         try {
-            Class oclass = MapGenStructureIO.startNameToClassMap.get(nbttagcompound.getString("id"));
+            Class oclass = (Class) MapGenStructureIO.field_143040_a.get(nbttagcompound.func_74779_i("id"));
 
             if (oclass != null) {
                 structurestart = (StructureStart) oclass.newInstance();
             }
         } catch (Exception exception) {
-            MapGenStructureIO.LOGGER.warn("Failed Start with id {}", nbttagcompound.getString("id"));
+            MapGenStructureIO.field_151687_a.warn("Failed Start with id {}", nbttagcompound.func_74779_i("id"));
             exception.printStackTrace();
         }
 
         if (structurestart != null) {
-            structurestart.readStructureComponentsFromNBT(world, nbttagcompound);
+            structurestart.func_143020_a(world, nbttagcompound);
         } else {
-            MapGenStructureIO.LOGGER.warn("Skipping Structure with id {}", nbttagcompound.getString("id"));
+            MapGenStructureIO.field_151687_a.warn("Skipping Structure with id {}", nbttagcompound.func_74779_i("id"));
         }
 
         return structurestart;
     }
 
-    public static StructureComponent getStructureComponent(NBTTagCompound nbttagcompound, World world) {
+    public static StructureComponent func_143032_b(NBTTagCompound nbttagcompound, World world) {
         StructureComponent structurepiece = null;
 
         try {
-            Class oclass = MapGenStructureIO.componentNameToClassMap.get(nbttagcompound.getString("id"));
+            Class oclass = (Class) MapGenStructureIO.field_143039_c.get(nbttagcompound.func_74779_i("id"));
 
             if (oclass != null) {
                 structurepiece = (StructureComponent) oclass.newInstance();
             }
         } catch (Exception exception) {
-            MapGenStructureIO.LOGGER.warn("Failed Piece with id {}", nbttagcompound.getString("id"));
+            MapGenStructureIO.field_151687_a.warn("Failed Piece with id {}", nbttagcompound.func_74779_i("id"));
             exception.printStackTrace();
         }
 
         if (structurepiece != null) {
-            structurepiece.readStructureBaseNBT(world, nbttagcompound);
+            structurepiece.func_143009_a(world, nbttagcompound);
         } else {
-            MapGenStructureIO.LOGGER.warn("Skipping Piece with id {}", nbttagcompound.getString("id"));
+            MapGenStructureIO.field_151687_a.warn("Skipping Piece with id {}", nbttagcompound.func_74779_i("id"));
         }
 
         return structurepiece;
     }
 
     static {
-        registerStructure(StructureMineshaftStart.class, "Mineshaft");
-        registerStructure(MapGenVillage.Start.class, "Village");
-        registerStructure(MapGenNetherBridge.Start.class, "Fortress");
-        registerStructure(MapGenStronghold.Start.class, "Stronghold");
-        registerStructure(MapGenScatteredFeature.Start.class, "Temple");
-        registerStructure(StructureOceanMonument.StartMonument.class, "Monument");
-        registerStructure(MapGenEndCity.Start.class, "EndCity");
-        registerStructure(WoodlandMansion.a.class, "Mansion");
-        StructureMineshaftPieces.registerStructurePieces();
-        StructureVillagePieces.registerVillagePieces();
-        StructureNetherBridgePieces.registerNetherFortressPieces();
-        StructureStrongholdPieces.registerStrongholdPieces();
-        ComponentScatteredFeaturePieces.registerScatteredFeaturePieces();
-        StructureOceanMonumentPieces.registerOceanMonumentPieces();
-        StructureEndCityPieces.registerPieces();
-        WoodlandMansionPieces.registerWoodlandMansionPieces();
+        func_143034_b(StructureMineshaftStart.class, "Mineshaft");
+        func_143034_b(MapGenVillage.Start.class, "Village");
+        func_143034_b(MapGenNetherBridge.Start.class, "Fortress");
+        func_143034_b(MapGenStronghold.Start.class, "Stronghold");
+        func_143034_b(MapGenScatteredFeature.Start.class, "Temple");
+        func_143034_b(StructureOceanMonument.StartMonument.class, "Monument");
+        func_143034_b(MapGenEndCity.Start.class, "EndCity");
+        func_143034_b(WorldGenWoodlandMansion.a.class, "Mansion");
+        StructureMineshaftPieces.func_143048_a();
+        StructureVillagePieces.func_143016_a();
+        StructureNetherBridgePieces.func_143049_a();
+        StructureStrongholdPieces.func_143046_a();
+        ComponentScatteredFeaturePieces.func_143045_a();
+        StructureOceanMonumentPieces.func_175970_a();
+        StructureEndCityPieces.func_186200_a();
+        WoodlandMansionPieces.func_191153_a();
     }
 }

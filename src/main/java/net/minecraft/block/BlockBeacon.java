@@ -21,86 +21,86 @@ import net.minecraft.world.chunk.Chunk;
 public class BlockBeacon extends BlockContainer {
 
     public BlockBeacon() {
-        super(Material.GLASS, MapColor.DIAMOND);
-        this.setHardness(3.0F);
-        this.setCreativeTab(CreativeTabs.MISC);
+        super(Material.field_151592_s, MapColor.field_151648_G);
+        this.func_149711_c(3.0F);
+        this.func_149647_a(CreativeTabs.field_78026_f);
     }
 
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity func_149915_a(World world, int i) {
         return new TileEntityBeacon();
     }
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        if (world.isRemote) {
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        if (world.field_72995_K) {
             return true;
         } else {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityBeacon) {
-                entityhuman.displayGUIChest((TileEntityBeacon) tileentity);
-                entityhuman.addStat(StatList.BEACON_INTERACTION);
+                entityhuman.func_71007_a((TileEntityBeacon) tileentity);
+                entityhuman.func_71029_a(StatList.field_188082_P);
             }
 
             return true;
         }
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.MODEL;
     }
 
-    public void onBlockPlacedBy(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
-        super.onBlockPlacedBy(world, blockposition, iblockdata, entityliving, itemstack);
-        if (itemstack.hasDisplayName()) {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_180633_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
+        super.func_180633_a(world, blockposition, iblockdata, entityliving, itemstack);
+        if (itemstack.func_82837_s()) {
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityBeacon) {
-                ((TileEntityBeacon) tileentity).setName(itemstack.getDisplayName());
+                ((TileEntityBeacon) tileentity).func_145999_a(itemstack.func_82833_r());
             }
         }
 
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        TileEntity tileentity = world.func_175625_s(blockposition);
 
         if (tileentity instanceof TileEntityBeacon) {
-            ((TileEntityBeacon) tileentity).updateBeacon();
-            world.addBlockEvent(blockposition, this, 1, 0);
+            ((TileEntityBeacon) tileentity).func_174908_m();
+            world.func_175641_c(blockposition, this, 1, 0);
         }
 
     }
 
-    public static void updateColorAsync(final World world, final BlockPos blockposition) {
+    public static void func_176450_d(final World world, final BlockPos blockposition) {
         /*HttpUtilities.a.submit(new Runnable() {
             public void run() {*/ // Paper
-                Chunk chunk = world.getChunkFromBlockCoords(blockposition);
+                Chunk chunk = world.func_175726_f(blockposition);
 
-                for (int i = blockposition.getY() - 1; i >= 0; --i) {
-                    final BlockPos blockposition1 = new BlockPos(blockposition.getX(), i, blockposition.getZ());
+                for (int i = blockposition.func_177956_o() - 1; i >= 0; --i) {
+                    final BlockPos blockposition1 = new BlockPos(blockposition.func_177958_n(), i, blockposition.func_177952_p());
 
-                    if (!chunk.canSeeSky(blockposition1)) {
+                    if (!chunk.func_177444_d(blockposition1)) {
                         break;
                     }
 
-                    IBlockState iblockdata = world.getBlockState(blockposition1);
+                    IBlockState iblockdata = world.func_180495_p(blockposition1);
 
-                    if (iblockdata.getBlock() == Blocks.BEACON) {
+                    if (iblockdata.func_177230_c() == Blocks.field_150461_bJ) {
                         /*((WorldServer) world).postToMainThread(new Runnable() {
                             public void run() {*/ // Paper
-                                TileEntity tileentity = world.getTileEntity(blockposition);
+                                TileEntity tileentity = world.func_175625_s(blockposition);
 
                                 if (tileentity instanceof TileEntityBeacon) {
-                                    ((TileEntityBeacon) tileentity).updateBeacon();
-                                    world.addBlockEvent(blockposition, Blocks.BEACON, 1, 0);
+                                    ((TileEntityBeacon) tileentity).func_174908_m();
+                                    world.func_175641_c(blockposition, Blocks.field_150461_bJ, 1, 0);
                                 }
 
                             /*}

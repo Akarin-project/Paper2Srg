@@ -8,23 +8,23 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketConfirmTeleport implements Packet<INetHandlerPlayServer> {
 
-    private int telportId;
+    private int field_186988_a;
 
     public CPacketConfirmTeleport() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.telportId = packetdataserializer.readVarInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_186988_a = packetdataserializer.func_150792_a();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.telportId);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_186988_a);
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.processConfirmTeleport(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_184339_a(this);
     }
 
-    public int getTeleportId() {
-        return this.telportId;
+    public int func_186987_a() {
+        return this.field_186988_a;
     }
 }

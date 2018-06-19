@@ -25,45 +25,45 @@ import net.minecraft.world.WorldServer;
 public class ItemEnderEye extends Item {
 
     public ItemEnderEye() {
-        this.setCreativeTab(CreativeTabs.MISC);
+        this.func_77637_a(CreativeTabs.field_78026_f);
     }
 
-    public EnumActionResult onItemUse(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        IBlockState iblockdata = world.getBlockState(blockposition);
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        IBlockState iblockdata = world.func_180495_p(blockposition);
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (entityhuman.canPlayerEdit(blockposition.offset(enumdirection), enumdirection, itemstack) && iblockdata.getBlock() == Blocks.END_PORTAL_FRAME && !((Boolean) iblockdata.getValue(BlockEndPortalFrame.EYE)).booleanValue()) {
-            if (world.isRemote) {
+        if (entityhuman.func_175151_a(blockposition.func_177972_a(enumdirection), enumdirection, itemstack) && iblockdata.func_177230_c() == Blocks.field_150378_br && !((Boolean) iblockdata.func_177229_b(BlockEndPortalFrame.field_176507_b)).booleanValue()) {
+            if (world.field_72995_K) {
                 return EnumActionResult.SUCCESS;
             } else {
-                world.setBlockState(blockposition, iblockdata.withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(true)), 2);
-                world.updateComparatorOutputLevel(blockposition, Blocks.END_PORTAL_FRAME);
-                itemstack.shrink(1);
+                world.func_180501_a(blockposition, iblockdata.func_177226_a(BlockEndPortalFrame.field_176507_b, Boolean.valueOf(true)), 2);
+                world.func_175666_e(blockposition, Blocks.field_150378_br);
+                itemstack.func_190918_g(1);
 
                 for (int i = 0; i < 16; ++i) {
-                    double d0 = (double) ((float) blockposition.getX() + (5.0F + ItemEnderEye.itemRand.nextFloat() * 6.0F) / 16.0F);
-                    double d1 = (double) ((float) blockposition.getY() + 0.8125F);
-                    double d2 = (double) ((float) blockposition.getZ() + (5.0F + ItemEnderEye.itemRand.nextFloat() * 6.0F) / 16.0F);
+                    double d0 = (double) ((float) blockposition.func_177958_n() + (5.0F + ItemEnderEye.field_77697_d.nextFloat() * 6.0F) / 16.0F);
+                    double d1 = (double) ((float) blockposition.func_177956_o() + 0.8125F);
+                    double d2 = (double) ((float) blockposition.func_177952_p() + (5.0F + ItemEnderEye.field_77697_d.nextFloat() * 6.0F) / 16.0F);
                     double d3 = 0.0D;
                     double d4 = 0.0D;
                     double d5 = 0.0D;
 
-                    world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+                    world.func_175688_a(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
                 }
 
-                world.playSound((EntityPlayer) null, blockposition, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                BlockPattern.PatternHelper shapedetector_shapedetectorcollection = BlockEndPortalFrame.getOrCreatePortalShape().match(world, blockposition);
+                world.func_184133_a((EntityPlayer) null, blockposition, SoundEvents.field_193781_bp, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                BlockPattern.PatternHelper shapedetector_shapedetectorcollection = BlockEndPortalFrame.func_185661_e().func_177681_a(world, blockposition);
 
                 if (shapedetector_shapedetectorcollection != null) {
-                    BlockPos blockposition1 = shapedetector_shapedetectorcollection.getFrontTopLeft().add(-3, 0, -3);
+                    BlockPos blockposition1 = shapedetector_shapedetectorcollection.func_181117_a().func_177982_a(-3, 0, -3);
 
                     for (int j = 0; j < 3; ++j) {
                         for (int k = 0; k < 3; ++k) {
-                            world.setBlockState(blockposition1.add(j, 0, k), Blocks.END_PORTAL.getDefaultState(), 2);
+                            world.func_180501_a(blockposition1.func_177982_a(j, 0, k), Blocks.field_150384_bq.func_176223_P(), 2);
                         }
                     }
 
-                    world.playBroadcastSound(1038, blockposition1.add(1, 0, 1), 0);
+                    world.func_175669_a(1038, blockposition1.func_177982_a(1, 0, 1), 0);
                 }
 
                 return EnumActionResult.SUCCESS;
@@ -73,33 +73,33 @@ public class ItemEnderEye extends Item {
         }
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
-        RayTraceResult movingobjectposition = this.rayTrace(world, entityhuman, false);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
+        RayTraceResult movingobjectposition = this.func_77621_a(world, entityhuman, false);
 
-        if (movingobjectposition != null && movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK && world.getBlockState(movingobjectposition.getBlockPos()).getBlock() == Blocks.END_PORTAL_FRAME) {
+        if (movingobjectposition != null && movingobjectposition.field_72313_a == RayTraceResult.Type.BLOCK && world.func_180495_p(movingobjectposition.func_178782_a()).func_177230_c() == Blocks.field_150378_br) {
             return new ActionResult(EnumActionResult.PASS, itemstack);
         } else {
-            entityhuman.setActiveHand(enumhand);
-            if (!world.isRemote) {
-                BlockPos blockposition = ((WorldServer) world).getChunkProvider().getNearestStructurePos(world, "Stronghold", new BlockPos(entityhuman), false);
+            entityhuman.func_184598_c(enumhand);
+            if (!world.field_72995_K) {
+                BlockPos blockposition = ((WorldServer) world).func_72863_F().func_180513_a(world, "Stronghold", new BlockPos(entityhuman), false);
 
                 if (blockposition != null) {
-                    EntityEnderEye entityendersignal = new EntityEnderEye(world, entityhuman.posX, entityhuman.posY + (double) (entityhuman.height / 2.0F), entityhuman.posZ);
+                    EntityEnderEye entityendersignal = new EntityEnderEye(world, entityhuman.field_70165_t, entityhuman.field_70163_u + (double) (entityhuman.field_70131_O / 2.0F), entityhuman.field_70161_v);
 
-                    entityendersignal.moveTowards(blockposition);
-                    world.spawnEntity(entityendersignal);
+                    entityendersignal.func_180465_a(blockposition);
+                    world.func_72838_d(entityendersignal);
                     if (entityhuman instanceof EntityPlayerMP) {
-                        CriteriaTriggers.USED_ENDER_EYE.trigger((EntityPlayerMP) entityhuman, blockposition);
+                        CriteriaTriggers.field_192132_l.func_192239_a((EntityPlayerMP) entityhuman, blockposition);
                     }
 
-                    world.playSound((EntityPlayer) null, entityhuman.posX, entityhuman.posY, entityhuman.posZ, SoundEvents.ENTITY_ENDEREYE_LAUNCH, SoundCategory.NEUTRAL, 0.5F, 0.4F / (ItemEnderEye.itemRand.nextFloat() * 0.4F + 0.8F));
-                    world.playEvent((EntityPlayer) null, 1003, new BlockPos(entityhuman), 0);
-                    if (!entityhuman.capabilities.isCreativeMode) {
-                        itemstack.shrink(1);
+                    world.func_184148_a((EntityPlayer) null, entityhuman.field_70165_t, entityhuman.field_70163_u, entityhuman.field_70161_v, SoundEvents.field_187528_aR, SoundCategory.NEUTRAL, 0.5F, 0.4F / (ItemEnderEye.field_77697_d.nextFloat() * 0.4F + 0.8F));
+                    world.func_180498_a((EntityPlayer) null, 1003, new BlockPos(entityhuman), 0);
+                    if (!entityhuman.field_71075_bZ.field_75098_d) {
+                        itemstack.func_190918_g(1);
                     }
 
-                    entityhuman.addStat(StatList.getObjectUseStats((Item) this));
+                    entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
                     return new ActionResult(EnumActionResult.SUCCESS, itemstack);
                 }
             }

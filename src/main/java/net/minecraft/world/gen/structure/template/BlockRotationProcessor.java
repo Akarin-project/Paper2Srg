@@ -8,16 +8,16 @@ import net.minecraft.world.World;
 
 public class BlockRotationProcessor implements ITemplateProcessor {
 
-    private final float chance;
-    private final Random random;
+    private final float field_189944_a;
+    private final Random field_189945_b;
 
     public BlockRotationProcessor(BlockPos blockposition, PlacementSettings definedstructureinfo) {
-        this.chance = definedstructureinfo.getIntegrity();
-        this.random = definedstructureinfo.getRandom(blockposition);
+        this.field_189944_a = definedstructureinfo.func_189948_f();
+        this.field_189945_b = definedstructureinfo.func_189947_a(blockposition);
     }
 
     @Nullable
-    public Template.BlockInfo processBlock(World world, BlockPos blockposition, Template.BlockInfo definedstructure_blockinfo) {
-        return this.chance < 1.0F && this.random.nextFloat() > this.chance ? null : definedstructure_blockinfo;
+    public Template.BlockInfo func_189943_a(World world, BlockPos blockposition, Template.BlockInfo definedstructure_blockinfo) {
+        return this.field_189944_a < 1.0F && this.field_189945_b.nextFloat() > this.field_189944_a ? null : definedstructure_blockinfo;
     }
 }

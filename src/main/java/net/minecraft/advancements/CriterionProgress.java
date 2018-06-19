@@ -12,61 +12,61 @@ import net.minecraft.network.PacketBuffer;
 
 public class CriterionProgress {
 
-    private static final SimpleDateFormat DATE_TIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
-    private final AdvancementProgress advancementProgress;
-    private Date obtained;
+    private static final SimpleDateFormat field_192155_a = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
+    private final AdvancementProgress field_192156_b;
+    private Date field_192157_c;
 
     public CriterionProgress(AdvancementProgress advancementprogress) {
-        this.advancementProgress = advancementprogress;
+        this.field_192156_b = advancementprogress;
     }
 
-    public boolean isObtained() {
-        return this.obtained != null;
+    public boolean func_192151_a() {
+        return this.field_192157_c != null;
     }
 
-    public void obtain() {
-        this.obtained = new Date();
+    public void func_192153_b() {
+        this.field_192157_c = new Date();
     }
 
-    public void reset() {
-        this.obtained = null;
+    public void func_192154_c() {
+        this.field_192157_c = null;
     }
 
-    public Date getObtained() {
-        return this.obtained;
+    public Date func_193140_d() {
+        return this.field_192157_c;
     }
 
     public String toString() {
-        return "CriterionProgress{obtained=" + (this.obtained == null ? "false" : this.obtained) + '}';
+        return "CriterionProgress{obtained=" + (this.field_192157_c == null ? "false" : this.field_192157_c) + '}';
     }
 
-    public void write(PacketBuffer packetdataserializer) {
-        packetdataserializer.writeBoolean(this.obtained != null);
-        if (this.obtained != null) {
-            packetdataserializer.writeTime(this.obtained);
+    public void func_192150_a(PacketBuffer packetdataserializer) {
+        packetdataserializer.writeBoolean(this.field_192157_c != null);
+        if (this.field_192157_c != null) {
+            packetdataserializer.func_192574_a(this.field_192157_c);
         }
 
     }
 
-    public JsonElement serialize() {
-        return (JsonElement) (this.obtained != null ? new JsonPrimitive(CriterionProgress.DATE_TIME_FORMATTER.format(this.obtained)) : JsonNull.INSTANCE);
+    public JsonElement func_192148_e() {
+        return (JsonElement) (this.field_192157_c != null ? new JsonPrimitive(CriterionProgress.field_192155_a.format(this.field_192157_c)) : JsonNull.INSTANCE);
     }
 
-    public static CriterionProgress read(PacketBuffer packetdataserializer, AdvancementProgress advancementprogress) {
+    public static CriterionProgress func_192149_a(PacketBuffer packetdataserializer, AdvancementProgress advancementprogress) {
         CriterionProgress criterionprogress = new CriterionProgress(advancementprogress);
 
         if (packetdataserializer.readBoolean()) {
-            criterionprogress.obtained = packetdataserializer.readTime();
+            criterionprogress.field_192157_c = packetdataserializer.func_192573_m();
         }
 
         return criterionprogress;
     }
 
-    public static CriterionProgress fromDateTime(AdvancementProgress advancementprogress, String s) {
+    public static CriterionProgress func_192152_a(AdvancementProgress advancementprogress, String s) {
         CriterionProgress criterionprogress = new CriterionProgress(advancementprogress);
 
         try {
-            criterionprogress.obtained = CriterionProgress.DATE_TIME_FORMATTER.parse(s);
+            criterionprogress.field_192157_c = CriterionProgress.field_192155_a.parse(s);
             return criterionprogress;
         } catch (ParseException parseexception) {
             throw new JsonSyntaxException("Invalid datetime: " + s, parseexception);

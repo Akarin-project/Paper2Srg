@@ -26,10 +26,10 @@ import org.bukkit.event.inventory.InventoryType;
 
 public class InventoryCrafting implements IInventory {
 
-    private final NonNullList<ItemStack> stackList;
-    private final int inventoryWidth;
-    private final int inventoryHeight;
-    public final Container eventHandler;
+    private final NonNullList<ItemStack> field_70466_a;
+    private final int field_70464_b;
+    private final int field_174924_c;
+    public final Container field_70465_c;
 
     // CraftBukkit start - add fields
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
@@ -39,7 +39,7 @@ public class InventoryCrafting implements IInventory {
     private int maxStack = MAX_STACK;
 
     public List<ItemStack> getContents() {
-        return this.stackList;
+        return this.field_70466_a;
     }
 
     public void onOpen(CraftHumanEntity who) {
@@ -47,7 +47,7 @@ public class InventoryCrafting implements IInventory {
     }
 
     public InventoryType getInvType() {
-        return stackList.size() == 4 ? InventoryType.CRAFTING : InventoryType.WORKBENCH;
+        return field_70466_a.size() == 4 ? InventoryType.CRAFTING : InventoryType.WORKBENCH;
     }
 
     public void onClose(CraftHumanEntity who) {
@@ -79,18 +79,18 @@ public class InventoryCrafting implements IInventory {
     // CraftBukkit end
 
     public InventoryCrafting(Container container, int i, int j) {
-        this.stackList = NonNullList.withSize(i * j, ItemStack.EMPTY);
-        this.eventHandler = container;
-        this.inventoryWidth = i;
-        this.inventoryHeight = j;
+        this.field_70466_a = NonNullList.func_191197_a(i * j, ItemStack.field_190927_a);
+        this.field_70465_c = container;
+        this.field_70464_b = i;
+        this.field_174924_c = j;
     }
 
-    public int getSizeInventory() {
-        return this.stackList.size();
+    public int func_70302_i_() {
+        return this.field_70466_a.size();
     }
 
-    public boolean isEmpty() {
-        Iterator iterator = this.stackList.iterator();
+    public boolean func_191420_l() {
+        Iterator iterator = this.field_70466_a.iterator();
 
         ItemStack itemstack;
 
@@ -100,97 +100,97 @@ public class InventoryCrafting implements IInventory {
             }
 
             itemstack = (ItemStack) iterator.next();
-        } while (itemstack.isEmpty());
+        } while (itemstack.func_190926_b());
 
         return false;
     }
 
-    public ItemStack getStackInSlot(int i) {
-        return i >= this.getSizeInventory() ? ItemStack.EMPTY : (ItemStack) this.stackList.get(i);
+    public ItemStack func_70301_a(int i) {
+        return i >= this.func_70302_i_() ? ItemStack.field_190927_a : (ItemStack) this.field_70466_a.get(i);
     }
 
-    public ItemStack getStackInRowAndColumn(int i, int j) {
-        return i >= 0 && i < this.inventoryWidth && j >= 0 && j <= this.inventoryHeight ? this.getStackInSlot(i + j * this.inventoryWidth) : ItemStack.EMPTY;
+    public ItemStack func_70463_b(int i, int j) {
+        return i >= 0 && i < this.field_70464_b && j >= 0 && j <= this.field_174924_c ? this.func_70301_a(i + j * this.field_70464_b) : ItemStack.field_190927_a;
     }
 
-    public String getName() {
+    public String func_70005_c_() {
         return "container.crafting";
     }
 
-    public boolean hasCustomName() {
+    public boolean func_145818_k_() {
         return false;
     }
 
-    public ITextComponent getDisplayName() {
-        return (ITextComponent) (this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
+    public ITextComponent func_145748_c_() {
+        return (ITextComponent) (this.func_145818_k_() ? new TextComponentString(this.func_70005_c_()) : new TextComponentTranslation(this.func_70005_c_(), new Object[0]));
     }
 
-    public ItemStack removeStackFromSlot(int i) {
-        return ItemStackHelper.getAndRemove(this.stackList, i);
+    public ItemStack func_70304_b(int i) {
+        return ItemStackHelper.func_188383_a(this.field_70466_a, i);
     }
 
-    public ItemStack decrStackSize(int i, int j) {
-        ItemStack itemstack = ItemStackHelper.getAndSplit(this.stackList, i, j);
+    public ItemStack func_70298_a(int i, int j) {
+        ItemStack itemstack = ItemStackHelper.func_188382_a(this.field_70466_a, i, j);
 
-        if (!itemstack.isEmpty()) {
-            this.eventHandler.onCraftMatrixChanged((IInventory) this);
+        if (!itemstack.func_190926_b()) {
+            this.field_70465_c.func_75130_a((IInventory) this);
         }
 
         return itemstack;
     }
 
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
-        this.stackList.set(i, itemstack);
-        this.eventHandler.onCraftMatrixChanged((IInventory) this);
+    public void func_70299_a(int i, ItemStack itemstack) {
+        this.field_70466_a.set(i, itemstack);
+        this.field_70465_c.func_75130_a((IInventory) this);
     }
 
-    public int getInventoryStackLimit() {
+    public int func_70297_j_() {
         return 64;
     }
 
-    public void markDirty() {}
+    public void func_70296_d() {}
 
-    public boolean isUsableByPlayer(EntityPlayer entityhuman) {
+    public boolean func_70300_a(EntityPlayer entityhuman) {
         return true;
     }
 
-    public void openInventory(EntityPlayer entityhuman) {}
+    public void func_174889_b(EntityPlayer entityhuman) {}
 
-    public void closeInventory(EntityPlayer entityhuman) {}
+    public void func_174886_c(EntityPlayer entityhuman) {}
 
-    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+    public boolean func_94041_b(int i, ItemStack itemstack) {
         return true;
     }
 
-    public int getField(int i) {
+    public int func_174887_a_(int i) {
         return 0;
     }
 
-    public void setField(int i, int j) {}
+    public void func_174885_b(int i, int j) {}
 
-    public int getFieldCount() {
+    public int func_174890_g() {
         return 0;
     }
 
-    public void clear() {
-        this.stackList.clear();
+    public void func_174888_l() {
+        this.field_70466_a.clear();
     }
 
-    public int getHeight() {
-        return this.inventoryHeight;
+    public int func_174923_h() {
+        return this.field_174924_c;
     }
 
-    public int getWidth() {
-        return this.inventoryWidth;
+    public int func_174922_i() {
+        return this.field_70464_b;
     }
 
-    public void fillStackedContents(RecipeItemHelper autorecipestackmanager) {
-        Iterator iterator = this.stackList.iterator();
+    public void func_194018_a(RecipeItemHelper autorecipestackmanager) {
+        Iterator iterator = this.field_70466_a.iterator();
 
         while (iterator.hasNext()) {
             ItemStack itemstack = (ItemStack) iterator.next();
 
-            autorecipestackmanager.accountStack(itemstack);
+            autorecipestackmanager.func_194112_a(itemstack);
         }
 
     }

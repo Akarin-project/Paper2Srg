@@ -8,25 +8,25 @@ import net.minecraft.world.World;
 
 public abstract class WorldGenerator {
 
-    private final boolean doBlockNotify;
+    private final boolean field_76488_a;
 
     public WorldGenerator() {
         this(false);
     }
 
     public WorldGenerator(boolean flag) {
-        this.doBlockNotify = flag;
+        this.field_76488_a = flag;
     }
 
-    public abstract boolean generate(World world, Random random, BlockPos blockposition);
+    public abstract boolean func_180709_b(World world, Random random, BlockPos blockposition);
 
-    public void setDecorationDefaults() {}
+    public void func_175904_e() {}
 
-    protected void setBlockAndNotifyAdequately(World world, BlockPos blockposition, IBlockState iblockdata) {
-        if (this.doBlockNotify) {
-            world.setBlockState(blockposition, iblockdata, 3);
+    protected void func_175903_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        if (this.field_76488_a) {
+            world.func_180501_a(blockposition, iblockdata, 3);
         } else {
-            world.setBlockState(blockposition, iblockdata, 2);
+            world.func_180501_a(blockposition, iblockdata, 2);
         }
 
     }

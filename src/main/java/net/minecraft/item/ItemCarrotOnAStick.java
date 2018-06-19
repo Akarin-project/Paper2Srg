@@ -13,26 +13,26 @@ import net.minecraft.world.World;
 public class ItemCarrotOnAStick extends Item {
 
     public ItemCarrotOnAStick() {
-        this.setCreativeTab(CreativeTabs.TRANSPORTATION);
-        this.setMaxStackSize(1);
-        this.setMaxDamage(25);
+        this.func_77637_a(CreativeTabs.field_78029_e);
+        this.func_77625_d(1);
+        this.func_77656_e(25);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (world.isRemote) {
+        if (world.field_72995_K) {
             return new ActionResult(EnumActionResult.PASS, itemstack);
         } else {
-            if (entityhuman.isRiding() && entityhuman.getRidingEntity() instanceof EntityPig) {
-                EntityPig entitypig = (EntityPig) entityhuman.getRidingEntity();
+            if (entityhuman.func_184218_aH() && entityhuman.func_184187_bx() instanceof EntityPig) {
+                EntityPig entitypig = (EntityPig) entityhuman.func_184187_bx();
 
-                if (itemstack.getMaxDamage() - itemstack.getMetadata() >= 7 && entitypig.boost()) {
-                    itemstack.damageItem(7, entityhuman);
-                    if (itemstack.isEmpty()) {
-                        ItemStack itemstack1 = new ItemStack(Items.FISHING_ROD);
+                if (itemstack.func_77958_k() - itemstack.func_77960_j() >= 7 && entitypig.func_184762_da()) {
+                    itemstack.func_77972_a(7, entityhuman);
+                    if (itemstack.func_190926_b()) {
+                        ItemStack itemstack1 = new ItemStack(Items.field_151112_aM);
 
-                        itemstack1.setTagCompound(itemstack.getTagCompound());
+                        itemstack1.func_77982_d(itemstack.func_77978_p());
                         return new ActionResult(EnumActionResult.SUCCESS, itemstack1);
                     }
 
@@ -40,7 +40,7 @@ public class ItemCarrotOnAStick extends Item {
                 }
             }
 
-            entityhuman.addStat(StatList.getObjectUseStats((Item) this));
+            entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
             return new ActionResult(EnumActionResult.PASS, itemstack);
         }
     }

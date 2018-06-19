@@ -40,76 +40,76 @@ import org.bukkit.event.player.PlayerShearEntityEvent;
 
 public class EntitySnowman extends EntityGolem implements IRangedAttackMob {
 
-    private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.createKey(EntitySnowman.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> field_184749_a = EntityDataManager.func_187226_a(EntitySnowman.class, DataSerializers.field_187191_a);
 
     public EntitySnowman(World world) {
         super(world);
-        this.setSize(0.7F, 1.9F);
+        this.func_70105_a(0.7F, 1.9F);
     }
 
-    public static void registerFixesSnowman(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntitySnowman.class);
+    public static void func_189783_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntitySnowman.class);
     }
 
-    protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAIAttackRanged(this, 1.25D, 20, 10.0F));
-        this.tasks.addTask(2, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
-        this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(4, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, IMob.MOB_SELECTOR));
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(1, new EntityAIAttackRanged(this, 1.25D, 20, 10.0F));
+        this.field_70714_bg.func_75776_a(2, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
+        this.field_70714_bg.func_75776_a(3, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.field_70714_bg.func_75776_a(4, new EntityAILookIdle(this));
+        this.field_70715_bh.func_75776_a(1, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, IMob.field_82192_a));
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20000000298023224D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(4.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.20000000298023224D);
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(EntitySnowman.PUMPKIN_EQUIPPED, Byte.valueOf((byte) 16));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(EntitySnowman.field_184749_a, Byte.valueOf((byte) 16));
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setBoolean("Pumpkin", this.isPumpkinEquipped());
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74757_a("Pumpkin", this.func_184748_o());
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        if (nbttagcompound.hasKey("Pumpkin")) {
-            this.setPumpkinEquipped(nbttagcompound.getBoolean("Pumpkin"));
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        if (nbttagcompound.func_74764_b("Pumpkin")) {
+            this.func_184747_a(nbttagcompound.func_74767_n("Pumpkin"));
         }
 
     }
 
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        if (!this.world.isRemote) {
-            int i = MathHelper.floor(this.posX);
-            int j = MathHelper.floor(this.posY);
-            int k = MathHelper.floor(this.posZ);
+    public void func_70636_d() {
+        super.func_70636_d();
+        if (!this.field_70170_p.field_72995_K) {
+            int i = MathHelper.func_76128_c(this.field_70165_t);
+            int j = MathHelper.func_76128_c(this.field_70163_u);
+            int k = MathHelper.func_76128_c(this.field_70161_v);
 
-            if (this.isWet()) {
-                this.attackEntityFrom(DamageSource.DROWN, 1.0F);
+            if (this.func_70026_G()) {
+                this.func_70097_a(DamageSource.field_76369_e, 1.0F);
             }
 
-            if (this.world.getBiome(new BlockPos(i, 0, k)).getTemperature(new BlockPos(i, j, k)) > 1.0F) {
-                this.attackEntityFrom(CraftEventFactory.MELTING, 1.0F); // CraftBukkit - DamageSource.BURN -> CraftEventFactory.MELTING
+            if (this.field_70170_p.func_180494_b(new BlockPos(i, 0, k)).func_180626_a(new BlockPos(i, j, k)) > 1.0F) {
+                this.func_70097_a(CraftEventFactory.MELTING, 1.0F); // CraftBukkit - DamageSource.BURN -> CraftEventFactory.MELTING
             }
 
-            if (!this.world.getGameRules().getBoolean("mobGriefing")) {
+            if (!this.field_70170_p.func_82736_K().func_82766_b("mobGriefing")) {
                 return;
             }
 
             for (int l = 0; l < 4; ++l) {
-                i = MathHelper.floor(this.posX + (double) ((float) (l % 2 * 2 - 1) * 0.25F));
-                j = MathHelper.floor(this.posY);
-                k = MathHelper.floor(this.posZ + (double) ((float) (l / 2 % 2 * 2 - 1) * 0.25F));
+                i = MathHelper.func_76128_c(this.field_70165_t + (double) ((float) (l % 2 * 2 - 1) * 0.25F));
+                j = MathHelper.func_76128_c(this.field_70163_u);
+                k = MathHelper.func_76128_c(this.field_70161_v + (double) ((float) (l / 2 % 2 * 2 - 1) * 0.25F));
                 BlockPos blockposition = new BlockPos(i, j, k);
 
-                if (this.world.getBlockState(blockposition).getMaterial() == Material.AIR && this.world.getBiome(blockposition).getTemperature(blockposition) < 0.8F && Blocks.SNOW_LAYER.canPlaceBlockAt(this.world, blockposition)) {
-                    org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockFormEvent(this.world, blockposition, Blocks.SNOW_LAYER.getDefaultState(), this); // CraftBukkit
+                if (this.field_70170_p.func_180495_p(blockposition).func_185904_a() == Material.field_151579_a && this.field_70170_p.func_180494_b(blockposition).func_180626_a(blockposition) < 0.8F && Blocks.field_150431_aC.func_176196_c(this.field_70170_p, blockposition)) {
+                    org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockFormEvent(this.field_70170_p, blockposition, Blocks.field_150431_aC.func_176223_P(), this); // CraftBukkit
                 }
             }
         }
@@ -117,76 +117,76 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob {
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_SNOWMAN;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186444_z;
     }
 
-    public void attackEntityWithRangedAttack(EntityLivingBase entityliving, float f) {
-        EntitySnowball entitysnowball = new EntitySnowball(this.world, this);
-        double d0 = entityliving.posY + (double) entityliving.getEyeHeight() - 1.100000023841858D;
-        double d1 = entityliving.posX - this.posX;
-        double d2 = d0 - entitysnowball.posY;
-        double d3 = entityliving.posZ - this.posZ;
-        float f1 = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+    public void func_82196_d(EntityLivingBase entityliving, float f) {
+        EntitySnowball entitysnowball = new EntitySnowball(this.field_70170_p, this);
+        double d0 = entityliving.field_70163_u + (double) entityliving.func_70047_e() - 1.100000023841858D;
+        double d1 = entityliving.field_70165_t - this.field_70165_t;
+        double d2 = d0 - entitysnowball.field_70163_u;
+        double d3 = entityliving.field_70161_v - this.field_70161_v;
+        float f1 = MathHelper.func_76133_a(d1 * d1 + d3 * d3) * 0.2F;
 
-        entitysnowball.shoot(d1, d2 + (double) f1, d3, 1.6F, 12.0F);
-        this.playSound(SoundEvents.ENTITY_SNOWMAN_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.world.spawnEntity(entitysnowball);
+        entitysnowball.func_70186_c(d1, d2 + (double) f1, d3, 1.6F, 12.0F);
+        this.func_184185_a(SoundEvents.field_187805_fE, 1.0F, 1.0F / (this.func_70681_au().nextFloat() * 0.4F + 0.8F));
+        this.field_70170_p.func_72838_d(entitysnowball);
     }
 
-    public float getEyeHeight() {
+    public float func_70047_e() {
         return 1.7F;
     }
 
-    protected boolean processInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    protected boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (itemstack.getItem() == Items.SHEARS && this.isPumpkinEquipped() && !this.world.isRemote) {
+        if (itemstack.func_77973_b() == Items.field_151097_aZ && this.func_184748_o() && !this.field_70170_p.field_72995_K) {
             // CraftBukkit start
             PlayerShearEntityEvent event = new PlayerShearEntityEvent((org.bukkit.entity.Player) entityhuman.getBukkitEntity(), this.getBukkitEntity());
-            this.world.getServer().getPluginManager().callEvent(event);
+            this.field_70170_p.getServer().getPluginManager().callEvent(event);
 
             if (event.isCancelled()) {
                 return false;
             }
             // CraftBukkit end
 
-            this.setPumpkinEquipped(false);
-            itemstack.damageItem(1, entityhuman);
+            this.func_184747_a(false);
+            itemstack.func_77972_a(1, entityhuman);
         }
 
-        return super.processInteract(entityhuman, enumhand);
+        return super.func_184645_a(entityhuman, enumhand);
     }
 
-    public boolean isPumpkinEquipped() {
-        return (((Byte) this.dataManager.get(EntitySnowman.PUMPKIN_EQUIPPED)).byteValue() & 16) != 0;
+    public boolean func_184748_o() {
+        return (((Byte) this.field_70180_af.func_187225_a(EntitySnowman.field_184749_a)).byteValue() & 16) != 0;
     }
 
-    public void setPumpkinEquipped(boolean flag) {
-        byte b0 = ((Byte) this.dataManager.get(EntitySnowman.PUMPKIN_EQUIPPED)).byteValue();
+    public void func_184747_a(boolean flag) {
+        byte b0 = ((Byte) this.field_70180_af.func_187225_a(EntitySnowman.field_184749_a)).byteValue();
 
         if (flag) {
-            this.dataManager.set(EntitySnowman.PUMPKIN_EQUIPPED, Byte.valueOf((byte) (b0 | 16)));
+            this.field_70180_af.func_187227_b(EntitySnowman.field_184749_a, Byte.valueOf((byte) (b0 | 16)));
         } else {
-            this.dataManager.set(EntitySnowman.PUMPKIN_EQUIPPED, Byte.valueOf((byte) (b0 & -17)));
+            this.field_70180_af.func_187227_b(EntitySnowman.field_184749_a, Byte.valueOf((byte) (b0 & -17)));
         }
 
     }
 
     @Nullable
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_SNOWMAN_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_187799_fB;
     }
 
     @Nullable
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_SNOWMAN_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187803_fD;
     }
 
     @Nullable
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SNOWMAN_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187801_fC;
     }
 
-    public void setSwingingArms(boolean flag) {}
+    public void func_184724_a(boolean flag) {}
 }

@@ -8,18 +8,21 @@ import net.minecraft.block.state.IBlockState;
 
 public class BlockMatcher implements Predicate<IBlockState> {
 
-    private final Block block;
+    private final Block field_177644_a;
 
     private BlockMatcher(Block block) {
-        this.block = block;
+        this.field_177644_a = block;
     }
 
-    public static BlockMatcher forBlock(Block block) {
+    public static BlockMatcher func_177642_a(Block block) {
         return new BlockMatcher(block);
     }
 
-    @Override
     public boolean apply(@Nullable IBlockState iblockdata) {
-        return iblockdata != null && iblockdata.getBlock() == this.block;
+        return iblockdata != null && iblockdata.func_177230_c() == this.field_177644_a;
+    }
+
+    public boolean apply(@Nullable Object object) {
+        return this.apply((IBlockState) object);
     }
 }

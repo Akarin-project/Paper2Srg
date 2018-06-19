@@ -39,8 +39,8 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
     private final int[] predefinedBlockDataBitsStoneGlobal;
     private final int[] predefinedBlockDataBitsNetherrackGlobal;
     private final int[] predefinedBlockDataBitsEndStoneGlobal;
-    private final boolean[] solidGlobal = new boolean[Block.BLOCK_STATE_IDS.size()];
-    private final boolean[] obfuscateGlobal = new boolean[Block.BLOCK_STATE_IDS.size()];
+    private final boolean[] solidGlobal = new boolean[Block.field_176229_d.size()];
+    private final boolean[] obfuscateGlobal = new boolean[Block.field_176229_d.size()];
     private final ExtendedBlockStorage[] emptyNearbyChunkSections = {Chunk.EMPTY_CHUNK_SECTION, Chunk.EMPTY_CHUNK_SECTION, Chunk.EMPTY_CHUNK_SECTION, Chunk.EMPTY_CHUNK_SECTION};
 
     public ChunkPacketBlockControllerAntiXray(PaperWorldConfig paperWorldConfig) {
@@ -58,26 +58,26 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
 
         if (engineMode == EngineMode.HIDE) {
             predefinedBlockData = null;
-            predefinedBlockDataStone = new IBlockState[] {Blocks.STONE.getDefaultState()};
-            predefinedBlockDataNetherrack = new IBlockState[] {Blocks.NETHERRACK.getDefaultState()};
-            predefinedBlockDataEndStone = new IBlockState[] {Blocks.END_STONE.getDefaultState()};
+            predefinedBlockDataStone = new IBlockState[] {Blocks.field_150348_b.func_176223_P()};
+            predefinedBlockDataNetherrack = new IBlockState[] {Blocks.field_150424_aL.func_176223_P()};
+            predefinedBlockDataEndStone = new IBlockState[] {Blocks.field_150377_bs.func_176223_P()};
             predefinedBlockDataBits = new int[] {1};
             predefinedBlockDataBitsGlobal = null;
-            predefinedBlockDataBitsStoneGlobal = new int[] {Block.BLOCK_STATE_IDS.get(Blocks.STONE.getDefaultState())};
-            predefinedBlockDataBitsNetherrackGlobal = new int[] {Block.BLOCK_STATE_IDS.get(Blocks.NETHERRACK.getDefaultState())};
-            predefinedBlockDataBitsEndStoneGlobal = new int[] {Block.BLOCK_STATE_IDS.get(Blocks.END_STONE.getDefaultState())};
+            predefinedBlockDataBitsStoneGlobal = new int[] {Block.field_176229_d.func_148747_b(Blocks.field_150348_b.func_176223_P())};
+            predefinedBlockDataBitsNetherrackGlobal = new int[] {Block.field_176229_d.func_148747_b(Blocks.field_150424_aL.func_176223_P())};
+            predefinedBlockDataBitsEndStoneGlobal = new int[] {Block.field_176229_d.func_148747_b(Blocks.field_150377_bs.func_176223_P())};
         } else {
             Set<IBlockState> predefinedBlockDataSet = new HashSet<IBlockState>();
 
             for (Object id : paperWorldConfig.hiddenBlocks) {
-                Block block = Block.getBlockFromName(String.valueOf(id));
+                Block block = Block.func_149684_b(String.valueOf(id));
 
-                if (block != null && !block.hasTileEntity()) {
-                    predefinedBlockDataSet.add(block.getDefaultState());
+                if (block != null && !block.func_149716_u()) {
+                    predefinedBlockDataSet.add(block.func_176223_P());
                 }
             }
 
-            predefinedBlockData = predefinedBlockDataSet.size() == 0 ? new IBlockState[] {Blocks.DIAMOND_ORE.getDefaultState()} : predefinedBlockDataSet.toArray(new IBlockState[predefinedBlockDataSet.size()]);
+            predefinedBlockData = predefinedBlockDataSet.size() == 0 ? new IBlockState[] {Blocks.field_150482_ag.func_176223_P()} : predefinedBlockDataSet.toArray(new IBlockState[predefinedBlockDataSet.size()]);
             predefinedBlockDataStone = null;
             predefinedBlockDataNetherrack = null;
             predefinedBlockDataEndStone = null;
@@ -87,7 +87,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
 
             for (int i = 0; i < predefinedBlockData.length; i++) {
                 predefinedBlockDataBits[i] = containsDefaultBlockData ? i : (containsDefaultBlockData = predefinedBlockData[i] == BlockStateContainer.DEFAULT_BLOCK_DATA) ? 0 : i + 1;
-                predefinedBlockDataBitsGlobal[i] = Block.BLOCK_STATE_IDS.get(predefinedBlockData[i]);
+                predefinedBlockDataBitsGlobal[i] = Block.field_176229_d.func_148747_b(predefinedBlockData[i]);
             }
 
             predefinedBlockDataBitsStoneGlobal = null;
@@ -96,18 +96,18 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
         }
 
         for (Object id : (engineMode == EngineMode.HIDE) ? paperWorldConfig.hiddenBlocks : paperWorldConfig.replacementBlocks) {
-            Block block = Block.getBlockFromName(String.valueOf(id));
+            Block block = Block.func_149684_b(String.valueOf(id));
 
             if (block != null) {
-                obfuscateGlobal[Block.BLOCK_STATE_IDS.get(block.getDefaultState())] = true;
+                obfuscateGlobal[Block.field_176229_d.func_148747_b(block.func_176223_P())] = true;
             }
         }
 
         for (int i = 0; i < solidGlobal.length; i++) {
-            IBlockState blockData = Block.BLOCK_STATE_IDS.getByValue(i);
+            IBlockState blockData = Block.field_176229_d.func_148745_a(i);
 
             if (blockData != null) {
-                solidGlobal[i] = blockData.getBlock().isNormalCube(blockData) && blockData.getBlock() != Blocks.MOB_SPAWNER && blockData.getBlock() != Blocks.BARRIER;
+                solidGlobal[i] = blockData.func_177230_c().func_149721_r(blockData) && blockData.func_177230_c() != Blocks.field_150474_ac && blockData.func_177230_c() != Blocks.field_180401_cv;
             }
         }
     }
@@ -126,7 +126,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
         if (chunkSectionIndex <= maxChunkSectionIndex) {
             switch (engineMode) {
                 case HIDE:
-                    switch (chunk.world.getWorld().getEnvironment()) {
+                    switch (chunk.field_76637_e.getWorld().getEnvironment()) {
                         case NETHER:
                             return predefinedBlockDataNetherrack;
                         case THE_END:
@@ -146,15 +146,15 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
     public boolean onChunkPacketCreate(Chunk chunk, int chunkSectionSelector, boolean force) {
         //Load nearby chunks if necessary
         if (chunkEdgeMode == ChunkEdgeMode.WAIT && !force) {
-            if (chunk.world.getChunkIfLoaded(chunk.x - 1, chunk.z) == null || chunk.world.getChunkIfLoaded(chunk.x + 1, chunk.z) == null || chunk.world.getChunkIfLoaded(chunk.x, chunk.z - 1) == null || chunk.world.getChunkIfLoaded(chunk.x, chunk.z + 1) == null) {
+            if (chunk.field_76637_e.getChunkIfLoaded(chunk.field_76635_g - 1, chunk.field_76647_h) == null || chunk.field_76637_e.getChunkIfLoaded(chunk.field_76635_g + 1, chunk.field_76647_h) == null || chunk.field_76637_e.getChunkIfLoaded(chunk.field_76635_g, chunk.field_76647_h - 1) == null || chunk.field_76637_e.getChunkIfLoaded(chunk.field_76635_g, chunk.field_76647_h + 1) == null) {
                 //Don't create the chunk packet now, wait until nearby chunks are loaded and create it later
                 return false;
             }
         } else if (chunkEdgeMode == ChunkEdgeMode.LOAD || chunkEdgeMode == ChunkEdgeMode.WAIT) {
-            chunk.world.getChunkFromChunkCoords(chunk.x - 1, chunk.z);
-            chunk.world.getChunkFromChunkCoords(chunk.x + 1, chunk.z);
-            chunk.world.getChunkFromChunkCoords(chunk.x, chunk.z - 1);
-            chunk.world.getChunkFromChunkCoords(chunk.x, chunk.z + 1);
+            chunk.field_76637_e.func_72964_e(chunk.field_76635_g - 1, chunk.field_76647_h);
+            chunk.field_76637_e.func_72964_e(chunk.field_76635_g + 1, chunk.field_76647_h);
+            chunk.field_76637_e.func_72964_e(chunk.field_76635_g, chunk.field_76647_h - 1);
+            chunk.field_76637_e.func_72964_e(chunk.field_76635_g, chunk.field_76647_h + 1);
         }
 
         //Create the chunk packet now
@@ -165,7 +165,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
     public PacketPlayOutMapChunkInfoAntiXray getPacketPlayOutMapChunkInfo(SPacketChunkData packetPlayOutMapChunk, Chunk chunk, int chunkSectionSelector) {
         //Return a new instance to collect data and objects in the right state while creating the chunk packet for thread safe access later
         PacketPlayOutMapChunkInfoAntiXray packetPlayOutMapChunkInfoAntiXray = new PacketPlayOutMapChunkInfoAntiXray(packetPlayOutMapChunk, chunk, chunkSectionSelector, this);
-        packetPlayOutMapChunkInfoAntiXray.setNearbyChunks(chunk.world.getChunkIfLoaded(chunk.x - 1, chunk.z), chunk.world.getChunkIfLoaded(chunk.x + 1, chunk.z), chunk.world.getChunkIfLoaded(chunk.x, chunk.z - 1), chunk.world.getChunkIfLoaded(chunk.x, chunk.z + 1));
+        packetPlayOutMapChunkInfoAntiXray.setNearbyChunks(chunk.field_76637_e.getChunkIfLoaded(chunk.field_76635_g - 1, chunk.field_76647_h), chunk.field_76637_e.getChunkIfLoaded(chunk.field_76635_g + 1, chunk.field_76647_h), chunk.field_76637_e.getChunkIfLoaded(chunk.field_76635_g, chunk.field_76647_h - 1), chunk.field_76637_e.getChunkIfLoaded(chunk.field_76635_g, chunk.field_76647_h + 1));
         return packetPlayOutMapChunkInfoAntiXray;
     }
 
@@ -179,8 +179,8 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
     }
 
     //Actually these fields should be variables inside the obfuscate method but in sync mode or with SingleThreadExecutor in async mode it's okay
-    private final boolean[] solid = new boolean[Block.BLOCK_STATE_IDS.size()];
-    private final boolean[] obfuscate = new boolean[Block.BLOCK_STATE_IDS.size()];
+    private final boolean[] solid = new boolean[Block.field_176229_d.size()];
+    private final boolean[] obfuscate = new boolean[Block.field_176229_d.size()];
     //These boolean arrays represent chunk layers, true means don't obfuscate, false means obfuscate
     private boolean[][] current = new boolean[16][16];
     private boolean[][] next = new boolean[16][16];
@@ -198,7 +198,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
 
         for (int chunkSectionIndex = 0; chunkSectionIndex <= maxChunkSectionIndex; chunkSectionIndex++) {
             if (packetPlayOutMapChunkInfoAntiXray.isWritten(chunkSectionIndex) && packetPlayOutMapChunkInfoAntiXray.getPredefinedBlockData(chunkSectionIndex) != null) {
-                int[] predefinedBlockDataBitsTemp = packetPlayOutMapChunkInfoAntiXray.getDataPalette(chunkSectionIndex) instanceof BlockStatePaletteRegistry ? engineMode == EngineMode.HIDE ? packetPlayOutMapChunkInfoAntiXray.getChunk().world.getWorld().getEnvironment() == Environment.NETHER ? predefinedBlockDataBitsNetherrackGlobal : packetPlayOutMapChunkInfoAntiXray.getChunk().world.getWorld().getEnvironment() == Environment.THE_END ? predefinedBlockDataBitsEndStoneGlobal : predefinedBlockDataBitsStoneGlobal : predefinedBlockDataBitsGlobal : predefinedBlockDataBits;
+                int[] predefinedBlockDataBitsTemp = packetPlayOutMapChunkInfoAntiXray.getDataPalette(chunkSectionIndex) instanceof BlockStatePaletteRegistry ? engineMode == EngineMode.HIDE ? packetPlayOutMapChunkInfoAntiXray.getChunk().field_76637_e.getWorld().getEnvironment() == Environment.NETHER ? predefinedBlockDataBitsNetherrackGlobal : packetPlayOutMapChunkInfoAntiXray.getChunk().field_76637_e.getWorld().getEnvironment() == Environment.THE_END ? predefinedBlockDataBitsEndStoneGlobal : predefinedBlockDataBitsStoneGlobal : predefinedBlockDataBitsGlobal : predefinedBlockDataBits;
                 dataBitsWriter.setIndex(packetPlayOutMapChunkInfoAntiXray.getDataBitsIndex(chunkSectionIndex));
 
                 //Check if the chunk section below was not obfuscated
@@ -210,12 +210,12 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
                     obfuscateTemp = readDataPalette(packetPlayOutMapChunkInfoAntiXray.getDataPalette(chunkSectionIndex), obfuscate, obfuscateGlobal);
                     //Read the blocks of the upper layer of the chunk section below if it exists
                     ExtendedBlockStorage belowChunkSection = null;
-                    boolean skipFirstLayer = chunkSectionIndex == 0 || (belowChunkSection = packetPlayOutMapChunkInfoAntiXray.getChunk().getBlockStorageArray()[chunkSectionIndex - 1]) == Chunk.EMPTY_CHUNK_SECTION;
+                    boolean skipFirstLayer = chunkSectionIndex == 0 || (belowChunkSection = packetPlayOutMapChunkInfoAntiXray.getChunk().func_76587_i()[chunkSectionIndex - 1]) == Chunk.EMPTY_CHUNK_SECTION;
 
                     for (int z = 0; z < 16; z++) {
                         for (int x = 0; x < 16; x++) {
                             current[z][x] = true;
-                            next[z][x] = skipFirstLayer || !solidGlobal[Block.BLOCK_STATE_IDS.get(belowChunkSection.get(x, 15, z))];
+                            next[z][x] = skipFirstLayer || !solidGlobal[Block.field_176229_d.func_148747_b(belowChunkSection.func_177485_a(x, 15, z))];
                         }
                     }
 
@@ -225,10 +225,10 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
                 }
 
                 dataBitsWriter.setBitsPerValue(packetPlayOutMapChunkInfoAntiXray.getBitsPerValue(chunkSectionIndex));
-                nearbyChunkSections[0] = packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[0] == null ? Chunk.EMPTY_CHUNK_SECTION : packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[0].getBlockStorageArray()[chunkSectionIndex];
-                nearbyChunkSections[1] = packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[1] == null ? Chunk.EMPTY_CHUNK_SECTION : packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[1].getBlockStorageArray()[chunkSectionIndex];
-                nearbyChunkSections[2] = packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[2] == null ? Chunk.EMPTY_CHUNK_SECTION : packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[2].getBlockStorageArray()[chunkSectionIndex];
-                nearbyChunkSections[3] = packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[3] == null ? Chunk.EMPTY_CHUNK_SECTION : packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[3].getBlockStorageArray()[chunkSectionIndex];
+                nearbyChunkSections[0] = packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[0] == null ? Chunk.EMPTY_CHUNK_SECTION : packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[0].func_76587_i()[chunkSectionIndex];
+                nearbyChunkSections[1] = packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[1] == null ? Chunk.EMPTY_CHUNK_SECTION : packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[1].func_76587_i()[chunkSectionIndex];
+                nearbyChunkSections[2] = packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[2] == null ? Chunk.EMPTY_CHUNK_SECTION : packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[2].func_76587_i()[chunkSectionIndex];
+                nearbyChunkSections[3] = packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[3] == null ? Chunk.EMPTY_CHUNK_SECTION : packetPlayOutMapChunkInfoAntiXray.getNearbyChunks()[3].func_76587_i()[chunkSectionIndex];
 
                 //Obfuscate all layers of the current chunk section except the upper one
                 for (int y = 0; y < 15; y++) {
@@ -244,7 +244,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
                     //If so, obfuscate the upper layer of the current chunk section by reading blocks of the first layer from the chunk section above if it exists
                     ExtendedBlockStorage aboveChunkSection;
 
-                    if (chunkSectionIndex != 15 && (aboveChunkSection = packetPlayOutMapChunkInfoAntiXray.getChunk().getBlockStorageArray()[chunkSectionIndex + 1]) != Chunk.EMPTY_CHUNK_SECTION) {
+                    if (chunkSectionIndex != 15 && (aboveChunkSection = packetPlayOutMapChunkInfoAntiXray.getChunk().func_76587_i()[chunkSectionIndex + 1]) != Chunk.EMPTY_CHUNK_SECTION) {
                         boolean[][] temp = current;
                         current = next;
                         next = nextNext;
@@ -252,7 +252,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
 
                         for (int z = 0; z < 16; z++) {
                             for (int x = 0; x < 16; x++) {
-                                if (!solidGlobal[Block.BLOCK_STATE_IDS.get(aboveChunkSection.get(x, 0, z))]) {
+                                if (!solidGlobal[Block.field_176229_d.func_148747_b(aboveChunkSection.func_177485_a(x, 0, z))]) {
                                     current[z][x] = true;
                                 }
                             }
@@ -292,7 +292,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
             next[0][1] = true;
             next[1][0] = true;
         } else {
-            if (nearbyChunkSections[2] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[2].get(0, y, 15))] || nearbyChunkSections[0] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[0].get(15, y, 0))] || current[0][0]) {
+            if (nearbyChunkSections[2] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[2].func_177485_a(0, y, 15))] || nearbyChunkSections[0] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[0].func_177485_a(15, y, 0))] || current[0][0]) {
                 dataBitsWriter.skip();
             } else {
                 if (counter >= predefinedBlockDataBits.length) {
@@ -317,7 +317,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
                 next[0][x + 1] = true;
                 next[1][x] = true;
             } else {
-                if (nearbyChunkSections[2] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[2].get(x, y, 15))] || current[0][x]) {
+                if (nearbyChunkSections[2] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[2].func_177485_a(x, y, 15))] || current[0][x]) {
                     dataBitsWriter.skip();
                 } else {
                     if (counter >= predefinedBlockDataBits.length) {
@@ -341,7 +341,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
             next[0][14] = true;
             next[1][15] = true;
         } else {
-            if (nearbyChunkSections[2] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[2].get(15, y, 15))] || nearbyChunkSections[1] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[1].get(0, y, 0))] || current[0][15]) {
+            if (nearbyChunkSections[2] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[2].func_177485_a(15, y, 15))] || nearbyChunkSections[1] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[1].func_177485_a(0, y, 0))] || current[0][15]) {
                 dataBitsWriter.skip();
             } else {
                 if (counter >= predefinedBlockDataBits.length) {
@@ -367,7 +367,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
                 next[z - 1][0] = true;
                 next[z + 1][0] = true;
             } else {
-                if (nearbyChunkSections[0] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[0].get(15, y, z))] || current[z][0]) {
+                if (nearbyChunkSections[0] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[0].func_177485_a(15, y, z))] || current[z][0]) {
                     dataBitsWriter.skip();
                 } else {
                     if (counter >= predefinedBlockDataBits.length) {
@@ -418,7 +418,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
                 next[z - 1][15] = true;
                 next[z + 1][15] = true;
             } else {
-                if (nearbyChunkSections[1] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[1].get(0, y, z))] || current[z][15]) {
+                if (nearbyChunkSections[1] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[1].func_177485_a(0, y, z))] || current[z][15]) {
                     dataBitsWriter.skip();
                 } else {
                     if (counter >= predefinedBlockDataBits.length) {
@@ -442,7 +442,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
             next[15][1] = true;
             next[14][0] = true;
         } else {
-            if (nearbyChunkSections[3] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[3].get(0, y, 0))] || nearbyChunkSections[0] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[0].get(15, y, 15))] || current[15][0]) {
+            if (nearbyChunkSections[3] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[3].func_177485_a(0, y, 0))] || nearbyChunkSections[0] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[0].func_177485_a(15, y, 15))] || current[15][0]) {
                 dataBitsWriter.skip();
             } else {
                 if (counter >= predefinedBlockDataBits.length) {
@@ -467,7 +467,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
                 next[15][x + 1] = true;
                 next[14][x] = true;
             } else {
-                if (nearbyChunkSections[3] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[3].get(x, y, 0))] || current[15][x]) {
+                if (nearbyChunkSections[3] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[3].func_177485_a(x, y, 0))] || current[15][x]) {
                     dataBitsWriter.skip();
                 } else {
                     if (counter >= predefinedBlockDataBits.length) {
@@ -491,7 +491,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
             next[15][14] = true;
             next[14][15] = true;
         } else {
-            if (nearbyChunkSections[3] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[3].get(15, y, 0))] || nearbyChunkSections[1] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.BLOCK_STATE_IDS.get(nearbyChunkSections[1].get(0, y, 15))] || current[15][15]) {
+            if (nearbyChunkSections[3] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[3].func_177485_a(15, y, 0))] || nearbyChunkSections[1] == Chunk.EMPTY_CHUNK_SECTION || !solidGlobal[Block.field_176229_d.func_148747_b(nearbyChunkSections[1].func_177485_a(0, y, 15))] || current[15][15]) {
                 dataBitsWriter.skip();
             } else {
                 if (counter >= predefinedBlockDataBits.length) {
@@ -517,7 +517,7 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
         IBlockState blockData;
 
         for (int i = 0; (blockData = dataPalette.getBlockData(i)) != null; i++) {
-            temp[i] = global[Block.BLOCK_STATE_IDS.get(blockData)];
+            temp[i] = global[Block.field_176229_d.func_148747_b(blockData)];
         }
 
         return temp;
@@ -526,49 +526,49 @@ public class ChunkPacketBlockControllerAntiXray extends ChunkPacketBlockControll
     @Override
     public void updateNearbyBlocks(World world, BlockPos blockPosition) {
         if (updateRadius >= 2) {
-            BlockPos temp = blockPosition.west();
+            BlockPos temp = blockPosition.func_177976_e();
             updateBlock(world, temp);
-            updateBlock(world, temp.west());
-            updateBlock(world, temp.down());
-            updateBlock(world, temp.up());
-            updateBlock(world, temp.north());
-            updateBlock(world, temp.south());
-            updateBlock(world, temp = blockPosition.east());
-            updateBlock(world, temp.east());
-            updateBlock(world, temp.down());
-            updateBlock(world, temp.up());
-            updateBlock(world, temp.north());
-            updateBlock(world, temp.south());
-            updateBlock(world, temp = blockPosition.down());
-            updateBlock(world, temp.down());
-            updateBlock(world, temp.north());
-            updateBlock(world, temp.south());
-            updateBlock(world, temp = blockPosition.up());
-            updateBlock(world, temp.up());
-            updateBlock(world, temp.north());
-            updateBlock(world, temp.south());
-            updateBlock(world, temp = blockPosition.north());
-            updateBlock(world, temp.north());
-            updateBlock(world, temp = blockPosition.south());
-            updateBlock(world, temp.south());
+            updateBlock(world, temp.func_177976_e());
+            updateBlock(world, temp.func_177977_b());
+            updateBlock(world, temp.func_177984_a());
+            updateBlock(world, temp.func_177978_c());
+            updateBlock(world, temp.func_177968_d());
+            updateBlock(world, temp = blockPosition.func_177974_f());
+            updateBlock(world, temp.func_177974_f());
+            updateBlock(world, temp.func_177977_b());
+            updateBlock(world, temp.func_177984_a());
+            updateBlock(world, temp.func_177978_c());
+            updateBlock(world, temp.func_177968_d());
+            updateBlock(world, temp = blockPosition.func_177977_b());
+            updateBlock(world, temp.func_177977_b());
+            updateBlock(world, temp.func_177978_c());
+            updateBlock(world, temp.func_177968_d());
+            updateBlock(world, temp = blockPosition.func_177984_a());
+            updateBlock(world, temp.func_177984_a());
+            updateBlock(world, temp.func_177978_c());
+            updateBlock(world, temp.func_177968_d());
+            updateBlock(world, temp = blockPosition.func_177978_c());
+            updateBlock(world, temp.func_177978_c());
+            updateBlock(world, temp = blockPosition.func_177968_d());
+            updateBlock(world, temp.func_177968_d());
         } else if (updateRadius == 1) {
-            updateBlock(world, blockPosition.west());
-            updateBlock(world, blockPosition.east());
-            updateBlock(world, blockPosition.down());
-            updateBlock(world, blockPosition.up());
-            updateBlock(world, blockPosition.north());
-            updateBlock(world, blockPosition.south());
+            updateBlock(world, blockPosition.func_177976_e());
+            updateBlock(world, blockPosition.func_177974_f());
+            updateBlock(world, blockPosition.func_177977_b());
+            updateBlock(world, blockPosition.func_177984_a());
+            updateBlock(world, blockPosition.func_177978_c());
+            updateBlock(world, blockPosition.func_177968_d());
         } else {
             //Do nothing if updateRadius <= 0 (test mode)
         }
     }
 
     private void updateBlock(World world, BlockPos blockPosition) {
-        if (world.isBlockLoaded(blockPosition)) {
-            IBlockState blockData = world.getBlockState(blockPosition);
+        if (world.func_175667_e(blockPosition)) {
+            IBlockState blockData = world.func_180495_p(blockPosition);
 
-            if (obfuscateGlobal[Block.BLOCK_STATE_IDS.get(blockData)]) {
-                world.notifyBlockUpdate(blockPosition, blockData, blockData, 3);
+            if (obfuscateGlobal[Block.field_176229_d.func_148747_b(blockData)]) {
+                world.func_184138_a(blockPosition, blockData, blockData, 3);
             }
         }
     }

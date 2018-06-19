@@ -8,5 +8,5 @@ import net.minecraft.world.World;
 public interface ITemplateProcessor {
 
     @Nullable
-    Template.BlockInfo processBlock(World world, BlockPos blockposition, Template.BlockInfo definedstructure_blockinfo);
+    Template.BlockInfo func_189943_a(World world, BlockPos blockposition, Template.BlockInfo definedstructure_blockinfo);
 }

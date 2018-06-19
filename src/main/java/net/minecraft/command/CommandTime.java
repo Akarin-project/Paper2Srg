@@ -12,19 +12,19 @@ public class CommandTime extends CommandBase {
 
     public CommandTime() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "time";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 2;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.time.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length > 1) {
             int i;
 
@@ -34,40 +34,40 @@ public class CommandTime extends CommandBase {
                 } else if ("night".equals(astring[1])) {
                     i = 13000;
                 } else {
-                    i = parseInt(astring[1], 0);
+                    i = func_180528_a(astring[1], 0);
                 }
 
-                this.setAllWorldTimes(minecraftserver, i);
-                notifyCommandListener(icommandlistener, (ICommand) this, "commands.time.set", new Object[] { Integer.valueOf(i)});
+                this.func_184929_a(minecraftserver, i);
+                func_152373_a(icommandlistener, (ICommand) this, "commands.time.set", new Object[] { Integer.valueOf(i)});
                 return;
             }
 
             if ("add".equals(astring[0])) {
-                i = parseInt(astring[1], 0);
-                this.incrementAllWorldTimes(minecraftserver, i);
-                notifyCommandListener(icommandlistener, (ICommand) this, "commands.time.added", new Object[] { Integer.valueOf(i)});
+                i = func_180528_a(astring[1], 0);
+                this.func_184928_b(minecraftserver, i);
+                func_152373_a(icommandlistener, (ICommand) this, "commands.time.added", new Object[] { Integer.valueOf(i)});
                 return;
             }
 
             if ("query".equals(astring[0])) {
                 if ("daytime".equals(astring[1])) {
-                    i = (int) (icommandlistener.getEntityWorld().getWorldTime() % 24000L);
-                    icommandlistener.setCommandStat(CommandResultStats.Type.QUERY_RESULT, i);
-                    notifyCommandListener(icommandlistener, (ICommand) this, "commands.time.query", new Object[] { Integer.valueOf(i)});
+                    i = (int) (icommandlistener.func_130014_f_().func_72820_D() % 24000L);
+                    icommandlistener.func_174794_a(CommandResultStats.Type.QUERY_RESULT, i);
+                    func_152373_a(icommandlistener, (ICommand) this, "commands.time.query", new Object[] { Integer.valueOf(i)});
                     return;
                 }
 
                 if ("day".equals(astring[1])) {
-                    i = (int) (icommandlistener.getEntityWorld().getWorldTime() / 24000L % 2147483647L);
-                    icommandlistener.setCommandStat(CommandResultStats.Type.QUERY_RESULT, i);
-                    notifyCommandListener(icommandlistener, (ICommand) this, "commands.time.query", new Object[] { Integer.valueOf(i)});
+                    i = (int) (icommandlistener.func_130014_f_().func_72820_D() / 24000L % 2147483647L);
+                    icommandlistener.func_174794_a(CommandResultStats.Type.QUERY_RESULT, i);
+                    func_152373_a(icommandlistener, (ICommand) this, "commands.time.query", new Object[] { Integer.valueOf(i)});
                     return;
                 }
 
                 if ("gametime".equals(astring[1])) {
-                    i = (int) (icommandlistener.getEntityWorld().getTotalWorldTime() % 2147483647L);
-                    icommandlistener.setCommandStat(CommandResultStats.Type.QUERY_RESULT, i);
-                    notifyCommandListener(icommandlistener, (ICommand) this, "commands.time.query", new Object[] { Integer.valueOf(i)});
+                    i = (int) (icommandlistener.func_130014_f_().func_82737_E() % 2147483647L);
+                    icommandlistener.func_174794_a(CommandResultStats.Type.QUERY_RESULT, i);
+                    func_152373_a(icommandlistener, (ICommand) this, "commands.time.query", new Object[] { Integer.valueOf(i)});
                     return;
                 }
             }
@@ -76,22 +76,22 @@ public class CommandTime extends CommandBase {
         throw new WrongUsageException("commands.time.usage", new Object[0]);
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, new String[] { "set", "add", "query"}) : (astring.length == 2 && "set".equals(astring[0]) ? getListOfStringsMatchingLastWord(astring, new String[] { "day", "night"}) : (astring.length == 2 && "query".equals(astring[0]) ? getListOfStringsMatchingLastWord(astring, new String[] { "daytime", "gametime", "day"}) : Collections.emptyList()));
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length == 1 ? func_71530_a(astring, new String[] { "set", "add", "query"}) : (astring.length == 2 && "set".equals(astring[0]) ? func_71530_a(astring, new String[] { "day", "night"}) : (astring.length == 2 && "query".equals(astring[0]) ? func_71530_a(astring, new String[] { "daytime", "gametime", "day"}) : Collections.emptyList()));
     }
 
-    protected void setAllWorldTimes(MinecraftServer minecraftserver, int i) {
-        for (int j = 0; j < minecraftserver.worlds.length; ++j) {
-            minecraftserver.worlds[j].setWorldTime((long) i);
+    protected void func_184929_a(MinecraftServer minecraftserver, int i) {
+        for (int j = 0; j < minecraftserver.field_71305_c.length; ++j) {
+            minecraftserver.field_71305_c[j].func_72877_b((long) i);
         }
 
     }
 
-    protected void incrementAllWorldTimes(MinecraftServer minecraftserver, int i) {
-        for (int j = 0; j < minecraftserver.worlds.length; ++j) {
-            WorldServer worldserver = minecraftserver.worlds[j];
+    protected void func_184928_b(MinecraftServer minecraftserver, int i) {
+        for (int j = 0; j < minecraftserver.field_71305_c.length; ++j) {
+            WorldServer worldserver = minecraftserver.field_71305_c[j];
 
-            worldserver.setWorldTime(worldserver.getWorldTime() + (long) i);
+            worldserver.func_72877_b(worldserver.func_72820_D() + (long) i);
         }
 
     }

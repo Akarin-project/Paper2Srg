@@ -19,7 +19,7 @@ public class NormalChunkGenerator extends InternalChunkGenerator {
     private final IChunkGenerator generator;
 
     public NormalChunkGenerator(World world, long seed) {
-        generator = world.provider.createChunkGenerator();
+        generator = world.field_73011_w.func_186060_c();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class NormalChunkGenerator extends InternalChunkGenerator {
 
     @Override
     public boolean canSpawn(org.bukkit.World world, int x, int z) {
-        return ((CraftWorld) world).getHandle().provider.canCoordinateBeSpawn(x, z);
+        return ((CraftWorld) world).getHandle().field_73011_w.func_76566_a(x, z);
     }
 
     @Override
@@ -38,37 +38,37 @@ public class NormalChunkGenerator extends InternalChunkGenerator {
     }
 
     @Override
-    public Chunk generateChunk(int i, int i1) {
-        return generator.generateChunk(i, i1);
+    public Chunk func_185932_a(int i, int i1) {
+        return generator.func_185932_a(i, i1);
     }
 
     @Override
-    public void populate(int i, int i1) {
-        generator.populate(i, i1);
+    public void func_185931_b(int i, int i1) {
+        generator.func_185931_b(i, i1);
     }
 
     @Override
-    public boolean generateStructures(Chunk chunk, int i, int i1) {
-        return generator.generateStructures(chunk, i, i1);
+    public boolean func_185933_a(Chunk chunk, int i, int i1) {
+        return generator.func_185933_a(chunk, i, i1);
     }
 
     @Override
-    public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType enumCreatureType, BlockPos blockPosition) {
-        return generator.getPossibleCreatures(enumCreatureType, blockPosition);
+    public List<Biome.SpawnListEntry> func_177458_a(EnumCreatureType enumCreatureType, BlockPos blockPosition) {
+        return generator.func_177458_a(enumCreatureType, blockPosition);
     }
 
     @Override
-    public BlockPos getNearestStructurePos(World world, String s, BlockPos blockPosition, boolean flag) {
-        return generator.getNearestStructurePos(world, s, blockPosition, flag);
+    public BlockPos func_180513_a(World world, String s, BlockPos blockPosition, boolean flag) {
+        return generator.func_180513_a(world, s, blockPosition, flag);
     }
 
     @Override
-    public void recreateStructures(Chunk chunk, int i, int i1) {
-        generator.recreateStructures(chunk, i, i1);
+    public void func_180514_a(Chunk chunk, int i, int i1) {
+        generator.func_180514_a(chunk, i, i1);
     }
 
     @Override
-    public boolean isInsideStructure(World world, String string, BlockPos bp) {
-        return generator.isInsideStructure(world, string, bp);
+    public boolean func_193414_a(World world, String string, BlockPos bp) {
+        return generator.func_193414_a(world, string, bp);
     }
 }

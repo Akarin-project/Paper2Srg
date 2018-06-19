@@ -16,22 +16,22 @@ import net.minecraft.util.datafix.IFixType;
 
 public class SaveFormatOld implements ISaveFormat {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    protected final File savesDirectory;
-    protected final DataFixer dataFixer;
+    private static final Logger field_151479_b = LogManager.getLogger();
+    protected final File field_75808_a;
+    protected final DataFixer field_186354_b;
 
     public SaveFormatOld(File file, DataFixer dataconvertermanager) {
-        this.dataFixer = dataconvertermanager;
+        this.field_186354_b = dataconvertermanager;
         if (!file.exists()) {
             file.mkdirs();
         }
 
-        this.savesDirectory = file;
+        this.field_75808_a = file;
     }
 
     @Nullable
-    public WorldInfo getWorldInfo(String s) {
-        File file = new File(this.savesDirectory, s);
+    public WorldInfo func_75803_c(String s) {
+        File file = new File(this.field_75808_a, s);
 
         if (!file.exists()) {
             return null;
@@ -39,7 +39,7 @@ public class SaveFormatOld implements ISaveFormat {
             File file1 = new File(file, "level.dat");
 
             if (file1.exists()) {
-                WorldInfo worlddata = getWorldData(file1, this.dataFixer);
+                WorldInfo worlddata = func_186353_a(file1, this.field_186354_b);
 
                 if (worlddata != null) {
                     return worlddata;
@@ -47,36 +47,36 @@ public class SaveFormatOld implements ISaveFormat {
             }
 
             file1 = new File(file, "level.dat_old");
-            return file1.exists() ? getWorldData(file1, this.dataFixer) : null;
+            return file1.exists() ? func_186353_a(file1, this.field_186354_b) : null;
         }
     }
 
     @Nullable
-    public static WorldInfo getWorldData(File file, DataFixer dataconvertermanager) {
+    public static WorldInfo func_186353_a(File file, DataFixer dataconvertermanager) {
         try {
-            NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed((InputStream) (new FileInputStream(file)));
-            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+            NBTTagCompound nbttagcompound = CompressedStreamTools.func_74796_a((InputStream) (new FileInputStream(file)));
+            NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("Data");
 
-            return new WorldInfo(dataconvertermanager.process((IFixType) FixTypes.LEVEL, nbttagcompound1));
+            return new WorldInfo(dataconvertermanager.func_188257_a((IFixType) FixTypes.LEVEL, nbttagcompound1));
         } catch (Exception exception) {
-            SaveFormatOld.LOGGER.error("Exception reading {}", file, exception);
+            SaveFormatOld.field_151479_b.error("Exception reading {}", file, exception);
             return null;
         }
     }
 
-    public ISaveHandler getSaveLoader(String s, boolean flag) {
-        return new SaveHandler(this.savesDirectory, s, flag, this.dataFixer);
+    public ISaveHandler func_75804_a(String s, boolean flag) {
+        return new SaveHandler(this.field_75808_a, s, flag, this.field_186354_b);
     }
 
-    public boolean isOldMapFormat(String s) {
+    public boolean func_75801_b(String s) {
         return false;
     }
 
-    public boolean convertMapFormat(String s, IProgressUpdate iprogressupdate) {
+    public boolean func_75805_a(String s, IProgressUpdate iprogressupdate) {
         return false;
     }
 
-    public File getFile(String s, String s1) {
-        return new File(new File(this.savesDirectory, s), s1);
+    public File func_186352_b(String s, String s1) {
+        return new File(new File(this.field_75808_a, s), s1);
     }
 }

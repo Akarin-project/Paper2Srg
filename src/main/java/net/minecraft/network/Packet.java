@@ -4,9 +4,9 @@ import java.io.IOException;
 
 public interface Packet<T extends INetHandler> {
 
-    void readPacketData(PacketBuffer packetdataserializer) throws IOException;
+    void func_148837_a(PacketBuffer packetdataserializer) throws IOException;
 
-    void writePacketData(PacketBuffer packetdataserializer) throws IOException;
+    void func_148840_b(PacketBuffer packetdataserializer) throws IOException;
 
-    void processPacket(T t0);
+    void func_148833_a(T t0);
 }

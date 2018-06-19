@@ -16,11 +16,11 @@ public abstract class CraftMinecart extends CraftVehicle implements Minecart {
     }
 
     public void setDamage(double damage) {
-        getHandle().setDamage((float) damage);
+        getHandle().func_70492_c((float) damage);
     }
 
     public double getDamage() {
-        return getHandle().getDamage();
+        return getHandle().func_70491_i();
     }
 
     public double getMaxSpeed() {
@@ -64,25 +64,25 @@ public abstract class CraftMinecart extends CraftVehicle implements Minecart {
 
     public void setDisplayBlock(MaterialData material) {
         if(material != null) {
-            IBlockState block = CraftMagicNumbers.getBlock(material.getItemTypeId()).getStateFromMeta(material.getData());
-            this.getHandle().setDisplayTile(block);
+            IBlockState block = CraftMagicNumbers.getBlock(material.getItemTypeId()).func_176203_a(material.getData());
+            this.getHandle().func_174899_a(block);
         } else {
             // Set block to air (default) and set the flag to not have a display block.
-            this.getHandle().setDisplayTile(Blocks.AIR.getDefaultState());
-            this.getHandle().setHasDisplayTile(false);
+            this.getHandle().func_174899_a(Blocks.field_150350_a.func_176223_P());
+            this.getHandle().func_94096_e(false);
         }
     }
 
     public MaterialData getDisplayBlock() {
-        IBlockState blockData = getHandle().getDisplayTile();
-        return CraftMagicNumbers.getMaterial(blockData.getBlock()).getNewData((byte) blockData.getBlock().getMetaFromState(blockData));
+        IBlockState blockData = getHandle().func_174897_t();
+        return CraftMagicNumbers.getMaterial(blockData.func_177230_c()).getNewData((byte) blockData.func_177230_c().func_176201_c(blockData));
     }
 
     public void setDisplayBlockOffset(int offset) {
-        getHandle().setDisplayTileOffset(offset);
+        getHandle().func_94086_l(offset);
     }
 
     public int getDisplayBlockOffset() {
-        return getHandle().getDisplayTileOffset();
+        return getHandle().func_94099_q();
     }
 }

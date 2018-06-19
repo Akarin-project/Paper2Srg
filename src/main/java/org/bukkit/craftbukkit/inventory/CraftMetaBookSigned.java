@@ -27,18 +27,18 @@ class CraftMetaBookSigned extends CraftMetaBook implements BookMeta {
         super(tag, false);
 
         boolean resolved = true;
-        if (tag.hasKey(RESOLVED.NBT)) {
-            resolved = tag.getBoolean(RESOLVED.NBT);
+        if (tag.func_74764_b(RESOLVED.NBT)) {
+            resolved = tag.func_74767_n(RESOLVED.NBT);
         }
 
-        if (tag.hasKey(BOOK_PAGES.NBT)) {
-            NBTTagList pages = tag.getTagList(BOOK_PAGES.NBT, CraftMagicNumbers.NBT.TAG_STRING);
+        if (tag.func_74764_b(BOOK_PAGES.NBT)) {
+            NBTTagList pages = tag.func_150295_c(BOOK_PAGES.NBT, CraftMagicNumbers.NBT.TAG_STRING);
 
-            for (int i = 0; i < Math.min(pages.tagCount(), MAX_PAGES); i++) {
-                String page = pages.getStringTagAt(i);
+            for (int i = 0; i < Math.min(pages.func_74745_c(), MAX_PAGES); i++) {
+                String page = pages.func_150307_f(i);
                 if (resolved) {
                     try {
-                        this.pages.add(Serializer.jsonToComponent(page));
+                        this.pages.add(Serializer.func_150699_a(page));
                         continue;
                     } catch (Exception e) {
                         // Ignore and treat as an old book
@@ -58,32 +58,32 @@ class CraftMetaBookSigned extends CraftMetaBook implements BookMeta {
         super.applyToItem(itemData, false);
 
         if (hasTitle()) {
-            itemData.setString(BOOK_TITLE.NBT, this.title);
+            itemData.func_74778_a(BOOK_TITLE.NBT, this.title);
         } else {
-            itemData.setString(BOOK_TITLE.NBT, " ");
+            itemData.func_74778_a(BOOK_TITLE.NBT, " ");
         }
 
         if (hasAuthor()) {
-            itemData.setString(BOOK_AUTHOR.NBT, this.author);
+            itemData.func_74778_a(BOOK_AUTHOR.NBT, this.author);
         } else {
-            itemData.setString(BOOK_AUTHOR.NBT, " ");
+            itemData.func_74778_a(BOOK_AUTHOR.NBT, " ");
         }
 
         if (hasPages()) {
             NBTTagList list = new NBTTagList();
             for (ITextComponent page : pages) {
-                list.appendTag(new NBTTagString(
-                    Serializer.componentToJson(page)
+                list.func_74742_a(new NBTTagString(
+                    Serializer.func_150696_a(page)
                 ));
             }
-            itemData.setTag(BOOK_PAGES.NBT, list);
+            itemData.func_74782_a(BOOK_PAGES.NBT, list);
         }
-        itemData.setBoolean(RESOLVED.NBT, true);
+        itemData.func_74757_a(RESOLVED.NBT, true);
 
         if (generation != null) {
-            itemData.setInteger(GENERATION.NBT, generation);
+            itemData.func_74768_a(GENERATION.NBT, generation);
         } else {
-            itemData.setInteger(GENERATION.NBT, 0);
+            itemData.func_74768_a(GENERATION.NBT, 0);
         }
     }
 

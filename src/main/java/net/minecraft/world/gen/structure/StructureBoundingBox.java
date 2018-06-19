@@ -8,34 +8,34 @@ import net.minecraft.util.math.Vec3i;
 
 public class StructureBoundingBox {
 
-    public int minX; // Paper - If changes, verify low/high getters
-    public int minY; // Paper - If changes, verify low/high getters
-    public int minZ; // Paper - If changes, verify low/high getters
-    public int maxX; // Paper - If changes, verify low/high getters
-    public int maxY; // Paper - If changes, verify low/high getters
-    public int maxZ; // Paper - If changes, verify low/high getters
-    public Vec3i getLowPosition() { return new Vec3i(minX, minY, minZ); } // Paper
-    public Vec3i getHighPosition() { return new Vec3i(maxX, maxY, maxZ); } // Paper
+    public int field_78897_a; // Paper - If changes, verify low/high getters
+    public int field_78895_b; // Paper - If changes, verify low/high getters
+    public int field_78896_c; // Paper - If changes, verify low/high getters
+    public int field_78893_d; // Paper - If changes, verify low/high getters
+    public int field_78894_e; // Paper - If changes, verify low/high getters
+    public int field_78892_f; // Paper - If changes, verify low/high getters
+    public Vec3i getLowPosition() { return new Vec3i(field_78897_a, field_78895_b, field_78896_c); } // Paper
+    public Vec3i getHighPosition() { return new Vec3i(field_78893_d, field_78894_e, field_78892_f); } // Paper
 
     public StructureBoundingBox() {}
 
     public StructureBoundingBox(int[] aint) {
         if (aint.length == 6) {
-            this.minX = aint[0];
-            this.minY = aint[1];
-            this.minZ = aint[2];
-            this.maxX = aint[3];
-            this.maxY = aint[4];
-            this.maxZ = aint[5];
+            this.field_78897_a = aint[0];
+            this.field_78895_b = aint[1];
+            this.field_78896_c = aint[2];
+            this.field_78893_d = aint[3];
+            this.field_78894_e = aint[4];
+            this.field_78892_f = aint[5];
         }
 
     }
 
-    public static StructureBoundingBox getNewBoundingBox() {
+    public static StructureBoundingBox func_78887_a() {
         return new StructureBoundingBox(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
     }
 
-    public static StructureBoundingBox getComponentToAddBoundingBox(int i, int j, int k, int l, int i1, int j1, int k1, int l1, int i2, EnumFacing enumdirection) {
+    public static StructureBoundingBox func_175897_a(int i, int j, int k, int l, int i1, int j1, int k1, int l1, int i2, EnumFacing enumdirection) {
         switch (enumdirection) {
         case NORTH:
             return new StructureBoundingBox(i + l, j + i1, k - i2 + 1 + j1, i + k1 - 1 + l, j + l1 - 1 + i1, k + j1);
@@ -54,98 +54,98 @@ public class StructureBoundingBox {
         }
     }
 
-    public static StructureBoundingBox createProper(int i, int j, int k, int l, int i1, int j1) {
+    public static StructureBoundingBox func_175899_a(int i, int j, int k, int l, int i1, int j1) {
         return new StructureBoundingBox(Math.min(i, l), Math.min(j, i1), Math.min(k, j1), Math.max(i, l), Math.max(j, i1), Math.max(k, j1));
     }
 
     public StructureBoundingBox(StructureBoundingBox structureboundingbox) {
-        this.minX = structureboundingbox.minX;
-        this.minY = structureboundingbox.minY;
-        this.minZ = structureboundingbox.minZ;
-        this.maxX = structureboundingbox.maxX;
-        this.maxY = structureboundingbox.maxY;
-        this.maxZ = structureboundingbox.maxZ;
+        this.field_78897_a = structureboundingbox.field_78897_a;
+        this.field_78895_b = structureboundingbox.field_78895_b;
+        this.field_78896_c = structureboundingbox.field_78896_c;
+        this.field_78893_d = structureboundingbox.field_78893_d;
+        this.field_78894_e = structureboundingbox.field_78894_e;
+        this.field_78892_f = structureboundingbox.field_78892_f;
     }
 
     public StructureBoundingBox(int i, int j, int k, int l, int i1, int j1) {
-        this.minX = i;
-        this.minY = j;
-        this.minZ = k;
-        this.maxX = l;
-        this.maxY = i1;
-        this.maxZ = j1;
+        this.field_78897_a = i;
+        this.field_78895_b = j;
+        this.field_78896_c = k;
+        this.field_78893_d = l;
+        this.field_78894_e = i1;
+        this.field_78892_f = j1;
     }
 
     public StructureBoundingBox(Vec3i baseblockposition, Vec3i baseblockposition1) {
-        this.minX = Math.min(baseblockposition.getX(), baseblockposition1.getX());
-        this.minY = Math.min(baseblockposition.getY(), baseblockposition1.getY());
-        this.minZ = Math.min(baseblockposition.getZ(), baseblockposition1.getZ());
-        this.maxX = Math.max(baseblockposition.getX(), baseblockposition1.getX());
-        this.maxY = Math.max(baseblockposition.getY(), baseblockposition1.getY());
-        this.maxZ = Math.max(baseblockposition.getZ(), baseblockposition1.getZ());
+        this.field_78897_a = Math.min(baseblockposition.func_177958_n(), baseblockposition1.func_177958_n());
+        this.field_78895_b = Math.min(baseblockposition.func_177956_o(), baseblockposition1.func_177956_o());
+        this.field_78896_c = Math.min(baseblockposition.func_177952_p(), baseblockposition1.func_177952_p());
+        this.field_78893_d = Math.max(baseblockposition.func_177958_n(), baseblockposition1.func_177958_n());
+        this.field_78894_e = Math.max(baseblockposition.func_177956_o(), baseblockposition1.func_177956_o());
+        this.field_78892_f = Math.max(baseblockposition.func_177952_p(), baseblockposition1.func_177952_p());
     }
 
     public StructureBoundingBox(int i, int j, int k, int l) {
-        this.minX = i;
-        this.minZ = j;
-        this.maxX = k;
-        this.maxZ = l;
-        this.minY = 1;
-        this.maxY = 512;
+        this.field_78897_a = i;
+        this.field_78896_c = j;
+        this.field_78893_d = k;
+        this.field_78892_f = l;
+        this.field_78895_b = 1;
+        this.field_78894_e = 512;
     }
 
-    public boolean intersectsWith(StructureBoundingBox structureboundingbox) {
-        return this.maxX >= structureboundingbox.minX && this.minX <= structureboundingbox.maxX && this.maxZ >= structureboundingbox.minZ && this.minZ <= structureboundingbox.maxZ && this.maxY >= structureboundingbox.minY && this.minY <= structureboundingbox.maxY;
+    public boolean func_78884_a(StructureBoundingBox structureboundingbox) {
+        return this.field_78893_d >= structureboundingbox.field_78897_a && this.field_78897_a <= structureboundingbox.field_78893_d && this.field_78892_f >= structureboundingbox.field_78896_c && this.field_78896_c <= structureboundingbox.field_78892_f && this.field_78894_e >= structureboundingbox.field_78895_b && this.field_78895_b <= structureboundingbox.field_78894_e;
     }
 
-    public boolean intersectsWith(int i, int j, int k, int l) {
-        return this.maxX >= i && this.minX <= k && this.maxZ >= j && this.minZ <= l;
+    public boolean func_78885_a(int i, int j, int k, int l) {
+        return this.field_78893_d >= i && this.field_78897_a <= k && this.field_78892_f >= j && this.field_78896_c <= l;
     }
 
-    public void expandTo(StructureBoundingBox structureboundingbox) {
-        this.minX = Math.min(this.minX, structureboundingbox.minX);
-        this.minY = Math.min(this.minY, structureboundingbox.minY);
-        this.minZ = Math.min(this.minZ, structureboundingbox.minZ);
-        this.maxX = Math.max(this.maxX, structureboundingbox.maxX);
-        this.maxY = Math.max(this.maxY, structureboundingbox.maxY);
-        this.maxZ = Math.max(this.maxZ, structureboundingbox.maxZ);
+    public void func_78888_b(StructureBoundingBox structureboundingbox) {
+        this.field_78897_a = Math.min(this.field_78897_a, structureboundingbox.field_78897_a);
+        this.field_78895_b = Math.min(this.field_78895_b, structureboundingbox.field_78895_b);
+        this.field_78896_c = Math.min(this.field_78896_c, structureboundingbox.field_78896_c);
+        this.field_78893_d = Math.max(this.field_78893_d, structureboundingbox.field_78893_d);
+        this.field_78894_e = Math.max(this.field_78894_e, structureboundingbox.field_78894_e);
+        this.field_78892_f = Math.max(this.field_78892_f, structureboundingbox.field_78892_f);
     }
 
-    public void offset(int i, int j, int k) {
-        this.minX += i;
-        this.minY += j;
-        this.minZ += k;
-        this.maxX += i;
-        this.maxY += j;
-        this.maxZ += k;
+    public void func_78886_a(int i, int j, int k) {
+        this.field_78897_a += i;
+        this.field_78895_b += j;
+        this.field_78896_c += k;
+        this.field_78893_d += i;
+        this.field_78894_e += j;
+        this.field_78892_f += k;
     }
 
-    public boolean contains(Vec3i baseblockposition) { return isVecInside(baseblockposition); } // Paper - OBFHELPER
-    public boolean isVecInside(Vec3i baseblockposition) {
-        return baseblockposition.getX() >= this.minX && baseblockposition.getX() <= this.maxX && baseblockposition.getZ() >= this.minZ && baseblockposition.getZ() <= this.maxZ && baseblockposition.getY() >= this.minY && baseblockposition.getY() <= this.maxY;
+    public boolean contains(Vec3i baseblockposition) { return func_175898_b(baseblockposition); } // Paper - OBFHELPER
+    public boolean func_175898_b(Vec3i baseblockposition) {
+        return baseblockposition.func_177958_n() >= this.field_78897_a && baseblockposition.func_177958_n() <= this.field_78893_d && baseblockposition.func_177952_p() >= this.field_78896_c && baseblockposition.func_177952_p() <= this.field_78892_f && baseblockposition.func_177956_o() >= this.field_78895_b && baseblockposition.func_177956_o() <= this.field_78894_e;
     }
 
-    public Vec3i getLength() {
-        return new Vec3i(this.maxX - this.minX, this.maxY - this.minY, this.maxZ - this.minZ);
+    public Vec3i func_175896_b() {
+        return new Vec3i(this.field_78893_d - this.field_78897_a, this.field_78894_e - this.field_78895_b, this.field_78892_f - this.field_78896_c);
     }
 
-    public int getXSize() {
-        return this.maxX - this.minX + 1;
+    public int func_78883_b() {
+        return this.field_78893_d - this.field_78897_a + 1;
     }
 
-    public int getYSize() {
-        return this.maxY - this.minY + 1;
+    public int func_78882_c() {
+        return this.field_78894_e - this.field_78895_b + 1;
     }
 
-    public int getZSize() {
-        return this.maxZ - this.minZ + 1;
+    public int func_78880_d() {
+        return this.field_78892_f - this.field_78896_c + 1;
     }
 
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("x0", this.minX).add("y0", this.minY).add("z0", this.minZ).add("x1", this.maxX).add("y1", this.maxY).add("z1", this.maxZ).toString();
+        return MoreObjects.toStringHelper(this).add("x0", this.field_78897_a).add("y0", this.field_78895_b).add("z0", this.field_78896_c).add("x1", this.field_78893_d).add("y1", this.field_78894_e).add("z1", this.field_78892_f).toString();
     }
 
-    public NBTTagIntArray toNBTTagIntArray() {
-        return new NBTTagIntArray(new int[] { this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ});
+    public NBTTagIntArray func_151535_h() {
+        return new NBTTagIntArray(new int[] { this.field_78897_a, this.field_78895_b, this.field_78896_c, this.field_78893_d, this.field_78894_e, this.field_78892_f});
     }
 }

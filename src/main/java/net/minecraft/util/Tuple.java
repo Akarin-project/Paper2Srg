@@ -10,11 +10,11 @@ public class Tuple<A, B> {
         this.b = b0;
     }
 
-    public A getFirst() {
+    public A func_76341_a() {
         return this.a;
     }
 
-    public B getSecond() {
+    public B func_76340_b() {
         return this.b;
     }
 }

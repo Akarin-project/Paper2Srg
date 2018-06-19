@@ -2,131 +2,131 @@ package net.minecraft.block.material;
 
 public class Material {
 
-    public static final Material AIR = new MaterialTransparent(MapColor.AIR);
-    public static final Material GRASS = new Material(MapColor.GRASS);
-    public static final Material GROUND = new Material(MapColor.DIRT);
-    public static final Material WOOD = (new Material(MapColor.WOOD)).setBurning();
-    public static final Material ROCK = (new Material(MapColor.STONE)).setRequiresTool();
-    public static final Material IRON = (new Material(MapColor.IRON)).setRequiresTool();
-    public static final Material ANVIL = (new Material(MapColor.IRON)).setRequiresTool().setImmovableMobility();
-    public static final Material WATER = (new MaterialLiquid(MapColor.WATER)).setNoPushMobility();
-    public static final Material LAVA = (new MaterialLiquid(MapColor.TNT)).setNoPushMobility();
-    public static final Material LEAVES = (new Material(MapColor.FOLIAGE)).setBurning().setTranslucent().setNoPushMobility();
-    public static final Material PLANTS = (new MaterialLogic(MapColor.FOLIAGE)).setNoPushMobility();
-    public static final Material VINE = (new MaterialLogic(MapColor.FOLIAGE)).setBurning().setNoPushMobility().setReplaceable();
-    public static final Material SPONGE = new Material(MapColor.YELLOW);
-    public static final Material CLOTH = (new Material(MapColor.CLOTH)).setBurning();
-    public static final Material FIRE = (new MaterialTransparent(MapColor.AIR)).setNoPushMobility();
-    public static final Material SAND = new Material(MapColor.SAND);
-    public static final Material CIRCUITS = (new MaterialLogic(MapColor.AIR)).setNoPushMobility();
-    public static final Material CARPET = (new MaterialLogic(MapColor.CLOTH)).setBurning();
-    public static final Material GLASS = (new Material(MapColor.AIR)).setTranslucent().setAdventureModeExempt();
-    public static final Material REDSTONE_LIGHT = (new Material(MapColor.AIR)).setAdventureModeExempt();
-    public static final Material TNT = (new Material(MapColor.TNT)).setBurning().setTranslucent();
-    public static final Material CORAL = (new Material(MapColor.FOLIAGE)).setNoPushMobility();
-    public static final Material ICE = (new Material(MapColor.ICE)).setTranslucent().setAdventureModeExempt();
-    public static final Material PACKED_ICE = (new Material(MapColor.ICE)).setAdventureModeExempt();
-    public static final Material SNOW = (new MaterialLogic(MapColor.SNOW)).setReplaceable().setTranslucent().setRequiresTool().setNoPushMobility();
-    public static final Material CRAFTED_SNOW = (new Material(MapColor.SNOW)).setRequiresTool();
-    public static final Material CACTUS = (new Material(MapColor.FOLIAGE)).setTranslucent().setNoPushMobility();
-    public static final Material CLAY = new Material(MapColor.CLAY);
-    public static final Material GOURD = (new Material(MapColor.FOLIAGE)).setNoPushMobility();
-    public static final Material DRAGON_EGG = (new Material(MapColor.FOLIAGE)).setNoPushMobility();
-    public static final Material PORTAL = (new MaterialPortal(MapColor.AIR)).setImmovableMobility();
-    public static final Material CAKE = (new Material(MapColor.AIR)).setNoPushMobility();
-    public static final Material WEB = (new Material(MapColor.CLOTH) {
-        public boolean blocksMovement() {
+    public static final Material field_151579_a = new MaterialTransparent(MapColor.field_151660_b);
+    public static final Material field_151577_b = new Material(MapColor.field_151661_c);
+    public static final Material field_151578_c = new Material(MapColor.field_151664_l);
+    public static final Material field_151575_d = (new Material(MapColor.field_151663_o)).func_76226_g();
+    public static final Material field_151576_e = (new Material(MapColor.field_151665_m)).func_76221_f();
+    public static final Material field_151573_f = (new Material(MapColor.field_151668_h)).func_76221_f();
+    public static final Material field_151574_g = (new Material(MapColor.field_151668_h)).func_76221_f().func_76225_o();
+    public static final Material field_151586_h = (new MaterialLiquid(MapColor.field_151662_n)).func_76219_n();
+    public static final Material field_151587_i = (new MaterialLiquid(MapColor.field_151656_f)).func_76219_n();
+    public static final Material field_151584_j = (new Material(MapColor.field_151669_i)).func_76226_g().func_76223_p().func_76219_n();
+    public static final Material field_151585_k = (new MaterialLogic(MapColor.field_151669_i)).func_76219_n();
+    public static final Material field_151582_l = (new MaterialLogic(MapColor.field_151669_i)).func_76226_g().func_76219_n().func_76231_i();
+    public static final Material field_151583_m = new Material(MapColor.field_151673_t);
+    public static final Material field_151580_n = (new Material(MapColor.field_151659_e)).func_76226_g();
+    public static final Material field_151581_o = (new MaterialTransparent(MapColor.field_151660_b)).func_76219_n();
+    public static final Material field_151595_p = new Material(MapColor.field_151658_d);
+    public static final Material field_151594_q = (new MaterialLogic(MapColor.field_151660_b)).func_76219_n();
+    public static final Material field_151593_r = (new MaterialLogic(MapColor.field_151659_e)).func_76226_g();
+    public static final Material field_151592_s = (new Material(MapColor.field_151660_b)).func_76223_p().func_85158_p();
+    public static final Material field_151591_t = (new Material(MapColor.field_151660_b)).func_85158_p();
+    public static final Material field_151590_u = (new Material(MapColor.field_151656_f)).func_76226_g().func_76223_p();
+    public static final Material field_151589_v = (new Material(MapColor.field_151669_i)).func_76219_n();
+    public static final Material field_151588_w = (new Material(MapColor.field_151657_g)).func_76223_p().func_85158_p();
+    public static final Material field_151598_x = (new Material(MapColor.field_151657_g)).func_85158_p();
+    public static final Material field_151597_y = (new MaterialLogic(MapColor.field_151666_j)).func_76231_i().func_76223_p().func_76221_f().func_76219_n();
+    public static final Material field_151596_z = (new Material(MapColor.field_151666_j)).func_76221_f();
+    public static final Material field_151570_A = (new Material(MapColor.field_151669_i)).func_76223_p().func_76219_n();
+    public static final Material field_151571_B = new Material(MapColor.field_151667_k);
+    public static final Material field_151572_C = (new Material(MapColor.field_151669_i)).func_76219_n();
+    public static final Material field_151566_D = (new Material(MapColor.field_151669_i)).func_76219_n();
+    public static final Material field_151567_E = (new MaterialPortal(MapColor.field_151660_b)).func_76225_o();
+    public static final Material field_151568_F = (new Material(MapColor.field_151660_b)).func_76219_n();
+    public static final Material field_151569_G = (new Material(MapColor.field_151659_e) {
+        public boolean func_76230_c() {
             return false;
         }
-    }).setRequiresTool().setNoPushMobility();
-    public static final Material PISTON = (new Material(MapColor.STONE)).setImmovableMobility();
-    public static final Material BARRIER = (new Material(MapColor.AIR)).setRequiresTool().setImmovableMobility();
-    public static final Material STRUCTURE_VOID = new MaterialTransparent(MapColor.AIR);
-    private boolean canBurn;
-    private boolean replaceable;
-    private boolean isTranslucent;
-    private final MapColor materialMapColor;
-    private boolean requiresNoTool = true;
-    private EnumPushReaction mobilityFlag;
-    private boolean isAdventureModeExempt;
+    }).func_76221_f().func_76219_n();
+    public static final Material field_76233_E = (new Material(MapColor.field_151665_m)).func_76225_o();
+    public static final Material field_175972_I = (new Material(MapColor.field_151660_b)).func_76221_f().func_76225_o();
+    public static final Material field_189963_J = new MaterialTransparent(MapColor.field_151660_b);
+    private boolean field_76235_G;
+    private boolean field_76239_H;
+    private boolean field_76240_I;
+    private final MapColor field_76234_F;
+    private boolean field_76241_J = true;
+    private EnumPushReaction field_76242_K;
+    private boolean field_85159_M;
 
     public Material(MapColor materialmapcolor) {
-        this.mobilityFlag = EnumPushReaction.NORMAL;
-        this.materialMapColor = materialmapcolor;
+        this.field_76242_K = EnumPushReaction.NORMAL;
+        this.field_76234_F = materialmapcolor;
     }
 
-    public boolean isLiquid() {
+    public boolean func_76224_d() {
         return false;
     }
 
-    public boolean isSolid() {
+    public boolean func_76220_a() {
         return true;
     }
 
-    public boolean blocksLight() {
+    public boolean func_76228_b() {
         return true;
     }
 
-    public boolean blocksMovement() {
+    public boolean func_76230_c() {
         return true;
     }
 
-    private Material setTranslucent() {
-        this.isTranslucent = true;
+    private Material func_76223_p() {
+        this.field_76240_I = true;
         return this;
     }
 
-    protected Material setRequiresTool() {
-        this.requiresNoTool = false;
+    protected Material func_76221_f() {
+        this.field_76241_J = false;
         return this;
     }
 
-    protected Material setBurning() {
-        this.canBurn = true;
+    protected Material func_76226_g() {
+        this.field_76235_G = true;
         return this;
     }
 
-    public boolean getCanBurn() {
-        return this.canBurn;
+    public boolean func_76217_h() {
+        return this.field_76235_G;
     }
 
-    public Material setReplaceable() {
-        this.replaceable = true;
+    public Material func_76231_i() {
+        this.field_76239_H = true;
         return this;
     }
 
-    public boolean isReplaceable() {
-        return this.replaceable;
+    public boolean func_76222_j() {
+        return this.field_76239_H;
     }
 
-    public boolean isOpaque() {
-        return this.isTranslucent ? false : this.blocksMovement();
+    public boolean func_76218_k() {
+        return this.field_76240_I ? false : this.func_76230_c();
     }
 
-    public boolean isToolNotRequired() {
-        return this.requiresNoTool;
+    public boolean func_76229_l() {
+        return this.field_76241_J;
     }
 
-    public EnumPushReaction getMobilityFlag() {
-        return this.mobilityFlag;
+    public EnumPushReaction func_186274_m() {
+        return this.field_76242_K;
     }
 
-    protected Material setNoPushMobility() {
-        this.mobilityFlag = EnumPushReaction.DESTROY;
+    protected Material func_76219_n() {
+        this.field_76242_K = EnumPushReaction.DESTROY;
         return this;
     }
 
-    protected Material setImmovableMobility() {
-        this.mobilityFlag = EnumPushReaction.BLOCK;
+    protected Material func_76225_o() {
+        this.field_76242_K = EnumPushReaction.BLOCK;
         return this;
     }
 
-    protected Material setAdventureModeExempt() {
-        this.isAdventureModeExempt = true;
+    protected Material func_85158_p() {
+        this.field_85159_M = true;
         return this;
     }
 
-    public MapColor getMaterialMapColor() {
-        return this.materialMapColor;
+    public MapColor func_151565_r() {
+        return this.field_76234_F;
     }
 }

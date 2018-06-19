@@ -6,44 +6,41 @@ import java.util.function.Supplier;
 
 public class TextComponentKeybind extends TextComponentBase {
 
-    public static Function<String, Supplier<String>> displaySupplierFunction = (var0) -> {
+    public static Function<String, Supplier<String>> field_193637_b = (var0) -> {
         return () -> {
             return s;
         };
     };
-    private final String keybind;
-    private Supplier<String> displaySupplier;
+    private final String field_193638_c;
+    private Supplier<String> field_193639_d;
 
     public TextComponentKeybind(String s) {
-        this.keybind = s;
+        this.field_193638_c = s;
     }
 
-    @Override
-    public String getUnformattedComponentText() {
-        if (this.displaySupplier == null) {
-            this.displaySupplier = TextComponentKeybind.displaySupplierFunction.apply(this.keybind);
+    public String func_150261_e() {
+        if (this.field_193639_d == null) {
+            this.field_193639_d = (Supplier) TextComponentKeybind.field_193637_b.apply(this.field_193638_c);
         }
 
-        return this.displaySupplier.get();
+        return (String) this.field_193639_d.get();
     }
 
-    @Override
-    public TextComponentKeybind createCopy() {
-        TextComponentKeybind chatcomponentkeybind = new TextComponentKeybind(this.keybind);
+    public TextComponentKeybind func_150259_f() {
+        TextComponentKeybind chatcomponentkeybind = new TextComponentKeybind(this.field_193638_c);
 
-        chatcomponentkeybind.setStyle(this.getStyle().createShallowCopy());
-        Iterator iterator = this.getSiblings().iterator();
+        chatcomponentkeybind.func_150255_a(this.func_150256_b().func_150232_l());
+        Iterator iterator = this.func_150253_a().iterator();
 
         while (iterator.hasNext()) {
             ITextComponent ichatbasecomponent = (ITextComponent) iterator.next();
 
-            chatcomponentkeybind.appendSibling(ichatbasecomponent.createCopy());
+            chatcomponentkeybind.func_150257_a(ichatbasecomponent.func_150259_f());
         }
 
         return chatcomponentkeybind;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -52,16 +49,19 @@ public class TextComponentKeybind extends TextComponentBase {
         } else {
             TextComponentKeybind chatcomponentkeybind = (TextComponentKeybind) object;
 
-            return this.keybind.equals(chatcomponentkeybind.keybind) && super.equals(object);
+            return this.field_193638_c.equals(chatcomponentkeybind.field_193638_c) && super.equals(object);
         }
     }
 
-    @Override
     public String toString() {
-        return "KeybindComponent{keybind=\'" + this.keybind + '\'' + ", siblings=" + this.siblings + ", style=" + this.getStyle() + '}';
+        return "KeybindComponent{keybind=\'" + this.field_193638_c + '\'' + ", siblings=" + this.field_150264_a + ", style=" + this.func_150256_b() + '}';
     }
 
-    public String getKeybind() {
-        return this.keybind;
+    public String func_193633_h() {
+        return this.field_193638_c;
+    }
+
+    public ITextComponent func_150259_f() {
+        return this.func_150259_f();
     }
 }

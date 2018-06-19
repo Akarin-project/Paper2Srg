@@ -571,7 +571,7 @@ public enum CraftSound {
     }
 
     public static SoundEvent getSoundEffect(String s) {
-        SoundEvent effect = SoundEvent.REGISTRY.getObject(new ResourceLocation(s));
+        SoundEvent effect = SoundEvent.field_187505_a.func_82594_a(new ResourceLocation(s));
         Preconditions.checkArgument(effect != null, "Sound effect %s does not exist", s);
 
         return effect;

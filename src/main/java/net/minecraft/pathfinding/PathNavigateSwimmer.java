@@ -12,46 +12,46 @@ public class PathNavigateSwimmer extends PathNavigate {
         super(entityinsentient, world);
     }
 
-    protected PathFinder getPathFinder() {
+    protected PathFinder func_179679_a() {
         return new PathFinder(new SwimNodeProcessor());
     }
 
-    protected boolean canNavigate() {
-        return this.isInLiquid();
+    protected boolean func_75485_k() {
+        return this.func_75506_l();
     }
 
-    protected Vec3d getEntityPosition() {
-        return new Vec3d(this.entity.posX, this.entity.posY + (double) this.entity.height * 0.5D, this.entity.posZ);
+    protected Vec3d func_75502_i() {
+        return new Vec3d(this.field_75515_a.field_70165_t, this.field_75515_a.field_70163_u + (double) this.field_75515_a.field_70131_O * 0.5D, this.field_75515_a.field_70161_v);
     }
 
-    protected void pathFollow() {
-        Vec3d vec3d = this.getEntityPosition();
-        float f = this.entity.width * this.entity.width;
+    protected void func_75508_h() {
+        Vec3d vec3d = this.func_75502_i();
+        float f = this.field_75515_a.field_70130_N * this.field_75515_a.field_70130_N;
         boolean flag = true;
 
-        if (vec3d.squareDistanceTo(this.currentPath.getVectorFromIndex(this.entity, this.currentPath.getCurrentPathIndex())) < (double) f) {
-            this.currentPath.incrementPathIndex();
+        if (vec3d.func_72436_e(this.field_75514_c.func_75881_a(this.field_75515_a, this.field_75514_c.func_75873_e())) < (double) f) {
+            this.field_75514_c.func_75875_a();
         }
 
-        for (int i = Math.min(this.currentPath.getCurrentPathIndex() + 6, this.currentPath.getCurrentPathLength() - 1); i > this.currentPath.getCurrentPathIndex(); --i) {
-            Vec3d vec3d1 = this.currentPath.getVectorFromIndex(this.entity, i);
+        for (int i = Math.min(this.field_75514_c.func_75873_e() + 6, this.field_75514_c.func_75874_d() - 1); i > this.field_75514_c.func_75873_e(); --i) {
+            Vec3d vec3d1 = this.field_75514_c.func_75881_a(this.field_75515_a, i);
 
-            if (vec3d1.squareDistanceTo(vec3d) <= 36.0D && this.isDirectPathBetweenPoints(vec3d, vec3d1, 0, 0, 0)) {
-                this.currentPath.setCurrentPathIndex(i);
+            if (vec3d1.func_72436_e(vec3d) <= 36.0D && this.func_75493_a(vec3d, vec3d1, 0, 0, 0)) {
+                this.field_75514_c.func_75872_c(i);
                 break;
             }
         }
 
-        this.checkForStuck(vec3d);
+        this.func_179677_a(vec3d);
     }
 
-    protected boolean isDirectPathBetweenPoints(Vec3d vec3d, Vec3d vec3d1, int i, int j, int k) {
-        RayTraceResult movingobjectposition = this.world.rayTraceBlocks(vec3d, new Vec3d(vec3d1.x, vec3d1.y + (double) this.entity.height * 0.5D, vec3d1.z), false, true, false);
+    protected boolean func_75493_a(Vec3d vec3d, Vec3d vec3d1, int i, int j, int k) {
+        RayTraceResult movingobjectposition = this.field_75513_b.func_147447_a(vec3d, new Vec3d(vec3d1.field_72450_a, vec3d1.field_72448_b + (double) this.field_75515_a.field_70131_O * 0.5D, vec3d1.field_72449_c), false, true, false);
 
-        return movingobjectposition == null || movingobjectposition.typeOfHit == RayTraceResult.Type.MISS;
+        return movingobjectposition == null || movingobjectposition.field_72313_a == RayTraceResult.Type.MISS;
     }
 
-    public boolean canEntityStandOnPos(BlockPos blockposition) {
-        return !this.world.getBlockState(blockposition).isFullBlock();
+    public boolean func_188555_b(BlockPos blockposition) {
+        return !this.field_75513_b.func_180495_p(blockposition).func_185913_b();
     }
 }

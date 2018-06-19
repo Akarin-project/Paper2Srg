@@ -14,30 +14,32 @@ import net.minecraft.block.state.IBlockState;
 
 public class BlockStateMatcher implements Predicate<IBlockState> {
 
-    public static final Predicate<IBlockState> ANY = new Predicate<IBlockState>() {
-        @Override
-        public boolean apply(@Nullable IBlockState iblockdata) {
+    public static final Predicate<IBlockState> field_185928_a = new Predicate() {
+        public boolean a(@Nullable IBlockState iblockdata) {
             return true;
         }
+
+        public boolean apply(@Nullable Object object) {
+            return this.a((IBlockState) object);
+        }
     };
-    private final BlockStateContainer blockstate;
-    private final Map<IProperty<?>, Predicate<?>> propertyPredicates = Maps.newHashMap();
+    private final BlockStateContainer field_177641_a;
+    private final Map<IProperty<?>, Predicate<?>> field_177640_b = Maps.newHashMap();
 
     private BlockStateMatcher(BlockStateContainer blockstatelist) {
-        this.blockstate = blockstatelist;
+        this.field_177641_a = blockstatelist;
     }
 
-    public static BlockStateMatcher forBlock(Block block) {
-        return new BlockStateMatcher(block.getBlockState());
+    public static BlockStateMatcher func_177638_a(Block block) {
+        return new BlockStateMatcher(block.func_176194_O());
     }
 
-    @Override
     public boolean apply(@Nullable IBlockState iblockdata) {
-        if (iblockdata != null && iblockdata.getBlock().equals(this.blockstate.getBlock())) {
-            if (this.propertyPredicates.isEmpty()) {
+        if (iblockdata != null && iblockdata.func_177230_c().equals(this.field_177641_a.func_177622_c())) {
+            if (this.field_177640_b.isEmpty()) {
                 return true;
             } else {
-                Iterator iterator = this.propertyPredicates.entrySet().iterator();
+                Iterator iterator = this.field_177640_b.entrySet().iterator();
 
                 Entry entry;
 
@@ -47,7 +49,7 @@ public class BlockStateMatcher implements Predicate<IBlockState> {
                     }
 
                     entry = (Entry) iterator.next();
-                } while (this.matches(iblockdata, (IProperty) entry.getKey(), (Predicate) entry.getValue()));
+                } while (this.func_185927_a(iblockdata, (IProperty) entry.getKey(), (Predicate) entry.getValue()));
 
                 return false;
             }
@@ -56,16 +58,20 @@ public class BlockStateMatcher implements Predicate<IBlockState> {
         }
     }
 
-    protected <T extends Comparable<T>> boolean matches(IBlockState iblockdata, IProperty<T> iblockstate, Predicate predicate) {
-        return predicate.apply(iblockdata.getValue(iblockstate));
+    protected <T extends Comparable<T>> boolean func_185927_a(IBlockState iblockdata, IProperty<T> iblockstate, Predicate<?> predicate) {
+        return predicate.apply(iblockdata.func_177229_b(iblockstate));
     }
 
-    public <V extends Comparable<V>> BlockStateMatcher where(IProperty<V> iblockstate, Predicate<? extends V> predicate) {
-        if (!this.blockstate.getProperties().contains(iblockstate)) {
-            throw new IllegalArgumentException(this.blockstate + " cannot support property " + iblockstate);
+    public <V extends Comparable<V>> BlockStateMatcher func_177637_a(IProperty<V> iblockstate, Predicate<? extends V> predicate) {
+        if (!this.field_177641_a.func_177623_d().contains(iblockstate)) {
+            throw new IllegalArgumentException(this.field_177641_a + " cannot support property " + iblockstate);
         } else {
-            this.propertyPredicates.put(iblockstate, predicate);
+            this.field_177640_b.put(iblockstate, predicate);
             return this;
         }
+    }
+
+    public boolean apply(@Nullable Object object) {
+        return this.apply((IBlockState) object);
     }
 }

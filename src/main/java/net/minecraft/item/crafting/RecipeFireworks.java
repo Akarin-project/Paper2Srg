@@ -14,17 +14,17 @@ import net.minecraft.world.World;
 
 public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // CraftBukkit - added extends
 
-    private ItemStack resultItem;
+    private ItemStack field_92102_a;
 
     // CraftBukkit start - Delegate to new parent class with bogus info
     public RecipeFireworks() {
-        super("", new ItemStack(Items.FIREWORKS, 0, 0), NonNullList.from(Ingredient.EMPTY, Ingredient.fromItem(Items.GUNPOWDER)));
-        this.resultItem = ItemStack.EMPTY;
+        super("", new ItemStack(Items.field_151152_bP, 0, 0), NonNullList.func_193580_a(Ingredient.field_193370_a, Ingredient.func_193367_a(Items.field_151016_H)));
+        this.field_92102_a = ItemStack.field_190927_a;
     }
     // CraftBukkit end
 
-    public boolean matches(InventoryCrafting inventorycrafting, World world) {
-        this.resultItem = ItemStack.EMPTY;
+    public boolean func_77569_a(InventoryCrafting inventorycrafting, World world) {
+        this.field_92102_a = ItemStack.field_190927_a;
         int i = 0;
         int j = 0;
         int k = 0;
@@ -32,30 +32,30 @@ public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // Cr
         int i1 = 0;
         int j1 = 0;
 
-        for (int k1 = 0; k1 < inventorycrafting.getSizeInventory(); ++k1) {
-            ItemStack itemstack = inventorycrafting.getStackInSlot(k1);
+        for (int k1 = 0; k1 < inventorycrafting.func_70302_i_(); ++k1) {
+            ItemStack itemstack = inventorycrafting.func_70301_a(k1);
 
-            if (!itemstack.isEmpty()) {
-                if (itemstack.getItem() == Items.GUNPOWDER) {
+            if (!itemstack.func_190926_b()) {
+                if (itemstack.func_77973_b() == Items.field_151016_H) {
                     ++j;
-                } else if (itemstack.getItem() == Items.FIREWORK_CHARGE) {
+                } else if (itemstack.func_77973_b() == Items.field_151154_bQ) {
                     ++l;
-                } else if (itemstack.getItem() == Items.DYE) {
+                } else if (itemstack.func_77973_b() == Items.field_151100_aR) {
                     ++k;
-                } else if (itemstack.getItem() == Items.PAPER) {
+                } else if (itemstack.func_77973_b() == Items.field_151121_aF) {
                     ++i;
-                } else if (itemstack.getItem() == Items.GLOWSTONE_DUST) {
+                } else if (itemstack.func_77973_b() == Items.field_151114_aO) {
                     ++i1;
-                } else if (itemstack.getItem() == Items.DIAMOND) {
+                } else if (itemstack.func_77973_b() == Items.field_151045_i) {
                     ++i1;
-                } else if (itemstack.getItem() == Items.FIRE_CHARGE) {
+                } else if (itemstack.func_77973_b() == Items.field_151059_bz) {
                     ++j1;
-                } else if (itemstack.getItem() == Items.FEATHER) {
+                } else if (itemstack.func_77973_b() == Items.field_151008_G) {
                     ++j1;
-                } else if (itemstack.getItem() == Items.GOLD_NUGGET) {
+                } else if (itemstack.func_77973_b() == Items.field_151074_bl) {
                     ++j1;
                 } else {
-                    if (itemstack.getItem() != Items.SKULL) {
+                    if (itemstack.func_77973_b() != Items.field_151144_bL) {
                         return false;
                     }
 
@@ -71,51 +71,51 @@ public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // Cr
             int l1;
 
             if (j >= 1 && i == 1 && i1 == 0) {
-                this.resultItem = new ItemStack(Items.FIREWORKS, 3);
+                this.field_92102_a = new ItemStack(Items.field_151152_bP, 3);
                 nbttagcompound = new NBTTagCompound();
                 if (l > 0) {
                     NBTTagList nbttaglist = new NBTTagList();
 
-                    for (l1 = 0; l1 < inventorycrafting.getSizeInventory(); ++l1) {
-                        ItemStack itemstack1 = inventorycrafting.getStackInSlot(l1);
+                    for (l1 = 0; l1 < inventorycrafting.func_70302_i_(); ++l1) {
+                        ItemStack itemstack1 = inventorycrafting.func_70301_a(l1);
 
-                        if (itemstack1.getItem() == Items.FIREWORK_CHARGE && itemstack1.hasTagCompound() && itemstack1.getTagCompound().hasKey("Explosion", 10)) {
-                            nbttaglist.appendTag(itemstack1.getTagCompound().getCompoundTag("Explosion"));
+                        if (itemstack1.func_77973_b() == Items.field_151154_bQ && itemstack1.func_77942_o() && itemstack1.func_77978_p().func_150297_b("Explosion", 10)) {
+                            nbttaglist.func_74742_a(itemstack1.func_77978_p().func_74775_l("Explosion"));
                         }
                     }
 
-                    nbttagcompound.setTag("Explosions", nbttaglist);
+                    nbttagcompound.func_74782_a("Explosions", nbttaglist);
                 }
 
-                nbttagcompound.setByte("Flight", (byte) j);
+                nbttagcompound.func_74774_a("Flight", (byte) j);
                 nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setTag("Fireworks", nbttagcompound);
-                this.resultItem.setTagCompound(nbttagcompound1);
+                nbttagcompound1.func_74782_a("Fireworks", nbttagcompound);
+                this.field_92102_a.func_77982_d(nbttagcompound1);
                 return true;
             } else if (j == 1 && i == 0 && l == 0 && k > 0 && j1 <= 1) {
-                this.resultItem = new ItemStack(Items.FIREWORK_CHARGE);
+                this.field_92102_a = new ItemStack(Items.field_151154_bQ);
                 nbttagcompound = new NBTTagCompound();
                 nbttagcompound1 = new NBTTagCompound();
                 byte b0 = 0;
                 ArrayList arraylist = Lists.newArrayList();
 
-                for (int i2 = 0; i2 < inventorycrafting.getSizeInventory(); ++i2) {
-                    ItemStack itemstack2 = inventorycrafting.getStackInSlot(i2);
+                for (int i2 = 0; i2 < inventorycrafting.func_70302_i_(); ++i2) {
+                    ItemStack itemstack2 = inventorycrafting.func_70301_a(i2);
 
-                    if (!itemstack2.isEmpty()) {
-                        if (itemstack2.getItem() == Items.DYE) {
-                            arraylist.add(Integer.valueOf(ItemDye.DYE_COLORS[itemstack2.getMetadata() & 15]));
-                        } else if (itemstack2.getItem() == Items.GLOWSTONE_DUST) {
-                            nbttagcompound1.setBoolean("Flicker", true);
-                        } else if (itemstack2.getItem() == Items.DIAMOND) {
-                            nbttagcompound1.setBoolean("Trail", true);
-                        } else if (itemstack2.getItem() == Items.FIRE_CHARGE) {
+                    if (!itemstack2.func_190926_b()) {
+                        if (itemstack2.func_77973_b() == Items.field_151100_aR) {
+                            arraylist.add(Integer.valueOf(ItemDye.field_150922_c[itemstack2.func_77960_j() & 15]));
+                        } else if (itemstack2.func_77973_b() == Items.field_151114_aO) {
+                            nbttagcompound1.func_74757_a("Flicker", true);
+                        } else if (itemstack2.func_77973_b() == Items.field_151045_i) {
+                            nbttagcompound1.func_74757_a("Trail", true);
+                        } else if (itemstack2.func_77973_b() == Items.field_151059_bz) {
                             b0 = 1;
-                        } else if (itemstack2.getItem() == Items.FEATHER) {
+                        } else if (itemstack2.func_77973_b() == Items.field_151008_G) {
                             b0 = 4;
-                        } else if (itemstack2.getItem() == Items.GOLD_NUGGET) {
+                        } else if (itemstack2.func_77973_b() == Items.field_151074_bl) {
                             b0 = 2;
-                        } else if (itemstack2.getItem() == Items.SKULL) {
+                        } else if (itemstack2.func_77973_b() == Items.field_151144_bL) {
                             b0 = 3;
                         }
                     }
@@ -127,23 +127,23 @@ public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // Cr
                     aint[j2] = ((Integer) arraylist.get(j2)).intValue();
                 }
 
-                nbttagcompound1.setIntArray("Colors", aint);
-                nbttagcompound1.setByte("Type", b0);
-                nbttagcompound.setTag("Explosion", nbttagcompound1);
-                this.resultItem.setTagCompound(nbttagcompound);
+                nbttagcompound1.func_74783_a("Colors", aint);
+                nbttagcompound1.func_74774_a("Type", b0);
+                nbttagcompound.func_74782_a("Explosion", nbttagcompound1);
+                this.field_92102_a.func_77982_d(nbttagcompound);
                 return true;
             } else if (j == 0 && i == 0 && l == 1 && k > 0 && k == i1) {
                 ArrayList arraylist1 = Lists.newArrayList();
 
-                for (int k2 = 0; k2 < inventorycrafting.getSizeInventory(); ++k2) {
-                    ItemStack itemstack3 = inventorycrafting.getStackInSlot(k2);
+                for (int k2 = 0; k2 < inventorycrafting.func_70302_i_(); ++k2) {
+                    ItemStack itemstack3 = inventorycrafting.func_70301_a(k2);
 
-                    if (!itemstack3.isEmpty()) {
-                        if (itemstack3.getItem() == Items.DYE) {
-                            arraylist1.add(Integer.valueOf(ItemDye.DYE_COLORS[itemstack3.getMetadata() & 15]));
-                        } else if (itemstack3.getItem() == Items.FIREWORK_CHARGE) {
-                            this.resultItem = itemstack3.copy();
-                            this.resultItem.setCount(1);
+                    if (!itemstack3.func_190926_b()) {
+                        if (itemstack3.func_77973_b() == Items.field_151100_aR) {
+                            arraylist1.add(Integer.valueOf(ItemDye.field_150922_c[itemstack3.func_77960_j() & 15]));
+                        } else if (itemstack3.func_77973_b() == Items.field_151154_bQ) {
+                            this.field_92102_a = itemstack3.func_77946_l();
+                            this.field_92102_a.func_190920_e(1);
                         }
                     }
                 }
@@ -154,13 +154,13 @@ public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // Cr
                     aint1[l1] = ((Integer) arraylist1.get(l1)).intValue();
                 }
 
-                if (!this.resultItem.isEmpty() && this.resultItem.hasTagCompound()) {
-                    NBTTagCompound nbttagcompound2 = this.resultItem.getTagCompound().getCompoundTag("Explosion");
+                if (!this.field_92102_a.func_190926_b() && this.field_92102_a.func_77942_o()) {
+                    NBTTagCompound nbttagcompound2 = this.field_92102_a.func_77978_p().func_74775_l("Explosion");
 
                     if (nbttagcompound2 == null) {
                         return false;
                     } else {
-                        nbttagcompound2.setIntArray("FadeColors", aint1);
+                        nbttagcompound2.func_74783_a("FadeColors", aint1);
                         return true;
                     }
                 } else {
@@ -174,29 +174,29 @@ public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // Cr
         }
     }
 
-    public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
-        return this.resultItem.copy();
+    public ItemStack func_77572_b(InventoryCrafting inventorycrafting) {
+        return this.field_92102_a.func_77946_l();
     }
 
-    public ItemStack getRecipeOutput() {
-        return this.resultItem;
+    public ItemStack func_77571_b() {
+        return this.field_92102_a;
     }
 
-    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inventorycrafting) {
-        NonNullList nonnulllist = NonNullList.withSize(inventorycrafting.getSizeInventory(), ItemStack.EMPTY);
+    public NonNullList<ItemStack> func_179532_b(InventoryCrafting inventorycrafting) {
+        NonNullList nonnulllist = NonNullList.func_191197_a(inventorycrafting.func_70302_i_(), ItemStack.field_190927_a);
 
         for (int i = 0; i < nonnulllist.size(); ++i) {
-            ItemStack itemstack = inventorycrafting.getStackInSlot(i);
+            ItemStack itemstack = inventorycrafting.func_70301_a(i);
 
-            if (itemstack.getItem().hasContainerItem()) {
-                nonnulllist.set(i, new ItemStack(itemstack.getItem().getContainerItem()));
+            if (itemstack.func_77973_b().func_77634_r()) {
+                nonnulllist.set(i, new ItemStack(itemstack.func_77973_b().func_77668_q()));
             }
         }
 
         return nonnulllist;
     }
 
-    public boolean isDynamic() {
+    public boolean func_192399_d() {
         return true;
     }
 }

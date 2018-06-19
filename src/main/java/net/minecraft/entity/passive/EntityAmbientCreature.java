@@ -10,7 +10,7 @@ public abstract class EntityAmbientCreature extends EntityLiving implements IAni
         super(world);
     }
 
-    public boolean canBeLeashedTo(EntityPlayer entityhuman) {
+    public boolean func_184652_a(EntityPlayer entityhuman) {
         return false;
     }
 }

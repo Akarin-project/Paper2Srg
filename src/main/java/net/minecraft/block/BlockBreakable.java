@@ -6,18 +6,18 @@ import net.minecraft.block.state.IBlockState;
 
 public class BlockBreakable extends Block {
 
-    private final boolean ignoreSimilarity;
+    private final boolean field_149996_a;
 
     protected BlockBreakable(Material material, boolean flag) {
-        this(material, flag, material.getMaterialMapColor());
+        this(material, flag, material.func_151565_r());
     }
 
     protected BlockBreakable(Material material, boolean flag, MapColor materialmapcolor) {
         super(material, materialmapcolor);
-        this.ignoreSimilarity = flag;
+        this.field_149996_a = flag;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 }

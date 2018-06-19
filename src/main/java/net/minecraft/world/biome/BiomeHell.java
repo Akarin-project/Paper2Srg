@@ -7,16 +7,16 @@ import net.minecraft.entity.monster.EntityPigZombie;
 
 public class BiomeHell extends Biome {
 
-    public BiomeHell(Biome.a biomebase_a) {
+    public BiomeHell(BiomeBase.a biomebase_a) {
         super(biomebase_a);
-        this.spawnableMonsterList.clear();
-        this.spawnableCreatureList.clear();
-        this.spawnableWaterCreatureList.clear();
-        this.spawnableCaveCreatureList.clear();
-        this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntityGhast.class, 50, 4, 4));
-        this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntityPigZombie.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntityMagmaCube.class, 2, 4, 4));
-        this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntityEnderman.class, 1, 4, 4));
-        this.decorator = new BiomeHellDecorator();
+        this.field_76761_J.clear();
+        this.field_76762_K.clear();
+        this.field_76755_L.clear();
+        this.field_82914_M.clear();
+        this.field_76761_J.add(new Biome.SpawnListEntry(EntityGhast.class, 50, 4, 4));
+        this.field_76761_J.add(new Biome.SpawnListEntry(EntityPigZombie.class, 100, 4, 4));
+        this.field_76761_J.add(new Biome.SpawnListEntry(EntityMagmaCube.class, 2, 4, 4));
+        this.field_76761_J.add(new Biome.SpawnListEntry(EntityEnderman.class, 1, 4, 4));
+        this.field_76760_I = new BiomeHellDecorator();
     }
 }

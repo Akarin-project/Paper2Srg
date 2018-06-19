@@ -4,5 +4,5 @@ import net.minecraft.util.ResourceLocation;
 
 public interface ICriterionInstance {
 
-    ResourceLocation getId();
+    ResourceLocation func_192244_a();
 }

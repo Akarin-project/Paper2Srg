@@ -4,11 +4,11 @@ public class ItemBook extends Item {
 
     public ItemBook() {}
 
-    public boolean isEnchantable(ItemStack itemstack) {
-        return itemstack.getCount() == 1;
+    public boolean func_77616_k(ItemStack itemstack) {
+        return itemstack.func_190916_E() == 1;
     }
 
-    public int getItemEnchantability() {
+    public int func_77619_b() {
         return 1;
     }
 }

@@ -37,13 +37,13 @@ import net.minecraft.util.StringUtils;
 
 public class PreYggdrasilConverter {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    public static final File OLD_IPBAN_FILE = new File("banned-ips.txt");
-    public static final File OLD_PLAYERBAN_FILE = new File("banned-players.txt");
-    public static final File OLD_OPS_FILE = new File("ops.txt");
-    public static final File OLD_WHITELIST_FILE = new File("white-list.txt");
+    private static final Logger field_152732_e = LogManager.getLogger();
+    public static final File field_152728_a = new File("banned-ips.txt");
+    public static final File field_152729_b = new File("banned-players.txt");
+    public static final File field_152730_c = new File("ops.txt");
+    public static final File field_152731_d = new File("white-list.txt");
 
-    static List<String> readFile(File file, Map<String, String[]> map) throws IOException {
+    static List<String> func_152721_a(File file, Map<String, String[]> map) throws IOException {
         List list = Files.readLines(file, StandardCharsets.UTF_8);
         Iterator iterator = list.iterator();
 
@@ -61,10 +61,10 @@ public class PreYggdrasilConverter {
         return list;
     }
 
-    private static void lookupNames(MinecraftServer minecraftserver, Collection<String> collection, ProfileLookupCallback profilelookupcallback) {
+    private static void func_152717_a(MinecraftServer minecraftserver, Collection<String> collection, ProfileLookupCallback profilelookupcallback) {
         String[] astring = (String[]) Iterators.toArray(Iterators.filter(collection.iterator(), new Predicate() {
             public boolean a(@Nullable String s) {
-                return !StringUtils.isNullOrEmpty(s);
+                return !StringUtils.func_151246_b(s);
             }
 
             public boolean apply(@Nullable Object object) {
@@ -72,16 +72,16 @@ public class PreYggdrasilConverter {
             }
         }), String.class);
 
-        if (minecraftserver.isServerInOnlineMode()
+        if (minecraftserver.func_71266_T()
                 || (org.spigotmc.SpigotConfig.bungee && com.destroystokyo.paper.PaperConfig.bungeeOnlineMode)) { // Spigot: bungee = online mode, for now.  // Paper - Handle via setting
-            minecraftserver.getGameProfileRepository().findProfilesByNames(astring, Agent.MINECRAFT, profilelookupcallback);
+            minecraftserver.func_152359_aw().findProfilesByNames(astring, Agent.MINECRAFT, profilelookupcallback);
         } else {
             String[] astring1 = astring;
             int i = astring.length;
 
             for (int j = 0; j < i; ++j) {
                 String s = astring1[j];
-                UUID uuid = EntityPlayer.getUUID(new GameProfile((UUID) null, s));
+                UUID uuid = EntityPlayer.func_146094_a(new GameProfile((UUID) null, s));
                 GameProfile gameprofile = new GameProfile(uuid, s);
 
                 profilelookupcallback.onProfileLookupSucceeded(gameprofile);
@@ -90,58 +90,58 @@ public class PreYggdrasilConverter {
 
     }
 
-    public static boolean convertUserBanlist(final MinecraftServer minecraftserver) {
-        final UserListBans gameprofilebanlist = new UserListBans(PlayerList.FILE_PLAYERBANS);
+    public static boolean func_152724_a(final MinecraftServer minecraftserver) {
+        final UserListBans gameprofilebanlist = new UserListBans(PlayerList.field_152613_a);
 
-        if (PreYggdrasilConverter.OLD_PLAYERBAN_FILE.exists() && PreYggdrasilConverter.OLD_PLAYERBAN_FILE.isFile()) {
-            if (gameprofilebanlist.getSaveFile().exists()) {
+        if (PreYggdrasilConverter.field_152729_b.exists() && PreYggdrasilConverter.field_152729_b.isFile()) {
+            if (gameprofilebanlist.func_152691_c().exists()) {
                 try {
-                    gameprofilebanlist.readSavedFile();
+                    gameprofilebanlist.func_152679_g();
                 // CraftBukkit start - FileNotFoundException -> IOException, don't print stacktrace
                 } catch (IOException filenotfoundexception) {
-                    PreYggdrasilConverter.LOGGER.warn("Could not load existing file {}", gameprofilebanlist.getSaveFile().getName());
+                    PreYggdrasilConverter.field_152732_e.warn("Could not load existing file {}", gameprofilebanlist.func_152691_c().getName());
                 }
             }
 
             try {
                 final HashMap hashmap = Maps.newHashMap();
 
-                readFile(PreYggdrasilConverter.OLD_PLAYERBAN_FILE, (Map) hashmap);
+                func_152721_a(PreYggdrasilConverter.field_152729_b, (Map) hashmap);
                 ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
                     public void onProfileLookupSucceeded(GameProfile gameprofile) {
-                        minecraftserver.getPlayerProfileCache().addEntry(gameprofile);
+                        minecraftserver.func_152358_ax().func_152649_a(gameprofile);
                         String[] astring = (String[]) hashmap.get(gameprofile.getName().toLowerCase(Locale.ROOT));
 
                         if (astring == null) {
-                            PreYggdrasilConverter.LOGGER.warn("Could not convert user banlist entry for {}", gameprofile.getName());
+                            PreYggdrasilConverter.field_152732_e.warn("Could not convert user banlist entry for {}", gameprofile.getName());
                             throw new PreYggdrasilConverter.ConversionError("Profile not in the conversionlist", null);
                         } else {
-                            Date date = astring.length > 1 ? PreYggdrasilConverter.parseDate(astring[1], (Date) null) : null;
+                            Date date = astring.length > 1 ? PreYggdrasilConverter.func_152713_b(astring[1], (Date) null) : null;
                             String s = astring.length > 2 ? astring[2] : null;
-                            Date date1 = astring.length > 3 ? PreYggdrasilConverter.parseDate(astring[3], (Date) null) : null;
+                            Date date1 = astring.length > 3 ? PreYggdrasilConverter.func_152713_b(astring[3], (Date) null) : null;
                             String s1 = astring.length > 4 ? astring[4] : null;
 
-                            gameprofilebanlist.addEntry(new UserListBansEntry(gameprofile, date, s, date1, s1));
+                            gameprofilebanlist.func_152687_a(new UserListBansEntry(gameprofile, date, s, date1, s1));
                         }
                     }
 
                     public void onProfileLookupFailed(GameProfile gameprofile, Exception exception) {
-                        PreYggdrasilConverter.LOGGER.warn("Could not lookup user banlist entry for {}", gameprofile.getName(), exception);
+                        PreYggdrasilConverter.field_152732_e.warn("Could not lookup user banlist entry for {}", gameprofile.getName(), exception);
                         if (!(exception instanceof ProfileNotFoundException)) {
                             throw new PreYggdrasilConverter.ConversionError("Could not request user " + gameprofile.getName() + " from backend systems", exception, null);
                         }
                     }
                 };
 
-                lookupNames(minecraftserver, hashmap.keySet(), profilelookupcallback);
-                gameprofilebanlist.writeChanges();
-                backupConverted(PreYggdrasilConverter.OLD_PLAYERBAN_FILE);
+                func_152717_a(minecraftserver, hashmap.keySet(), profilelookupcallback);
+                gameprofilebanlist.func_152678_f();
+                func_152727_c(PreYggdrasilConverter.field_152729_b);
                 return true;
             } catch (IOException ioexception) {
-                PreYggdrasilConverter.LOGGER.warn("Could not read old user banlist to convert it!", ioexception);
+                PreYggdrasilConverter.field_152732_e.warn("Could not read old user banlist to convert it!", ioexception);
                 return false;
             } catch (PreYggdrasilConverter.ConversionError namereferencingfileconverter_fileconversionexception) {
-                PreYggdrasilConverter.LOGGER.error("Conversion failed, please try again later", namereferencingfileconverter_fileconversionexception);
+                PreYggdrasilConverter.field_152732_e.error("Conversion failed, please try again later", namereferencingfileconverter_fileconversionexception);
                 return false;
             }
         } else {
@@ -149,41 +149,41 @@ public class PreYggdrasilConverter {
         }
     }
 
-    public static boolean convertIpBanlist(MinecraftServer minecraftserver) {
-        UserListIPBans ipbanlist = new UserListIPBans(PlayerList.FILE_IPBANS);
+    public static boolean func_152722_b(MinecraftServer minecraftserver) {
+        UserListIPBans ipbanlist = new UserListIPBans(PlayerList.field_152614_b);
 
-        if (PreYggdrasilConverter.OLD_IPBAN_FILE.exists() && PreYggdrasilConverter.OLD_IPBAN_FILE.isFile()) {
-            if (ipbanlist.getSaveFile().exists()) {
+        if (PreYggdrasilConverter.field_152728_a.exists() && PreYggdrasilConverter.field_152728_a.isFile()) {
+            if (ipbanlist.func_152691_c().exists()) {
                 try {
-                    ipbanlist.readSavedFile();
+                    ipbanlist.func_152679_g();
                 // CraftBukkit start - FileNotFoundException -> IOException, don't print stacktrace
                 } catch (IOException filenotfoundexception) {
-                    PreYggdrasilConverter.LOGGER.warn("Could not load existing file {}", ipbanlist.getSaveFile().getName());
+                    PreYggdrasilConverter.field_152732_e.warn("Could not load existing file {}", ipbanlist.func_152691_c().getName());
                 }
             }
 
             try {
                 HashMap hashmap = Maps.newHashMap();
 
-                readFile(PreYggdrasilConverter.OLD_IPBAN_FILE, (Map) hashmap);
+                func_152721_a(PreYggdrasilConverter.field_152728_a, (Map) hashmap);
                 Iterator iterator = hashmap.keySet().iterator();
 
                 while (iterator.hasNext()) {
                     String s = (String) iterator.next();
                     String[] astring = (String[]) hashmap.get(s);
-                    Date date = astring.length > 1 ? parseDate(astring[1], (Date) null) : null;
+                    Date date = astring.length > 1 ? func_152713_b(astring[1], (Date) null) : null;
                     String s1 = astring.length > 2 ? astring[2] : null;
-                    Date date1 = astring.length > 3 ? parseDate(astring[3], (Date) null) : null;
+                    Date date1 = astring.length > 3 ? func_152713_b(astring[3], (Date) null) : null;
                     String s2 = astring.length > 4 ? astring[4] : null;
 
-                    ipbanlist.addEntry(new UserListIPBansEntry(s, date, s1, date1, s2));
+                    ipbanlist.func_152687_a(new UserListIPBansEntry(s, date, s1, date1, s2));
                 }
 
-                ipbanlist.writeChanges();
-                backupConverted(PreYggdrasilConverter.OLD_IPBAN_FILE);
+                ipbanlist.func_152678_f();
+                func_152727_c(PreYggdrasilConverter.field_152728_a);
                 return true;
             } catch (IOException ioexception) {
-                PreYggdrasilConverter.LOGGER.warn("Could not parse old ip banlist to convert it!", ioexception);
+                PreYggdrasilConverter.field_152732_e.warn("Could not parse old ip banlist to convert it!", ioexception);
                 return false;
             }
         } else {
@@ -191,44 +191,44 @@ public class PreYggdrasilConverter {
         }
     }
 
-    public static boolean convertOplist(final MinecraftServer minecraftserver) {
-        final UserListOps oplist = new UserListOps(PlayerList.FILE_OPS);
+    public static boolean func_152718_c(final MinecraftServer minecraftserver) {
+        final UserListOps oplist = new UserListOps(PlayerList.field_152615_c);
 
-        if (PreYggdrasilConverter.OLD_OPS_FILE.exists() && PreYggdrasilConverter.OLD_OPS_FILE.isFile()) {
-            if (oplist.getSaveFile().exists()) {
+        if (PreYggdrasilConverter.field_152730_c.exists() && PreYggdrasilConverter.field_152730_c.isFile()) {
+            if (oplist.func_152691_c().exists()) {
                 try {
-                    oplist.readSavedFile();
+                    oplist.func_152679_g();
                 // CraftBukkit start - FileNotFoundException -> IOException, don't print stacktrace
                 } catch (IOException filenotfoundexception) {
-                    PreYggdrasilConverter.LOGGER.warn("Could not load existing file {}", oplist.getSaveFile().getName());
+                    PreYggdrasilConverter.field_152732_e.warn("Could not load existing file {}", oplist.func_152691_c().getName());
                 }
             }
 
             try {
-                List list = Files.readLines(PreYggdrasilConverter.OLD_OPS_FILE, StandardCharsets.UTF_8);
+                List list = Files.readLines(PreYggdrasilConverter.field_152730_c, StandardCharsets.UTF_8);
                 ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
                     public void onProfileLookupSucceeded(GameProfile gameprofile) {
-                        minecraftserver.getPlayerProfileCache().addEntry(gameprofile);
-                        oplist.addEntry(new UserListOpsEntry(gameprofile, minecraftserver.getOpPermissionLevel(), false));
+                        minecraftserver.func_152358_ax().func_152649_a(gameprofile);
+                        oplist.func_152687_a(new UserListOpsEntry(gameprofile, minecraftserver.func_110455_j(), false));
                     }
 
                     public void onProfileLookupFailed(GameProfile gameprofile, Exception exception) {
-                        PreYggdrasilConverter.LOGGER.warn("Could not lookup oplist entry for {}", gameprofile.getName(), exception);
+                        PreYggdrasilConverter.field_152732_e.warn("Could not lookup oplist entry for {}", gameprofile.getName(), exception);
                         if (!(exception instanceof ProfileNotFoundException)) {
                             throw new PreYggdrasilConverter.ConversionError("Could not request user " + gameprofile.getName() + " from backend systems", exception, null);
                         }
                     }
                 };
 
-                lookupNames(minecraftserver, list, profilelookupcallback);
-                oplist.writeChanges();
-                backupConverted(PreYggdrasilConverter.OLD_OPS_FILE);
+                func_152717_a(minecraftserver, list, profilelookupcallback);
+                oplist.func_152678_f();
+                func_152727_c(PreYggdrasilConverter.field_152730_c);
                 return true;
             } catch (IOException ioexception) {
-                PreYggdrasilConverter.LOGGER.warn("Could not read old oplist to convert it!", ioexception);
+                PreYggdrasilConverter.field_152732_e.warn("Could not read old oplist to convert it!", ioexception);
                 return false;
             } catch (PreYggdrasilConverter.ConversionError namereferencingfileconverter_fileconversionexception) {
-                PreYggdrasilConverter.LOGGER.error("Conversion failed, please try again later", namereferencingfileconverter_fileconversionexception);
+                PreYggdrasilConverter.field_152732_e.error("Conversion failed, please try again later", namereferencingfileconverter_fileconversionexception);
                 return false;
             }
         } else {
@@ -236,44 +236,44 @@ public class PreYggdrasilConverter {
         }
     }
 
-    public static boolean convertWhitelist(final MinecraftServer minecraftserver) {
-        final UserListWhitelist whitelist = new UserListWhitelist(PlayerList.FILE_WHITELIST);
+    public static boolean func_152710_d(final MinecraftServer minecraftserver) {
+        final UserListWhitelist whitelist = new UserListWhitelist(PlayerList.field_152616_d);
 
-        if (PreYggdrasilConverter.OLD_WHITELIST_FILE.exists() && PreYggdrasilConverter.OLD_WHITELIST_FILE.isFile()) {
-            if (whitelist.getSaveFile().exists()) {
+        if (PreYggdrasilConverter.field_152731_d.exists() && PreYggdrasilConverter.field_152731_d.isFile()) {
+            if (whitelist.func_152691_c().exists()) {
                 try {
-                    whitelist.readSavedFile();
+                    whitelist.func_152679_g();
                 // CraftBukkit start - FileNotFoundException -> IOException, don't print stacktrace
                 } catch (IOException filenotfoundexception) {
-                    PreYggdrasilConverter.LOGGER.warn("Could not load existing file {}", whitelist.getSaveFile().getName());
+                    PreYggdrasilConverter.field_152732_e.warn("Could not load existing file {}", whitelist.func_152691_c().getName());
                 }
             }
 
             try {
-                List list = Files.readLines(PreYggdrasilConverter.OLD_WHITELIST_FILE, StandardCharsets.UTF_8);
+                List list = Files.readLines(PreYggdrasilConverter.field_152731_d, StandardCharsets.UTF_8);
                 ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
                     public void onProfileLookupSucceeded(GameProfile gameprofile) {
-                        minecraftserver.getPlayerProfileCache().addEntry(gameprofile);
-                        whitelist.addEntry(new UserListWhitelistEntry(gameprofile));
+                        minecraftserver.func_152358_ax().func_152649_a(gameprofile);
+                        whitelist.func_152687_a(new UserListWhitelistEntry(gameprofile));
                     }
 
                     public void onProfileLookupFailed(GameProfile gameprofile, Exception exception) {
-                        PreYggdrasilConverter.LOGGER.warn("Could not lookup user whitelist entry for {}", gameprofile.getName(), exception);
+                        PreYggdrasilConverter.field_152732_e.warn("Could not lookup user whitelist entry for {}", gameprofile.getName(), exception);
                         if (!(exception instanceof ProfileNotFoundException)) {
                             throw new PreYggdrasilConverter.ConversionError("Could not request user " + gameprofile.getName() + " from backend systems", exception, null);
                         }
                     }
                 };
 
-                lookupNames(minecraftserver, list, profilelookupcallback);
-                whitelist.writeChanges();
-                backupConverted(PreYggdrasilConverter.OLD_WHITELIST_FILE);
+                func_152717_a(minecraftserver, list, profilelookupcallback);
+                whitelist.func_152678_f();
+                func_152727_c(PreYggdrasilConverter.field_152731_d);
                 return true;
             } catch (IOException ioexception) {
-                PreYggdrasilConverter.LOGGER.warn("Could not read old whitelist to convert it!", ioexception);
+                PreYggdrasilConverter.field_152732_e.warn("Could not read old whitelist to convert it!", ioexception);
                 return false;
             } catch (PreYggdrasilConverter.ConversionError namereferencingfileconverter_fileconversionexception) {
-                PreYggdrasilConverter.LOGGER.error("Conversion failed, please try again later", namereferencingfileconverter_fileconversionexception);
+                PreYggdrasilConverter.field_152732_e.error("Conversion failed, please try again later", namereferencingfileconverter_fileconversionexception);
                 return false;
             }
         } else {
@@ -281,37 +281,37 @@ public class PreYggdrasilConverter {
         }
     }
 
-    public static String convertMobOwnerIfNeeded(final MinecraftServer minecraftserver, String s) {
-        if (!StringUtils.isNullOrEmpty(s) && s.length() <= 16) {
-            GameProfile gameprofile = minecraftserver.getPlayerProfileCache().getGameProfileForUsername(s);
+    public static String func_187473_a(final MinecraftServer minecraftserver, String s) {
+        if (!StringUtils.func_151246_b(s) && s.length() <= 16) {
+            GameProfile gameprofile = minecraftserver.func_152358_ax().func_152655_a(s);
 
             if (gameprofile != null && gameprofile.getId() != null) {
                 return gameprofile.getId().toString();
-            } else if (!minecraftserver.isSinglePlayer() && minecraftserver.isServerInOnlineMode()) {
+            } else if (!minecraftserver.func_71264_H() && minecraftserver.func_71266_T()) {
                 final ArrayList arraylist = Lists.newArrayList();
                 ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
                     public void onProfileLookupSucceeded(GameProfile gameprofile) {
-                        minecraftserver.getPlayerProfileCache().addEntry(gameprofile);
+                        minecraftserver.func_152358_ax().func_152649_a(gameprofile);
                         arraylist.add(gameprofile);
                     }
 
                     public void onProfileLookupFailed(GameProfile gameprofile, Exception exception) {
-                        PreYggdrasilConverter.LOGGER.warn("Could not lookup user whitelist entry for {}", gameprofile.getName(), exception);
+                        PreYggdrasilConverter.field_152732_e.warn("Could not lookup user whitelist entry for {}", gameprofile.getName(), exception);
                     }
                 };
 
-                lookupNames(minecraftserver, Lists.newArrayList(new String[] { s}), profilelookupcallback);
+                func_152717_a(minecraftserver, Lists.newArrayList(new String[] { s}), profilelookupcallback);
                 return !arraylist.isEmpty() && ((GameProfile) arraylist.get(0)).getId() != null ? ((GameProfile) arraylist.get(0)).getId().toString() : "";
             } else {
-                return EntityPlayer.getUUID(new GameProfile((UUID) null, s)).toString();
+                return EntityPlayer.func_146094_a(new GameProfile((UUID) null, s)).toString();
             }
         } else {
             return s;
         }
     }
 
-    public static boolean convertSaveFiles(final DedicatedServer dedicatedserver, PropertyManager propertymanager) {
-        final File file = getPlayersDirectory(propertymanager);
+    public static boolean func_152723_a(final DedicatedServer dedicatedserver, PropertyManager propertymanager) {
+        final File file = func_152725_d(propertymanager);
         final File file1 = new File(file.getParentFile(), "playerdata");
         final File file2 = new File(file.getParentFile(), "unknownplayers");
 
@@ -338,7 +338,7 @@ public class PreYggdrasilConverter {
                 final String[] astring = (String[]) arraylist.toArray(new String[arraylist.size()]);
                 ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
                     public void onProfileLookupSucceeded(GameProfile gameprofile) {
-                        dedicatedserver.getPlayerProfileCache().addEntry(gameprofile);
+                        dedicatedserver.func_152358_ax().func_152649_a(gameprofile);
                         UUID uuid = gameprofile.getId();
 
                         if (uuid == null) {
@@ -349,7 +349,7 @@ public class PreYggdrasilConverter {
                     }
 
                     public void onProfileLookupFailed(GameProfile gameprofile, Exception exception) {
-                        PreYggdrasilConverter.LOGGER.warn("Could not lookup user uuid for {}", gameprofile.getName(), exception);
+                        PreYggdrasilConverter.field_152732_e.warn("Could not lookup user uuid for {}", gameprofile.getName(), exception);
                         if (exception instanceof ProfileNotFoundException) {
                             String s = this.a(gameprofile);
 
@@ -367,21 +367,21 @@ public class PreYggdrasilConverter {
                         NBTTagCompound root = null;
 
                         try {
-                            root = CompressedStreamTools.readCompressed(new java.io.FileInputStream(file1));
+                            root = CompressedStreamTools.func_74796_a(new java.io.FileInputStream(file1));
                         } catch (Exception exception) {
                             exception.printStackTrace();
                             ServerInternalException.reportInternalException(exception); // Paper
                         }
 
                         if (root != null) {
-                            if (!root.hasKey("bukkit")) {
-                                root.setTag("bukkit", new NBTTagCompound());
+                            if (!root.func_74764_b("bukkit")) {
+                                root.func_74782_a("bukkit", new NBTTagCompound());
                             }
-                            NBTTagCompound data = root.getCompoundTag("bukkit");
-                            data.setString("lastKnownName", s);
+                            NBTTagCompound data = root.func_74775_l("bukkit");
+                            data.func_74778_a("lastKnownName", s);
 
                             try {
-                                CompressedStreamTools.writeCompressed(root, new java.io.FileOutputStream(file2));
+                                CompressedStreamTools.func_74799_a(root, new java.io.FileOutputStream(file2));
                             } catch (Exception exception) {
                                 exception.printStackTrace();
                                 ServerInternalException.reportInternalException(exception); // Paper
@@ -389,7 +389,7 @@ public class PreYggdrasilConverter {
                        }
                         // CraftBukkit end
 
-                        PreYggdrasilConverter.mkdir(file);
+                        PreYggdrasilConverter.func_152711_b(file);
                         if (!file1.renameTo(file3)) {
                             throw new PreYggdrasilConverter.ConversionError("Could not convert file for " + s, null);
                         }
@@ -417,10 +417,10 @@ public class PreYggdrasilConverter {
                     }
                 };
 
-                lookupNames(dedicatedserver, Lists.newArrayList(astring), profilelookupcallback);
+                func_152717_a(dedicatedserver, Lists.newArrayList(astring), profilelookupcallback);
                 return true;
             } catch (PreYggdrasilConverter.ConversionError namereferencingfileconverter_fileconversionexception) {
-                PreYggdrasilConverter.LOGGER.error("Conversion failed, please try again later", namereferencingfileconverter_fileconversionexception);
+                PreYggdrasilConverter.field_152732_e.error("Conversion failed, please try again later", namereferencingfileconverter_fileconversionexception);
                 return false;
             }
         } else {
@@ -428,7 +428,7 @@ public class PreYggdrasilConverter {
         }
     }
 
-    private static void mkdir(File file) {
+    private static void func_152711_b(File file) {
         if (file.exists()) {
             if (!file.isDirectory()) {
                 throw new PreYggdrasilConverter.ConversionError("Can\'t create directory " + file.getName() + " in world save directory.", null);
@@ -438,94 +438,94 @@ public class PreYggdrasilConverter {
         }
     }
 
-    public static boolean tryConvert(PropertyManager propertymanager) {
-        boolean flag = hasUnconvertableFiles(propertymanager);
+    public static boolean func_152714_a(PropertyManager propertymanager) {
+        boolean flag = func_152712_b(propertymanager);
 
-        flag = flag && hasUnconvertablePlayerFiles(propertymanager);
+        flag = flag && func_152715_c(propertymanager);
         return flag;
     }
 
-    private static boolean hasUnconvertableFiles(PropertyManager propertymanager) {
+    private static boolean func_152712_b(PropertyManager propertymanager) {
         boolean flag = false;
 
-        if (PreYggdrasilConverter.OLD_PLAYERBAN_FILE.exists() && PreYggdrasilConverter.OLD_PLAYERBAN_FILE.isFile()) {
+        if (PreYggdrasilConverter.field_152729_b.exists() && PreYggdrasilConverter.field_152729_b.isFile()) {
             flag = true;
         }
 
         boolean flag1 = false;
 
-        if (PreYggdrasilConverter.OLD_IPBAN_FILE.exists() && PreYggdrasilConverter.OLD_IPBAN_FILE.isFile()) {
+        if (PreYggdrasilConverter.field_152728_a.exists() && PreYggdrasilConverter.field_152728_a.isFile()) {
             flag1 = true;
         }
 
         boolean flag2 = false;
 
-        if (PreYggdrasilConverter.OLD_OPS_FILE.exists() && PreYggdrasilConverter.OLD_OPS_FILE.isFile()) {
+        if (PreYggdrasilConverter.field_152730_c.exists() && PreYggdrasilConverter.field_152730_c.isFile()) {
             flag2 = true;
         }
 
         boolean flag3 = false;
 
-        if (PreYggdrasilConverter.OLD_WHITELIST_FILE.exists() && PreYggdrasilConverter.OLD_WHITELIST_FILE.isFile()) {
+        if (PreYggdrasilConverter.field_152731_d.exists() && PreYggdrasilConverter.field_152731_d.isFile()) {
             flag3 = true;
         }
 
         if (!flag && !flag1 && !flag2 && !flag3) {
             return true;
         } else {
-            PreYggdrasilConverter.LOGGER.warn("**** FAILED TO START THE SERVER AFTER ACCOUNT CONVERSION!");
-            PreYggdrasilConverter.LOGGER.warn("** please remove the following files and restart the server:");
+            PreYggdrasilConverter.field_152732_e.warn("**** FAILED TO START THE SERVER AFTER ACCOUNT CONVERSION!");
+            PreYggdrasilConverter.field_152732_e.warn("** please remove the following files and restart the server:");
             if (flag) {
-                PreYggdrasilConverter.LOGGER.warn("* {}", PreYggdrasilConverter.OLD_PLAYERBAN_FILE.getName());
+                PreYggdrasilConverter.field_152732_e.warn("* {}", PreYggdrasilConverter.field_152729_b.getName());
             }
 
             if (flag1) {
-                PreYggdrasilConverter.LOGGER.warn("* {}", PreYggdrasilConverter.OLD_IPBAN_FILE.getName());
+                PreYggdrasilConverter.field_152732_e.warn("* {}", PreYggdrasilConverter.field_152728_a.getName());
             }
 
             if (flag2) {
-                PreYggdrasilConverter.LOGGER.warn("* {}", PreYggdrasilConverter.OLD_OPS_FILE.getName());
+                PreYggdrasilConverter.field_152732_e.warn("* {}", PreYggdrasilConverter.field_152730_c.getName());
             }
 
             if (flag3) {
-                PreYggdrasilConverter.LOGGER.warn("* {}", PreYggdrasilConverter.OLD_WHITELIST_FILE.getName());
+                PreYggdrasilConverter.field_152732_e.warn("* {}", PreYggdrasilConverter.field_152731_d.getName());
             }
 
             return false;
         }
     }
 
-    private static boolean hasUnconvertablePlayerFiles(PropertyManager propertymanager) {
-        File file = getPlayersDirectory(propertymanager);
+    private static boolean func_152715_c(PropertyManager propertymanager) {
+        File file = func_152725_d(propertymanager);
 
         if (file.exists() && file.isDirectory() && (file.list().length > 0 || !file.delete())) {
-            PreYggdrasilConverter.LOGGER.warn("**** DETECTED OLD PLAYER DIRECTORY IN THE WORLD SAVE");
-            PreYggdrasilConverter.LOGGER.warn("**** THIS USUALLY HAPPENS WHEN THE AUTOMATIC CONVERSION FAILED IN SOME WAY");
-            PreYggdrasilConverter.LOGGER.warn("** please restart the server and if the problem persists, remove the directory \'{}\'", file.getPath());
+            PreYggdrasilConverter.field_152732_e.warn("**** DETECTED OLD PLAYER DIRECTORY IN THE WORLD SAVE");
+            PreYggdrasilConverter.field_152732_e.warn("**** THIS USUALLY HAPPENS WHEN THE AUTOMATIC CONVERSION FAILED IN SOME WAY");
+            PreYggdrasilConverter.field_152732_e.warn("** please restart the server and if the problem persists, remove the directory \'{}\'", file.getPath());
             return false;
         } else {
             return true;
         }
     }
 
-    private static File getPlayersDirectory(PropertyManager propertymanager) {
-        String s = propertymanager.getStringProperty("level-name", "world");
+    private static File func_152725_d(PropertyManager propertymanager) {
+        String s = propertymanager.func_73671_a("level-name", "world");
         File file = new File(MinecraftServer.getServer().server.getWorldContainer(), s); // CraftBukkit - Respect container setting
 
         return new File(file, "players");
     }
 
-    private static void backupConverted(File file) {
+    private static void func_152727_c(File file) {
         File file1 = new File(file.getName() + ".converted");
 
         file.renameTo(file1);
     }
 
-    private static Date parseDate(String s, Date date) {
+    private static Date func_152713_b(String s, Date date) {
         Date date1;
 
         try {
-            date1 = UserListEntryBan.DATE_FORMAT.parse(s);
+            date1 = UserListEntryBan.field_73698_a.parse(s);
         } catch (ParseException parseexception) {
             date1 = date;
         }

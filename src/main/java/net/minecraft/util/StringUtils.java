@@ -6,9 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 
 public class StringUtils {
 
-    private static final Pattern PATTERN_CONTROL_CODE = Pattern.compile("(?i)\\u00A7[0-9A-FK-OR]");
+    private static final Pattern field_76339_a = Pattern.compile("(?i)\\u00A7[0-9A-FK-OR]");
 
-    public static boolean isNullOrEmpty(@Nullable String s) {
+    public static boolean func_151246_b(@Nullable String s) {
         return StringUtils.isEmpty(s);
     }
 }

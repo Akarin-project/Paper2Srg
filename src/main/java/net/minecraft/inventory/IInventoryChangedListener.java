@@ -2,5 +2,5 @@ package net.minecraft.inventory;
 
 public interface IInventoryChangedListener {
 
-    void onInventoryChanged(IInventory iinventory);
+    void func_76316_a(IInventory iinventory);
 }

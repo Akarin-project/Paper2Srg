@@ -8,7 +8,6 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
-import static org.objectweb.asm.Opcodes.*;
 
 public class ASMEventExecutorGenerator {
     public static byte[] generateEventExecutor(Method m, String name) {

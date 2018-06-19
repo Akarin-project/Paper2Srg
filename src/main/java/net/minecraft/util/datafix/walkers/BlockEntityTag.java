@@ -14,27 +14,27 @@ import net.minecraft.util.datafix.IDataWalker;
 
 public class BlockEntityTag implements IDataWalker {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static final Map<String, String> NEW_TO_OLD_ID_MAP = Maps.newHashMap();
-    private static final Map<String, String> ITEM_ID_TO_BLOCK_ENTITY_ID = Maps.newHashMap();
+    private static final Logger field_188268_a = LogManager.getLogger();
+    private static final Map<String, String> field_190892_b = Maps.newHashMap();
+    private static final Map<String, String> field_188269_b = Maps.newHashMap();
 
     public BlockEntityTag() {}
 
     @Nullable
-    private static String getBlockEntityID(int i, String s) {
-        return i < 515 ? (String) BlockEntityTag.NEW_TO_OLD_ID_MAP.get((new ResourceLocation(s)).toString()) : (String) BlockEntityTag.ITEM_ID_TO_BLOCK_ENTITY_ID.get((new ResourceLocation(s)).toString());
+    private static String func_188267_a(int i, String s) {
+        return i < 515 ? (String) BlockEntityTag.field_190892_b.get((new ResourceLocation(s)).toString()) : (String) BlockEntityTag.field_188269_b.get((new ResourceLocation(s)).toString());
     }
 
-    public NBTTagCompound process(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
-        if (!nbttagcompound.hasKey("tag", 10)) {
+    public NBTTagCompound func_188266_a(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
+        if (!nbttagcompound.func_150297_b("tag", 10)) {
             return nbttagcompound;
         } else {
-            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("tag");
+            NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("tag");
 
-            if (nbttagcompound1.hasKey("BlockEntityTag", 10)) {
-                NBTTagCompound nbttagcompound2 = nbttagcompound1.getCompoundTag("BlockEntityTag");
-                String s = nbttagcompound.getString("id");
-                String s1 = getBlockEntityID(i, s);
+            if (nbttagcompound1.func_150297_b("BlockEntityTag", 10)) {
+                NBTTagCompound nbttagcompound2 = nbttagcompound1.func_74775_l("BlockEntityTag");
+                String s = nbttagcompound.func_74779_i("id");
+                String s1 = func_188267_a(i, s);
                 boolean flag;
 
                 if (s1 == null) {
@@ -42,13 +42,13 @@ public class BlockEntityTag implements IDataWalker {
                     // DataInspectorBlockEntity.a.warn("Unable to resolve BlockEntity for ItemInstance: {}", s);
                     flag = false;
                 } else {
-                    flag = !nbttagcompound2.hasKey("id");
-                    nbttagcompound2.setString("id", s1);
+                    flag = !nbttagcompound2.func_74764_b("id");
+                    nbttagcompound2.func_74778_a("id", s1);
                 }
 
-                dataconverter.process(FixTypes.BLOCK_ENTITY, nbttagcompound2, i);
+                dataconverter.func_188251_a(FixTypes.BLOCK_ENTITY, nbttagcompound2, i);
                 if (flag) {
-                    nbttagcompound2.removeTag("id");
+                    nbttagcompound2.func_82580_o("id");
                 }
             }
 
@@ -57,7 +57,7 @@ public class BlockEntityTag implements IDataWalker {
     }
 
     static {
-        Map map = BlockEntityTag.NEW_TO_OLD_ID_MAP;
+        Map map = BlockEntityTag.field_190892_b;
 
         map.put("minecraft:furnace", "Furnace");
         map.put("minecraft:lit_furnace", "Furnace");
@@ -93,7 +93,7 @@ public class BlockEntityTag implements IDataWalker {
         map.put("minecraft:end_portal", "Airportal");
         map.put("minecraft:end_gateway", "EndGateway");
         map.put("minecraft:shield", "Shield");
-        map = BlockEntityTag.ITEM_ID_TO_BLOCK_ENTITY_ID;
+        map = BlockEntityTag.field_188269_b;
         map.put("minecraft:furnace", "minecraft:furnace");
         map.put("minecraft:lit_furnace", "minecraft:furnace");
         map.put("minecraft:chest", "minecraft:chest");

@@ -11,64 +11,64 @@ import net.minecraft.world.WorldType;
 
 public class SPacketJoinGame implements Packet<INetHandlerPlayClient> {
 
-    private int playerId;
-    private boolean hardcoreMode;
-    private GameType gameType;
-    private int dimension;
-    private EnumDifficulty difficulty;
-    private int maxPlayers;
-    private WorldType worldType;
-    private boolean reducedDebugInfo;
+    private int field_149206_a;
+    private boolean field_149204_b;
+    private GameType field_149205_c;
+    private int field_149202_d;
+    private EnumDifficulty field_149203_e;
+    private int field_149200_f;
+    private WorldType field_149201_g;
+    private boolean field_179745_h;
 
     public SPacketJoinGame() {}
 
     public SPacketJoinGame(int i, GameType enumgamemode, boolean flag, int j, EnumDifficulty enumdifficulty, int k, WorldType worldtype, boolean flag1) {
-        this.playerId = i;
-        this.dimension = j;
-        this.difficulty = enumdifficulty;
-        this.gameType = enumgamemode;
-        this.maxPlayers = k;
-        this.hardcoreMode = flag;
-        this.worldType = worldtype;
-        this.reducedDebugInfo = flag1;
+        this.field_149206_a = i;
+        this.field_149202_d = j;
+        this.field_149203_e = enumdifficulty;
+        this.field_149205_c = enumgamemode;
+        this.field_149200_f = k;
+        this.field_149204_b = flag;
+        this.field_149201_g = worldtype;
+        this.field_179745_h = flag1;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.playerId = packetdataserializer.readInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149206_a = packetdataserializer.readInt();
         short short0 = packetdataserializer.readUnsignedByte();
 
-        this.hardcoreMode = (short0 & 8) == 8;
+        this.field_149204_b = (short0 & 8) == 8;
         int i = short0 & -9;
 
-        this.gameType = GameType.getByID(i);
-        this.dimension = packetdataserializer.readInt();
-        this.difficulty = EnumDifficulty.getDifficultyEnum(packetdataserializer.readUnsignedByte());
-        this.maxPlayers = packetdataserializer.readUnsignedByte();
-        this.worldType = WorldType.parseWorldType(packetdataserializer.readString(16));
-        if (this.worldType == null) {
-            this.worldType = WorldType.DEFAULT;
+        this.field_149205_c = GameType.func_77146_a(i);
+        this.field_149202_d = packetdataserializer.readInt();
+        this.field_149203_e = EnumDifficulty.func_151523_a(packetdataserializer.readUnsignedByte());
+        this.field_149200_f = packetdataserializer.readUnsignedByte();
+        this.field_149201_g = WorldType.func_77130_a(packetdataserializer.func_150789_c(16));
+        if (this.field_149201_g == null) {
+            this.field_149201_g = WorldType.field_77137_b;
         }
 
-        this.reducedDebugInfo = packetdataserializer.readBoolean();
+        this.field_179745_h = packetdataserializer.readBoolean();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeInt(this.playerId);
-        int i = this.gameType.getID();
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeInt(this.field_149206_a);
+        int i = this.field_149205_c.func_77148_a();
 
-        if (this.hardcoreMode) {
+        if (this.field_149204_b) {
             i |= 8;
         }
 
         packetdataserializer.writeByte(i);
-        packetdataserializer.writeInt(this.dimension);
-        packetdataserializer.writeByte(this.difficulty.getDifficultyId());
-        packetdataserializer.writeByte(this.maxPlayers);
-        packetdataserializer.writeString(this.worldType.getName());
-        packetdataserializer.writeBoolean(this.reducedDebugInfo);
+        packetdataserializer.writeInt(this.field_149202_d);
+        packetdataserializer.writeByte(this.field_149203_e.func_151525_a());
+        packetdataserializer.writeByte(this.field_149200_f);
+        packetdataserializer.func_180714_a(this.field_149201_g.func_77127_a());
+        packetdataserializer.writeBoolean(this.field_179745_h);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleJoinGame(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147282_a(this);
     }
 }

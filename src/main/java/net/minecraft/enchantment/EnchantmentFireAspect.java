@@ -6,18 +6,18 @@ public class EnchantmentFireAspect extends Enchantment {
 
     protected EnchantmentFireAspect(Enchantment.Rarity enchantment_rarity, EntityEquipmentSlot... aenumitemslot) {
         super(enchantment_rarity, EnumEnchantmentType.WEAPON, aenumitemslot);
-        this.setName("fire");
+        this.func_77322_b("fire");
     }
 
-    public int getMinEnchantability(int i) {
+    public int func_77321_a(int i) {
         return 10 + 20 * (i - 1);
     }
 
-    public int getMaxEnchantability(int i) {
-        return super.getMinEnchantability(i) + 50;
+    public int func_77317_b(int i) {
+        return super.func_77321_a(i) + 50;
     }
 
-    public int getMaxLevel() {
+    public int func_77325_b() {
         return 2;
     }
 }

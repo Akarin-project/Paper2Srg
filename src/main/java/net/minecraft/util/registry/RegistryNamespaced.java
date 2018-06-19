@@ -11,46 +11,46 @@ import net.minecraft.util.IntIdentityHashBiMap;
 
 public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IObjectIntIterable<V> {
 
-    protected final IntIdentityHashBiMap<V> underlyingIntegerMap = new IntIdentityHashBiMap(256);
-    protected final Map<V, K> inverseObjectRegistry;
+    protected final IntIdentityHashBiMap<V> field_148759_a = new IntIdentityHashBiMap(256);
+    protected final Map<V, K> field_148758_b;
 
     public RegistryNamespaced() {
-        this.inverseObjectRegistry = ((BiMap) this.registryObjects).inverse();
+        this.field_148758_b = ((BiMap) this.field_82596_a).inverse();
     }
 
-    public void register(int i, K k0, V v0) {
-        this.underlyingIntegerMap.put(v0, i);
-        this.putObject(k0, v0);
+    public void func_177775_a(int i, K k0, V v0) {
+        this.field_148759_a.func_186814_a(v0, i);
+        this.func_82595_a(k0, v0);
     }
 
-    protected Map<K, V> createUnderlyingMap() {
+    protected Map<K, V> func_148740_a() {
         return HashBiMap.create();
     }
 
     @Nullable
-    public V getObject(@Nullable K k0) {
-        return super.getObject(k0);
+    public V func_82594_a(@Nullable K k0) {
+        return super.func_82594_a(k0);
     }
 
     @Nullable
-    public K getNameForObject(V v0) {
-        return this.inverseObjectRegistry.get(v0);
+    public K func_177774_c(V v0) {
+        return this.field_148758_b.get(v0);
     }
 
-    public boolean containsKey(K k0) {
-        return super.containsKey(k0);
+    public boolean func_148741_d(K k0) {
+        return super.func_148741_d(k0);
     }
 
-    public int getIDForObject(@Nullable V v0) {
-        return this.underlyingIntegerMap.getId(v0);
+    public int func_148757_b(@Nullable V v0) {
+        return this.field_148759_a.func_186815_a(v0);
     }
 
     @Nullable
-    public V getObjectById(int i) {
-        return this.underlyingIntegerMap.get(i);
+    public V func_148754_a(int i) {
+        return this.field_148759_a.func_186813_a(i);
     }
 
     public Iterator<V> iterator() {
-        return this.underlyingIntegerMap.iterator();
+        return this.field_148759_a.iterator();
     }
 }

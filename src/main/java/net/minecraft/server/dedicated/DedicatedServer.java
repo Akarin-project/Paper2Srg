@@ -67,17 +67,17 @@ import org.bukkit.event.server.RemoteServerCommandEvent;
 
 public class DedicatedServer extends MinecraftServer implements IServer {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static final Pattern RESOURCE_PACK_SHA1_PATTERN = Pattern.compile("^[a-fA-F0-9]{40}$");
-    private final List<PendingCommand> pendingCommandList = Collections.synchronizedList(Lists.<PendingCommand>newArrayList()); // CraftBukkit - fix decompile error
-    private RConThreadQuery rconQueryThread;
-    public final RConConsoleSource rconConsoleSource = new RConConsoleSource(this);
-    private RConThreadMain rconThread;
-    public PropertyManager settings;
-    private ServerEula eula;
-    private boolean canSpawnStructures;
-    private GameType gameType;
-    private boolean guiIsEnabled;
+    private static final Logger field_155771_h = LogManager.getLogger();
+    private static final Pattern field_189647_l = Pattern.compile("^[a-fA-F0-9]{40}$");
+    private final List<PendingCommand> field_71341_l = Collections.synchronizedList(Lists.<PendingCommand>newArrayList()); // CraftBukkit - fix decompile error
+    private RConThreadQuery field_71342_m;
+    public final RConConsoleSource field_184115_n = new RConConsoleSource(this);
+    private RConThreadMain field_71339_n;
+    public PropertyManager field_71340_o;
+    private ServerEula field_154332_n;
+    private boolean field_71338_p;
+    private GameType field_71337_q;
+    private boolean field_71335_s;
 
     // CraftBukkit start - Signature changed
     public DedicatedServer(joptsimple.OptionSet options, DataFixer dataconvertermanager, YggdrasilAuthenticationService yggdrasilauthenticationservice, MinecraftSessionService minecraftsessionservice, GameProfileRepository gameprofilerepository, PlayerProfileCache usercache) {
@@ -101,7 +101,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         };
     }
 
-    public boolean init() throws IOException { // CraftBukkit - decompile error
+    public boolean func_71197_b() throws IOException { // CraftBukkit - decompile error
         Thread thread = new Thread("Server console handler") {
             public void run() {
                 // CraftBukkit start
@@ -118,7 +118,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
 
                 try {
                     // CraftBukkit start - JLine disabling compatibility
-                    while (!isServerStopped() && isServerRunning()) {
+                    while (!func_71241_aa() && func_71278_l()) {
                         // Paper start - code is not used for jline
                         /*
                         if (org.bukkit.craftbukkit.Main.useJline) {
@@ -131,12 +131,12 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                         // Paper end
 
                         if (s != null && s.trim().length() > 0) { // Trim to filter lines which are just spaces
-                            addPendingCommand(s, DedicatedServer.this);
+                            func_71331_a(s, DedicatedServer.this);
                         }
                         // CraftBukkit end
                     }
                 } catch (IOException ioexception) {
-                    DedicatedServer.LOGGER.error("Exception handling console input", ioexception);
+                    DedicatedServer.field_155771_h.error("Exception handling console input", ioexception);
                 }
 
             }
@@ -172,14 +172,14 @@ public class DedicatedServer extends MinecraftServer implements IServer {
 
         thread.setDaemon(true);
         thread.start();
-        DedicatedServer.LOGGER.info("Starting minecraft server version 1.12.2");
+        DedicatedServer.field_155771_h.info("Starting minecraft server version 1.12.2");
         if (Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L) {
-            DedicatedServer.LOGGER.warn("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
+            DedicatedServer.field_155771_h.warn("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
         }
 
-        DedicatedServer.LOGGER.info("Loading properties");
-        this.settings = new PropertyManager(this.options); // CraftBukkit - CLI argument support
-        this.eula = new ServerEula(new File("eula.txt"));
+        DedicatedServer.field_155771_h.info("Loading properties");
+        this.field_71340_o = new PropertyManager(this.options); // CraftBukkit - CLI argument support
+        this.field_154332_n = new ServerEula(new File("eula.txt"));
         // Spigot Start
         boolean eulaAgreed = Boolean.getBoolean( "com.mojang.eula.agree" );
         if ( eulaAgreed )
@@ -189,49 +189,49 @@ public class DedicatedServer extends MinecraftServer implements IServer {
             System.err.println( "If you do not agree to the above EULA please stop your server and remove this flag immediately." );
         }
         // Spigot End
-        if (!this.eula.hasAcceptedEULA() && !eulaAgreed) { // Spigot
-            DedicatedServer.LOGGER.info("You need to agree to the EULA in order to run the server. Go to eula.txt for more info.");
-            this.eula.createEULAFile();
+        if (!this.field_154332_n.func_154346_a() && !eulaAgreed) { // Spigot
+            DedicatedServer.field_155771_h.info("You need to agree to the EULA in order to run the server. Go to eula.txt for more info.");
+            this.field_154332_n.func_154348_b();
             return false;
         } else {
-            if (this.isSinglePlayer()) {
-                this.setHostname("127.0.0.1");
+            if (this.func_71264_H()) {
+                this.func_71189_e("127.0.0.1");
             } else {
-                this.setOnlineMode(this.settings.getBooleanProperty("online-mode", true));
-                this.setPreventProxyConnections(this.settings.getBooleanProperty("prevent-proxy-connections", false));
-                this.setHostname(this.settings.getStringProperty("server-ip", ""));
+                this.func_71229_d(this.field_71340_o.func_73670_a("online-mode", true));
+                this.func_190517_e(this.field_71340_o.func_73670_a("prevent-proxy-connections", false));
+                this.func_71189_e(this.field_71340_o.func_73671_a("server-ip", ""));
             }
 
-            this.setCanSpawnAnimals(this.settings.getBooleanProperty("spawn-animals", true));
-            this.setCanSpawnNPCs(this.settings.getBooleanProperty("spawn-npcs", true));
-            this.setAllowPvp(this.settings.getBooleanProperty("pvp", true));
-            this.setAllowFlight(this.settings.getBooleanProperty("allow-flight", false));
-            this.setResourcePack(this.settings.getStringProperty("resource-pack", ""), this.loadResourcePackSHA());
-            this.setMOTD(this.settings.getStringProperty("motd", "A Minecraft Server"));
-            this.setForceGamemode(this.settings.getBooleanProperty("force-gamemode", false));
-            this.setPlayerIdleTimeout(this.settings.getIntProperty("player-idle-timeout", 0));
-            if (this.settings.getIntProperty("difficulty", 1) < 0) {
-                this.settings.setProperty("difficulty", Integer.valueOf(0));
-            } else if (this.settings.getIntProperty("difficulty", 1) > 3) {
-                this.settings.setProperty("difficulty", Integer.valueOf(3));
+            this.func_71251_e(this.field_71340_o.func_73670_a("spawn-animals", true));
+            this.func_71257_f(this.field_71340_o.func_73670_a("spawn-npcs", true));
+            this.func_71188_g(this.field_71340_o.func_73670_a("pvp", true));
+            this.func_71245_h(this.field_71340_o.func_73670_a("allow-flight", false));
+            this.func_180507_a_(this.field_71340_o.func_73671_a("resource-pack", ""), this.func_184113_aK());
+            this.func_71205_p(this.field_71340_o.func_73671_a("motd", "A Minecraft Server"));
+            this.func_104055_i(this.field_71340_o.func_73670_a("force-gamemode", false));
+            this.func_143006_e(this.field_71340_o.func_73669_a("player-idle-timeout", 0));
+            if (this.field_71340_o.func_73669_a("difficulty", 1) < 0) {
+                this.field_71340_o.func_73667_a("difficulty", Integer.valueOf(0));
+            } else if (this.field_71340_o.func_73669_a("difficulty", 1) > 3) {
+                this.field_71340_o.func_73667_a("difficulty", Integer.valueOf(3));
             }
 
-            this.canSpawnStructures = this.settings.getBooleanProperty("generate-structures", true);
-            int i = this.settings.getIntProperty("gamemode", GameType.SURVIVAL.getID());
+            this.field_71338_p = this.field_71340_o.func_73670_a("generate-structures", true);
+            int i = this.field_71340_o.func_73669_a("gamemode", GameType.SURVIVAL.func_77148_a());
 
-            this.gameType = WorldSettings.getGameTypeById(i);
-            DedicatedServer.LOGGER.info("Default game type: {}", this.gameType);
+            this.field_71337_q = WorldSettings.func_77161_a(i);
+            DedicatedServer.field_155771_h.info("Default game type: {}", this.field_71337_q);
             InetAddress inetaddress = null;
 
-            if (!this.getServerHostname().isEmpty()) {
-                inetaddress = InetAddress.getByName(this.getServerHostname());
+            if (!this.func_71211_k().isEmpty()) {
+                inetaddress = InetAddress.getByName(this.func_71211_k());
             }
 
-            if (this.getServerPort() < 0) {
-                this.setServerPort(this.settings.getIntProperty("server-port", 25565));
+            if (this.func_71215_F() < 0) {
+                this.func_71208_b(this.field_71340_o.func_73669_a("server-port", 25565));
             }
             // Spigot start
-            this.setPlayerList((PlayerList) (new DedicatedPlayerList(this)));
+            this.func_184105_a((PlayerList) (new DedicatedPlayerList(this)));
             org.spigotmc.SpigotConfig.init((File) options.valueOf("spigot-settings"));
             org.spigotmc.SpigotConfig.registerCommands();
             // Spigot end
@@ -241,17 +241,17 @@ public class DedicatedServer extends MinecraftServer implements IServer {
             com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
             // Paper end
 
-            DedicatedServer.LOGGER.info("Generating keypair");
-            this.setKeyPair(CryptManager.generateKeyPair());
-            DedicatedServer.LOGGER.info("Starting Minecraft server on {}:{}", this.getServerHostname().isEmpty() ? "*" : this.getServerHostname(), Integer.valueOf(this.getServerPort()));
+            DedicatedServer.field_155771_h.info("Generating keypair");
+            this.func_71253_a(CryptManager.func_75891_b());
+            DedicatedServer.field_155771_h.info("Starting Minecraft server on {}:{}", this.func_71211_k().isEmpty() ? "*" : this.func_71211_k(), Integer.valueOf(this.func_71215_F()));
 
         if (!org.spigotmc.SpigotConfig.lateBind) {
             try {
-                this.getNetworkSystem().addLanEndpoint(inetaddress, this.getServerPort());
+                this.func_147137_ag().func_151265_a(inetaddress, this.func_71215_F());
             } catch (IOException ioexception) {
-                DedicatedServer.LOGGER.warn("**** FAILED TO BIND TO PORT!");
-                DedicatedServer.LOGGER.warn("The exception was: {}", ioexception.toString());
-                DedicatedServer.LOGGER.warn("Perhaps a server is already running on that port?");
+                DedicatedServer.field_155771_h.warn("**** FAILED TO BIND TO PORT!");
+                DedicatedServer.field_155771_h.warn("The exception was: {}", ioexception.toString());
+                DedicatedServer.field_155771_h.warn("Perhaps a server is already running on that port?");
                 return false;
             }
         }
@@ -262,37 +262,37 @@ public class DedicatedServer extends MinecraftServer implements IServer {
             server.enablePlugins(org.bukkit.plugin.PluginLoadOrder.STARTUP);
             // CraftBukkit end
 
-            if (!this.isServerInOnlineMode()) {
-                DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
-                DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
+            if (!this.func_71266_T()) {
+                DedicatedServer.field_155771_h.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
+                DedicatedServer.field_155771_h.warn("The server will make no attempt to authenticate usernames. Beware.");
                 // Spigot start
                 if (org.spigotmc.SpigotConfig.bungee) {
-                    DedicatedServer.LOGGER.warn("Whilst this makes it possible to use BungeeCord, unless access to your server is properly restricted, it also opens up the ability for hackers to connect with any username they choose.");
-                    DedicatedServer.LOGGER.warn("Please see http://www.spigotmc.org/wiki/firewall-guide/ for further information.");
+                    DedicatedServer.field_155771_h.warn("Whilst this makes it possible to use BungeeCord, unless access to your server is properly restricted, it also opens up the ability for hackers to connect with any username they choose.");
+                    DedicatedServer.field_155771_h.warn("Please see http://www.spigotmc.org/wiki/firewall-guide/ for further information.");
                 } else {
-                    DedicatedServer.LOGGER.warn("While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.");
+                    DedicatedServer.field_155771_h.warn("While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.");
                 }
                 // Spigot end
-                DedicatedServer.LOGGER.warn("To change this, set \"online-mode\" to \"true\" in the server.properties file.");
+                DedicatedServer.field_155771_h.warn("To change this, set \"online-mode\" to \"true\" in the server.properties file.");
             }
 
-            if (this.convertFiles()) {
-                this.getPlayerProfileCache().save();
+            if (this.func_152368_aE()) {
+                this.func_152358_ax().func_152658_c();
             }
 
-            if (!PreYggdrasilConverter.tryConvert(this.settings)) {
+            if (!PreYggdrasilConverter.func_152714_a(this.field_71340_o)) {
                 return false;
             } else {
-                this.anvilConverterForAnvilFile = new AnvilSaveConverter(server.getWorldContainer(), this.dataFixer); // CraftBukkit - moved from MinecraftServer constructor
+                this.field_71310_m = new AnvilSaveConverter(server.getWorldContainer(), this.field_184112_s); // CraftBukkit - moved from MinecraftServer constructor
                 long j = System.nanoTime();
 
-                if (this.getFolderName() == null) {
-                    this.setFolderName(this.settings.getStringProperty("level-name", "world"));
+                if (this.func_71270_I() == null) {
+                    this.func_71261_m(this.field_71340_o.func_73671_a("level-name", "world"));
                 }
 
-                String s = this.settings.getStringProperty("level-seed", "");
-                String s1 = this.settings.getStringProperty("level-type", "DEFAULT");
-                String s2 = this.settings.getStringProperty("generator-settings", "");
+                String s = this.field_71340_o.func_73671_a("level-seed", "");
+                String s1 = this.field_71340_o.func_73671_a("level-type", "DEFAULT");
+                String s2 = this.field_71340_o.func_73671_a("generator-settings", "");
                 long k = (new Random()).nextLong();
 
                 if (!s.isEmpty()) {
@@ -307,70 +307,70 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                     }
                 }
 
-                WorldType worldtype = WorldType.parseWorldType(s1);
+                WorldType worldtype = WorldType.func_77130_a(s1);
 
                 if (worldtype == null) {
-                    worldtype = WorldType.DEFAULT;
+                    worldtype = WorldType.field_77137_b;
                 }
 
-                this.isCommandBlockEnabled();
-                this.getOpPermissionLevel();
-                this.isSnooperEnabled();
-                this.getNetworkCompressionThreshold();
-                this.setBuildLimit(this.settings.getIntProperty("max-build-height", 256));
-                this.setBuildLimit((this.getBuildLimit() + 8) / 16 * 16);
-                this.setBuildLimit(MathHelper.clamp(this.getBuildLimit(), 64, 256));
-                this.settings.setProperty("max-build-height", Integer.valueOf(this.getBuildLimit()));
-                TileEntitySkull.setProfileCache(this.getPlayerProfileCache());
-                TileEntitySkull.setSessionService(this.getMinecraftSessionService());
-                PlayerProfileCache.setOnlineMode(this.isServerInOnlineMode());
-                DedicatedServer.LOGGER.info("Preparing level \"{}\"", this.getFolderName());
-                this.loadAllWorlds(this.getFolderName(), this.getFolderName(), k, worldtype, s2);
+                this.func_82356_Z();
+                this.func_110455_j();
+                this.func_70002_Q();
+                this.func_175577_aI();
+                this.func_71191_d(this.field_71340_o.func_73669_a("max-build-height", 256));
+                this.func_71191_d((this.func_71207_Z() + 8) / 16 * 16);
+                this.func_71191_d(MathHelper.func_76125_a(this.func_71207_Z(), 64, 256));
+                this.field_71340_o.func_73667_a("max-build-height", Integer.valueOf(this.func_71207_Z()));
+                TileEntitySkull.func_184293_a(this.func_152358_ax());
+                TileEntitySkull.func_184294_a(this.func_147130_as());
+                PlayerProfileCache.func_187320_a(this.func_71266_T());
+                DedicatedServer.field_155771_h.info("Preparing level \"{}\"", this.func_71270_I());
+                this.func_71247_a(this.func_71270_I(), this.func_71270_I(), k, worldtype, s2);
                 long i1 = System.nanoTime() - j;
                 String s3 = String.format("%.3fs", new Object[] { Double.valueOf((double) i1 / 1.0E9D)});
 
-                DedicatedServer.LOGGER.info("Done ({})! For help, type \"help\" or \"?\"", s3);
-                if (this.settings.hasProperty("announce-player-achievements")) {
-                    this.worlds.get(0).getGameRules().setOrCreateGameRule("announceAdvancements", this.settings.getBooleanProperty("announce-player-achievements", true) ? "true" : "false"); // CraftBukkit
-                    this.settings.removeProperty("announce-player-achievements");
-                    this.settings.saveProperties();
+                DedicatedServer.field_155771_h.info("Done ({})! For help, type \"help\" or \"?\"", s3);
+                if (this.field_71340_o.func_187239_a("announce-player-achievements")) {
+                    this.worlds.get(0).func_82736_K().func_82764_b("announceAdvancements", this.field_71340_o.func_73670_a("announce-player-achievements", true) ? "true" : "false"); // CraftBukkit
+                    this.field_71340_o.func_187238_b("announce-player-achievements");
+                    this.field_71340_o.func_73668_b();
                 }
 
-                if (this.settings.getBooleanProperty("enable-query", false)) {
-                    DedicatedServer.LOGGER.info("Starting GS4 status listener");
-                    this.rconQueryThread = new RConThreadQuery(this);
-                    this.rconQueryThread.startThread();
+                if (this.field_71340_o.func_73670_a("enable-query", false)) {
+                    DedicatedServer.field_155771_h.info("Starting GS4 status listener");
+                    this.field_71342_m = new RConThreadQuery(this);
+                    this.field_71342_m.func_72602_a();
                 }
 
-                if (this.settings.getBooleanProperty("enable-rcon", false)) {
-                    DedicatedServer.LOGGER.info("Starting remote control listener");
-                    this.rconThread = new RConThreadMain(this);
-                    this.rconThread.startThread();
-                    this.remoteConsole = new org.bukkit.craftbukkit.command.CraftRemoteConsoleCommandSender(this.rconConsoleSource); // CraftBukkit
+                if (this.field_71340_o.func_73670_a("enable-rcon", false)) {
+                    DedicatedServer.field_155771_h.info("Starting remote control listener");
+                    this.field_71339_n = new RConThreadMain(this);
+                    this.field_71339_n.func_72602_a();
+                    this.remoteConsole = new org.bukkit.craftbukkit.command.CraftRemoteConsoleCommandSender(this.field_184115_n); // CraftBukkit
                 }
 
                 // CraftBukkit start
                 if (this.server.getBukkitSpawnRadius() > -1) {
-                    DedicatedServer.LOGGER.info("'settings.spawn-radius' in bukkit.yml has been moved to 'spawn-protection' in server.properties. I will move your config for you.");
-                    this.settings.serverProperties.remove("spawn-protection");
-                    this.settings.getIntProperty("spawn-protection", this.server.getBukkitSpawnRadius());
+                    DedicatedServer.field_155771_h.info("'settings.spawn-radius' in bukkit.yml has been moved to 'spawn-protection' in server.properties. I will move your config for you.");
+                    this.field_71340_o.field_73672_b.remove("spawn-protection");
+                    this.field_71340_o.func_73669_a("spawn-protection", this.server.getBukkitSpawnRadius());
                     this.server.removeBukkitSpawnRadius();
-                    this.settings.saveProperties();
+                    this.field_71340_o.func_73668_b();
                 }
                 // CraftBukkit end
 
         if (org.spigotmc.SpigotConfig.lateBind) {
             try {
-                this.getNetworkSystem().addLanEndpoint(inetaddress, this.getServerPort());
+                this.func_147137_ag().func_151265_a(inetaddress, this.func_71215_F());
             } catch (IOException ioexception) {
-                DedicatedServer.LOGGER.warn("**** FAILED TO BIND TO PORT!");
-                DedicatedServer.LOGGER.warn("The exception was: {}", new Object[] { ioexception.toString()});
-                DedicatedServer.LOGGER.warn("Perhaps a server is already running on that port?");
+                DedicatedServer.field_155771_h.warn("**** FAILED TO BIND TO PORT!");
+                DedicatedServer.field_155771_h.warn("The exception was: {}", new Object[] { ioexception.toString()});
+                DedicatedServer.field_155771_h.warn("Perhaps a server is already running on that port?");
                 return false;
             }
         }
 
-                if (false && this.getMaxTickTime() > 0L) {  // Spigot - disable
+                if (false && this.func_175593_aQ() > 0L) {  // Spigot - disable
                     Thread thread1 = new Thread(new ServerHangWatchdog(this));
 
                     thread1.setName("Server Watchdog");
@@ -378,60 +378,60 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                     thread1.start();
                 }
 
-                Items.AIR.getSubItems(CreativeTabs.SEARCH, NonNullList.create());
+                Items.field_190931_a.func_150895_a(CreativeTabs.field_78027_g, NonNullList.func_191196_a());
                 return true;
             }
         }
     }
 
-    public String loadResourcePackSHA() {
-        if (this.settings.hasProperty("resource-pack-hash")) {
-            if (this.settings.hasProperty("resource-pack-sha1")) {
-                DedicatedServer.LOGGER.warn("resource-pack-hash is deprecated and found along side resource-pack-sha1. resource-pack-hash will be ignored.");
+    public String func_184113_aK() {
+        if (this.field_71340_o.func_187239_a("resource-pack-hash")) {
+            if (this.field_71340_o.func_187239_a("resource-pack-sha1")) {
+                DedicatedServer.field_155771_h.warn("resource-pack-hash is deprecated and found along side resource-pack-sha1. resource-pack-hash will be ignored.");
             } else {
-                DedicatedServer.LOGGER.warn("resource-pack-hash is deprecated. Please use resource-pack-sha1 instead.");
-                this.settings.getStringProperty("resource-pack-sha1", this.settings.getStringProperty("resource-pack-hash", ""));
-                this.settings.removeProperty("resource-pack-hash");
+                DedicatedServer.field_155771_h.warn("resource-pack-hash is deprecated. Please use resource-pack-sha1 instead.");
+                this.field_71340_o.func_73671_a("resource-pack-sha1", this.field_71340_o.func_73671_a("resource-pack-hash", ""));
+                this.field_71340_o.func_187238_b("resource-pack-hash");
             }
         }
 
-        String s = this.settings.getStringProperty("resource-pack-sha1", "");
+        String s = this.field_71340_o.func_73671_a("resource-pack-sha1", "");
 
-        if (!s.isEmpty() && !DedicatedServer.RESOURCE_PACK_SHA1_PATTERN.matcher(s).matches()) {
-            DedicatedServer.LOGGER.warn("Invalid sha1 for ressource-pack-sha1");
+        if (!s.isEmpty() && !DedicatedServer.field_189647_l.matcher(s).matches()) {
+            DedicatedServer.field_155771_h.warn("Invalid sha1 for ressource-pack-sha1");
         }
 
-        if (!this.settings.getStringProperty("resource-pack", "").isEmpty() && s.isEmpty()) {
-            DedicatedServer.LOGGER.warn("You specified a resource pack without providing a sha1 hash. Pack will be updated on the client only if you change the name of the pack.");
+        if (!this.field_71340_o.func_73671_a("resource-pack", "").isEmpty() && s.isEmpty()) {
+            DedicatedServer.field_155771_h.warn("You specified a resource pack without providing a sha1 hash. Pack will be updated on the client only if you change the name of the pack.");
         }
 
         return s;
     }
 
-    public void setGameType(GameType enumgamemode) {
-        super.setGameType(enumgamemode);
-        this.gameType = enumgamemode;
+    public void func_71235_a(GameType enumgamemode) {
+        super.func_71235_a(enumgamemode);
+        this.field_71337_q = enumgamemode;
     }
 
-    public boolean canStructuresSpawn() {
-        return this.canSpawnStructures;
+    public boolean func_71225_e() {
+        return this.field_71338_p;
     }
 
-    public GameType getGameType() {
-        return this.gameType;
+    public GameType func_71265_f() {
+        return this.field_71337_q;
     }
 
-    public EnumDifficulty getDifficulty() {
-        return EnumDifficulty.getDifficultyEnum(this.settings.getIntProperty("difficulty", EnumDifficulty.NORMAL.getDifficultyId()));
+    public EnumDifficulty func_147135_j() {
+        return EnumDifficulty.func_151523_a(this.field_71340_o.func_73669_a("difficulty", EnumDifficulty.NORMAL.func_151525_a()));
     }
 
-    public boolean isHardcore() {
-        return this.settings.getBooleanProperty("hardcore", false);
+    public boolean func_71199_h() {
+        return this.field_71340_o.func_73670_a("hardcore", false);
     }
 
-    public CrashReport addServerInfoToCrashReport(CrashReport crashreport) {
-        crashreport = super.addServerInfoToCrashReport(crashreport);
-        crashreport.getCategory().addDetail("Is Modded", new ICrashReportDetail() {
+    public CrashReport func_71230_b(CrashReport crashreport) {
+        crashreport = super.func_71230_b(crashreport);
+        crashreport.func_85056_g().func_189529_a("Is Modded", new ICrashReportDetail() {
             public String a() throws Exception {
                 String s = DedicatedServer.this.getServerModName();
 
@@ -442,7 +442,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                 return this.a();
             }
         });
-        crashreport.getCategory().addDetail("Type", new ICrashReportDetail() {
+        crashreport.func_85056_g().func_189529_a("Type", new ICrashReportDetail() {
             public String a() throws Exception {
                 return "Dedicated Server (map_server.txt)";
             }
@@ -454,47 +454,47 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         return crashreport;
     }
 
-    public void systemExitNow() {
+    public void func_71240_o() {
         System.exit(0);
     }
 
-    public void updateTimeLightAndEntities() { // CraftBukkit - fix decompile error
-        super.updateTimeLightAndEntities();
-        this.executePendingCommands();
+    public void func_71190_q() { // CraftBukkit - fix decompile error
+        super.func_71190_q();
+        this.func_71333_ah();
     }
 
-    public boolean getAllowNether() {
-        return this.settings.getBooleanProperty("allow-nether", true);
+    public boolean func_71255_r() {
+        return this.field_71340_o.func_73670_a("allow-nether", true);
     }
 
-    public boolean allowSpawnMonsters() {
-        return this.settings.getBooleanProperty("spawn-monsters", true);
+    public boolean func_71193_K() {
+        return this.field_71340_o.func_73670_a("spawn-monsters", true);
     }
 
-    public void addServerStatsToSnooper(Snooper mojangstatisticsgenerator) {
-        mojangstatisticsgenerator.addClientStat("whitelist_enabled", Boolean.valueOf(this.getPlayerList().isWhiteListEnabled()));
-        mojangstatisticsgenerator.addClientStat("whitelist_count", Integer.valueOf(this.getPlayerList().getWhitelistedPlayerNames().length));
-        super.addServerStatsToSnooper(mojangstatisticsgenerator);
+    public void func_70000_a(Snooper mojangstatisticsgenerator) {
+        mojangstatisticsgenerator.func_152768_a("whitelist_enabled", Boolean.valueOf(this.func_184103_al().func_72383_n()));
+        mojangstatisticsgenerator.func_152768_a("whitelist_count", Integer.valueOf(this.func_184103_al().func_152598_l().length));
+        super.func_70000_a(mojangstatisticsgenerator);
     }
 
-    public boolean isSnooperEnabled() {
-        return this.settings.getBooleanProperty("snooper-enabled", true);
+    public boolean func_70002_Q() {
+        return this.field_71340_o.func_73670_a("snooper-enabled", true);
     }
 
-    public void addPendingCommand(String s, ICommandSender icommandlistener) {
-        this.pendingCommandList.add(new PendingCommand(s, icommandlistener));
+    public void func_71331_a(String s, ICommandSender icommandlistener) {
+        this.field_71341_l.add(new PendingCommand(s, icommandlistener));
     }
 
-    public void executePendingCommands() {
+    public void func_71333_ah() {
         MinecraftTimings.serverCommandTimer.startTiming(); // Spigot
-        while (!this.pendingCommandList.isEmpty()) {
-            PendingCommand servercommand = (PendingCommand) this.pendingCommandList.remove(0);
+        while (!this.field_71341_l.isEmpty()) {
+            PendingCommand servercommand = (PendingCommand) this.field_71341_l.remove(0);
 
             // CraftBukkit start - ServerCommand for preprocessing
-            ServerCommandEvent event = new ServerCommandEvent(console, servercommand.command);
+            ServerCommandEvent event = new ServerCommandEvent(console, servercommand.field_73702_a);
             server.getPluginManager().callEvent(event);
             if (event.isCancelled()) continue;
-            servercommand = new PendingCommand(event.getCommand(), servercommand.sender);
+            servercommand = new PendingCommand(event.getCommand(), servercommand.field_73701_b);
 
             // this.getCommandHandler().a(servercommand.source, servercommand.command); // Called in dispatchServerCommand
             server.dispatchServerCommand(console, servercommand);
@@ -504,131 +504,131 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         MinecraftTimings.serverCommandTimer.stopTiming(); // Spigot
     }
 
-    public boolean isDedicatedServer() {
+    public boolean func_71262_S() {
         return true;
     }
 
-    public boolean shouldUseNativeTransport() {
-        return this.settings.getBooleanProperty("use-native-transport", true);
+    public boolean func_181035_ah() {
+        return this.field_71340_o.func_73670_a("use-native-transport", true);
     }
 
-    public DedicatedPlayerList getPlayerList() {
-        return (DedicatedPlayerList) super.getPlayerList();
+    public DedicatedPlayerList func_184103_al() {
+        return (DedicatedPlayerList) super.func_184103_al();
     }
 
-    public int getIntProperty(String s, int i) {
-        return this.settings.getIntProperty(s, i);
+    public int func_71327_a(String s, int i) {
+        return this.field_71340_o.func_73669_a(s, i);
     }
 
-    public String getStringProperty(String s, String s1) {
-        return this.settings.getStringProperty(s, s1);
+    public String func_71330_a(String s, String s1) {
+        return this.field_71340_o.func_73671_a(s, s1);
     }
 
-    public boolean getBooleanProperty(String s, boolean flag) {
-        return this.settings.getBooleanProperty(s, flag);
+    public boolean func_71332_a(String s, boolean flag) {
+        return this.field_71340_o.func_73670_a(s, flag);
     }
 
-    public void setProperty(String s, Object object) {
-        this.settings.setProperty(s, object);
+    public void func_71328_a(String s, Object object) {
+        this.field_71340_o.func_73667_a(s, object);
     }
 
-    public void saveProperties() {
-        this.settings.saveProperties();
+    public void func_71326_a() {
+        this.field_71340_o.func_73668_b();
     }
 
-    public String getSettingsFilename() {
-        File file = this.settings.getPropertiesFile();
+    public String func_71329_c() {
+        File file = this.field_71340_o.func_73665_c();
 
         return file != null ? file.getAbsolutePath() : "No settings file";
     }
 
-    public String getHostname() {
-        return this.getServerHostname();
+    public String func_71277_t() {
+        return this.func_71211_k();
     }
 
-    public int getPort() {
-        return this.getServerPort();
+    public int func_71234_u() {
+        return this.func_71215_F();
     }
 
-    public String getMotd() {
-        return this.getMOTD();
+    public String func_71274_v() {
+        return this.func_71273_Y();
     }
 
-    public void setGuiEnabled() {
-        MinecraftServerGui.createServerGui(this);
-        this.guiIsEnabled = true;
+    public void func_120011_ar() {
+        MinecraftServerGui.func_120016_a(this);
+        this.field_71335_s = true;
     }
 
-    public boolean getGuiEnabled() {
-        return this.guiIsEnabled;
+    public boolean func_71279_ae() {
+        return this.field_71335_s;
     }
 
-    public String shareToLAN(GameType enumgamemode, boolean flag) {
+    public String func_71206_a(GameType enumgamemode, boolean flag) {
         return "";
     }
 
-    public boolean isCommandBlockEnabled() {
-        return this.settings.getBooleanProperty("enable-command-block", false);
+    public boolean func_82356_Z() {
+        return this.field_71340_o.func_73670_a("enable-command-block", false);
     }
 
-    public int getSpawnProtectionSize() {
-        return this.settings.getIntProperty("spawn-protection", super.getSpawnProtectionSize());
+    public int func_82357_ak() {
+        return this.field_71340_o.func_73669_a("spawn-protection", super.func_82357_ak());
     }
 
-    public boolean isBlockProtected(World world, BlockPos blockposition, EntityPlayer entityhuman) {
-        if (world.provider.getDimensionType().getId() != 0) {
+    public boolean func_175579_a(World world, BlockPos blockposition, EntityPlayer entityhuman) {
+        if (world.field_73011_w.func_186058_p().func_186068_a() != 0) {
             return false;
-        } else if (this.getPlayerList().getOppedPlayers().isEmpty()) {
+        } else if (this.func_184103_al().func_152603_m().func_152690_d()) {
             return false;
-        } else if (this.getPlayerList().canSendCommands(entityhuman.getGameProfile())) {
+        } else if (this.func_184103_al().func_152596_g(entityhuman.func_146103_bH())) {
             return false;
-        } else if (this.getSpawnProtectionSize() <= 0) {
+        } else if (this.func_82357_ak() <= 0) {
             return false;
         } else {
-            BlockPos blockposition1 = world.getSpawnPoint();
-            int i = MathHelper.abs(blockposition.getX() - blockposition1.getX());
-            int j = MathHelper.abs(blockposition.getZ() - blockposition1.getZ());
+            BlockPos blockposition1 = world.func_175694_M();
+            int i = MathHelper.func_76130_a(blockposition.func_177958_n() - blockposition1.func_177958_n());
+            int j = MathHelper.func_76130_a(blockposition.func_177952_p() - blockposition1.func_177952_p());
             int k = Math.max(i, j);
 
-            return k <= this.getSpawnProtectionSize();
+            return k <= this.func_82357_ak();
         }
     }
 
-    public int getOpPermissionLevel() {
-        return this.settings.getIntProperty("op-permission-level", 4);
+    public int func_110455_j() {
+        return this.field_71340_o.func_73669_a("op-permission-level", 4);
     }
 
-    public void setPlayerIdleTimeout(int i) {
-        super.setPlayerIdleTimeout(i);
-        this.settings.setProperty("player-idle-timeout", Integer.valueOf(i));
-        this.saveProperties();
+    public void func_143006_e(int i) {
+        super.func_143006_e(i);
+        this.field_71340_o.func_73667_a("player-idle-timeout", Integer.valueOf(i));
+        this.func_71326_a();
     }
 
-    public boolean shouldBroadcastRconToOps() {
-        return this.settings.getBooleanProperty("broadcast-rcon-to-ops", true);
+    public boolean func_181034_q() {
+        return this.field_71340_o.func_73670_a("broadcast-rcon-to-ops", true);
     }
 
-    public boolean shouldBroadcastConsoleToOps() {
-        return this.settings.getBooleanProperty("broadcast-console-to-ops", true);
+    public boolean func_183002_r() {
+        return this.field_71340_o.func_73670_a("broadcast-console-to-ops", true);
     }
 
-    public int getMaxWorldSize() {
-        int i = this.settings.getIntProperty("max-world-size", super.getMaxWorldSize());
+    public int func_175580_aG() {
+        int i = this.field_71340_o.func_73669_a("max-world-size", super.func_175580_aG());
 
         if (i < 1) {
             i = 1;
-        } else if (i > super.getMaxWorldSize()) {
-            i = super.getMaxWorldSize();
+        } else if (i > super.func_175580_aG()) {
+            i = super.func_175580_aG();
         }
 
         return i;
     }
 
-    public int getNetworkCompressionThreshold() {
-        return this.settings.getIntProperty("network-compression-threshold", super.getNetworkCompressionThreshold());
+    public int func_175577_aI() {
+        return this.field_71340_o.func_73669_a("network-compression-threshold", super.func_175577_aI());
     }
 
-    protected boolean convertFiles() {
+    protected boolean func_152368_aE() {
         server.getLogger().info( "**** Beginning UUID conversion, this may take A LONG time ****"); // Spigot, let the user know whats up!
         boolean flag = false;
 
@@ -636,61 +636,61 @@ public class DedicatedServer extends MinecraftServer implements IServer {
 
         for (i = 0; !flag && i <= 2; ++i) {
             if (i > 0) {
-                DedicatedServer.LOGGER.warn("Encountered a problem while converting the user banlist, retrying in a few seconds");
-                this.sleepFiveSeconds();
+                DedicatedServer.field_155771_h.warn("Encountered a problem while converting the user banlist, retrying in a few seconds");
+                this.func_152369_aG();
             }
 
-            flag = PreYggdrasilConverter.convertUserBanlist((MinecraftServer) this);
+            flag = PreYggdrasilConverter.func_152724_a((MinecraftServer) this);
         }
 
         boolean flag1 = false;
 
         for (i = 0; !flag1 && i <= 2; ++i) {
             if (i > 0) {
-                DedicatedServer.LOGGER.warn("Encountered a problem while converting the ip banlist, retrying in a few seconds");
-                this.sleepFiveSeconds();
+                DedicatedServer.field_155771_h.warn("Encountered a problem while converting the ip banlist, retrying in a few seconds");
+                this.func_152369_aG();
             }
 
-            flag1 = PreYggdrasilConverter.convertIpBanlist((MinecraftServer) this);
+            flag1 = PreYggdrasilConverter.func_152722_b((MinecraftServer) this);
         }
 
         boolean flag2 = false;
 
         for (i = 0; !flag2 && i <= 2; ++i) {
             if (i > 0) {
-                DedicatedServer.LOGGER.warn("Encountered a problem while converting the op list, retrying in a few seconds");
-                this.sleepFiveSeconds();
+                DedicatedServer.field_155771_h.warn("Encountered a problem while converting the op list, retrying in a few seconds");
+                this.func_152369_aG();
             }
 
-            flag2 = PreYggdrasilConverter.convertOplist((MinecraftServer) this);
+            flag2 = PreYggdrasilConverter.func_152718_c((MinecraftServer) this);
         }
 
         boolean flag3 = false;
 
         for (i = 0; !flag3 && i <= 2; ++i) {
             if (i > 0) {
-                DedicatedServer.LOGGER.warn("Encountered a problem while converting the whitelist, retrying in a few seconds");
-                this.sleepFiveSeconds();
+                DedicatedServer.field_155771_h.warn("Encountered a problem while converting the whitelist, retrying in a few seconds");
+                this.func_152369_aG();
             }
 
-            flag3 = PreYggdrasilConverter.convertWhitelist((MinecraftServer) this);
+            flag3 = PreYggdrasilConverter.func_152710_d((MinecraftServer) this);
         }
 
         boolean flag4 = false;
 
         for (i = 0; !flag4 && i <= 2; ++i) {
             if (i > 0) {
-                DedicatedServer.LOGGER.warn("Encountered a problem while converting the player save files, retrying in a few seconds");
-                this.sleepFiveSeconds();
+                DedicatedServer.field_155771_h.warn("Encountered a problem while converting the player save files, retrying in a few seconds");
+                this.func_152369_aG();
             }
 
-            flag4 = PreYggdrasilConverter.convertSaveFiles(this, this.settings);
+            flag4 = PreYggdrasilConverter.func_152723_a(this, this.field_71340_o);
         }
 
         return flag || flag1 || flag2 || flag3 || flag4;
     }
 
-    private void sleepFiveSeconds() {
+    private void func_152369_aG() {
         try {
             Thread.sleep(5000L);
         } catch (InterruptedException interruptedexception) {
@@ -698,11 +698,11 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         }
     }
 
-    public long getMaxTickTime() {
-        return this.settings.getLongProperty("max-tick-time", TimeUnit.MINUTES.toMillis(1L));
+    public long func_175593_aQ() {
+        return this.field_71340_o.func_179885_a("max-tick-time", TimeUnit.MINUTES.toMillis(1L));
     }
 
-    public String getPlugins() {
+    public String func_71258_A() {
         // CraftBukkit start - Whole method
         StringBuilder result = new StringBuilder();
         org.bukkit.plugin.Plugin[] plugins = server.getPluginManager().getPlugins();
@@ -730,11 +730,11 @@ public class DedicatedServer extends MinecraftServer implements IServer {
     }
 
     // CraftBukkit start - fire RemoteServerCommandEvent
-    public String handleRConCommand(final String s) {
+    public String func_71252_i(final String s) {
         Waitable<String> waitable = new Waitable<String>() {
             @Override
             protected String evaluate() {
-                rconConsoleSource.resetLog();
+                field_184115_n.func_70007_b();
                 // Event changes start
                 RemoteServerCommandEvent event = new RemoteServerCommandEvent(remoteConsole, s);
                 server.getPluginManager().callEvent(event);
@@ -742,9 +742,9 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                     return "";
                 }
                 // Event change end
-                PendingCommand serverCommand = new PendingCommand(event.getCommand(), rconConsoleSource);
+                PendingCommand serverCommand = new PendingCommand(event.getCommand(), field_184115_n);
                 server.dispatchServerCommand(remoteConsole, serverCommand);
-                return rconConsoleSource.getLogContents();
+                return field_184115_n.func_70008_c();
             }
         };
         // Paper start
@@ -772,14 +772,14 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         // CraftBukkit end
     }
 
-    public PlayerList getPlayerList() {
-        return this.getPlayerList();
+    public PlayerList func_184103_al() {
+        return this.func_184103_al();
     }
 
     // CraftBukkit start
     @Override
     public PropertyManager getPropertyManager() {
-        return this.settings;
+        return this.field_71340_o;
     }
     // CraftBukkit end
 }

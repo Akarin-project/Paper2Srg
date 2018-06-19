@@ -52,199 +52,199 @@ import net.minecraft.world.gen.feature.WorldGenSpikes;
 
 public class DragonFightManager {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static final Predicate<EntityPlayerMP> VALID_PLAYER = Predicates.and(EntitySelectors.IS_ALIVE, EntitySelectors.withinRange(0.0D, 128.0D, 0.0D, 192.0D));
-    private final BossInfoServer bossInfo;
-    private final WorldServer world;
-    private final List<Integer> gateways;
-    private final BlockPattern portalPattern;
-    private int ticksSinceDragonSeen;
-    private int aliveCrystals;
-    private int ticksSinceCrystalsScanned;
-    private int ticksSinceLastPlayerScan;
-    private boolean dragonKilled;
-    private boolean previouslyKilled;
-    private UUID dragonUniqueId;
-    private boolean scanForLegacyFight;
-    private BlockPos exitPortalLocation;
-    private DragonSpawnManager respawnState;
-    private int respawnStateTicks;
-    private List<EntityEnderCrystal> crystals;
+    private static final Logger field_186107_a = LogManager.getLogger();
+    private static final Predicate<EntityPlayerMP> field_186108_b = Predicates.and(EntitySelectors.field_94557_a, EntitySelectors.func_188443_a(0.0D, 128.0D, 0.0D, 192.0D));
+    private final BossInfoServer field_186109_c;
+    private final WorldServer field_186110_d;
+    private final List<Integer> field_186111_e;
+    private final BlockPattern field_186112_f;
+    private int field_186113_g;
+    private int field_186114_h;
+    private int field_186115_i;
+    private int field_186116_j;
+    private boolean field_186117_k;
+    private boolean field_186118_l;
+    private UUID field_186119_m;
+    private boolean field_186120_n;
+    private BlockPos field_186121_o;
+    private DragonSpawnManager field_186122_p;
+    private int field_186123_q;
+    private List<EntityEnderCrystal> field_186124_r;
 
     public DragonFightManager(WorldServer worldserver, NBTTagCompound nbttagcompound) {
-        this.bossInfo = (BossInfoServer) (new BossInfoServer(new TextComponentTranslation("entity.EnderDragon.name", new Object[0]), BossInfo.Color.PINK, BossInfo.Overlay.PROGRESS)).setPlayEndBossMusic(true).setCreateFog(true);
-        this.gateways = Lists.newArrayList();
-        this.scanForLegacyFight = true;
-        this.world = worldserver;
-        if (nbttagcompound.hasKey("DragonKilled", 99)) {
-            if (nbttagcompound.hasUniqueId("DragonUUID")) {
-                this.dragonUniqueId = nbttagcompound.getUniqueId("DragonUUID");
+        this.field_186109_c = (BossInfoServer) (new BossInfoServer(new TextComponentTranslation("entity.EnderDragon.name", new Object[0]), BossInfo.Color.PINK, BossInfo.Overlay.PROGRESS)).func_186742_b(true).func_186743_c(true);
+        this.field_186111_e = Lists.newArrayList();
+        this.field_186120_n = true;
+        this.field_186110_d = worldserver;
+        if (nbttagcompound.func_150297_b("DragonKilled", 99)) {
+            if (nbttagcompound.func_186855_b("DragonUUID")) {
+                this.field_186119_m = nbttagcompound.func_186857_a("DragonUUID");
             }
 
-            this.dragonKilled = nbttagcompound.getBoolean("DragonKilled");
-            this.previouslyKilled = nbttagcompound.getBoolean("PreviouslyKilled");
-            if (nbttagcompound.getBoolean("IsRespawning")) {
-                this.respawnState = DragonSpawnManager.START;
+            this.field_186117_k = nbttagcompound.func_74767_n("DragonKilled");
+            this.field_186118_l = nbttagcompound.func_74767_n("PreviouslyKilled");
+            if (nbttagcompound.func_74767_n("IsRespawning")) {
+                this.field_186122_p = DragonSpawnManager.START;
             }
 
-            if (nbttagcompound.hasKey("ExitPortalLocation", 10)) {
-                this.exitPortalLocation = NBTUtil.getPosFromTag(nbttagcompound.getCompoundTag("ExitPortalLocation"));
-            }
-        } else {
-            this.dragonKilled = true;
-            this.previouslyKilled = true;
-        }
-
-        if (nbttagcompound.hasKey("Gateways", 9)) {
-            NBTTagList nbttaglist = nbttagcompound.getTagList("Gateways", 3);
-
-            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                this.gateways.add(Integer.valueOf(nbttaglist.getIntAt(i)));
+            if (nbttagcompound.func_150297_b("ExitPortalLocation", 10)) {
+                this.field_186121_o = NBTUtil.func_186861_c(nbttagcompound.func_74775_l("ExitPortalLocation"));
             }
         } else {
-            this.gateways.addAll(ContiguousSet.create(Range.closedOpen(Integer.valueOf(0), Integer.valueOf(20)), DiscreteDomain.integers()));
-            Collections.shuffle(this.gateways, new Random(worldserver.getSeed()));
+            this.field_186117_k = true;
+            this.field_186118_l = true;
         }
 
-        this.portalPattern = FactoryBlockPattern.start().aisle(new String[] { "       ", "       ", "       ", "   #   ", "       ", "       ", "       "}).aisle(new String[] { "       ", "       ", "       ", "   #   ", "       ", "       ", "       "}).aisle(new String[] { "       ", "       ", "       ", "   #   ", "       ", "       ", "       "}).aisle(new String[] { "  ###  ", " #   # ", "#     #", "#  #  #", "#     #", " #   # ", "  ###  "}).aisle(new String[] { "       ", "  ###  ", " ##### ", " ##### ", " ##### ", "  ###  ", "       "}).where('#', BlockWorldState.hasState(BlockMatcher.forBlock(Blocks.BEDROCK))).build();
+        if (nbttagcompound.func_150297_b("Gateways", 9)) {
+            NBTTagList nbttaglist = nbttagcompound.func_150295_c("Gateways", 3);
+
+            for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+                this.field_186111_e.add(Integer.valueOf(nbttaglist.func_186858_c(i)));
+            }
+        } else {
+            this.field_186111_e.addAll(ContiguousSet.create(Range.closedOpen(Integer.valueOf(0), Integer.valueOf(20)), DiscreteDomain.integers()));
+            Collections.shuffle(this.field_186111_e, new Random(worldserver.func_72905_C()));
+        }
+
+        this.field_186112_f = FactoryBlockPattern.func_177660_a().func_177659_a(new String[] { "       ", "       ", "       ", "   #   ", "       ", "       ", "       "}).func_177659_a(new String[] { "       ", "       ", "       ", "   #   ", "       ", "       ", "       "}).func_177659_a(new String[] { "       ", "       ", "       ", "   #   ", "       ", "       ", "       "}).func_177659_a(new String[] { "  ###  ", " #   # ", "#     #", "#  #  #", "#     #", " #   # ", "  ###  "}).func_177659_a(new String[] { "       ", "  ###  ", " ##### ", " ##### ", " ##### ", "  ###  ", "       "}).func_177662_a('#', BlockWorldState.func_177510_a(BlockMatcher.func_177642_a(Blocks.field_150357_h))).func_177661_b();
     }
 
-    public NBTTagCompound getCompound() {
+    public NBTTagCompound func_186088_a() {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-        if (this.dragonUniqueId != null) {
-            nbttagcompound.setUniqueId("DragonUUID", this.dragonUniqueId);
+        if (this.field_186119_m != null) {
+            nbttagcompound.func_186854_a("DragonUUID", this.field_186119_m);
         }
 
-        nbttagcompound.setBoolean("DragonKilled", this.dragonKilled);
-        nbttagcompound.setBoolean("PreviouslyKilled", this.previouslyKilled);
-        if (this.exitPortalLocation != null) {
-            nbttagcompound.setTag("ExitPortalLocation", NBTUtil.createPosTag(this.exitPortalLocation));
+        nbttagcompound.func_74757_a("DragonKilled", this.field_186117_k);
+        nbttagcompound.func_74757_a("PreviouslyKilled", this.field_186118_l);
+        if (this.field_186121_o != null) {
+            nbttagcompound.func_74782_a("ExitPortalLocation", NBTUtil.func_186859_a(this.field_186121_o));
         }
 
         NBTTagList nbttaglist = new NBTTagList();
-        Iterator iterator = this.gateways.iterator();
+        Iterator iterator = this.field_186111_e.iterator();
 
         while (iterator.hasNext()) {
             int i = ((Integer) iterator.next()).intValue();
 
-            nbttaglist.appendTag(new NBTTagInt(i));
+            nbttaglist.func_74742_a(new NBTTagInt(i));
         }
 
-        nbttagcompound.setTag("Gateways", nbttaglist);
+        nbttagcompound.func_74782_a("Gateways", nbttaglist);
         return nbttagcompound;
     }
 
-    public void tick() {
-        this.bossInfo.setVisible(!this.dragonKilled);
-        if (++this.ticksSinceLastPlayerScan >= 20) {
-            this.updateplayers();
-            this.ticksSinceLastPlayerScan = 0;
+    public void func_186105_b() {
+        this.field_186109_c.func_186758_d(!this.field_186117_k);
+        if (++this.field_186116_j >= 20) {
+            this.func_186100_j();
+            this.field_186116_j = 0;
         }
 
-        if (!this.bossInfo.getPlayers().isEmpty()) {
-            if (this.scanForLegacyFight) {
-                DragonFightManager.LOGGER.info("Scanning for legacy world dragon fight...");
-                this.loadChunks();
-                this.scanForLegacyFight = false;
-                boolean flag = this.hasDragonBeenKilled();
+        if (!this.field_186109_c.func_186757_c().isEmpty()) {
+            if (this.field_186120_n) {
+                DragonFightManager.field_186107_a.info("Scanning for legacy world dragon fight...");
+                this.func_186103_i();
+                this.field_186120_n = false;
+                boolean flag = this.func_186104_g();
 
                 if (flag) {
-                    DragonFightManager.LOGGER.info("Found that the dragon has been killed in this world already.");
-                    this.previouslyKilled = true;
+                    DragonFightManager.field_186107_a.info("Found that the dragon has been killed in this world already.");
+                    this.field_186118_l = true;
                 } else {
-                    DragonFightManager.LOGGER.info("Found that the dragon has not yet been killed in this world.");
-                    this.previouslyKilled = false;
-                    this.generatePortal(false);
+                    DragonFightManager.field_186107_a.info("Found that the dragon has not yet been killed in this world.");
+                    this.field_186118_l = false;
+                    this.func_186094_a(false);
                 }
 
-                List list = this.world.getEntities(EntityDragon.class, EntitySelectors.IS_ALIVE);
+                List list = this.field_186110_d.func_175644_a(EntityDragon.class, EntitySelectors.field_94557_a);
 
                 if (list.isEmpty()) {
-                    this.dragonKilled = true;
+                    this.field_186117_k = true;
                 } else {
                     EntityDragon entityenderdragon = (EntityDragon) list.get(0);
 
-                    this.dragonUniqueId = entityenderdragon.getUniqueID();
-                    DragonFightManager.LOGGER.info("Found that there\'s a dragon still alive ({})", entityenderdragon);
-                    this.dragonKilled = false;
+                    this.field_186119_m = entityenderdragon.func_110124_au();
+                    DragonFightManager.field_186107_a.info("Found that there\'s a dragon still alive ({})", entityenderdragon);
+                    this.field_186117_k = false;
                     if (!flag) {
-                        DragonFightManager.LOGGER.info("But we didn\'t have a portal, let\'s remove it.");
-                        entityenderdragon.setDead();
-                        this.dragonUniqueId = null;
+                        DragonFightManager.field_186107_a.info("But we didn\'t have a portal, let\'s remove it.");
+                        entityenderdragon.func_70106_y();
+                        this.field_186119_m = null;
                     }
                 }
 
-                if (!this.previouslyKilled && this.dragonKilled) {
-                    this.dragonKilled = false;
+                if (!this.field_186118_l && this.field_186117_k) {
+                    this.field_186117_k = false;
                 }
             }
 
-            if (this.respawnState != null) {
-                if (this.crystals == null) {
-                    this.respawnState = null;
-                    this.respawnDragon();
+            if (this.field_186122_p != null) {
+                if (this.field_186124_r == null) {
+                    this.field_186122_p = null;
+                    this.func_186106_e();
                 }
 
-                this.respawnState.process(this.world, this, this.crystals, this.respawnStateTicks++, this.exitPortalLocation);
+                this.field_186122_p.func_186079_a(this.field_186110_d, this, this.field_186124_r, this.field_186123_q++, this.field_186121_o);
             }
 
-            if (!this.dragonKilled) {
-                if (this.dragonUniqueId == null || ++this.ticksSinceDragonSeen >= 1200) {
-                    this.loadChunks();
-                    List list1 = this.world.getEntities(EntityDragon.class, EntitySelectors.IS_ALIVE);
+            if (!this.field_186117_k) {
+                if (this.field_186119_m == null || ++this.field_186113_g >= 1200) {
+                    this.func_186103_i();
+                    List list1 = this.field_186110_d.func_175644_a(EntityDragon.class, EntitySelectors.field_94557_a);
 
                     if (list1.isEmpty()) {
-                        DragonFightManager.LOGGER.debug("Haven\'t seen the dragon, respawning it");
-                        this.createNewDragon();
+                        DragonFightManager.field_186107_a.debug("Haven\'t seen the dragon, respawning it");
+                        this.func_192445_m();
                     } else {
-                        DragonFightManager.LOGGER.debug("Haven\'t seen our dragon, but found another one to use.");
-                        this.dragonUniqueId = ((EntityDragon) list1.get(0)).getUniqueID();
+                        DragonFightManager.field_186107_a.debug("Haven\'t seen our dragon, but found another one to use.");
+                        this.field_186119_m = ((EntityDragon) list1.get(0)).func_110124_au();
                     }
 
-                    this.ticksSinceDragonSeen = 0;
+                    this.field_186113_g = 0;
                 }
 
-                if (++this.ticksSinceCrystalsScanned >= 100) {
-                    this.findAliveCrystals();
-                    this.ticksSinceCrystalsScanned = 0;
+                if (++this.field_186115_i >= 100) {
+                    this.func_186101_k();
+                    this.field_186115_i = 0;
                 }
             }
         }
 
     }
 
-    protected void setRespawnState(DragonSpawnManager enumdragonrespawn) {
-        if (this.respawnState == null) {
+    protected void func_186095_a(DragonSpawnManager enumdragonrespawn) {
+        if (this.field_186122_p == null) {
             throw new IllegalStateException("Dragon respawn isn\'t in progress, can\'t skip ahead in the animation.");
         } else {
-            this.respawnStateTicks = 0;
+            this.field_186123_q = 0;
             if (enumdragonrespawn == DragonSpawnManager.END) {
-                this.respawnState = null;
-                this.dragonKilled = false;
-                EntityDragon entityenderdragon = this.createNewDragon();
-                Iterator iterator = this.bossInfo.getPlayers().iterator();
+                this.field_186122_p = null;
+                this.field_186117_k = false;
+                EntityDragon entityenderdragon = this.func_192445_m();
+                Iterator iterator = this.field_186109_c.func_186757_c().iterator();
 
                 while (iterator.hasNext()) {
                     EntityPlayerMP entityplayer = (EntityPlayerMP) iterator.next();
 
-                    CriteriaTriggers.SUMMONED_ENTITY.trigger(entityplayer, (Entity) entityenderdragon);
+                    CriteriaTriggers.field_192133_m.func_192229_a(entityplayer, (Entity) entityenderdragon);
                 }
             } else {
-                this.respawnState = enumdragonrespawn;
+                this.field_186122_p = enumdragonrespawn;
             }
 
         }
     }
 
-    private boolean hasDragonBeenKilled() {
+    private boolean func_186104_g() {
         for (int i = -8; i <= 8; ++i) {
             int j = -8;
 
             label27:
             while (j <= 8) {
-                Chunk chunk = this.world.getChunkFromChunkCoords(i, j);
-                Iterator iterator = chunk.getTileEntityMap().values().iterator();
+                Chunk chunk = this.field_186110_d.func_72964_e(i, j);
+                Iterator iterator = chunk.func_177434_r().values().iterator();
 
                 TileEntity tileentity;
 
@@ -265,26 +265,26 @@ public class DragonFightManager {
     }
 
     @Nullable
-    private BlockPattern.PatternHelper findExitPortal() {
+    private BlockPattern.PatternHelper func_186091_h() {
         int i;
         int j;
 
         for (i = -8; i <= 8; ++i) {
             for (j = -8; j <= 8; ++j) {
-                Chunk chunk = this.world.getChunkFromChunkCoords(i, j);
-                Iterator iterator = chunk.getTileEntityMap().values().iterator();
+                Chunk chunk = this.field_186110_d.func_72964_e(i, j);
+                Iterator iterator = chunk.func_177434_r().values().iterator();
 
                 while (iterator.hasNext()) {
                     TileEntity tileentity = (TileEntity) iterator.next();
 
                     if (tileentity instanceof TileEntityEndPortal) {
-                        BlockPattern.PatternHelper shapedetector_shapedetectorcollection = this.portalPattern.match(this.world, tileentity.getPos());
+                        BlockPattern.PatternHelper shapedetector_shapedetectorcollection = this.field_186112_f.func_177681_a(this.field_186110_d, tileentity.func_174877_v());
 
                         if (shapedetector_shapedetectorcollection != null) {
-                            BlockPos blockposition = shapedetector_shapedetectorcollection.translateOffset(3, 3, 3).getPos();
+                            BlockPos blockposition = shapedetector_shapedetectorcollection.func_177670_a(3, 3, 3).func_177508_d();
 
-                            if (this.exitPortalLocation == null && blockposition.getX() == 0 && blockposition.getZ() == 0) {
-                                this.exitPortalLocation = blockposition;
+                            if (this.field_186121_o == null && blockposition.func_177958_n() == 0 && blockposition.func_177952_p() == 0) {
+                                this.field_186121_o = blockposition;
                             }
 
                             return shapedetector_shapedetectorcollection;
@@ -294,14 +294,14 @@ public class DragonFightManager {
             }
         }
 
-        i = this.world.getHeight(WorldGenEndPodium.END_PODIUM_LOCATION).getY();
+        i = this.field_186110_d.func_175645_m(WorldGenEndPodium.field_186139_a).func_177956_o();
 
         for (j = i; j >= 0; --j) {
-            BlockPattern.PatternHelper shapedetector_shapedetectorcollection1 = this.portalPattern.match(this.world, new BlockPos(WorldGenEndPodium.END_PODIUM_LOCATION.getX(), j, WorldGenEndPodium.END_PODIUM_LOCATION.getZ()));
+            BlockPattern.PatternHelper shapedetector_shapedetectorcollection1 = this.field_186112_f.func_177681_a(this.field_186110_d, new BlockPos(WorldGenEndPodium.field_186139_a.func_177958_n(), j, WorldGenEndPodium.field_186139_a.func_177952_p()));
 
             if (shapedetector_shapedetectorcollection1 != null) {
-                if (this.exitPortalLocation == null) {
-                    this.exitPortalLocation = shapedetector_shapedetectorcollection1.translateOffset(3, 3, 3).getPos();
+                if (this.field_186121_o == null) {
+                    this.field_186121_o = shapedetector_shapedetectorcollection1.func_177670_a(3, 3, 3).func_177508_d();
                 }
 
                 return shapedetector_shapedetectorcollection1;
@@ -311,27 +311,27 @@ public class DragonFightManager {
         return null;
     }
 
-    private void loadChunks() {
+    private void func_186103_i() {
         for (int i = -8; i <= 8; ++i) {
             for (int j = -8; j <= 8; ++j) {
-                this.world.getChunkFromChunkCoords(i, j);
+                this.field_186110_d.func_72964_e(i, j);
             }
         }
 
     }
 
-    private void updateplayers() {
+    private void func_186100_j() {
         HashSet hashset = Sets.newHashSet();
-        Iterator iterator = this.world.getPlayers(EntityPlayerMP.class, DragonFightManager.VALID_PLAYER).iterator();
+        Iterator iterator = this.field_186110_d.func_175661_b(EntityPlayerMP.class, DragonFightManager.field_186108_b).iterator();
 
         while (iterator.hasNext()) {
             EntityPlayerMP entityplayer = (EntityPlayerMP) iterator.next();
 
-            this.bossInfo.addPlayer(entityplayer);
+            this.field_186109_c.func_186760_a(entityplayer);
             hashset.add(entityplayer);
         }
 
-        HashSet hashset1 = Sets.newHashSet(this.bossInfo.getPlayers());
+        HashSet hashset1 = Sets.newHashSet(this.field_186109_c.func_186757_c());
 
         hashset1.removeAll(hashset);
         Iterator iterator1 = hashset1.iterator();
@@ -339,142 +339,142 @@ public class DragonFightManager {
         while (iterator1.hasNext()) {
             EntityPlayerMP entityplayer1 = (EntityPlayerMP) iterator1.next();
 
-            this.bossInfo.removePlayer(entityplayer1);
+            this.field_186109_c.func_186761_b(entityplayer1);
         }
 
     }
 
-    private void findAliveCrystals() {
-        this.ticksSinceCrystalsScanned = 0;
-        this.aliveCrystals = 0;
-        WorldGenSpikes.EndSpike[] aworldgenender_spike = BiomeEndDecorator.getSpikesForWorld(this.world);
+    private void func_186101_k() {
+        this.field_186115_i = 0;
+        this.field_186114_h = 0;
+        WorldGenSpikes.EndSpike[] aworldgenender_spike = BiomeEndDecorator.func_185426_a(this.field_186110_d);
         int i = aworldgenender_spike.length;
 
         for (int j = 0; j < i; ++j) {
             WorldGenSpikes.EndSpike worldgenender_spike = aworldgenender_spike[j];
 
-            this.aliveCrystals += this.world.getEntitiesWithinAABB(EntityEnderCrystal.class, worldgenender_spike.getTopBoundingBox()).size();
+            this.field_186114_h += this.field_186110_d.func_72872_a(EntityEnderCrystal.class, worldgenender_spike.func_186153_f()).size();
         }
 
-        DragonFightManager.LOGGER.debug("Found {} end crystals still alive", Integer.valueOf(this.aliveCrystals));
+        DragonFightManager.field_186107_a.debug("Found {} end crystals still alive", Integer.valueOf(this.field_186114_h));
     }
 
-    public void processDragonDeath(EntityDragon entityenderdragon) {
-        if (entityenderdragon.getUniqueID().equals(this.dragonUniqueId)) {
-            this.bossInfo.setPercent(0.0F);
-            this.bossInfo.setVisible(false);
-            this.generatePortal(true);
-            this.spawnNewGateway();
-            if (!this.previouslyKilled) {
-                this.world.setBlockState(this.world.getHeight(WorldGenEndPodium.END_PODIUM_LOCATION), Blocks.DRAGON_EGG.getDefaultState());
+    public void func_186096_a(EntityDragon entityenderdragon) {
+        if (entityenderdragon.func_110124_au().equals(this.field_186119_m)) {
+            this.field_186109_c.func_186735_a(0.0F);
+            this.field_186109_c.func_186758_d(false);
+            this.func_186094_a(true);
+            this.func_186097_l();
+            if (!this.field_186118_l) {
+                this.field_186110_d.func_175656_a(this.field_186110_d.func_175645_m(WorldGenEndPodium.field_186139_a), Blocks.field_150380_bt.func_176223_P());
             }
 
-            this.previouslyKilled = true;
-            this.dragonKilled = true;
+            this.field_186118_l = true;
+            this.field_186117_k = true;
         }
 
     }
 
-    private void spawnNewGateway() {
-        if (!this.gateways.isEmpty()) {
-            int i = ((Integer) this.gateways.remove(this.gateways.size() - 1)).intValue();
+    private void func_186097_l() {
+        if (!this.field_186111_e.isEmpty()) {
+            int i = ((Integer) this.field_186111_e.remove(this.field_186111_e.size() - 1)).intValue();
             int j = (int) (96.0D * Math.cos(2.0D * (-3.141592653589793D + 0.15707963267948966D * (double) i)));
             int k = (int) (96.0D * Math.sin(2.0D * (-3.141592653589793D + 0.15707963267948966D * (double) i)));
 
-            this.generateGateway(new BlockPos(j, 75, k));
+            this.func_186089_a(new BlockPos(j, 75, k));
         }
     }
 
-    private void generateGateway(BlockPos blockposition) {
-        this.world.playEvent(3000, blockposition, 0);
-        (new WorldGenEndGateway()).generate(this.world, new Random(), blockposition);
+    private void func_186089_a(BlockPos blockposition) {
+        this.field_186110_d.func_175718_b(3000, blockposition, 0);
+        (new WorldGenEndGateway()).func_180709_b(this.field_186110_d, new Random(), blockposition);
     }
 
-    private void generatePortal(boolean flag) {
+    private void func_186094_a(boolean flag) {
         WorldGenEndPodium worldgenendtrophy = new WorldGenEndPodium(flag);
 
-        if (this.exitPortalLocation == null) {
-            for (this.exitPortalLocation = this.world.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION).down(); this.world.getBlockState(this.exitPortalLocation).getBlock() == Blocks.BEDROCK && this.exitPortalLocation.getY() > this.world.getSeaLevel(); this.exitPortalLocation = this.exitPortalLocation.down()) {
+        if (this.field_186121_o == null) {
+            for (this.field_186121_o = this.field_186110_d.func_175672_r(WorldGenEndPodium.field_186139_a).func_177977_b(); this.field_186110_d.func_180495_p(this.field_186121_o).func_177230_c() == Blocks.field_150357_h && this.field_186121_o.func_177956_o() > this.field_186110_d.func_181545_F(); this.field_186121_o = this.field_186121_o.func_177977_b()) {
                 ;
             }
         }
 
-        worldgenendtrophy.generate(this.world, new Random(), this.exitPortalLocation);
+        worldgenendtrophy.func_180709_b(this.field_186110_d, new Random(), this.field_186121_o);
     }
 
-    private EntityDragon createNewDragon() {
-        this.world.getChunkFromBlockCoords(new BlockPos(0, 128, 0));
-        EntityDragon entityenderdragon = new EntityDragon(this.world);
+    private EntityDragon func_192445_m() {
+        this.field_186110_d.func_175726_f(new BlockPos(0, 128, 0));
+        EntityDragon entityenderdragon = new EntityDragon(this.field_186110_d);
 
-        entityenderdragon.getPhaseManager().setPhase(PhaseList.HOLDING_PATTERN);
-        entityenderdragon.setLocationAndAngles(0.0D, 128.0D, 0.0D, this.world.rand.nextFloat() * 360.0F, 0.0F);
-        this.world.spawnEntity(entityenderdragon);
-        this.dragonUniqueId = entityenderdragon.getUniqueID();
+        entityenderdragon.func_184670_cT().func_188758_a(PhaseList.field_188741_a);
+        entityenderdragon.func_70012_b(0.0D, 128.0D, 0.0D, this.field_186110_d.field_73012_v.nextFloat() * 360.0F, 0.0F);
+        this.field_186110_d.func_72838_d(entityenderdragon);
+        this.field_186119_m = entityenderdragon.func_110124_au();
         return entityenderdragon;
     }
 
-    public void dragonUpdate(EntityDragon entityenderdragon) {
-        if (entityenderdragon.getUniqueID().equals(this.dragonUniqueId)) {
-            this.bossInfo.setPercent(entityenderdragon.getHealth() / entityenderdragon.getMaxHealth());
-            this.ticksSinceDragonSeen = 0;
-            if (entityenderdragon.hasCustomName()) {
-                this.bossInfo.setName(entityenderdragon.getDisplayName());
+    public void func_186099_b(EntityDragon entityenderdragon) {
+        if (entityenderdragon.func_110124_au().equals(this.field_186119_m)) {
+            this.field_186109_c.func_186735_a(entityenderdragon.func_110143_aJ() / entityenderdragon.func_110138_aP());
+            this.field_186113_g = 0;
+            if (entityenderdragon.func_145818_k_()) {
+                this.field_186109_c.func_186739_a(entityenderdragon.func_145748_c_());
             }
         }
 
     }
 
-    public int getNumAliveCrystals() {
-        return this.aliveCrystals;
+    public int func_186092_c() {
+        return this.field_186114_h;
     }
 
-    public void onCrystalDestroyed(EntityEnderCrystal entityendercrystal, DamageSource damagesource) {
-        if (this.respawnState != null && this.crystals.contains(entityendercrystal)) {
-            DragonFightManager.LOGGER.debug("Aborting respawn sequence");
-            this.respawnState = null;
-            this.respawnStateTicks = 0;
-            this.resetSpikeCrystals();
-            this.generatePortal(true);
+    public void func_186090_a(EntityEnderCrystal entityendercrystal, DamageSource damagesource) {
+        if (this.field_186122_p != null && this.field_186124_r.contains(entityendercrystal)) {
+            DragonFightManager.field_186107_a.debug("Aborting respawn sequence");
+            this.field_186122_p = null;
+            this.field_186123_q = 0;
+            this.func_186087_f();
+            this.func_186094_a(true);
         } else {
-            this.findAliveCrystals();
-            Entity entity = this.world.getEntityFromUuid(this.dragonUniqueId);
+            this.func_186101_k();
+            Entity entity = this.field_186110_d.func_175733_a(this.field_186119_m);
 
             if (entity instanceof EntityDragon) {
-                ((EntityDragon) entity).onCrystalDestroyed(entityendercrystal, new BlockPos(entityendercrystal), damagesource);
+                ((EntityDragon) entity).func_184672_a(entityendercrystal, new BlockPos(entityendercrystal), damagesource);
             }
         }
 
     }
 
-    public boolean hasPreviouslyKilledDragon() {
-        return this.previouslyKilled;
+    public boolean func_186102_d() {
+        return this.field_186118_l;
     }
 
-    public void respawnDragon() {
-        if (this.dragonKilled && this.respawnState == null) {
-            BlockPos blockposition = this.exitPortalLocation;
+    public void func_186106_e() {
+        if (this.field_186117_k && this.field_186122_p == null) {
+            BlockPos blockposition = this.field_186121_o;
 
             if (blockposition == null) {
-                DragonFightManager.LOGGER.debug("Tried to respawn, but need to find the portal first.");
-                BlockPattern.PatternHelper shapedetector_shapedetectorcollection = this.findExitPortal();
+                DragonFightManager.field_186107_a.debug("Tried to respawn, but need to find the portal first.");
+                BlockPattern.PatternHelper shapedetector_shapedetectorcollection = this.func_186091_h();
 
                 if (shapedetector_shapedetectorcollection == null) {
-                    DragonFightManager.LOGGER.debug("Couldn\'t find a portal, so we made one.");
-                    this.generatePortal(true);
+                    DragonFightManager.field_186107_a.debug("Couldn\'t find a portal, so we made one.");
+                    this.func_186094_a(true);
                 } else {
-                    DragonFightManager.LOGGER.debug("Found the exit portal & temporarily using it.");
+                    DragonFightManager.field_186107_a.debug("Found the exit portal & temporarily using it.");
                 }
 
-                blockposition = this.exitPortalLocation;
+                blockposition = this.field_186121_o;
             }
 
             ArrayList arraylist = Lists.newArrayList();
-            BlockPos blockposition1 = blockposition.up(1);
+            BlockPos blockposition1 = blockposition.func_177981_b(1);
             Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 
             while (iterator.hasNext()) {
                 EnumFacing enumdirection = (EnumFacing) iterator.next();
-                List list = this.world.getEntitiesWithinAABB(EntityEnderCrystal.class, new AxisAlignedBB(blockposition1.offset(enumdirection, 2)));
+                List list = this.field_186110_d.func_72872_a(EntityEnderCrystal.class, new AxisAlignedBB(blockposition1.func_177967_a(enumdirection, 2)));
 
                 if (list.isEmpty()) {
                     return;
@@ -483,50 +483,50 @@ public class DragonFightManager {
                 arraylist.addAll(list);
             }
 
-            DragonFightManager.LOGGER.debug("Found all crystals, respawning dragon.");
-            this.respawnDragon((List) arraylist);
+            DragonFightManager.field_186107_a.debug("Found all crystals, respawning dragon.");
+            this.func_186093_a((List) arraylist);
         }
 
     }
 
-    private void respawnDragon(List<EntityEnderCrystal> list) {
-        if (this.dragonKilled && this.respawnState == null) {
-            for (BlockPattern.PatternHelper shapedetector_shapedetectorcollection = this.findExitPortal(); shapedetector_shapedetectorcollection != null; shapedetector_shapedetectorcollection = this.findExitPortal()) {
-                for (int i = 0; i < this.portalPattern.getPalmLength(); ++i) {
-                    for (int j = 0; j < this.portalPattern.getThumbLength(); ++j) {
-                        for (int k = 0; k < this.portalPattern.getFingerLength(); ++k) {
-                            BlockWorldState shapedetectorblock = shapedetector_shapedetectorcollection.translateOffset(i, j, k);
+    private void func_186093_a(List<EntityEnderCrystal> list) {
+        if (this.field_186117_k && this.field_186122_p == null) {
+            for (BlockPattern.PatternHelper shapedetector_shapedetectorcollection = this.func_186091_h(); shapedetector_shapedetectorcollection != null; shapedetector_shapedetectorcollection = this.func_186091_h()) {
+                for (int i = 0; i < this.field_186112_f.func_177684_c(); ++i) {
+                    for (int j = 0; j < this.field_186112_f.func_177685_b(); ++j) {
+                        for (int k = 0; k < this.field_186112_f.func_185922_a(); ++k) {
+                            BlockWorldState shapedetectorblock = shapedetector_shapedetectorcollection.func_177670_a(i, j, k);
 
-                            if (shapedetectorblock.getBlockState().getBlock() == Blocks.BEDROCK || shapedetectorblock.getBlockState().getBlock() == Blocks.END_PORTAL) {
-                                this.world.setBlockState(shapedetectorblock.getPos(), Blocks.END_STONE.getDefaultState());
+                            if (shapedetectorblock.func_177509_a().func_177230_c() == Blocks.field_150357_h || shapedetectorblock.func_177509_a().func_177230_c() == Blocks.field_150384_bq) {
+                                this.field_186110_d.func_175656_a(shapedetectorblock.func_177508_d(), Blocks.field_150377_bs.func_176223_P());
                             }
                         }
                     }
                 }
             }
 
-            this.respawnState = DragonSpawnManager.START;
-            this.respawnStateTicks = 0;
-            this.generatePortal(false);
-            this.crystals = list;
+            this.field_186122_p = DragonSpawnManager.START;
+            this.field_186123_q = 0;
+            this.func_186094_a(false);
+            this.field_186124_r = list;
         }
 
     }
 
-    public void resetSpikeCrystals() {
-        WorldGenSpikes.EndSpike[] aworldgenender_spike = BiomeEndDecorator.getSpikesForWorld(this.world);
+    public void func_186087_f() {
+        WorldGenSpikes.EndSpike[] aworldgenender_spike = BiomeEndDecorator.func_185426_a(this.field_186110_d);
         int i = aworldgenender_spike.length;
 
         for (int j = 0; j < i; ++j) {
             WorldGenSpikes.EndSpike worldgenender_spike = aworldgenender_spike[j];
-            List list = this.world.getEntitiesWithinAABB(EntityEnderCrystal.class, worldgenender_spike.getTopBoundingBox());
+            List list = this.field_186110_d.func_72872_a(EntityEnderCrystal.class, worldgenender_spike.func_186153_f());
             Iterator iterator = list.iterator();
 
             while (iterator.hasNext()) {
                 EntityEnderCrystal entityendercrystal = (EntityEnderCrystal) iterator.next();
 
-                entityendercrystal.setEntityInvulnerable(false);
-                entityendercrystal.setBeamTarget((BlockPos) null);
+                entityendercrystal.func_184224_h(false);
+                entityendercrystal.func_184516_a((BlockPos) null);
             }
         }
 

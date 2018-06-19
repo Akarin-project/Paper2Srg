@@ -13,11 +13,11 @@ public class BlockCompressedPowered extends Block {
         super(material, materialmapcolor);
     }
 
-    public boolean canProvidePower(IBlockState iblockdata) {
+    public boolean func_149744_f(IBlockState iblockdata) {
         return true;
     }
 
-    public int getWeakPower(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection) {
+    public int func_180656_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection) {
         return 15;
     }
 }

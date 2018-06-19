@@ -2,34 +2,34 @@ package net.minecraft.entity.ai;
 
 public abstract class EntityAIBase {
 
-    private int mutexBits;
+    private int field_75254_a;
 
     public EntityAIBase() {}
 
-    public abstract boolean shouldExecute();
+    public abstract boolean func_75250_a();
 
-    public boolean shouldContinueExecuting() {
-        return this.shouldExecute();
+    public boolean func_75253_b() {
+        return this.func_75250_a();
     }
 
-    public boolean isInterruptible() {
+    public boolean func_75252_g() {
         return true;
     }
 
-    public void startExecuting() {}
+    public void func_75249_e() {}
 
-    public void resetTask() {
+    public void func_75251_c() {
         onTaskReset(); // Paper
     }
     public void onTaskReset() {} // Paper
 
-    public void updateTask() {}
+    public void func_75246_d() {}
 
-    public void setMutexBits(int i) {
-        this.mutexBits = i;
+    public void func_75248_a(int i) {
+        this.field_75254_a = i;
     }
 
-    public int getMutexBits() {
-        return this.mutexBits;
+    public int func_75247_h() {
+        return this.field_75254_a;
     }
 }

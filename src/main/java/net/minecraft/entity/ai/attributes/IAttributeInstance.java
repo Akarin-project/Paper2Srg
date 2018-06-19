@@ -6,26 +6,26 @@ import javax.annotation.Nullable;
 
 public interface IAttributeInstance {
 
-    IAttribute getAttribute();
+    IAttribute func_111123_a();
 
-    double getBaseValue();
+    double func_111125_b();
 
-    void setBaseValue(double d0);
+    void func_111128_a(double d0);
 
-    Collection<AttributeModifier> getModifiersByOperation(int i);
+    Collection<AttributeModifier> func_111130_a(int i);
 
-    Collection<AttributeModifier> getModifiers();
+    Collection<AttributeModifier> func_111122_c();
 
-    boolean hasModifier(AttributeModifier attributemodifier);
+    boolean func_180374_a(AttributeModifier attributemodifier);
 
     @Nullable
-    AttributeModifier getModifier(UUID uuid);
+    AttributeModifier func_111127_a(UUID uuid);
 
-    void applyModifier(AttributeModifier attributemodifier);
+    void func_111121_a(AttributeModifier attributemodifier);
 
-    void removeModifier(AttributeModifier attributemodifier);
+    void func_111124_b(AttributeModifier attributemodifier);
 
-    void removeModifier(UUID uuid);
+    void func_188479_b(UUID uuid);
 
-    double getAttributeValue();
+    double func_111126_e();
 }

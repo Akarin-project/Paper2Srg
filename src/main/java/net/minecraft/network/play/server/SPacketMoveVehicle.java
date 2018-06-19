@@ -9,39 +9,39 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketMoveVehicle implements Packet<INetHandlerPlayClient> {
 
-    private double x;
-    private double y;
-    private double z;
-    private float yaw;
-    private float pitch;
+    private double field_186960_a;
+    private double field_186961_b;
+    private double field_186962_c;
+    private float field_186963_d;
+    private float field_186964_e;
 
     public SPacketMoveVehicle() {}
 
     public SPacketMoveVehicle(Entity entity) {
-        this.x = entity.posX;
-        this.y = entity.posY;
-        this.z = entity.posZ;
-        this.yaw = entity.rotationYaw;
-        this.pitch = entity.rotationPitch;
+        this.field_186960_a = entity.field_70165_t;
+        this.field_186961_b = entity.field_70163_u;
+        this.field_186962_c = entity.field_70161_v;
+        this.field_186963_d = entity.field_70177_z;
+        this.field_186964_e = entity.field_70125_A;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.x = packetdataserializer.readDouble();
-        this.y = packetdataserializer.readDouble();
-        this.z = packetdataserializer.readDouble();
-        this.yaw = packetdataserializer.readFloat();
-        this.pitch = packetdataserializer.readFloat();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_186960_a = packetdataserializer.readDouble();
+        this.field_186961_b = packetdataserializer.readDouble();
+        this.field_186962_c = packetdataserializer.readDouble();
+        this.field_186963_d = packetdataserializer.readFloat();
+        this.field_186964_e = packetdataserializer.readFloat();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeDouble(this.x);
-        packetdataserializer.writeDouble(this.y);
-        packetdataserializer.writeDouble(this.z);
-        packetdataserializer.writeFloat(this.yaw);
-        packetdataserializer.writeFloat(this.pitch);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeDouble(this.field_186960_a);
+        packetdataserializer.writeDouble(this.field_186961_b);
+        packetdataserializer.writeDouble(this.field_186962_c);
+        packetdataserializer.writeFloat(this.field_186963_d);
+        packetdataserializer.writeFloat(this.field_186964_e);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleMoveVehicle(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_184323_a(this);
     }
 }

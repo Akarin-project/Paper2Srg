@@ -9,5 +9,5 @@ public class BiomeHellDecorator extends BiomeDecorator {
 
     public BiomeHellDecorator() {}
 
-    public void decorate(World world, Random random, Biome biomebase, BlockPos blockposition) {}
+    public void func_180292_a(World world, Random random, Biome biomebase, BlockPos blockposition) {}
 }

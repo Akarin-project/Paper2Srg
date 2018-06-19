@@ -9,112 +9,112 @@ import net.minecraft.util.math.MathHelper;
 
 public class IntIdentityHashBiMap<K> implements IObjectIntIterable<K> {
 
-    private static final Object EMPTY = null;
-    private K[] values;
-    private int[] intKeys;
-    private K[] byId;
-    private int nextFreeIndex;
-    private int mapSize;
+    private static final Object field_186817_a = null;
+    private K[] field_186818_b;
+    private int[] field_186819_c;
+    private K[] field_186820_d;
+    private int field_186821_e;
+    private int field_186822_f;
 
     public IntIdentityHashBiMap(int i) {
         i = (int) ((float) i / 0.8F);
-        this.values = (Object[]) (new Object[i]);
-        this.intKeys = new int[i];
-        this.byId = (Object[]) (new Object[i]);
+        this.field_186818_b = (Object[]) (new Object[i]);
+        this.field_186819_c = new int[i];
+        this.field_186820_d = (Object[]) (new Object[i]);
     }
 
-    public int getId(@Nullable K k0) {
-        return this.getValue(this.getIndex(k0, this.hashObject(k0)));
+    public int func_186815_a(@Nullable K k0) {
+        return this.func_186805_c(this.func_186816_b(k0, this.func_186811_d(k0)));
     }
 
     @Nullable
-    public K get(int i) {
-        return i >= 0 && i < this.byId.length ? this.byId[i] : null;
+    public K func_186813_a(int i) {
+        return i >= 0 && i < this.field_186820_d.length ? this.field_186820_d[i] : null;
     }
 
-    private int getValue(int i) {
-        return i == -1 ? -1 : this.intKeys[i];
+    private int func_186805_c(int i) {
+        return i == -1 ? -1 : this.field_186819_c[i];
     }
 
-    public int add(K k0) {
-        int i = this.nextId();
+    public int func_186808_c(K k0) {
+        int i = this.func_186809_c();
 
-        this.put(k0, i);
+        this.func_186814_a(k0, i);
         return i;
     }
 
-    private int nextId() {
-        while (this.nextFreeIndex < this.byId.length && this.byId[this.nextFreeIndex] != null) {
-            ++this.nextFreeIndex;
+    private int func_186809_c() {
+        while (this.field_186821_e < this.field_186820_d.length && this.field_186820_d[this.field_186821_e] != null) {
+            ++this.field_186821_e;
         }
 
-        return this.nextFreeIndex;
+        return this.field_186821_e;
     }
 
-    private void grow(int i) {
-        Object[] aobject = this.values;
-        int[] aint = this.intKeys;
+    private void func_186807_d(int i) {
+        Object[] aobject = this.field_186818_b;
+        int[] aint = this.field_186819_c;
 
-        this.values = (Object[]) (new Object[i]);
-        this.intKeys = new int[i];
-        this.byId = (Object[]) (new Object[i]);
-        this.nextFreeIndex = 0;
-        this.mapSize = 0;
+        this.field_186818_b = (Object[]) (new Object[i]);
+        this.field_186819_c = new int[i];
+        this.field_186820_d = (Object[]) (new Object[i]);
+        this.field_186821_e = 0;
+        this.field_186822_f = 0;
 
         for (int j = 0; j < aobject.length; ++j) {
             if (aobject[j] != null) {
-                this.put(aobject[j], aint[j]);
+                this.func_186814_a(aobject[j], aint[j]);
             }
         }
 
     }
 
-    public void put(K k0, int i) {
-        int j = Math.max(i, this.mapSize + 1);
+    public void func_186814_a(K k0, int i) {
+        int j = Math.max(i, this.field_186822_f + 1);
         int k;
 
-        if ((float) j >= (float) this.values.length * 0.8F) {
-            for (k = this.values.length << 1; k < i; k <<= 1) {
+        if ((float) j >= (float) this.field_186818_b.length * 0.8F) {
+            for (k = this.field_186818_b.length << 1; k < i; k <<= 1) {
                 ;
             }
 
-            this.grow(k);
+            this.func_186807_d(k);
         }
 
-        k = this.findEmpty(this.hashObject(k0));
-        this.values[k] = k0;
-        this.intKeys[k] = i;
-        this.byId[i] = k0;
-        ++this.mapSize;
-        if (i == this.nextFreeIndex) {
-            ++this.nextFreeIndex;
+        k = this.func_186806_e(this.func_186811_d(k0));
+        this.field_186818_b[k] = k0;
+        this.field_186819_c[k] = i;
+        this.field_186820_d[i] = k0;
+        ++this.field_186822_f;
+        if (i == this.field_186821_e) {
+            ++this.field_186821_e;
         }
 
     }
 
-    private int hashObject(@Nullable K k0) {
-        return (MathHelper.hash(System.identityHashCode(k0)) & Integer.MAX_VALUE) % this.values.length;
+    private int func_186811_d(@Nullable K k0) {
+        return (MathHelper.func_188208_f(System.identityHashCode(k0)) & Integer.MAX_VALUE) % this.field_186818_b.length;
     }
 
-    private int getIndex(@Nullable K k0, int i) {
+    private int func_186816_b(@Nullable K k0, int i) {
         int j;
 
-        for (j = i; j < this.values.length; ++j) {
-            if (this.values[j] == k0) {
+        for (j = i; j < this.field_186818_b.length; ++j) {
+            if (this.field_186818_b[j] == k0) {
                 return j;
             }
 
-            if (this.values[j] == IntIdentityHashBiMap.EMPTY) {
+            if (this.field_186818_b[j] == IntIdentityHashBiMap.field_186817_a) {
                 return -1;
             }
         }
 
         for (j = 0; j < i; ++j) {
-            if (this.values[j] == k0) {
+            if (this.field_186818_b[j] == k0) {
                 return j;
             }
 
-            if (this.values[j] == IntIdentityHashBiMap.EMPTY) {
+            if (this.field_186818_b[j] == IntIdentityHashBiMap.field_186817_a) {
                 return -1;
             }
         }
@@ -122,17 +122,17 @@ public class IntIdentityHashBiMap<K> implements IObjectIntIterable<K> {
         return -1;
     }
 
-    private int findEmpty(int i) {
+    private int func_186806_e(int i) {
         int j;
 
-        for (j = i; j < this.values.length; ++j) {
-            if (this.values[j] == IntIdentityHashBiMap.EMPTY) {
+        for (j = i; j < this.field_186818_b.length; ++j) {
+            if (this.field_186818_b[j] == IntIdentityHashBiMap.field_186817_a) {
                 return j;
             }
         }
 
         for (j = 0; j < i; ++j) {
-            if (this.values[j] == IntIdentityHashBiMap.EMPTY) {
+            if (this.field_186818_b[j] == IntIdentityHashBiMap.field_186817_a) {
                 return j;
             }
         }
@@ -141,10 +141,10 @@ public class IntIdentityHashBiMap<K> implements IObjectIntIterable<K> {
     }
 
     public Iterator<K> iterator() {
-        return Iterators.filter(Iterators.forArray(this.byId), Predicates.notNull());
+        return Iterators.filter(Iterators.forArray(this.field_186820_d), Predicates.notNull());
     }
 
-    public int size() {
-        return this.mapSize;
+    public int func_186810_b() {
+        return this.field_186822_f;
     }
 }

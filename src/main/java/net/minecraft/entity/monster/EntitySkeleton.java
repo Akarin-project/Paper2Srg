@@ -24,58 +24,58 @@ public class EntitySkeleton extends AbstractSkeleton {
         super(world);
     }
 
-    public static void registerFixesSkeleton(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntitySkeleton.class);
+    public static void func_189772_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntitySkeleton.class);
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_SKELETON;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186385_aj;
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_SKELETON_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_187854_fc;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_SKELETON_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187864_fh;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SKELETON_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187856_fd;
     }
 
-    SoundEvent getStepSound() {
-        return SoundEvents.ENTITY_SKELETON_STEP;
+    SoundEvent func_190727_o() {
+        return SoundEvents.field_187868_fj;
     }
 
-    public void onDeath(DamageSource damagesource) {
+    public void func_70645_a(DamageSource damagesource) {
         // super.die(damagesource); // CraftBukkit
-        if (damagesource.getTrueSource() instanceof EntityCreeper) {
-            EntityCreeper entitycreeper = (EntityCreeper) damagesource.getTrueSource();
+        if (damagesource.func_76346_g() instanceof EntityCreeper) {
+            EntityCreeper entitycreeper = (EntityCreeper) damagesource.func_76346_g();
 
-            if (entitycreeper.getPowered() && entitycreeper.ableToCauseSkullDrop()) {
-                entitycreeper.incrementDroppedSkulls();
-                this.entityDropItem(new ItemStack(Items.SKULL, 1, 0), 0.0F);
+            if (entitycreeper.func_70830_n() && entitycreeper.func_70650_aV()) {
+                entitycreeper.func_175493_co();
+                this.func_70099_a(new ItemStack(Items.field_151144_bL, 1, 0), 0.0F);
             }
         }
-        super.onDeath(damagesource); // CraftBukkit - moved from above
+        super.func_70645_a(damagesource); // CraftBukkit - moved from above
 
     }
 
-    protected EntityArrow getArrow(float f) {
-        ItemStack itemstack = this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND);
+    protected EntityArrow func_190726_a(float f) {
+        ItemStack itemstack = this.func_184582_a(EntityEquipmentSlot.OFFHAND);
 
-        if (itemstack.getItem() == Items.SPECTRAL_ARROW) {
-            EntitySpectralArrow entityspectralarrow = new EntitySpectralArrow(this.world, this);
+        if (itemstack.func_77973_b() == Items.field_185166_h) {
+            EntitySpectralArrow entityspectralarrow = new EntitySpectralArrow(this.field_70170_p, this);
 
-            entityspectralarrow.setEnchantmentEffectsFromEntity((EntityLivingBase) this, f);
+            entityspectralarrow.func_190547_a((EntityLivingBase) this, f);
             return entityspectralarrow;
         } else {
-            EntityArrow entityarrow = super.getArrow(f);
+            EntityArrow entityarrow = super.func_190726_a(f);
 
-            if (itemstack.getItem() == Items.TIPPED_ARROW && entityarrow instanceof EntityTippedArrow) {
-                ((EntityTippedArrow) entityarrow).setPotionEffect(itemstack);
+            if (itemstack.func_77973_b() == Items.field_185167_i && entityarrow instanceof EntityTippedArrow) {
+                ((EntityTippedArrow) entityarrow).func_184555_a(itemstack);
             }
 
             return entityarrow;

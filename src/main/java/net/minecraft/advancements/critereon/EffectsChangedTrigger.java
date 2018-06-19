@@ -21,50 +21,50 @@ import net.minecraft.util.ResourceLocation;
 
 public class EffectsChangedTrigger implements ICriterionTrigger<CriterionTriggerEffectsChanged.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("effects_changed");
-    private final Map<PlayerAdvancements, CriterionTriggerEffectsChanged.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_193154_a = new ResourceLocation("effects_changed");
+    private final Map<PlayerAdvancements, CriterionTriggerEffectsChanged.a> field_193155_b = Maps.newHashMap();
 
     public EffectsChangedTrigger() {}
 
-    public ResourceLocation getId() {
-        return EffectsChangedTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return EffectsChangedTrigger.field_193154_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerEffectsChanged.b> criteriontrigger_a) {
-        CriterionTriggerEffectsChanged.a criteriontriggereffectschanged_a = (CriterionTriggerEffectsChanged.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerEffectsChanged.a criteriontriggereffectschanged_a = (CriterionTriggerEffectsChanged.a) this.field_193155_b.get(advancementdataplayer);
 
         if (criteriontriggereffectschanged_a == null) {
             criteriontriggereffectschanged_a = new CriterionTriggerEffectsChanged.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggereffectschanged_a);
+            this.field_193155_b.put(advancementdataplayer, criteriontriggereffectschanged_a);
         }
 
         criteriontriggereffectschanged_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerEffectsChanged.b> criteriontrigger_a) {
-        CriterionTriggerEffectsChanged.a criteriontriggereffectschanged_a = (CriterionTriggerEffectsChanged.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerEffectsChanged.a criteriontriggereffectschanged_a = (CriterionTriggerEffectsChanged.a) this.field_193155_b.get(advancementdataplayer);
 
         if (criteriontriggereffectschanged_a != null) {
             criteriontriggereffectschanged_a.b(criteriontrigger_a);
             if (criteriontriggereffectschanged_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_193155_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_193155_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerEffectsChanged.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        MobEffectsPredicate criterionconditionmobeffect = MobEffectsPredicate.deserialize(jsonobject.get("effects"));
+        MobEffectsPredicate criterionconditionmobeffect = MobEffectsPredicate.func_193471_a(jsonobject.get("effects"));
 
         return new CriterionTriggerEffectsChanged.b(criterionconditionmobeffect);
     }
 
-    public void trigger(EntityPlayerMP entityplayer) {
-        CriterionTriggerEffectsChanged.a criteriontriggereffectschanged_a = (CriterionTriggerEffectsChanged.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_193153_a(EntityPlayerMP entityplayer) {
+        CriterionTriggerEffectsChanged.a criteriontriggereffectschanged_a = (CriterionTriggerEffectsChanged.a) this.field_193155_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggereffectschanged_a != null) {
             criteriontriggereffectschanged_a.a(entityplayer);
@@ -72,7 +72,7 @@ public class EffectsChangedTrigger implements ICriterionTrigger<CriterionTrigger
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -131,12 +131,12 @@ public class EffectsChangedTrigger implements ICriterionTrigger<CriterionTrigger
         private final MobEffectsPredicate a;
 
         public b(MobEffectsPredicate criterionconditionmobeffect) {
-            super(EffectsChangedTrigger.ID);
+            super(EffectsChangedTrigger.field_193154_a);
             this.a = criterionconditionmobeffect;
         }
 
         public boolean a(EntityPlayerMP entityplayer) {
-            return this.a.test((EntityLivingBase) entityplayer);
+            return this.a.func_193472_a((EntityLivingBase) entityplayer);
         }
     }
 }

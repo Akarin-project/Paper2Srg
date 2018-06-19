@@ -8,33 +8,33 @@ public class PaintingDirection implements IFixableData {
 
     public PaintingDirection() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 111;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        String s = nbttagcompound.getString("id");
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        String s = nbttagcompound.func_74779_i("id");
         boolean flag = "Painting".equals(s);
         boolean flag1 = "ItemFrame".equals(s);
 
-        if ((flag || flag1) && !nbttagcompound.hasKey("Facing", 99)) {
+        if ((flag || flag1) && !nbttagcompound.func_150297_b("Facing", 99)) {
             EnumFacing enumdirection;
 
-            if (nbttagcompound.hasKey("Direction", 99)) {
-                enumdirection = EnumFacing.getHorizontal(nbttagcompound.getByte("Direction"));
-                nbttagcompound.setInteger("TileX", nbttagcompound.getInteger("TileX") + enumdirection.getFrontOffsetX());
-                nbttagcompound.setInteger("TileY", nbttagcompound.getInteger("TileY") + enumdirection.getFrontOffsetY());
-                nbttagcompound.setInteger("TileZ", nbttagcompound.getInteger("TileZ") + enumdirection.getFrontOffsetZ());
-                nbttagcompound.removeTag("Direction");
-                if (flag1 && nbttagcompound.hasKey("ItemRotation", 99)) {
-                    nbttagcompound.setByte("ItemRotation", (byte) (nbttagcompound.getByte("ItemRotation") * 2));
+            if (nbttagcompound.func_150297_b("Direction", 99)) {
+                enumdirection = EnumFacing.func_176731_b(nbttagcompound.func_74771_c("Direction"));
+                nbttagcompound.func_74768_a("TileX", nbttagcompound.func_74762_e("TileX") + enumdirection.func_82601_c());
+                nbttagcompound.func_74768_a("TileY", nbttagcompound.func_74762_e("TileY") + enumdirection.func_96559_d());
+                nbttagcompound.func_74768_a("TileZ", nbttagcompound.func_74762_e("TileZ") + enumdirection.func_82599_e());
+                nbttagcompound.func_82580_o("Direction");
+                if (flag1 && nbttagcompound.func_150297_b("ItemRotation", 99)) {
+                    nbttagcompound.func_74774_a("ItemRotation", (byte) (nbttagcompound.func_74771_c("ItemRotation") * 2));
                 }
             } else {
-                enumdirection = EnumFacing.getHorizontal(nbttagcompound.getByte("Dir"));
-                nbttagcompound.removeTag("Dir");
+                enumdirection = EnumFacing.func_176731_b(nbttagcompound.func_74771_c("Dir"));
+                nbttagcompound.func_82580_o("Dir");
             }
 
-            nbttagcompound.setByte("Facing", (byte) enumdirection.getHorizontalIndex());
+            nbttagcompound.func_74774_a("Facing", (byte) enumdirection.func_176736_b());
         }
 
         return nbttagcompound;

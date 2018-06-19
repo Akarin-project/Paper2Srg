@@ -22,40 +22,40 @@ import net.minecraft.world.World;
 
 public class BlockSponge extends Block {
 
-    public static final PropertyBool WET = PropertyBool.create("wet");
+    public static final PropertyBool field_176313_a = PropertyBool.func_177716_a("wet");
 
     protected BlockSponge() {
-        super(Material.SPONGE);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockSponge.WET, Boolean.valueOf(false)));
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151583_m);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockSponge.field_176313_a, Boolean.valueOf(false)));
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public String getLocalizedName() {
-        return I18n.translateToLocal(this.getUnlocalizedName() + ".dry.name");
+    public String func_149732_F() {
+        return I18n.func_74838_a(this.func_149739_a() + ".dry.name");
     }
 
-    public int damageDropped(IBlockState iblockdata) {
-        return ((Boolean) iblockdata.getValue(BlockSponge.WET)).booleanValue() ? 1 : 0;
+    public int func_180651_a(IBlockState iblockdata) {
+        return ((Boolean) iblockdata.func_177229_b(BlockSponge.field_176313_a)).booleanValue() ? 1 : 0;
     }
 
-    public void onBlockAdded(World world, BlockPos blockposition, IBlockState iblockdata) {
-        this.tryAbsorb(world, blockposition, iblockdata);
+    public void func_176213_c(World world, BlockPos blockposition, IBlockState iblockdata) {
+        this.func_176311_e(world, blockposition, iblockdata);
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        this.tryAbsorb(world, blockposition, iblockdata);
-        super.neighborChanged(iblockdata, world, blockposition, block, blockposition1);
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        this.func_176311_e(world, blockposition, iblockdata);
+        super.func_189540_a(iblockdata, world, blockposition, block, blockposition1);
     }
 
-    protected void tryAbsorb(World world, BlockPos blockposition, IBlockState iblockdata) {
-        if (!((Boolean) iblockdata.getValue(BlockSponge.WET)).booleanValue() && this.absorb(world, blockposition)) {
-            world.setBlockState(blockposition, iblockdata.withProperty(BlockSponge.WET, Boolean.valueOf(true)), 2);
-            world.playEvent(2001, blockposition, Block.getIdFromBlock(Blocks.WATER));
+    protected void func_176311_e(World world, BlockPos blockposition, IBlockState iblockdata) {
+        if (!((Boolean) iblockdata.func_177229_b(BlockSponge.field_176313_a)).booleanValue() && this.func_176312_d(world, blockposition)) {
+            world.func_180501_a(blockposition, iblockdata.func_177226_a(BlockSponge.field_176313_a, Boolean.valueOf(true)), 2);
+            world.func_175718_b(2001, blockposition, Block.func_149682_b(Blocks.field_150355_j));
         }
 
     }
 
-    private boolean absorb(World world, BlockPos blockposition) {
+    private boolean func_176312_d(World world, BlockPos blockposition) {
         LinkedList linkedlist = Lists.newLinkedList();
         ArrayList arraylist = Lists.newArrayList();
 
@@ -67,17 +67,17 @@ public class BlockSponge extends Block {
         while (!linkedlist.isEmpty()) {
             Tuple tuple = (Tuple) linkedlist.poll();
 
-            blockposition1 = (BlockPos) tuple.getFirst();
-            int j = ((Integer) tuple.getSecond()).intValue();
+            blockposition1 = (BlockPos) tuple.func_76341_a();
+            int j = ((Integer) tuple.func_76340_b()).intValue();
             EnumFacing[] aenumdirection = EnumFacing.values();
             int k = aenumdirection.length;
 
             for (int l = 0; l < k; ++l) {
                 EnumFacing enumdirection = aenumdirection[l];
-                BlockPos blockposition2 = blockposition1.offset(enumdirection);
+                BlockPos blockposition2 = blockposition1.func_177972_a(enumdirection);
 
-                if (world.getBlockState(blockposition2).getMaterial() == Material.WATER) {
-                    world.setBlockState(blockposition2, Blocks.AIR.getDefaultState(), 2);
+                if (world.func_180495_p(blockposition2).func_185904_a() == Material.field_151586_h) {
+                    world.func_180501_a(blockposition2, Blocks.field_150350_a.func_176223_P(), 2);
                     arraylist.add(blockposition2);
                     ++i;
                     if (j < 6) {
@@ -95,26 +95,26 @@ public class BlockSponge extends Block {
 
         while (iterator.hasNext()) {
             blockposition1 = (BlockPos) iterator.next();
-            world.notifyNeighborsOfStateChange(blockposition1, Blocks.AIR, false);
+            world.func_175685_c(blockposition1, Blocks.field_150350_a, false);
         }
 
         return i > 0;
     }
 
-    public void getSubBlocks(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+    public void func_149666_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
         nonnulllist.add(new ItemStack(this, 1, 0));
         nonnulllist.add(new ItemStack(this, 1, 1));
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockSponge.WET, Boolean.valueOf((i & 1) == 1));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockSponge.field_176313_a, Boolean.valueOf((i & 1) == 1));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((Boolean) iblockdata.getValue(BlockSponge.WET)).booleanValue() ? 1 : 0;
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((Boolean) iblockdata.func_177229_b(BlockSponge.field_176313_a)).booleanValue() ? 1 : 0;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockSponge.WET});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockSponge.field_176313_a});
     }
 }

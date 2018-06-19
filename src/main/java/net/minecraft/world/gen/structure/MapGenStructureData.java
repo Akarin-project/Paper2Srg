@@ -5,30 +5,30 @@ import net.minecraft.world.storage.WorldSavedData;
 
 public class MapGenStructureData extends WorldSavedData {
 
-    private NBTTagCompound tagCompound = new NBTTagCompound();
+    private NBTTagCompound field_143044_a = new NBTTagCompound();
 
     public MapGenStructureData(String s) {
         super(s);
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        this.tagCompound = nbttagcompound.getCompoundTag("Features");
+    public void func_76184_a(NBTTagCompound nbttagcompound) {
+        this.field_143044_a = nbttagcompound.func_74775_l("Features");
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setTag("Features", this.tagCompound);
+    public NBTTagCompound func_189551_b(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74782_a("Features", this.field_143044_a);
         return nbttagcompound;
     }
 
-    public void writeInstance(NBTTagCompound nbttagcompound, int i, int j) {
-        this.tagCompound.setTag(formatChunkCoords(i, j), nbttagcompound);
+    public void func_143043_a(NBTTagCompound nbttagcompound, int i, int j) {
+        this.field_143044_a.func_74782_a(func_143042_b(i, j), nbttagcompound);
     }
 
-    public static String formatChunkCoords(int i, int j) {
+    public static String func_143042_b(int i, int j) {
         return "[" + i + "," + j + "]";
     }
 
-    public NBTTagCompound getTagCompound() {
-        return this.tagCompound;
+    public NBTTagCompound func_143041_a() {
+        return this.field_143044_a;
     }
 }

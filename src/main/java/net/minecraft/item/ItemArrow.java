@@ -9,13 +9,13 @@ import net.minecraft.world.World;
 public class ItemArrow extends Item {
 
     public ItemArrow() {
-        this.setCreativeTab(CreativeTabs.COMBAT);
+        this.func_77637_a(CreativeTabs.field_78037_j);
     }
 
-    public EntityArrow createArrow(World world, ItemStack itemstack, EntityLivingBase entityliving) {
+    public EntityArrow func_185052_a(World world, ItemStack itemstack, EntityLivingBase entityliving) {
         EntityTippedArrow entitytippedarrow = new EntityTippedArrow(world, entityliving);
 
-        entitytippedarrow.setPotionEffect(itemstack);
+        entitytippedarrow.func_184555_a(itemstack);
         return entitytippedarrow;
     }
 }

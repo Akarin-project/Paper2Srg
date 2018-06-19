@@ -21,62 +21,62 @@ import net.minecraft.world.World;
 public class BlockIce extends BlockBreakable {
 
     public BlockIce() {
-        super(Material.ICE, false);
-        this.slipperiness = 0.98F;
-        this.setTickRandomly(true);
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151588_w, false);
+        this.field_149765_K = 0.98F;
+        this.func_149675_a(true);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public void harvestBlock(World world, EntityPlayer entityhuman, BlockPos blockposition, IBlockState iblockdata, @Nullable TileEntity tileentity, ItemStack itemstack) {
-        entityhuman.addStat(StatList.getBlockStats((Block) this));
-        entityhuman.addExhaustion(0.005F);
-        if (this.canSilkHarvest() && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, itemstack) > 0) {
-            spawnAsEntity(world, blockposition, this.getSilkTouchDrop(iblockdata));
+    public void func_180657_a(World world, EntityPlayer entityhuman, BlockPos blockposition, IBlockState iblockdata, @Nullable TileEntity tileentity, ItemStack itemstack) {
+        entityhuman.func_71029_a(StatList.func_188055_a((Block) this));
+        entityhuman.func_71020_j(0.005F);
+        if (this.func_149700_E() && EnchantmentHelper.func_77506_a(Enchantments.field_185306_r, itemstack) > 0) {
+            func_180635_a(world, blockposition, this.func_180643_i(iblockdata));
         } else {
-            if (world.provider.doesWaterVaporize()) {
-                world.setBlockToAir(blockposition);
+            if (world.field_73011_w.func_177500_n()) {
+                world.func_175698_g(blockposition);
                 return;
             }
 
-            int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, itemstack);
+            int i = EnchantmentHelper.func_77506_a(Enchantments.field_185308_t, itemstack);
 
-            this.dropBlockAsItem(world, blockposition, iblockdata, i);
-            Material material = world.getBlockState(blockposition.down()).getMaterial();
+            this.func_176226_b(world, blockposition, iblockdata, i);
+            Material material = world.func_180495_p(blockposition.func_177977_b()).func_185904_a();
 
-            if (material.blocksMovement() || material.isLiquid()) {
-                world.setBlockState(blockposition, Blocks.FLOWING_WATER.getDefaultState());
+            if (material.func_76230_c() || material.func_76224_d()) {
+                world.func_175656_a(blockposition, Blocks.field_150358_i.func_176223_P());
             }
         }
 
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 0;
     }
 
-    public void updateTick(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        if (world.getLightFor(EnumSkyBlock.BLOCK, blockposition) > 11 - this.getDefaultState().getLightOpacity()) {
-            this.turnIntoWater(world, blockposition);
+    public void func_180650_b(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        if (world.func_175642_b(EnumSkyBlock.BLOCK, blockposition) > 11 - this.func_176223_P().func_185891_c()) {
+            this.func_185679_b(world, blockposition);
         }
 
     }
 
-    protected void turnIntoWater(World world, BlockPos blockposition) {
+    protected void func_185679_b(World world, BlockPos blockposition) {
         // CraftBukkit start
-        if (org.bukkit.craftbukkit.event.CraftEventFactory.callBlockFadeEvent(world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()), world.provider.doesWaterVaporize() ? Blocks.AIR : Blocks.WATER).isCancelled()) {
+        if (org.bukkit.craftbukkit.event.CraftEventFactory.callBlockFadeEvent(world.getWorld().getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p()), world.field_73011_w.func_177500_n() ? Blocks.field_150350_a : Blocks.field_150355_j).isCancelled()) {
             return;
         }
         // CraftBukkit end
-        if (world.provider.doesWaterVaporize()) {
-            world.setBlockToAir(blockposition);
+        if (world.field_73011_w.func_177500_n()) {
+            world.func_175698_g(blockposition);
         } else {
-            this.dropBlockAsItem(world, blockposition, world.getBlockState(blockposition), 0);
-            world.setBlockState(blockposition, Blocks.WATER.getDefaultState());
-            world.neighborChanged(blockposition, (Block) Blocks.WATER, blockposition);
+            this.func_176226_b(world, blockposition, world.func_180495_p(blockposition), 0);
+            world.func_175656_a(blockposition, Blocks.field_150355_j.func_176223_P());
+            world.func_190524_a(blockposition, (Block) Blocks.field_150355_j, blockposition);
         }
     }
 
-    public EnumPushReaction getMobilityFlag(IBlockState iblockdata) {
+    public EnumPushReaction func_149656_h(IBlockState iblockdata) {
         return EnumPushReaction.NORMAL;
     }
 }

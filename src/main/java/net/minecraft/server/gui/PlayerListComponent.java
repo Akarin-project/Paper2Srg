@@ -9,20 +9,20 @@ import net.minecraft.util.ITickable;
 
 public class PlayerListComponent extends JList implements ITickable {
 
-    private final MinecraftServer server;
-    private int ticks;
+    private final MinecraftServer field_120015_a;
+    private int field_120014_b;
 
     public PlayerListComponent(MinecraftServer minecraftserver) {
-        this.server = minecraftserver;
-        minecraftserver.registerTickable((ITickable) this);
+        this.field_120015_a = minecraftserver;
+        minecraftserver.func_82010_a((ITickable) this);
     }
 
-    public void update() {
-        if (this.ticks++ % 20 == 0) {
+    public void func_73660_a() {
+        if (this.field_120014_b++ % 20 == 0) {
             Vector vector = new Vector();
 
-            for (int i = 0; i < this.server.getPlayerList().getPlayers().size(); ++i) {
-                vector.add(((EntityPlayerMP) this.server.getPlayerList().getPlayers().get(i)).getName());
+            for (int i = 0; i < this.field_120015_a.func_184103_al().func_181057_v().size(); ++i) {
+                vector.add(((EntityPlayerMP) this.field_120015_a.func_184103_al().func_181057_v().get(i)).func_70005_c_());
             }
 
             this.setListData(vector);

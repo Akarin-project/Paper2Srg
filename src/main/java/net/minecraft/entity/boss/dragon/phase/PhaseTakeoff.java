@@ -11,41 +11,41 @@ import net.minecraft.world.gen.feature.WorldGenEndPodium;
 
 public class PhaseTakeoff extends PhaseBase {
 
-    private boolean firstTick;
-    private Path currentPath;
-    private Vec3d targetLocation;
+    private boolean field_188697_b;
+    private Path field_188698_c;
+    private Vec3d field_188699_d;
 
     public PhaseTakeoff(EntityDragon entityenderdragon) {
         super(entityenderdragon);
     }
 
-    public void doLocalUpdate() {
-        if (!this.firstTick && this.currentPath != null) {
-            BlockPos blockposition = this.dragon.world.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION);
-            double d0 = this.dragon.getDistanceSqToCenter(blockposition);
+    public void func_188659_c() {
+        if (!this.field_188697_b && this.field_188698_c != null) {
+            BlockPos blockposition = this.field_188661_a.field_70170_p.func_175672_r(WorldGenEndPodium.field_186139_a);
+            double d0 = this.field_188661_a.func_174831_c(blockposition);
 
             if (d0 > 100.0D) {
-                this.dragon.getPhaseManager().setPhase(PhaseList.HOLDING_PATTERN);
+                this.field_188661_a.func_184670_cT().func_188758_a(PhaseList.field_188741_a);
             }
         } else {
-            this.firstTick = false;
-            this.findNewTarget();
+            this.field_188697_b = false;
+            this.func_188695_j();
         }
 
     }
 
-    public void initPhase() {
-        this.firstTick = true;
-        this.currentPath = null;
-        this.targetLocation = null;
+    public void func_188660_d() {
+        this.field_188697_b = true;
+        this.field_188698_c = null;
+        this.field_188699_d = null;
     }
 
-    private void findNewTarget() {
-        int i = this.dragon.initPathPoints();
-        Vec3d vec3d = this.dragon.getHeadLookVec(1.0F);
-        int j = this.dragon.getNearestPpIdx(-vec3d.x * 40.0D, 105.0D, -vec3d.z * 40.0D);
+    private void func_188695_j() {
+        int i = this.field_188661_a.func_184671_o();
+        Vec3d vec3d = this.field_188661_a.func_184665_a(1.0F);
+        int j = this.field_188661_a.func_184663_l(-vec3d.field_72450_a * 40.0D, 105.0D, -vec3d.field_72449_c * 40.0D);
 
-        if (this.dragon.getFightManager() != null && this.dragon.getFightManager().getNumAliveCrystals() > 0) {
+        if (this.field_188661_a.func_184664_cU() != null && this.field_188661_a.func_184664_cU().func_186092_c() > 0) {
             j %= 12;
             if (j < 0) {
                 j += 12;
@@ -56,34 +56,34 @@ public class PhaseTakeoff extends PhaseBase {
             j += 12;
         }
 
-        this.currentPath = this.dragon.findPath(i, j, (PathPoint) null);
-        if (this.currentPath != null) {
-            this.currentPath.incrementPathIndex();
-            this.navigateToNextPathNode();
+        this.field_188698_c = this.field_188661_a.func_184666_a(i, j, (PathPoint) null);
+        if (this.field_188698_c != null) {
+            this.field_188698_c.func_75875_a();
+            this.func_188696_k();
         }
 
     }
 
-    private void navigateToNextPathNode() {
-        Vec3d vec3d = this.currentPath.getCurrentPos();
+    private void func_188696_k() {
+        Vec3d vec3d = this.field_188698_c.func_186310_f();
 
-        this.currentPath.incrementPathIndex();
+        this.field_188698_c.func_75875_a();
 
         double d0;
 
         do {
-            d0 = vec3d.y + (double) (this.dragon.getRNG().nextFloat() * 20.0F);
-        } while (d0 < vec3d.y);
+            d0 = vec3d.field_72448_b + (double) (this.field_188661_a.func_70681_au().nextFloat() * 20.0F);
+        } while (d0 < vec3d.field_72448_b);
 
-        this.targetLocation = new Vec3d(vec3d.x, d0, vec3d.z);
+        this.field_188699_d = new Vec3d(vec3d.field_72450_a, d0, vec3d.field_72449_c);
     }
 
     @Nullable
-    public Vec3d getTargetLocation() {
-        return this.targetLocation;
+    public Vec3d func_188650_g() {
+        return this.field_188699_d;
     }
 
-    public PhaseList<PhaseTakeoff> getType() {
-        return PhaseList.TAKEOFF;
+    public PhaseList<PhaseTakeoff> func_188652_i() {
+        return PhaseList.field_188745_e;
     }
 }

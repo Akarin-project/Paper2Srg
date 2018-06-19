@@ -18,16 +18,16 @@ public abstract class CraftContainer<T extends TileEntityLockable> extends Craft
 
     @Override
     public boolean isLocked() {
-        return this.getSnapshot().isLocked();
+        return this.getSnapshot().func_174893_q_();
     }
 
     @Override
     public String getLock() {
-        return this.getSnapshot().getLockCode().getLock();
+        return this.getSnapshot().func_174891_i().func_180159_b();
     }
 
     @Override
     public void setLock(String key) {
-        this.getSnapshot().setLockCode(key == null ? LockCode.EMPTY_CODE : new LockCode(key));
+        this.getSnapshot().func_174892_a(key == null ? LockCode.field_180162_a : new LockCode(key));
     }
 }

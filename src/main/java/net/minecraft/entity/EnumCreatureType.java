@@ -9,35 +9,35 @@ import net.minecraft.entity.passive.IAnimals;
 
 public enum EnumCreatureType {
 
-    MONSTER(IMob.class, 70, Material.AIR, false, false), CREATURE(EntityAnimal.class, 10, Material.AIR, true, true), AMBIENT(EntityAmbientCreature.class, 15, Material.AIR, true, false), WATER_CREATURE(EntityWaterMob.class, 5, Material.WATER, true, false);
+    MONSTER(IMob.class, 70, Material.field_151579_a, false, false), CREATURE(EntityAnimal.class, 10, Material.field_151579_a, true, true), AMBIENT(EntityAmbientCreature.class, 15, Material.field_151579_a, true, false), WATER_CREATURE(EntityWaterMob.class, 5, Material.field_151586_h, true, false);
 
-    private final Class<? extends IAnimals> creatureClass;
-    private final int maxNumberOfCreature;
-    private final Material creatureMaterial;
-    private final boolean isPeacefulCreature;
-    private final boolean isAnimal;
+    private final Class<? extends IAnimals> field_75605_d;
+    private final int field_75606_e;
+    private final Material field_75603_f;
+    private final boolean field_75604_g;
+    private final boolean field_82707_i;
 
     private EnumCreatureType(Class<? extends IAnimals> oclass, int i, Material material, boolean flag, boolean flag1) {
-        this.creatureClass = oclass;
-        this.maxNumberOfCreature = i;
-        this.creatureMaterial = material;
-        this.isPeacefulCreature = flag;
-        this.isAnimal = flag1;
+        this.field_75605_d = oclass;
+        this.field_75606_e = i;
+        this.field_75603_f = material;
+        this.field_75604_g = flag;
+        this.field_82707_i = flag1;
     }
 
-    public Class<? extends IAnimals> getCreatureClass() {
-        return this.creatureClass;
+    public Class<? extends IAnimals> func_75598_a() {
+        return this.field_75605_d;
     }
 
-    public int getMaxNumberOfCreature() {
-        return this.maxNumberOfCreature;
+    public int func_75601_b() {
+        return this.field_75606_e;
     }
 
-    public boolean getPeacefulCreature() {
-        return this.isPeacefulCreature;
+    public boolean func_75599_d() {
+        return this.field_75604_g;
     }
 
-    public boolean getAnimal() {
-        return this.isAnimal;
+    public boolean func_82705_e() {
+        return this.field_82707_i;
     }
 }

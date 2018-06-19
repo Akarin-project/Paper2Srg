@@ -4,19 +4,19 @@ public class MaterialLiquid extends Material {
 
     public MaterialLiquid(MapColor materialmapcolor) {
         super(materialmapcolor);
-        this.setReplaceable();
-        this.setNoPushMobility();
+        this.func_76231_i();
+        this.func_76219_n();
     }
 
-    public boolean isLiquid() {
+    public boolean func_76224_d() {
         return true;
     }
 
-    public boolean blocksMovement() {
+    public boolean func_76230_c() {
         return false;
     }
 
-    public boolean isSolid() {
+    public boolean func_76220_a() {
         return false;
     }
 }

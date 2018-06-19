@@ -8,48 +8,48 @@ import net.minecraft.village.VillageDoorInfo;
 
 public class EntityAIRestrictOpenDoor extends EntityAIBase {
 
-    private final EntityCreature entity;
-    private VillageDoorInfo frontDoor;
+    private final EntityCreature field_75275_a;
+    private VillageDoorInfo field_75274_b;
 
     public EntityAIRestrictOpenDoor(EntityCreature entitycreature) {
-        this.entity = entitycreature;
-        if (!(entitycreature.getNavigator() instanceof PathNavigateGround)) {
+        this.field_75275_a = entitycreature;
+        if (!(entitycreature.func_70661_as() instanceof PathNavigateGround)) {
             throw new IllegalArgumentException("Unsupported mob type for RestrictOpenDoorGoal");
         }
     }
 
-    public boolean shouldExecute() {
-        if (this.entity.world.isDaytime()) {
+    public boolean func_75250_a() {
+        if (this.field_75275_a.field_70170_p.func_72935_r()) {
             return false;
         } else {
-            BlockPos blockposition = new BlockPos(this.entity);
-            Village village = this.entity.world.getVillageCollection().getNearestVillage(blockposition, 16);
+            BlockPos blockposition = new BlockPos(this.field_75275_a);
+            Village village = this.field_75275_a.field_70170_p.func_175714_ae().func_176056_a(blockposition, 16);
 
             if (village == null) {
                 return false;
             } else {
-                this.frontDoor = village.getNearestDoor(blockposition);
-                return this.frontDoor == null ? false : (double) this.frontDoor.getDistanceToInsideBlockSq(blockposition) < 2.25D;
+                this.field_75274_b = village.func_179865_b(blockposition);
+                return this.field_75274_b == null ? false : (double) this.field_75274_b.func_179846_b(blockposition) < 2.25D;
             }
         }
     }
 
-    public boolean shouldContinueExecuting() {
-        return this.entity.world.isDaytime() ? false : !this.frontDoor.getIsDetachedFromVillageFlag() && this.frontDoor.isInsideSide(new BlockPos(this.entity));
+    public boolean func_75253_b() {
+        return this.field_75275_a.field_70170_p.func_72935_r() ? false : !this.field_75274_b.func_179851_i() && this.field_75274_b.func_179850_c(new BlockPos(this.field_75275_a));
     }
 
-    public void startExecuting() {
-        ((PathNavigateGround) this.entity.getNavigator()).setBreakDoors(false);
-        ((PathNavigateGround) this.entity.getNavigator()).setEnterDoors(false);
+    public void func_75249_e() {
+        ((PathNavigateGround) this.field_75275_a.func_70661_as()).func_179688_b(false);
+        ((PathNavigateGround) this.field_75275_a.func_70661_as()).func_179691_c(false);
     }
 
-    public void resetTask() {
-        ((PathNavigateGround) this.entity.getNavigator()).setBreakDoors(true);
-        ((PathNavigateGround) this.entity.getNavigator()).setEnterDoors(true);
-        this.frontDoor = null;
+    public void func_75251_c() {
+        ((PathNavigateGround) this.field_75275_a.func_70661_as()).func_179688_b(true);
+        ((PathNavigateGround) this.field_75275_a.func_70661_as()).func_179691_c(true);
+        this.field_75274_b = null;
     }
 
-    public void updateTask() {
-        this.frontDoor.incrementDoorOpeningRestrictionCounter();
+    public void func_75246_d() {
+        this.field_75274_b.func_75470_e();
     }
 }

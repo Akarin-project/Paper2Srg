@@ -19,7 +19,7 @@ public class CraftAttributeMap implements Attributable {
     @Override
     public AttributeInstance getAttribute(Attribute attribute) {
         Preconditions.checkArgument(attribute != null, "attribute");
-        entity.ai.attributes.IAttributeInstance nms = handle.getAttributeInstanceByName(toMinecraft(attribute.name()));
+        entity.ai.attributes.IAttributeInstance nms = handle.func_111152_a(toMinecraft(attribute.name()));
 
         return (nms == null) ? null : new CraftAttributeInstance(nms, attribute);
     }

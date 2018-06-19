@@ -19,93 +19,93 @@ public class EntityMagmaCube extends EntitySlime {
 
     public EntityMagmaCube(World world) {
         super(world);
-        this.isImmuneToFire = true;
+        this.field_70178_ae = true;
     }
 
-    public static void registerFixesMagmaCube(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityMagmaCube.class);
+    public static void func_189759_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityMagmaCube.class);
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20000000298023224D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.20000000298023224D);
     }
 
-    public boolean getCanSpawnHere() {
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
+    public boolean func_70601_bi() {
+        return this.field_70170_p.func_175659_aa() != EnumDifficulty.PEACEFUL;
     }
 
-    public boolean isNotColliding() {
-        return this.world.checkNoEntityCollision(this.getEntityBoundingBox(), (Entity) this) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox());
+    public boolean func_70058_J() {
+        return this.field_70170_p.func_72917_a(this.func_174813_aQ(), (Entity) this) && this.field_70170_p.func_184144_a(this, this.func_174813_aQ()).isEmpty() && !this.field_70170_p.func_72953_d(this.func_174813_aQ());
     }
 
     protected void setSize(int i, boolean flag) {
-        super.setSlimeSize(i, flag);
-        this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue((double) (i * 3));
+        super.func_70799_a(i, flag);
+        this.func_110148_a(SharedMonsterAttributes.field_188791_g).func_111128_a((double) (i * 3));
     }
 
-    public float getBrightness() {
+    public float func_70013_c() {
         return 1.0F;
     }
 
-    protected EnumParticleTypes getParticleType() {
+    protected EnumParticleTypes func_180487_n() {
         return EnumParticleTypes.FLAME;
     }
 
-    protected EntitySlime createInstance() {
-        return new EntityMagmaCube(this.world);
+    protected EntitySlime func_70802_j() {
+        return new EntityMagmaCube(this.field_70170_p);
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return this.isSmallSlime() ? LootTableList.EMPTY : LootTableList.ENTITIES_MAGMA_CUBE;
+    protected ResourceLocation func_184647_J() {
+        return this.func_189101_db() ? LootTableList.field_186419_a : LootTableList.field_186379_ad;
     }
 
-    public boolean isBurning() {
+    public boolean func_70027_ad() {
         return false;
     }
 
-    protected int getJumpDelay() {
-        return super.getJumpDelay() * 4;
+    protected int func_70806_k() {
+        return super.func_70806_k() * 4;
     }
 
-    protected void alterSquishAmount() {
-        this.squishAmount *= 0.9F;
+    protected void func_70808_l() {
+        this.field_70813_a *= 0.9F;
     }
 
-    protected void jump() {
-        this.motionY = (double) (0.42F + (float) this.getSlimeSize() * 0.1F);
-        this.isAirBorne = true;
+    protected void func_70664_aZ() {
+        this.field_70181_x = (double) (0.42F + (float) this.func_70809_q() * 0.1F);
+        this.field_70160_al = true;
     }
 
-    protected void handleJumpLava() {
-        this.motionY = (double) (0.22F + (float) this.getSlimeSize() * 0.05F);
-        this.isAirBorne = true;
+    protected void func_180466_bG() {
+        this.field_70181_x = (double) (0.22F + (float) this.func_70809_q() * 0.05F);
+        this.field_70160_al = true;
     }
 
-    public void fall(float f, float f1) {}
+    public void func_180430_e(float f, float f1) {}
 
-    protected boolean canDamagePlayer() {
+    protected boolean func_70800_m() {
         return true;
     }
 
-    protected int getAttackStrength() {
-        return super.getAttackStrength() + 2;
+    protected int func_70805_n() {
+        return super.func_70805_n() + 2;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return this.isSmallSlime() ? SoundEvents.ENTITY_SMALL_MAGMACUBE_HURT : SoundEvents.ENTITY_MAGMACUBE_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return this.func_189101_db() ? SoundEvents.field_187892_fv : SoundEvents.field_187760_dh;
     }
 
-    protected SoundEvent getDeathSound() {
-        return this.isSmallSlime() ? SoundEvents.ENTITY_SMALL_MAGMACUBE_DEATH : SoundEvents.ENTITY_MAGMACUBE_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return this.func_189101_db() ? SoundEvents.field_187890_fu : SoundEvents.field_187758_dg;
     }
 
-    protected SoundEvent getSquishSound() {
-        return this.isSmallSlime() ? SoundEvents.ENTITY_SMALL_MAGMACUBE_SQUISH : SoundEvents.ENTITY_MAGMACUBE_SQUISH;
+    protected SoundEvent func_184709_cY() {
+        return this.func_189101_db() ? SoundEvents.field_187894_fw : SoundEvents.field_187764_dj;
     }
 
-    protected SoundEvent getJumpSound() {
-        return SoundEvents.ENTITY_MAGMACUBE_JUMP;
+    protected SoundEvent func_184710_cZ() {
+        return SoundEvents.field_187762_di;
     }
 }

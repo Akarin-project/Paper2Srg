@@ -58,34 +58,34 @@ import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 
 public class Chunk {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    public static final ExtendedBlockStorage NULL_BLOCK_STORAGE = null; public static final ExtendedBlockStorage EMPTY_CHUNK_SECTION = Chunk.NULL_BLOCK_STORAGE; // Paper - OBFHELPER
-    private final ExtendedBlockStorage[] storageArrays;
-    private final byte[] blockBiomeArray;
-    private final int[] precipitationHeightMap;
-    private final boolean[] updateSkylightColumns;
-    private boolean loaded;
-    public final World world;
-    public final int[] heightMap;
+    private static final Logger field_150817_t = LogManager.getLogger();
+    public static final ExtendedBlockStorage field_186036_a = null; public static final ExtendedBlockStorage EMPTY_CHUNK_SECTION = Chunk.field_186036_a; // Paper - OBFHELPER
+    private final ExtendedBlockStorage[] field_76652_q;
+    private final byte[] field_76651_r;
+    private final int[] field_76638_b;
+    private final boolean[] field_76639_c;
+    private boolean field_76636_d;
+    public final World field_76637_e;
+    public final int[] field_76634_f;
     public Long scheduledForUnload; // Paper - delay chunk unloads
-    public final int x;
-    public final int z;
-    private boolean isGapLightingUpdated;
-    public final Map<BlockPos, TileEntity> tileEntities;
-    public final List<Entity>[] entityLists; // Spigot
-    public final PaperLightingQueue.LightingQueue lightingQueue = new PaperLightingQueue.LightingQueue(this); // Paper
-    private boolean isTerrainPopulated;
-    private boolean isLightPopulated;
-    private boolean ticked; private boolean isTicked() { return ticked; }; // Paper - OBFHELPER
-    private boolean dirty;
-    private boolean hasEntities;
-    private long lastSaveTime;
-    private int heightMapMinimum;
-    private long inhabitedTime;
-    private int queuedLightChecks;
-    private final ConcurrentLinkedQueue<BlockPos> tileEntityPosQueue;
-    public boolean unloadQueued; public void setShouldUnload(boolean unload) { this.unloadQueued = unload; } public boolean isUnloading() { return unloadQueued; } // Paper - OBFHELPER
-    public gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<Class>(); // Spigot
+    public final int field_76635_g;
+    public final int field_76647_h;
+    private boolean field_76650_s;
+    public final Map<BlockPos, TileEntity> field_150816_i;
+    public final List<Entity>[] field_76645_j; // Spigot
+    final PaperLightingQueue.LightingQueue lightingQueue = new PaperLightingQueue.LightingQueue(this); // Paper
+    private boolean field_76646_k;
+    private boolean field_150814_l;
+    private boolean field_150815_m; private boolean isTicked() { return field_150815_m; }; // Paper - OBFHELPER
+    private boolean field_76643_l;
+    private boolean field_76644_m;
+    private long field_76641_n;
+    private int field_82912_p;
+    private long field_111204_q;
+    private int field_76649_t;
+    private final ConcurrentLinkedQueue<BlockPos> field_177447_w;
+    public boolean field_189550_d; public void setShouldUnload(boolean unload) { this.field_189550_d = unload; } public boolean isUnloading() { return field_189550_d; } // Paper - OBFHELPER
+    protected gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<Class>(); // Spigot
 
     // Paper start
     // Track the number of minecarts and items
@@ -124,28 +124,28 @@ public class Chunk {
     // CraftBukkit end
 
     public Chunk(World world, int i, int j) {
-        this.storageArrays = new ExtendedBlockStorage[16];
-        this.blockBiomeArray = new byte[256];
-        this.precipitationHeightMap = new int[256];
-        this.updateSkylightColumns = new boolean[256];
-        this.tileEntities = Maps.newHashMap();
-        this.queuedLightChecks = 4096;
-        this.tileEntityPosQueue = Queues.newConcurrentLinkedQueue();
-        this.entityLists = (new List[16]); // Spigot
-        this.world = world;
-        this.x = i;
-        this.z = j;
-        this.heightMap = new int[256];
+        this.field_76652_q = new ExtendedBlockStorage[16];
+        this.field_76651_r = new byte[256];
+        this.field_76638_b = new int[256];
+        this.field_76639_c = new boolean[256];
+        this.field_150816_i = Maps.newHashMap();
+        this.field_76649_t = 4096;
+        this.field_177447_w = Queues.newConcurrentLinkedQueue();
+        this.field_76645_j = (List[]) (new List[16]); // Spigot
+        this.field_76637_e = world;
+        this.field_76635_g = i;
+        this.field_76647_h = j;
+        this.field_76634_f = new int[256];
 
-        for (int k = 0; k < this.entityLists.length; ++k) {
-            this.entityLists[k] = new org.bukkit.craftbukkit.util.UnsafeList(); // Spigot
+        for (int k = 0; k < this.field_76645_j.length; ++k) {
+            this.field_76645_j[k] = new org.bukkit.craftbukkit.util.UnsafeList(); // Spigot
         }
 
-        Arrays.fill(this.precipitationHeightMap, -999);
-        Arrays.fill(this.blockBiomeArray, (byte) -1);
+        Arrays.fill(this.field_76638_b, -999);
+        Arrays.fill(this.field_76651_r, (byte) -1);
         // CraftBukkit start
         this.bukkitChunk = new org.bukkit.craftbukkit.CraftChunk(this);
-        this.chunkKey = ChunkPos.asLong(this.x, this.z);
+        this.chunkKey = ChunkPos.func_77272_a(this.field_76635_g, this.field_76647_h);
     }
 
     public org.bukkit.Chunk bukkitChunk;
@@ -155,21 +155,21 @@ public class Chunk {
     public Chunk(World world, ChunkPrimer chunksnapshot, int i, int j) {
         this(world, i, j);
         boolean flag = true;
-        boolean flag1 = world.provider.hasSkyLight();
+        boolean flag1 = world.field_73011_w.func_191066_m();
 
         for (int k = 0; k < 16; ++k) {
             for (int l = 0; l < 16; ++l) {
                 for (int i1 = 0; i1 < 256; ++i1) {
-                    IBlockState iblockdata = chunksnapshot.getBlockState(k, i1, l);
+                    IBlockState iblockdata = chunksnapshot.func_177856_a(k, i1, l);
 
-                    if (iblockdata.getMaterial() != Material.AIR) {
+                    if (iblockdata.func_185904_a() != Material.field_151579_a) {
                         int j1 = i1 >> 4;
 
-                        if (this.storageArrays[j1] == Chunk.NULL_BLOCK_STORAGE) {
-                            this.storageArrays[j1] = new ExtendedBlockStorage(j1 << 4, flag1, world.chunkPacketBlockController.getPredefinedBlockData(this, j1)); // Paper - Anti-Xray - Add predefined block data
+                        if (this.field_76652_q[j1] == Chunk.field_186036_a) {
+                            this.field_76652_q[j1] = new ExtendedBlockStorage(j1 << 4, flag1, world.chunkPacketBlockController.getPredefinedBlockData(this, j1)); // Paper - Anti-Xray - Add predefined block data
                         }
 
-                        this.storageArrays[j1].set(k, i1 & 15, l, iblockdata);
+                        this.field_76652_q[j1].func_177484_a(k, i1 & 15, l, iblockdata);
                     }
                 }
             }
@@ -177,70 +177,70 @@ public class Chunk {
 
     }
 
-    public boolean isAtLocation(int i, int j) {
-        return i == this.x && j == this.z;
+    public boolean func_76600_a(int i, int j) {
+        return i == this.field_76635_g && j == this.field_76647_h;
     }
 
-    public int getHeight(BlockPos blockposition) {
-        return this.getHeightValue(blockposition.getX() & 15, blockposition.getZ() & 15);
+    public int func_177433_f(BlockPos blockposition) {
+        return this.func_76611_b(blockposition.func_177958_n() & 15, blockposition.func_177952_p() & 15);
     }
 
-    public int getHeightValue(int i, int j) {
-        return this.heightMap[j << 4 | i];
+    public int func_76611_b(int i, int j) {
+        return this.field_76634_f[j << 4 | i];
     }
 
     @Nullable
-    private ExtendedBlockStorage getLastExtendedBlockStorage() {
-        for (int i = this.storageArrays.length - 1; i >= 0; --i) {
-            if (this.storageArrays[i] != Chunk.NULL_BLOCK_STORAGE) {
-                return this.storageArrays[i];
+    private ExtendedBlockStorage func_186031_y() {
+        for (int i = this.field_76652_q.length - 1; i >= 0; --i) {
+            if (this.field_76652_q[i] != Chunk.field_186036_a) {
+                return this.field_76652_q[i];
             }
         }
 
         return null;
     }
 
-    public int getTopFilledSegment() {
-        ExtendedBlockStorage chunksection = this.getLastExtendedBlockStorage();
+    public int func_76625_h() {
+        ExtendedBlockStorage chunksection = this.func_186031_y();
 
-        return chunksection == null ? 0 : chunksection.getYLocation();
+        return chunksection == null ? 0 : chunksection.func_76662_d();
     }
 
-    public ExtendedBlockStorage[] getBlockStorageArray() {
-        return this.storageArrays;
+    public ExtendedBlockStorage[] func_76587_i() {
+        return this.field_76652_q;
     }
 
-    public void generateSkylightMap() {
-        int i = this.getTopFilledSegment();
+    public void func_76603_b() {
+        int i = this.func_76625_h();
 
-        this.heightMapMinimum = Integer.MAX_VALUE;
+        this.field_82912_p = Integer.MAX_VALUE;
 
         for (int j = 0; j < 16; ++j) {
             int k = 0;
 
             while (k < 16) {
-                this.precipitationHeightMap[j + (k << 4)] = -999;
+                this.field_76638_b[j + (k << 4)] = -999;
                 int l = i + 16;
 
                 while (true) {
                     if (l > 0) {
-                        if (this.getBlockLightOpacity(j, l - 1, k) == 0) {
+                        if (this.func_150808_b(j, l - 1, k) == 0) {
                             --l;
                             continue;
                         }
 
-                        this.heightMap[k << 4 | j] = l;
-                        if (l < this.heightMapMinimum) {
-                            this.heightMapMinimum = l;
+                        this.field_76634_f[k << 4 | j] = l;
+                        if (l < this.field_82912_p) {
+                            this.field_82912_p = l;
                         }
                     }
 
-                    if (this.world.provider.hasSkyLight()) {
+                    if (this.field_76637_e.field_73011_w.func_191066_m()) {
                         l = 15;
                         int i1 = i + 16 - 1;
 
                         do {
-                            int j1 = this.getBlockLightOpacity(j, i1, k);
+                            int j1 = this.func_150808_b(j, i1, k);
 
                             if (j1 == 0 && l != 15) {
                                 j1 = 1;
@@ -248,11 +248,11 @@ public class Chunk {
 
                             l -= j1;
                             if (l > 0) {
-                                ExtendedBlockStorage chunksection = this.storageArrays[i1 >> 4];
+                                ExtendedBlockStorage chunksection = this.field_76652_q[i1 >> 4];
 
-                                if (chunksection != Chunk.NULL_BLOCK_STORAGE) {
-                                    chunksection.setSkyLight(j, i1 & 15, k, l);
-                                    this.world.notifyLightSet(new BlockPos((this.x << 4) + j, i1, (this.z << 4) + k));
+                                if (chunksection != Chunk.field_186036_a) {
+                                    chunksection.func_76657_c(j, i1 & 15, k, l);
+                                    this.field_76637_e.func_175679_n(new BlockPos((this.field_76635_g << 4) + j, i1, (this.field_76647_h << 4) + k));
                                 }
                             }
 
@@ -266,121 +266,121 @@ public class Chunk {
             }
         }
 
-        this.dirty = true;
+        this.field_76643_l = true;
     }
 
-    private void propagateSkylightOcclusion(int i, int j) {
-        this.updateSkylightColumns[i + j * 16] = true;
-        this.isGapLightingUpdated = true;
+    private void func_76595_e(int i, int j) {
+        this.field_76639_c[i + j * 16] = true;
+        this.field_76650_s = true;
     }
 
-    private void recheckGaps(boolean flag) {
-        this.world.profiler.startSection("recheckGaps");
-        if (this.world.isAreaLoaded(new BlockPos(this.x * 16 + 8, 0, this.z * 16 + 8), 16)) {
-            this.runOrQueueLightUpdate(() -> recheckGaps__Queued(flag)); // Paper - Queue light update
+    private void func_150803_c(boolean flag) {
+        this.field_76637_e.field_72984_F.func_76320_a("recheckGaps");
+        if (this.field_76637_e.func_175697_a(new BlockPos(this.field_76635_g * 16 + 8, 0, this.field_76647_h * 16 + 8), 16)) {
+            this.runOrQueueLightUpdate(() -> recheckGaps(flag)); // Paper - Queue light update
         }
     }
 
-    private void recheckGaps__Queued(boolean flag) {
+    private void recheckGaps(boolean flag) {
         if (true) {
             // Paper end
             for (int i = 0; i < 16; ++i) {
                 for (int j = 0; j < 16; ++j) {
-                    if (this.updateSkylightColumns[i + j * 16]) {
-                        this.updateSkylightColumns[i + j * 16] = false;
-                        int k = this.getHeightValue(i, j);
-                        int l = this.x * 16 + i;
-                        int i1 = this.z * 16 + j;
+                    if (this.field_76639_c[i + j * 16]) {
+                        this.field_76639_c[i + j * 16] = false;
+                        int k = this.func_76611_b(i, j);
+                        int l = this.field_76635_g * 16 + i;
+                        int i1 = this.field_76647_h * 16 + j;
                         int j1 = Integer.MAX_VALUE;
 
                         Iterator iterator;
                         EnumFacing enumdirection;
 
-                        for (iterator = EnumFacing.Plane.HORIZONTAL.iterator(); iterator.hasNext(); j1 = Math.min(j1, this.world.getChunksLowestHorizon(l + enumdirection.getFrontOffsetX(), i1 + enumdirection.getFrontOffsetZ()))) {
+                        for (iterator = EnumFacing.Plane.HORIZONTAL.iterator(); iterator.hasNext(); j1 = Math.min(j1, this.field_76637_e.func_82734_g(l + enumdirection.func_82601_c(), i1 + enumdirection.func_82599_e()))) {
                             enumdirection = (EnumFacing) iterator.next();
                         }
 
-                        this.checkSkylightNeighborHeight(l, i1, j1);
+                        this.func_76599_g(l, i1, j1);
                         iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 
                         while (iterator.hasNext()) {
                             enumdirection = (EnumFacing) iterator.next();
-                            this.checkSkylightNeighborHeight(l + enumdirection.getFrontOffsetX(), i1 + enumdirection.getFrontOffsetZ(), k);
+                            this.func_76599_g(l + enumdirection.func_82601_c(), i1 + enumdirection.func_82599_e(), k);
                         }
 
                         if (flag) {
-                            this.world.profiler.endSection();
+                            this.field_76637_e.field_72984_F.func_76319_b();
                             return;
                         }
                     }
                 }
             }
 
-            this.isGapLightingUpdated = false;
+            this.field_76650_s = false;
         }
 
-        this.world.profiler.endSection();
+        this.field_76637_e.field_72984_F.func_76319_b();
     }
 
-    private void checkSkylightNeighborHeight(int i, int j, int k) {
-        int l = this.world.getHeight(new BlockPos(i, 0, j)).getY();
+    private void func_76599_g(int i, int j, int k) {
+        int l = this.field_76637_e.func_175645_m(new BlockPos(i, 0, j)).func_177956_o();
 
         if (l > k) {
-            this.updateSkylightNeighborHeight(i, j, k, l + 1);
+            this.func_76609_d(i, j, k, l + 1);
         } else if (l < k) {
-            this.updateSkylightNeighborHeight(i, j, l, k + 1);
+            this.func_76609_d(i, j, l, k + 1);
         }
 
     }
 
-    private void updateSkylightNeighborHeight(int i, int j, int k, int l) {
-        if (l > k && this.world.isAreaLoaded(new BlockPos(i, 0, j), 16)) {
+    private void func_76609_d(int i, int j, int k, int l) {
+        if (l > k && this.field_76637_e.func_175697_a(new BlockPos(i, 0, j), 16)) {
             for (int i1 = k; i1 < l; ++i1) {
-                this.world.checkLightFor(EnumSkyBlock.SKY, new BlockPos(i, i1, j));
+                this.field_76637_e.func_180500_c(EnumSkyBlock.SKY, new BlockPos(i, i1, j));
             }
 
-            this.dirty = true;
+            this.field_76643_l = true;
         }
 
     }
 
-    private void relightBlock(int i, int j, int k) {
-        int l = this.heightMap[k << 4 | i] & 255;
+    private void func_76615_h(int i, int j, int k) {
+        int l = this.field_76634_f[k << 4 | i] & 255;
         int i1 = l;
 
         if (j > l) {
             i1 = j;
         }
 
-        while (i1 > 0 && this.getBlockLightOpacity(i, i1 - 1, k) == 0) {
+        while (i1 > 0 && this.func_150808_b(i, i1 - 1, k) == 0) {
             --i1;
         }
 
         if (i1 != l) {
-            this.world.markBlocksDirtyVertical(i + this.x * 16, k + this.z * 16, i1, l);
-            this.heightMap[k << 4 | i] = i1;
-            int j1 = this.x * 16 + i;
-            int k1 = this.z * 16 + k;
+            this.field_76637_e.func_72975_g(i + this.field_76635_g * 16, k + this.field_76647_h * 16, i1, l);
+            this.field_76634_f[k << 4 | i] = i1;
+            int j1 = this.field_76635_g * 16 + i;
+            int k1 = this.field_76647_h * 16 + k;
             int l1;
             int i2;
 
-            if (this.world.provider.hasSkyLight()) {
+            if (this.field_76637_e.field_73011_w.func_191066_m()) {
                 ExtendedBlockStorage chunksection;
 
                 if (i1 < l) {
                     for (l1 = i1; l1 < l; ++l1) {
-                        chunksection = this.storageArrays[l1 >> 4];
-                        if (chunksection != Chunk.NULL_BLOCK_STORAGE) {
-                            chunksection.setSkyLight(i, l1 & 15, k, 15);
-                            this.world.notifyLightSet(new BlockPos((this.x << 4) + i, l1, (this.z << 4) + k));
+                        chunksection = this.field_76652_q[l1 >> 4];
+                        if (chunksection != Chunk.field_186036_a) {
+                            chunksection.func_76657_c(i, l1 & 15, k, 15);
+                            this.field_76637_e.func_175679_n(new BlockPos((this.field_76635_g << 4) + i, l1, (this.field_76647_h << 4) + k));
                         }
                     }
                 } else {
                     for (l1 = l; l1 < i1; ++l1) {
-                        chunksection = this.storageArrays[l1 >> 4];
-                        if (chunksection != Chunk.NULL_BLOCK_STORAGE) {
-                            chunksection.setSkyLight(i, l1 & 15, k, 0);
-                            this.world.notifyLightSet(new BlockPos((this.x << 4) + i, l1, (this.z << 4) + k));
+                        chunksection = this.field_76652_q[l1 >> 4];
+                        if (chunksection != Chunk.field_186036_a) {
+                            chunksection.func_76657_c(i, l1 & 15, k, 0);
+                            this.field_76637_e.func_175679_n(new BlockPos((this.field_76635_g << 4) + i, l1, (this.field_76647_h << 4) + k));
                         }
                     }
                 }
@@ -389,7 +389,7 @@ public class Chunk {
 
                 while (i1 > 0 && l1 > 0) {
                     --i1;
-                    i2 = this.getBlockLightOpacity(i, i1, k);
+                    i2 = this.func_150808_b(i, i1, k);
                     if (i2 == 0) {
                         i2 = 1;
                     }
@@ -399,15 +399,15 @@ public class Chunk {
                         l1 = 0;
                     }
 
-                    ExtendedBlockStorage chunksection1 = this.storageArrays[i1 >> 4];
+                    ExtendedBlockStorage chunksection1 = this.field_76652_q[i1 >> 4];
 
-                    if (chunksection1 != Chunk.NULL_BLOCK_STORAGE) {
-                        chunksection1.setSkyLight(i, i1 & 15, k, l1);
+                    if (chunksection1 != Chunk.field_186036_a) {
+                        chunksection1.func_76657_c(i, i1 & 15, k, l1);
                     }
                 }
             }
 
-            l1 = this.heightMap[k << 4 | i];
+            l1 = this.field_76634_f[k << 4 | i];
             i2 = l;
             int j2 = l1;
 
@@ -416,88 +416,87 @@ public class Chunk {
                 j2 = l;
             }
 
-            if (l1 < this.heightMapMinimum) {
-                this.heightMapMinimum = l1;
+            if (l1 < this.field_82912_p) {
+                this.field_82912_p = l1;
             }
 
-            if (this.world.provider.hasSkyLight()) {
+            if (this.field_76637_e.field_73011_w.func_191066_m()) {
                 Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 
                 while (iterator.hasNext()) {
                     EnumFacing enumdirection = (EnumFacing) iterator.next();
 
-                    this.updateSkylightNeighborHeight(j1 + enumdirection.getFrontOffsetX(), k1 + enumdirection.getFrontOffsetZ(), i2, j2);
+                    this.func_76609_d(j1 + enumdirection.func_82601_c(), k1 + enumdirection.func_82599_e(), i2, j2);
                 }
 
-                this.updateSkylightNeighborHeight(j1, k1, i2, j2);
+                this.func_76609_d(j1, k1, i2, j2);
             }
 
-            this.dirty = true;
+            this.field_76643_l = true;
         }
     }
 
-    public int getBlockLightOpacity(BlockPos blockposition) {
-        return this.getBlockState(blockposition).getLightOpacity();
+    public int func_177437_b(BlockPos blockposition) {
+        return this.func_177435_g(blockposition).func_185891_c();
     }
 
-    private int getBlockLightOpacity(int i, int j, int k) {
-        return this.getBlockState(i, j, k).getLightOpacity();
+    private int func_150808_b(int i, int j, int k) {
+        return this.func_186032_a(i, j, k).func_185891_c();
     }
 
     // Paper start - Optimize getBlockData to reduce instructions
-    public final IBlockState getBlockState(final BlockPos pos) {
-        return getBlockData(pos.getX(), pos.getY(), pos.getZ());
+    public final IBlockState func_177435_g(final BlockPos pos) {
+        return getBlockData(pos.func_177958_n(), pos.func_177956_o(), pos.func_177952_p());
     }
 
     public final IBlockState getBlockData(final int x, final int y, final int z) {
         // Method body / logic copied from below
         final int i = y >> 4;
-        if (y >= 0 && i < this.storageArrays.length && this.storageArrays[i] != null) {
+        if (y >= 0 && i < this.field_76652_q.length && this.field_76652_q[i] != null) {
             // Inlined ChunkSection.getType() and DataPaletteBlock.a(int,int,int)
-            return this.storageArrays[i].data.get((y & 15) << 8 | (z & 15) << 4 | x & 15);
+            return this.field_76652_q[i].field_177488_d.func_186015_a((y & 15) << 8 | (z & 15) << 4 | x & 15);
         }
-        return Blocks.AIR.getDefaultState();
+        return Blocks.field_150350_a.func_176223_P();
     }
 
-    public IBlockState getBlockState(final int i, final int j, final int k) {
+    public IBlockState func_186032_a(final int i, final int j, final int k) {
         return getBlockData(i, j, k);
     }
 
     public IBlockState unused(final int i, final int j, final int k) {
     // Paper end
-        if (this.world.getWorldType() == WorldType.DEBUG_ALL_BLOCK_STATES) {
+        if (this.field_76637_e.func_175624_G() == WorldType.field_180272_g) {
             IBlockState iblockdata = null;
 
             if (j == 60) {
-                iblockdata = Blocks.BARRIER.getDefaultState();
+                iblockdata = Blocks.field_180401_cv.func_176223_P();
             }
 
             if (j == 70) {
-                iblockdata = ChunkGeneratorDebug.getBlockStateFor(i, k);
+                iblockdata = ChunkGeneratorDebug.func_177461_b(i, k);
             }
 
-            return iblockdata == null ? Blocks.AIR.getDefaultState() : iblockdata;
+            return iblockdata == null ? Blocks.field_150350_a.func_176223_P() : iblockdata;
         } else {
             try {
-                if (j >= 0 && j >> 4 < this.storageArrays.length) {
-                    ExtendedBlockStorage chunksection = this.storageArrays[j >> 4];
+                if (j >= 0 && j >> 4 < this.field_76652_q.length) {
+                    ExtendedBlockStorage chunksection = this.field_76652_q[j >> 4];
 
-                    if (chunksection != Chunk.NULL_BLOCK_STORAGE) {
-                        return chunksection.get(i & 15, j & 15, k & 15);
+                    if (chunksection != Chunk.field_186036_a) {
+                        return chunksection.func_177485_a(i & 15, j & 15, k & 15);
                     }
                 }
 
-                return Blocks.AIR.getDefaultState();
+                return Blocks.field_150350_a.func_176223_P();
             } catch (Throwable throwable) {
-                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Getting block state");
-                CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("Block being got");
+                CrashReport crashreport = CrashReport.func_85055_a(throwable, "Getting block state");
+                CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Block being got");
 
-                crashreportsystemdetails.addDetail("Location", new ICrashReportDetail() {
+                crashreportsystemdetails.func_189529_a("Location", new ICrashReportDetail() {
                     public String a() throws Exception {
-                        return CrashReportCategory.getCoordinateInfo(i, j, k);
+                        return CrashReportCategory.func_184876_a(i, j, k);
                     }
 
-                    @Override
                     public Object call() throws Exception {
                         return this.a();
                     }
@@ -508,66 +507,66 @@ public class Chunk {
     }
 
     @Nullable
-    public IBlockState setBlockState(BlockPos blockposition, IBlockState iblockdata) {
-        int i = blockposition.getX() & 15;
-        int j = blockposition.getY();
-        int k = blockposition.getZ() & 15;
+    public IBlockState func_177436_a(BlockPos blockposition, IBlockState iblockdata) {
+        int i = blockposition.func_177958_n() & 15;
+        int j = blockposition.func_177956_o();
+        int k = blockposition.func_177952_p() & 15;
         int l = k << 4 | i;
 
-        if (j >= this.precipitationHeightMap[l] - 1) {
-            this.precipitationHeightMap[l] = -999;
+        if (j >= this.field_76638_b[l] - 1) {
+            this.field_76638_b[l] = -999;
         }
 
-        int i1 = this.heightMap[l];
-        IBlockState iblockdata1 = this.getBlockState(blockposition);
+        int i1 = this.field_76634_f[l];
+        IBlockState iblockdata1 = this.func_177435_g(blockposition);
 
         if (iblockdata1 == iblockdata) {
             return null;
         } else {
-            Block block = iblockdata.getBlock();
-            Block block1 = iblockdata1.getBlock();
-            ExtendedBlockStorage chunksection = this.storageArrays[j >> 4];
+            Block block = iblockdata.func_177230_c();
+            Block block1 = iblockdata1.func_177230_c();
+            ExtendedBlockStorage chunksection = this.field_76652_q[j >> 4];
             boolean flag = false;
 
-            if (chunksection == Chunk.NULL_BLOCK_STORAGE) {
-                if (block == Blocks.AIR) {
+            if (chunksection == Chunk.field_186036_a) {
+                if (block == Blocks.field_150350_a) {
                     return null;
                 }
 
-                chunksection = new ExtendedBlockStorage(j >> 4 << 4, this.world.provider.hasSkyLight(), this.world.chunkPacketBlockController.getPredefinedBlockData(this, j >> 4)); // Paper - Anti-Xray - Add predefined block data
-                this.storageArrays[j >> 4] = chunksection;
+                chunksection = new ExtendedBlockStorage(j >> 4 << 4, this.field_76637_e.field_73011_w.func_191066_m(), this.field_76637_e.chunkPacketBlockController.getPredefinedBlockData(this, j >> 4)); // Paper - Anti-Xray - Add predefined block data
+                this.field_76652_q[j >> 4] = chunksection;
                 flag = j >= i1;
             }
 
-            chunksection.set(i, j & 15, k, iblockdata);
+            chunksection.func_177484_a(i, j & 15, k, iblockdata);
             if (block1 != block) {
-                if (!this.world.isRemote) {
-                    block1.breakBlock(this.world, blockposition, iblockdata1);
+                if (!this.field_76637_e.field_72995_K) {
+                    block1.func_180663_b(this.field_76637_e, blockposition, iblockdata1);
                 } else if (block1 instanceof ITileEntityProvider) {
-                    this.world.removeTileEntity(blockposition);
+                    this.field_76637_e.func_175713_t(blockposition);
                 }
             }
 
-            if (chunksection.get(i, j & 15, k).getBlock() != block) {
+            if (chunksection.func_177485_a(i, j & 15, k).func_177230_c() != block) {
                 return null;
             } else {
                 if (flag) {
-                    this.generateSkylightMap();
+                    this.func_76603_b();
                 } else {
                     this.runOrQueueLightUpdate(() -> { // Paper - Queue light update
-                    int j1 = iblockdata.getLightOpacity();
-                    int k1 = iblockdata1.getLightOpacity();
+                    int j1 = iblockdata.func_185891_c();
+                    int k1 = iblockdata1.func_185891_c();
 
                     if (j1 > 0) {
                         if (j >= i1) {
-                            this.relightBlock(i, j + 1, k);
+                            this.func_76615_h(i, j + 1, k);
                         }
                     } else if (j == i1 - 1) {
-                        this.relightBlock(i, j, k);
+                        this.func_76615_h(i, j, k);
                     }
 
-                    if (j1 != k1 && (j1 < k1 || this.getLightFor(EnumSkyBlock.SKY, blockposition) > 0 || this.getLightFor(EnumSkyBlock.BLOCK, blockposition) > 0)) {
-                        this.propagateSkylightOcclusion(i, k);
+                    if (j1 != k1 && (j1 < k1 || this.func_177413_a(EnumSkyBlock.SKY, blockposition) > 0 || this.func_177413_a(EnumSkyBlock.BLOCK, blockposition) > 0)) {
+                        this.func_76595_e(i, k);
                     }
                     }); // Paper
                 }
@@ -575,80 +574,81 @@ public class Chunk {
                 TileEntity tileentity;
 
                 if (block1 instanceof ITileEntityProvider) {
-                    tileentity = this.getTileEntity(blockposition, Chunk.EnumCreateEntityType.CHECK);
+                    tileentity = this.func_177424_a(blockposition, Chunk.EnumCreateEntityType.CHECK);
                     if (tileentity != null) {
-                        tileentity.updateContainingBlockInfo();
+                        tileentity.func_145836_u();
                     }
                 }
 
                 // CraftBukkit - Don't place while processing the BlockPlaceEvent, unless it's a BlockContainer. Prevents blocks such as TNT from activating when cancelled.
-                if (!this.world.isRemote && block1 != block  && (!this.world.captureBlockStates || block instanceof BlockContainer)) {
-                    block.onBlockAdded(this.world, blockposition, iblockdata);
+                if (!this.field_76637_e.field_72995_K && block1 != block  && (!this.field_76637_e.captureBlockStates || block instanceof BlockContainer)) {
+                    block.func_176213_c(this.field_76637_e, blockposition, iblockdata);
                 }
 
                 if (block instanceof ITileEntityProvider) {
-                    tileentity = this.getTileEntity(blockposition, Chunk.EnumCreateEntityType.CHECK);
+                    tileentity = this.func_177424_a(blockposition, Chunk.EnumCreateEntityType.CHECK);
                     if (tileentity == null) {
-                        tileentity = ((ITileEntityProvider) block).createNewTileEntity(this.world, block.getMetaFromState(iblockdata));
-                        this.world.setTileEntity(blockposition, tileentity);
+                        tileentity = ((ITileEntityProvider) block).func_149915_a(this.field_76637_e, block.func_176201_c(iblockdata));
+                        this.field_76637_e.func_175690_a(blockposition, tileentity);
                     }
 
                     if (tileentity != null) {
-                        tileentity.updateContainingBlockInfo();
+                        tileentity.func_145836_u();
                     }
                 }
 
-                this.dirty = true;
+                this.field_76643_l = true;
                 return iblockdata1;
             }
         }
     }
 
-    public int getLightFor(EnumSkyBlock enumskyblock, BlockPos blockposition) {
-        int i = blockposition.getX() & 15;
-        int j = blockposition.getY();
-        int k = blockposition.getZ() & 15;
-        ExtendedBlockStorage chunksection = this.storageArrays[j >> 4];
+    public int func_177413_a(EnumSkyBlock enumskyblock, BlockPos blockposition) {
+        int i = blockposition.func_177958_n() & 15;
+        int j = blockposition.func_177956_o();
+        int k = blockposition.func_177952_p() & 15;
+        ExtendedBlockStorage chunksection = this.field_76652_q[j >> 4];
 
-        return chunksection == Chunk.NULL_BLOCK_STORAGE ? (this.canSeeSky(blockposition) ? enumskyblock.defaultLightValue : 0) : (enumskyblock == EnumSkyBlock.SKY ? (!this.world.provider.hasSkyLight() ? 0 : chunksection.getSkyLight(i, j & 15, k)) : (enumskyblock == EnumSkyBlock.BLOCK ? chunksection.getBlockLight(i, j & 15, k) : enumskyblock.defaultLightValue));
+        return chunksection == Chunk.field_186036_a ? (this.func_177444_d(blockposition) ? enumskyblock.field_77198_c : 0) : (enumskyblock == EnumSkyBlock.SKY ? (!this.field_76637_e.field_73011_w.func_191066_m() ? 0 : chunksection.func_76670_c(i, j & 15, k)) : (enumskyblock == EnumSkyBlock.BLOCK ? chunksection.func_76674_d(i, j & 15, k) : enumskyblock.field_77198_c));
     }
 
-    public void setLightFor(EnumSkyBlock enumskyblock, BlockPos blockposition, int i) {
-        int j = blockposition.getX() & 15;
-        int k = blockposition.getY();
-        int l = blockposition.getZ() & 15;
-        ExtendedBlockStorage chunksection = this.storageArrays[k >> 4];
+    public void func_177431_a(EnumSkyBlock enumskyblock, BlockPos blockposition, int i) {
+        int j = blockposition.func_177958_n() & 15;
+        int k = blockposition.func_177956_o();
+        int l = blockposition.func_177952_p() & 15;
+        ExtendedBlockStorage chunksection = this.field_76652_q[k >> 4];
 
-        if (chunksection == Chunk.NULL_BLOCK_STORAGE) {
-            chunksection = new ExtendedBlockStorage(k >> 4 << 4, this.world.provider.hasSkyLight(), this.world.chunkPacketBlockController.getPredefinedBlockData(this, k >> 4)); // Paper - Anti-Xray - Add predefined block data
-            this.storageArrays[k >> 4] = chunksection;
-            this.generateSkylightMap();
+        if (chunksection == Chunk.field_186036_a) {
+            chunksection = new ExtendedBlockStorage(k >> 4 << 4, this.field_76637_e.field_73011_w.func_191066_m(), this.field_76637_e.chunkPacketBlockController.getPredefinedBlockData(this, k >> 4)); // Paper - Anti-Xray - Add predefined block data
+            this.field_76652_q[k >> 4] = chunksection;
+            this.func_76603_b();
         }
 
-        this.dirty = true;
+        this.field_76643_l = true;
         if (enumskyblock == EnumSkyBlock.SKY) {
-            if (this.world.provider.hasSkyLight()) {
-                chunksection.setSkyLight(j, k & 15, l, i);
+            if (this.field_76637_e.field_73011_w.func_191066_m()) {
+                chunksection.func_76657_c(j, k & 15, l, i);
             }
         } else if (enumskyblock == EnumSkyBlock.BLOCK) {
-            chunksection.setBlockLight(j, k & 15, l, i);
+            chunksection.func_76677_d(j, k & 15, l, i);
         }
 
     }
 
-    public int getLightSubtracted(BlockPos blockposition, int i) {
-        int j = blockposition.getX() & 15;
-        int k = blockposition.getY();
-        int l = blockposition.getZ() & 15;
-        ExtendedBlockStorage chunksection = this.storageArrays[k >> 4];
+    public final int getLightSubtracted(BlockPos blockposition, int i) { return this.func_177443_a(blockposition, i); } // Paper - OBFHELPER
+    public int func_177443_a(BlockPos blockposition, int i) {
+        int j = blockposition.func_177958_n() & 15;
+        int k = blockposition.func_177956_o();
+        int l = blockposition.func_177952_p() & 15;
+        ExtendedBlockStorage chunksection = this.field_76652_q[k >> 4];
 
-        if (chunksection == Chunk.NULL_BLOCK_STORAGE) {
-            return this.world.provider.hasSkyLight() && i < EnumSkyBlock.SKY.defaultLightValue ? EnumSkyBlock.SKY.defaultLightValue - i : 0;
+        if (chunksection == Chunk.field_186036_a) {
+            return this.field_76637_e.field_73011_w.func_191066_m() && i < EnumSkyBlock.SKY.field_77198_c ? EnumSkyBlock.SKY.field_77198_c - i : 0;
         } else {
-            int i1 = !this.world.provider.hasSkyLight() ? 0 : chunksection.getSkyLight(j, k & 15, l);
+            int i1 = !this.field_76637_e.field_73011_w.func_191066_m() ? 0 : chunksection.func_76670_c(j, k & 15, l);
 
             i1 -= i;
-            int j1 = chunksection.getBlockLight(j, k & 15, l);
+            int j1 = chunksection.func_76674_d(j, k & 15, l);
 
             if (j1 > i1) {
                 i1 = j1;
@@ -658,31 +658,31 @@ public class Chunk {
         }
     }
 
-    public void addEntity(Entity entity) {
-        this.hasEntities = true;
-        int i = MathHelper.floor(entity.posX / 16.0D);
-        int j = MathHelper.floor(entity.posZ / 16.0D);
+    public void func_76612_a(Entity entity) {
+        this.field_76644_m = true;
+        int i = MathHelper.func_76128_c(entity.field_70165_t / 16.0D);
+        int j = MathHelper.func_76128_c(entity.field_70161_v / 16.0D);
 
-        if (i != this.x || j != this.z) {
-            Chunk.LOGGER.warn("Wrong location! ({}, {}) should be ({}, {}), {}", Integer.valueOf(i), Integer.valueOf(j), Integer.valueOf(this.x), Integer.valueOf(this.z), entity);
-            entity.setDead();
+        if (i != this.field_76635_g || j != this.field_76647_h) {
+            Chunk.field_150817_t.warn("Wrong location! ({}, {}) should be ({}, {}), {}", Integer.valueOf(i), Integer.valueOf(j), Integer.valueOf(this.field_76635_g), Integer.valueOf(this.field_76647_h), entity);
+            entity.func_70106_y();
         }
 
-        int k = MathHelper.floor(entity.posY / 16.0D);
+        int k = MathHelper.func_76128_c(entity.field_70163_u / 16.0D);
 
         if (k < 0) {
             k = 0;
         }
 
-        if (k >= this.entityLists.length) {
-            k = this.entityLists.length - 1;
+        if (k >= this.field_76645_j.length) {
+            k = this.field_76645_j.length - 1;
         }
 
-        entity.addedToChunk = true;
-        entity.chunkCoordX = this.x;
-        entity.chunkCoordY = k;
-        entity.chunkCoordZ = this.z;
-        this.entityLists[k].add(entity);
+        entity.field_70175_ag = true;
+        entity.field_70176_ah = this.field_76635_g;
+        entity.field_70162_ai = k;
+        entity.field_70164_aj = this.field_76647_h;
+        this.field_76645_j[k].add(entity);
         // Paper start - update count
         if (entity instanceof EntityItem) {
             itemCounts[k]++;
@@ -694,34 +694,34 @@ public class Chunk {
         // Keep this synced up with World.a(Class)
         if (entity instanceof EntityLiving) {
             EntityLiving entityinsentient = (EntityLiving) entity;
-            if (entityinsentient.canDespawn() && entityinsentient.isNoDespawnRequired()) {
+            if (entityinsentient.func_70692_ba() && entityinsentient.func_104002_bU()) {
                 return;
             }
         }
         for ( EnumCreatureType creatureType : EnumCreatureType.values() )
         {
-            if ( creatureType.getCreatureClass().isAssignableFrom( entity.getClass() ) )
+            if ( creatureType.func_75598_a().isAssignableFrom( entity.getClass() ) )
             {
-                this.entityCount.adjustOrPutValue( creatureType.getCreatureClass(), 1, 1 );
+                this.entityCount.adjustOrPutValue( creatureType.func_75598_a(), 1, 1 );
             }
         }
         // Spigot end
     }
 
-    public void removeEntity(Entity entity) {
-        this.removeEntityAtIndex(entity, entity.chunkCoordY);
+    public void func_76622_b(Entity entity) {
+        this.func_76608_a(entity, entity.field_70162_ai);
     }
 
-    public void removeEntityAtIndex(Entity entity, int i) {
+    public void func_76608_a(Entity entity, int i) {
         if (i < 0) {
             i = 0;
         }
 
-        if (i >= this.entityLists.length) {
-            i = this.entityLists.length - 1;
+        if (i >= this.field_76645_j.length) {
+            i = this.field_76645_j.length - 1;
         }
 
-        if (!this.entityLists[i].remove(entity)) { return; } // Paper
+        if (!this.field_76645_j[i].remove(entity)) { return; } // Paper
         // Paper start - update counts
         if (entity instanceof EntityItem) {
             itemCounts[i]--;
@@ -733,100 +733,100 @@ public class Chunk {
         // Keep this synced up with World.a(Class)
         if (entity instanceof EntityLiving) {
             EntityLiving entityinsentient = (EntityLiving) entity;
-            if (entityinsentient.canDespawn() && entityinsentient.isNoDespawnRequired()) {
+            if (entityinsentient.func_70692_ba() && entityinsentient.func_104002_bU()) {
                 return;
             }
         }
         for ( EnumCreatureType creatureType : EnumCreatureType.values() )
         {
-            if ( creatureType.getCreatureClass().isAssignableFrom( entity.getClass() ) )
+            if ( creatureType.func_75598_a().isAssignableFrom( entity.getClass() ) )
             {
-                this.entityCount.adjustValue( creatureType.getCreatureClass(), -1 );
+                this.entityCount.adjustValue( creatureType.func_75598_a(), -1 );
             }
         }
         // Spigot end
     }
 
-    public boolean canSeeSky(BlockPos blockposition) {
-        int i = blockposition.getX() & 15;
-        int j = blockposition.getY();
-        int k = blockposition.getZ() & 15;
+    public boolean func_177444_d(BlockPos blockposition) {
+        int i = blockposition.func_177958_n() & 15;
+        int j = blockposition.func_177956_o();
+        int k = blockposition.func_177952_p() & 15;
 
-        return j >= this.heightMap[k << 4 | i];
+        return j >= this.field_76634_f[k << 4 | i];
     }
 
     @Nullable
-    private TileEntity createNewTileEntity(BlockPos blockposition) {
-        IBlockState iblockdata = this.getBlockState(blockposition);
-        Block block = iblockdata.getBlock();
+    private TileEntity func_177422_i(BlockPos blockposition) {
+        IBlockState iblockdata = this.func_177435_g(blockposition);
+        Block block = iblockdata.func_177230_c();
 
-        return !block.hasTileEntity() ? null : ((ITileEntityProvider) block).createNewTileEntity(this.world, iblockdata.getBlock().getMetaFromState(iblockdata));
+        return !block.func_149716_u() ? null : ((ITileEntityProvider) block).func_149915_a(this.field_76637_e, iblockdata.func_177230_c().func_176201_c(iblockdata));
     }
 
-    @Nullable public final TileEntity getTileEntityImmediately(BlockPos pos) { return this.getTileEntity(pos, EnumCreateEntityType.IMMEDIATE); } // Paper - OBFHELPER
+    @Nullable public final TileEntity getTileEntityImmediately(BlockPos pos) { return this.func_177424_a(pos, EnumCreateEntityType.IMMEDIATE); } // Paper - OBFHELPER
     @Nullable
-    public TileEntity getTileEntity(BlockPos blockposition, Chunk.EnumCreateEntityType chunk_enumtileentitystate) {
+    public TileEntity func_177424_a(BlockPos blockposition, Chunk.EnumCreateEntityType chunk_enumtileentitystate) {
         // CraftBukkit start
         TileEntity tileentity = null;
-        if (world.captureBlockStates) {
-            tileentity = world.capturedTileEntities.get(blockposition);
+        if (field_76637_e.captureBlockStates) {
+            tileentity = field_76637_e.capturedTileEntities.get(blockposition);
         }
         if (tileentity == null) {
-            tileentity = this.tileEntities.get(blockposition);
+            tileentity = (TileEntity) this.field_150816_i.get(blockposition);
         }
         // CraftBukkit end
 
         if (tileentity == null) {
             if (chunk_enumtileentitystate == Chunk.EnumCreateEntityType.IMMEDIATE) {
-                tileentity = this.createNewTileEntity(blockposition);
-                this.world.setTileEntity(blockposition, tileentity);
+                tileentity = this.func_177422_i(blockposition);
+                this.field_76637_e.func_175690_a(blockposition, tileentity);
             } else if (chunk_enumtileentitystate == Chunk.EnumCreateEntityType.QUEUED) {
-                this.tileEntityPosQueue.add(blockposition);
+                this.field_177447_w.add(blockposition);
             }
-        } else if (tileentity.isInvalid()) {
-            this.tileEntities.remove(blockposition);
+        } else if (tileentity.func_145837_r()) {
+            this.field_150816_i.remove(blockposition);
             return null;
         }
 
         return tileentity;
     }
 
-    public void addTileEntity(TileEntity tileentity) {
-        this.addTileEntity(tileentity.getPos(), tileentity);
-        if (this.loaded) {
-            this.world.addTileEntity(tileentity);
+    public void func_150813_a(TileEntity tileentity) {
+        this.func_177426_a(tileentity.func_174877_v(), tileentity);
+        if (this.field_76636_d) {
+            this.field_76637_e.func_175700_a(tileentity);
         }
 
     }
 
-    public void addTileEntity(BlockPos blockposition, TileEntity tileentity) {
-        tileentity.setWorld(this.world);
-        tileentity.setPos(blockposition);
-        if (this.getBlockState(blockposition).getBlock() instanceof ITileEntityProvider) {
-            if (this.tileEntities.containsKey(blockposition)) {
-                this.tileEntities.get(blockposition).invalidate();
+    public void func_177426_a(BlockPos blockposition, TileEntity tileentity) {
+        tileentity.func_145834_a(this.field_76637_e);
+        tileentity.func_174878_a(blockposition);
+        if (this.func_177435_g(blockposition).func_177230_c() instanceof ITileEntityProvider) {
+            if (this.field_150816_i.containsKey(blockposition)) {
+                ((TileEntity) this.field_150816_i.get(blockposition)).func_145843_s();
             }
 
-            tileentity.validate();
-            this.tileEntities.put(blockposition, tileentity);
+            tileentity.func_145829_t();
+            this.field_150816_i.put(blockposition, tileentity);
             // CraftBukkit start
             // Paper start - Remove invalid mob spawner tile entities
-        } else if (tileentity instanceof TileEntityMobSpawner && org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(getBlockState(blockposition).getBlock()) != org.bukkit.Material.MOB_SPAWNER) {
-            this.tileEntities.remove(blockposition);
+        } else if (tileentity instanceof TileEntityMobSpawner && org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(func_177435_g(blockposition).func_177230_c()) != org.bukkit.Material.MOB_SPAWNER) {
+            this.field_150816_i.remove(blockposition);
             // Paper end
         } else {
             // Paper start
             ServerInternalException e = new ServerInternalException(
-                    "Attempted to place a tile entity (" + tileentity + ") at " + tileentity.pos.getX() + ","
-                            + tileentity.pos.getY() + "," + tileentity.pos.getZ()
-                            + " (" + CraftMagicNumbers.getMaterial(getBlockState(blockposition).getBlock()) + ") where there was no entity tile!\n" +
-                            "Chunk coordinates: " + (this.x * 16) + "," + (this.z * 16));
+                    "Attempted to place a tile entity (" + tileentity + ") at " + tileentity.field_174879_c.func_177958_n() + ","
+                            + tileentity.field_174879_c.func_177956_o() + "," + tileentity.field_174879_c.func_177952_p()
+                            + " (" + CraftMagicNumbers.getMaterial(func_177435_g(blockposition).func_177230_c()) + ") where there was no entity tile!\n" +
+                            "Chunk coordinates: " + (this.field_76635_g * 16) + "," + (this.field_76647_h * 16));
             e.printStackTrace();
             ServerInternalException.reportInternalException(e);
 
-            if (this.world.paperConfig.removeCorruptTEs) {
-                this.removeTileEntity(tileentity.getPos());
-                this.markDirty();
+            if (this.field_76637_e.paperConfig.removeCorruptTEs) {
+                this.removeTileEntity(tileentity.func_174877_v());
+                this.func_76630_e();
                 org.bukkit.Bukkit.getLogger().info("Removing corrupt tile entity");
             }
             // Paper end
@@ -834,54 +834,55 @@ public class Chunk {
         }
     }
 
-    public void removeTileEntity(BlockPos blockposition) {
-        if (this.loaded) {
-            TileEntity tileentity = this.tileEntities.remove(blockposition);
+    public void removeTileEntity(BlockPos blockposition) { this.func_177425_e(blockposition); } // Paper - OBFHELPER
+    public void func_177425_e(BlockPos blockposition) {
+        if (this.field_76636_d) {
+            TileEntity tileentity = (TileEntity) this.field_150816_i.remove(blockposition);
 
             if (tileentity != null) {
-                tileentity.invalidate();
+                tileentity.func_145843_s();
             }
         }
 
     }
 
-    public void onLoad() {
-        this.loaded = true;
-        this.world.addTileEntities(this.tileEntities.values());
-        List[] aentityslice = this.entityLists; // Spigot
+    public void func_76631_c() {
+        this.field_76636_d = true;
+        this.field_76637_e.func_147448_a(this.field_150816_i.values());
+        List[] aentityslice = this.field_76645_j; // Spigot
         int i = aentityslice.length;
 
         for (int j = 0; j < i; ++j) {
             List entityslice = aentityslice[j]; // Spigot
 
-            this.world.loadEntities(entityslice);
+            this.field_76637_e.func_175650_b((Collection) entityslice);
         }
 
     }
 
-    public void onUnload() {
-        this.loaded = false;
-        Iterator iterator = this.tileEntities.values().iterator();
+    public void func_76623_d() {
+        this.field_76636_d = false;
+        Iterator iterator = this.field_150816_i.values().iterator();
 
         while (iterator.hasNext()) {
             TileEntity tileentity = (TileEntity) iterator.next();
             // Spigot Start
             if ( tileentity instanceof IInventory )
             {
-                for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList(( (IInventory) tileentity ).getViewers() ) )
+                for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList((List<org.bukkit.entity.HumanEntity>) ( (IInventory) tileentity ).getViewers() ) )
                 {
                     if ( h instanceof org.bukkit.craftbukkit.entity.CraftHumanEntity )
                     {
-                       ( (org.bukkit.craftbukkit.entity.CraftHumanEntity) h).getHandle().closeScreen();
+                       ( (org.bukkit.craftbukkit.entity.CraftHumanEntity) h).getHandle().func_71053_j();
                     }
                 }
             }
             // Spigot End
 
-            this.world.markTileEntityForRemoval(tileentity);
+            this.field_76637_e.func_147457_a(tileentity);
         }
 
-        List[] aentityslice = this.entityLists; // Spigot
+        List[] aentityslice = this.field_76645_j; // Spigot
         int i = aentityslice.length;
 
         for (int j = 0; j < i; ++j) {
@@ -893,11 +894,11 @@ public class Chunk {
                 // Spigot Start
                 if ( entity instanceof IInventory )
                 {
-                    for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList( ( (IInventory) entity ).getViewers() ) )
+                    for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList( (List<org.bukkit.entity.HumanEntity>) ( (IInventory) entity ).getViewers() ) )
                     {
                         if ( h instanceof org.bukkit.craftbukkit.entity.CraftHumanEntity )
                         {
-                           ( (org.bukkit.craftbukkit.entity.CraftHumanEntity) h).getHandle().closeScreen();
+                           ( (org.bukkit.craftbukkit.entity.CraftHumanEntity) h).getHandle().func_71053_j();
                         }
                     }
                 }
@@ -910,26 +911,26 @@ public class Chunk {
                 }
             }
 
-            this.world.unloadEntities(newList);
+            this.field_76637_e.func_175681_c(newList);
             // CraftBukkit end
         }
 
     }
 
-    public void markDirty() {
-        this.dirty = true;
+    public void func_76630_e() {
+        this.field_76643_l = true;
     }
 
-    public void getEntitiesWithinAABBForEntity(@Nullable Entity entity, AxisAlignedBB axisalignedbb, List<Entity> list, Predicate<? super Entity> predicate) {
-        int i = MathHelper.floor((axisalignedbb.minY - 2.0D) / 16.0D);
-        int j = MathHelper.floor((axisalignedbb.maxY + 2.0D) / 16.0D);
+    public void func_177414_a(@Nullable Entity entity, AxisAlignedBB axisalignedbb, List<Entity> list, Predicate<? super Entity> predicate) {
+        int i = MathHelper.func_76128_c((axisalignedbb.field_72338_b - 2.0D) / 16.0D);
+        int j = MathHelper.func_76128_c((axisalignedbb.field_72337_e + 2.0D) / 16.0D);
 
-        i = MathHelper.clamp(i, 0, this.entityLists.length - 1);
-        j = MathHelper.clamp(j, 0, this.entityLists.length - 1);
+        i = MathHelper.func_76125_a(i, 0, this.field_76645_j.length - 1);
+        j = MathHelper.func_76125_a(j, 0, this.field_76645_j.length - 1);
 
         for (int k = i; k <= j; ++k) {
-            if (!this.entityLists[k].isEmpty()) {
-                Iterator iterator = this.entityLists[k].iterator();
+            if (!this.field_76645_j[k].isEmpty()) {
+                Iterator iterator = this.field_76645_j[k].iterator();
 
                 // Paper start - Don't search for inventories if we have none, and that is all we want
                 /*
@@ -938,17 +939,17 @@ public class Chunk {
                 * Make sure the inventory selector stays in sync.
                 * It should be the one that checks `var1 instanceof IInventory && var1.isAlive()`
                 */
-                if (predicate == EntitySelectors.HAS_INVENTORY && inventoryEntityCounts[k] <= 0) continue;
+                if (predicate == EntitySelectors.field_96566_b && inventoryEntityCounts[k] <= 0) continue;
                 // Paper end
                 while (iterator.hasNext()) {
                     Entity entity1 = (Entity) iterator.next();
 
-                    if (entity1.getEntityBoundingBox().intersects(axisalignedbb) && entity1 != entity) {
+                    if (entity1.func_174813_aQ().func_72326_a(axisalignedbb) && entity1 != entity) {
                         if (predicate == null || predicate.apply(entity1)) {
                             list.add(entity1);
                         }
 
-                        Entity[] aentity = entity1.getParts();
+                        Entity[] aentity = entity1.func_70021_al();
 
                         if (aentity != null) {
                             Entity[] aentity1 = aentity;
@@ -957,7 +958,7 @@ public class Chunk {
                             for (int i1 = 0; i1 < l; ++i1) {
                                 Entity entity2 = aentity1[i1];
 
-                                if (entity2 != entity && entity2.getEntityBoundingBox().intersects(axisalignedbb) && (predicate == null || predicate.apply(entity2))) {
+                                if (entity2 != entity && entity2.func_174813_aQ().func_72326_a(axisalignedbb) && (predicate == null || predicate.apply(entity2))) {
                                     list.add(entity2);
                                 }
                             }
@@ -969,12 +970,12 @@ public class Chunk {
 
     }
 
-    public <T extends Entity> void getEntitiesOfTypeWithinAABB(Class<? extends T> oclass, AxisAlignedBB axisalignedbb, List<T> list, Predicate<? super T> predicate) {
-        int i = MathHelper.floor((axisalignedbb.minY - 2.0D) / 16.0D);
-        int j = MathHelper.floor((axisalignedbb.maxY + 2.0D) / 16.0D);
+    public <T extends Entity> void func_177430_a(Class<? extends T> oclass, AxisAlignedBB axisalignedbb, List<T> list, Predicate<? super T> predicate) {
+        int i = MathHelper.func_76128_c((axisalignedbb.field_72338_b - 2.0D) / 16.0D);
+        int j = MathHelper.func_76128_c((axisalignedbb.field_72337_e + 2.0D) / 16.0D);
 
-        i = MathHelper.clamp(i, 0, this.entityLists.length - 1);
-        j = MathHelper.clamp(j, 0, this.entityLists.length - 1);
+        i = MathHelper.func_76125_a(i, 0, this.field_76645_j.length - 1);
+        j = MathHelper.func_76125_a(j, 0, this.field_76645_j.length - 1);
 
         // Paper start
         int[] counts;
@@ -988,12 +989,12 @@ public class Chunk {
         // Paper end
         for (int k = i; k <= j; ++k) {
             if (counts != null && counts[k] <= 0) continue; // Paper - Don't check a chunk if it doesn't have the type we are looking for
-            Iterator iterator = this.entityLists[k].iterator(); // Spigot
+            Iterator iterator = this.field_76645_j[k].iterator(); // Spigot
 
             while (iterator.hasNext()) {
                 Entity entity = (Entity) iterator.next();
 
-                if (oclass.isInstance(entity) && entity.getEntityBoundingBox().intersects(axisalignedbb) && (predicate == null || predicate.apply((T) entity))) { // CraftBukkit - fix decompile error // Spigot - instance check
+                if (oclass.isInstance(entity) && entity.func_174813_aQ().func_72326_a(axisalignedbb) && (predicate == null || predicate.apply((T) entity))) { // CraftBukkit - fix decompile error // Spigot - instance check
                     list.add((T) entity); // Fix decompile error
                 }
             }
@@ -1001,28 +1002,28 @@ public class Chunk {
 
     }
 
-    public boolean needsSaving(boolean flag) {
+    public boolean func_76601_a(boolean flag) {
         if (flag) {
-            if (this.hasEntities && this.world.getTotalWorldTime() != this.lastSaveTime || this.dirty) {
+            if (this.field_76644_m && this.field_76637_e.func_82737_E() != this.field_76641_n || this.field_76643_l) {
                 return true;
             }
         }
         // This !flag section should say if s(isModified) or t(hasEntities), then check auto save
-        return ((this.dirty || this.hasEntities) && this.world.getTotalWorldTime() >= this.lastSaveTime + world.paperConfig.autoSavePeriod); // Paper - Make world configurable and incremental
+        return ((this.field_76643_l || this.field_76644_m) && this.field_76637_e.func_82737_E() >= this.field_76641_n + field_76637_e.paperConfig.autoSavePeriod); // Paper - Make world configurable and incremental
     }
 
-    public Random getRandomWithSeed(long i) {
-        return new Random(this.world.getSeed() + this.x * this.x * 4987142 + this.x * 5947611 + this.z * this.z * 4392871L + this.z * 389711 ^ i);
+    public Random func_76617_a(long i) {
+        return new Random(this.field_76637_e.func_72905_C() + (long) (this.field_76635_g * this.field_76635_g * 4987142) + (long) (this.field_76635_g * 5947611) + (long) (this.field_76647_h * this.field_76647_h) * 4392871L + (long) (this.field_76647_h * 389711) ^ i);
     }
 
-    public boolean isEmpty() {
+    public boolean func_76621_g() {
         return false;
     }
 
     // CraftBukkit start
     public void loadNearby(IChunkProvider ichunkprovider, IChunkGenerator chunkgenerator, boolean newChunk) {
-        world.timings.syncChunkLoadPostTimer.startTiming(); // Paper
-        Server server = world.getServer();
+        field_76637_e.timings.syncChunkLoadPostTimer.startTiming(); // Paper
+        Server server = field_76637_e.getServer();
         if (server != null) {
             /*
              * If it's a new world, the first few chunks are generated inside
@@ -1039,7 +1040,7 @@ public class Chunk {
                     continue;
                 }
 
-                Chunk neighbor = getWorld().getChunkIfLoaded(x + x, z + z);
+                Chunk neighbor = func_177412_p().getChunkIfLoaded(field_76635_g + x, field_76647_h + z);
                 if (neighbor != null) {
                     neighbor.setNeighborLoaded(-x, -z);
                     setNeighborLoaded(x, z);
@@ -1047,125 +1048,125 @@ public class Chunk {
             }
         }
         // CraftBukkit end
-        world.timings.syncChunkLoadPostTimer.stopTiming(); // Paper
-        world.timings.syncChunkLoadPopulateNeighbors.startTiming(); // Paper
-        Chunk chunk = MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.x, this.z - 1); // Paper
-        Chunk chunk1 = MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.x + 1, this.z); // Paper
-        Chunk chunk2 = MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.x, this.z + 1); // Paper
-        Chunk chunk3 = MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.x - 1, this.z); // Paper
+        field_76637_e.timings.syncChunkLoadPostTimer.stopTiming(); // Paper
+        field_76637_e.timings.syncChunkLoadPopulateNeighbors.startTiming(); // Paper
+        Chunk chunk = MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.field_76635_g, this.field_76647_h - 1); // Paper
+        Chunk chunk1 = MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.field_76635_g + 1, this.field_76647_h); // Paper
+        Chunk chunk2 = MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.field_76635_g, this.field_76647_h + 1); // Paper
+        Chunk chunk3 = MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.field_76635_g - 1, this.field_76647_h); // Paper
 
-        if (chunk1 != null && chunk2 != null && MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.x + 1, this.z + 1) != null) { // Paper
-            this.populate(chunkgenerator);
+        if (chunk1 != null && chunk2 != null && MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.field_76635_g + 1, this.field_76647_h + 1) != null) { // Paper
+            this.func_186034_a(chunkgenerator);
         }
 
-        if (chunk3 != null && chunk2 != null && MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.x - 1, this.z + 1) != null) { // Paper
-            chunk3.populate(chunkgenerator);
+        if (chunk3 != null && chunk2 != null && MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.field_76635_g - 1, this.field_76647_h + 1) != null) { // Paper
+            chunk3.func_186034_a(chunkgenerator);
         }
 
-        if (chunk != null && chunk1 != null && MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.x + 1, this.z - 1) != null) { // Paper
-            chunk.populate(chunkgenerator);
+        if (chunk != null && chunk1 != null && MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.field_76635_g + 1, this.field_76647_h - 1) != null) { // Paper
+            chunk.func_186034_a(chunkgenerator);
         }
 
         if (chunk != null && chunk3 != null) {
-            Chunk chunk4 = MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.x - 1, this.z - 1); // Paper
+            Chunk chunk4 = MCUtil.getLoadedChunkWithoutMarkingActive(ichunkprovider,this.field_76635_g - 1, this.field_76647_h - 1); // Paper
 
             if (chunk4 != null) {
-                chunk4.populate(chunkgenerator);
+                chunk4.func_186034_a(chunkgenerator);
             }
         }
-        world.timings.syncChunkLoadPopulateNeighbors.stopTiming(); // Paper
+        field_76637_e.timings.syncChunkLoadPopulateNeighbors.stopTiming(); // Paper
 
     }
 
-    protected void populate(IChunkGenerator chunkgenerator) {
-        if (this.isTerrainPopulated()) {
-            if (chunkgenerator.generateStructures(this, this.x, this.z)) {
-                this.markDirty();
+    protected void func_186034_a(IChunkGenerator chunkgenerator) {
+        if (this.func_177419_t()) {
+            if (chunkgenerator.func_185933_a(this, this.field_76635_g, this.field_76647_h)) {
+                this.func_76630_e();
             }
         } else {
-            this.checkLight();
-            chunkgenerator.populate(this.x, this.z);
+            this.func_150809_p();
+            chunkgenerator.func_185931_b(this.field_76635_g, this.field_76647_h);
 
             // CraftBukkit start
-            BlockSand.fallInstantly = true;
+            BlockSand.field_149832_M = true;
             Random random = new Random();
-            random.setSeed(world.getSeed());
+            random.setSeed(field_76637_e.func_72905_C());
             long xRand = random.nextLong() / 2L * 2L + 1L;
             long zRand = random.nextLong() / 2L * 2L + 1L;
-            random.setSeed(x * xRand + z * zRand ^ world.getSeed());
+            random.setSeed((long) field_76635_g * xRand + (long) field_76647_h * zRand ^ field_76637_e.func_72905_C());
 
-            org.bukkit.World world = this.world.getWorld();
+            org.bukkit.World world = this.field_76637_e.getWorld();
             if (world != null) {
-                this.world.populating = true;
+                this.field_76637_e.populating = true;
                 try {
                     for (org.bukkit.generator.BlockPopulator populator : world.getPopulators()) {
                         populator.populate(world, random, bukkitChunk);
                     }
                 } finally {
-                    this.world.populating = false;
+                    this.field_76637_e.populating = false;
                 }
             }
-            BlockSand.fallInstantly = false;
-            this.world.getServer().getPluginManager().callEvent(new org.bukkit.event.world.ChunkPopulateEvent(bukkitChunk));
+            BlockSand.field_149832_M = false;
+            this.field_76637_e.getServer().getPluginManager().callEvent(new org.bukkit.event.world.ChunkPopulateEvent(bukkitChunk));
             // CraftBukkit end
-            this.markDirty();
+            this.func_76630_e();
         }
 
     }
 
-    public BlockPos getPrecipitationHeight(BlockPos blockposition) {
-        int i = blockposition.getX() & 15;
-        int j = blockposition.getZ() & 15;
+    public BlockPos func_177440_h(BlockPos blockposition) {
+        int i = blockposition.func_177958_n() & 15;
+        int j = blockposition.func_177952_p() & 15;
         int k = i | j << 4;
-        BlockPos blockposition1 = new BlockPos(blockposition.getX(), this.precipitationHeightMap[k], blockposition.getZ());
+        BlockPos blockposition1 = new BlockPos(blockposition.func_177958_n(), this.field_76638_b[k], blockposition.func_177952_p());
 
-        if (blockposition1.getY() == -999) {
-            int l = this.getTopFilledSegment() + 15;
+        if (blockposition1.func_177956_o() == -999) {
+            int l = this.func_76625_h() + 15;
 
-            blockposition1 = new BlockPos(blockposition.getX(), l, blockposition.getZ());
+            blockposition1 = new BlockPos(blockposition.func_177958_n(), l, blockposition.func_177952_p());
             int i1 = -1;
 
-            while (blockposition1.getY() > 0 && i1 == -1) {
-                IBlockState iblockdata = this.getBlockState(blockposition1);
-                Material material = iblockdata.getMaterial();
+            while (blockposition1.func_177956_o() > 0 && i1 == -1) {
+                IBlockState iblockdata = this.func_177435_g(blockposition1);
+                Material material = iblockdata.func_185904_a();
 
-                if (!material.blocksMovement() && !material.isLiquid()) {
-                    blockposition1 = blockposition1.down();
+                if (!material.func_76230_c() && !material.func_76224_d()) {
+                    blockposition1 = blockposition1.func_177977_b();
                 } else {
-                    i1 = blockposition1.getY() + 1;
+                    i1 = blockposition1.func_177956_o() + 1;
                 }
             }
 
-            this.precipitationHeightMap[k] = i1;
+            this.field_76638_b[k] = i1;
         }
 
-        return new BlockPos(blockposition.getX(), this.precipitationHeightMap[k], blockposition.getZ());
+        return new BlockPos(blockposition.func_177958_n(), this.field_76638_b[k], blockposition.func_177952_p());
     }
 
-    public void onTick(boolean flag) {
-        if (this.isGapLightingUpdated && this.world.provider.hasSkyLight() && !flag) {
-            this.recheckGaps(this.world.isRemote);
+    public void func_150804_b(boolean flag) {
+        if (this.field_76650_s && this.field_76637_e.field_73011_w.func_191066_m() && !flag) {
+            this.func_150803_c(this.field_76637_e.field_72995_K);
         }
 
-        this.ticked = true;
-        if (!this.isLightPopulated && this.isTerrainPopulated && this.world.spigotConfig.randomLightUpdates) { // Spigot - also use random light updates setting to determine if we should relight
-            this.checkLight();
+        this.field_150815_m = true;
+        if (!this.field_150814_l && this.field_76646_k && this.field_76637_e.spigotConfig.randomLightUpdates) { // Spigot - also use random light updates setting to determine if we should relight
+            this.func_150809_p();
         }
 
-        while (!this.tileEntityPosQueue.isEmpty()) {
-            BlockPos blockposition = this.tileEntityPosQueue.poll();
+        while (!this.field_177447_w.isEmpty()) {
+            BlockPos blockposition = (BlockPos) this.field_177447_w.poll();
 
-            if (this.getTileEntity(blockposition, Chunk.EnumCreateEntityType.CHECK) == null && this.getBlockState(blockposition).getBlock().hasTileEntity()) {
-                TileEntity tileentity = this.createNewTileEntity(blockposition);
+            if (this.func_177424_a(blockposition, Chunk.EnumCreateEntityType.CHECK) == null && this.func_177435_g(blockposition).func_177230_c().func_149716_u()) {
+                TileEntity tileentity = this.func_177422_i(blockposition);
 
-                this.world.setTileEntity(blockposition, tileentity);
-                this.world.markBlockRangeForRenderUpdate(blockposition, blockposition);
+                this.field_76637_e.func_175690_a(blockposition, tileentity);
+                this.field_76637_e.func_175704_b(blockposition, blockposition);
             }
         }
 
     }
 
-    public boolean isPopulated() {
+    public boolean func_150802_k() {
         // Spigot Start
         /*
          * As of 1.7, Mojang added a check to make sure that only chunks which have been lit are sent to the client.
@@ -1176,20 +1177,20 @@ public class Chunk {
         // Paper Start
         // if randomLightUpdates are disabled, we should always return true, otherwise chunks may never send
         // to the client due to not being lit, otherwise retain standard behavior and only send properly lit chunks.
-        return !this.world.spigotConfig.randomLightUpdates || (this.isTicked() && this.isTerrainPopulated && this.isLightPopulated);
+        return !this.field_76637_e.spigotConfig.randomLightUpdates || (this.isTicked() && this.field_76646_k && this.field_150814_l);
         // Paper End
         // Spigot End
     }
 
-    public boolean wasTicked() {
-        return this.ticked;
+    public boolean func_186035_j() {
+        return this.field_150815_m;
     }
 
-    public ChunkPos getPos() {
-        return new ChunkPos(this.x, this.z);
+    public ChunkPos func_76632_l() {
+        return new ChunkPos(this.field_76635_g, this.field_76647_h);
     }
 
-    public boolean isEmptyBetween(int i, int j) {
+    public boolean func_76606_c(int i, int j) {
         if (i < 0) {
             i = 0;
         }
@@ -1199,9 +1200,9 @@ public class Chunk {
         }
 
         for (int k = i; k <= j; k += 16) {
-            ExtendedBlockStorage chunksection = this.storageArrays[k >> 4];
+            ExtendedBlockStorage chunksection = this.field_76652_q[k >> 4];
 
-            if (chunksection != Chunk.NULL_BLOCK_STORAGE && !chunksection.isEmpty()) {
+            if (chunksection != Chunk.field_186036_a && !chunksection.func_76663_a()) {
                 return false;
             }
         }
@@ -1209,79 +1210,79 @@ public class Chunk {
         return true;
     }
 
-    public void setStorageArrays(ExtendedBlockStorage[] achunksection) {
-        if (this.storageArrays.length != achunksection.length) {
-            Chunk.LOGGER.warn("Could not set level chunk sections, array length is {} instead of {}", Integer.valueOf(achunksection.length), Integer.valueOf(this.storageArrays.length));
+    public void func_76602_a(ExtendedBlockStorage[] achunksection) {
+        if (this.field_76652_q.length != achunksection.length) {
+            Chunk.field_150817_t.warn("Could not set level chunk sections, array length is {} instead of {}", Integer.valueOf(achunksection.length), Integer.valueOf(this.field_76652_q.length));
         } else {
-            System.arraycopy(achunksection, 0, this.storageArrays, 0, this.storageArrays.length);
+            System.arraycopy(achunksection, 0, this.field_76652_q, 0, this.field_76652_q.length);
         }
     }
 
-    public Biome getBiome(BlockPos blockposition, BiomeProvider worldchunkmanager) {
-        int i = blockposition.getX() & 15;
-        int j = blockposition.getZ() & 15;
-        int k = this.blockBiomeArray[j << 4 | i] & 255;
+    public Biome func_177411_a(BlockPos blockposition, BiomeProvider worldchunkmanager) {
+        int i = blockposition.func_177958_n() & 15;
+        int j = blockposition.func_177952_p() & 15;
+        int k = this.field_76651_r[j << 4 | i] & 255;
         Biome biomebase;
 
         if (k == 255) {
-            biomebase = worldchunkmanager.getBiome(blockposition, Biomes.PLAINS);
-            k = Biome.getIdForBiome(biomebase);
-            this.blockBiomeArray[j << 4 | i] = (byte) (k & 255);
+            biomebase = worldchunkmanager.func_180300_a(blockposition, Biomes.field_76772_c);
+            k = Biome.func_185362_a(biomebase);
+            this.field_76651_r[j << 4 | i] = (byte) (k & 255);
         }
 
-        biomebase = Biome.getBiome(k);
-        return biomebase == null ? Biomes.PLAINS : biomebase;
+        biomebase = Biome.func_150568_d(k);
+        return biomebase == null ? Biomes.field_76772_c : biomebase;
     }
 
-    public byte[] getBiomeArray() {
-        return this.blockBiomeArray;
+    public byte[] func_76605_m() {
+        return this.field_76651_r;
     }
 
-    public void setBiomeArray(byte[] abyte) {
-        if (this.blockBiomeArray.length != abyte.length) {
-            Chunk.LOGGER.warn("Could not set level chunk biomes, array length is {} instead of {}", Integer.valueOf(abyte.length), Integer.valueOf(this.blockBiomeArray.length));
+    public void func_76616_a(byte[] abyte) {
+        if (this.field_76651_r.length != abyte.length) {
+            Chunk.field_150817_t.warn("Could not set level chunk biomes, array length is {} instead of {}", Integer.valueOf(abyte.length), Integer.valueOf(this.field_76651_r.length));
         } else {
-            System.arraycopy(abyte, 0, this.blockBiomeArray, 0, this.blockBiomeArray.length);
+            System.arraycopy(abyte, 0, this.field_76651_r, 0, this.field_76651_r.length);
         }
     }
 
-    public void resetRelightChecks() {
-        this.queuedLightChecks = 0;
+    public void func_76613_n() {
+        this.field_76649_t = 0;
     }
 
-    public void enqueueRelightChecks() {
-        if (this.queuedLightChecks < 4096) {
-            BlockPos blockposition = new BlockPos(this.x << 4, 0, this.z << 4);
+    public void func_76594_o() {
+        if (this.field_76649_t < 4096) {
+            BlockPos blockposition = new BlockPos(this.field_76635_g << 4, 0, this.field_76647_h << 4);
 
             for (int i = 0; i < 8; ++i) {
-                if (this.queuedLightChecks >= 4096) {
+                if (this.field_76649_t >= 4096) {
                     return;
                 }
 
-                int j = this.queuedLightChecks % 16;
-                int k = this.queuedLightChecks / 16 % 16;
-                int l = this.queuedLightChecks / 256;
+                int j = this.field_76649_t % 16;
+                int k = this.field_76649_t / 16 % 16;
+                int l = this.field_76649_t / 256;
 
-                ++this.queuedLightChecks;
+                ++this.field_76649_t;
 
                 for (int i1 = 0; i1 < 16; ++i1) {
-                    BlockPos blockposition1 = blockposition.add(k, (j << 4) + i1, l);
+                    BlockPos blockposition1 = blockposition.func_177982_a(k, (j << 4) + i1, l);
                     boolean flag = i1 == 0 || i1 == 15 || k == 0 || k == 15 || l == 0 || l == 15;
 
-                    if (this.storageArrays[j] == Chunk.NULL_BLOCK_STORAGE && flag || this.storageArrays[j] != Chunk.NULL_BLOCK_STORAGE && this.storageArrays[j].get(k, i1, l).getMaterial() == Material.AIR) {
+                    if (this.field_76652_q[j] == Chunk.field_186036_a && flag || this.field_76652_q[j] != Chunk.field_186036_a && this.field_76652_q[j].func_177485_a(k, i1, l).func_185904_a() == Material.field_151579_a) {
                         EnumFacing[] aenumdirection = EnumFacing.values();
                         int j1 = aenumdirection.length;
 
                         for (int k1 = 0; k1 < j1; ++k1) {
                             EnumFacing enumdirection = aenumdirection[k1];
-                            BlockPos blockposition2 = blockposition1.offset(enumdirection);
+                            BlockPos blockposition2 = blockposition1.func_177972_a(enumdirection);
 
-                            if (this.world.getBlockState(blockposition2).getLightValue() > 0) {
-                                this.world.checkLight(blockposition2);
+                            if (this.field_76637_e.func_180495_p(blockposition2).func_185906_d() > 0) {
+                                this.field_76637_e.func_175664_x(blockposition2);
                             }
                         }
 
-                        this.world.checkLight(blockposition1);
+                        this.field_76637_e.func_175664_x(blockposition1);
                     }
                 }
             }
@@ -1289,181 +1290,181 @@ public class Chunk {
         }
     }
 
-    public void checkLight() {
-        world.timings.lightChunk.startTiming(); // Paper
-        this.isTerrainPopulated = true;
-        this.isLightPopulated = true;
-        BlockPos blockposition = new BlockPos(this.x << 4, 0, this.z << 4);
+    public void func_150809_p() {
+        field_76637_e.timings.lightChunk.startTiming(); // Paper
+        this.field_76646_k = true;
+        this.field_150814_l = true;
+        BlockPos blockposition = new BlockPos(this.field_76635_g << 4, 0, this.field_76647_h << 4);
 
-        if (this.world.provider.hasSkyLight()) {
-            if (this.world.isAreaLoaded(blockposition.add(-1, 0, -1), blockposition.add(16, this.world.getSeaLevel(), 16))) {
+        if (this.field_76637_e.field_73011_w.func_191066_m()) {
+            if (this.field_76637_e.func_175707_a(blockposition.func_177982_a(-1, 0, -1), blockposition.func_177982_a(16, this.field_76637_e.func_181545_F(), 16))) {
                 label42:
                 for (int i = 0; i < 16; ++i) {
                     for (int j = 0; j < 16; ++j) {
-                        if (!this.checkLight(i, j)) {
-                            this.isLightPopulated = false;
+                        if (!this.func_150811_f(i, j)) {
+                            this.field_150814_l = false;
                             break label42;
                         }
                     }
                 }
 
-                if (this.isLightPopulated) {
+                if (this.field_150814_l) {
                     Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 
                     while (iterator.hasNext()) {
                         EnumFacing enumdirection = (EnumFacing) iterator.next();
-                        int k = enumdirection.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? 16 : 1;
+                        int k = enumdirection.func_176743_c() == EnumFacing.AxisDirection.POSITIVE ? 16 : 1;
 
-                        this.world.getChunkFromBlockCoords(blockposition.offset(enumdirection, k)).checkLightSide(enumdirection.getOpposite());
+                        this.field_76637_e.func_175726_f(blockposition.func_177967_a(enumdirection, k)).func_180700_a(enumdirection.func_176734_d());
                     }
 
-                    this.setSkylightUpdated();
+                    this.func_177441_y();
                 }
             } else {
-                this.isLightPopulated = false;
+                this.field_150814_l = false;
             }
         }
 
-        world.timings.lightChunk.stopTiming(); // Paper
+        field_76637_e.timings.lightChunk.stopTiming(); // Paper
     }
 
-    private void setSkylightUpdated() {
-        for (int i = 0; i < this.updateSkylightColumns.length; ++i) {
-            this.updateSkylightColumns[i] = true;
+    private void func_177441_y() {
+        for (int i = 0; i < this.field_76639_c.length; ++i) {
+            this.field_76639_c[i] = true;
         }
 
-        this.recheckGaps(false);
+        this.func_150803_c(false);
     }
 
-    private void checkLightSide(EnumFacing enumdirection) {
-        if (this.isTerrainPopulated) {
+    private void func_180700_a(EnumFacing enumdirection) {
+        if (this.field_76646_k) {
             int i;
 
             if (enumdirection == EnumFacing.EAST) {
                 for (i = 0; i < 16; ++i) {
-                    this.checkLight(15, i);
+                    this.func_150811_f(15, i);
                 }
             } else if (enumdirection == EnumFacing.WEST) {
                 for (i = 0; i < 16; ++i) {
-                    this.checkLight(0, i);
+                    this.func_150811_f(0, i);
                 }
             } else if (enumdirection == EnumFacing.SOUTH) {
                 for (i = 0; i < 16; ++i) {
-                    this.checkLight(i, 15);
+                    this.func_150811_f(i, 15);
                 }
             } else if (enumdirection == EnumFacing.NORTH) {
                 for (i = 0; i < 16; ++i) {
-                    this.checkLight(i, 0);
+                    this.func_150811_f(i, 0);
                 }
             }
 
         }
     }
 
-    private boolean checkLight(int i, int j) {
-        int k = this.getTopFilledSegment();
+    private boolean func_150811_f(int i, int j) {
+        int k = this.func_76625_h();
         boolean flag = false;
         boolean flag1 = false;
-        BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos((this.x << 4) + i, 0, (this.z << 4) + j);
+        BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos((this.field_76635_g << 4) + i, 0, (this.field_76647_h << 4) + j);
 
         int l;
 
-        for (l = k + 16 - 1; l > this.world.getSeaLevel() || l > 0 && !flag1; --l) {
-            blockposition_mutableblockposition.setPos(blockposition_mutableblockposition.getX(), l, blockposition_mutableblockposition.getZ());
-            int i1 = this.getBlockLightOpacity(blockposition_mutableblockposition);
+        for (l = k + 16 - 1; l > this.field_76637_e.func_181545_F() || l > 0 && !flag1; --l) {
+            blockposition_mutableblockposition.func_181079_c(blockposition_mutableblockposition.func_177958_n(), l, blockposition_mutableblockposition.func_177952_p());
+            int i1 = this.func_177437_b((BlockPos) blockposition_mutableblockposition);
 
-            if (i1 == 255 && blockposition_mutableblockposition.getY() < this.world.getSeaLevel()) {
+            if (i1 == 255 && blockposition_mutableblockposition.func_177956_o() < this.field_76637_e.func_181545_F()) {
                 flag1 = true;
             }
 
             if (!flag && i1 > 0) {
                 flag = true;
-            } else if (flag && i1 == 0 && !this.world.checkLight(blockposition_mutableblockposition)) {
+            } else if (flag && i1 == 0 && !this.field_76637_e.func_175664_x(blockposition_mutableblockposition)) {
                 return false;
             }
         }
 
-        for (l = blockposition_mutableblockposition.getY(); l > 0; --l) {
-            blockposition_mutableblockposition.setPos(blockposition_mutableblockposition.getX(), l, blockposition_mutableblockposition.getZ());
-            if (this.getBlockState(blockposition_mutableblockposition).getLightValue() > 0) {
-                this.world.checkLight(blockposition_mutableblockposition);
+        for (l = blockposition_mutableblockposition.func_177956_o(); l > 0; --l) {
+            blockposition_mutableblockposition.func_181079_c(blockposition_mutableblockposition.func_177958_n(), l, blockposition_mutableblockposition.func_177952_p());
+            if (this.func_177435_g(blockposition_mutableblockposition).func_185906_d() > 0) {
+                this.field_76637_e.func_175664_x(blockposition_mutableblockposition);
             }
         }
 
         return true;
     }
 
-    public boolean isLoaded() {
-        return this.loaded;
+    public boolean func_177410_o() {
+        return this.field_76636_d;
     }
 
-    public World getWorld() {
-        return this.world;
+    public World func_177412_p() {
+        return this.field_76637_e;
     }
 
-    public int[] getHeightMap() {
-        return this.heightMap;
+    public int[] func_177445_q() {
+        return this.field_76634_f;
     }
 
-    public void setHeightMap(int[] aint) {
-        if (this.heightMap.length != aint.length) {
-            Chunk.LOGGER.warn("Could not set level chunk heightmap, array length is {} instead of {}", Integer.valueOf(aint.length), Integer.valueOf(this.heightMap.length));
+    public void func_177420_a(int[] aint) {
+        if (this.field_76634_f.length != aint.length) {
+            Chunk.field_150817_t.warn("Could not set level chunk heightmap, array length is {} instead of {}", Integer.valueOf(aint.length), Integer.valueOf(this.field_76634_f.length));
         } else {
-            System.arraycopy(aint, 0, this.heightMap, 0, this.heightMap.length);
+            System.arraycopy(aint, 0, this.field_76634_f, 0, this.field_76634_f.length);
         }
     }
 
-    public Map<BlockPos, TileEntity> getTileEntityMap() {
-        return this.tileEntities;
+    public Map<BlockPos, TileEntity> func_177434_r() {
+        return this.field_150816_i;
     }
 
     public List<Entity>[] getEntitySlices() {
-        return this.entityLists;
+        return this.field_76645_j;
     }
 
-    public boolean isTerrainPopulated() {
-        return this.isTerrainPopulated;
+    public boolean func_177419_t() {
+        return this.field_76646_k;
     }
 
-    public void setTerrainPopulated(boolean flag) {
-        this.isTerrainPopulated = flag;
+    public void func_177446_d(boolean flag) {
+        this.field_76646_k = flag;
     }
 
-    public boolean isLightPopulated() {
-        return this.isLightPopulated;
+    public boolean func_177423_u() {
+        return this.field_150814_l;
     }
 
-    public void setLightPopulated(boolean flag) {
-        this.isLightPopulated = flag;
+    public void func_177421_e(boolean flag) {
+        this.field_150814_l = flag;
     }
 
-    public void setModified(boolean flag) {
-        this.dirty = flag;
+    public void func_177427_f(boolean flag) {
+        this.field_76643_l = flag;
     }
 
-    public void setHasEntities(boolean flag) {
-        this.hasEntities = flag;
+    public void func_177409_g(boolean flag) {
+        this.field_76644_m = flag;
     }
 
-    public void setLastSaveTime(long i) {
-        this.lastSaveTime = i;
+    public void func_177432_b(long i) {
+        this.field_76641_n = i;
     }
 
-    public int getLowestHeight() {
-        return this.heightMapMinimum;
+    public int func_177442_v() {
+        return this.field_82912_p;
     }
 
-    public long getInhabitedTime() {
-        return world.paperConfig.useInhabitedTime ? this.inhabitedTime : 0; // Paper
+    public long func_177416_w() {
+        return field_76637_e.paperConfig.useInhabitedTime ? this.field_111204_q : 0; // Paper
     }
 
-    public void setInhabitedTime(long i) {
-        this.inhabitedTime = i;
+    public void func_177415_c(long i) {
+        this.field_111204_q = i;
     }
 
     // Paper start
     public void runOrQueueLightUpdate(Runnable runnable) {
-        if (this.world.paperConfig.queueLightUpdates) {
+        if (this.field_76637_e.paperConfig.queueLightUpdates) {
             lightingQueue.add(runnable);
         } else {
             runnable.run();

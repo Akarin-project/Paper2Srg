@@ -5,32 +5,32 @@ import net.minecraft.util.datafix.IFixableData;
 
 public class SpawnEggNames implements IFixableData {
 
-    private static final String[] ENTITY_IDS = new String[256];
+    private static final String[] field_188226_a = new String[256];
 
     public SpawnEggNames() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 105;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        if ("minecraft:spawn_egg".equals(nbttagcompound.getString("id"))) {
-            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("tag");
-            NBTTagCompound nbttagcompound2 = nbttagcompound1.getCompoundTag("EntityTag");
-            short short0 = nbttagcompound.getShort("Damage");
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        if ("minecraft:spawn_egg".equals(nbttagcompound.func_74779_i("id"))) {
+            NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("tag");
+            NBTTagCompound nbttagcompound2 = nbttagcompound1.func_74775_l("EntityTag");
+            short short0 = nbttagcompound.func_74765_d("Damage");
 
-            if (!nbttagcompound2.hasKey("id", 8)) {
-                String s = SpawnEggNames.ENTITY_IDS[short0 & 255];
+            if (!nbttagcompound2.func_150297_b("id", 8)) {
+                String s = SpawnEggNames.field_188226_a[short0 & 255];
 
                 if (s != null) {
-                    nbttagcompound2.setString("id", s);
-                    nbttagcompound1.setTag("EntityTag", nbttagcompound2);
-                    nbttagcompound.setTag("tag", nbttagcompound1);
+                    nbttagcompound2.func_74778_a("id", s);
+                    nbttagcompound1.func_74782_a("EntityTag", nbttagcompound2);
+                    nbttagcompound.func_74782_a("tag", nbttagcompound1);
                 }
             }
 
             if (short0 != 0) {
-                nbttagcompound.setShort("Damage", (short) 0);
+                nbttagcompound.func_74777_a("Damage", (short) 0);
             }
         }
 
@@ -38,7 +38,7 @@ public class SpawnEggNames implements IFixableData {
     }
 
     static {
-        String[] astring = SpawnEggNames.ENTITY_IDS;
+        String[] astring = SpawnEggNames.field_188226_a;
 
         astring[1] = "Item";
         astring[2] = "XPOrb";

@@ -10,19 +10,19 @@ public class CommandStop extends CommandBase {
 
     public CommandStop() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "stop";
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.stop.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
-        if (minecraftserver.worlds != null) {
-            notifyCommandListener(icommandlistener, (ICommand) this, "commands.stop.start", new Object[0]);
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+        if (minecraftserver.field_71305_c != null) {
+            func_152373_a(icommandlistener, (ICommand) this, "commands.stop.start", new Object[0]);
         }
 
-        minecraftserver.initiateShutdown();
+        minecraftserver.func_71263_m();
     }
 }

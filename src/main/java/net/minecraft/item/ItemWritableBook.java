@@ -12,27 +12,27 @@ import net.minecraft.world.World;
 public class ItemWritableBook extends Item {
 
     public ItemWritableBook() {
-        this.setMaxStackSize(1);
+        this.func_77625_d(1);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        entityhuman.openBook(itemstack, enumhand);
-        entityhuman.addStat(StatList.getObjectUseStats((Item) this));
+        entityhuman.func_184814_a(itemstack, enumhand);
+        entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
     }
 
-    public static boolean isNBTValid(NBTTagCompound nbttagcompound) {
+    public static boolean func_150930_a(NBTTagCompound nbttagcompound) {
         if (nbttagcompound == null) {
             return false;
-        } else if (!nbttagcompound.hasKey("pages", 9)) {
+        } else if (!nbttagcompound.func_150297_b("pages", 9)) {
             return false;
         } else {
-            NBTTagList nbttaglist = nbttagcompound.getTagList("pages", 8);
+            NBTTagList nbttaglist = nbttagcompound.func_150295_c("pages", 8);
 
-            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                String s = nbttaglist.getStringTagAt(i);
+            for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+                String s = nbttaglist.func_150307_f(i);
 
                 if (s.length() > 32767) {
                     return false;

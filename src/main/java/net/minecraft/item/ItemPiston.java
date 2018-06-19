@@ -8,7 +8,7 @@ public class ItemPiston extends ItemBlock {
         super(block);
     }
 
-    public int getMetadata(int i) {
+    public int func_77647_b(int i) {
         return 7;
     }
 }

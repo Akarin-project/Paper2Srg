@@ -12,37 +12,37 @@ import net.minecraft.world.World;
 
 public interface ICommandSender {
 
-    String getName();
+    String func_70005_c_();
 
-    default ITextComponent getDisplayName() {
-        return new TextComponentString(this.getName());
+    default ITextComponent func_145748_c_() {
+        return new TextComponentString(this.func_70005_c_());
     }
 
-    default void sendMessage(ITextComponent ichatbasecomponent) {}
+    default void func_145747_a(ITextComponent ichatbasecomponent) {}
 
-    boolean canUseCommand(int i, String s);
+    boolean func_70003_b(int i, String s);
 
-    default BlockPos getPosition() {
-        return BlockPos.ORIGIN;
+    default BlockPos func_180425_c() {
+        return BlockPos.field_177992_a;
     }
 
-    default Vec3d getPositionVector() {
-        return Vec3d.ZERO;
+    default Vec3d func_174791_d() {
+        return Vec3d.field_186680_a;
     }
 
-    World getEntityWorld();
+    World func_130014_f_();
 
     @Nullable
-    default Entity getCommandSenderEntity() {
+    default Entity func_174793_f() {
         return null;
     }
 
-    default boolean sendCommandFeedback() {
+    default boolean func_174792_t_() {
         return false;
     }
 
-    default void setCommandStat(CommandResultStats.Type commandobjectiveexecutor_enumcommandresult, int i) {}
+    default void func_174794_a(CommandResultStats.Type commandobjectiveexecutor_enumcommandresult, int i) {}
 
     @Nullable
-    MinecraftServer getServer();
+    MinecraftServer func_184102_h();
 }

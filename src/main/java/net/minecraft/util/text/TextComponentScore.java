@@ -11,68 +11,65 @@ import net.minecraft.util.StringUtils;
 
 public class TextComponentScore extends TextComponentBase {
 
-    private final String name;
-    private final String objective;
-    private String value = "";
+    private final String field_179999_b;
+    private final String field_180000_c;
+    private String field_179998_d = "";
 
     public TextComponentScore(String s, String s1) {
-        this.name = s;
-        this.objective = s1;
+        this.field_179999_b = s;
+        this.field_180000_c = s1;
     }
 
-    public String getName() {
-        return this.name;
+    public String func_179995_g() {
+        return this.field_179999_b;
     }
 
-    public String getObjective() {
-        return this.objective;
+    public String func_179994_h() {
+        return this.field_180000_c;
     }
 
-    public void setValue(String s) {
-        this.value = s;
+    public void func_179997_b(String s) {
+        this.field_179998_d = s;
     }
 
-    @Override
-    public String getUnformattedComponentText() {
-        return this.value;
+    public String func_150261_e() {
+        return this.field_179998_d;
     }
 
-    public void resolve(ICommandSender icommandlistener) {
-        MinecraftServer minecraftserver = icommandlistener.getServer();
+    public void func_186876_a(ICommandSender icommandlistener) {
+        MinecraftServer minecraftserver = icommandlistener.func_184102_h();
 
-        if (minecraftserver != null && minecraftserver.isAnvilFileSet() && StringUtils.isNullOrEmpty(this.value)) {
-            Scoreboard scoreboard = minecraftserver.getWorld(0).getScoreboard();
-            ScoreObjective scoreboardobjective = scoreboard.getObjective(this.objective);
+        if (minecraftserver != null && minecraftserver.func_175578_N() && StringUtils.func_151246_b(this.field_179998_d)) {
+            Scoreboard scoreboard = minecraftserver.func_71218_a(0).func_96441_U();
+            ScoreObjective scoreboardobjective = scoreboard.func_96518_b(this.field_180000_c);
 
-            if (scoreboard.entityHasObjective(this.name, scoreboardobjective)) {
-                Score scoreboardscore = scoreboard.getOrCreateScore(this.name, scoreboardobjective);
+            if (scoreboard.func_178819_b(this.field_179999_b, scoreboardobjective)) {
+                Score scoreboardscore = scoreboard.func_96529_a(this.field_179999_b, scoreboardobjective);
 
-                this.setValue(String.format("%d", new Object[] { Integer.valueOf(scoreboardscore.getScorePoints())}));
+                this.func_179997_b(String.format("%d", new Object[] { Integer.valueOf(scoreboardscore.func_96652_c())}));
             } else {
-                this.value = "";
+                this.field_179998_d = "";
             }
         }
 
     }
 
-    @Override
-    public TextComponentScore createCopy() {
-        TextComponentScore chatcomponentscore = new TextComponentScore(this.name, this.objective);
+    public TextComponentScore func_150259_f() {
+        TextComponentScore chatcomponentscore = new TextComponentScore(this.field_179999_b, this.field_180000_c);
 
-        chatcomponentscore.setValue(this.value);
-        chatcomponentscore.setStyle(this.getStyle().createShallowCopy());
-        Iterator iterator = this.getSiblings().iterator();
+        chatcomponentscore.func_179997_b(this.field_179998_d);
+        chatcomponentscore.func_150255_a(this.func_150256_b().func_150232_l());
+        Iterator iterator = this.func_150253_a().iterator();
 
         while (iterator.hasNext()) {
             ITextComponent ichatbasecomponent = (ITextComponent) iterator.next();
 
-            chatcomponentscore.appendSibling(ichatbasecomponent.createCopy());
+            chatcomponentscore.func_150257_a(ichatbasecomponent.func_150259_f());
         }
 
         return chatcomponentscore;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -81,12 +78,15 @@ public class TextComponentScore extends TextComponentBase {
         } else {
             TextComponentScore chatcomponentscore = (TextComponentScore) object;
 
-            return this.name.equals(chatcomponentscore.name) && this.objective.equals(chatcomponentscore.objective) && super.equals(object);
+            return this.field_179999_b.equals(chatcomponentscore.field_179999_b) && this.field_180000_c.equals(chatcomponentscore.field_180000_c) && super.equals(object);
         }
     }
 
-    @Override
     public String toString() {
-        return "ScoreComponent{name=\'" + this.name + '\'' + "objective=\'" + this.objective + '\'' + ", siblings=" + this.siblings + ", style=" + this.getStyle() + '}';
+        return "ScoreComponent{name=\'" + this.field_179999_b + '\'' + "objective=\'" + this.field_180000_c + '\'' + ", siblings=" + this.field_150264_a + ", style=" + this.func_150256_b() + '}';
+    }
+
+    public ITextComponent func_150259_f() {
+        return this.func_150259_f();
     }
 }

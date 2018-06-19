@@ -9,25 +9,25 @@ public class CommandShowSeed extends CommandBase {
 
     public CommandShowSeed() {}
 
-    public boolean checkPermission(MinecraftServer minecraftserver, ICommandSender icommandlistener) {
-        return minecraftserver.isSinglePlayer() || super.checkPermission(minecraftserver, icommandlistener);
+    public boolean func_184882_a(MinecraftServer minecraftserver, ICommandSender icommandlistener) {
+        return minecraftserver.func_71264_H() || super.func_184882_a(minecraftserver, icommandlistener);
     }
 
-    public String getName() {
+    public String func_71517_b() {
         return "seed";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 2;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.seed.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
-        Object object = icommandlistener instanceof EntityPlayer ? ((EntityPlayer) icommandlistener).world : minecraftserver.getWorld(0);
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+        Object object = icommandlistener instanceof EntityPlayer ? ((EntityPlayer) icommandlistener).field_70170_p : minecraftserver.func_71218_a(0);
 
-        icommandlistener.sendMessage(new TextComponentTranslation("commands.seed.success", new Object[] { Long.valueOf(((World) object).getSeed())}));
+        icommandlistener.func_145747_a(new TextComponentTranslation("commands.seed.success", new Object[] { Long.valueOf(((World) object).func_72905_C())}));
     }
 }

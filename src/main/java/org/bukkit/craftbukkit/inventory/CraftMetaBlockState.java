@@ -88,8 +88,8 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
         super(tag);
         this.material = material;
 
-        if (tag.hasKey(BLOCK_ENTITY_TAG.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
-            blockEntityTag = tag.getCompoundTag(BLOCK_ENTITY_TAG.NBT);
+        if (tag.func_150297_b(BLOCK_ENTITY_TAG.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
+            blockEntityTag = tag.func_74775_l(BLOCK_ENTITY_TAG.NBT);
         } else {
             blockEntityTag = null;
         }
@@ -111,14 +111,14 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
         super.applyToItem(tag);
 
         if (blockEntityTag != null) {
-            tag.setTag(BLOCK_ENTITY_TAG.NBT, blockEntityTag);
+            tag.func_74782_a(BLOCK_ENTITY_TAG.NBT, blockEntityTag);
         }
     }
 
     @Override
     void deserializeInternal(NBTTagCompound tag) {
-        if (tag.hasKey(BLOCK_ENTITY_TAG.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
-            blockEntityTag = tag.getCompoundTag(BLOCK_ENTITY_TAG.NBT);
+        if (tag.func_150297_b(BLOCK_ENTITY_TAG.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
+            blockEntityTag = tag.func_74775_l(BLOCK_ENTITY_TAG.NBT);
         }
     }
 
@@ -220,7 +220,7 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
     public CraftMetaBlockState clone() {
         CraftMetaBlockState meta = (CraftMetaBlockState) super.clone();
         if (blockEntityTag != null) {
-            meta.blockEntityTag = blockEntityTag.copy();
+            meta.blockEntityTag = blockEntityTag.func_74737_b();
         }
         return meta;
     }
@@ -235,7 +235,7 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
         if (blockEntityTag != null) {
             switch (material) {
                 case SHIELD:
-                    blockEntityTag.setString("id", "banner");
+                    blockEntityTag.func_74778_a("id", "banner");
                     break;
                 case WHITE_SHULKER_BOX:
                 case ORANGE_SHULKER_BOX:
@@ -253,11 +253,11 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
                 case GREEN_SHULKER_BOX:
                 case RED_SHULKER_BOX:
                 case BLACK_SHULKER_BOX:
-                    blockEntityTag.setString("id", "shulker_box");
+                    blockEntityTag.func_74778_a("id", "shulker_box");
                     break;
             }
         }
-        TileEntity te = (blockEntityTag == null) ? null : TileEntity.create(null, blockEntityTag);
+        TileEntity te = (blockEntityTag == null) ? null : TileEntity.func_190200_a(null, blockEntityTag);
 
         switch (material) {
         case SIGN:

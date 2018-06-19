@@ -22,11 +22,11 @@ import org.apache.logging.log4j.Logger;
 
 public class HttpUtil {
 
-    public static final ListeningExecutorService DOWNLOADER_EXECUTOR = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool((new ThreadFactoryBuilder()).setDaemon(true).setNameFormat("Downloader %d").build()));
-    private static final AtomicInteger DOWNLOAD_THREADS_STARTED = new AtomicInteger(0);
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final ListeningExecutorService field_180193_a = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool((new ThreadFactoryBuilder()).setDaemon(true).setNameFormat("Downloader %d").build()));
+    private static final AtomicInteger field_151228_a = new AtomicInteger(0);
+    private static final Logger field_151227_b = LogManager.getLogger();
 
-    public static String buildPostString(Map<String, Object> map) {
+    public static String func_76179_a(Map<String, Object> map) {
         StringBuilder stringbuilder = new StringBuilder();
         Iterator iterator = map.entrySet().iterator();
 
@@ -57,11 +57,11 @@ public class HttpUtil {
         return stringbuilder.toString();
     }
 
-    public static String postMap(URL url, Map<String, Object> map, boolean flag, @Nullable Proxy proxy) {
-        return post(url, buildPostString(map), flag, proxy);
+    public static String func_151226_a(URL url, Map<String, Object> map, boolean flag, @Nullable Proxy proxy) {
+        return func_151225_a(url, func_76179_a(map), flag, proxy);
     }
 
-    private static String post(URL url, String s, boolean flag, @Nullable Proxy proxy) {
+    private static String func_151225_a(URL url, String s, boolean flag, @Nullable Proxy proxy) {
         try {
             if (proxy == null) {
                 proxy = Proxy.NO_PROXY;
@@ -95,7 +95,7 @@ public class HttpUtil {
             return stringbuffer.toString();
         } catch (Exception exception) {
             if (!flag) {
-                HttpUtil.LOGGER.error("Could not post to {}", url, exception);
+                HttpUtil.field_151227_b.error("Could not post to {}", url, exception);
             }
 
             return "";

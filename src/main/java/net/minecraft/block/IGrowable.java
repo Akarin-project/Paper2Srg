@@ -8,9 +8,9 @@ import net.minecraft.world.World;
 
 public interface IGrowable {
 
-    boolean canGrow(World world, BlockPos blockposition, IBlockState iblockdata, boolean flag);
+    boolean func_176473_a(World world, BlockPos blockposition, IBlockState iblockdata, boolean flag);
 
-    boolean canUseBonemeal(World world, Random random, BlockPos blockposition, IBlockState iblockdata);
+    boolean func_180670_a(World world, Random random, BlockPos blockposition, IBlockState iblockdata);
 
-    void grow(World world, Random random, BlockPos blockposition, IBlockState iblockdata);
+    void func_176474_b(World world, Random random, BlockPos blockposition, IBlockState iblockdata);
 }

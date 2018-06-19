@@ -4,11 +4,11 @@ import net.minecraft.item.ItemStack;
 
 public interface IBehaviorDispenseItem {
 
-    IBehaviorDispenseItem DEFAULT_BEHAVIOR = new IBehaviorDispenseItem() {
-        public ItemStack dispense(IBlockSource isourceblock, ItemStack itemstack) {
+    IBehaviorDispenseItem field_82483_a = new IBehaviorDispenseItem() {
+        public ItemStack func_82482_a(IBlockSource isourceblock, ItemStack itemstack) {
             return itemstack;
         }
     };
 
-    ItemStack dispense(IBlockSource isourceblock, ItemStack itemstack);
+    ItemStack func_82482_a(IBlockSource isourceblock, ItemStack itemstack);
 }

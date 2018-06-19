@@ -22,98 +22,98 @@ import net.minecraft.world.WorldServer;
 public class ItemWrittenBook extends Item {
 
     public ItemWrittenBook() {
-        this.setMaxStackSize(1);
+        this.func_77625_d(1);
     }
 
-    public static boolean validBookTagContents(NBTTagCompound nbttagcompound) {
-        if (!ItemWritableBook.isNBTValid(nbttagcompound)) {
+    public static boolean func_77828_a(NBTTagCompound nbttagcompound) {
+        if (!ItemWritableBook.func_150930_a(nbttagcompound)) {
             return false;
-        } else if (!nbttagcompound.hasKey("title", 8)) {
+        } else if (!nbttagcompound.func_150297_b("title", 8)) {
             return false;
         } else {
-            String s = nbttagcompound.getString("title");
+            String s = nbttagcompound.func_74779_i("title");
 
-            return s != null && s.length() <= 32 ? nbttagcompound.hasKey("author", 8) : false;
+            return s != null && s.length() <= 32 ? nbttagcompound.func_150297_b("author", 8) : false;
         }
     }
 
-    public static int getGeneration(ItemStack itemstack) {
-        return itemstack.getTagCompound().getInteger("generation");
+    public static int func_179230_h(ItemStack itemstack) {
+        return itemstack.func_77978_p().func_74762_e("generation");
     }
 
-    public String getItemStackDisplayName(ItemStack itemstack) {
-        if (itemstack.hasTagCompound()) {
-            NBTTagCompound nbttagcompound = itemstack.getTagCompound();
-            String s = nbttagcompound.getString("title");
+    public String func_77653_i(ItemStack itemstack) {
+        if (itemstack.func_77942_o()) {
+            NBTTagCompound nbttagcompound = itemstack.func_77978_p();
+            String s = nbttagcompound.func_74779_i("title");
 
-            if (!StringUtils.isNullOrEmpty(s)) {
+            if (!StringUtils.func_151246_b(s)) {
                 return s;
             }
         }
 
-        return super.getItemStackDisplayName(itemstack);
+        return super.func_77653_i(itemstack);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (!world.isRemote) {
-            this.resolveContents(itemstack, entityhuman);
+        if (!world.field_72995_K) {
+            this.func_179229_a(itemstack, entityhuman);
         }
 
-        entityhuman.openBook(itemstack, enumhand);
-        entityhuman.addStat(StatList.getObjectUseStats((Item) this));
+        entityhuman.func_184814_a(itemstack, enumhand);
+        entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
     }
 
-    private void resolveContents(ItemStack itemstack, EntityPlayer entityhuman) {
-        if (itemstack.getTagCompound() != null) {
-            NBTTagCompound nbttagcompound = itemstack.getTagCompound();
+    private void func_179229_a(ItemStack itemstack, EntityPlayer entityhuman) {
+        if (itemstack.func_77978_p() != null) {
+            NBTTagCompound nbttagcompound = itemstack.func_77978_p();
 
-            if (!nbttagcompound.getBoolean("resolved")) {
-                nbttagcompound.setBoolean("resolved", true);
-                if (validBookTagContents(nbttagcompound)) {
-                    NBTTagList nbttaglist = nbttagcompound.getTagList("pages", 8);
+            if (!nbttagcompound.func_74767_n("resolved")) {
+                nbttagcompound.func_74757_a("resolved", true);
+                if (func_77828_a(nbttagcompound)) {
+                    NBTTagList nbttaglist = nbttagcompound.func_150295_c("pages", 8);
 
-                    for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                        String s = nbttaglist.getStringTagAt(i);
+                    for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+                        String s = nbttaglist.func_150307_f(i);
 
                         Object object;
 
                         // CraftBukkit start
                         // Some commands use the worldserver variable but we leave it full of null values,
                         // so we must temporarily populate it with the world of the commandsender
-                        WorldServer[] prev = MinecraftServer.getServer().worlds;
+                        WorldServer[] prev = MinecraftServer.getServer().field_71305_c;
                         MinecraftServer server = MinecraftServer.getServer();
-                        server.worlds = new WorldServer[server.worlds.size()];
-                        server.worlds[0] = (WorldServer) entityhuman.getEntityWorld();
+                        server.field_71305_c = new WorldServer[server.worlds.size()];
+                        server.field_71305_c[0] = (WorldServer) entityhuman.func_130014_f_();
                         int bpos = 0;
-                        for (int pos = 1; pos < server.worlds.length; pos++) {
+                        for (int pos = 1; pos < server.field_71305_c.length; pos++) {
                             WorldServer world = server.worlds.get(bpos++);
-                            if (server.worlds[0] == world) {
+                            if (server.field_71305_c[0] == world) {
                                 pos--;
                                 continue;
                             }
-                            server.worlds[pos] = world;
+                            server.field_71305_c[pos] = world;
                         }
                         // CraftBukkit end
                         try {
-                            ITextComponent ichatbasecomponent = ITextComponent.Serializer.fromJsonLenient(s);
+                            ITextComponent ichatbasecomponent = ITextComponent.Serializer.func_186877_b(s);
 
-                            object = TextComponentUtils.processComponent(entityhuman, ichatbasecomponent, entityhuman);
+                            object = TextComponentUtils.func_179985_a(entityhuman, ichatbasecomponent, entityhuman);
                         } catch (Exception exception) {
                             object = new TextComponentString(s);
                         }
-                        finally { MinecraftServer.getServer().worlds = prev; } // CraftBukkit
+                        finally { MinecraftServer.getServer().field_71305_c = prev; } // CraftBukkit
 
-                        nbttaglist.set(i, new NBTTagString(ITextComponent.Serializer.componentToJson((ITextComponent) object)));
+                        nbttaglist.func_150304_a(i, new NBTTagString(ITextComponent.Serializer.func_150696_a((ITextComponent) object)));
                     }
 
-                    nbttagcompound.setTag("pages", nbttaglist);
-                    if (entityhuman instanceof EntityPlayerMP && entityhuman.getHeldItemMainhand() == itemstack) {
-                        Slot slot = entityhuman.openContainer.getSlotFromInventory(entityhuman.inventory, entityhuman.inventory.currentItem);
+                    nbttagcompound.func_74782_a("pages", nbttaglist);
+                    if (entityhuman instanceof EntityPlayerMP && entityhuman.func_184614_ca() == itemstack) {
+                        Slot slot = entityhuman.field_71070_bA.func_75147_a(entityhuman.field_71071_by, entityhuman.field_71071_by.field_70461_c);
 
-                        ((EntityPlayerMP) entityhuman).connection.sendPacket(new SPacketSetSlot(0, slot.slotNumber, itemstack));
+                        ((EntityPlayerMP) entityhuman).field_71135_a.func_147359_a(new SPacketSetSlot(0, slot.field_75222_d, itemstack));
                     }
 
                 }

@@ -27,17 +27,17 @@ import org.bukkit.craftbukkit.chunkio.ChunkIOExecutor;
 
 public class PlayerChunkMapEntry {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final PlayerChunkMap playerChunkMap;
-    public final List<EntityPlayerMP> players = Lists.newArrayList(); // CraftBukkit - public
-    private final ChunkPos pos;
-    private final short[] changedBlocks = new short[64];
+    private static final Logger field_187281_a = LogManager.getLogger();
+    private final PlayerChunkMap field_187282_b;
+    public final List<EntityPlayerMP> field_187283_c = Lists.newArrayList(); // CraftBukkit - public
+    private final ChunkPos field_187284_d;
+    private final short[] field_187285_e = new short[64];
     @Nullable
-    public Chunk chunk; // CraftBukkit - public
-    private int changes;
-    private int changedSectionFilter;
-    private long lastUpdateInhabitedTime;
-    private boolean sentToPlayers;
+    public Chunk field_187286_f; // CraftBukkit - public
+    private int field_187287_g;
+    private int field_187288_h;
+    private long field_187289_i;
+    private boolean field_187290_j;
 
     // CraftBukkit start - add fields
     boolean chunkExists; // Paper
@@ -45,83 +45,83 @@ public class PlayerChunkMapEntry {
     private Runnable loadedRunnable = new Runnable() {
         public void run() {
             loadInProgress = false;
-            PlayerChunkMapEntry.this.chunk = PlayerChunkMapEntry.this.playerChunkMap.getWorldServer().getChunkProvider().loadChunk(pos.x, pos.z);
+            PlayerChunkMapEntry.this.field_187286_f = PlayerChunkMapEntry.this.field_187282_b.func_72688_a().func_72863_F().func_186028_c(field_187284_d.field_77276_a, field_187284_d.field_77275_b);
             markChunkUsed(); // Paper - delay chunk unloads
         }
     };
     // Paper start - delay chunk unloads
     public final void markChunkUsed() {
-        if (chunk != null && chunk.scheduledForUnload != null) {
-            chunk.scheduledForUnload = null;
+        if (field_187286_f != null && field_187286_f.scheduledForUnload != null) {
+            field_187286_f.scheduledForUnload = null;
         }
     }
     // Paper end
     // CraftBukkit end
 
     public PlayerChunkMapEntry(PlayerChunkMap playerchunkmap, int i, int j) {
-        this.playerChunkMap = playerchunkmap;
-        this.pos = new ChunkPos(i, j);
+        this.field_187282_b = playerchunkmap;
+        this.field_187284_d = new ChunkPos(i, j);
         // CraftBukkit start
         loadInProgress = true;
-        this.chunk = playerchunkmap.getWorldServer().getChunkProvider().getChunkAt(i, j, loadedRunnable, false);
-        this.chunkExists = this.chunk != null || ChunkIOExecutor.hasQueuedChunkLoad(playerChunkMap.getWorldServer(), i, j); // Paper
+        this.field_187286_f = playerchunkmap.func_72688_a().func_72863_F().getChunkAt(i, j, loadedRunnable, false);
+        this.chunkExists = this.field_187286_f != null || ChunkIOExecutor.hasQueuedChunkLoad(field_187282_b.func_72688_a(), i, j); // Paper
         markChunkUsed(); // Paper - delay chunk unloads
         // CraftBukkit end
     }
 
-    public ChunkPos getPos() {
-        return this.pos;
+    public ChunkPos func_187264_a() {
+        return this.field_187284_d;
     }
 
-    public void addPlayer(final EntityPlayerMP entityplayer) { // CraftBukkit - added final to argument
-        if (this.players.contains(entityplayer)) {
-            PlayerChunkMapEntry.LOGGER.debug("Failed to add player. {} already is in chunk {}, {}", entityplayer, Integer.valueOf(this.pos.x), Integer.valueOf(this.pos.z));
+    public void func_187276_a(final EntityPlayerMP entityplayer) { // CraftBukkit - added final to argument
+        if (this.field_187283_c.contains(entityplayer)) {
+            PlayerChunkMapEntry.field_187281_a.debug("Failed to add player. {} already is in chunk {}, {}", entityplayer, Integer.valueOf(this.field_187284_d.field_77276_a), Integer.valueOf(this.field_187284_d.field_77275_b));
         } else {
-            if (this.players.isEmpty()) {
-                this.lastUpdateInhabitedTime = this.playerChunkMap.getWorldServer().getTotalWorldTime();
+            if (this.field_187283_c.isEmpty()) {
+                this.field_187289_i = this.field_187282_b.func_72688_a().func_82737_E();
             }
 
-            this.players.add(entityplayer);
+            this.field_187283_c.add(entityplayer);
             // CraftBukkit start - use async chunk io
             // if (this.done) {
             //     this.sendChunk(entityplayer);
             // }
-            if (this.sentToPlayers) {
-                this.sendToPlayer(entityplayer);
+            if (this.field_187290_j) {
+                this.func_187278_c(entityplayer);
             }
             // CraftBukkit end
 
         }
     }
 
-    public void removePlayer(EntityPlayerMP entityplayer) {
-        if (this.players.contains(entityplayer)) {
+    public void func_187277_b(EntityPlayerMP entityplayer) {
+        if (this.field_187283_c.contains(entityplayer)) {
             // CraftBukkit start - If we haven't loaded yet don't load the chunk just so we can clean it up
-            if (!this.sentToPlayers) {
-                this.players.remove(entityplayer);
+            if (!this.field_187290_j) {
+                this.field_187283_c.remove(entityplayer);
 
-                if (this.players.isEmpty()) {
-                    ChunkIOExecutor.dropQueuedChunkLoad(this.playerChunkMap.getWorldServer(), this.pos.x, this.pos.z, this.loadedRunnable);
-                    this.playerChunkMap.removeEntry(this);
+                if (this.field_187283_c.isEmpty()) {
+                    ChunkIOExecutor.dropQueuedChunkLoad(this.field_187282_b.func_72688_a(), this.field_187284_d.field_77276_a, this.field_187284_d.field_77275_b, this.loadedRunnable);
+                    this.field_187282_b.func_187305_b(this);
                 }
 
                 return;
             }
             // CraftBukkit end
-            if (this.sentToPlayers) {
-                entityplayer.connection.sendPacket(new SPacketUnloadChunk(this.pos.x, this.pos.z));
+            if (this.field_187290_j) {
+                entityplayer.field_71135_a.func_147359_a(new SPacketUnloadChunk(this.field_187284_d.field_77276_a, this.field_187284_d.field_77275_b));
             }
 
-            this.players.remove(entityplayer);
-            if (this.players.isEmpty()) {
-                this.playerChunkMap.removeEntry(this);
+            this.field_187283_c.remove(entityplayer);
+            if (this.field_187283_c.isEmpty()) {
+                this.field_187282_b.func_187305_b(this);
             }
 
         }
     }
 
-    public boolean providePlayerChunk(boolean flag) {
-        if (this.chunk != null) {
+    public boolean func_187268_a(boolean flag) {
+        if (this.field_187286_f != null) {
             return true;
         } else {
             /* CraftBukkit start
@@ -133,159 +133,159 @@ public class PlayerChunkMapEntry {
             */
             if (!loadInProgress) {
                 loadInProgress = true;
-                this.chunk = playerChunkMap.getWorldServer().getChunkProvider().getChunkAt(this.pos.x, this.pos.z, loadedRunnable, flag);
+                this.field_187286_f = field_187282_b.func_72688_a().func_72863_F().getChunkAt(this.field_187284_d.field_77276_a, this.field_187284_d.field_77275_b, loadedRunnable, flag);
                 markChunkUsed(); // Paper - delay chunk unloads
             }
             // CraftBukkit end
 
-            return this.chunk != null;
+            return this.field_187286_f != null;
         }
     }
 
-    public boolean sendToPlayers() {
-        if (this.sentToPlayers) {
+    public boolean func_187272_b() {
+        if (this.field_187290_j) {
             return true;
-        } else if (this.chunk == null) {
+        } else if (this.field_187286_f == null) {
             return false;
-        } else if (!this.chunk.isPopulated()) {
+        } else if (!this.field_187286_f.func_150802_k()) {
             return false;
-        } else if (!this.chunk.world.chunkPacketBlockController.onChunkPacketCreate(this.chunk, '\uffff', false)) { // Paper - Anti-Xray - Load nearby chunks if necessary
+        } else if (!this.field_187286_f.field_76637_e.chunkPacketBlockController.onChunkPacketCreate(this.field_187286_f, '\uffff', false)) { // Paper - Anti-Xray - Load nearby chunks if necessary
             return false; // Paper - Anti-Xray - Wait and try again later
         } else {
-            this.changes = 0;
-            this.changedSectionFilter = 0;
-            this.sentToPlayers = true;
-            SPacketChunkData packetplayoutmapchunk = new SPacketChunkData(this.chunk, '\uffff');
-            Iterator iterator = this.players.iterator();
+            this.field_187287_g = 0;
+            this.field_187288_h = 0;
+            this.field_187290_j = true;
+            SPacketChunkData packetplayoutmapchunk = new SPacketChunkData(this.field_187286_f, '\uffff');
+            Iterator iterator = this.field_187283_c.iterator();
 
             while (iterator.hasNext()) {
                 EntityPlayerMP entityplayer = (EntityPlayerMP) iterator.next();
 
-                entityplayer.connection.sendPacket(packetplayoutmapchunk);
-                this.playerChunkMap.getWorldServer().getEntityTracker().sendLeashedEntitiesInChunk(entityplayer, this.chunk);
+                entityplayer.field_71135_a.func_147359_a(packetplayoutmapchunk);
+                this.field_187282_b.func_72688_a().func_73039_n().func_85172_a(entityplayer, this.field_187286_f);
             }
 
             return true;
         }
     }
 
-    public void sendToPlayer(EntityPlayerMP entityplayer) {
-        if (this.sentToPlayers) {
-            this.chunk.world.chunkPacketBlockController.onChunkPacketCreate(this.chunk, '\uffff', true); // Paper - Anti-Xray - Load nearby chunks if necessary
-            entityplayer.connection.sendPacket(new SPacketChunkData(this.chunk, '\uffff'));
-            this.playerChunkMap.getWorldServer().getEntityTracker().sendLeashedEntitiesInChunk(entityplayer, this.chunk);
+    public void func_187278_c(EntityPlayerMP entityplayer) {
+        if (this.field_187290_j) {
+            this.field_187286_f.field_76637_e.chunkPacketBlockController.onChunkPacketCreate(this.field_187286_f, '\uffff', true); // Paper - Anti-Xray - Load nearby chunks if necessary
+            entityplayer.field_71135_a.func_147359_a(new SPacketChunkData(this.field_187286_f, '\uffff'));
+            this.field_187282_b.func_72688_a().func_73039_n().func_85172_a(entityplayer, this.field_187286_f);
         }
     }
 
-    public void updateChunkInhabitedTime() {
-        long i = this.playerChunkMap.getWorldServer().getTotalWorldTime();
+    public void func_187279_c() {
+        long i = this.field_187282_b.func_72688_a().func_82737_E();
 
-        if (this.chunk != null) {
-            this.chunk.setInhabitedTime(this.chunk.getInhabitedTime() + i - this.lastUpdateInhabitedTime);
+        if (this.field_187286_f != null) {
+            this.field_187286_f.func_177415_c(this.field_187286_f.func_177416_w() + i - this.field_187289_i);
         }
 
-        this.lastUpdateInhabitedTime = i;
+        this.field_187289_i = i;
     }
 
-    public void blockChanged(int i, int j, int k) {
-        if (this.sentToPlayers) {
-            if (this.changes == 0) {
-                this.playerChunkMap.entryChanged(this);
+    public void func_187265_a(int i, int j, int k) {
+        if (this.field_187290_j) {
+            if (this.field_187287_g == 0) {
+                this.field_187282_b.func_187304_a(this);
             }
 
-            this.changedSectionFilter |= 1 << (j >> 4);
-            if (this.changes < 64) {
+            this.field_187288_h |= 1 << (j >> 4);
+            if (this.field_187287_g < 64) {
                 short short0 = (short) (i << 12 | k << 8 | j);
 
-                for (int l = 0; l < this.changes; ++l) {
-                    if (this.changedBlocks[l] == short0) {
+                for (int l = 0; l < this.field_187287_g; ++l) {
+                    if (this.field_187285_e[l] == short0) {
                         return;
                     }
                 }
 
-                this.changedBlocks[this.changes++] = short0;
+                this.field_187285_e[this.field_187287_g++] = short0;
             }
 
         }
     }
 
-    public void sendPacket(Packet<?> packet) {
-        if (this.sentToPlayers) {
-            for (int i = 0; i < this.players.size(); ++i) {
-                ((EntityPlayerMP) this.players.get(i)).connection.sendPacket(packet);
+    public void func_187267_a(Packet<?> packet) {
+        if (this.field_187290_j) {
+            for (int i = 0; i < this.field_187283_c.size(); ++i) {
+                ((EntityPlayerMP) this.field_187283_c.get(i)).field_71135_a.func_147359_a(packet);
             }
 
         }
     }
 
-    public void update() {
-        if (this.sentToPlayers && this.chunk != null) {
-            if (this.changes != 0) {
+    public void func_187280_d() {
+        if (this.field_187290_j && this.field_187286_f != null) {
+            if (this.field_187287_g != 0) {
                 int i;
                 int j;
                 int k;
 
-                if (this.changes == 1) {
-                    i = (this.changedBlocks[0] >> 12 & 15) + this.pos.x * 16;
-                    j = this.changedBlocks[0] & 255;
-                    k = (this.changedBlocks[0] >> 8 & 15) + this.pos.z * 16;
+                if (this.field_187287_g == 1) {
+                    i = (this.field_187285_e[0] >> 12 & 15) + this.field_187284_d.field_77276_a * 16;
+                    j = this.field_187285_e[0] & 255;
+                    k = (this.field_187285_e[0] >> 8 & 15) + this.field_187284_d.field_77275_b * 16;
                     BlockPos blockposition = new BlockPos(i, j, k);
 
-                    this.sendPacket((Packet) (new SPacketBlockChange(this.playerChunkMap.getWorldServer(), blockposition)));
-                    if (this.playerChunkMap.getWorldServer().getBlockState(blockposition).getBlock().hasTileEntity()) {
-                        this.sendBlockEntity(this.playerChunkMap.getWorldServer().getTileEntity(blockposition));
+                    this.func_187267_a((Packet) (new SPacketBlockChange(this.field_187282_b.func_72688_a(), blockposition)));
+                    if (this.field_187282_b.func_72688_a().func_180495_p(blockposition).func_177230_c().func_149716_u()) {
+                        this.func_187273_a(this.field_187282_b.func_72688_a().func_175625_s(blockposition));
                     }
-                } else if (this.changes == 64) {
+                } else if (this.field_187287_g == 64) {
                     // Paper - Anti-Xray - Loading chunks here could cause a ConcurrentModificationException #1104
                     //this.chunk.world.chunkPacketBlockController.onChunkPacketCreate(this.chunk, this.h, true); // Paper - Anti-Xray - Load nearby chunks if necessary
-                    this.sendPacket((Packet) (new SPacketChunkData(this.chunk, this.changedSectionFilter)));
+                    this.func_187267_a((Packet) (new SPacketChunkData(this.field_187286_f, this.field_187288_h)));
                 } else {
-                    this.sendPacket((Packet) (new SPacketMultiBlockChange(this.changes, this.changedBlocks, this.chunk)));
+                    this.func_187267_a((Packet) (new SPacketMultiBlockChange(this.field_187287_g, this.field_187285_e, this.field_187286_f)));
 
-                    for (i = 0; i < this.changes; ++i) {
-                        j = (this.changedBlocks[i] >> 12 & 15) + this.pos.x * 16;
-                        k = this.changedBlocks[i] & 255;
-                        int l = (this.changedBlocks[i] >> 8 & 15) + this.pos.z * 16;
+                    for (i = 0; i < this.field_187287_g; ++i) {
+                        j = (this.field_187285_e[i] >> 12 & 15) + this.field_187284_d.field_77276_a * 16;
+                        k = this.field_187285_e[i] & 255;
+                        int l = (this.field_187285_e[i] >> 8 & 15) + this.field_187284_d.field_77275_b * 16;
                         BlockPos blockposition1 = new BlockPos(j, k, l);
 
-                        if (this.playerChunkMap.getWorldServer().getBlockState(blockposition1).getBlock().hasTileEntity()) {
-                            this.sendBlockEntity(this.playerChunkMap.getWorldServer().getTileEntity(blockposition1));
+                        if (this.field_187282_b.func_72688_a().func_180495_p(blockposition1).func_177230_c().func_149716_u()) {
+                            this.func_187273_a(this.field_187282_b.func_72688_a().func_175625_s(blockposition1));
                         }
                     }
                 }
 
-                this.changes = 0;
-                this.changedSectionFilter = 0;
+                this.field_187287_g = 0;
+                this.field_187288_h = 0;
             }
         }
     }
 
-    private void sendBlockEntity(@Nullable TileEntity tileentity) {
+    private void func_187273_a(@Nullable TileEntity tileentity) {
         if (tileentity != null) {
-            SPacketUpdateTileEntity packetplayouttileentitydata = tileentity.getUpdatePacket();
+            SPacketUpdateTileEntity packetplayouttileentitydata = tileentity.func_189518_D_();
 
             if (packetplayouttileentitydata != null) {
-                this.sendPacket((Packet) packetplayouttileentitydata);
+                this.func_187267_a((Packet) packetplayouttileentitydata);
             }
         }
 
     }
 
-    public boolean containsPlayer(EntityPlayerMP entityplayer) {
-        return this.players.contains(entityplayer);
+    public boolean func_187275_d(EntityPlayerMP entityplayer) {
+        return this.field_187283_c.contains(entityplayer);
     }
 
-    public boolean hasPlayerMatching(Predicate<EntityPlayerMP> predicate) {
-        return Iterables.tryFind(this.players, predicate).isPresent();
+    public boolean func_187269_a(Predicate<EntityPlayerMP> predicate) {
+        return Iterables.tryFind(this.field_187283_c, predicate).isPresent();
     }
 
-    public boolean hasPlayerMatchingInRange(double d0, Predicate<EntityPlayerMP> predicate) {
+    public boolean func_187271_a(double d0, Predicate<EntityPlayerMP> predicate) {
         int i = 0;
 
-        for (int j = this.players.size(); i < j; ++i) {
-            EntityPlayerMP entityplayer = (EntityPlayerMP) this.players.get(i);
+        for (int j = this.field_187283_c.size(); i < j; ++i) {
+            EntityPlayerMP entityplayer = (EntityPlayerMP) this.field_187283_c.get(i);
 
-            if (predicate.apply(entityplayer) && this.pos.getDistanceSq(entityplayer) < d0 * d0) {
+            if (predicate.apply(entityplayer) && this.field_187284_d.func_185327_a(entityplayer) < d0 * d0) {
                 return true;
             }
         }
@@ -293,22 +293,22 @@ public class PlayerChunkMapEntry {
         return false;
     }
 
-    public boolean isSentToPlayers() {
-        return this.sentToPlayers;
+    public boolean func_187274_e() {
+        return this.field_187290_j;
     }
 
     @Nullable
-    public Chunk getChunk() {
-        return this.chunk;
+    public Chunk func_187266_f() {
+        return this.field_187286_f;
     }
 
-    public double getClosestPlayerDistance() {
+    public double func_187270_g() {
         double d0 = Double.MAX_VALUE;
-        Iterator iterator = this.players.iterator();
+        Iterator iterator = this.field_187283_c.iterator();
 
         while (iterator.hasNext()) {
             EntityPlayerMP entityplayer = (EntityPlayerMP) iterator.next();
-            double d1 = this.pos.getDistanceSq(entityplayer);
+            double d1 = this.field_187284_d.func_185327_a(entityplayer);
 
             if (d1 < d0) {
                 d0 = d1;

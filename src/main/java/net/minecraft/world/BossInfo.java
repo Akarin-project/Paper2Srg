@@ -6,76 +6,76 @@ import net.minecraft.util.text.ITextComponent;
 
 public abstract class BossInfo {
 
-    private final UUID uniqueId;
-    public ITextComponent name;
-    protected float percent;
-    public BossInfo.Color color;
-    public BossInfo.Overlay overlay;
-    protected boolean darkenSky;
-    protected boolean playEndBossMusic;
-    protected boolean createFog;
+    private final UUID field_186756_h;
+    public ITextComponent field_186749_a;
+    protected float field_186750_b;
+    public BossInfo.Color field_186751_c;
+    public BossInfo.Overlay field_186752_d;
+    protected boolean field_186753_e;
+    protected boolean field_186754_f;
+    protected boolean field_186755_g;
 
     public BossInfo(UUID uuid, ITextComponent ichatbasecomponent, BossInfo.Color bossbattle_barcolor, BossInfo.Overlay bossbattle_barstyle) {
-        this.uniqueId = uuid;
-        this.name = ichatbasecomponent;
-        this.color = bossbattle_barcolor;
-        this.overlay = bossbattle_barstyle;
-        this.percent = 1.0F;
+        this.field_186756_h = uuid;
+        this.field_186749_a = ichatbasecomponent;
+        this.field_186751_c = bossbattle_barcolor;
+        this.field_186752_d = bossbattle_barstyle;
+        this.field_186750_b = 1.0F;
     }
 
-    public UUID getUniqueId() {
-        return this.uniqueId;
+    public UUID func_186737_d() {
+        return this.field_186756_h;
     }
 
-    public ITextComponent getName() {
-        return this.name;
+    public ITextComponent func_186744_e() {
+        return this.field_186749_a;
     }
 
-    public void setName(ITextComponent ichatbasecomponent) {
-        this.name = ichatbasecomponent;
+    public void func_186739_a(ITextComponent ichatbasecomponent) {
+        this.field_186749_a = ichatbasecomponent;
     }
 
-    public float getPercent() {
-        return this.percent;
+    public float func_186738_f() {
+        return this.field_186750_b;
     }
 
-    public void setPercent(float f) {
-        this.percent = f;
+    public void func_186735_a(float f) {
+        this.field_186750_b = f;
     }
 
-    public BossInfo.Color getColor() {
-        return this.color;
+    public BossInfo.Color func_186736_g() {
+        return this.field_186751_c;
     }
 
-    public BossInfo.Overlay getOverlay() {
-        return this.overlay;
+    public BossInfo.Overlay func_186740_h() {
+        return this.field_186752_d;
     }
 
-    public boolean shouldDarkenSky() {
-        return this.darkenSky;
+    public boolean func_186734_i() {
+        return this.field_186753_e;
     }
 
-    public BossInfo setDarkenSky(boolean flag) {
-        this.darkenSky = flag;
+    public BossInfo func_186741_a(boolean flag) {
+        this.field_186753_e = flag;
         return this;
     }
 
-    public boolean shouldPlayEndBossMusic() {
-        return this.playEndBossMusic;
+    public boolean func_186747_j() {
+        return this.field_186754_f;
     }
 
-    public BossInfo setPlayEndBossMusic(boolean flag) {
-        this.playEndBossMusic = flag;
+    public BossInfo func_186742_b(boolean flag) {
+        this.field_186754_f = flag;
         return this;
     }
 
-    public BossInfo setCreateFog(boolean flag) {
-        this.createFog = flag;
+    public BossInfo func_186743_c(boolean flag) {
+        this.field_186755_g = flag;
         return this;
     }
 
-    public boolean shouldCreateFog() {
-        return this.createFog;
+    public boolean func_186748_k() {
+        return this.field_186755_g;
     }
 
     public static enum Overlay {

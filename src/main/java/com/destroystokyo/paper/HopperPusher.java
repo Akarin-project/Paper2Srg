@@ -10,12 +10,12 @@ public interface HopperPusher {
 
     default TileEntityHopper findHopper() {
         BlockPos pos = new BlockPos(getX(), getY(), getZ());
-        int startX = pos.getX() - 1;
-        int endX = pos.getX() + 1;
-        int startY = Math.max(0, pos.getY() - 1);
-        int endY = Math.min(255, pos.getY() + 1);
-        int startZ = pos.getZ() - 1;
-        int endZ = pos.getZ() + 1;
+        int startX = pos.func_177958_n() - 1;
+        int endX = pos.func_177958_n() + 1;
+        int startY = Math.max(0, pos.func_177956_o() - 1);
+        int endY = Math.min(255, pos.func_177956_o() + 1);
+        int startZ = pos.func_177952_p() - 1;
+        int endZ = pos.func_177952_p() + 1;
         BlockPos.PooledMutableBlockPos adjacentPos = BlockPos.PooledMutableBlockPos.aquire();
         for (int x = startX; x <= endX; x++) {
             for (int y = startY; y <= endY; y++) {
@@ -29,7 +29,7 @@ public interface HopperPusher {
                      * This operation doesn't work both ways!
                      * Make sure you check if the entity's box intersects the hopper's box, not vice versa!
                      */
-                    AxisAlignedBB boundingBox = this.getBoundingBox().shrink(0.1); // Imitate vanilla behavior
+                    AxisAlignedBB boundingBox = this.getBoundingBox().func_186664_h(0.1); // Imitate vanilla behavior
                     if (boundingBox.intersects(hopperBoundingBox)) {
                         return hopper;
                     }

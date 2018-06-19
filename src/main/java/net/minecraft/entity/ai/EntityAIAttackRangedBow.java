@@ -10,118 +10,118 @@ import net.minecraft.util.EnumHand;
 
 public class EntityAIAttackRangedBow<T extends EntityMob & IRangedAttackMob> extends EntityAIBase {
 
-    private final T entity;
-    private final double moveSpeedAmp;
-    private int attackCooldown;
-    private final float maxAttackDistance;
-    private int attackTime = -1;
-    private int seeTime;
-    private boolean strafingClockwise;
-    private boolean strafingBackwards;
-    private int strafingTime = -1;
+    private final T field_188499_a;
+    private final double field_188500_b;
+    private int field_188501_c;
+    private final float field_188502_d;
+    private int field_188503_e = -1;
+    private int field_188504_f;
+    private boolean field_188505_g;
+    private boolean field_188506_h;
+    private int field_188507_i = -1;
 
     public EntityAIAttackRangedBow(T t0, double d0, int i, float f) {
-        this.entity = t0;
-        this.moveSpeedAmp = d0;
-        this.attackCooldown = i;
-        this.maxAttackDistance = f * f;
-        this.setMutexBits(3);
+        this.field_188499_a = t0;
+        this.field_188500_b = d0;
+        this.field_188501_c = i;
+        this.field_188502_d = f * f;
+        this.func_75248_a(3);
     }
 
-    public void setAttackCooldown(int i) {
-        this.attackCooldown = i;
+    public void func_189428_b(int i) {
+        this.field_188501_c = i;
     }
 
-    public boolean shouldExecute() {
-        return this.entity.getAttackTarget() == null ? false : this.isBowInMainhand();
+    public boolean func_75250_a() {
+        return this.field_188499_a.func_70638_az() == null ? false : this.func_188498_f();
     }
 
-    protected boolean isBowInMainhand() {
-        return !this.entity.getHeldItemMainhand().isEmpty() && this.entity.getHeldItemMainhand().getItem() == Items.BOW;
+    protected boolean func_188498_f() {
+        return !this.field_188499_a.func_184614_ca().func_190926_b() && this.field_188499_a.func_184614_ca().func_77973_b() == Items.field_151031_f;
     }
 
-    public boolean shouldContinueExecuting() {
-        return (this.shouldExecute() || !this.entity.getNavigator().noPath()) && this.isBowInMainhand();
+    public boolean func_75253_b() {
+        return (this.func_75250_a() || !this.field_188499_a.func_70661_as().func_75500_f()) && this.func_188498_f();
     }
 
-    public void startExecuting() {
-        super.startExecuting();
-        ((IRangedAttackMob) this.entity).setSwingingArms(true);
+    public void func_75249_e() {
+        super.func_75249_e();
+        ((IRangedAttackMob) this.field_188499_a).func_184724_a(true);
     }
 
-    public void resetTask() {
-        super.resetTask();
-        ((IRangedAttackMob) this.entity).setSwingingArms(false);
-        this.seeTime = 0;
-        this.attackTime = -1;
-        this.entity.resetActiveHand();
+    public void func_75251_c() {
+        super.func_75251_c();
+        ((IRangedAttackMob) this.field_188499_a).func_184724_a(false);
+        this.field_188504_f = 0;
+        this.field_188503_e = -1;
+        this.field_188499_a.func_184602_cy();
     }
 
-    public void updateTask() {
-        EntityLivingBase entityliving = this.entity.getAttackTarget();
+    public void func_75246_d() {
+        EntityLivingBase entityliving = this.field_188499_a.func_70638_az();
 
         if (entityliving != null) {
-            double d0 = this.entity.getDistanceSq(entityliving.posX, entityliving.getEntityBoundingBox().minY, entityliving.posZ);
-            boolean flag = this.entity.getEntitySenses().canSee(entityliving);
-            boolean flag1 = this.seeTime > 0;
+            double d0 = this.field_188499_a.func_70092_e(entityliving.field_70165_t, entityliving.func_174813_aQ().field_72338_b, entityliving.field_70161_v);
+            boolean flag = this.field_188499_a.func_70635_at().func_75522_a(entityliving);
+            boolean flag1 = this.field_188504_f > 0;
 
             if (flag != flag1) {
-                this.seeTime = 0;
+                this.field_188504_f = 0;
             }
 
             if (flag) {
-                ++this.seeTime;
+                ++this.field_188504_f;
             } else {
-                --this.seeTime;
+                --this.field_188504_f;
             }
 
-            if (d0 <= (double) this.maxAttackDistance && this.seeTime >= 20) {
-                this.entity.getNavigator().clearPath();
-                ++this.strafingTime;
+            if (d0 <= (double) this.field_188502_d && this.field_188504_f >= 20) {
+                this.field_188499_a.func_70661_as().func_75499_g();
+                ++this.field_188507_i;
             } else {
-                this.entity.getNavigator().tryMoveToEntityLiving((Entity) entityliving, this.moveSpeedAmp);
-                this.strafingTime = -1;
+                this.field_188499_a.func_70661_as().func_75497_a((Entity) entityliving, this.field_188500_b);
+                this.field_188507_i = -1;
             }
 
-            if (this.strafingTime >= 20) {
-                if ((double) this.entity.getRNG().nextFloat() < 0.3D) {
-                    this.strafingClockwise = !this.strafingClockwise;
+            if (this.field_188507_i >= 20) {
+                if ((double) this.field_188499_a.func_70681_au().nextFloat() < 0.3D) {
+                    this.field_188505_g = !this.field_188505_g;
                 }
 
-                if ((double) this.entity.getRNG().nextFloat() < 0.3D) {
-                    this.strafingBackwards = !this.strafingBackwards;
+                if ((double) this.field_188499_a.func_70681_au().nextFloat() < 0.3D) {
+                    this.field_188506_h = !this.field_188506_h;
                 }
 
-                this.strafingTime = 0;
+                this.field_188507_i = 0;
             }
 
-            if (this.strafingTime > -1) {
-                if (d0 > (double) (this.maxAttackDistance * 0.75F)) {
-                    this.strafingBackwards = false;
-                } else if (d0 < (double) (this.maxAttackDistance * 0.25F)) {
-                    this.strafingBackwards = true;
+            if (this.field_188507_i > -1) {
+                if (d0 > (double) (this.field_188502_d * 0.75F)) {
+                    this.field_188506_h = false;
+                } else if (d0 < (double) (this.field_188502_d * 0.25F)) {
+                    this.field_188506_h = true;
                 }
 
-                this.entity.getMoveHelper().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
-                this.entity.faceEntity((Entity) entityliving, 30.0F, 30.0F);
+                this.field_188499_a.func_70605_aq().func_188488_a(this.field_188506_h ? -0.5F : 0.5F, this.field_188505_g ? 0.5F : -0.5F);
+                this.field_188499_a.func_70625_a((Entity) entityliving, 30.0F, 30.0F);
             } else {
-                this.entity.getLookHelper().setLookPositionWithEntity(entityliving, 30.0F, 30.0F);
+                this.field_188499_a.func_70671_ap().func_75651_a(entityliving, 30.0F, 30.0F);
             }
 
-            if (this.entity.isHandActive()) {
-                if (!flag && this.seeTime < -60) {
-                    this.entity.resetActiveHand();
+            if (this.field_188499_a.func_184587_cr()) {
+                if (!flag && this.field_188504_f < -60) {
+                    this.field_188499_a.func_184602_cy();
                 } else if (flag) {
-                    int i = this.entity.getItemInUseMaxCount();
+                    int i = this.field_188499_a.func_184612_cw();
 
                     if (i >= 20) {
-                        this.entity.resetActiveHand();
-                        ((IRangedAttackMob) this.entity).attackEntityWithRangedAttack(entityliving, ItemBow.getArrowVelocity(i));
-                        this.attackTime = this.attackCooldown;
+                        this.field_188499_a.func_184602_cy();
+                        ((IRangedAttackMob) this.field_188499_a).func_82196_d(entityliving, ItemBow.func_185059_b(i));
+                        this.field_188503_e = this.field_188501_c;
                     }
                 }
-            } else if (--this.attackTime <= 0 && this.seeTime >= -60) {
-                this.entity.setActiveHand(EnumHand.MAIN_HAND);
+            } else if (--this.field_188503_e <= 0 && this.field_188504_f >= -60) {
+                this.field_188499_a.func_184598_c(EnumHand.MAIN_HAND);
             }
 
         }

@@ -11,18 +11,18 @@ public class UserListWhitelistEntry extends UserListEntry<GameProfile> {
     }
 
     public UserListWhitelistEntry(JsonObject jsonobject) {
-        super(gameProfileFromJsonObject(jsonobject), jsonobject);
+        super(func_152646_b(jsonobject), jsonobject);
     }
 
-    protected void onSerialization(JsonObject jsonobject) {
-        if (this.getValue() != null) {
-            jsonobject.addProperty("uuid", ((GameProfile) this.getValue()).getId() == null ? "" : ((GameProfile) this.getValue()).getId().toString());
-            jsonobject.addProperty("name", ((GameProfile) this.getValue()).getName());
-            super.onSerialization(jsonobject);
+    protected void func_152641_a(JsonObject jsonobject) {
+        if (this.func_152640_f() != null) {
+            jsonobject.addProperty("uuid", ((GameProfile) this.func_152640_f()).getId() == null ? "" : ((GameProfile) this.func_152640_f()).getId().toString());
+            jsonobject.addProperty("name", ((GameProfile) this.func_152640_f()).getName());
+            super.func_152641_a(jsonobject);
         }
     }
 
-    private static GameProfile gameProfileFromJsonObject(JsonObject jsonobject) {
+    private static GameProfile func_152646_b(JsonObject jsonobject) {
         if (jsonobject.has("uuid") && jsonobject.has("name")) {
             String s = jsonobject.get("uuid").getAsString();
 

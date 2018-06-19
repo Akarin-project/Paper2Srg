@@ -14,7 +14,7 @@ final class CraftCriteria {
     static {
         ImmutableMap.Builder<String, CraftCriteria> defaults = ImmutableMap.builder();
 
-        for (Map.Entry<?, ?> entry : ((Map<?,?> ) IScoreCriteria.INSTANCES).entrySet()) {
+        for (Map.Entry<?, ?> entry : ((Map<?,?> ) IScoreCriteria.field_96643_a).entrySet()) {
             String name = entry.getKey().toString();
             IScoreCriteria criteria = (IScoreCriteria) entry.getValue();
 
@@ -35,11 +35,11 @@ final class CraftCriteria {
 
     private CraftCriteria(IScoreCriteria criteria) {
         this.criteria = criteria;
-        this.bukkitName = criteria.getName();
+        this.bukkitName = criteria.func_96636_a();
     }
 
     static CraftCriteria getFromNMS(ScoreObjective objective) {
-        return DEFAULTS.get(objective.getCriteria().getName());
+        return DEFAULTS.get(objective.func_96680_c().func_96636_a());
     }
 
     static CraftCriteria getFromBukkit(String name) {

@@ -17,58 +17,58 @@ public abstract class BehaviorProjectileDispense extends BehaviorDefaultDispense
 
     public BehaviorProjectileDispense() {}
 
-    public ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
-        World world = isourceblock.getWorld();
-        IPosition iposition = BlockDispenser.getDispensePosition(isourceblock);
-        EnumFacing enumdirection = (EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING);
-        IProjectile iprojectile = this.getProjectileEntity(world, iposition, itemstack);
+    public ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
+        World world = isourceblock.func_82618_k();
+        IPosition iposition = BlockDispenser.func_149939_a(isourceblock);
+        EnumFacing enumdirection = (EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
+        IProjectile iprojectile = this.func_82499_a(world, iposition, itemstack);
 
         // iprojectile.shoot((double) enumdirection.getAdjacentX(), (double) ((float) enumdirection.getAdjacentY() + 0.1F), (double) enumdirection.getAdjacentZ(), this.getPower(), this.a());
         // CraftBukkit start
-        ItemStack itemstack1 = itemstack.splitStack(1);
-        org.bukkit.block.Block block = world.getWorld().getBlockAt(isourceblock.getBlockPos().getX(), isourceblock.getBlockPos().getY(), isourceblock.getBlockPos().getZ());
+        ItemStack itemstack1 = itemstack.func_77979_a(1);
+        org.bukkit.block.Block block = world.getWorld().getBlockAt(isourceblock.func_180699_d().func_177958_n(), isourceblock.func_180699_d().func_177956_o(), isourceblock.func_180699_d().func_177952_p());
         CraftItemStack craftItem = CraftItemStack.asCraftMirror(itemstack1);
 
-        BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(), new org.bukkit.util.Vector((double) enumdirection.getFrontOffsetX(), (double) ((float) enumdirection.getFrontOffsetY() + 0.1F), (double) enumdirection.getFrontOffsetZ()));
+        BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(), new org.bukkit.util.Vector((double) enumdirection.func_82601_c(), (double) ((float) enumdirection.func_96559_d() + 0.1F), (double) enumdirection.func_82599_e()));
         if (!BlockDispenser.eventFired) {
             world.getServer().getPluginManager().callEvent(event);
         }
 
         if (event.isCancelled()) {
-            itemstack.grow(1);
+            itemstack.func_190917_f(1);
             return itemstack;
         }
 
         if (!event.getItem().equals(craftItem)) {
-            itemstack.grow(1);
+            itemstack.func_190917_f(1);
             // Chain to handler for new item
             ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-            IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
-            if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != this) {
-                idispensebehavior.dispense(isourceblock, eventStack);
+            IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+            if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
+                idispensebehavior.func_82482_a(isourceblock, eventStack);
                 return itemstack;
             }
         }
 
-        iprojectile.shoot(event.getVelocity().getX(), event.getVelocity().getY(), event.getVelocity().getZ(), this.getProjectileVelocity(), this.getProjectileInaccuracy());
-        ((Entity) iprojectile).projectileSource = new org.bukkit.craftbukkit.projectiles.CraftBlockProjectileSource((TileEntityDispenser) isourceblock.getBlockTileEntity());
+        iprojectile.func_70186_c(event.getVelocity().getX(), event.getVelocity().getY(), event.getVelocity().getZ(), this.func_82500_b(), this.func_82498_a());
+        ((Entity) iprojectile).projectileSource = new org.bukkit.craftbukkit.projectiles.CraftBlockProjectileSource((TileEntityDispenser) isourceblock.func_150835_j());
         // CraftBukkit end
-        world.spawnEntity((Entity) iprojectile);
+        world.func_72838_d((Entity) iprojectile);
         // itemstack.subtract(1); // CraftBukkit - Handled during event processing
         return itemstack;
     }
 
-    protected void playDispenseSound(IBlockSource isourceblock) {
-        isourceblock.getWorld().playEvent(1002, isourceblock.getBlockPos(), 0);
+    protected void func_82485_a(IBlockSource isourceblock) {
+        isourceblock.func_82618_k().func_175718_b(1002, isourceblock.func_180699_d(), 0);
     }
 
-    protected abstract IProjectile getProjectileEntity(World world, IPosition iposition, ItemStack itemstack);
+    protected abstract IProjectile func_82499_a(World world, IPosition iposition, ItemStack itemstack);
 
-    protected float getProjectileInaccuracy() {
+    protected float func_82498_a() {
         return 6.0F;
     }
 
-    protected float getProjectileVelocity() {
+    protected float func_82500_b() {
         return 1.1F;
     }
 }

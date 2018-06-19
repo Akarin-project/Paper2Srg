@@ -25,7 +25,7 @@ public class CraftPlayerProfile implements PlayerProfile {
     private final PropertySet properties = new PropertySet();
 
     public CraftPlayerProfile(CraftPlayer player) {
-        this.profile = player.getHandle().getGameProfile();
+        this.profile = player.getHandle().func_146103_bH();
     }
 
     public CraftPlayerProfile(UUID id, String name) {
@@ -143,12 +143,12 @@ public class CraftPlayerProfile implements PlayerProfile {
         }
         MinecraftServer server = MinecraftServer.getServer();
         String name = profile.getName();
-        PlayerProfileCache userCache = server.getPlayerProfileCache();
+        PlayerProfileCache userCache = server.func_152358_ax();
         if (profile.getId() == null) {
             final GameProfile profile;
-            boolean isOnlineMode = server.isServerInOnlineMode() || (SpigotConfig.bungee && PaperConfig.bungeeOnlineMode);
+            boolean isOnlineMode = server.func_71266_T() || (SpigotConfig.bungee && PaperConfig.bungeeOnlineMode);
             if (isOnlineMode) {
-                profile = lookupName ? userCache.getGameProfileForUsername(name) : userCache.getProfileIfCached(name);
+                profile = lookupName ? userCache.func_152655_a(name) : userCache.getProfileIfCached(name);
             } else {
                 // Make an OfflinePlayer using an offline mode UUID since the name has no profile
                 profile = new GameProfile(UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8)), name);
@@ -172,7 +172,7 @@ public class CraftPlayerProfile implements PlayerProfile {
     public boolean complete(boolean textures) {
         MinecraftServer server = MinecraftServer.getServer();
 
-        boolean isOnlineMode = server.isServerInOnlineMode() || (SpigotConfig.bungee && PaperConfig.bungeeOnlineMode);
+        boolean isOnlineMode = server.func_71266_T() || (SpigotConfig.bungee && PaperConfig.bungeeOnlineMode);
         boolean isCompleteFromCache = this.completeFromCache(true);
         if (isOnlineMode && (!isCompleteFromCache || textures && !hasTextures())) {
             GameProfile result = server.getSessionService().fillProfileProperties(profile, true);

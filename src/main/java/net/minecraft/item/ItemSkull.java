@@ -29,81 +29,81 @@ import net.minecraft.world.World;
 
 public class ItemSkull extends Item {
 
-    private static final String[] SKULL_TYPES = new String[] { "skeleton", "wither", "zombie", "char", "creeper", "dragon"};
+    private static final String[] field_82807_a = new String[] { "skeleton", "wither", "zombie", "char", "creeper", "dragon"};
 
     public ItemSkull() {
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
-        this.setMaxDamage(0);
-        this.setHasSubtypes(true);
+        this.func_77637_a(CreativeTabs.field_78031_c);
+        this.func_77656_e(0);
+        this.func_77627_a(true);
     }
 
-    public EnumActionResult onItemUse(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+    public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
         if (enumdirection == EnumFacing.DOWN) {
             return EnumActionResult.FAIL;
         } else {
-            IBlockState iblockdata = world.getBlockState(blockposition);
-            Block block = iblockdata.getBlock();
-            boolean flag = block.isReplaceable((IBlockAccess) world, blockposition);
+            IBlockState iblockdata = world.func_180495_p(blockposition);
+            Block block = iblockdata.func_177230_c();
+            boolean flag = block.func_176200_f((IBlockAccess) world, blockposition);
 
             if (!flag) {
-                if (!world.getBlockState(blockposition).getMaterial().isSolid()) {
+                if (!world.func_180495_p(blockposition).func_185904_a().func_76220_a()) {
                     return EnumActionResult.FAIL;
                 }
 
-                blockposition = blockposition.offset(enumdirection);
+                blockposition = blockposition.func_177972_a(enumdirection);
             }
 
-            ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+            ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-            if (entityhuman.canPlayerEdit(blockposition, enumdirection, itemstack) && Blocks.SKULL.canPlaceBlockAt(world, blockposition)) {
-                if (world.isRemote) {
+            if (entityhuman.func_175151_a(blockposition, enumdirection, itemstack) && Blocks.field_150465_bP.func_176196_c(world, blockposition)) {
+                if (world.field_72995_K) {
                     return EnumActionResult.SUCCESS;
                 } else {
                     // Spigot Start
-                    if ( !Blocks.SKULL.canPlaceBlockAt( world, blockposition ) )
+                    if ( !Blocks.field_150465_bP.func_176196_c( world, blockposition ) )
                     {
                         return EnumActionResult.FAIL;
                     }
                     // Spigot End
-                    world.setBlockState(blockposition, Blocks.SKULL.getDefaultState().withProperty(BlockSkull.FACING, enumdirection), 11);
+                    world.func_180501_a(blockposition, Blocks.field_150465_bP.func_176223_P().func_177226_a(BlockSkull.field_176418_a, enumdirection), 11);
                     int i = 0;
 
                     if (enumdirection == EnumFacing.UP) {
-                        i = MathHelper.floor((double) (entityhuman.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15;
+                        i = MathHelper.func_76128_c((double) (entityhuman.field_70177_z * 16.0F / 360.0F) + 0.5D) & 15;
                     }
 
-                    TileEntity tileentity = world.getTileEntity(blockposition);
+                    TileEntity tileentity = world.func_175625_s(blockposition);
 
                     if (tileentity instanceof TileEntitySkull) {
                         TileEntitySkull tileentityskull = (TileEntitySkull) tileentity;
 
-                        if (itemstack.getMetadata() == 3) {
+                        if (itemstack.func_77960_j() == 3) {
                             GameProfile gameprofile = null;
 
-                            if (itemstack.hasTagCompound()) {
-                                NBTTagCompound nbttagcompound = itemstack.getTagCompound();
+                            if (itemstack.func_77942_o()) {
+                                NBTTagCompound nbttagcompound = itemstack.func_77978_p();
 
-                                if (nbttagcompound.hasKey("SkullOwner", 10)) {
-                                    gameprofile = NBTUtil.readGameProfileFromNBT(nbttagcompound.getCompoundTag("SkullOwner"));
-                                } else if (nbttagcompound.hasKey("SkullOwner", 8) && !StringUtils.isBlank(nbttagcompound.getString("SkullOwner"))) {
-                                    gameprofile = new GameProfile((UUID) null, nbttagcompound.getString("SkullOwner"));
+                                if (nbttagcompound.func_150297_b("SkullOwner", 10)) {
+                                    gameprofile = NBTUtil.func_152459_a(nbttagcompound.func_74775_l("SkullOwner"));
+                                } else if (nbttagcompound.func_150297_b("SkullOwner", 8) && !StringUtils.isBlank(nbttagcompound.func_74779_i("SkullOwner"))) {
+                                    gameprofile = new GameProfile((UUID) null, nbttagcompound.func_74779_i("SkullOwner"));
                                 }
                             }
 
-                            tileentityskull.setPlayerProfile(gameprofile);
+                            tileentityskull.func_152106_a(gameprofile);
                         } else {
-                            tileentityskull.setType(itemstack.getMetadata());
+                            tileentityskull.func_152107_a(itemstack.func_77960_j());
                         }
 
-                        tileentityskull.setSkullRotation(i);
-                        Blocks.SKULL.checkWitherSpawn(world, blockposition, tileentityskull);
+                        tileentityskull.func_145903_a(i);
+                        Blocks.field_150465_bP.func_180679_a(world, blockposition, tileentityskull);
                     }
 
                     if (entityhuman instanceof EntityPlayerMP) {
-                        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) entityhuman, blockposition, itemstack);
+                        CriteriaTriggers.field_193137_x.func_193173_a((EntityPlayerMP) entityhuman, blockposition, itemstack);
                     }
 
-                    itemstack.shrink(1);
+                    itemstack.func_190918_g(1);
                     return EnumActionResult.SUCCESS;
                 }
             } else {
@@ -112,58 +112,58 @@ public class ItemSkull extends Item {
         }
     }
 
-    public void getSubItems(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
-        if (this.isInCreativeTab(creativemodetab)) {
-            for (int i = 0; i < ItemSkull.SKULL_TYPES.length; ++i) {
+    public void func_150895_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+        if (this.func_194125_a(creativemodetab)) {
+            for (int i = 0; i < ItemSkull.field_82807_a.length; ++i) {
                 nonnulllist.add(new ItemStack(this, 1, i));
             }
         }
 
     }
 
-    public int getMetadata(int i) {
+    public int func_77647_b(int i) {
         return i;
     }
 
-    public String getUnlocalizedName(ItemStack itemstack) {
-        int i = itemstack.getMetadata();
+    public String func_77667_c(ItemStack itemstack) {
+        int i = itemstack.func_77960_j();
 
-        if (i < 0 || i >= ItemSkull.SKULL_TYPES.length) {
+        if (i < 0 || i >= ItemSkull.field_82807_a.length) {
             i = 0;
         }
 
-        return super.getUnlocalizedName() + "." + ItemSkull.SKULL_TYPES[i];
+        return super.func_77658_a() + "." + ItemSkull.field_82807_a[i];
     }
 
-    public String getItemStackDisplayName(ItemStack itemstack) {
-        if (itemstack.getMetadata() == 3 && itemstack.hasTagCompound()) {
-            if (itemstack.getTagCompound().hasKey("SkullOwner", 8)) {
-                return I18n.translateToLocalFormatted("item.skull.player.name", new Object[] { itemstack.getTagCompound().getString("SkullOwner")});
+    public String func_77653_i(ItemStack itemstack) {
+        if (itemstack.func_77960_j() == 3 && itemstack.func_77942_o()) {
+            if (itemstack.func_77978_p().func_150297_b("SkullOwner", 8)) {
+                return I18n.func_74837_a("item.skull.player.name", new Object[] { itemstack.func_77978_p().func_74779_i("SkullOwner")});
             }
 
-            if (itemstack.getTagCompound().hasKey("SkullOwner", 10)) {
-                NBTTagCompound nbttagcompound = itemstack.getTagCompound().getCompoundTag("SkullOwner");
+            if (itemstack.func_77978_p().func_150297_b("SkullOwner", 10)) {
+                NBTTagCompound nbttagcompound = itemstack.func_77978_p().func_74775_l("SkullOwner");
 
-                if (nbttagcompound.hasKey("Name", 8)) {
-                    return I18n.translateToLocalFormatted("item.skull.player.name", new Object[] { nbttagcompound.getString("Name")});
+                if (nbttagcompound.func_150297_b("Name", 8)) {
+                    return I18n.func_74837_a("item.skull.player.name", new Object[] { nbttagcompound.func_74779_i("Name")});
                 }
             }
         }
 
-        return super.getItemStackDisplayName(itemstack);
+        return super.func_77653_i(itemstack);
     }
 
-    public boolean updateItemStackNBT(final NBTTagCompound nbttagcompound) { // Spigot - make final
-        super.updateItemStackNBT(nbttagcompound);
-        if (nbttagcompound.hasKey("SkullOwner", 8) && !StringUtils.isBlank(nbttagcompound.getString("SkullOwner"))) {
-            GameProfile gameprofile = new GameProfile((UUID) null, nbttagcompound.getString("SkullOwner"));
+    public boolean func_179215_a(final NBTTagCompound nbttagcompound) { // Spigot - make final
+        super.func_179215_a(nbttagcompound);
+        if (nbttagcompound.func_150297_b("SkullOwner", 8) && !StringUtils.isBlank(nbttagcompound.func_74779_i("SkullOwner"))) {
+            GameProfile gameprofile = new GameProfile((UUID) null, nbttagcompound.func_74779_i("SkullOwner"));
 
             // Spigot start
             TileEntitySkull.b(gameprofile, new com.google.common.base.Predicate<GameProfile>() {
 
                 @Override
                 public boolean apply(GameProfile gameprofile) {
-                    nbttagcompound.setTag("SkullOwner", NBTUtil.writeGameProfile(new NBTTagCompound(), gameprofile));
+                    nbttagcompound.func_74782_a("SkullOwner", NBTUtil.func_180708_a(new NBTTagCompound(), gameprofile));
                     return false;
                 }
             }, false);
@@ -171,10 +171,10 @@ public class ItemSkull extends Item {
             return true;
         } else {
             // CraftBukkit start
-            NBTTagList textures = nbttagcompound.getCompoundTag("SkullOwner").getCompoundTag("Properties").getTagList("textures", 10); // Safe due to method contracts
-            for (int i = 0; i < textures.tagCount(); i++) {
-                if (textures.getCompoundTagAt(i) instanceof NBTTagCompound && !((NBTTagCompound) textures.getCompoundTagAt(i)).hasKey("Signature", 8) && ((NBTTagCompound) textures.getCompoundTagAt(i)).getString("Value").trim().isEmpty()) {
-                    nbttagcompound.removeTag("SkullOwner");
+            NBTTagList textures = nbttagcompound.func_74775_l("SkullOwner").func_74775_l("Properties").func_150295_c("textures", 10); // Safe due to method contracts
+            for (int i = 0; i < textures.func_74745_c(); i++) {
+                if (textures.func_150305_b(i) instanceof NBTTagCompound && !((NBTTagCompound) textures.func_150305_b(i)).func_150297_b("Signature", 8) && ((NBTTagCompound) textures.func_150305_b(i)).func_74779_i("Value").trim().isEmpty()) {
+                    nbttagcompound.func_82580_o("SkullOwner");
                     break;
                 }
             }

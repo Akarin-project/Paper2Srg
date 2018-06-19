@@ -8,23 +8,23 @@ import net.minecraft.network.status.INetHandlerStatusClient;
 
 public class SPacketPong implements Packet<INetHandlerStatusClient> {
 
-    private long clientTime;
+    private long field_149293_a;
 
     public SPacketPong() {}
 
     public SPacketPong(long i) {
-        this.clientTime = i;
+        this.field_149293_a = i;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.clientTime = packetdataserializer.readLong();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149293_a = packetdataserializer.readLong();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeLong(this.clientTime);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeLong(this.field_149293_a);
     }
 
-    public void processPacket(INetHandlerStatusClient packetstatusoutlistener) {
-        packetstatusoutlistener.handlePong(this);
+    public void func_148833_a(INetHandlerStatusClient packetstatusoutlistener) {
+        packetstatusoutlistener.func_147398_a(this);
     }
 }

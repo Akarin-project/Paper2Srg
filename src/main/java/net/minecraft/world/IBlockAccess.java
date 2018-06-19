@@ -10,11 +10,11 @@ import net.minecraft.util.math.BlockPos;
 public interface IBlockAccess {
 
     @Nullable
-    TileEntity getTileEntity(BlockPos blockposition);
+    TileEntity func_175625_s(BlockPos blockposition);
 
-    IBlockState getBlockState(BlockPos blockposition);
+    IBlockState func_180495_p(BlockPos blockposition);
 
-    boolean isAirBlock(BlockPos blockposition);
+    boolean func_175623_d(BlockPos blockposition);
 
-    int getStrongPower(BlockPos blockposition, EnumFacing enumdirection);
+    int func_175627_a(BlockPos blockposition, EnumFacing enumdirection);
 }

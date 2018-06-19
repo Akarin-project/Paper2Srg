@@ -19,40 +19,40 @@ public class CommandMessageRaw extends CommandBase {
 
     public CommandMessageRaw() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "tellraw";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 2;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.tellraw.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 2) {
             throw new WrongUsageException("commands.tellraw.usage", new Object[0]);
         } else {
-            EntityPlayerMP entityplayer = getPlayer(minecraftserver, icommandlistener, astring[0]);
-            String s = buildString(astring, 1);
+            EntityPlayerMP entityplayer = func_184888_a(minecraftserver, icommandlistener, astring[0]);
+            String s = func_180529_a(astring, 1);
 
             try {
-                ITextComponent ichatbasecomponent = ITextComponent.Serializer.jsonToComponent(s);
+                ITextComponent ichatbasecomponent = ITextComponent.Serializer.func_150699_a(s);
 
-                entityplayer.sendMessage(TextComponentUtils.processComponent(icommandlistener, ichatbasecomponent, entityplayer));
+                entityplayer.func_145747_a(TextComponentUtils.func_179985_a(icommandlistener, ichatbasecomponent, entityplayer));
             } catch (JsonParseException jsonparseexception) {
-                throw toSyntaxException(jsonparseexception);
+                throw func_184889_a(jsonparseexception);
             }
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, minecraftserver.getOnlinePlayerNames()) : Collections.emptyList();
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length == 1 ? func_71530_a(astring, minecraftserver.func_71213_z()) : Collections.emptyList();
     }
 
-    public boolean isUsernameIndex(String[] astring, int i) {
+    public boolean func_82358_a(String[] astring, int i) {
         return i == 0;
     }
 }

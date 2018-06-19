@@ -17,43 +17,44 @@ import net.minecraft.util.text.ITextComponent;
 
 public class ServerStatusResponse {
 
-    private ITextComponent description;
-    private ServerStatusResponse.Players players;
-    private ServerStatusResponse.Version version;
-    private String favicon;
+    private ITextComponent field_151326_a;
+    private ServerStatusResponse.Players field_151324_b;
+    private ServerStatusResponse.Version field_151325_c;
+    private String field_151323_d;
 
     public ServerStatusResponse() {}
 
-    public ITextComponent getServerDescription() {
-        return this.description;
+    public ITextComponent func_151317_a() {
+        return this.field_151326_a;
     }
 
-    public void setServerDescription(ITextComponent ichatbasecomponent) {
-        this.description = ichatbasecomponent;
+    public void func_151315_a(ITextComponent ichatbasecomponent) {
+        this.field_151326_a = ichatbasecomponent;
     }
 
-    public ServerStatusResponse.Players getPlayers() {
-        return this.players;
+    public Players getPlayers() { return func_151318_b(); } // Paper - OBFHELPER
+    public ServerStatusResponse.Players func_151318_b() {
+        return this.field_151324_b;
     }
 
-    public void setPlayers(ServerStatusResponse.Players serverping_serverpingplayersample) {
-        this.players = serverping_serverpingplayersample;
+    public void func_151319_a(ServerStatusResponse.Players serverping_serverpingplayersample) {
+        this.field_151324_b = serverping_serverpingplayersample;
     }
 
-    public ServerStatusResponse.Version getVersion() {
-        return this.version;
+    public ServerStatusResponse.Version func_151322_c() {
+        return this.field_151325_c;
     }
 
-    public void setVersion(ServerStatusResponse.Version serverping_serverdata) {
-        this.version = serverping_serverdata;
+    public void func_151321_a(ServerStatusResponse.Version serverping_serverdata) {
+        this.field_151325_c = serverping_serverdata;
     }
 
-    public void setFavicon(String s) {
-        this.favicon = s;
+    public void func_151320_a(String s) {
+        this.field_151323_d = s;
     }
 
-    public String getFavicon() {
-        return this.favicon;
+    public String func_151316_d() {
+        return this.field_151323_d;
     }
 
     public static class Serializer implements JsonDeserializer<ServerStatusResponse>, JsonSerializer<ServerStatusResponse> {
@@ -61,49 +62,47 @@ public class ServerStatusResponse {
         public Serializer() {}
 
         // Paper - decompile fix
-        @Override
         public ServerStatusResponse deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "status");
+            JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "status");
             ServerStatusResponse serverping = new ServerStatusResponse();
 
             if (jsonobject.has("description")) {
-                serverping.setServerDescription((ITextComponent) jsondeserializationcontext.deserialize(jsonobject.get("description"), ITextComponent.class));
+                serverping.func_151315_a((ITextComponent) jsondeserializationcontext.deserialize(jsonobject.get("description"), ITextComponent.class));
             }
 
             if (jsonobject.has("players")) {
-                serverping.setPlayers((ServerStatusResponse.Players) jsondeserializationcontext.deserialize(jsonobject.get("players"), ServerStatusResponse.Players.class));
+                serverping.func_151319_a((ServerStatusResponse.Players) jsondeserializationcontext.deserialize(jsonobject.get("players"), ServerStatusResponse.Players.class));
             }
 
             if (jsonobject.has("version")) {
-                serverping.setVersion((ServerStatusResponse.Version) jsondeserializationcontext.deserialize(jsonobject.get("version"), ServerStatusResponse.Version.class));
+                serverping.func_151321_a((ServerStatusResponse.Version) jsondeserializationcontext.deserialize(jsonobject.get("version"), ServerStatusResponse.Version.class));
             }
 
             if (jsonobject.has("favicon")) {
-                serverping.setFavicon(JsonUtils.getString(jsonobject, "favicon"));
+                serverping.func_151320_a(JsonUtils.func_151200_h(jsonobject, "favicon"));
             }
 
             return serverping;
         }
 
         // Paper - decompile fix
-        @Override
         public JsonElement serialize(ServerStatusResponse serverping, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
-            if (serverping.getServerDescription() != null) {
-                jsonobject.add("description", jsonserializationcontext.serialize(serverping.getServerDescription()));
+            if (serverping.func_151317_a() != null) {
+                jsonobject.add("description", jsonserializationcontext.serialize(serverping.func_151317_a()));
             }
 
-            if (serverping.getPlayers() != null) {
-                jsonobject.add("players", jsonserializationcontext.serialize(serverping.getPlayers()));
+            if (serverping.func_151318_b() != null) {
+                jsonobject.add("players", jsonserializationcontext.serialize(serverping.func_151318_b()));
             }
 
-            if (serverping.getVersion() != null) {
-                jsonobject.add("version", jsonserializationcontext.serialize(serverping.getVersion()));
+            if (serverping.func_151322_c() != null) {
+                jsonobject.add("version", jsonserializationcontext.serialize(serverping.func_151322_c()));
             }
 
-            if (serverping.getFavicon() != null) {
-                jsonobject.addProperty("favicon", serverping.getFavicon());
+            if (serverping.func_151316_d() != null) {
+                jsonobject.addProperty("favicon", serverping.func_151316_d());
             }
 
             return jsonobject;
@@ -112,20 +111,20 @@ public class ServerStatusResponse {
 
     public static class Version {
 
-        private final String name;
-        private final int protocol;
+        private final String field_151306_a;
+        private final int field_151305_b;
 
         public Version(String s, int i) {
-            this.name = s;
-            this.protocol = i;
+            this.field_151306_a = s;
+            this.field_151305_b = i;
         }
 
-        public String getName() {
-            return this.name;
+        public String func_151303_a() {
+            return this.field_151306_a;
         }
 
-        public int getProtocol() {
-            return this.protocol;
+        public int func_151304_b() {
+            return this.field_151305_b;
         }
 
         public static class Serializer implements JsonDeserializer<ServerStatusResponse.Version>, JsonSerializer<ServerStatusResponse.Version> {
@@ -133,20 +132,18 @@ public class ServerStatusResponse {
             public Serializer() {}
 
             // Paper - decompile fix
-            @Override
             public ServerStatusResponse.Version deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-                JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "version");
+                JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "version");
 
-                return new ServerStatusResponse.Version(JsonUtils.getString(jsonobject, "name"), JsonUtils.getInt(jsonobject, "protocol"));
+                return new ServerStatusResponse.Version(JsonUtils.func_151200_h(jsonobject, "name"), JsonUtils.func_151203_m(jsonobject, "protocol"));
             }
 
             // Paper - decompile fix
-            @Override
             public JsonElement serialize(ServerStatusResponse.Version serverping_serverdata, Type type, JsonSerializationContext jsonserializationcontext) {
                 JsonObject jsonobject = new JsonObject();
 
-                jsonobject.addProperty("name", serverping_serverdata.getName());
-                jsonobject.addProperty("protocol", Integer.valueOf(serverping_serverdata.getProtocol()));
+                jsonobject.addProperty("name", serverping_serverdata.func_151303_a());
+                jsonobject.addProperty("protocol", Integer.valueOf(serverping_serverdata.func_151304_b()));
                 return jsonobject;
             }
         }
@@ -154,31 +151,31 @@ public class ServerStatusResponse {
 
     public static class Players {
 
-        private final int maxPlayers;
-        private final int onlinePlayerCount;
-        private GameProfile[] players;
+        private final int field_151336_a;
+        private final int field_151334_b;
+        private GameProfile[] field_151335_c;
 
         public Players(int i, int j) {
-            this.maxPlayers = i;
-            this.onlinePlayerCount = j;
+            this.field_151336_a = i;
+            this.field_151334_b = j;
         }
 
-        public int getMaxPlayers() {
-            return this.maxPlayers;
+        public int func_151332_a() {
+            return this.field_151336_a;
         }
 
-        public int getOnlinePlayerCount() {
-            return this.onlinePlayerCount;
+        public int func_151333_b() {
+            return this.field_151334_b;
         }
 
-        public GameProfile[] getSample() { return getPlayers(); } // Paper - OBFHELPER
-        public GameProfile[] getPlayers() {
-            return this.players;
+        public GameProfile[] getSample() { return func_151331_c(); } // Paper - OBFHELPER
+        public GameProfile[] func_151331_c() {
+            return this.field_151335_c;
         }
 
-        public void setSample(GameProfile[] sample) { setPlayers(sample); } // Paper - OBFHELPER
-        public void setPlayers(GameProfile[] agameprofile) {
-            this.players = agameprofile;
+        public void setSample(GameProfile[] sample) { func_151330_a(sample); } // Paper - OBFHELPER
+        public void func_151330_a(GameProfile[] agameprofile) {
+            this.field_151335_c = agameprofile;
         }
 
         public static class Serializer implements JsonDeserializer<ServerStatusResponse.Players>, JsonSerializer<ServerStatusResponse.Players> {
@@ -186,25 +183,24 @@ public class ServerStatusResponse {
             public Serializer() {}
 
             // Paper - decompile fix
-            @Override
             public ServerStatusResponse.Players deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-                JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "players");
-                ServerStatusResponse.Players serverping_serverpingplayersample = new ServerStatusResponse.Players(JsonUtils.getInt(jsonobject, "max"), JsonUtils.getInt(jsonobject, "online"));
+                JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "players");
+                ServerStatusResponse.Players serverping_serverpingplayersample = new ServerStatusResponse.Players(JsonUtils.func_151203_m(jsonobject, "max"), JsonUtils.func_151203_m(jsonobject, "online"));
 
-                if (JsonUtils.isJsonArray(jsonobject, "sample")) {
-                    JsonArray jsonarray = JsonUtils.getJsonArray(jsonobject, "sample");
+                if (JsonUtils.func_151202_d(jsonobject, "sample")) {
+                    JsonArray jsonarray = JsonUtils.func_151214_t(jsonobject, "sample");
 
                     if (jsonarray.size() > 0) {
                         GameProfile[] agameprofile = new GameProfile[jsonarray.size()];
 
                         for (int i = 0; i < agameprofile.length; ++i) {
-                            JsonObject jsonobject1 = JsonUtils.getJsonObject(jsonarray.get(i), "player[" + i + "]");
-                            String s = JsonUtils.getString(jsonobject1, "id");
+                            JsonObject jsonobject1 = JsonUtils.func_151210_l(jsonarray.get(i), "player[" + i + "]");
+                            String s = JsonUtils.func_151200_h(jsonobject1, "id");
 
-                            agameprofile[i] = new GameProfile(UUID.fromString(s), JsonUtils.getString(jsonobject1, "name"));
+                            agameprofile[i] = new GameProfile(UUID.fromString(s), JsonUtils.func_151200_h(jsonobject1, "name"));
                         }
 
-                        serverping_serverpingplayersample.setPlayers(agameprofile);
+                        serverping_serverpingplayersample.func_151330_a(agameprofile);
                     }
                 }
 
@@ -212,21 +208,20 @@ public class ServerStatusResponse {
             }
 
             // Paper - decompile fix
-            @Override
             public JsonElement serialize(ServerStatusResponse.Players serverping_serverpingplayersample, Type type, JsonSerializationContext jsonserializationcontext) {
                 JsonObject jsonobject = new JsonObject();
 
-                jsonobject.addProperty("max", Integer.valueOf(serverping_serverpingplayersample.getMaxPlayers()));
-                jsonobject.addProperty("online", Integer.valueOf(serverping_serverpingplayersample.getOnlinePlayerCount()));
-                if (serverping_serverpingplayersample.getPlayers() != null && serverping_serverpingplayersample.getPlayers().length > 0) {
+                jsonobject.addProperty("max", Integer.valueOf(serverping_serverpingplayersample.func_151332_a()));
+                jsonobject.addProperty("online", Integer.valueOf(serverping_serverpingplayersample.func_151333_b()));
+                if (serverping_serverpingplayersample.func_151331_c() != null && serverping_serverpingplayersample.func_151331_c().length > 0) {
                     JsonArray jsonarray = new JsonArray();
 
-                    for (int i = 0; i < serverping_serverpingplayersample.getPlayers().length; ++i) {
+                    for (int i = 0; i < serverping_serverpingplayersample.func_151331_c().length; ++i) {
                         JsonObject jsonobject1 = new JsonObject();
-                        UUID uuid = serverping_serverpingplayersample.getPlayers()[i].getId();
+                        UUID uuid = serverping_serverpingplayersample.func_151331_c()[i].getId();
 
                         jsonobject1.addProperty("id", uuid == null ? "" : uuid.toString());
-                        jsonobject1.addProperty("name", serverping_serverpingplayersample.getPlayers()[i].getName());
+                        jsonobject1.addProperty("name", serverping_serverpingplayersample.func_151331_c()[i].getName());
                         jsonarray.add(jsonobject1);
                     }
 

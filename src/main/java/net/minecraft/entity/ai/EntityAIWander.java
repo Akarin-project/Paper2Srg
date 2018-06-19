@@ -7,67 +7,67 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntityAIWander extends EntityAIBase {
 
-    protected final EntityCreature entity;
-    protected double x;
-    protected double y;
-    protected double z;
-    protected final double speed;
-    protected int executionChance;
-    protected boolean mustUpdate;
+    protected final EntityCreature field_75457_a;
+    protected double field_75455_b;
+    protected double field_75456_c;
+    protected double field_75453_d;
+    protected final double field_75454_e;
+    protected int field_179481_f;
+    protected boolean field_179482_g;
 
     public EntityAIWander(EntityCreature entitycreature, double d0) {
         this(entitycreature, d0, 120);
     }
 
     public EntityAIWander(EntityCreature entitycreature, double d0, int i) {
-        this.entity = entitycreature;
-        this.speed = d0;
-        this.executionChance = i;
-        this.setMutexBits(1);
+        this.field_75457_a = entitycreature;
+        this.field_75454_e = d0;
+        this.field_179481_f = i;
+        this.func_75248_a(1);
     }
 
-    public boolean shouldExecute() {
-        if (!this.mustUpdate) {
-            if (this.entity.getIdleTime() >= 100) {
+    public boolean func_75250_a() {
+        if (!this.field_179482_g) {
+            if (this.field_75457_a.func_70654_ax() >= 100) {
                 return false;
             }
 
-            if (this.entity.getRNG().nextInt(this.executionChance) != 0) {
+            if (this.field_75457_a.func_70681_au().nextInt(this.field_179481_f) != 0) {
                 return false;
             }
         }
 
-        Vec3d vec3d = this.getPosition();
+        Vec3d vec3d = this.func_190864_f();
 
         if (vec3d == null) {
             return false;
         } else {
-            this.x = vec3d.x;
-            this.y = vec3d.y;
-            this.z = vec3d.z;
-            this.mustUpdate = false;
+            this.field_75455_b = vec3d.field_72450_a;
+            this.field_75456_c = vec3d.field_72448_b;
+            this.field_75453_d = vec3d.field_72449_c;
+            this.field_179482_g = false;
             return true;
         }
     }
 
     @Nullable
-    protected Vec3d getPosition() {
-        return RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
+    protected Vec3d func_190864_f() {
+        return RandomPositionGenerator.func_75463_a(this.field_75457_a, 10, 7);
     }
 
-    public boolean shouldContinueExecuting() {
-        return !this.entity.getNavigator().noPath();
+    public boolean func_75253_b() {
+        return !this.field_75457_a.func_70661_as().func_75500_f();
     }
 
-    public void startExecuting() {
-        this.entity.getNavigator().tryMoveToXYZ(this.x, this.y, this.z, this.speed);
+    public void func_75249_e() {
+        this.field_75457_a.func_70661_as().func_75492_a(this.field_75455_b, this.field_75456_c, this.field_75453_d, this.field_75454_e);
     }
 
-    public void makeUpdate() {
-        this.mustUpdate = true;
+    public void func_179480_f() {
+        this.field_179482_g = true;
     }
 
-    public void setExecutionChance(int i) {
-        this.executionChance = i;
+    public void func_179479_b(int i) {
+        this.field_179481_f = i;
     }
 }

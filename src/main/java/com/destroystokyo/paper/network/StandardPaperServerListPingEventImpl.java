@@ -24,7 +24,7 @@ public final class StandardPaperServerListPingEventImpl extends PaperServerListP
     private GameProfile[] originalSample;
 
     private StandardPaperServerListPingEventImpl(MinecraftServer server, NetworkManager networkManager, ServerStatusResponse ping) {
-        super(server, new PaperStatusClient(networkManager), ping.getVersion().getProtocol(), server.server.getServerIcon());
+        super(server, new PaperStatusClient(networkManager), ping.func_151322_c().func_151304_b(), server.server.getServerIcon());
         this.originalSample = ping.getPlayers().getSample();
     }
 
@@ -76,12 +76,12 @@ public final class StandardPaperServerListPingEventImpl extends PaperServerListP
 
     @SuppressWarnings("deprecation")
     public static void processRequest(MinecraftServer server, NetworkManager networkManager) {
-        StandardPaperServerListPingEventImpl event = new StandardPaperServerListPingEventImpl(server, networkManager, server.getServerStatusResponse());
+        StandardPaperServerListPingEventImpl event = new StandardPaperServerListPingEventImpl(server, networkManager, server.func_147134_at());
         server.server.getPluginManager().callEvent(event);
 
         // Close connection immediately if event is cancelled
         if (event.isCancelled()) {
-            networkManager.closeChannel(null);
+            networkManager.func_150718_a(null);
             return;
         }
 
@@ -89,24 +89,24 @@ public final class StandardPaperServerListPingEventImpl extends PaperServerListP
         ServerStatusResponse ping = new ServerStatusResponse();
 
         // Description
-        ping.setServerDescription(new TextComponentString(event.getMotd()));
+        ping.func_151315_a(new TextComponentString(event.getMotd()));
 
         // Players
         if (!event.shouldHidePlayers()) {
-            ping.setPlayers(new ServerStatusResponse.Players(event.getMaxPlayers(), event.getNumPlayers()));
+            ping.func_151319_a(new ServerStatusResponse.Players(event.getMaxPlayers(), event.getNumPlayers()));
             ping.getPlayers().setSample(event.getPlayerSampleHandle());
         }
 
         // Version
-        ping.setVersion(new ServerStatusResponse.Version(event.getVersion(), event.getProtocolVersion()));
+        ping.func_151321_a(new ServerStatusResponse.Version(event.getVersion(), event.getProtocolVersion()));
 
         // Favicon
         if (event.getServerIcon() != null) {
-            ping.setFavicon(event.getServerIcon().getData());
+            ping.func_151320_a(event.getServerIcon().getData());
         }
 
         // Send response
-        networkManager.sendPacket(new SPacketServerInfo(ping));
+        networkManager.func_179290_a(new SPacketServerInfo(ping));
     }
 
 }

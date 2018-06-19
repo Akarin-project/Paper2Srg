@@ -33,11 +33,11 @@ final class CraftMinecartHopper extends CraftMinecart implements HopperMinecart,
 
     @Override
     public boolean isEnabled() {
-        return ((EntityMinecartHopper) getHandle()).getBlocked();
+        return ((EntityMinecartHopper) getHandle()).func_96111_ay();
     }
 
     @Override
     public void setEnabled(boolean enabled) {
-        ((EntityMinecartHopper) getHandle()).setBlocked(enabled);
+        ((EntityMinecartHopper) getHandle()).func_96110_f(enabled);
     }
 }

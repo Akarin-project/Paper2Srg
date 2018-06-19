@@ -11,26 +11,26 @@ import net.minecraft.util.math.Vec3d;
 
 public interface IPhase {
 
-    boolean getIsStationary();
+    boolean func_188654_a();
 
-    void doClientRenderEffects();
+    void func_188657_b();
 
-    void doLocalUpdate();
+    void func_188659_c();
 
-    void onCrystalDestroyed(EntityEnderCrystal entityendercrystal, BlockPos blockposition, DamageSource damagesource, @Nullable EntityPlayer entityhuman);
+    void func_188655_a(EntityEnderCrystal entityendercrystal, BlockPos blockposition, DamageSource damagesource, @Nullable EntityPlayer entityhuman);
 
-    void initPhase();
+    void func_188660_d();
 
-    void removeAreaEffect();
+    void func_188658_e();
 
-    float getMaxRiseOrFall();
+    float func_188651_f();
 
-    float getYawFactor();
+    float func_188653_h();
 
-    PhaseList<? extends IPhase> getType();
+    PhaseList<? extends IPhase> func_188652_i();
 
     @Nullable
-    Vec3d getTargetLocation();
+    Vec3d func_188650_g();
 
-    float getAdjustedDamage(MultiPartEntityPart entitycomplexpart, DamageSource damagesource, float f);
+    float func_188656_a(MultiPartEntityPart entitycomplexpart, DamageSource damagesource, float f);
 }

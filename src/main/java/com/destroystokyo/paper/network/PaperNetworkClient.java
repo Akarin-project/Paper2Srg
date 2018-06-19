@@ -16,7 +16,7 @@ public class PaperNetworkClient implements NetworkClient {
 
     @Override
     public InetSocketAddress getAddress() {
-        return (InetSocketAddress) this.networkManager.getRemoteAddress();
+        return (InetSocketAddress) this.networkManager.func_74430_c();
     }
 
     @Override

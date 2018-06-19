@@ -27,152 +27,152 @@ import net.minecraft.world.World;
 
 public class BlockJukebox extends BlockContainer {
 
-    public static final PropertyBool HAS_RECORD = PropertyBool.create("has_record");
+    public static final PropertyBool field_176432_a = PropertyBool.func_177716_a("has_record");
 
-    public static void registerFixesJukebox(DataFixer dataconvertermanager) {
-        dataconvertermanager.registerWalker(FixTypes.BLOCK_ENTITY, (IDataWalker) (new ItemStackData(BlockJukebox.TileEntityJukebox.class, new String[] { "RecordItem"})));
+    public static void func_189873_a(DataFixer dataconvertermanager) {
+        dataconvertermanager.func_188258_a(FixTypes.BLOCK_ENTITY, (IDataWalker) (new ItemStackData(BlockJukebox.TileEntityJukebox.class, new String[] { "RecordItem"})));
     }
 
     protected BlockJukebox() {
-        super(Material.WOOD, MapColor.DIRT);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockJukebox.HAS_RECORD, Boolean.valueOf(false)));
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        super(Material.field_151575_d, MapColor.field_151664_l);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockJukebox.field_176432_a, Boolean.valueOf(false)));
+        this.func_149647_a(CreativeTabs.field_78031_c);
     }
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        if (((Boolean) iblockdata.getValue(BlockJukebox.HAS_RECORD)).booleanValue()) {
-            this.dropRecord(world, blockposition, iblockdata);
-            iblockdata = iblockdata.withProperty(BlockJukebox.HAS_RECORD, Boolean.valueOf(false));
-            world.setBlockState(blockposition, iblockdata, 2);
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        if (((Boolean) iblockdata.func_177229_b(BlockJukebox.field_176432_a)).booleanValue()) {
+            this.func_180678_e(world, blockposition, iblockdata);
+            iblockdata = iblockdata.func_177226_a(BlockJukebox.field_176432_a, Boolean.valueOf(false));
+            world.func_180501_a(blockposition, iblockdata, 2);
             return true;
         } else {
             return false;
         }
     }
 
-    public void insertRecord(World world, BlockPos blockposition, IBlockState iblockdata, ItemStack itemstack) {
-        TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_176431_a(World world, BlockPos blockposition, IBlockState iblockdata, ItemStack itemstack) {
+        TileEntity tileentity = world.func_175625_s(blockposition);
 
         if (tileentity instanceof BlockJukebox.TileEntityJukebox) {
-            ((BlockJukebox.TileEntityJukebox) tileentity).setRecord(itemstack.copy());
-            world.setBlockState(blockposition, iblockdata.withProperty(BlockJukebox.HAS_RECORD, Boolean.valueOf(true)), 2);
+            ((BlockJukebox.TileEntityJukebox) tileentity).func_145857_a(itemstack.func_77946_l());
+            world.func_180501_a(blockposition, iblockdata.func_177226_a(BlockJukebox.field_176432_a, Boolean.valueOf(true)), 2);
         }
     }
 
-    public void dropRecord(World world, BlockPos blockposition, IBlockState iblockdata) {
-        if (!world.isRemote) {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_180678_e(World world, BlockPos blockposition, IBlockState iblockdata) {
+        if (!world.field_72995_K) {
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof BlockJukebox.TileEntityJukebox) {
                 BlockJukebox.TileEntityJukebox blockjukebox_tileentityrecordplayer = (BlockJukebox.TileEntityJukebox) tileentity;
-                ItemStack itemstack = blockjukebox_tileentityrecordplayer.getRecord();
+                ItemStack itemstack = blockjukebox_tileentityrecordplayer.func_145856_a();
 
-                if (!itemstack.isEmpty()) {
-                    world.playEvent(1010, blockposition, 0);
-                    world.playRecord(blockposition, (SoundEvent) null);
-                    blockjukebox_tileentityrecordplayer.setRecord(ItemStack.EMPTY);
+                if (!itemstack.func_190926_b()) {
+                    world.func_175718_b(1010, blockposition, 0);
+                    world.func_184149_a(blockposition, (SoundEvent) null);
+                    blockjukebox_tileentityrecordplayer.func_145857_a(ItemStack.field_190927_a);
                     float f = 0.7F;
-                    double d0 = (double) (world.rand.nextFloat() * 0.7F) + 0.15000000596046448D;
-                    double d1 = (double) (world.rand.nextFloat() * 0.7F) + 0.06000000238418579D + 0.6D;
-                    double d2 = (double) (world.rand.nextFloat() * 0.7F) + 0.15000000596046448D;
-                    ItemStack itemstack1 = itemstack.copy();
-                    EntityItem entityitem = new EntityItem(world, (double) blockposition.getX() + d0, (double) blockposition.getY() + d1, (double) blockposition.getZ() + d2, itemstack1);
+                    double d0 = (double) (world.field_73012_v.nextFloat() * 0.7F) + 0.15000000596046448D;
+                    double d1 = (double) (world.field_73012_v.nextFloat() * 0.7F) + 0.06000000238418579D + 0.6D;
+                    double d2 = (double) (world.field_73012_v.nextFloat() * 0.7F) + 0.15000000596046448D;
+                    ItemStack itemstack1 = itemstack.func_77946_l();
+                    EntityItem entityitem = new EntityItem(world, (double) blockposition.func_177958_n() + d0, (double) blockposition.func_177956_o() + d1, (double) blockposition.func_177952_p() + d2, itemstack1);
 
-                    entityitem.setDefaultPickupDelay();
-                    world.spawnEntity(entityitem);
+                    entityitem.func_174869_p();
+                    world.func_72838_d(entityitem);
                 }
             }
         }
     }
 
-    public void breakBlock(World world, BlockPos blockposition, IBlockState iblockdata) {
-        this.dropRecord(world, blockposition, iblockdata);
-        super.breakBlock(world, blockposition, iblockdata);
+    public void func_180663_b(World world, BlockPos blockposition, IBlockState iblockdata) {
+        this.func_180678_e(world, blockposition, iblockdata);
+        super.func_180663_b(world, blockposition, iblockdata);
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
-        if (!world.isRemote) {
-            super.dropBlockAsItemWithChance(world, blockposition, iblockdata, f, 0);
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
+        if (!world.field_72995_K) {
+            super.func_180653_a(world, blockposition, iblockdata, f, 0);
         }
     }
 
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity func_149915_a(World world, int i) {
         return new BlockJukebox.TileEntityJukebox();
     }
 
-    public boolean hasComparatorInputOverride(IBlockState iblockdata) {
+    public boolean func_149740_M(IBlockState iblockdata) {
         return true;
     }
 
-    public int getComparatorInputOverride(IBlockState iblockdata, World world, BlockPos blockposition) {
-        TileEntity tileentity = world.getTileEntity(blockposition);
+    public int func_180641_l(IBlockState iblockdata, World world, BlockPos blockposition) {
+        TileEntity tileentity = world.func_175625_s(blockposition);
 
         if (tileentity instanceof BlockJukebox.TileEntityJukebox) {
-            ItemStack itemstack = ((BlockJukebox.TileEntityJukebox) tileentity).getRecord();
+            ItemStack itemstack = ((BlockJukebox.TileEntityJukebox) tileentity).func_145856_a();
 
-            if (!itemstack.isEmpty()) {
-                return Item.getIdFromItem(itemstack.getItem()) + 1 - Item.getIdFromItem(Items.RECORD_13);
+            if (!itemstack.func_190926_b()) {
+                return Item.func_150891_b(itemstack.func_77973_b()) + 1 - Item.func_150891_b(Items.field_151096_cd);
             }
         }
 
         return 0;
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.MODEL;
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockJukebox.HAS_RECORD, Boolean.valueOf(i > 0));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockJukebox.field_176432_a, Boolean.valueOf(i > 0));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((Boolean) iblockdata.getValue(BlockJukebox.HAS_RECORD)).booleanValue() ? 1 : 0;
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((Boolean) iblockdata.func_177229_b(BlockJukebox.field_176432_a)).booleanValue() ? 1 : 0;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockJukebox.HAS_RECORD});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockJukebox.field_176432_a});
     }
 
     public static class TileEntityJukebox extends TileEntity {
 
-        private ItemStack record;
+        private ItemStack field_145858_a;
 
         public TileEntityJukebox() {
-            this.record = ItemStack.EMPTY;
+            this.field_145858_a = ItemStack.field_190927_a;
         }
 
-        public void readFromNBT(NBTTagCompound nbttagcompound) {
-            super.readFromNBT(nbttagcompound);
-            if (nbttagcompound.hasKey("RecordItem", 10)) {
-                this.setRecord(new ItemStack(nbttagcompound.getCompoundTag("RecordItem")));
-            } else if (nbttagcompound.getInteger("Record") > 0) {
-                this.setRecord(new ItemStack(Item.getItemById(nbttagcompound.getInteger("Record"))));
+        public void func_145839_a(NBTTagCompound nbttagcompound) {
+            super.func_145839_a(nbttagcompound);
+            if (nbttagcompound.func_150297_b("RecordItem", 10)) {
+                this.func_145857_a(new ItemStack(nbttagcompound.func_74775_l("RecordItem")));
+            } else if (nbttagcompound.func_74762_e("Record") > 0) {
+                this.func_145857_a(new ItemStack(Item.func_150899_d(nbttagcompound.func_74762_e("Record"))));
             }
 
         }
 
-        public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-            super.writeToNBT(nbttagcompound);
-            if (!this.getRecord().isEmpty()) {
-                nbttagcompound.setTag("RecordItem", this.getRecord().writeToNBT(new NBTTagCompound()));
+        public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
+            super.func_189515_b(nbttagcompound);
+            if (!this.func_145856_a().func_190926_b()) {
+                nbttagcompound.func_74782_a("RecordItem", this.func_145856_a().func_77955_b(new NBTTagCompound()));
             }
 
             return nbttagcompound;
         }
 
-        public ItemStack getRecord() {
-            return this.record;
+        public ItemStack func_145856_a() {
+            return this.field_145858_a;
         }
 
-        public void setRecord(ItemStack itemstack) {
+        public void func_145857_a(ItemStack itemstack) {
             // CraftBukkit start - There can only be one
-            if (!itemstack.isEmpty()) {
-                itemstack.setCount(1);
+            if (!itemstack.func_190926_b()) {
+                itemstack.func_190920_e(1);
             }
             // CraftBukkit end
-            this.record = itemstack;
-            this.markDirty();
+            this.field_145858_a = itemstack;
+            this.func_70296_d();
         }
     }
 }

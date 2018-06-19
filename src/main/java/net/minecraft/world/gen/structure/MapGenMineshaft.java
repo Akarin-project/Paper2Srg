@@ -12,11 +12,11 @@ import net.minecraft.world.biome.BiomeMesa;
 
 public class MapGenMineshaft extends MapGenStructure {
 
-    private double chance = 0.004D;
+    private double field_82673_e = 0.004D;
 
     public MapGenMineshaft() {}
 
-    public String getStructureName() {
+    public String func_143025_a() {
         return "Mineshaft";
     }
 
@@ -27,20 +27,20 @@ public class MapGenMineshaft extends MapGenStructure {
             Entry entry = (Entry) iterator.next();
 
             if (((String) entry.getKey()).equals("chance")) {
-                this.chance = MathHelper.getDouble((String) entry.getValue(), this.chance);
+                this.field_82673_e = MathHelper.func_82712_a((String) entry.getValue(), this.field_82673_e);
             }
         }
 
     }
 
-    protected boolean canSpawnStructureAtCoords(int i, int j) {
-        return this.rand.nextDouble() < this.chance && this.rand.nextInt(80) < Math.max(Math.abs(i), Math.abs(j));
+    protected boolean func_75047_a(int i, int j) {
+        return this.field_75038_b.nextDouble() < this.field_82673_e && this.field_75038_b.nextInt(80) < Math.max(Math.abs(i), Math.abs(j));
     }
 
-    public BlockPos getNearestStructurePos(World world, BlockPos blockposition, boolean flag) {
+    public BlockPos func_180706_b(World world, BlockPos blockposition, boolean flag) {
         boolean flag1 = true;
-        int i = blockposition.getX() >> 4;
-        int j = blockposition.getZ() >> 4;
+        int i = blockposition.func_177958_n() >> 4;
+        int j = blockposition.func_177952_p() >> 4;
 
         for (int k = 0; k <= 1000; ++k) {
             for (int l = -k; l <= k; ++l) {
@@ -53,9 +53,9 @@ public class MapGenMineshaft extends MapGenStructure {
                         int j1 = i + l;
                         int k1 = j + i1;
 
-                        this.rand.setSeed((long) (j1 ^ k1) ^ world.getSeed());
-                        this.rand.nextInt();
-                        if (this.canSpawnStructureAtCoords(j1, k1) && (!flag || !world.isChunkGeneratedAt(j1, k1))) {
+                        this.field_75038_b.setSeed((long) (j1 ^ k1) ^ world.func_72905_C());
+                        this.field_75038_b.nextInt();
+                        if (this.func_75047_a(j1, k1) && (!flag || !world.func_190526_b(j1, k1))) {
                             return new BlockPos((j1 << 4) + 8, 64, (k1 << 4) + 8);
                         }
                     }
@@ -66,11 +66,11 @@ public class MapGenMineshaft extends MapGenStructure {
         return null;
     }
 
-    protected StructureStart getStructureStart(int i, int j) {
-        Biome biomebase = this.world.getBiome(new BlockPos((i << 4) + 8, 64, (j << 4) + 8));
+    protected StructureStart func_75049_b(int i, int j) {
+        Biome biomebase = this.field_75039_c.func_180494_b(new BlockPos((i << 4) + 8, 64, (j << 4) + 8));
         MapGenMineshaft.Type worldgenmineshaft_type = biomebase instanceof BiomeMesa ? MapGenMineshaft.Type.MESA : MapGenMineshaft.Type.NORMAL;
 
-        return new StructureMineshaftStart(this.world, this.rand, i, j, worldgenmineshaft_type);
+        return new StructureMineshaftStart(this.field_75039_c, this.field_75038_b, i, j, worldgenmineshaft_type);
     }
 
     public static enum Type {
@@ -79,7 +79,7 @@ public class MapGenMineshaft extends MapGenStructure {
 
         private Type() {}
 
-        public static MapGenMineshaft.Type byId(int i) {
+        public static MapGenMineshaft.Type func_189910_a(int i) {
             return i >= 0 && i < values().length ? values()[i] : MapGenMineshaft.Type.NORMAL;
         }
     }

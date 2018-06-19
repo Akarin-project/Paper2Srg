@@ -34,105 +34,105 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 
 public class SaveHandler implements ISaveHandler, IPlayerFileData {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final File worldDirectory;
-    private final File playersDirectory;
-    private final File mapDataDir;
-    private final long initializationTime = MinecraftServer.getCurrentTimeMillis();
-    private final String saveDirectoryName;
-    private final TemplateManager structureTemplateManager;
-    protected final DataFixer dataFixer;
+    private static final Logger field_151478_a = LogManager.getLogger();
+    private final File field_75770_b;
+    private final File field_75771_c;
+    private final File field_75768_d;
+    private final long field_75769_e = MinecraftServer.func_130071_aq();
+    private final String field_75767_f;
+    private final TemplateManager field_186342_h;
+    protected final DataFixer field_186341_a;
     private UUID uuid = null; // CraftBukkit
 
     public SaveHandler(File file, String s, boolean flag, DataFixer dataconvertermanager) {
-        this.dataFixer = dataconvertermanager;
-        this.worldDirectory = new File(file, s);
-        this.worldDirectory.mkdirs();
-        this.playersDirectory = new File(this.worldDirectory, "playerdata");
-        this.mapDataDir = new File(this.worldDirectory, "data");
-        this.mapDataDir.mkdirs();
-        this.saveDirectoryName = s;
+        this.field_186341_a = dataconvertermanager;
+        this.field_75770_b = new File(file, s);
+        this.field_75770_b.mkdirs();
+        this.field_75771_c = new File(this.field_75770_b, "playerdata");
+        this.field_75768_d = new File(this.field_75770_b, "data");
+        this.field_75768_d.mkdirs();
+        this.field_75767_f = s;
         if (flag) {
-            this.playersDirectory.mkdirs();
-            this.structureTemplateManager = new TemplateManager((new File(this.worldDirectory, "structures")).toString(), dataconvertermanager);
+            this.field_75771_c.mkdirs();
+            this.field_186342_h = new TemplateManager((new File(this.field_75770_b, "structures")).toString(), dataconvertermanager);
         } else {
-            this.structureTemplateManager = null;
+            this.field_186342_h = null;
         }
 
-        this.setSessionLock();
+        this.func_75766_h();
     }
 
-    private void setSessionLock() {
+    private void func_75766_h() {
         try {
-            File file = new File(this.worldDirectory, "session.lock");
+            File file = new File(this.field_75770_b, "session.lock");
             DataOutputStream dataoutputstream = new DataOutputStream(new FileOutputStream(file));
 
             try {
-                dataoutputstream.writeLong(this.initializationTime);
+                dataoutputstream.writeLong(this.field_75769_e);
             } finally {
                 dataoutputstream.close();
             }
 
         } catch (IOException ioexception) {
             ioexception.printStackTrace();
-            throw new RuntimeException("Failed to check session lock for world located at " + this.worldDirectory + ", aborting. Stop the server and delete the session.lock in this world to prevent further issues."); // Spigot
+            throw new RuntimeException("Failed to check session lock for world located at " + this.field_75770_b + ", aborting. Stop the server and delete the session.lock in this world to prevent further issues."); // Spigot
         }
     }
 
-    public File getWorldDirectory() {
-        return this.worldDirectory;
+    public File func_75765_b() {
+        return this.field_75770_b;
     }
 
-    public void checkSessionLock() throws MinecraftException {
+    public void func_75762_c() throws MinecraftException {
         try {
-            File file = new File(this.worldDirectory, "session.lock");
+            File file = new File(this.field_75770_b, "session.lock");
             DataInputStream datainputstream = new DataInputStream(new FileInputStream(file));
 
             try {
-                if (datainputstream.readLong() != this.initializationTime) {
-                    throw new MinecraftException("The save for world located at " + this.worldDirectory + " is being accessed from another location, aborting");  // Spigot
+                if (datainputstream.readLong() != this.field_75769_e) {
+                    throw new MinecraftException("The save for world located at " + this.field_75770_b + " is being accessed from another location, aborting");  // Spigot
                 }
             } finally {
                 datainputstream.close();
             }
 
         } catch (IOException ioexception) {
-            throw new MinecraftException("Failed to check session lock for world located at " + this.worldDirectory + ", aborting. Stop the server and delete the session.lock in this world to prevent further issues."); // Spigot
+            throw new MinecraftException("Failed to check session lock for world located at " + this.field_75770_b + ", aborting. Stop the server and delete the session.lock in this world to prevent further issues."); // Spigot
         }
     }
 
-    public IChunkLoader getChunkLoader(WorldProvider worldprovider) {
+    public IChunkLoader func_75763_a(WorldProvider worldprovider) {
         throw new RuntimeException("Old Chunk Storage is no longer supported.");
     }
 
     @Nullable
-    public WorldInfo loadWorldInfo() {
-        File file = new File(this.worldDirectory, "level.dat");
+    public WorldInfo func_75757_d() {
+        File file = new File(this.field_75770_b, "level.dat");
 
         if (file.exists()) {
-            WorldInfo worlddata = SaveFormatOld.getWorldData(file, this.dataFixer);
+            WorldInfo worlddata = SaveFormatOld.func_186353_a(file, this.field_186341_a);
 
             if (worlddata != null) {
                 return worlddata;
             }
         }
 
-        file = new File(this.worldDirectory, "level.dat_old");
-        return file.exists() ? SaveFormatOld.getWorldData(file, this.dataFixer) : null;
+        file = new File(this.field_75770_b, "level.dat_old");
+        return file.exists() ? SaveFormatOld.func_186353_a(file, this.field_186341_a) : null;
     }
 
-    public void saveWorldInfoWithPlayer(WorldInfo worlddata, @Nullable NBTTagCompound nbttagcompound) {
-        NBTTagCompound nbttagcompound1 = worlddata.cloneNBTCompound(nbttagcompound);
+    public void func_75755_a(WorldInfo worlddata, @Nullable NBTTagCompound nbttagcompound) {
+        NBTTagCompound nbttagcompound1 = worlddata.func_76082_a(nbttagcompound);
         NBTTagCompound nbttagcompound2 = new NBTTagCompound();
 
-        nbttagcompound2.setTag("Data", nbttagcompound1);
+        nbttagcompound2.func_74782_a("Data", nbttagcompound1);
 
         try {
-            File file = new File(this.worldDirectory, "level.dat_new");
-            File file1 = new File(this.worldDirectory, "level.dat_old");
-            File file2 = new File(this.worldDirectory, "level.dat");
+            File file = new File(this.field_75770_b, "level.dat_new");
+            File file1 = new File(this.field_75770_b, "level.dat_old");
+            File file2 = new File(this.field_75770_b, "level.dat");
 
-            CompressedStreamTools.writeCompressed(nbttagcompound2, (OutputStream) (new FileOutputStream(file)));
+            CompressedStreamTools.func_74799_a(nbttagcompound2, (OutputStream) (new FileOutputStream(file)));
             if (file1.exists()) {
                 file1.delete();
             }
@@ -152,50 +152,50 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 
     }
 
-    public void saveWorldInfo(WorldInfo worlddata) {
-        this.saveWorldInfoWithPlayer(worlddata, (NBTTagCompound) null);
+    public void func_75761_a(WorldInfo worlddata) {
+        this.func_75755_a(worlddata, (NBTTagCompound) null);
     }
 
-    public void writePlayerData(EntityPlayer entityhuman) {
+    public void func_75753_a(EntityPlayer entityhuman) {
         if(!com.destroystokyo.paper.PaperConfig.savePlayerData) return; // Paper - Make player data saving configurable
         try {
-            NBTTagCompound nbttagcompound = entityhuman.writeToNBT(new NBTTagCompound());
-            File file = new File(this.playersDirectory, entityhuman.getCachedUniqueIdString() + ".dat.tmp");
-            File file1 = new File(this.playersDirectory, entityhuman.getCachedUniqueIdString() + ".dat");
+            NBTTagCompound nbttagcompound = entityhuman.func_189511_e(new NBTTagCompound());
+            File file = new File(this.field_75771_c, entityhuman.func_189512_bd() + ".dat.tmp");
+            File file1 = new File(this.field_75771_c, entityhuman.func_189512_bd() + ".dat");
 
-            CompressedStreamTools.writeCompressed(nbttagcompound, (OutputStream) (new FileOutputStream(file)));
+            CompressedStreamTools.func_74799_a(nbttagcompound, (OutputStream) (new FileOutputStream(file)));
             if (file1.exists()) {
                 file1.delete();
             }
 
             file.renameTo(file1);
         } catch (Exception exception) {
-            SaveHandler.LOGGER.error("Failed to save player data for {}", entityhuman.getName(), exception); // Paper
+            SaveHandler.field_151478_a.error("Failed to save player data for {}", entityhuman.func_70005_c_(), exception); // Paper
         }
 
     }
 
     @Nullable
-    public NBTTagCompound readPlayerData(EntityPlayer entityhuman) {
+    public NBTTagCompound func_75752_b(EntityPlayer entityhuman) {
         NBTTagCompound nbttagcompound = null;
 
         try {
-            File file = new File(this.playersDirectory, entityhuman.getCachedUniqueIdString() + ".dat");
+            File file = new File(this.field_75771_c, entityhuman.func_189512_bd() + ".dat");
             // Spigot Start
             boolean usingWrongFile = false;
             if ( org.bukkit.Bukkit.getOnlineMode() && !file.exists() ) // Paper - Check online mode first
             {
-                file = new File( this.playersDirectory, UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + entityhuman.getName() ).getBytes( "UTF-8" ) ).toString() + ".dat");
+                file = new File( this.field_75771_c, UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + entityhuman.func_70005_c_() ).getBytes( "UTF-8" ) ).toString() + ".dat");
                 if ( file.exists() )
                 {
                     usingWrongFile = true;
-                    org.bukkit.Bukkit.getServer().getLogger().warning( "Using offline mode UUID file for player " + entityhuman.getName() + " as it is the only copy we can find." );
+                    org.bukkit.Bukkit.getServer().getLogger().warning( "Using offline mode UUID file for player " + entityhuman.func_70005_c_() + " as it is the only copy we can find." );
                 }
             }
             // Spigot End
 
             if (file.exists() && file.isFile()) {
-                nbttagcompound = CompressedStreamTools.readCompressed((InputStream) (new FileInputStream(file)));
+                nbttagcompound = CompressedStreamTools.func_74796_a((InputStream) (new FileInputStream(file)));
             }
             // Spigot Start
             if ( usingWrongFile )
@@ -204,7 +204,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
             }
             // Spigot End
         } catch (Exception exception) {
-            SaveHandler.LOGGER.warn("Failed to load player data for {}", entityhuman.getName());
+            SaveHandler.field_151478_a.warn("Failed to load player data for {}", entityhuman.func_70005_c_());
         }
 
         if (nbttagcompound != null) {
@@ -212,13 +212,13 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
             if (entityhuman instanceof EntityPlayerMP) {
                 CraftPlayer player = (CraftPlayer) entityhuman.getBukkitEntity();
                 // Only update first played if it is older than the one we have
-                long modified = new File(this.playersDirectory, entityhuman.getUniqueID().toString() + ".dat").lastModified();
+                long modified = new File(this.field_75771_c, entityhuman.func_110124_au().toString() + ".dat").lastModified();
                 if (modified < player.getFirstPlayed()) {
                     player.setFirstPlayed(modified);
                 }
             }
             // CraftBukkit end
-            entityhuman.readFromNBT(this.dataFixer.process((IFixType) FixTypes.PLAYER, nbttagcompound));
+            entityhuman.func_70020_e(this.field_186341_a.func_188257_a((IFixType) FixTypes.PLAYER, nbttagcompound));
         }
 
         return nbttagcompound;
@@ -227,25 +227,25 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
     // CraftBukkit start
     public NBTTagCompound getPlayerData(String s) {
         try {
-            File file1 = new File(this.playersDirectory, s + ".dat");
+            File file1 = new File(this.field_75771_c, s + ".dat");
 
             if (file1.exists()) {
-                return CompressedStreamTools.readCompressed((InputStream) (new FileInputStream(file1)));
+                return CompressedStreamTools.func_74796_a((InputStream) (new FileInputStream(file1)));
             }
         } catch (Exception exception) {
-            LOGGER.warn("Failed to load player data for " + s);
+            field_151478_a.warn("Failed to load player data for " + s);
         }
 
         return null;
     }
     // CraftBukkit end
 
-    public IPlayerFileData getPlayerNBTManager() {
+    public IPlayerFileData func_75756_e() {
         return this;
     }
 
-    public String[] getAvailablePlayerDat() {
-        String[] astring = this.playersDirectory.list();
+    public String[] func_75754_f() {
+        String[] astring = this.field_75771_c.list();
 
         if (astring == null) {
             astring = new String[0];
@@ -260,27 +260,27 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
         return astring;
     }
 
-    public void flush() {}
+    public void func_75759_a() {}
 
-    public File getMapFileFromName(String s) {
-        return new File(this.mapDataDir, s + ".dat");
+    public File func_75758_b(String s) {
+        return new File(this.field_75768_d, s + ".dat");
     }
 
-    public TemplateManager getStructureTemplateManager() {
-        return this.structureTemplateManager;
+    public TemplateManager func_186340_h() {
+        return this.field_186342_h;
     }
 
     // CraftBukkit start
     public UUID getUUID() {
         if (uuid != null) return uuid;
-        File file1 = new File(this.worldDirectory, "uid.dat");
+        File file1 = new File(this.field_75770_b, "uid.dat");
         if (file1.exists()) {
             DataInputStream dis = null;
             try {
                 dis = new DataInputStream(new FileInputStream(file1));
                 return uuid = new UUID(dis.readLong(), dis.readLong());
             } catch (IOException ex) {
-                LOGGER.warn("Failed to read " + file1 + ", generating new random UUID", ex);
+                field_151478_a.warn("Failed to read " + file1 + ", generating new random UUID", ex);
             } finally {
                 if (dis != null) {
                     try {
@@ -298,7 +298,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
             dos.writeLong(uuid.getMostSignificantBits());
             dos.writeLong(uuid.getLeastSignificantBits());
         } catch (IOException ex) {
-            LOGGER.warn("Failed to write " + file1, ex);
+            field_151478_a.warn("Failed to write " + file1, ex);
         } finally {
             if (dos != null) {
                 try {
@@ -312,7 +312,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
     }
 
     public File getPlayerDir() {
-        return playersDirectory;
+        return field_75771_c;
     }
     // CraftBukkit end
 }

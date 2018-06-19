@@ -10,58 +10,58 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketRecipeInfo implements Packet<INetHandlerPlayServer> {
 
-    private CPacketRecipeInfo.Purpose purpose;
-    private IRecipe recipe;
-    private boolean isGuiOpen;
-    private boolean filteringCraftable;
+    private CPacketRecipeInfo.Purpose field_194157_a;
+    private IRecipe field_193649_d;
+    private boolean field_192631_e;
+    private boolean field_192632_f;
 
     public CPacketRecipeInfo() {}
 
     public CPacketRecipeInfo(IRecipe irecipe) {
-        this.purpose = CPacketRecipeInfo.Purpose.SHOWN;
-        this.recipe = irecipe;
+        this.field_194157_a = CPacketRecipeInfo.Purpose.SHOWN;
+        this.field_193649_d = irecipe;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.purpose = (CPacketRecipeInfo.Purpose) packetdataserializer.readEnumValue(CPacketRecipeInfo.Purpose.class);
-        if (this.purpose == CPacketRecipeInfo.Purpose.SHOWN) {
-            this.recipe = CraftingManager.getRecipeById(packetdataserializer.readInt());
-        } else if (this.purpose == CPacketRecipeInfo.Purpose.SETTINGS) {
-            this.isGuiOpen = packetdataserializer.readBoolean();
-            this.filteringCraftable = packetdataserializer.readBoolean();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_194157_a = (CPacketRecipeInfo.Purpose) packetdataserializer.func_179257_a(CPacketRecipeInfo.Purpose.class);
+        if (this.field_194157_a == CPacketRecipeInfo.Purpose.SHOWN) {
+            this.field_193649_d = CraftingManager.func_193374_a(packetdataserializer.readInt());
+        } else if (this.field_194157_a == CPacketRecipeInfo.Purpose.SETTINGS) {
+            this.field_192631_e = packetdataserializer.readBoolean();
+            this.field_192632_f = packetdataserializer.readBoolean();
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeEnumValue((Enum) this.purpose);
-        if (this.purpose == CPacketRecipeInfo.Purpose.SHOWN) {
-            packetdataserializer.writeInt(CraftingManager.getIDForRecipe(this.recipe));
-        } else if (this.purpose == CPacketRecipeInfo.Purpose.SETTINGS) {
-            packetdataserializer.writeBoolean(this.isGuiOpen);
-            packetdataserializer.writeBoolean(this.filteringCraftable);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179249_a((Enum) this.field_194157_a);
+        if (this.field_194157_a == CPacketRecipeInfo.Purpose.SHOWN) {
+            packetdataserializer.writeInt(CraftingManager.func_193375_a(this.field_193649_d));
+        } else if (this.field_194157_a == CPacketRecipeInfo.Purpose.SETTINGS) {
+            packetdataserializer.writeBoolean(this.field_192631_e);
+            packetdataserializer.writeBoolean(this.field_192632_f);
         }
 
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.handleRecipeBookUpdate(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_191984_a(this);
     }
 
-    public CPacketRecipeInfo.Purpose getPurpose() {
-        return this.purpose;
+    public CPacketRecipeInfo.Purpose func_194156_a() {
+        return this.field_194157_a;
     }
 
-    public IRecipe getRecipe() {
-        return this.recipe;
+    public IRecipe func_193648_b() {
+        return this.field_193649_d;
     }
 
-    public boolean isGuiOpen() {
-        return this.isGuiOpen;
+    public boolean func_192624_c() {
+        return this.field_192631_e;
     }
 
-    public boolean isFilteringCraftable() {
-        return this.filteringCraftable;
+    public boolean func_192625_d() {
+        return this.field_192632_f;
     }
 
     public static enum Purpose {

@@ -5,17 +5,17 @@ import net.minecraft.init.Blocks;
 
 public class BiomeMushroomIsland extends Biome {
 
-    public BiomeMushroomIsland(Biome.a biomebase_a) {
+    public BiomeMushroomIsland(BiomeBase.a biomebase_a) {
         super(biomebase_a);
-        this.decorator.treesPerChunk = -100;
-        this.decorator.flowersPerChunk = -100;
-        this.decorator.grassPerChunk = -100;
-        this.decorator.mushroomsPerChunk = 1;
-        this.decorator.bigMushroomsPerChunk = 1;
-        this.topBlock = Blocks.MYCELIUM.getDefaultState();
-        this.spawnableMonsterList.clear();
-        this.spawnableCreatureList.clear();
-        this.spawnableWaterCreatureList.clear();
-        this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityMooshroom.class, 8, 4, 8));
+        this.field_76760_I.field_76832_z = -100;
+        this.field_76760_I.field_76802_A = -100;
+        this.field_76760_I.field_76803_B = -100;
+        this.field_76760_I.field_76798_D = 1;
+        this.field_76760_I.field_76807_J = 1;
+        this.field_76752_A = Blocks.field_150391_bh.func_176223_P();
+        this.field_76761_J.clear();
+        this.field_76762_K.clear();
+        this.field_76755_L.clear();
+        this.field_76762_K.add(new Biome.SpawnListEntry(EntityMooshroom.class, 8, 4, 8));
     }
 }

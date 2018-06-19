@@ -21,91 +21,91 @@ import net.minecraft.world.World;
 
 public class BlockStructure extends BlockContainer {
 
-    public static final PropertyEnum<TileEntityStructure.Mode> MODE = PropertyEnum.create("mode", TileEntityStructure.Mode.class);
+    public static final PropertyEnum<TileEntityStructure.Mode> field_185587_a = PropertyEnum.func_177709_a("mode", TileEntityStructure.Mode.class);
 
     public BlockStructure() {
-        super(Material.IRON, MapColor.SILVER);
-        this.setDefaultState(this.blockState.getBaseState());
+        super(Material.field_151573_f, MapColor.field_151680_x);
+        this.func_180632_j(this.field_176227_L.func_177621_b());
     }
 
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity func_149915_a(World world, int i) {
         return new TileEntityStructure();
     }
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        TileEntity tileentity = world.getTileEntity(blockposition);
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        TileEntity tileentity = world.func_175625_s(blockposition);
 
-        return tileentity instanceof TileEntityStructure ? ((TileEntityStructure) tileentity).usedBy(entityhuman) : false;
+        return tileentity instanceof TileEntityStructure ? ((TileEntityStructure) tileentity).func_189701_a(entityhuman) : false;
     }
 
-    public void onBlockPlacedBy(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
-        if (!world.isRemote) {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_180633_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
+        if (!world.field_72995_K) {
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityStructure) {
                 TileEntityStructure tileentitystructure = (TileEntityStructure) tileentity;
 
-                tileentitystructure.createdBy(entityliving);
+                tileentitystructure.func_189720_a(entityliving);
             }
         }
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 0;
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.MODEL;
     }
 
-    public IBlockState getStateForPlacement(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
-        return this.getDefaultState().withProperty(BlockStructure.MODE, TileEntityStructure.Mode.DATA);
+    public IBlockState func_180642_a(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
+        return this.func_176223_P().func_177226_a(BlockStructure.field_185587_a, TileEntityStructure.Mode.DATA);
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockStructure.MODE, TileEntityStructure.Mode.getById(i));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockStructure.field_185587_a, TileEntityStructure.Mode.func_185108_a(i));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((TileEntityStructure.Mode) iblockdata.getValue(BlockStructure.MODE)).getModeId();
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((TileEntityStructure.Mode) iblockdata.func_177229_b(BlockStructure.field_185587_a)).func_185110_a();
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockStructure.MODE});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockStructure.field_185587_a});
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        if (!world.isRemote) {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        if (!world.field_72995_K) {
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityStructure) {
                 TileEntityStructure tileentitystructure = (TileEntityStructure) tileentity;
-                boolean flag = world.isBlockPowered(blockposition);
-                boolean flag1 = tileentitystructure.isPowered();
+                boolean flag = world.func_175640_z(blockposition);
+                boolean flag1 = tileentitystructure.func_189722_G();
 
                 if (flag && !flag1) {
-                    tileentitystructure.setPowered(true);
-                    this.trigger(tileentitystructure);
+                    tileentitystructure.func_189723_d(true);
+                    this.func_189874_a(tileentitystructure);
                 } else if (!flag && flag1) {
-                    tileentitystructure.setPowered(false);
+                    tileentitystructure.func_189723_d(false);
                 }
 
             }
         }
     }
 
-    private void trigger(TileEntityStructure tileentitystructure) {
-        switch (tileentitystructure.getMode()) {
+    private void func_189874_a(TileEntityStructure tileentitystructure) {
+        switch (tileentitystructure.func_189700_k()) {
         case SAVE:
-            tileentitystructure.save(false);
+            tileentitystructure.func_189712_b(false);
             break;
 
         case LOAD:
-            tileentitystructure.load(false);
+            tileentitystructure.func_189714_c(false);
             break;
 
         case CORNER:
-            tileentitystructure.unloadStructure();
+            tileentitystructure.func_189706_E();
 
         case DATA:
         }

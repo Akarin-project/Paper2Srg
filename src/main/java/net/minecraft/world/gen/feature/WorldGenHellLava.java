@@ -11,69 +11,69 @@ import net.minecraft.world.World;
 
 public class WorldGenHellLava extends WorldGenerator {
 
-    private final Block block;
-    private final boolean insideRock;
+    private final Block field_150553_a;
+    private final boolean field_94524_b;
 
     public WorldGenHellLava(Block block, boolean flag) {
-        this.block = block;
-        this.insideRock = flag;
+        this.field_150553_a = block;
+        this.field_94524_b = flag;
     }
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
-        if (world.getBlockState(blockposition.up()).getBlock() != Blocks.NETHERRACK) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
+        if (world.func_180495_p(blockposition.func_177984_a()).func_177230_c() != Blocks.field_150424_aL) {
             return false;
-        } else if (world.getBlockState(blockposition).getMaterial() != Material.AIR && world.getBlockState(blockposition).getBlock() != Blocks.NETHERRACK) {
+        } else if (world.func_180495_p(blockposition).func_185904_a() != Material.field_151579_a && world.func_180495_p(blockposition).func_177230_c() != Blocks.field_150424_aL) {
             return false;
         } else {
             int i = 0;
 
-            if (world.getBlockState(blockposition.west()).getBlock() == Blocks.NETHERRACK) {
+            if (world.func_180495_p(blockposition.func_177976_e()).func_177230_c() == Blocks.field_150424_aL) {
                 ++i;
             }
 
-            if (world.getBlockState(blockposition.east()).getBlock() == Blocks.NETHERRACK) {
+            if (world.func_180495_p(blockposition.func_177974_f()).func_177230_c() == Blocks.field_150424_aL) {
                 ++i;
             }
 
-            if (world.getBlockState(blockposition.north()).getBlock() == Blocks.NETHERRACK) {
+            if (world.func_180495_p(blockposition.func_177978_c()).func_177230_c() == Blocks.field_150424_aL) {
                 ++i;
             }
 
-            if (world.getBlockState(blockposition.south()).getBlock() == Blocks.NETHERRACK) {
+            if (world.func_180495_p(blockposition.func_177968_d()).func_177230_c() == Blocks.field_150424_aL) {
                 ++i;
             }
 
-            if (world.getBlockState(blockposition.down()).getBlock() == Blocks.NETHERRACK) {
+            if (world.func_180495_p(blockposition.func_177977_b()).func_177230_c() == Blocks.field_150424_aL) {
                 ++i;
             }
 
             int j = 0;
 
-            if (world.isAirBlock(blockposition.west())) {
+            if (world.func_175623_d(blockposition.func_177976_e())) {
                 ++j;
             }
 
-            if (world.isAirBlock(blockposition.east())) {
+            if (world.func_175623_d(blockposition.func_177974_f())) {
                 ++j;
             }
 
-            if (world.isAirBlock(blockposition.north())) {
+            if (world.func_175623_d(blockposition.func_177978_c())) {
                 ++j;
             }
 
-            if (world.isAirBlock(blockposition.south())) {
+            if (world.func_175623_d(blockposition.func_177968_d())) {
                 ++j;
             }
 
-            if (world.isAirBlock(blockposition.down())) {
+            if (world.func_175623_d(blockposition.func_177977_b())) {
                 ++j;
             }
 
-            if (!this.insideRock && i == 4 && j == 1 || i == 5) {
-                IBlockState iblockdata = this.block.getDefaultState();
+            if (!this.field_94524_b && i == 4 && j == 1 || i == 5) {
+                IBlockState iblockdata = this.field_150553_a.func_176223_P();
 
-                world.setBlockState(blockposition, iblockdata, 2);
-                world.immediateBlockTick(blockposition, iblockdata, random);
+                world.func_180501_a(blockposition, iblockdata, 2);
+                world.func_189507_a(blockposition, iblockdata, random);
             }
 
             return true;

@@ -17,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.LootItemFunctionSetAttribute.a;
+import net.minecraft.server.LootItemFunctionSetAttribute.b;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -25,21 +27,20 @@ import net.minecraft.world.storage.loot.conditions.LootCondition;
 
 public class SetAttributes extends LootFunction {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final SetAttributes.a[] modifiers;
+    private static final Logger field_186560_a = LogManager.getLogger();
+    private final LootItemFunctionSetAttribute.a[] field_186561_b;
 
-    public SetAttributes(LootCondition[] alootitemcondition, SetAttributes.a[] alootitemfunctionsetattribute_a) {
+    public SetAttributes(LootCondition[] alootitemcondition, LootItemFunctionSetAttribute.a[] alootitemfunctionsetattribute_a) {
         super(alootitemcondition);
-        this.modifiers = alootitemfunctionsetattribute_a;
+        this.field_186561_b = alootitemfunctionsetattribute_a;
     }
 
-    @Override
-    public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
-        SetAttributes.a[] alootitemfunctionsetattribute_a = this.modifiers;
+    public ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo) {
+        LootItemFunctionSetAttribute.a[] alootitemfunctionsetattribute_a = this.field_186561_b;
         int i = alootitemfunctionsetattribute_a.length;
 
         for (int j = 0; j < i; ++j) {
-            SetAttributes.a lootitemfunctionsetattribute_a = alootitemfunctionsetattribute_a[j];
+            LootItemFunctionSetAttribute.a lootitemfunctionsetattribute_a = alootitemfunctionsetattribute_a[j];
             UUID uuid = lootitemfunctionsetattribute_a.e;
 
             if (uuid == null) {
@@ -48,7 +49,7 @@ public class SetAttributes extends LootFunction {
 
             EntityEquipmentSlot enumitemslot = lootitemfunctionsetattribute_a.f[random.nextInt(lootitemfunctionsetattribute_a.f.length)];
 
-            itemstack.addAttributeModifier(lootitemfunctionsetattribute_a.b, new AttributeModifier(uuid, lootitemfunctionsetattribute_a.a, lootitemfunctionsetattribute_a.d.generateFloat(random), lootitemfunctionsetattribute_a.c), enumitemslot);
+            itemstack.func_185129_a(lootitemfunctionsetattribute_a.b, new AttributeModifier(uuid, lootitemfunctionsetattribute_a.a, (double) lootitemfunctionsetattribute_a.d.func_186507_b(random), lootitemfunctionsetattribute_a.c), enumitemslot);
         }
 
         return itemstack;
@@ -85,7 +86,7 @@ public class SetAttributes extends LootFunction {
             }
 
             if (this.f.length == 1) {
-                jsonobject.addProperty("slot", this.f[0].getName());
+                jsonobject.addProperty("slot", this.f[0].func_188450_d());
             } else {
                 JsonArray jsonarray = new JsonArray();
                 EntityEquipmentSlot[] aenumitemslot = this.f;
@@ -94,7 +95,7 @@ public class SetAttributes extends LootFunction {
                 for (int j = 0; j < i; ++j) {
                     EntityEquipmentSlot enumitemslot = aenumitemslot[j];
 
-                    jsonarray.add(new JsonPrimitive(enumitemslot.getName()));
+                    jsonarray.add(new JsonPrimitive(enumitemslot.func_188450_d()));
                 }
 
                 jsonobject.add("slot", jsonarray);
@@ -103,29 +104,29 @@ public class SetAttributes extends LootFunction {
             return jsonobject;
         }
 
-        public static SetAttributes.a a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-            String s = JsonUtils.getString(jsonobject, "name");
-            String s1 = JsonUtils.getString(jsonobject, "attribute");
-            int i = a(JsonUtils.getString(jsonobject, "operation"));
-            RandomValueRange lootvaluebounds = JsonUtils.deserializeClass(jsonobject, "amount", jsondeserializationcontext, RandomValueRange.class);
+        public static LootItemFunctionSetAttribute.a a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+            String s = JsonUtils.func_151200_h(jsonobject, "name");
+            String s1 = JsonUtils.func_151200_h(jsonobject, "attribute");
+            int i = a(JsonUtils.func_151200_h(jsonobject, "operation"));
+            RandomValueRange lootvaluebounds = (RandomValueRange) JsonUtils.func_188174_a(jsonobject, "amount", jsondeserializationcontext, RandomValueRange.class);
             UUID uuid = null;
             EntityEquipmentSlot[] aenumitemslot;
 
-            if (JsonUtils.isString(jsonobject, "slot")) {
-                aenumitemslot = new EntityEquipmentSlot[] { EntityEquipmentSlot.fromString(JsonUtils.getString(jsonobject, "slot"))};
+            if (JsonUtils.func_151205_a(jsonobject, "slot")) {
+                aenumitemslot = new EntityEquipmentSlot[] { EntityEquipmentSlot.func_188451_a(JsonUtils.func_151200_h(jsonobject, "slot"))};
             } else {
-                if (!JsonUtils.isJsonArray(jsonobject, "slot")) {
+                if (!JsonUtils.func_151202_d(jsonobject, "slot")) {
                     throw new JsonSyntaxException("Invalid or missing attribute modifier slot; must be either string or array of strings.");
                 }
 
-                JsonArray jsonarray = JsonUtils.getJsonArray(jsonobject, "slot");
+                JsonArray jsonarray = JsonUtils.func_151214_t(jsonobject, "slot");
 
                 aenumitemslot = new EntityEquipmentSlot[jsonarray.size()];
                 int j = 0;
 
                 JsonElement jsonelement;
 
-                for (Iterator iterator = jsonarray.iterator(); iterator.hasNext(); aenumitemslot[j++] = EntityEquipmentSlot.fromString(JsonUtils.getString(jsonelement, "slot"))) {
+                for (Iterator iterator = jsonarray.iterator(); iterator.hasNext(); aenumitemslot[j++] = EntityEquipmentSlot.func_188451_a(JsonUtils.func_151206_a(jsonelement, "slot"))) {
                     jsonelement = (JsonElement) iterator.next();
                 }
 
@@ -135,7 +136,7 @@ public class SetAttributes extends LootFunction {
             }
 
             if (jsonobject.has("id")) {
-                String s2 = JsonUtils.getString(jsonobject, "id");
+                String s2 = JsonUtils.func_151200_h(jsonobject, "id");
 
                 try {
                     uuid = UUID.fromString(s2);
@@ -144,7 +145,7 @@ public class SetAttributes extends LootFunction {
                 }
             }
 
-            return new SetAttributes.a(s, s1, i, lootvaluebounds, aenumitemslot, uuid);
+            return new LootItemFunctionSetAttribute.a(s, s1, i, lootvaluebounds, aenumitemslot, uuid);
         }
 
         private static String a(int i) {
@@ -176,20 +177,19 @@ public class SetAttributes extends LootFunction {
         }
     }
 
-    public static class b extends LootFunction.a<SetAttributes> {
+    public static class b extends LootItemFunction.a<SetAttributes> {
 
         public b() {
             super(new ResourceLocation("set_attributes"), SetAttributes.class);
         }
 
-        @Override
         public void a(JsonObject jsonobject, SetAttributes lootitemfunctionsetattribute, JsonSerializationContext jsonserializationcontext) {
             JsonArray jsonarray = new JsonArray();
-            SetAttributes.a[] alootitemfunctionsetattribute_a = lootitemfunctionsetattribute.modifiers;
+            LootItemFunctionSetAttribute.a[] alootitemfunctionsetattribute_a = lootitemfunctionsetattribute.field_186561_b;
             int i = alootitemfunctionsetattribute_a.length;
 
             for (int j = 0; j < i; ++j) {
-                SetAttributes.a lootitemfunctionsetattribute_a = alootitemfunctionsetattribute_a[j];
+                LootItemFunctionSetAttribute.a lootitemfunctionsetattribute_a = alootitemfunctionsetattribute_a[j];
 
                 jsonarray.add(lootitemfunctionsetattribute_a.a(jsonserializationcontext));
             }
@@ -198,13 +198,13 @@ public class SetAttributes extends LootFunction {
         }
 
         public SetAttributes a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
-            JsonArray jsonarray = JsonUtils.getJsonArray(jsonobject, "modifiers");
-            SetAttributes.a[] alootitemfunctionsetattribute_a = new SetAttributes.a[jsonarray.size()];
+            JsonArray jsonarray = JsonUtils.func_151214_t(jsonobject, "modifiers");
+            LootItemFunctionSetAttribute.a[] alootitemfunctionsetattribute_a = new LootItemFunctionSetAttribute.a[jsonarray.size()];
             int i = 0;
 
             JsonElement jsonelement;
 
-            for (Iterator iterator = jsonarray.iterator(); iterator.hasNext(); alootitemfunctionsetattribute_a[i++] = SetAttributes.a.a(JsonUtils.getJsonObject(jsonelement, "modifier"), jsondeserializationcontext)) {
+            for (Iterator iterator = jsonarray.iterator(); iterator.hasNext(); alootitemfunctionsetattribute_a[i++] = SetAttributes.field_186560_a.a(JsonUtils.func_151210_l(jsonelement, "modifier"), jsondeserializationcontext)) {
                 jsonelement = (JsonElement) iterator.next();
             }
 
@@ -215,8 +215,7 @@ public class SetAttributes extends LootFunction {
             }
         }
 
-        @Override
-        public SetAttributes b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }

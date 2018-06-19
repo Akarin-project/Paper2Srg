@@ -47,209 +47,209 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityOcelot extends EntityTameable {
 
-    private static final DataParameter<Integer> OCELOT_VARIANT = EntityDataManager.createKey(EntityOcelot.class, DataSerializers.VARINT);
-    private EntityAIAvoidEntity<EntityPlayer> avoidEntity;
-    private EntityAITempt aiTempt;
+    private static final DataParameter<Integer> field_184757_bz = EntityDataManager.func_187226_a(EntityOcelot.class, DataSerializers.field_187192_b);
+    private EntityAIAvoidEntity<EntityPlayer> field_175545_bm;
+    private EntityAITempt field_70914_e;
     public boolean spawnBonus = true; // Spigot
 
     public EntityOcelot(World world) {
         super(world);
-        this.setSize(0.6F, 0.7F);
+        this.func_70105_a(0.6F, 0.7F);
     }
 
-    protected void initEntityAI() {
-        this.aiSit = new EntityAISit(this);
-        this.aiTempt = new EntityAITempt(this, 0.6D, Items.FISH, true);
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(3, this.aiTempt);
-        this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 5.0F));
-        this.tasks.addTask(6, new EntityAIOcelotSit(this, 0.8D));
-        this.tasks.addTask(7, new EntityAILeapAtTarget(this, 0.3F));
-        this.tasks.addTask(8, new EntityAIOcelotAttack(this));
-        this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
-        this.tasks.addTask(10, new EntityAIWanderAvoidWater(this, 0.8D, 1.0000001E-5F));
-        this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate) null));
+    protected void func_184651_r() {
+        this.field_70911_d = new EntityAISit(this);
+        this.field_70914_e = new EntityAITempt(this, 0.6D, Items.field_151115_aP, true);
+        this.field_70714_bg.func_75776_a(1, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(2, this.field_70911_d);
+        this.field_70714_bg.func_75776_a(3, this.field_70914_e);
+        this.field_70714_bg.func_75776_a(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 5.0F));
+        this.field_70714_bg.func_75776_a(6, new EntityAIOcelotSit(this, 0.8D));
+        this.field_70714_bg.func_75776_a(7, new EntityAILeapAtTarget(this, 0.3F));
+        this.field_70714_bg.func_75776_a(8, new EntityAIOcelotAttack(this));
+        this.field_70714_bg.func_75776_a(9, new EntityAIMate(this, 0.8D));
+        this.field_70714_bg.func_75776_a(10, new EntityAIWanderAvoidWater(this, 0.8D, 1.0000001E-5F));
+        this.field_70714_bg.func_75776_a(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
+        this.field_70715_bh.func_75776_a(1, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate) null));
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(EntityOcelot.OCELOT_VARIANT, Integer.valueOf(0));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(EntityOcelot.field_184757_bz, Integer.valueOf(0));
     }
 
-    public void updateAITasks() {
-        if (this.getMoveHelper().isUpdating()) {
-            double d0 = this.getMoveHelper().getSpeed();
+    public void func_70619_bc() {
+        if (this.func_70605_aq().func_75640_a()) {
+            double d0 = this.func_70605_aq().func_75638_b();
 
             if (d0 == 0.6D) {
-                this.setSneaking(true);
-                this.setSprinting(false);
+                this.func_70095_a(true);
+                this.func_70031_b(false);
             } else if (d0 == 1.33D) {
-                this.setSneaking(false);
-                this.setSprinting(true);
+                this.func_70095_a(false);
+                this.func_70031_b(true);
             } else {
-                this.setSneaking(false);
-                this.setSprinting(false);
+                this.func_70095_a(false);
+                this.func_70031_b(false);
             }
         } else {
-            this.setSneaking(false);
-            this.setSprinting(false);
+            this.func_70095_a(false);
+            this.func_70031_b(false);
         }
 
     }
 
-    protected boolean canDespawn() {
-        return !this.isTamed() && !this.hasCustomName() && !this.getLeashed() /*&& this.ticksLived > 2400*/; // CraftBukkit (ticks lived) - Paper (honor name and leash)
+    protected boolean func_70692_ba() {
+        return !this.func_70909_n() && !this.func_145818_k_() && !this.func_110167_bD() /*&& this.ticksLived > 2400*/; // CraftBukkit (ticks lived) - Paper (honor name and leash)
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.30000001192092896D);
     }
 
-    public void fall(float f, float f1) {}
+    public void func_180430_e(float f, float f1) {}
 
-    public static void registerFixesOcelot(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityOcelot.class);
+    public static void func_189787_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityOcelot.class);
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setInteger("CatType", this.getTameSkin());
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74768_a("CatType", this.func_70913_u());
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.setTameSkin(nbttagcompound.getInteger("CatType"));
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.func_70912_b(nbttagcompound.func_74762_e("CatType"));
     }
 
     @Nullable
-    protected SoundEvent getAmbientSound() {
-        return this.isTamed() ? (this.isInLove() ? SoundEvents.ENTITY_CAT_PURR : (this.rand.nextInt(4) == 0 ? SoundEvents.ENTITY_CAT_PURREOW : SoundEvents.ENTITY_CAT_AMBIENT)) : null;
+    protected SoundEvent func_184639_G() {
+        return this.func_70909_n() ? (this.func_70880_s() ? SoundEvents.field_187645_R : (this.field_70146_Z.nextInt(4) == 0 ? SoundEvents.field_187648_S : SoundEvents.field_187636_O)) : null;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_CAT_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187642_Q;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_CAT_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187639_P;
     }
 
-    protected float getSoundVolume() {
+    protected float func_70599_aP() {
         return 0.4F;
     }
 
-    public boolean attackEntityAsMob(Entity entity) {
-        return entity.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
+    public boolean func_70652_k(Entity entity) {
+        return entity.func_70097_a(DamageSource.func_76358_a(this), 3.0F);
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        if (this.isEntityInvulnerable(damagesource)) {
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        if (this.func_180431_b(damagesource)) {
             return false;
         } else {
-            if (this.aiSit != null) {
+            if (this.field_70911_d != null) {
                 // CraftBukkit - moved into EntityLiving.d(DamageSource, float)
                 // this.goalSit.setSitting(false);
             }
 
-            return super.attackEntityFrom(damagesource, f);
+            return super.func_70097_a(damagesource, f);
         }
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_OCELOT;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186402_J;
     }
 
-    public boolean processInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (this.isTamed()) {
-            if (this.isOwner((EntityLivingBase) entityhuman) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {
-                this.aiSit.setSitting(!this.isSitting());
+        if (this.func_70909_n()) {
+            if (this.func_152114_e((EntityLivingBase) entityhuman) && !this.field_70170_p.field_72995_K && !this.func_70877_b(itemstack)) {
+                this.field_70911_d.func_75270_a(!this.func_70906_o());
             }
-        } else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == Items.FISH && entityhuman.getDistanceSq(this) < 9.0D) {
-            if (!entityhuman.capabilities.isCreativeMode) {
-                itemstack.shrink(1);
+        } else if ((this.field_70914_e == null || this.field_70914_e.func_75277_f()) && itemstack.func_77973_b() == Items.field_151115_aP && entityhuman.func_70068_e(this) < 9.0D) {
+            if (!entityhuman.field_71075_bZ.field_75098_d) {
+                itemstack.func_190918_g(1);
             }
 
-            if (!this.world.isRemote) {
+            if (!this.field_70170_p.field_72995_K) {
                 // CraftBukkit - added event call and isCancelled check
-                if (this.rand.nextInt(3) == 0 && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTameEvent(this, entityhuman).isCancelled()) {
-                    this.setTamedBy(entityhuman);
-                    this.setTameSkin(1 + this.world.rand.nextInt(3));
-                    this.playTameEffect(true);
-                    this.aiSit.setSitting(true);
-                    this.world.setEntityState(this, (byte) 7);
+                if (this.field_70146_Z.nextInt(3) == 0 && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTameEvent(this, entityhuman).isCancelled()) {
+                    this.func_193101_c(entityhuman);
+                    this.func_70912_b(1 + this.field_70170_p.field_73012_v.nextInt(3));
+                    this.func_70908_e(true);
+                    this.field_70911_d.func_75270_a(true);
+                    this.field_70170_p.func_72960_a(this, (byte) 7);
                 } else {
-                    this.playTameEffect(false);
-                    this.world.setEntityState(this, (byte) 6);
+                    this.func_70908_e(false);
+                    this.field_70170_p.func_72960_a(this, (byte) 6);
                 }
             }
 
             return true;
         }
 
-        return super.processInteract(entityhuman, enumhand);
+        return super.func_184645_a(entityhuman, enumhand);
     }
 
-    public EntityOcelot createChild(EntityAgeable entityageable) {
-        EntityOcelot entityocelot = new EntityOcelot(this.world);
+    public EntityOcelot func_90011_a(EntityAgeable entityageable) {
+        EntityOcelot entityocelot = new EntityOcelot(this.field_70170_p);
 
-        if (this.isTamed()) {
-            entityocelot.setOwnerId(this.getOwnerId());
-            entityocelot.setTamed(true);
-            entityocelot.setTameSkin(this.getTameSkin());
+        if (this.func_70909_n()) {
+            entityocelot.func_184754_b(this.func_184753_b());
+            entityocelot.func_70903_f(true);
+            entityocelot.func_70912_b(this.func_70913_u());
         }
 
         return entityocelot;
     }
 
-    public boolean isBreedingItem(ItemStack itemstack) {
-        return itemstack.getItem() == Items.FISH;
+    public boolean func_70877_b(ItemStack itemstack) {
+        return itemstack.func_77973_b() == Items.field_151115_aP;
     }
 
-    public boolean canMateWith(EntityAnimal entityanimal) {
+    public boolean func_70878_b(EntityAnimal entityanimal) {
         if (entityanimal == this) {
             return false;
-        } else if (!this.isTamed()) {
+        } else if (!this.func_70909_n()) {
             return false;
         } else if (!(entityanimal instanceof EntityOcelot)) {
             return false;
         } else {
             EntityOcelot entityocelot = (EntityOcelot) entityanimal;
 
-            return !entityocelot.isTamed() ? false : this.isInLove() && entityocelot.isInLove();
+            return !entityocelot.func_70909_n() ? false : this.func_70880_s() && entityocelot.func_70880_s();
         }
     }
 
-    public int getTameSkin() {
-        return ((Integer) this.dataManager.get(EntityOcelot.OCELOT_VARIANT)).intValue();
+    public int func_70913_u() {
+        return ((Integer) this.field_70180_af.func_187225_a(EntityOcelot.field_184757_bz)).intValue();
     }
 
-    public void setTameSkin(int i) {
-        this.dataManager.set(EntityOcelot.OCELOT_VARIANT, Integer.valueOf(i));
+    public void func_70912_b(int i) {
+        this.field_70180_af.func_187227_b(EntityOcelot.field_184757_bz, Integer.valueOf(i));
     }
 
-    public boolean getCanSpawnHere() {
-        return this.world.rand.nextInt(3) != 0;
+    public boolean func_70601_bi() {
+        return this.field_70170_p.field_73012_v.nextInt(3) != 0;
     }
 
-    public boolean isNotColliding() {
-        if (this.world.checkNoEntityCollision(this.getEntityBoundingBox(), (Entity) this) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox())) {
-            BlockPos blockposition = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+    public boolean func_70058_J() {
+        if (this.field_70170_p.func_72917_a(this.func_174813_aQ(), (Entity) this) && this.field_70170_p.func_184144_a(this, this.func_174813_aQ()).isEmpty() && !this.field_70170_p.func_72953_d(this.func_174813_aQ())) {
+            BlockPos blockposition = new BlockPos(this.field_70165_t, this.func_174813_aQ().field_72338_b, this.field_70161_v);
 
-            if (blockposition.getY() < this.world.getSeaLevel()) {
+            if (blockposition.func_177956_o() < this.field_70170_p.func_181545_F()) {
                 return false;
             }
 
-            IBlockState iblockdata = this.world.getBlockState(blockposition.down());
-            Block block = iblockdata.getBlock();
+            IBlockState iblockdata = this.field_70170_p.func_180495_p(blockposition.func_177977_b());
+            Block block = iblockdata.func_177230_c();
 
-            if (block == Blocks.GRASS || iblockdata.getMaterial() == Material.LEAVES) {
+            if (block == Blocks.field_150349_c || iblockdata.func_185904_a() == Material.field_151584_j) {
                 return true;
             }
         }
@@ -257,39 +257,39 @@ public class EntityOcelot extends EntityTameable {
         return false;
     }
 
-    public String getName() {
-        return this.hasCustomName() ? this.getCustomNameTag() : (this.isTamed() ? I18n.translateToLocal("entity.Cat.name") : super.getName());
+    public String func_70005_c_() {
+        return this.func_145818_k_() ? this.func_95999_t() : (this.func_70909_n() ? I18n.func_74838_a("entity.Cat.name") : super.func_70005_c_());
     }
 
-    protected void setupTamedAI() {
-        if (this.avoidEntity == null) {
-            this.avoidEntity = new EntityAIAvoidEntity(this, EntityPlayer.class, 16.0F, 0.8D, 1.33D);
+    protected void func_175544_ck() {
+        if (this.field_175545_bm == null) {
+            this.field_175545_bm = new EntityAIAvoidEntity(this, EntityPlayer.class, 16.0F, 0.8D, 1.33D);
         }
 
-        this.tasks.removeTask((EntityAIBase) this.avoidEntity);
-        if (!this.isTamed()) {
-            this.tasks.addTask(4, this.avoidEntity);
+        this.field_70714_bg.func_85156_a((EntityAIBase) this.field_175545_bm);
+        if (!this.func_70909_n()) {
+            this.field_70714_bg.func_75776_a(4, this.field_175545_bm);
         }
 
     }
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
-        groupdataentity = super.onInitialSpawn(difficultydamagescaler, groupdataentity);
-        if (spawnBonus && this.getTameSkin() == 0 && this.world.rand.nextInt(7) == 0) { // Spigot
+    public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
+        groupdataentity = super.func_180482_a(difficultydamagescaler, groupdataentity);
+        if (spawnBonus && this.func_70913_u() == 0 && this.field_70170_p.field_73012_v.nextInt(7) == 0) { // Spigot
             for (int i = 0; i < 2; ++i) {
-                EntityOcelot entityocelot = new EntityOcelot(this.world);
+                EntityOcelot entityocelot = new EntityOcelot(this.field_70170_p);
 
-                entityocelot.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-                entityocelot.setGrowingAge(-24000);
-                this.world.addEntity(entityocelot, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.OCELOT_BABY); // CraftBukkit - add SpawnReason
+                entityocelot.func_70012_b(this.field_70165_t, this.field_70163_u, this.field_70161_v, this.field_70177_z, 0.0F);
+                entityocelot.func_70873_a(-24000);
+                this.field_70170_p.addEntity(entityocelot, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.OCELOT_BABY); // CraftBukkit - add SpawnReason
             }
         }
 
         return groupdataentity;
     }
 
-    public EntityAgeable createChild(EntityAgeable entityageable) {
-        return this.createChild(entityageable);
+    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
+        return this.func_90011_a(entityageable);
     }
 }

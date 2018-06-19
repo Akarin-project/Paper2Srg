@@ -10,10 +10,10 @@ public class DebugLoggingPrintStream extends LoggingPrintStream {
         super(s, outputstream);
     }
 
-    protected void logString(String s) {
+    protected void func_179882_a(String s) {
         StackTraceElement[] astacktraceelement = Thread.currentThread().getStackTrace();
         StackTraceElement stacktraceelement = astacktraceelement[Math.min(3, astacktraceelement.length)];
 
-        DebugLoggingPrintStream.LOGGER.info("[{}]@.({}:{}): {}", this.domain, stacktraceelement.getFileName(), Integer.valueOf(stacktraceelement.getLineNumber()), s);
+        DebugLoggingPrintStream.field_179884_a.info("[{}]@.({}:{}): {}", this.field_179883_b, stacktraceelement.getFileName(), Integer.valueOf(stacktraceelement.getLineNumber()), s);
     }
 }

@@ -8,18 +8,18 @@ import net.minecraft.world.World;
 
 public class WorldGenBush extends WorldGenerator {
 
-    private final BlockBush block;
+    private final BlockBush field_175908_a;
 
     public WorldGenBush(BlockBush blockplant) {
-        this.block = blockplant;
+        this.field_175908_a = blockplant;
     }
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
         for (int i = 0; i < 64; ++i) {
-            BlockPos blockposition1 = blockposition.add(random.nextInt(8) - random.nextInt(8), random.nextInt(4) - random.nextInt(4), random.nextInt(8) - random.nextInt(8));
+            BlockPos blockposition1 = blockposition.func_177982_a(random.nextInt(8) - random.nextInt(8), random.nextInt(4) - random.nextInt(4), random.nextInt(8) - random.nextInt(8));
 
-            if (world.isAirBlock(blockposition1) && (!world.provider.isNether() || blockposition1.getY() < 255) && this.block.canBlockStay(world, blockposition1, this.block.getDefaultState())) {
-                world.setBlockState(blockposition1, this.block.getDefaultState(), 2);
+            if (world.func_175623_d(blockposition1) && (!world.field_73011_w.func_177495_o() || blockposition1.func_177956_o() < 255) && this.field_175908_a.func_180671_f(world, blockposition1, this.field_175908_a.func_176223_P())) {
+                world.func_180501_a(blockposition1, this.field_175908_a.func_176223_P(), 2);
             }
         }
 

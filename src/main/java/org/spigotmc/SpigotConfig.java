@@ -262,7 +262,7 @@ public class SpigotConfig
         {
             if ( section.isInt( name ) )
             {
-                if ( StatList.getOneShotStat(name) == null )
+                if ( StatList.func_151177_a(name) == null )
                 {
                     Bukkit.getLogger().log(Level.WARNING, "Ignoring non existent stats.forced-stats " + name);
                     continue;
@@ -359,11 +359,11 @@ public class SpigotConfig
     private static void attributeMaxes()
     {
         maxHealth = getDouble( "settings.attribute.maxHealth.max", maxHealth );
-        ( (RangedAttribute) SharedMonsterAttributes.MAX_HEALTH ).maximumValue = maxHealth;
+        ( (RangedAttribute) SharedMonsterAttributes.field_111267_a ).field_111118_b = maxHealth;
         movementSpeed = getDouble( "settings.attribute.movementSpeed.max", movementSpeed );
-        ( (RangedAttribute) SharedMonsterAttributes.MOVEMENT_SPEED ).maximumValue = movementSpeed;
+        ( (RangedAttribute) SharedMonsterAttributes.field_111263_d ).field_111118_b = movementSpeed;
         attackDamage = getDouble( "settings.attribute.attackDamage.max", attackDamage );
-        ( (RangedAttribute) SharedMonsterAttributes.ATTACK_DAMAGE ).maximumValue = attackDamage;
+        ( (RangedAttribute) SharedMonsterAttributes.field_111264_e ).field_111118_b = attackDamage;
     }
 
     public static boolean debug;

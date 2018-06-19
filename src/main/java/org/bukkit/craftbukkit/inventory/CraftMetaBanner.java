@@ -44,19 +44,19 @@ public class CraftMetaBanner extends CraftMetaItem implements BannerMeta {
     CraftMetaBanner(NBTTagCompound tag) {
         super(tag);
 
-        if (!tag.hasKey("BlockEntityTag")) {
+        if (!tag.func_74764_b("BlockEntityTag")) {
             return;
         }
 
-        NBTTagCompound entityTag = tag.getCompoundTag("BlockEntityTag");
+        NBTTagCompound entityTag = tag.func_74775_l("BlockEntityTag");
 
-        base = entityTag.hasKey(BASE.NBT) ? DyeColor.getByDyeData((byte) entityTag.getInteger(BASE.NBT)) : null;
+        base = entityTag.func_74764_b(BASE.NBT) ? DyeColor.getByDyeData((byte) entityTag.func_74762_e(BASE.NBT)) : null;
 
-        if (entityTag.hasKey(PATTERNS.NBT)) {
-            NBTTagList patterns = entityTag.getTagList(PATTERNS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
-            for (int i = 0; i < Math.min(patterns.tagCount(), 20); i++) {
-                NBTTagCompound p = patterns.getCompoundTagAt(i);
-                this.patterns.add(new Pattern(DyeColor.getByDyeData((byte) p.getInteger(COLOR.NBT)), PatternType.getByIdentifier(p.getString(PATTERN.NBT))));
+        if (entityTag.func_74764_b(PATTERNS.NBT)) {
+            NBTTagList patterns = entityTag.func_150295_c(PATTERNS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
+            for (int i = 0; i < Math.min(patterns.func_74745_c(), 20); i++) {
+                NBTTagCompound p = patterns.func_150305_b(i);
+                this.patterns.add(new Pattern(DyeColor.getByDyeData((byte) p.func_74762_e(COLOR.NBT)), PatternType.getByIdentifier(p.func_74779_i(PATTERN.NBT))));
             }
         }
     }
@@ -87,20 +87,20 @@ public class CraftMetaBanner extends CraftMetaItem implements BannerMeta {
 
         NBTTagCompound entityTag = new NBTTagCompound();
         if (base != null) {
-            entityTag.setInteger(BASE.NBT, base.getDyeData());
+            entityTag.func_74768_a(BASE.NBT, base.getDyeData());
         }
 
         NBTTagList newPatterns = new NBTTagList();
 
         for (Pattern p : patterns) {
             NBTTagCompound compound = new NBTTagCompound();
-            compound.setInteger(COLOR.NBT, p.getColor().getDyeData());
-            compound.setString(PATTERN.NBT, p.getPattern().getIdentifier());
-            newPatterns.appendTag(compound);
+            compound.func_74768_a(COLOR.NBT, p.getColor().getDyeData());
+            compound.func_74778_a(PATTERN.NBT, p.getPattern().getIdentifier());
+            newPatterns.func_74742_a(compound);
         }
-        entityTag.setTag(PATTERNS.NBT, newPatterns);
+        entityTag.func_74782_a(PATTERNS.NBT, newPatterns);
 
-        tag.setTag("BlockEntityTag", entityTag);
+        tag.func_74782_a("BlockEntityTag", entityTag);
     }
 
     @Override

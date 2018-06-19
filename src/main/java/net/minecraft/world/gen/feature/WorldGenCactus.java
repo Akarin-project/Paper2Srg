@@ -10,16 +10,16 @@ public class WorldGenCactus extends WorldGenerator {
 
     public WorldGenCactus() {}
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
         for (int i = 0; i < 10; ++i) {
-            BlockPos blockposition1 = blockposition.add(random.nextInt(8) - random.nextInt(8), random.nextInt(4) - random.nextInt(4), random.nextInt(8) - random.nextInt(8));
+            BlockPos blockposition1 = blockposition.func_177982_a(random.nextInt(8) - random.nextInt(8), random.nextInt(4) - random.nextInt(4), random.nextInt(8) - random.nextInt(8));
 
-            if (world.isAirBlock(blockposition1)) {
+            if (world.func_175623_d(blockposition1)) {
                 int j = 1 + random.nextInt(random.nextInt(3) + 1);
 
                 for (int k = 0; k < j; ++k) {
-                    if (Blocks.CACTUS.canBlockStay(world, blockposition1)) {
-                        world.setBlockState(blockposition1.up(k), Blocks.CACTUS.getDefaultState(), 2);
+                    if (Blocks.field_150434_aF.func_176586_d(world, blockposition1)) {
+                        world.func_180501_a(blockposition1.func_177981_b(k), Blocks.field_150434_aF.func_176223_P(), 2);
                     }
                 }
             }

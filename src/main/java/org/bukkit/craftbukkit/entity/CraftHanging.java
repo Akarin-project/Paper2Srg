@@ -22,32 +22,32 @@ public class CraftHanging extends CraftEntity implements Hanging {
 
     public boolean setFacingDirection(BlockFace face, boolean force) {
         EntityHanging hanging = getHandle();
-        EnumFacing dir = hanging.facingDirection;
+        EnumFacing dir = hanging.field_174860_b;
         switch (face) {
             case SOUTH:
             default:
-                getHandle().updateFacingWithBoundingBox(EnumFacing.SOUTH);
+                getHandle().func_174859_a(EnumFacing.SOUTH);
                 break;
             case WEST:
-                getHandle().updateFacingWithBoundingBox(EnumFacing.WEST);
+                getHandle().func_174859_a(EnumFacing.WEST);
                 break;
             case NORTH:
-                getHandle().updateFacingWithBoundingBox(EnumFacing.NORTH);
+                getHandle().func_174859_a(EnumFacing.NORTH);
                 break;
             case EAST:
-                getHandle().updateFacingWithBoundingBox(EnumFacing.EAST);
+                getHandle().func_174859_a(EnumFacing.EAST);
                 break;
         }
-        if (!force && !hanging.onValidSurface()) {
+        if (!force && !hanging.func_70518_d()) {
             // Revert since it doesn't fit
-            hanging.updateFacingWithBoundingBox(dir);
+            hanging.func_174859_a(dir);
             return false;
         }
         return true;
     }
 
     public BlockFace getFacing() {
-        EnumFacing direction = this.getHandle().facingDirection;
+        EnumFacing direction = this.getHandle().field_174860_b;
         if (direction == null) return BlockFace.SELF;
         switch (direction) {
             case SOUTH:

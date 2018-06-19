@@ -7,37 +7,37 @@ public class HorseSplit implements IFixableData {
 
     public HorseSplit() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 703;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        if ("EntityHorse".equals(nbttagcompound.getString("id"))) {
-            int i = nbttagcompound.getInteger("Type");
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        if ("EntityHorse".equals(nbttagcompound.func_74779_i("id"))) {
+            int i = nbttagcompound.func_74762_e("Type");
 
             switch (i) {
             case 0:
             default:
-                nbttagcompound.setString("id", "Horse");
+                nbttagcompound.func_74778_a("id", "Horse");
                 break;
 
             case 1:
-                nbttagcompound.setString("id", "Donkey");
+                nbttagcompound.func_74778_a("id", "Donkey");
                 break;
 
             case 2:
-                nbttagcompound.setString("id", "Mule");
+                nbttagcompound.func_74778_a("id", "Mule");
                 break;
 
             case 3:
-                nbttagcompound.setString("id", "ZombieHorse");
+                nbttagcompound.func_74778_a("id", "ZombieHorse");
                 break;
 
             case 4:
-                nbttagcompound.setString("id", "SkeletonHorse");
+                nbttagcompound.func_74778_a("id", "SkeletonHorse");
             }
 
-            nbttagcompound.removeTag("Type");
+            nbttagcompound.func_82580_o("Type");
         }
 
         return nbttagcompound;

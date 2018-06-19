@@ -25,43 +25,43 @@ import net.minecraft.world.World;
 public class ItemGlassBottle extends Item {
 
     public ItemGlassBottle() {
-        this.setCreativeTab(CreativeTabs.BREWING);
+        this.func_77637_a(CreativeTabs.field_78038_k);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        List list = world.getEntitiesWithinAABB(EntityAreaEffectCloud.class, entityhuman.getEntityBoundingBox().grow(2.0D), new Predicate() {
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        List list = world.func_175647_a(EntityAreaEffectCloud.class, entityhuman.func_174813_aQ().func_186662_g(2.0D), new Predicate() {
             public boolean a(@Nullable EntityAreaEffectCloud entityareaeffectcloud) {
-                return entityareaeffectcloud != null && entityareaeffectcloud.isEntityAlive() && entityareaeffectcloud.getOwner() instanceof EntityDragon;
+                return entityareaeffectcloud != null && entityareaeffectcloud.func_70089_S() && entityareaeffectcloud.func_184494_w() instanceof EntityDragon;
             }
 
             public boolean apply(@Nullable Object object) {
                 return this.a((EntityAreaEffectCloud) object);
             }
         });
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
         if (!list.isEmpty()) {
             EntityAreaEffectCloud entityareaeffectcloud = (EntityAreaEffectCloud) list.get(0);
 
-            entityareaeffectcloud.setRadius(entityareaeffectcloud.getRadius() - 0.5F);
-            world.playSound((EntityPlayer) null, entityhuman.posX, entityhuman.posY, entityhuman.posZ, SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-            return new ActionResult(EnumActionResult.SUCCESS, this.turnBottleIntoItem(itemstack, entityhuman, new ItemStack(Items.DRAGON_BREATH)));
+            entityareaeffectcloud.func_184483_a(entityareaeffectcloud.func_184490_j() - 0.5F);
+            world.func_184148_a((EntityPlayer) null, entityhuman.field_70165_t, entityhuman.field_70163_u, entityhuman.field_70161_v, SoundEvents.field_187618_I, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+            return new ActionResult(EnumActionResult.SUCCESS, this.func_185061_a(itemstack, entityhuman, new ItemStack(Items.field_185157_bK)));
         } else {
-            RayTraceResult movingobjectposition = this.rayTrace(world, entityhuman, true);
+            RayTraceResult movingobjectposition = this.func_77621_a(world, entityhuman, true);
 
             if (movingobjectposition == null) {
                 return new ActionResult(EnumActionResult.PASS, itemstack);
             } else {
-                if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK) {
-                    BlockPos blockposition = movingobjectposition.getBlockPos();
+                if (movingobjectposition.field_72313_a == RayTraceResult.Type.BLOCK) {
+                    BlockPos blockposition = movingobjectposition.func_178782_a();
 
-                    if (!world.isBlockModifiable(entityhuman, blockposition) || !entityhuman.canPlayerEdit(blockposition.offset(movingobjectposition.sideHit), movingobjectposition.sideHit, itemstack)) {
+                    if (!world.func_175660_a(entityhuman, blockposition) || !entityhuman.func_175151_a(blockposition.func_177972_a(movingobjectposition.field_178784_b), movingobjectposition.field_178784_b, itemstack)) {
                         return new ActionResult(EnumActionResult.PASS, itemstack);
                     }
 
-                    if (world.getBlockState(blockposition).getMaterial() == Material.WATER) {
-                        world.playSound(entityhuman, entityhuman.posX, entityhuman.posY, entityhuman.posZ, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-                        return new ActionResult(EnumActionResult.SUCCESS, this.turnBottleIntoItem(itemstack, entityhuman, PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER)));
+                    if (world.func_180495_p(blockposition).func_185904_a() == Material.field_151586_h) {
+                        world.func_184148_a(entityhuman, entityhuman.field_70165_t, entityhuman.field_70163_u, entityhuman.field_70161_v, SoundEvents.field_187615_H, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                        return new ActionResult(EnumActionResult.SUCCESS, this.func_185061_a(itemstack, entityhuman, PotionUtils.func_185188_a(new ItemStack(Items.field_151068_bn), PotionTypes.field_185230_b)));
                     }
                 }
 
@@ -70,14 +70,14 @@ public class ItemGlassBottle extends Item {
         }
     }
 
-    protected ItemStack turnBottleIntoItem(ItemStack itemstack, EntityPlayer entityhuman, ItemStack itemstack1) {
-        itemstack.shrink(1);
-        entityhuman.addStat(StatList.getObjectUseStats((Item) this));
-        if (itemstack.isEmpty()) {
+    protected ItemStack func_185061_a(ItemStack itemstack, EntityPlayer entityhuman, ItemStack itemstack1) {
+        itemstack.func_190918_g(1);
+        entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
+        if (itemstack.func_190926_b()) {
             return itemstack1;
         } else {
-            if (!entityhuman.inventory.addItemStackToInventory(itemstack1)) {
-                entityhuman.dropItem(itemstack1, false);
+            if (!entityhuman.field_71071_by.func_70441_a(itemstack1)) {
+                entityhuman.func_71019_a(itemstack1, false);
             }
 
             return itemstack;

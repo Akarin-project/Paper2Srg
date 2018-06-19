@@ -48,11 +48,11 @@ import org.bukkit.entity.LivingEntity;
 
 public class EntityPotion extends EntityThrowable {
 
-    private static final DataParameter<ItemStack> ITEM = EntityDataManager.createKey(EntityPotion.class, DataSerializers.ITEM_STACK);
-    private static final Logger LOGGER = LogManager.getLogger();
-    public static final Predicate<EntityLivingBase> WATER_SENSITIVE = new Predicate() {
+    private static final DataParameter<ItemStack> field_184545_d = EntityDataManager.func_187226_a(EntityPotion.class, DataSerializers.field_187196_f);
+    private static final Logger field_184546_e = LogManager.getLogger();
+    public static final Predicate<EntityLivingBase> field_190546_d = new Predicate() {
         public boolean a(@Nullable EntityLivingBase entityliving) {
-            return EntityPotion.isWaterSensitiveEntity(entityliving);
+            return EntityPotion.func_190544_c(entityliving);
         }
 
         public boolean apply(@Nullable Object object) {
@@ -66,103 +66,103 @@ public class EntityPotion extends EntityThrowable {
 
     public EntityPotion(World world, EntityLivingBase entityliving, ItemStack itemstack) {
         super(world, entityliving);
-        this.setItem(itemstack);
+        this.func_184541_a(itemstack);
     }
 
     public EntityPotion(World world, double d0, double d1, double d2, ItemStack itemstack) {
         super(world, d0, d1, d2);
-        if (!itemstack.isEmpty()) {
-            this.setItem(itemstack);
+        if (!itemstack.func_190926_b()) {
+            this.func_184541_a(itemstack);
         }
 
     }
 
-    protected void entityInit() {
-        this.getDataManager().register(EntityPotion.ITEM, ItemStack.EMPTY);
+    protected void func_70088_a() {
+        this.func_184212_Q().func_187214_a(EntityPotion.field_184545_d, ItemStack.field_190927_a);
     }
 
-    public ItemStack getPotion() {
-        ItemStack itemstack = (ItemStack) this.getDataManager().get(EntityPotion.ITEM);
+    public ItemStack func_184543_l() {
+        ItemStack itemstack = (ItemStack) this.func_184212_Q().func_187225_a(EntityPotion.field_184545_d);
 
-        if (itemstack.getItem() != Items.SPLASH_POTION && itemstack.getItem() != Items.LINGERING_POTION) {
-            if (this.world != null) {
-                EntityPotion.LOGGER.error("ThrownPotion entity {} has no item?!", Integer.valueOf(this.getEntityId()));
+        if (itemstack.func_77973_b() != Items.field_185155_bH && itemstack.func_77973_b() != Items.field_185156_bI) {
+            if (this.field_70170_p != null) {
+                EntityPotion.field_184546_e.error("ThrownPotion entity {} has no item?!", Integer.valueOf(this.func_145782_y()));
             }
 
-            return new ItemStack(Items.SPLASH_POTION);
+            return new ItemStack(Items.field_185155_bH);
         } else {
             return itemstack;
         }
     }
 
-    public void setItem(ItemStack itemstack) {
-        this.getDataManager().set(EntityPotion.ITEM, itemstack);
-        this.getDataManager().setDirty(EntityPotion.ITEM);
+    public void func_184541_a(ItemStack itemstack) {
+        this.func_184212_Q().func_187227_b(EntityPotion.field_184545_d, itemstack);
+        this.func_184212_Q().func_187217_b(EntityPotion.field_184545_d);
     }
 
-    protected float getGravityVelocity() {
+    protected float func_70185_h() {
         return 0.05F;
     }
 
-    protected void onImpact(RayTraceResult movingobjectposition) {
-        if (!this.world.isRemote) {
-            ItemStack itemstack = this.getPotion();
-            PotionType potionregistry = PotionUtils.getPotionFromItem(itemstack);
-            List list = PotionUtils.getEffectsFromStack(itemstack);
-            boolean flag = potionregistry == PotionTypes.WATER && list.isEmpty();
+    protected void func_70184_a(RayTraceResult movingobjectposition) {
+        if (!this.field_70170_p.field_72995_K) {
+            ItemStack itemstack = this.func_184543_l();
+            PotionType potionregistry = PotionUtils.func_185191_c(itemstack);
+            List list = PotionUtils.func_185189_a(itemstack);
+            boolean flag = potionregistry == PotionTypes.field_185230_b && list.isEmpty();
 
-            if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK && flag) {
-                BlockPos blockposition = movingobjectposition.getBlockPos().offset(movingobjectposition.sideHit);
+            if (movingobjectposition.field_72313_a == RayTraceResult.Type.BLOCK && flag) {
+                BlockPos blockposition = movingobjectposition.func_178782_a().func_177972_a(movingobjectposition.field_178784_b);
 
-                this.extinguishFires(blockposition, movingobjectposition.sideHit);
+                this.func_184542_a(blockposition, movingobjectposition.field_178784_b);
                 Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 
                 while (iterator.hasNext()) {
                     EnumFacing enumdirection = (EnumFacing) iterator.next();
 
-                    this.extinguishFires(blockposition.offset(enumdirection), enumdirection);
+                    this.func_184542_a(blockposition.func_177972_a(enumdirection), enumdirection);
                 }
             }
 
             if (flag) {
-                this.applyWater();
+                this.func_190545_n();
             } else if (true || !list.isEmpty()) { // CraftBukkit - Call event even if no effects to apply
-                if (this.isLingering()) {
-                    this.makeAreaOfEffectCloud(itemstack, potionregistry);
+                if (this.func_184544_n()) {
+                    this.func_190542_a(itemstack, potionregistry);
                 } else {
-                    this.applySplash(movingobjectposition, list);
+                    this.func_190543_a(movingobjectposition, list);
                 }
             }
 
-            int i = potionregistry.hasInstantEffect() ? 2007 : 2002;
+            int i = potionregistry.func_185172_c() ? 2007 : 2002;
 
-            this.world.playEvent(i, new BlockPos(this), PotionUtils.getColor(itemstack));
-            this.setDead();
+            this.field_70170_p.func_175718_b(i, new BlockPos(this), PotionUtils.func_190932_c(itemstack));
+            this.func_70106_y();
         }
     }
 
-    private void applyWater() {
-        AxisAlignedBB axisalignedbb = this.getEntityBoundingBox().grow(4.0D, 2.0D, 4.0D);
-        List list = this.world.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb, EntityPotion.WATER_SENSITIVE);
+    private void func_190545_n() {
+        AxisAlignedBB axisalignedbb = this.func_174813_aQ().func_72314_b(4.0D, 2.0D, 4.0D);
+        List list = this.field_70170_p.func_175647_a(EntityLivingBase.class, axisalignedbb, EntityPotion.field_190546_d);
 
         if (!list.isEmpty()) {
             Iterator iterator = list.iterator();
 
             while (iterator.hasNext()) {
                 EntityLivingBase entityliving = (EntityLivingBase) iterator.next();
-                double d0 = this.getDistanceSq(entityliving);
+                double d0 = this.func_70068_e(entityliving);
 
-                if (d0 < 16.0D && isWaterSensitiveEntity(entityliving)) {
-                    entityliving.attackEntityFrom(DamageSource.DROWN, 1.0F);
+                if (d0 < 16.0D && func_190544_c(entityliving)) {
+                    entityliving.func_70097_a(DamageSource.field_76369_e, 1.0F);
                 }
             }
         }
 
     }
 
-    private void applySplash(RayTraceResult movingobjectposition, List<PotionEffect> list) {
-        AxisAlignedBB axisalignedbb = this.getEntityBoundingBox().grow(4.0D, 2.0D, 4.0D);
-        List list1 = this.world.getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb);
+    private void func_190543_a(RayTraceResult movingobjectposition, List<PotionEffect> list) {
+        AxisAlignedBB axisalignedbb = this.func_174813_aQ().func_72314_b(4.0D, 2.0D, 4.0D);
+        List list1 = this.field_70170_p.func_72872_a(EntityLivingBase.class, axisalignedbb);
         Map<LivingEntity, Double> affected = new HashMap<LivingEntity, Double>(); // CraftBukkit
 
         if (!list1.isEmpty()) {
@@ -171,13 +171,13 @@ public class EntityPotion extends EntityThrowable {
             while (iterator.hasNext()) {
                 EntityLivingBase entityliving = (EntityLivingBase) iterator.next();
 
-                if (entityliving.canBeHitWithPotion()) {
-                    double d0 = this.getDistanceSq(entityliving);
+                if (entityliving.func_184603_cC()) {
+                    double d0 = this.func_70068_e(entityliving);
 
                     if (d0 < 16.0D) {
                         double d1 = 1.0D - Math.sqrt(d0) / 4.0D;
 
-                        if (entityliving == movingobjectposition.entityHit) {
+                        if (entityliving == movingobjectposition.field_72308_g) {
                             d1 = 1.0D;
                         }
 
@@ -203,10 +203,10 @@ public class EntityPotion extends EntityThrowable {
 
                 while (iterator1.hasNext()) {
                     PotionEffect mobeffect = (PotionEffect) iterator1.next();
-                    Potion mobeffectlist = mobeffect.getPotion();
+                    Potion mobeffectlist = mobeffect.func_188419_a();
                     // CraftBukkit start - Abide by PVP settings - for players only!
-                    if (!this.world.pvpMode && this.getThrower() instanceof EntityPlayerMP && entityliving instanceof EntityPlayerMP && entityliving != this.getThrower()) {
-                        int i = Potion.getIdFromPotion(mobeffectlist);
+                    if (!this.field_70170_p.pvpMode && this.func_85052_h() instanceof EntityPlayerMP && entityliving instanceof EntityPlayerMP && entityliving != this.func_85052_h()) {
+                        int i = Potion.func_188409_a(mobeffectlist);
                         // Block SLOWER_MOVEMENT, SLOWER_DIG, HARM, BLINDNESS, HUNGER, WEAKNESS and POISON potions
                         if (i == 2 || i == 4 || i == 7 || i == 15 || i == 17 || i == 18 || i == 19) {
                             continue;
@@ -214,13 +214,13 @@ public class EntityPotion extends EntityThrowable {
                     }
                     // CraftBukkit end
 
-                    if (mobeffectlist.isInstant()) {
-                        mobeffectlist.affectEntity(this, this.getThrower(), entityliving, mobeffect.getAmplifier(), d1);
+                    if (mobeffectlist.func_76403_b()) {
+                        mobeffectlist.func_180793_a(this, this.func_85052_h(), entityliving, mobeffect.func_76458_c(), d1);
                     } else {
-                        int i = (int) (d1 * (double) mobeffect.getDuration() + 0.5D);
+                        int i = (int) (d1 * (double) mobeffect.func_76459_b() + 0.5D);
 
                         if (i > 20) {
-                            entityliving.addPotionEffect(new PotionEffect(mobeffectlist, i, mobeffect.getAmplifier(), mobeffect.getIsAmbient(), mobeffect.doesShowParticles()));
+                            entityliving.func_70690_d(new PotionEffect(mobeffectlist, i, mobeffect.func_76458_c(), mobeffect.func_82720_e(), mobeffect.func_188418_e()));
                         }
                     }
                 }
@@ -229,78 +229,78 @@ public class EntityPotion extends EntityThrowable {
 
     }
 
-    private void makeAreaOfEffectCloud(ItemStack itemstack, PotionType potionregistry) {
-        EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(this.world, this.posX, this.posY, this.posZ);
+    private void func_190542_a(ItemStack itemstack, PotionType potionregistry) {
+        EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(this.field_70170_p, this.field_70165_t, this.field_70163_u, this.field_70161_v);
 
-        entityareaeffectcloud.setOwner(this.getThrower());
-        entityareaeffectcloud.setRadius(3.0F);
-        entityareaeffectcloud.setRadiusOnUse(-0.5F);
-        entityareaeffectcloud.setWaitTime(10);
-        entityareaeffectcloud.setRadiusPerTick(-entityareaeffectcloud.getRadius() / (float) entityareaeffectcloud.getDuration());
-        entityareaeffectcloud.setPotion(potionregistry);
-        Iterator iterator = PotionUtils.getFullEffectsFromItem(itemstack).iterator();
+        entityareaeffectcloud.func_184481_a(this.func_85052_h());
+        entityareaeffectcloud.func_184483_a(3.0F);
+        entityareaeffectcloud.func_184495_b(-0.5F);
+        entityareaeffectcloud.func_184485_d(10);
+        entityareaeffectcloud.func_184487_c(-entityareaeffectcloud.func_184490_j() / (float) entityareaeffectcloud.func_184489_o());
+        entityareaeffectcloud.func_184484_a(potionregistry);
+        Iterator iterator = PotionUtils.func_185190_b(itemstack).iterator();
 
         while (iterator.hasNext()) {
             PotionEffect mobeffect = (PotionEffect) iterator.next();
 
-            entityareaeffectcloud.addEffect(new PotionEffect(mobeffect));
+            entityareaeffectcloud.func_184496_a(new PotionEffect(mobeffect));
         }
 
-        NBTTagCompound nbttagcompound = itemstack.getTagCompound();
+        NBTTagCompound nbttagcompound = itemstack.func_77978_p();
 
-        if (nbttagcompound != null && nbttagcompound.hasKey("CustomPotionColor", 99)) {
-            entityareaeffectcloud.setColor(nbttagcompound.getInteger("CustomPotionColor"));
+        if (nbttagcompound != null && nbttagcompound.func_150297_b("CustomPotionColor", 99)) {
+            entityareaeffectcloud.func_184482_a(nbttagcompound.func_74762_e("CustomPotionColor"));
         }
 
         // CraftBukkit start
         org.bukkit.event.entity.LingeringPotionSplashEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callLingeringPotionSplashEvent(this, entityareaeffectcloud);
-        if (!(event.isCancelled() || entityareaeffectcloud.isDead)) {
-            this.world.spawnEntity(entityareaeffectcloud);
+        if (!(event.isCancelled() || entityareaeffectcloud.field_70128_L)) {
+            this.field_70170_p.func_72838_d(entityareaeffectcloud);
         } else {
-            entityareaeffectcloud.isDead = true;
+            entityareaeffectcloud.field_70128_L = true;
         }
         // CraftBukkit end
     }
 
-    public boolean isLingering() {
-        return this.getPotion().getItem() == Items.LINGERING_POTION;
+    public boolean func_184544_n() {
+        return this.func_184543_l().func_77973_b() == Items.field_185156_bI;
     }
 
-    private void extinguishFires(BlockPos blockposition, EnumFacing enumdirection) {
-        if (this.world.getBlockState(blockposition).getBlock() == Blocks.FIRE) {
-            this.world.extinguishFire((EntityPlayer) null, blockposition.offset(enumdirection), enumdirection.getOpposite());
+    private void func_184542_a(BlockPos blockposition, EnumFacing enumdirection) {
+        if (this.field_70170_p.func_180495_p(blockposition).func_177230_c() == Blocks.field_150480_ab) {
+            this.field_70170_p.func_175719_a((EntityPlayer) null, blockposition.func_177972_a(enumdirection), enumdirection.func_176734_d());
         }
 
     }
 
-    public static void registerFixesPotion(DataFixer dataconvertermanager) {
-        EntityThrowable.registerFixesThrowable(dataconvertermanager, "ThrownPotion");
-        dataconvertermanager.registerWalker(FixTypes.ENTITY, (IDataWalker) (new ItemStackData(EntityPotion.class, new String[] { "Potion"})));
+    public static void func_189665_a(DataFixer dataconvertermanager) {
+        EntityThrowable.func_189661_a(dataconvertermanager, "ThrownPotion");
+        dataconvertermanager.func_188258_a(FixTypes.ENTITY, (IDataWalker) (new ItemStackData(EntityPotion.class, new String[] { "Potion"})));
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        ItemStack itemstack = new ItemStack(nbttagcompound.getCompoundTag("Potion"));
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        ItemStack itemstack = new ItemStack(nbttagcompound.func_74775_l("Potion"));
 
-        if (itemstack.isEmpty()) {
-            this.setDead();
+        if (itemstack.func_190926_b()) {
+            this.func_70106_y();
         } else {
-            this.setItem(itemstack);
+            this.func_184541_a(itemstack);
         }
 
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        ItemStack itemstack = this.getPotion();
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        ItemStack itemstack = this.func_184543_l();
 
-        if (!itemstack.isEmpty()) {
-            nbttagcompound.setTag("Potion", itemstack.writeToNBT(new NBTTagCompound()));
+        if (!itemstack.func_190926_b()) {
+            nbttagcompound.func_74782_a("Potion", itemstack.func_77955_b(new NBTTagCompound()));
         }
 
     }
 
-    private static boolean isWaterSensitiveEntity(EntityLivingBase entityliving) {
+    private static boolean func_190544_c(EntityLivingBase entityliving) {
         return entityliving instanceof EntityEnderman || entityliving instanceof EntityBlaze;
     }
 }

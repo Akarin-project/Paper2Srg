@@ -27,18 +27,18 @@ public class CraftAttributeInstance implements AttributeInstance {
 
     @Override
     public double getBaseValue() {
-        return handle.getBaseValue();
+        return handle.func_111125_b();
     }
 
     @Override
     public void setBaseValue(double d) {
-        handle.setBaseValue(d);
+        handle.func_111128_a(d);
     }
 
     @Override
     public Collection<AttributeModifier> getModifiers() {
         List<AttributeModifier> result = new ArrayList<AttributeModifier>();
-        for (entity.ai.attributes.AttributeModifier nms : handle.getModifiers()) {
+        for (entity.ai.attributes.AttributeModifier nms : handle.func_111122_c()) {
             result.add(convert(nms));
         }
 
@@ -48,23 +48,23 @@ public class CraftAttributeInstance implements AttributeInstance {
     @Override
     public void addModifier(AttributeModifier modifier) {
         Preconditions.checkArgument(modifier != null, "modifier");
-        handle.applyModifier(convert(modifier));
+        handle.func_111121_a(convert(modifier));
     }
 
     @Override
     public void removeModifier(AttributeModifier modifier) {
         Preconditions.checkArgument(modifier != null, "modifier");
-        handle.removeModifier(convert(modifier));
+        handle.func_111124_b(convert(modifier));
     }
 
     @Override
     public double getValue() {
-        return handle.getAttributeValue();
+        return handle.func_111126_e();
     }
 
     @Override
     public double getDefaultValue() {
-       return handle.getAttribute().getDefaultValue();
+       return handle.func_111123_a().func_111110_b();
     }
 
     private static entity.ai.attributes.AttributeModifier convert(AttributeModifier bukkit) {
@@ -72,6 +72,6 @@ public class CraftAttributeInstance implements AttributeInstance {
     }
 
     private static AttributeModifier convert(entity.ai.attributes.AttributeModifier nms) {
-        return new AttributeModifier(nms.getID(), nms.getName(), nms.getAmount(), AttributeModifier.Operation.values()[nms.getOperation()]);
+        return new AttributeModifier(nms.func_111167_a(), nms.func_111166_b(), nms.func_111164_d(), AttributeModifier.Operation.values()[nms.func_111169_c()]);
     }
 }

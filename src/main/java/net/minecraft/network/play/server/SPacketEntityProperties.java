@@ -16,94 +16,94 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketEntityProperties implements Packet<INetHandlerPlayClient> {
 
-    private int entityId;
-    private final List<SPacketEntityProperties.Snapshot> snapshots = Lists.newArrayList();
+    private int field_149445_a;
+    private final List<SPacketEntityProperties.Snapshot> field_149444_b = Lists.newArrayList();
 
     public SPacketEntityProperties() {}
 
     public SPacketEntityProperties(int i, Collection<IAttributeInstance> collection) {
-        this.entityId = i;
+        this.field_149445_a = i;
         Iterator iterator = collection.iterator();
 
         while (iterator.hasNext()) {
             IAttributeInstance attributeinstance = (IAttributeInstance) iterator.next();
 
-            this.snapshots.add(new SPacketEntityProperties.Snapshot(attributeinstance.getAttribute().getName(), attributeinstance.getBaseValue(), attributeinstance.getModifiers()));
+            this.field_149444_b.add(new SPacketEntityProperties.Snapshot(attributeinstance.func_111123_a().func_111108_a(), attributeinstance.func_111125_b(), attributeinstance.func_111122_c()));
         }
 
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.entityId = packetdataserializer.readVarInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149445_a = packetdataserializer.func_150792_a();
         int i = packetdataserializer.readInt();
 
         for (int j = 0; j < i; ++j) {
-            String s = packetdataserializer.readString(64);
+            String s = packetdataserializer.func_150789_c(64);
             double d0 = packetdataserializer.readDouble();
             ArrayList arraylist = Lists.newArrayList();
-            int k = packetdataserializer.readVarInt();
+            int k = packetdataserializer.func_150792_a();
 
             for (int l = 0; l < k; ++l) {
-                UUID uuid = packetdataserializer.readUniqueId();
+                UUID uuid = packetdataserializer.func_179253_g();
 
                 arraylist.add(new AttributeModifier(uuid, "Unknown synced attribute modifier", packetdataserializer.readDouble(), packetdataserializer.readByte()));
             }
 
-            this.snapshots.add(new SPacketEntityProperties.Snapshot(s, d0, arraylist));
+            this.field_149444_b.add(new SPacketEntityProperties.Snapshot(s, d0, arraylist));
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.entityId);
-        packetdataserializer.writeInt(this.snapshots.size());
-        Iterator iterator = this.snapshots.iterator();
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_149445_a);
+        packetdataserializer.writeInt(this.field_149444_b.size());
+        Iterator iterator = this.field_149444_b.iterator();
 
         while (iterator.hasNext()) {
             SPacketEntityProperties.Snapshot packetplayoutupdateattributes_attributesnapshot = (SPacketEntityProperties.Snapshot) iterator.next();
 
-            packetdataserializer.writeString(packetplayoutupdateattributes_attributesnapshot.getName());
-            packetdataserializer.writeDouble(packetplayoutupdateattributes_attributesnapshot.getBaseValue());
-            packetdataserializer.writeVarInt(packetplayoutupdateattributes_attributesnapshot.getModifiers().size());
-            Iterator iterator1 = packetplayoutupdateattributes_attributesnapshot.getModifiers().iterator();
+            packetdataserializer.func_180714_a(packetplayoutupdateattributes_attributesnapshot.func_151409_a());
+            packetdataserializer.writeDouble(packetplayoutupdateattributes_attributesnapshot.func_151410_b());
+            packetdataserializer.func_150787_b(packetplayoutupdateattributes_attributesnapshot.func_151408_c().size());
+            Iterator iterator1 = packetplayoutupdateattributes_attributesnapshot.func_151408_c().iterator();
 
             while (iterator1.hasNext()) {
                 AttributeModifier attributemodifier = (AttributeModifier) iterator1.next();
 
-                packetdataserializer.writeUniqueId(attributemodifier.getID());
-                packetdataserializer.writeDouble(attributemodifier.getAmount());
-                packetdataserializer.writeByte(attributemodifier.getOperation());
+                packetdataserializer.func_179252_a(attributemodifier.func_111167_a());
+                packetdataserializer.writeDouble(attributemodifier.func_111164_d());
+                packetdataserializer.writeByte(attributemodifier.func_111169_c());
             }
         }
 
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleEntityProperties(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147290_a(this);
     }
 
     public class Snapshot {
 
-        private final String name;
-        private final double baseValue;
-        private final Collection<AttributeModifier> modifiers;
+        private final String field_151412_b;
+        private final double field_151413_c;
+        private final Collection<AttributeModifier> field_151411_d;
 
         public Snapshot(String s, double d0, Collection collection) {
-            this.name = s;
-            this.baseValue = d0;
-            this.modifiers = collection;
+            this.field_151412_b = s;
+            this.field_151413_c = d0;
+            this.field_151411_d = collection;
         }
 
-        public String getName() {
-            return this.name;
+        public String func_151409_a() {
+            return this.field_151412_b;
         }
 
-        public double getBaseValue() {
-            return this.baseValue;
+        public double func_151410_b() {
+            return this.field_151413_c;
         }
 
-        public Collection<AttributeModifier> getModifiers() {
-            return this.modifiers;
+        public Collection<AttributeModifier> func_151408_c() {
+            return this.field_151411_d;
         }
     }
 }

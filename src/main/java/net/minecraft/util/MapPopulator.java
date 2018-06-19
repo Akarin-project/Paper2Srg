@@ -7,11 +7,11 @@ import java.util.NoSuchElementException;
 
 public class MapPopulator {
 
-    public static <K, V> Map<K, V> createMap(Iterable<K> iterable, Iterable<V> iterable1) {
-        return populateMap(iterable, iterable1, Maps.newLinkedHashMap());
+    public static <K, V> Map<K, V> func_179400_b(Iterable<K> iterable, Iterable<V> iterable1) {
+        return func_179399_a(iterable, iterable1, Maps.newLinkedHashMap());
     }
 
-    public static <K, V> Map<K, V> populateMap(Iterable<K> iterable, Iterable<V> iterable1, Map<K, V> map) {
+    public static <K, V> Map<K, V> func_179399_a(Iterable<K> iterable, Iterable<V> iterable1, Map<K, V> map) {
         Iterator iterator = iterable1.iterator();
         Iterator iterator1 = iterable.iterator();
 

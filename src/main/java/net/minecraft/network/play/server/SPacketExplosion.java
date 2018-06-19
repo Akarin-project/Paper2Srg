@@ -13,84 +13,84 @@ import net.minecraft.util.math.Vec3d;
 
 public class SPacketExplosion implements Packet<INetHandlerPlayClient> {
 
-    private double posX;
-    private double posY;
-    private double posZ;
-    private float strength;
-    private List<BlockPos> affectedBlockPositions;
-    private float motionX;
-    private float motionY;
-    private float motionZ;
+    private double field_149158_a;
+    private double field_149156_b;
+    private double field_149157_c;
+    private float field_149154_d;
+    private List<BlockPos> field_149155_e;
+    private float field_149152_f;
+    private float field_149153_g;
+    private float field_149159_h;
 
     public SPacketExplosion() {}
 
     public SPacketExplosion(double d0, double d1, double d2, float f, List<BlockPos> list, Vec3d vec3d) {
-        this.posX = d0;
-        this.posY = d1;
-        this.posZ = d2;
-        this.strength = f;
-        this.affectedBlockPositions = Lists.newArrayList(list);
+        this.field_149158_a = d0;
+        this.field_149156_b = d1;
+        this.field_149157_c = d2;
+        this.field_149154_d = f;
+        this.field_149155_e = Lists.newArrayList(list);
         if (vec3d != null) {
-            this.motionX = (float) vec3d.x;
-            this.motionY = (float) vec3d.y;
-            this.motionZ = (float) vec3d.z;
+            this.field_149152_f = (float) vec3d.field_72450_a;
+            this.field_149153_g = (float) vec3d.field_72448_b;
+            this.field_149159_h = (float) vec3d.field_72449_c;
         }
 
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.posX = (double) packetdataserializer.readFloat();
-        this.posY = (double) packetdataserializer.readFloat();
-        this.posZ = (double) packetdataserializer.readFloat();
-        this.strength = packetdataserializer.readFloat();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149158_a = (double) packetdataserializer.readFloat();
+        this.field_149156_b = (double) packetdataserializer.readFloat();
+        this.field_149157_c = (double) packetdataserializer.readFloat();
+        this.field_149154_d = packetdataserializer.readFloat();
         int i = packetdataserializer.readInt();
 
-        this.affectedBlockPositions = Lists.newArrayListWithCapacity(i);
-        int j = (int) this.posX;
-        int k = (int) this.posY;
-        int l = (int) this.posZ;
+        this.field_149155_e = Lists.newArrayListWithCapacity(i);
+        int j = (int) this.field_149158_a;
+        int k = (int) this.field_149156_b;
+        int l = (int) this.field_149157_c;
 
         for (int i1 = 0; i1 < i; ++i1) {
             int j1 = packetdataserializer.readByte() + j;
             int k1 = packetdataserializer.readByte() + k;
             int l1 = packetdataserializer.readByte() + l;
 
-            this.affectedBlockPositions.add(new BlockPos(j1, k1, l1));
+            this.field_149155_e.add(new BlockPos(j1, k1, l1));
         }
 
-        this.motionX = packetdataserializer.readFloat();
-        this.motionY = packetdataserializer.readFloat();
-        this.motionZ = packetdataserializer.readFloat();
+        this.field_149152_f = packetdataserializer.readFloat();
+        this.field_149153_g = packetdataserializer.readFloat();
+        this.field_149159_h = packetdataserializer.readFloat();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeFloat((float) this.posX);
-        packetdataserializer.writeFloat((float) this.posY);
-        packetdataserializer.writeFloat((float) this.posZ);
-        packetdataserializer.writeFloat(this.strength);
-        packetdataserializer.writeInt(this.affectedBlockPositions.size());
-        int i = (int) this.posX;
-        int j = (int) this.posY;
-        int k = (int) this.posZ;
-        Iterator iterator = this.affectedBlockPositions.iterator();
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeFloat((float) this.field_149158_a);
+        packetdataserializer.writeFloat((float) this.field_149156_b);
+        packetdataserializer.writeFloat((float) this.field_149157_c);
+        packetdataserializer.writeFloat(this.field_149154_d);
+        packetdataserializer.writeInt(this.field_149155_e.size());
+        int i = (int) this.field_149158_a;
+        int j = (int) this.field_149156_b;
+        int k = (int) this.field_149157_c;
+        Iterator iterator = this.field_149155_e.iterator();
 
         while (iterator.hasNext()) {
             BlockPos blockposition = (BlockPos) iterator.next();
-            int l = blockposition.getX() - i;
-            int i1 = blockposition.getY() - j;
-            int j1 = blockposition.getZ() - k;
+            int l = blockposition.func_177958_n() - i;
+            int i1 = blockposition.func_177956_o() - j;
+            int j1 = blockposition.func_177952_p() - k;
 
             packetdataserializer.writeByte(l);
             packetdataserializer.writeByte(i1);
             packetdataserializer.writeByte(j1);
         }
 
-        packetdataserializer.writeFloat(this.motionX);
-        packetdataserializer.writeFloat(this.motionY);
-        packetdataserializer.writeFloat(this.motionZ);
+        packetdataserializer.writeFloat(this.field_149152_f);
+        packetdataserializer.writeFloat(this.field_149153_g);
+        packetdataserializer.writeFloat(this.field_149159_h);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleExplosion(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147283_a(this);
     }
 }

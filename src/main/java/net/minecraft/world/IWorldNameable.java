@@ -4,9 +4,9 @@ import net.minecraft.util.text.ITextComponent;
 
 public interface IWorldNameable {
 
-    String getName();
+    String func_70005_c_();
 
-    boolean hasCustomName();
+    boolean func_145818_k_();
 
-    ITextComponent getDisplayName();
+    ITextComponent func_145748_c_();
 }

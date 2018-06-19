@@ -16,64 +16,58 @@ import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.CriterionTrigger;
-import net.minecraft.server.CriterionTriggerBredAnimals;
 import net.minecraft.server.CriterionTriggerBredAnimals.a;
 import net.minecraft.server.CriterionTriggerBredAnimals.b;
 import net.minecraft.util.ResourceLocation;
 
 public class BredAnimalsTrigger implements ICriterionTrigger<CriterionTriggerBredAnimals.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("bred_animals");
-    private final Map<PlayerAdvancements, CriterionTriggerBredAnimals.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_192171_a = new ResourceLocation("bred_animals");
+    private final Map<PlayerAdvancements, CriterionTriggerBredAnimals.a> field_192172_b = Maps.newHashMap();
 
     public BredAnimalsTrigger() {}
 
-    @Override
-    public ResourceLocation getId() {
-        return BredAnimalsTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return BredAnimalsTrigger.field_192171_a;
     }
 
-    @Override
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerBredAnimals.b> criteriontrigger_a) {
-        CriterionTriggerBredAnimals.a criteriontriggerbredanimals_a = this.listeners.get(advancementdataplayer);
+        CriterionTriggerBredAnimals.a criteriontriggerbredanimals_a = (CriterionTriggerBredAnimals.a) this.field_192172_b.get(advancementdataplayer);
 
         if (criteriontriggerbredanimals_a == null) {
             criteriontriggerbredanimals_a = new CriterionTriggerBredAnimals.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerbredanimals_a);
+            this.field_192172_b.put(advancementdataplayer, criteriontriggerbredanimals_a);
         }
 
         criteriontriggerbredanimals_a.a(criteriontrigger_a);
     }
 
-    @Override
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerBredAnimals.b> criteriontrigger_a) {
-        CriterionTriggerBredAnimals.a criteriontriggerbredanimals_a = this.listeners.get(advancementdataplayer);
+        CriterionTriggerBredAnimals.a criteriontriggerbredanimals_a = (CriterionTriggerBredAnimals.a) this.field_192172_b.get(advancementdataplayer);
 
         if (criteriontriggerbredanimals_a != null) {
             criteriontriggerbredanimals_a.b(criteriontrigger_a);
             if (criteriontriggerbredanimals_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192172_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    @Override
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192172_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerBredAnimals.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        EntityPredicate criterionconditionentity = EntityPredicate.deserialize(jsonobject.get("parent"));
-        EntityPredicate criterionconditionentity1 = EntityPredicate.deserialize(jsonobject.get("partner"));
-        EntityPredicate criterionconditionentity2 = EntityPredicate.deserialize(jsonobject.get("child"));
+        EntityPredicate criterionconditionentity = EntityPredicate.func_192481_a(jsonobject.get("parent"));
+        EntityPredicate criterionconditionentity1 = EntityPredicate.func_192481_a(jsonobject.get("partner"));
+        EntityPredicate criterionconditionentity2 = EntityPredicate.func_192481_a(jsonobject.get("child"));
 
         return new CriterionTriggerBredAnimals.b(criterionconditionentity, criterionconditionentity1, criterionconditionentity2);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, EntityAnimal entityanimal, EntityAnimal entityanimal1, EntityAgeable entityageable) {
-        CriterionTriggerBredAnimals.a criteriontriggerbredanimals_a = this.listeners.get(entityplayer.getAdvancements());
+    public void func_192168_a(EntityPlayerMP entityplayer, EntityAnimal entityanimal, EntityAnimal entityanimal1, EntityAgeable entityageable) {
+        CriterionTriggerBredAnimals.a criteriontriggerbredanimals_a = (CriterionTriggerBredAnimals.a) this.field_192172_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerbredanimals_a != null) {
             criteriontriggerbredanimals_a.a(entityplayer, entityanimal, entityanimal1, entityageable);
@@ -81,8 +75,7 @@ public class BredAnimalsTrigger implements ICriterionTrigger<CriterionTriggerBre
 
     }
 
-    @Override
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -143,14 +136,14 @@ public class BredAnimalsTrigger implements ICriterionTrigger<CriterionTriggerBre
         private final EntityPredicate c;
 
         public b(EntityPredicate criterionconditionentity, EntityPredicate criterionconditionentity1, EntityPredicate criterionconditionentity2) {
-            super(BredAnimalsTrigger.ID);
+            super(BredAnimalsTrigger.field_192171_a);
             this.a = criterionconditionentity;
             this.b = criterionconditionentity1;
             this.c = criterionconditionentity2;
         }
 
         public boolean a(EntityPlayerMP entityplayer, EntityAnimal entityanimal, EntityAnimal entityanimal1, EntityAgeable entityageable) {
-            return !this.c.test(entityplayer, entityageable) ? false : this.a.test(entityplayer, entityanimal) && this.b.test(entityplayer, entityanimal1) || this.a.test(entityplayer, entityanimal1) && this.b.test(entityplayer, entityanimal);
+            return !this.c.func_192482_a(entityplayer, entityageable) ? false : this.a.func_192482_a(entityplayer, entityanimal) && this.b.func_192482_a(entityplayer, entityanimal1) || this.a.func_192482_a(entityplayer, entityanimal1) && this.b.func_192482_a(entityplayer, entityanimal);
         }
     }
 }

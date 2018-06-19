@@ -17,29 +17,29 @@ public class CommandBroadcast extends CommandBase {
 
     public CommandBroadcast() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "say";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 1;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.say.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length > 0 && astring[0].length() > 0) {
-            ITextComponent ichatbasecomponent = getChatComponentFromNthArg(icommandlistener, astring, 0, true);
+            ITextComponent ichatbasecomponent = func_147176_a(icommandlistener, astring, 0, true);
 
-            minecraftserver.getPlayerList().sendMessage(new TextComponentTranslation("chat.type.announcement", new Object[] { icommandlistener.getDisplayName(), ichatbasecomponent}));
+            minecraftserver.func_184103_al().func_148539_a(new TextComponentTranslation("chat.type.announcement", new Object[] { icommandlistener.func_145748_c_(), ichatbasecomponent}));
         } else {
             throw new WrongUsageException("commands.say.usage", new Object[0]);
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length >= 1 ? getListOfStringsMatchingLastWord(astring, minecraftserver.getOnlinePlayerNames()) : Collections.emptyList();
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length >= 1 ? func_71530_a(astring, minecraftserver.func_71213_z()) : Collections.emptyList();
     }
 }

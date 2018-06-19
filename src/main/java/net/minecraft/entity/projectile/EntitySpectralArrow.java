@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class EntitySpectralArrow extends EntityArrow {
 
-    public int duration = 200;
+    public int field_184562_f = 200;
 
     public EntitySpectralArrow(World world) {
         super(world);
@@ -26,39 +26,39 @@ public class EntitySpectralArrow extends EntityArrow {
         super(world, d0, d1, d2);
     }
 
-    public void onUpdate() {
-        super.onUpdate();
-        if (this.world.isRemote && !this.inGround) {
-            this.world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+    public void func_70071_h_() {
+        super.func_70071_h_();
+        if (this.field_70170_p.field_72995_K && !this.field_70254_i) {
+            this.field_70170_p.func_175688_a(EnumParticleTypes.SPELL_INSTANT, this.field_70165_t, this.field_70163_u, this.field_70161_v, 0.0D, 0.0D, 0.0D, new int[0]);
         }
 
     }
 
-    protected ItemStack getArrowStack() {
-        return new ItemStack(Items.SPECTRAL_ARROW);
+    protected ItemStack func_184550_j() {
+        return new ItemStack(Items.field_185166_h);
     }
 
-    protected void arrowHit(EntityLivingBase entityliving) {
-        super.arrowHit(entityliving);
-        PotionEffect mobeffect = new PotionEffect(MobEffects.GLOWING, this.duration, 0);
+    protected void func_184548_a(EntityLivingBase entityliving) {
+        super.func_184548_a(entityliving);
+        PotionEffect mobeffect = new PotionEffect(MobEffects.field_188423_x, this.field_184562_f, 0);
 
-        entityliving.addPotionEffect(mobeffect);
+        entityliving.func_70690_d(mobeffect);
     }
 
-    public static void registerFixesSpectralArrow(DataFixer dataconvertermanager) {
-        EntityArrow.registerFixesArrow(dataconvertermanager, "SpectralArrow");
+    public static void func_189659_b(DataFixer dataconvertermanager) {
+        EntityArrow.func_189657_a(dataconvertermanager, "SpectralArrow");
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        if (nbttagcompound.hasKey("Duration")) {
-            this.duration = nbttagcompound.getInteger("Duration");
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        if (nbttagcompound.func_74764_b("Duration")) {
+            this.field_184562_f = nbttagcompound.func_74762_e("Duration");
         }
 
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setInteger("Duration", this.duration);
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74768_a("Duration", this.field_184562_f);
     }
 }

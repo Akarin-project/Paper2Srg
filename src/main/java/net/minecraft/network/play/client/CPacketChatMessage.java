@@ -8,7 +8,7 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketChatMessage implements Packet<INetHandlerPlayServer> {
 
-    private String message;
+    private String field_149440_a;
 
     public CPacketChatMessage() {}
 
@@ -17,22 +17,22 @@ public class CPacketChatMessage implements Packet<INetHandlerPlayServer> {
             s = s.substring(0, 256);
         }
 
-        this.message = s;
+        this.field_149440_a = s;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.message = packetdataserializer.readString(256);
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149440_a = packetdataserializer.func_150789_c(256);
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeString(this.message);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_180714_a(this.field_149440_a);
     }
 
     // Spigot Start
     private static final java.util.concurrent.ExecutorService executors = java.util.concurrent.Executors.newCachedThreadPool(
             new com.google.common.util.concurrent.ThreadFactoryBuilder().setDaemon( true ).setNameFormat( "Async Chat Thread - #%d" ).build() );
-    public void processPacket(final INetHandlerPlayServer packetlistenerplayin) {
-        if ( !message.startsWith("/") )
+    public void func_148833_a(final INetHandlerPlayServer packetlistenerplayin) {
+        if ( !field_149440_a.startsWith("/") )
         {
             executors.submit( new Runnable()
             {
@@ -40,16 +40,16 @@ public class CPacketChatMessage implements Packet<INetHandlerPlayServer> {
                 @Override
                 public void run()
                 {
-                    packetlistenerplayin.processChatMessage( CPacketChatMessage.this );
+                    packetlistenerplayin.func_147354_a( CPacketChatMessage.this );
                 }
             } );
             return;
         }
         // Spigot End
-        packetlistenerplayin.processChatMessage(this);
+        packetlistenerplayin.func_147354_a(this);
     }
 
-    public String getMessage() {
-        return this.message;
+    public String func_149439_c() {
+        return this.field_149440_a;
     }
 }

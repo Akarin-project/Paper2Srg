@@ -15,46 +15,46 @@ public class WorldGeneratorBonusChest extends WorldGenerator {
 
     public WorldGeneratorBonusChest() {}
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
-        for (IBlockState iblockdata = world.getBlockState(blockposition); (iblockdata.getMaterial() == Material.AIR || iblockdata.getMaterial() == Material.LEAVES) && blockposition.getY() > 1; iblockdata = world.getBlockState(blockposition)) {
-            blockposition = blockposition.down();
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
+        for (IBlockState iblockdata = world.func_180495_p(blockposition); (iblockdata.func_185904_a() == Material.field_151579_a || iblockdata.func_185904_a() == Material.field_151584_j) && blockposition.func_177956_o() > 1; iblockdata = world.func_180495_p(blockposition)) {
+            blockposition = blockposition.func_177977_b();
         }
 
-        if (blockposition.getY() < 1) {
+        if (blockposition.func_177956_o() < 1) {
             return false;
         } else {
-            blockposition = blockposition.up();
+            blockposition = blockposition.func_177984_a();
 
             for (int i = 0; i < 4; ++i) {
-                BlockPos blockposition1 = blockposition.add(random.nextInt(4) - random.nextInt(4), random.nextInt(3) - random.nextInt(3), random.nextInt(4) - random.nextInt(4));
+                BlockPos blockposition1 = blockposition.func_177982_a(random.nextInt(4) - random.nextInt(4), random.nextInt(3) - random.nextInt(3), random.nextInt(4) - random.nextInt(4));
 
-                if (world.isAirBlock(blockposition1) && world.getBlockState(blockposition1.down()).isTopSolid()) {
-                    world.setBlockState(blockposition1, Blocks.CHEST.getDefaultState(), 2);
-                    TileEntity tileentity = world.getTileEntity(blockposition1);
+                if (world.func_175623_d(blockposition1) && world.func_180495_p(blockposition1.func_177977_b()).func_185896_q()) {
+                    world.func_180501_a(blockposition1, Blocks.field_150486_ae.func_176223_P(), 2);
+                    TileEntity tileentity = world.func_175625_s(blockposition1);
 
                     if (tileentity instanceof TileEntityChest) {
-                        ((TileEntityChest) tileentity).setLootTable(LootTableList.CHESTS_SPAWN_BONUS_CHEST, random.nextLong());
+                        ((TileEntityChest) tileentity).func_189404_a(LootTableList.field_186420_b, random.nextLong());
                     }
 
-                    BlockPos blockposition2 = blockposition1.east();
-                    BlockPos blockposition3 = blockposition1.west();
-                    BlockPos blockposition4 = blockposition1.north();
-                    BlockPos blockposition5 = blockposition1.south();
+                    BlockPos blockposition2 = blockposition1.func_177974_f();
+                    BlockPos blockposition3 = blockposition1.func_177976_e();
+                    BlockPos blockposition4 = blockposition1.func_177978_c();
+                    BlockPos blockposition5 = blockposition1.func_177968_d();
 
-                    if (world.isAirBlock(blockposition3) && world.getBlockState(blockposition3.down()).isTopSolid()) {
-                        world.setBlockState(blockposition3, Blocks.TORCH.getDefaultState(), 2);
+                    if (world.func_175623_d(blockposition3) && world.func_180495_p(blockposition3.func_177977_b()).func_185896_q()) {
+                        world.func_180501_a(blockposition3, Blocks.field_150478_aa.func_176223_P(), 2);
                     }
 
-                    if (world.isAirBlock(blockposition2) && world.getBlockState(blockposition2.down()).isTopSolid()) {
-                        world.setBlockState(blockposition2, Blocks.TORCH.getDefaultState(), 2);
+                    if (world.func_175623_d(blockposition2) && world.func_180495_p(blockposition2.func_177977_b()).func_185896_q()) {
+                        world.func_180501_a(blockposition2, Blocks.field_150478_aa.func_176223_P(), 2);
                     }
 
-                    if (world.isAirBlock(blockposition4) && world.getBlockState(blockposition4.down()).isTopSolid()) {
-                        world.setBlockState(blockposition4, Blocks.TORCH.getDefaultState(), 2);
+                    if (world.func_175623_d(blockposition4) && world.func_180495_p(blockposition4.func_177977_b()).func_185896_q()) {
+                        world.func_180501_a(blockposition4, Blocks.field_150478_aa.func_176223_P(), 2);
                     }
 
-                    if (world.isAirBlock(blockposition5) && world.getBlockState(blockposition5.down()).isTopSolid()) {
-                        world.setBlockState(blockposition5, Blocks.TORCH.getDefaultState(), 2);
+                    if (world.func_175623_d(blockposition5) && world.func_180495_p(blockposition5.func_177977_b()).func_185896_q()) {
+                        world.func_180501_a(blockposition5, Blocks.field_150478_aa.func_176223_P(), 2);
                     }
 
                     return true;

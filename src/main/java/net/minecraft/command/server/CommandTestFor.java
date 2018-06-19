@@ -21,50 +21,50 @@ public class CommandTestFor extends CommandBase {
 
     public CommandTestFor() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "testfor";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 2;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.testfor.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 1) {
             throw new WrongUsageException("commands.testfor.usage", new Object[0]);
         } else {
-            Entity entity = getEntity(minecraftserver, icommandlistener, astring[0]);
+            Entity entity = func_184885_b(minecraftserver, icommandlistener, astring[0]);
             NBTTagCompound nbttagcompound = null;
 
             if (astring.length >= 2) {
                 try {
-                    nbttagcompound = JsonToNBT.getTagFromJson(buildString(astring, 1));
+                    nbttagcompound = JsonToNBT.func_180713_a(func_180529_a(astring, 1));
                 } catch (NBTException mojangsonparseexception) {
                     throw new CommandException("commands.testfor.tagError", new Object[] { mojangsonparseexception.getMessage()});
                 }
             }
 
             if (nbttagcompound != null) {
-                NBTTagCompound nbttagcompound1 = entityToNBT(entity);
+                NBTTagCompound nbttagcompound1 = func_184887_a(entity);
 
-                if (!NBTUtil.areNBTEquals(nbttagcompound, nbttagcompound1, true)) {
-                    throw new CommandException("commands.testfor.failure", new Object[] { entity.getName()});
+                if (!NBTUtil.func_181123_a(nbttagcompound, nbttagcompound1, true)) {
+                    throw new CommandException("commands.testfor.failure", new Object[] { entity.func_70005_c_()});
                 }
             }
 
-            notifyCommandListener(icommandlistener, (ICommand) this, "commands.testfor.success", new Object[] { entity.getName()});
+            func_152373_a(icommandlistener, (ICommand) this, "commands.testfor.success", new Object[] { entity.func_70005_c_()});
         }
     }
 
-    public boolean isUsernameIndex(String[] astring, int i) {
+    public boolean func_82358_a(String[] astring, int i) {
         return i == 0;
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, minecraftserver.getOnlinePlayerNames()) : Collections.emptyList();
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length == 1 ? func_71530_a(astring, minecraftserver.func_71213_z()) : Collections.emptyList();
     }
 }

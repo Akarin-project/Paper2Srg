@@ -26,140 +26,140 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 
 public class BlockTrapDoor extends Block {
 
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    public static final PropertyBool OPEN = PropertyBool.create("open");
-    public static final PropertyEnum<BlockTrapDoor.DoorHalf> HALF = PropertyEnum.create("half", BlockTrapDoor.DoorHalf.class);
-    protected static final AxisAlignedBB EAST_OPEN_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB WEST_OPEN_AABB = new AxisAlignedBB(0.8125D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB SOUTH_OPEN_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
-    protected static final AxisAlignedBB NORTH_OPEN_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB BOTTOM_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.1875D, 1.0D);
-    protected static final AxisAlignedBB TOP_AABB = new AxisAlignedBB(0.0D, 0.8125D, 0.0D, 1.0D, 1.0D, 1.0D);
+    public static final PropertyDirection field_176284_a = BlockHorizontal.field_185512_D;
+    public static final PropertyBool field_176283_b = PropertyBool.func_177716_a("open");
+    public static final PropertyEnum<BlockTrapDoor.DoorHalf> field_176285_M = PropertyEnum.func_177709_a("half", BlockTrapDoor.DoorHalf.class);
+    protected static final AxisAlignedBB field_185734_d = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB field_185735_e = new AxisAlignedBB(0.8125D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB field_185736_f = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
+    protected static final AxisAlignedBB field_185737_g = new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB field_185732_B = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.1875D, 1.0D);
+    protected static final AxisAlignedBB field_185733_C = new AxisAlignedBB(0.0D, 0.8125D, 0.0D, 1.0D, 1.0D, 1.0D);
 
     protected BlockTrapDoor(Material material) {
         super(material);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockTrapDoor.FACING, EnumFacing.NORTH).withProperty(BlockTrapDoor.OPEN, Boolean.valueOf(false)).withProperty(BlockTrapDoor.HALF, BlockTrapDoor.DoorHalf.BOTTOM));
-        this.setCreativeTab(CreativeTabs.REDSTONE);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockTrapDoor.field_176284_a, EnumFacing.NORTH).func_177226_a(BlockTrapDoor.field_176283_b, Boolean.valueOf(false)).func_177226_a(BlockTrapDoor.field_176285_M, BlockTrapDoor.DoorHalf.BOTTOM));
+        this.func_149647_a(CreativeTabs.field_78028_d);
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
         AxisAlignedBB axisalignedbb;
 
-        if (((Boolean) iblockdata.getValue(BlockTrapDoor.OPEN)).booleanValue()) {
-            switch ((EnumFacing) iblockdata.getValue(BlockTrapDoor.FACING)) {
+        if (((Boolean) iblockdata.func_177229_b(BlockTrapDoor.field_176283_b)).booleanValue()) {
+            switch ((EnumFacing) iblockdata.func_177229_b(BlockTrapDoor.field_176284_a)) {
             case NORTH:
             default:
-                axisalignedbb = BlockTrapDoor.NORTH_OPEN_AABB;
+                axisalignedbb = BlockTrapDoor.field_185737_g;
                 break;
 
             case SOUTH:
-                axisalignedbb = BlockTrapDoor.SOUTH_OPEN_AABB;
+                axisalignedbb = BlockTrapDoor.field_185736_f;
                 break;
 
             case WEST:
-                axisalignedbb = BlockTrapDoor.WEST_OPEN_AABB;
+                axisalignedbb = BlockTrapDoor.field_185735_e;
                 break;
 
             case EAST:
-                axisalignedbb = BlockTrapDoor.EAST_OPEN_AABB;
+                axisalignedbb = BlockTrapDoor.field_185734_d;
             }
-        } else if (iblockdata.getValue(BlockTrapDoor.HALF) == BlockTrapDoor.DoorHalf.TOP) {
-            axisalignedbb = BlockTrapDoor.TOP_AABB;
+        } else if (iblockdata.func_177229_b(BlockTrapDoor.field_176285_M) == BlockTrapDoor.DoorHalf.TOP) {
+            axisalignedbb = BlockTrapDoor.field_185733_C;
         } else {
-            axisalignedbb = BlockTrapDoor.BOTTOM_AABB;
+            axisalignedbb = BlockTrapDoor.field_185732_B;
         }
 
         return axisalignedbb;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isPassable(IBlockAccess iblockaccess, BlockPos blockposition) {
-        return !((Boolean) iblockaccess.getBlockState(blockposition).getValue(BlockTrapDoor.OPEN)).booleanValue();
+    public boolean func_176205_b(IBlockAccess iblockaccess, BlockPos blockposition) {
+        return !((Boolean) iblockaccess.func_180495_p(blockposition).func_177229_b(BlockTrapDoor.field_176283_b)).booleanValue();
     }
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        if (this.blockMaterial == Material.IRON) {
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        if (this.field_149764_J == Material.field_151573_f) {
             return false;
         } else {
-            iblockdata = iblockdata.cycleProperty((IProperty) BlockTrapDoor.OPEN);
-            world.setBlockState(blockposition, iblockdata, 2);
-            this.playSound(entityhuman, world, blockposition, ((Boolean) iblockdata.getValue(BlockTrapDoor.OPEN)).booleanValue());
+            iblockdata = iblockdata.func_177231_a((IProperty) BlockTrapDoor.field_176283_b);
+            world.func_180501_a(blockposition, iblockdata, 2);
+            this.func_185731_a(entityhuman, world, blockposition, ((Boolean) iblockdata.func_177229_b(BlockTrapDoor.field_176283_b)).booleanValue());
             return true;
         }
     }
 
-    protected void playSound(@Nullable EntityPlayer entityhuman, World world, BlockPos blockposition, boolean flag) {
+    protected void func_185731_a(@Nullable EntityPlayer entityhuman, World world, BlockPos blockposition, boolean flag) {
         int i;
 
         if (flag) {
-            i = this.blockMaterial == Material.IRON ? 1037 : 1007;
-            world.playEvent(entityhuman, i, blockposition, 0);
+            i = this.field_149764_J == Material.field_151573_f ? 1037 : 1007;
+            world.func_180498_a(entityhuman, i, blockposition, 0);
         } else {
-            i = this.blockMaterial == Material.IRON ? 1036 : 1013;
-            world.playEvent(entityhuman, i, blockposition, 0);
+            i = this.field_149764_J == Material.field_151573_f ? 1036 : 1013;
+            world.func_180498_a(entityhuman, i, blockposition, 0);
         }
 
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        if (!world.isRemote) {
-            boolean flag = world.isBlockPowered(blockposition);
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        if (!world.field_72995_K) {
+            boolean flag = world.func_175640_z(blockposition);
 
-            if (flag || block.getDefaultState().canProvidePower()) {
+            if (flag || block.func_176223_P().func_185897_m()) {
                 // CraftBukkit start
                 org.bukkit.World bworld = world.getWorld();
-                org.bukkit.block.Block bblock = bworld.getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ());
+                org.bukkit.block.Block bblock = bworld.getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
 
                 int power = bblock.getBlockPower();
-                int oldPower = (Boolean) iblockdata.getValue(OPEN) ? 15 : 0;
+                int oldPower = (Boolean) iblockdata.func_177229_b(field_176283_b) ? 15 : 0;
 
-                if (oldPower == 0 ^ power == 0 || block.getDefaultState().hasComparatorInputOverride()) {
+                if (oldPower == 0 ^ power == 0 || block.func_176223_P().func_185912_n()) {
                     BlockRedstoneEvent eventRedstone = new BlockRedstoneEvent(bblock, oldPower, power);
                     world.getServer().getPluginManager().callEvent(eventRedstone);
                     flag = eventRedstone.getNewCurrent() > 0;
                 }
                 // CraftBukkit end
-                boolean flag1 = ((Boolean) iblockdata.getValue(BlockTrapDoor.OPEN)).booleanValue();
+                boolean flag1 = ((Boolean) iblockdata.func_177229_b(BlockTrapDoor.field_176283_b)).booleanValue();
 
                 if (flag1 != flag) {
-                    world.setBlockState(blockposition, iblockdata.withProperty(BlockTrapDoor.OPEN, Boolean.valueOf(flag)), 2);
-                    this.playSound((EntityPlayer) null, world, blockposition, flag);
+                    world.func_180501_a(blockposition, iblockdata.func_177226_a(BlockTrapDoor.field_176283_b, Boolean.valueOf(flag)), 2);
+                    this.func_185731_a((EntityPlayer) null, world, blockposition, flag);
                 }
             }
 
         }
     }
 
-    public IBlockState getStateForPlacement(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
-        IBlockState iblockdata = this.getDefaultState();
+    public IBlockState func_180642_a(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
+        IBlockState iblockdata = this.func_176223_P();
 
-        if (enumdirection.getAxis().isHorizontal()) {
-            iblockdata = iblockdata.withProperty(BlockTrapDoor.FACING, enumdirection).withProperty(BlockTrapDoor.OPEN, Boolean.valueOf(false));
-            iblockdata = iblockdata.withProperty(BlockTrapDoor.HALF, f1 > 0.5F ? BlockTrapDoor.DoorHalf.TOP : BlockTrapDoor.DoorHalf.BOTTOM);
+        if (enumdirection.func_176740_k().func_176722_c()) {
+            iblockdata = iblockdata.func_177226_a(BlockTrapDoor.field_176284_a, enumdirection).func_177226_a(BlockTrapDoor.field_176283_b, Boolean.valueOf(false));
+            iblockdata = iblockdata.func_177226_a(BlockTrapDoor.field_176285_M, f1 > 0.5F ? BlockTrapDoor.DoorHalf.TOP : BlockTrapDoor.DoorHalf.BOTTOM);
         } else {
-            iblockdata = iblockdata.withProperty(BlockTrapDoor.FACING, entityliving.getHorizontalFacing().getOpposite()).withProperty(BlockTrapDoor.OPEN, Boolean.valueOf(false));
-            iblockdata = iblockdata.withProperty(BlockTrapDoor.HALF, enumdirection == EnumFacing.UP ? BlockTrapDoor.DoorHalf.BOTTOM : BlockTrapDoor.DoorHalf.TOP);
+            iblockdata = iblockdata.func_177226_a(BlockTrapDoor.field_176284_a, entityliving.func_174811_aO().func_176734_d()).func_177226_a(BlockTrapDoor.field_176283_b, Boolean.valueOf(false));
+            iblockdata = iblockdata.func_177226_a(BlockTrapDoor.field_176285_M, enumdirection == EnumFacing.UP ? BlockTrapDoor.DoorHalf.BOTTOM : BlockTrapDoor.DoorHalf.TOP);
         }
 
-        if (world.isBlockPowered(blockposition)) {
-            iblockdata = iblockdata.withProperty(BlockTrapDoor.OPEN, Boolean.valueOf(true));
+        if (world.func_175640_z(blockposition)) {
+            iblockdata = iblockdata.func_177226_a(BlockTrapDoor.field_176283_b, Boolean.valueOf(true));
         }
 
         return iblockdata;
     }
 
-    public boolean canPlaceBlockOnSide(World world, BlockPos blockposition, EnumFacing enumdirection) {
+    public boolean func_176198_a(World world, BlockPos blockposition, EnumFacing enumdirection) {
         return true;
     }
 
-    protected static EnumFacing getFacing(int i) {
+    protected static EnumFacing func_176281_b(int i) {
         switch (i & 3) {
         case 0:
             return EnumFacing.NORTH;
@@ -176,7 +176,7 @@ public class BlockTrapDoor extends Block {
         }
     }
 
-    protected static int getMetaForFacing(EnumFacing enumdirection) {
+    protected static int func_176282_a(EnumFacing enumdirection) {
         switch (enumdirection) {
         case NORTH:
             return 0;
@@ -193,57 +193,57 @@ public class BlockTrapDoor extends Block {
         }
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockTrapDoor.FACING, getFacing(i)).withProperty(BlockTrapDoor.OPEN, Boolean.valueOf((i & 4) != 0)).withProperty(BlockTrapDoor.HALF, (i & 8) == 0 ? BlockTrapDoor.DoorHalf.BOTTOM : BlockTrapDoor.DoorHalf.TOP);
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockTrapDoor.field_176284_a, func_176281_b(i)).func_177226_a(BlockTrapDoor.field_176283_b, Boolean.valueOf((i & 4) != 0)).func_177226_a(BlockTrapDoor.field_176285_M, (i & 8) == 0 ? BlockTrapDoor.DoorHalf.BOTTOM : BlockTrapDoor.DoorHalf.TOP);
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         byte b0 = 0;
-        int i = b0 | getMetaForFacing((EnumFacing) iblockdata.getValue(BlockTrapDoor.FACING));
+        int i = b0 | func_176282_a((EnumFacing) iblockdata.func_177229_b(BlockTrapDoor.field_176284_a));
 
-        if (((Boolean) iblockdata.getValue(BlockTrapDoor.OPEN)).booleanValue()) {
+        if (((Boolean) iblockdata.func_177229_b(BlockTrapDoor.field_176283_b)).booleanValue()) {
             i |= 4;
         }
 
-        if (iblockdata.getValue(BlockTrapDoor.HALF) == BlockTrapDoor.DoorHalf.TOP) {
+        if (iblockdata.func_177229_b(BlockTrapDoor.field_176285_M) == BlockTrapDoor.DoorHalf.TOP) {
             i |= 8;
         }
 
         return i;
     }
 
-    public IBlockState withRotation(IBlockState iblockdata, Rotation enumblockrotation) {
-        return iblockdata.withProperty(BlockTrapDoor.FACING, enumblockrotation.rotate((EnumFacing) iblockdata.getValue(BlockTrapDoor.FACING)));
+    public IBlockState func_185499_a(IBlockState iblockdata, Rotation enumblockrotation) {
+        return iblockdata.func_177226_a(BlockTrapDoor.field_176284_a, enumblockrotation.func_185831_a((EnumFacing) iblockdata.func_177229_b(BlockTrapDoor.field_176284_a)));
     }
 
-    public IBlockState withMirror(IBlockState iblockdata, Mirror enumblockmirror) {
-        return iblockdata.withRotation(enumblockmirror.toRotation((EnumFacing) iblockdata.getValue(BlockTrapDoor.FACING)));
+    public IBlockState func_185471_a(IBlockState iblockdata, Mirror enumblockmirror) {
+        return iblockdata.func_185907_a(enumblockmirror.func_185800_a((EnumFacing) iblockdata.func_177229_b(BlockTrapDoor.field_176284_a)));
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockTrapDoor.FACING, BlockTrapDoor.OPEN, BlockTrapDoor.HALF});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockTrapDoor.field_176284_a, BlockTrapDoor.field_176283_b, BlockTrapDoor.field_176285_M});
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
-        return (enumdirection == EnumFacing.UP && iblockdata.getValue(BlockTrapDoor.HALF) == BlockTrapDoor.DoorHalf.TOP || enumdirection == EnumFacing.DOWN && iblockdata.getValue(BlockTrapDoor.HALF) == BlockTrapDoor.DoorHalf.BOTTOM) && !((Boolean) iblockdata.getValue(BlockTrapDoor.OPEN)).booleanValue() ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+        return (enumdirection == EnumFacing.UP && iblockdata.func_177229_b(BlockTrapDoor.field_176285_M) == BlockTrapDoor.DoorHalf.TOP || enumdirection == EnumFacing.DOWN && iblockdata.func_177229_b(BlockTrapDoor.field_176285_M) == BlockTrapDoor.DoorHalf.BOTTOM) && !((Boolean) iblockdata.func_177229_b(BlockTrapDoor.field_176283_b)).booleanValue() ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
 
     public static enum DoorHalf implements IStringSerializable {
 
         TOP("top"), BOTTOM("bottom");
 
-        private final String name;
+        private final String field_176671_c;
 
         private DoorHalf(String s) {
-            this.name = s;
+            this.field_176671_c = s;
         }
 
         public String toString() {
-            return this.name;
+            return this.field_176671_c;
         }
 
-        public String getName() {
-            return this.name;
+        public String func_176610_l() {
+            return this.field_176671_c;
         }
     }
 }

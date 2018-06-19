@@ -9,36 +9,36 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketCustomPayload implements Packet<INetHandlerPlayClient> {
 
-    private String channel;
-    private PacketBuffer data;
+    private String field_149172_a;
+    private PacketBuffer field_149171_b;
 
     public SPacketCustomPayload() {}
 
     public SPacketCustomPayload(String s, PacketBuffer packetdataserializer) {
-        this.channel = s;
-        this.data = packetdataserializer;
+        this.field_149172_a = s;
+        this.field_149171_b = packetdataserializer;
         if (packetdataserializer.writerIndex() > 1048576) {
             throw new IllegalArgumentException("Payload may not be larger than 1048576 bytes");
         }
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.channel = packetdataserializer.readString(20);
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149172_a = packetdataserializer.func_150789_c(20);
         int i = packetdataserializer.readableBytes();
 
         if (i >= 0 && i <= 1048576) {
-            this.data = new PacketBuffer(packetdataserializer.readBytes(i));
+            this.field_149171_b = new PacketBuffer(packetdataserializer.readBytes(i));
         } else {
             throw new IOException("Payload may not be larger than 1048576 bytes");
         }
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeString(this.channel);
-        packetdataserializer.writeBytes((ByteBuf) this.data);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_180714_a(this.field_149172_a);
+        packetdataserializer.writeBytes((ByteBuf) this.field_149171_b);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleCustomPayload(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147240_a(this);
     }
 }

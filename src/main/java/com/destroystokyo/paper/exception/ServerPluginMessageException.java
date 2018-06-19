@@ -3,7 +3,6 @@ package com.destroystokyo.paper.exception;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import static com.google.common.base.Preconditions.*;
 
 /**
  * Thrown when an incoming plugin message channel throws an exception

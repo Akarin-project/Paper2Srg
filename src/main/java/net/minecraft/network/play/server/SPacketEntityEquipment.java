@@ -10,34 +10,34 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketEntityEquipment implements Packet<INetHandlerPlayClient> {
 
-    private int entityID;
-    private EntityEquipmentSlot equipmentSlot;
-    private ItemStack itemStack;
+    private int field_149394_a;
+    private EntityEquipmentSlot field_149392_b;
+    private ItemStack field_149393_c;
 
     public SPacketEntityEquipment() {
-        this.itemStack = ItemStack.EMPTY;
+        this.field_149393_c = ItemStack.field_190927_a;
     }
 
     public SPacketEntityEquipment(int i, EntityEquipmentSlot enumitemslot, ItemStack itemstack) {
-        this.itemStack = ItemStack.EMPTY;
-        this.entityID = i;
-        this.equipmentSlot = enumitemslot;
-        this.itemStack = itemstack.copy();
+        this.field_149393_c = ItemStack.field_190927_a;
+        this.field_149394_a = i;
+        this.field_149392_b = enumitemslot;
+        this.field_149393_c = itemstack.func_77946_l();
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.entityID = packetdataserializer.readVarInt();
-        this.equipmentSlot = (EntityEquipmentSlot) packetdataserializer.readEnumValue(EntityEquipmentSlot.class);
-        this.itemStack = packetdataserializer.readItemStack();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149394_a = packetdataserializer.func_150792_a();
+        this.field_149392_b = (EntityEquipmentSlot) packetdataserializer.func_179257_a(EntityEquipmentSlot.class);
+        this.field_149393_c = packetdataserializer.func_150791_c();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.entityID);
-        packetdataserializer.writeEnumValue((Enum) this.equipmentSlot);
-        packetdataserializer.writeItemStack(this.itemStack);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_149394_a);
+        packetdataserializer.func_179249_a((Enum) this.field_149392_b);
+        packetdataserializer.func_150788_a(this.field_149393_c);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleEntityEquipment(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147242_a(this);
     }
 }

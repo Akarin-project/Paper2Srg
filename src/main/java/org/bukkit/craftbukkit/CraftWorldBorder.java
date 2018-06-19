@@ -15,7 +15,7 @@ public class CraftWorldBorder implements WorldBorder {
 
     public CraftWorldBorder(CraftWorld world) {
         this.world = world;
-        this.handle = world.getHandle().getWorldBorder();
+        this.handle = world.getHandle().func_175723_af();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CraftWorldBorder implements WorldBorder {
 
     @Override
     public double getSize() {
-        return this.handle.getDiameter();
+        return this.handle.func_177741_h();
     }
 
     @Override
@@ -45,16 +45,16 @@ public class CraftWorldBorder implements WorldBorder {
         time = Math.min(9223372036854775L, Math.max(0L, time));
 
         if (time > 0L) {
-            this.handle.setTransition(this.handle.getDiameter(), newSize, time * 1000L);
+            this.handle.func_177738_a(this.handle.func_177741_h(), newSize, time * 1000L);
         } else {
-            this.handle.setTransition(newSize); 
+            this.handle.func_177750_a(newSize); 
         }
     }
 
     @Override
     public Location getCenter() {
-        double x = this.handle.getCenterX(); 
-        double z = this.handle.getCenterZ(); 
+        double x = this.handle.func_177731_f(); 
+        double z = this.handle.func_177721_g(); 
 
         return new Location(this.world, x, 0, z);
     }
@@ -65,7 +65,7 @@ public class CraftWorldBorder implements WorldBorder {
         x = Math.min(3.0E7D, Math.max(-3.0E7D, x));
         z = Math.min(3.0E7D, Math.max(-3.0E7D, z));
 
-        this.handle.setCenter(x, z); 
+        this.handle.func_177739_c(x, z); 
     }
 
     @Override
@@ -75,48 +75,48 @@ public class CraftWorldBorder implements WorldBorder {
 
     @Override
     public double getDamageBuffer() {
-        return this.handle.getDamageBuffer();
+        return this.handle.func_177742_m();
     }
 
     @Override
     public void setDamageBuffer(double blocks) {
-        this.handle.setDamageBuffer(blocks);
+        this.handle.func_177724_b(blocks);
     }
 
     @Override
     public double getDamageAmount() {
-        return this.handle.getDamageAmount();
+        return this.handle.func_177727_n();
     }
 
     @Override
     public void setDamageAmount(double damage) {
-        this.handle.setDamageAmount(damage);
+        this.handle.func_177744_c(damage);
     }
 
     @Override
     public int getWarningTime() {
-        return this.handle.getWarningTime();
+        return this.handle.func_177740_p();
     }
 
     @Override
     public void setWarningTime(int time) {
-        this.handle.setWarningTime(time);
+        this.handle.func_177723_b(time);
     }
 
     @Override
     public int getWarningDistance() {
-        return this.handle.getWarningDistance();
+        return this.handle.func_177748_q();
     }
 
     @Override
     public void setWarningDistance(int distance) {
-        this.handle.setWarningDistance(distance); 
+        this.handle.func_177747_c(distance); 
     }
 
     @Override
     public boolean isInside(Location location) {
         Preconditions.checkArgument(location != null, "location");
 
-        return location.getWorld().equals(this.world) && this.handle.contains(new BlockPos(location.getX(), location.getY(), location.getZ()));
+        return location.getWorld().equals(this.world) && this.handle.func_177746_a(new BlockPos(location.getX(), location.getY(), location.getZ()));
     }
 }

@@ -11,30 +11,30 @@ public class ItemAppleGold extends ItemFood {
 
     public ItemAppleGold(int i, float f, boolean flag) {
         super(i, f, flag);
-        this.setHasSubtypes(true);
+        this.func_77627_a(true);
     }
 
-    public EnumRarity getRarity(ItemStack itemstack) {
-        return itemstack.getMetadata() == 0 ? EnumRarity.RARE : EnumRarity.EPIC;
+    public EnumRarity func_77613_e(ItemStack itemstack) {
+        return itemstack.func_77960_j() == 0 ? EnumRarity.RARE : EnumRarity.EPIC;
     }
 
-    protected void onFoodEaten(ItemStack itemstack, World world, EntityPlayer entityhuman) {
-        if (!world.isRemote) {
-            if (itemstack.getMetadata() > 0) {
-                entityhuman.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 400, 1));
-                entityhuman.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 6000, 0));
-                entityhuman.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 6000, 0));
-                entityhuman.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 2400, 3));
+    protected void func_77849_c(ItemStack itemstack, World world, EntityPlayer entityhuman) {
+        if (!world.field_72995_K) {
+            if (itemstack.func_77960_j() > 0) {
+                entityhuman.func_70690_d(new PotionEffect(MobEffects.field_76428_l, 400, 1));
+                entityhuman.func_70690_d(new PotionEffect(MobEffects.field_76429_m, 6000, 0));
+                entityhuman.func_70690_d(new PotionEffect(MobEffects.field_76426_n, 6000, 0));
+                entityhuman.func_70690_d(new PotionEffect(MobEffects.field_76444_x, 2400, 3));
             } else {
-                entityhuman.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100, 1));
-                entityhuman.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 2400, 0));
+                entityhuman.func_70690_d(new PotionEffect(MobEffects.field_76428_l, 100, 1));
+                entityhuman.func_70690_d(new PotionEffect(MobEffects.field_76444_x, 2400, 0));
             }
         }
 
     }
 
-    public void getSubItems(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
-        if (this.isInCreativeTab(creativemodetab)) {
+    public void func_150895_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+        if (this.func_194125_a(creativemodetab)) {
             nonnulllist.add(new ItemStack(this));
             nonnulllist.add(new ItemStack(this, 1, 1));
         }

@@ -25,11 +25,11 @@ import net.minecraft.world.World;
 
 public class TileEntityPiston extends TileEntity implements ITickable {
 
-    private IBlockState pistonState;
-    private EnumFacing pistonFacing;
-    private boolean extending;
-    private boolean shouldHeadBeRendered;
-    private static final ThreadLocal<EnumFacing> MOVING_ENTITY = new ThreadLocal() {
+    private IBlockState field_174932_a;
+    private EnumFacing field_174931_f;
+    private boolean field_145875_k;
+    private boolean field_145872_l;
+    private static final ThreadLocal<EnumFacing> field_190613_i = new ThreadLocal() {
         protected EnumFacing a() {
             return null;
         }
@@ -38,101 +38,101 @@ public class TileEntityPiston extends TileEntity implements ITickable {
             return this.a();
         }
     };
-    private float progress;
-    private float lastProgress;
+    private float field_145873_m;
+    private float field_145870_n;
 
     public TileEntityPiston() {}
 
     public TileEntityPiston(IBlockState iblockdata, EnumFacing enumdirection, boolean flag, boolean flag1) {
-        this.pistonState = iblockdata;
-        this.pistonFacing = enumdirection;
-        this.extending = flag;
-        this.shouldHeadBeRendered = flag1;
+        this.field_174932_a = iblockdata;
+        this.field_174931_f = enumdirection;
+        this.field_145875_k = flag;
+        this.field_145872_l = flag1;
     }
 
-    public IBlockState getPistonState() {
-        return this.pistonState;
+    public IBlockState func_174927_b() {
+        return this.field_174932_a;
     }
 
-    public NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+    public NBTTagCompound func_189517_E_() {
+        return this.func_189515_b(new NBTTagCompound());
     }
 
-    public int getBlockMetadata() {
+    public int func_145832_p() {
         return 0;
     }
 
-    public boolean isExtending() {
-        return this.extending;
+    public boolean func_145868_b() {
+        return this.field_145875_k;
     }
 
-    public EnumFacing getFacing() {
-        return this.pistonFacing;
+    public EnumFacing func_174930_e() {
+        return this.field_174931_f;
     }
 
-    public boolean shouldPistonHeadBeRendered() {
-        return this.shouldHeadBeRendered;
+    public boolean func_145867_d() {
+        return this.field_145872_l;
     }
 
-    private float getExtendedProgress(float f) {
-        return this.extending ? f - 1.0F : 1.0F - f;
+    private float func_184320_e(float f) {
+        return this.field_145875_k ? f - 1.0F : 1.0F - f;
     }
 
-    public AxisAlignedBB getAABB(IBlockAccess iblockaccess, BlockPos blockposition) {
-        return this.getAABB(iblockaccess, blockposition, this.progress).union(this.getAABB(iblockaccess, blockposition, this.lastProgress));
+    public AxisAlignedBB func_184321_a(IBlockAccess iblockaccess, BlockPos blockposition) {
+        return this.func_184319_a(iblockaccess, blockposition, this.field_145873_m).func_111270_a(this.func_184319_a(iblockaccess, blockposition, this.field_145870_n));
     }
 
-    public AxisAlignedBB getAABB(IBlockAccess iblockaccess, BlockPos blockposition, float f) {
-        f = this.getExtendedProgress(f);
-        IBlockState iblockdata = this.getCollisionRelatedBlockState();
+    public AxisAlignedBB func_184319_a(IBlockAccess iblockaccess, BlockPos blockposition, float f) {
+        f = this.func_184320_e(f);
+        IBlockState iblockdata = this.func_190606_j();
 
-        return iblockdata.getBoundingBox(iblockaccess, blockposition).offset((double) (f * (float) this.pistonFacing.getFrontOffsetX()), (double) (f * (float) this.pistonFacing.getFrontOffsetY()), (double) (f * (float) this.pistonFacing.getFrontOffsetZ()));
+        return iblockdata.func_185900_c(iblockaccess, blockposition).func_72317_d((double) (f * (float) this.field_174931_f.func_82601_c()), (double) (f * (float) this.field_174931_f.func_96559_d()), (double) (f * (float) this.field_174931_f.func_82599_e()));
     }
 
-    private IBlockState getCollisionRelatedBlockState() {
-        return !this.isExtending() && this.shouldPistonHeadBeRendered() ? Blocks.PISTON_HEAD.getDefaultState().withProperty(BlockPistonExtension.TYPE, this.pistonState.getBlock() == Blocks.STICKY_PISTON ? BlockPistonExtension.EnumPistonType.STICKY : BlockPistonExtension.EnumPistonType.DEFAULT).withProperty(BlockPistonExtension.FACING, this.pistonState.getValue(BlockPistonBase.FACING)) : this.pistonState;
+    private IBlockState func_190606_j() {
+        return !this.func_145868_b() && this.func_145867_d() ? Blocks.field_150332_K.func_176223_P().func_177226_a(BlockPistonExtension.field_176325_b, this.field_174932_a.func_177230_c() == Blocks.field_150320_F ? BlockPistonExtension.EnumPistonType.STICKY : BlockPistonExtension.EnumPistonType.DEFAULT).func_177226_a(BlockPistonExtension.field_176387_N, this.field_174932_a.func_177229_b(BlockPistonBase.field_176387_N)) : this.field_174932_a;
     }
 
-    private void moveCollidedEntities(float f) {
-        EnumFacing enumdirection = this.extending ? this.pistonFacing : this.pistonFacing.getOpposite();
-        double d0 = (double) (f - this.progress);
+    private void func_184322_i(float f) {
+        EnumFacing enumdirection = this.field_145875_k ? this.field_174931_f : this.field_174931_f.func_176734_d();
+        double d0 = (double) (f - this.field_145873_m);
         ArrayList arraylist = Lists.newArrayList();
 
-        this.getCollisionRelatedBlockState().addCollisionBoxToList(this.world, BlockPos.ORIGIN, new AxisAlignedBB(BlockPos.ORIGIN), arraylist, (Entity) null, true);
+        this.func_190606_j().func_185908_a(this.field_145850_b, BlockPos.field_177992_a, new AxisAlignedBB(BlockPos.field_177992_a), arraylist, (Entity) null, true);
         if (!arraylist.isEmpty()) {
-            AxisAlignedBB axisalignedbb = this.moveByPositionAndProgress(this.getMinMaxPiecesAABB((List) arraylist));
-            List list = this.world.getEntitiesWithinAABBExcludingEntity((Entity) null, this.getMovementArea(axisalignedbb, enumdirection, d0).union(axisalignedbb));
+            AxisAlignedBB axisalignedbb = this.func_190607_a(this.func_191515_a((List) arraylist));
+            List list = this.field_145850_b.func_72839_b((Entity) null, this.func_190610_a(axisalignedbb, enumdirection, d0).func_111270_a(axisalignedbb));
 
             if (!list.isEmpty()) {
-                boolean flag = this.pistonState.getBlock() == Blocks.SLIME_BLOCK;
+                boolean flag = this.field_174932_a.func_177230_c() == Blocks.field_180399_cE;
 
                 for (int i = 0; i < list.size(); ++i) {
                     Entity entity = (Entity) list.get(i);
 
-                    if (entity.getPushReaction() != EnumPushReaction.IGNORE) {
+                    if (entity.func_184192_z() != EnumPushReaction.IGNORE) {
                         if (flag) {
-                            switch (enumdirection.getAxis()) {
+                            switch (enumdirection.func_176740_k()) {
                             case X:
-                                entity.motionX = (double) enumdirection.getFrontOffsetX();
+                                entity.field_70159_w = (double) enumdirection.func_82601_c();
                                 break;
 
                             case Y:
-                                entity.motionY = (double) enumdirection.getFrontOffsetY();
+                                entity.field_70181_x = (double) enumdirection.func_96559_d();
                                 break;
 
                             case Z:
-                                entity.motionZ = (double) enumdirection.getFrontOffsetZ();
+                                entity.field_70179_y = (double) enumdirection.func_82599_e();
                             }
                         }
 
                         double d1 = 0.0D;
 
                         for (int j = 0; j < arraylist.size(); ++j) {
-                            AxisAlignedBB axisalignedbb1 = this.getMovementArea(this.moveByPositionAndProgress((AxisAlignedBB) arraylist.get(j)), enumdirection, d0);
-                            AxisAlignedBB axisalignedbb2 = entity.getEntityBoundingBox();
+                            AxisAlignedBB axisalignedbb1 = this.func_190610_a(this.func_190607_a((AxisAlignedBB) arraylist.get(j)), enumdirection, d0);
+                            AxisAlignedBB axisalignedbb2 = entity.func_174813_aQ();
 
-                            if (axisalignedbb1.intersects(axisalignedbb2)) {
-                                d1 = Math.max(d1, this.getMovement(axisalignedbb1, enumdirection, axisalignedbb2));
+                            if (axisalignedbb1.func_72326_a(axisalignedbb2)) {
+                                d1 = Math.max(d1, this.func_190612_a(axisalignedbb1, enumdirection, axisalignedbb2));
                                 if (d1 >= d0) {
                                     break;
                                 }
@@ -141,11 +141,11 @@ public class TileEntityPiston extends TileEntity implements ITickable {
 
                         if (d1 > 0.0D) {
                             d1 = Math.min(d1, d0) + 0.01D;
-                            TileEntityPiston.MOVING_ENTITY.set(enumdirection);
-                            entity.move(MoverType.PISTON, d1 * (double) enumdirection.getFrontOffsetX(), d1 * (double) enumdirection.getFrontOffsetY(), d1 * (double) enumdirection.getFrontOffsetZ());
-                            TileEntityPiston.MOVING_ENTITY.set((Object) null);
-                            if (!this.extending && this.shouldHeadBeRendered) {
-                                this.fixEntityWithinPistonBase(entity, enumdirection, d0);
+                            TileEntityPiston.field_190613_i.set(enumdirection);
+                            entity.func_70091_d(MoverType.PISTON, d1 * (double) enumdirection.func_82601_c(), d1 * (double) enumdirection.func_96559_d(), d1 * (double) enumdirection.func_82599_e());
+                            TileEntityPiston.field_190613_i.set((Object) null);
+                            if (!this.field_145875_k && this.field_145872_l) {
+                                this.func_190605_a(entity, enumdirection, d0);
                             }
                         }
                     }
@@ -155,7 +155,7 @@ public class TileEntityPiston extends TileEntity implements ITickable {
         }
     }
 
-    private AxisAlignedBB getMinMaxPiecesAABB(List<AxisAlignedBB> list) {
+    private AxisAlignedBB func_191515_a(List<AxisAlignedBB> list) {
         double d0 = 0.0D;
         double d1 = 0.0D;
         double d2 = 0.0D;
@@ -165,181 +165,181 @@ public class TileEntityPiston extends TileEntity implements ITickable {
 
         AxisAlignedBB axisalignedbb;
 
-        for (Iterator iterator = list.iterator(); iterator.hasNext(); d5 = Math.max(axisalignedbb.maxZ, d5)) {
+        for (Iterator iterator = list.iterator(); iterator.hasNext(); d5 = Math.max(axisalignedbb.field_72334_f, d5)) {
             axisalignedbb = (AxisAlignedBB) iterator.next();
-            d0 = Math.min(axisalignedbb.minX, d0);
-            d1 = Math.min(axisalignedbb.minY, d1);
-            d2 = Math.min(axisalignedbb.minZ, d2);
-            d3 = Math.max(axisalignedbb.maxX, d3);
-            d4 = Math.max(axisalignedbb.maxY, d4);
+            d0 = Math.min(axisalignedbb.field_72340_a, d0);
+            d1 = Math.min(axisalignedbb.field_72338_b, d1);
+            d2 = Math.min(axisalignedbb.field_72339_c, d2);
+            d3 = Math.max(axisalignedbb.field_72336_d, d3);
+            d4 = Math.max(axisalignedbb.field_72337_e, d4);
         }
 
         return new AxisAlignedBB(d0, d1, d2, d3, d4, d5);
     }
 
-    private double getMovement(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, AxisAlignedBB axisalignedbb1) {
-        switch (enumdirection.getAxis()) {
+    private double func_190612_a(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, AxisAlignedBB axisalignedbb1) {
+        switch (enumdirection.func_176740_k()) {
         case X:
-            return getDeltaX(axisalignedbb, enumdirection, axisalignedbb1);
+            return func_190611_b(axisalignedbb, enumdirection, axisalignedbb1);
 
         case Y:
         default:
-            return getDeltaY(axisalignedbb, enumdirection, axisalignedbb1);
+            return func_190608_c(axisalignedbb, enumdirection, axisalignedbb1);
 
         case Z:
-            return getDeltaZ(axisalignedbb, enumdirection, axisalignedbb1);
+            return func_190604_d(axisalignedbb, enumdirection, axisalignedbb1);
         }
     }
 
-    private AxisAlignedBB moveByPositionAndProgress(AxisAlignedBB axisalignedbb) {
-        double d0 = (double) this.getExtendedProgress(this.progress);
+    private AxisAlignedBB func_190607_a(AxisAlignedBB axisalignedbb) {
+        double d0 = (double) this.func_184320_e(this.field_145873_m);
 
-        return axisalignedbb.offset((double) this.pos.getX() + d0 * (double) this.pistonFacing.getFrontOffsetX(), (double) this.pos.getY() + d0 * (double) this.pistonFacing.getFrontOffsetY(), (double) this.pos.getZ() + d0 * (double) this.pistonFacing.getFrontOffsetZ());
+        return axisalignedbb.func_72317_d((double) this.field_174879_c.func_177958_n() + d0 * (double) this.field_174931_f.func_82601_c(), (double) this.field_174879_c.func_177956_o() + d0 * (double) this.field_174931_f.func_96559_d(), (double) this.field_174879_c.func_177952_p() + d0 * (double) this.field_174931_f.func_82599_e());
     }
 
-    private AxisAlignedBB getMovementArea(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, double d0) {
-        double d1 = d0 * (double) enumdirection.getAxisDirection().getOffset();
+    private AxisAlignedBB func_190610_a(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, double d0) {
+        double d1 = d0 * (double) enumdirection.func_176743_c().func_179524_a();
         double d2 = Math.min(d1, 0.0D);
         double d3 = Math.max(d1, 0.0D);
 
         switch (enumdirection) {
         case WEST:
-            return new AxisAlignedBB(axisalignedbb.minX + d2, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + d3, axisalignedbb.maxY, axisalignedbb.maxZ);
+            return new AxisAlignedBB(axisalignedbb.field_72340_a + d2, axisalignedbb.field_72338_b, axisalignedbb.field_72339_c, axisalignedbb.field_72340_a + d3, axisalignedbb.field_72337_e, axisalignedbb.field_72334_f);
 
         case EAST:
-            return new AxisAlignedBB(axisalignedbb.maxX + d2, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.maxX + d3, axisalignedbb.maxY, axisalignedbb.maxZ);
+            return new AxisAlignedBB(axisalignedbb.field_72336_d + d2, axisalignedbb.field_72338_b, axisalignedbb.field_72339_c, axisalignedbb.field_72336_d + d3, axisalignedbb.field_72337_e, axisalignedbb.field_72334_f);
 
         case DOWN:
-            return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY + d2, axisalignedbb.minZ, axisalignedbb.maxX, axisalignedbb.minY + d3, axisalignedbb.maxZ);
+            return new AxisAlignedBB(axisalignedbb.field_72340_a, axisalignedbb.field_72338_b + d2, axisalignedbb.field_72339_c, axisalignedbb.field_72336_d, axisalignedbb.field_72338_b + d3, axisalignedbb.field_72334_f);
 
         case UP:
         default:
-            return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.maxY + d2, axisalignedbb.minZ, axisalignedbb.maxX, axisalignedbb.maxY + d3, axisalignedbb.maxZ);
+            return new AxisAlignedBB(axisalignedbb.field_72340_a, axisalignedbb.field_72337_e + d2, axisalignedbb.field_72339_c, axisalignedbb.field_72336_d, axisalignedbb.field_72337_e + d3, axisalignedbb.field_72334_f);
 
         case NORTH:
-            return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ + d2, axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.minZ + d3);
+            return new AxisAlignedBB(axisalignedbb.field_72340_a, axisalignedbb.field_72338_b, axisalignedbb.field_72339_c + d2, axisalignedbb.field_72336_d, axisalignedbb.field_72337_e, axisalignedbb.field_72339_c + d3);
 
         case SOUTH:
-            return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.maxZ + d2, axisalignedbb.maxX, axisalignedbb.maxY, axisalignedbb.maxZ + d3);
+            return new AxisAlignedBB(axisalignedbb.field_72340_a, axisalignedbb.field_72338_b, axisalignedbb.field_72334_f + d2, axisalignedbb.field_72336_d, axisalignedbb.field_72337_e, axisalignedbb.field_72334_f + d3);
         }
     }
 
-    private void fixEntityWithinPistonBase(Entity entity, EnumFacing enumdirection, double d0) {
-        AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox();
-        AxisAlignedBB axisalignedbb1 = Block.FULL_BLOCK_AABB.offset(this.pos);
+    private void func_190605_a(Entity entity, EnumFacing enumdirection, double d0) {
+        AxisAlignedBB axisalignedbb = entity.func_174813_aQ();
+        AxisAlignedBB axisalignedbb1 = Block.field_185505_j.func_186670_a(this.field_174879_c);
 
-        if (axisalignedbb.intersects(axisalignedbb1)) {
-            EnumFacing enumdirection1 = enumdirection.getOpposite();
-            double d1 = this.getMovement(axisalignedbb1, enumdirection1, axisalignedbb) + 0.01D;
-            double d2 = this.getMovement(axisalignedbb1, enumdirection1, axisalignedbb.intersect(axisalignedbb1)) + 0.01D;
+        if (axisalignedbb.func_72326_a(axisalignedbb1)) {
+            EnumFacing enumdirection1 = enumdirection.func_176734_d();
+            double d1 = this.func_190612_a(axisalignedbb1, enumdirection1, axisalignedbb) + 0.01D;
+            double d2 = this.func_190612_a(axisalignedbb1, enumdirection1, axisalignedbb.func_191500_a(axisalignedbb1)) + 0.01D;
 
             if (Math.abs(d1 - d2) < 0.01D) {
                 d1 = Math.min(d1, d0) + 0.01D;
-                TileEntityPiston.MOVING_ENTITY.set(enumdirection);
-                entity.move(MoverType.PISTON, d1 * (double) enumdirection1.getFrontOffsetX(), d1 * (double) enumdirection1.getFrontOffsetY(), d1 * (double) enumdirection1.getFrontOffsetZ());
-                TileEntityPiston.MOVING_ENTITY.set((Object) null);
+                TileEntityPiston.field_190613_i.set(enumdirection);
+                entity.func_70091_d(MoverType.PISTON, d1 * (double) enumdirection1.func_82601_c(), d1 * (double) enumdirection1.func_96559_d(), d1 * (double) enumdirection1.func_82599_e());
+                TileEntityPiston.field_190613_i.set((Object) null);
             }
         }
 
     }
 
-    private static double getDeltaX(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, AxisAlignedBB axisalignedbb1) {
-        return enumdirection.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? axisalignedbb.maxX - axisalignedbb1.minX : axisalignedbb1.maxX - axisalignedbb.minX;
+    private static double func_190611_b(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, AxisAlignedBB axisalignedbb1) {
+        return enumdirection.func_176743_c() == EnumFacing.AxisDirection.POSITIVE ? axisalignedbb.field_72336_d - axisalignedbb1.field_72340_a : axisalignedbb1.field_72336_d - axisalignedbb.field_72340_a;
     }
 
-    private static double getDeltaY(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, AxisAlignedBB axisalignedbb1) {
-        return enumdirection.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? axisalignedbb.maxY - axisalignedbb1.minY : axisalignedbb1.maxY - axisalignedbb.minY;
+    private static double func_190608_c(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, AxisAlignedBB axisalignedbb1) {
+        return enumdirection.func_176743_c() == EnumFacing.AxisDirection.POSITIVE ? axisalignedbb.field_72337_e - axisalignedbb1.field_72338_b : axisalignedbb1.field_72337_e - axisalignedbb.field_72338_b;
     }
 
-    private static double getDeltaZ(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, AxisAlignedBB axisalignedbb1) {
-        return enumdirection.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? axisalignedbb.maxZ - axisalignedbb1.minZ : axisalignedbb1.maxZ - axisalignedbb.minZ;
+    private static double func_190604_d(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, AxisAlignedBB axisalignedbb1) {
+        return enumdirection.func_176743_c() == EnumFacing.AxisDirection.POSITIVE ? axisalignedbb.field_72334_f - axisalignedbb1.field_72339_c : axisalignedbb1.field_72334_f - axisalignedbb.field_72339_c;
     }
 
-    public void clearPistonTileEntity() {
-        if (this.lastProgress < 1.0F && this.world != null) {
-            this.progress = 1.0F;
-            this.lastProgress = this.progress;
-            this.world.removeTileEntity(this.pos);
-            this.invalidate();
-            if (this.world.getBlockState(this.pos).getBlock() == Blocks.PISTON_EXTENSION) {
-                this.world.setBlockState(this.pos, this.pistonState, 3);
-                this.world.neighborChanged(this.pos, this.pistonState.getBlock(), this.pos);
+    public void func_145866_f() {
+        if (this.field_145870_n < 1.0F && this.field_145850_b != null) {
+            this.field_145873_m = 1.0F;
+            this.field_145870_n = this.field_145873_m;
+            this.field_145850_b.func_175713_t(this.field_174879_c);
+            this.func_145843_s();
+            if (this.field_145850_b.func_180495_p(this.field_174879_c).func_177230_c() == Blocks.field_180384_M) {
+                this.field_145850_b.func_180501_a(this.field_174879_c, this.field_174932_a, 3);
+                this.field_145850_b.func_190524_a(this.field_174879_c, this.field_174932_a.func_177230_c(), this.field_174879_c);
             }
         }
 
     }
 
-    public void update() {
-        this.lastProgress = this.progress;
-        if (this.lastProgress >= 1.0F) {
-            this.world.removeTileEntity(this.pos);
-            this.invalidate();
-            if (this.world.getBlockState(this.pos).getBlock() == Blocks.PISTON_EXTENSION) {
-                this.world.setBlockState(this.pos, this.pistonState, 3);
-                this.world.neighborChanged(this.pos, this.pistonState.getBlock(), this.pos);
+    public void func_73660_a() {
+        this.field_145870_n = this.field_145873_m;
+        if (this.field_145870_n >= 1.0F) {
+            this.field_145850_b.func_175713_t(this.field_174879_c);
+            this.func_145843_s();
+            if (this.field_145850_b.func_180495_p(this.field_174879_c).func_177230_c() == Blocks.field_180384_M) {
+                this.field_145850_b.func_180501_a(this.field_174879_c, this.field_174932_a, 3);
+                this.field_145850_b.func_190524_a(this.field_174879_c, this.field_174932_a.func_177230_c(), this.field_174879_c);
             }
 
         } else {
-            float f = this.progress + 0.5F;
+            float f = this.field_145873_m + 0.5F;
 
-            this.moveCollidedEntities(f);
-            this.progress = f;
-            if (this.progress >= 1.0F) {
-                this.progress = 1.0F;
+            this.func_184322_i(f);
+            this.field_145873_m = f;
+            if (this.field_145873_m >= 1.0F) {
+                this.field_145873_m = 1.0F;
             }
 
         }
     }
 
-    public static void registerFixesPiston(DataFixer dataconvertermanager) {}
+    public static void func_189685_a(DataFixer dataconvertermanager) {}
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        super.readFromNBT(nbttagcompound);
-        this.pistonState = Block.getBlockById(nbttagcompound.getInteger("blockId")).getStateFromMeta(nbttagcompound.getInteger("blockData"));
-        this.pistonFacing = EnumFacing.getFront(nbttagcompound.getInteger("facing"));
-        this.progress = nbttagcompound.getFloat("progress");
-        this.lastProgress = this.progress;
-        this.extending = nbttagcompound.getBoolean("extending");
-        this.shouldHeadBeRendered = nbttagcompound.getBoolean("source");
+    public void func_145839_a(NBTTagCompound nbttagcompound) {
+        super.func_145839_a(nbttagcompound);
+        this.field_174932_a = Block.func_149729_e(nbttagcompound.func_74762_e("blockId")).func_176203_a(nbttagcompound.func_74762_e("blockData"));
+        this.field_174931_f = EnumFacing.func_82600_a(nbttagcompound.func_74762_e("facing"));
+        this.field_145873_m = nbttagcompound.func_74760_g("progress");
+        this.field_145870_n = this.field_145873_m;
+        this.field_145875_k = nbttagcompound.func_74767_n("extending");
+        this.field_145872_l = nbttagcompound.func_74767_n("source");
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        super.writeToNBT(nbttagcompound);
-        nbttagcompound.setInteger("blockId", Block.getIdFromBlock(this.pistonState.getBlock()));
-        nbttagcompound.setInteger("blockData", this.pistonState.getBlock().getMetaFromState(this.pistonState));
-        nbttagcompound.setInteger("facing", this.pistonFacing.getIndex());
-        nbttagcompound.setFloat("progress", this.lastProgress);
-        nbttagcompound.setBoolean("extending", this.extending);
-        nbttagcompound.setBoolean("source", this.shouldHeadBeRendered);
+    public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
+        super.func_189515_b(nbttagcompound);
+        nbttagcompound.func_74768_a("blockId", Block.func_149682_b(this.field_174932_a.func_177230_c()));
+        nbttagcompound.func_74768_a("blockData", this.field_174932_a.func_177230_c().func_176201_c(this.field_174932_a));
+        nbttagcompound.func_74768_a("facing", this.field_174931_f.func_176745_a());
+        nbttagcompound.func_74776_a("progress", this.field_145870_n);
+        nbttagcompound.func_74757_a("extending", this.field_145875_k);
+        nbttagcompound.func_74757_a("source", this.field_145872_l);
         return nbttagcompound;
     }
 
-    public void addCollissionAABBs(World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity) {
-        if (!this.extending && this.shouldHeadBeRendered) {
-            this.pistonState.withProperty(BlockPistonBase.EXTENDED, Boolean.valueOf(true)).addCollisionBoxToList(world, blockposition, axisalignedbb, list, entity, false);
+    public void func_190609_a(World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity) {
+        if (!this.field_145875_k && this.field_145872_l) {
+            this.field_174932_a.func_177226_a(BlockPistonBase.field_176320_b, Boolean.valueOf(true)).func_185908_a(world, blockposition, axisalignedbb, list, entity, false);
         }
 
-        EnumFacing enumdirection = (EnumFacing) TileEntityPiston.MOVING_ENTITY.get();
+        EnumFacing enumdirection = (EnumFacing) TileEntityPiston.field_190613_i.get();
 
-        if ((double) this.progress >= 1.0D || enumdirection != (this.extending ? this.pistonFacing : this.pistonFacing.getOpposite())) {
+        if ((double) this.field_145873_m >= 1.0D || enumdirection != (this.field_145875_k ? this.field_174931_f : this.field_174931_f.func_176734_d())) {
             int i = list.size();
             IBlockState iblockdata;
 
-            if (this.shouldPistonHeadBeRendered()) {
-                iblockdata = Blocks.PISTON_HEAD.getDefaultState().withProperty(BlockPistonExtension.FACING, this.pistonFacing).withProperty(BlockPistonExtension.SHORT, Boolean.valueOf(this.extending != 1.0F - this.progress < 0.25F));
+            if (this.func_145867_d()) {
+                iblockdata = Blocks.field_150332_K.func_176223_P().func_177226_a(BlockPistonExtension.field_176387_N, this.field_174931_f).func_177226_a(BlockPistonExtension.field_176327_M, Boolean.valueOf(this.field_145875_k != 1.0F - this.field_145873_m < 0.25F));
             } else {
-                iblockdata = this.pistonState;
+                iblockdata = this.field_174932_a;
             }
 
-            float f = this.getExtendedProgress(this.progress);
-            double d0 = (double) ((float) this.pistonFacing.getFrontOffsetX() * f);
-            double d1 = (double) ((float) this.pistonFacing.getFrontOffsetY() * f);
-            double d2 = (double) ((float) this.pistonFacing.getFrontOffsetZ() * f);
+            float f = this.func_184320_e(this.field_145873_m);
+            double d0 = (double) ((float) this.field_174931_f.func_82601_c() * f);
+            double d1 = (double) ((float) this.field_174931_f.func_96559_d() * f);
+            double d2 = (double) ((float) this.field_174931_f.func_82599_e() * f);
 
-            iblockdata.addCollisionBoxToList(world, blockposition, axisalignedbb.offset(-d0, -d1, -d2), list, entity, true);
+            iblockdata.func_185908_a(world, blockposition, axisalignedbb.func_72317_d(-d0, -d1, -d2), list, entity, true);
 
             for (int j = i; j < list.size(); ++j) {
-                list.set(j, ((AxisAlignedBB) list.get(j)).offset(d0, d1, d2));
+                list.set(j, ((AxisAlignedBB) list.get(j)).func_72317_d(d0, d1, d2));
             }
 
         }

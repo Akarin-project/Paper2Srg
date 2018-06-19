@@ -20,31 +20,31 @@ public class EntityCaveSpider extends EntitySpider {
 
     public EntityCaveSpider(World world) {
         super(world);
-        this.setSize(0.7F, 0.5F);
+        this.func_70105_a(0.7F, 0.5F);
     }
 
-    public static void registerFixesCaveSpider(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityCaveSpider.class);
+    public static void func_189775_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityCaveSpider.class);
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(12.0D);
     }
 
-    public boolean attackEntityAsMob(Entity entity) {
-        if (super.attackEntityAsMob(entity)) {
+    public boolean func_70652_k(Entity entity) {
+        if (super.func_70652_k(entity)) {
             if (entity instanceof EntityLivingBase) {
                 byte b0 = 0;
 
-                if (this.world.getDifficulty() == EnumDifficulty.NORMAL) {
+                if (this.field_70170_p.func_175659_aa() == EnumDifficulty.NORMAL) {
                     b0 = 7;
-                } else if (this.world.getDifficulty() == EnumDifficulty.HARD) {
+                } else if (this.field_70170_p.func_175659_aa() == EnumDifficulty.HARD) {
                     b0 = 15;
                 }
 
                 if (b0 > 0) {
-                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.POISON, b0 * 20, 0));
+                    ((EntityLivingBase) entity).func_70690_d(new PotionEffect(MobEffects.field_76436_u, b0 * 20, 0));
                 }
             }
 
@@ -55,16 +55,16 @@ public class EntityCaveSpider extends EntitySpider {
     }
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
+    public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
         return groupdataentity;
     }
 
-    public float getEyeHeight() {
+    public float func_70047_e() {
         return 0.45F;
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_CAVE_SPIDER;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186436_r;
     }
 }

@@ -45,127 +45,127 @@ import org.bukkit.event.server.ServerCommandEvent;
 
 public abstract class CommandBlockBaseLogic implements ICommandSender {
 
-    private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("HH:mm:ss");
-    private long lastExecution = -1L;
-    private boolean updateLastExecution = true;
-    private int successCount;
-    private boolean trackOutput = true;
-    private ITextComponent lastOutput;
-    private String commandStored = "";
-    private String customName = "@";
-    private final CommandResultStats resultStats = new CommandResultStats();
+    private static final SimpleDateFormat field_145766_a = new SimpleDateFormat("HH:mm:ss");
+    private long field_193041_b = -1L;
+    private boolean field_193042_c = true;
+    private int field_145764_b;
+    private boolean field_145765_c = true;
+    private ITextComponent field_145762_d;
+    private String field_145763_e = "";
+    private String field_145761_f = "@";
+    private final CommandResultStats field_175575_g = new CommandResultStats();
     protected org.bukkit.command.CommandSender sender; // CraftBukkit - add sender
 
     public CommandBlockBaseLogic() {}
 
-    public int getSuccessCount() {
-        return this.successCount;
+    public int func_145760_g() {
+        return this.field_145764_b;
     }
 
-    public void setSuccessCount(int i) {
-        this.successCount = i;
+    public void func_184167_a(int i) {
+        this.field_145764_b = i;
     }
 
-    public ITextComponent getLastOutput() {
-        return (ITextComponent) (this.lastOutput == null ? new TextComponentString("") : this.lastOutput);
+    public ITextComponent func_145749_h() {
+        return (ITextComponent) (this.field_145762_d == null ? new TextComponentString("") : this.field_145762_d);
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setString("Command", this.commandStored);
-        nbttagcompound.setInteger("SuccessCount", this.successCount);
-        nbttagcompound.setString("CustomName", this.customName);
-        nbttagcompound.setBoolean("TrackOutput", this.trackOutput);
-        if (this.lastOutput != null && this.trackOutput) {
-            nbttagcompound.setString("LastOutput", ITextComponent.Serializer.componentToJson(this.lastOutput));
+    public NBTTagCompound func_189510_a(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74778_a("Command", this.field_145763_e);
+        nbttagcompound.func_74768_a("SuccessCount", this.field_145764_b);
+        nbttagcompound.func_74778_a("CustomName", this.field_145761_f);
+        nbttagcompound.func_74757_a("TrackOutput", this.field_145765_c);
+        if (this.field_145762_d != null && this.field_145765_c) {
+            nbttagcompound.func_74778_a("LastOutput", ITextComponent.Serializer.func_150696_a(this.field_145762_d));
         }
 
-        nbttagcompound.setBoolean("UpdateLastExecution", this.updateLastExecution);
-        if (this.updateLastExecution && this.lastExecution > 0L) {
-            nbttagcompound.setLong("LastExecution", this.lastExecution);
+        nbttagcompound.func_74757_a("UpdateLastExecution", this.field_193042_c);
+        if (this.field_193042_c && this.field_193041_b > 0L) {
+            nbttagcompound.func_74772_a("LastExecution", this.field_193041_b);
         }
 
-        this.resultStats.writeStatsToNBT(nbttagcompound);
+        this.field_175575_g.func_179670_b(nbttagcompound);
         return nbttagcompound;
     }
 
-    public void readDataFromNBT(NBTTagCompound nbttagcompound) {
-        this.commandStored = nbttagcompound.getString("Command");
-        this.successCount = nbttagcompound.getInteger("SuccessCount");
-        if (nbttagcompound.hasKey("CustomName", 8)) {
-            this.customName = nbttagcompound.getString("CustomName");
+    public void func_145759_b(NBTTagCompound nbttagcompound) {
+        this.field_145763_e = nbttagcompound.func_74779_i("Command");
+        this.field_145764_b = nbttagcompound.func_74762_e("SuccessCount");
+        if (nbttagcompound.func_150297_b("CustomName", 8)) {
+            this.field_145761_f = nbttagcompound.func_74779_i("CustomName");
         }
 
-        if (nbttagcompound.hasKey("TrackOutput", 1)) {
-            this.trackOutput = nbttagcompound.getBoolean("TrackOutput");
+        if (nbttagcompound.func_150297_b("TrackOutput", 1)) {
+            this.field_145765_c = nbttagcompound.func_74767_n("TrackOutput");
         }
 
-        if (nbttagcompound.hasKey("LastOutput", 8) && this.trackOutput) {
+        if (nbttagcompound.func_150297_b("LastOutput", 8) && this.field_145765_c) {
             try {
-                this.lastOutput = ITextComponent.Serializer.jsonToComponent(nbttagcompound.getString("LastOutput"));
+                this.field_145762_d = ITextComponent.Serializer.func_150699_a(nbttagcompound.func_74779_i("LastOutput"));
             } catch (Throwable throwable) {
-                this.lastOutput = new TextComponentString(throwable.getMessage());
+                this.field_145762_d = new TextComponentString(throwable.getMessage());
             }
         } else {
-            this.lastOutput = null;
+            this.field_145762_d = null;
         }
 
-        if (nbttagcompound.hasKey("UpdateLastExecution")) {
-            this.updateLastExecution = nbttagcompound.getBoolean("UpdateLastExecution");
+        if (nbttagcompound.func_74764_b("UpdateLastExecution")) {
+            this.field_193042_c = nbttagcompound.func_74767_n("UpdateLastExecution");
         }
 
-        if (this.updateLastExecution && nbttagcompound.hasKey("LastExecution")) {
-            this.lastExecution = nbttagcompound.getLong("LastExecution");
+        if (this.field_193042_c && nbttagcompound.func_74764_b("LastExecution")) {
+            this.field_193041_b = nbttagcompound.func_74763_f("LastExecution");
         } else {
-            this.lastExecution = -1L;
+            this.field_193041_b = -1L;
         }
 
-        this.resultStats.readStatsFromNBT(nbttagcompound);
+        this.field_175575_g.func_179668_a(nbttagcompound);
     }
 
-    public boolean canUseCommand(int i, String s) {
+    public boolean func_70003_b(int i, String s) {
         return i <= 2;
     }
 
-    public void setCommand(String s) {
-        this.commandStored = s;
-        this.successCount = 0;
+    public void func_145752_a(String s) {
+        this.field_145763_e = s;
+        this.field_145764_b = 0;
     }
 
-    public String getCommand() {
-        return this.commandStored;
+    public String func_145753_i() {
+        return this.field_145763_e;
     }
 
-    public boolean trigger(World world) {
-        if (!world.isRemote && world.getTotalWorldTime() != this.lastExecution) {
-            if ("Searge".equalsIgnoreCase(this.commandStored)) {
-                this.lastOutput = new TextComponentString("#itzlipofutzli");
-                this.successCount = 1;
+    public boolean func_145755_a(World world) {
+        if (!world.field_72995_K && world.func_82737_E() != this.field_193041_b) {
+            if ("Searge".equalsIgnoreCase(this.field_145763_e)) {
+                this.field_145762_d = new TextComponentString("#itzlipofutzli");
+                this.field_145764_b = 1;
                 return true;
             } else {
-                MinecraftServer minecraftserver = this.getServer();
+                MinecraftServer minecraftserver = this.func_184102_h();
 
-                if (minecraftserver != null && minecraftserver.isAnvilFileSet() && minecraftserver.isCommandBlockEnabled()) {
+                if (minecraftserver != null && minecraftserver.func_175578_N() && minecraftserver.func_82356_Z()) {
                     try {
-                        this.lastOutput = null;
+                        this.field_145762_d = null;
                         // CraftBukkit start - Handle command block commands using Bukkit dispatcher
-                        this.successCount = executeSafely(this, sender, this.commandStored);
+                        this.field_145764_b = executeSafely(this, sender, this.field_145763_e);
                         // CraftBukkit end
                     } catch (Throwable throwable) {
-                        CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Executing command block");
-                        CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("Command to be executed");
+                        CrashReport crashreport = CrashReport.func_85055_a(throwable, "Executing command block");
+                        CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Command to be executed");
 
-                        crashreportsystemdetails.addDetail("Command", new ICrashReportDetail() {
+                        crashreportsystemdetails.func_189529_a("Command", new ICrashReportDetail() {
                             public String a() throws Exception {
-                                return CommandBlockBaseLogic.this.getCommand();
+                                return CommandBlockBaseLogic.this.func_145753_i();
                             }
 
                             public Object call() throws Exception {
                                 return this.a();
                             }
                         });
-                        crashreportsystemdetails.addDetail("Name", new ICrashReportDetail() {
+                        crashreportsystemdetails.func_189529_a("Name", new ICrashReportDetail() {
                             public String a() throws Exception {
-                                return CommandBlockBaseLogic.this.getName();
+                                return CommandBlockBaseLogic.this.func_70005_c_();
                             }
 
                             public Object call() throws Exception {
@@ -175,13 +175,13 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
                         throw new ReportedException(crashreport);
                     }
                 } else {
-                    this.successCount = 0;
+                    this.field_145764_b = 0;
                 }
 
-                if (this.updateLastExecution) {
-                    this.lastExecution = world.getTotalWorldTime();
+                if (this.field_193042_c) {
+                    this.field_193041_b = world.func_82737_E();
                 } else {
-                    this.lastExecution = -1L;
+                    this.field_193041_b = -1L;
                 }
 
                 return true;
@@ -196,9 +196,9 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
             return executeCommand(sender, bSender, command);
         } catch (CommandException commandexception) {
             // Taken from CommandHandler
-            TextComponentTranslation chatmessage = new TextComponentTranslation(commandexception.getMessage(), commandexception.getErrorObjects());
-            chatmessage.getStyle().setColor(TextFormatting.RED);
-            sender.sendMessage(chatmessage);
+            TextComponentTranslation chatmessage = new TextComponentTranslation(commandexception.getMessage(), commandexception.func_74844_a());
+            chatmessage.func_150256_b().func_150238_a(TextFormatting.RED);
+            sender.func_145747_a(chatmessage);
         }
 
         return 0;
@@ -206,7 +206,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
 
     // CraftBukkit start
     public static int executeCommand(ICommandSender sender, org.bukkit.command.CommandSender bSender, String command) throws CommandException {
-        org.bukkit.command.SimpleCommandMap commandMap = sender.getEntityWorld().getServer().getCommandMap();
+        org.bukkit.command.SimpleCommandMap commandMap = sender.func_130014_f_().getServer().getCommandMap();
         Joiner joiner = Joiner.on(" ");
         if (command.startsWith("/")) {
             command = command.substring(1);
@@ -235,7 +235,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
 
         // Handle vanilla commands;
         org.bukkit.command.Command commandBlockCommand = commandMap.getCommand(args[0]);
-        if (sender.getEntityWorld().getServer().getCommandBlockOverride(args[0])) {
+        if (sender.func_130014_f_().getServer().getCommandBlockOverride(args[0])) {
             commandBlockCommand = commandMap.getCommand("minecraft:" + args[0]);
         }
         if (commandBlockCommand instanceof VanillaCommandWrapper) {
@@ -245,7 +245,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
             }
             String as[] = command.split(" ");
             as = VanillaCommandWrapper.dropFirstArgument(as);
-            if (!sender.getEntityWorld().getServer().getPermissionOverride(sender) && !((VanillaCommandWrapper) commandBlockCommand).testPermission(bSender)) {
+            if (!sender.func_130014_f_().getServer().getPermissionOverride(sender) && !((VanillaCommandWrapper) commandBlockCommand).testPermission(bSender)) {
                 return 0;
             }
             return ((VanillaCommandWrapper) commandBlockCommand).dispatchVanillaCommand(bSender, sender, as);
@@ -259,23 +259,23 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
         commands.add(args);
 
         // Find positions of command block syntax, if any        
-        WorldServer[] prev = MinecraftServer.getServer().worlds;
+        WorldServer[] prev = MinecraftServer.getServer().field_71305_c;
         MinecraftServer server = MinecraftServer.getServer();
-        server.worlds = new WorldServer[server.worlds.size()];
-        server.worlds[0] = (WorldServer) sender.getEntityWorld();
+        server.field_71305_c = new WorldServer[server.worlds.size()];
+        server.field_71305_c[0] = (WorldServer) sender.func_130014_f_();
         int bpos = 0;
-        for (int pos = 1; pos < server.worlds.length; pos++) {
+        for (int pos = 1; pos < server.field_71305_c.length; pos++) {
             WorldServer world = server.worlds.get(bpos++);
-            if (server.worlds[0] == world) {
+            if (server.field_71305_c[0] == world) {
                 pos--;
                 continue;
             }
-            server.worlds[pos] = world;
+            server.field_71305_c[pos] = world;
         }
         try {
             ArrayList<String[]> newCommands = new ArrayList<String[]>();
             for (int i = 0; i < args.length; i++) {
-                if (EntitySelector.isSelector(args[i])) {
+                if (EntitySelector.func_82378_b(args[i])) {
                     for (int j = 0; j < commands.size(); j++) {
                         newCommands.addAll(buildCommands(sender, commands.get(j), i));
                     }
@@ -286,7 +286,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
                 }
             }
         } finally {
-            MinecraftServer.getServer().worlds = prev;
+            MinecraftServer.getServer().field_71305_c = prev;
         }
 
         int completed = 0;
@@ -298,11 +298,11 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
                     completed++;
                 }
             } catch (Throwable exception) {
-                if (sender.getCommandSenderEntity() instanceof EntityMinecartCommandBlock) {
-                    MinecraftServer.getServer().server.getLogger().log(Level.WARNING, String.format("MinecartCommandBlock at (%d,%d,%d) failed to handle command", sender.getPosition().getX(), sender.getPosition().getY(), sender.getPosition().getZ()), exception);
+                if (sender.func_174793_f() instanceof EntityMinecartCommandBlock) {
+                    MinecraftServer.getServer().server.getLogger().log(Level.WARNING, String.format("MinecartCommandBlock at (%d,%d,%d) failed to handle command", sender.func_180425_c().func_177958_n(), sender.func_180425_c().func_177956_o(), sender.func_180425_c().func_177952_p()), exception);
                 } else if (sender instanceof CommandBlockBaseLogic) {
                     CommandBlockBaseLogic listener = (CommandBlockBaseLogic) sender;
-                    MinecraftServer.getServer().server.getLogger().log(Level.WARNING, String.format("CommandBlock at (%d,%d,%d) failed to handle command", listener.getPosition().getX(), listener.getPosition().getY(), listener.getPosition().getZ()), exception);
+                    MinecraftServer.getServer().server.getLogger().log(Level.WARNING, String.format("CommandBlock at (%d,%d,%d) failed to handle command", listener.func_180425_c().func_177958_n(), listener.func_180425_c().func_177956_o(), listener.func_180425_c().func_177952_p()), exception);
                 } else {
                     MinecraftServer.getServer().server.getLogger().log(Level.WARNING, String.format("Unknown CommandBlock failed to handle command"), exception);
                 }
@@ -314,15 +314,15 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
 
     private static ArrayList<String[]> buildCommands(ICommandSender sender, String[] args, int pos) throws CommandException {
         ArrayList<String[]> commands = new ArrayList<String[]>();
-        java.util.List<EntityPlayerMP> players = (java.util.List<EntityPlayerMP>)EntitySelector.matchEntities(sender, args[pos], EntityPlayerMP.class);
+        java.util.List<EntityPlayerMP> players = (java.util.List<EntityPlayerMP>)EntitySelector.func_179656_b(sender, args[pos], EntityPlayerMP.class);
 
         if (players != null) {
             for (EntityPlayerMP player : players) {
-                if (player.world != sender.getEntityWorld()) {
+                if (player.field_70170_p != sender.func_130014_f_()) {
                     continue;
                 }
                 String[] command = args.clone();
-                command[pos] = player.getName();
+                command[pos] = player.func_70005_c_();
                 commands.add(command);
             }
         }
@@ -336,17 +336,17 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
             if (listener instanceof DedicatedServer) {
                 sender = ((DedicatedServer) listener).console;
             } else if (listener instanceof RConConsoleSource) {
-                sender = ((RConConsoleSource) listener).getServer().remoteConsole;
+                sender = ((RConConsoleSource) listener).func_184102_h().remoteConsole;
             } else if (listener instanceof CommandBlockBaseLogic) {
                 sender = ((CommandBlockBaseLogic) listener).sender;
             } else if (listener instanceof CustomFunctionData.CustomFunctionListener) {
                 sender = ((CustomFunctionData.CustomFunctionListener) listener).sender;
             } else if (listener instanceof CommandSenderWrapper) {
-                listener = ((CommandSenderWrapper) listener).delegate; // Search deeper
+                listener = ((CommandSenderWrapper) listener).field_193043_a; // Search deeper
             } else if (VanillaCommandWrapper.lastSender != null) {
                 sender = VanillaCommandWrapper.lastSender;
-            } else if (listener.getCommandSenderEntity() != null) {
-                sender = listener.getCommandSenderEntity().getBukkitEntity();
+            } else if (listener.func_174793_f() != null) {
+                sender = listener.func_174793_f().getBukkitEntity();
             } else {
                 throw new RuntimeException("Unhandled executor " + listener.getClass().getSimpleName());
             }
@@ -356,59 +356,59 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
     }
     // CraftBukkit end
 
-    public String getName() {
-        return this.customName;
+    public String func_70005_c_() {
+        return this.field_145761_f;
     }
 
-    public void setName(String s) {
-        this.customName = s;
+    public void func_145754_b(String s) {
+        this.field_145761_f = s;
     }
 
-    public void sendMessage(ITextComponent ichatbasecomponent) {
-        if (this.trackOutput && this.getEntityWorld() != null && !this.getEntityWorld().isRemote) {
-            this.lastOutput = (new TextComponentString("[" + CommandBlockBaseLogic.TIMESTAMP_FORMAT.format(new Date()) + "] ")).appendSibling(ichatbasecomponent);
-            this.updateCommand();
+    public void func_145747_a(ITextComponent ichatbasecomponent) {
+        if (this.field_145765_c && this.func_130014_f_() != null && !this.func_130014_f_().field_72995_K) {
+            this.field_145762_d = (new TextComponentString("[" + CommandBlockBaseLogic.field_145766_a.format(new Date()) + "] ")).func_150257_a(ichatbasecomponent);
+            this.func_145756_e();
         }
 
     }
 
-    public boolean sendCommandFeedback() {
-        MinecraftServer minecraftserver = this.getServer();
+    public boolean func_174792_t_() {
+        MinecraftServer minecraftserver = this.func_184102_h();
 
-        return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.worlds[0].getGameRules().getBoolean("commandBlockOutput");
+        return minecraftserver == null || !minecraftserver.func_175578_N() || minecraftserver.field_71305_c[0].func_82736_K().func_82766_b("commandBlockOutput");
     }
 
-    public void setCommandStat(CommandResultStats.Type commandobjectiveexecutor_enumcommandresult, int i) {
-        this.resultStats.setCommandStatForSender(this.getServer(), this, commandobjectiveexecutor_enumcommandresult, i);
+    public void func_174794_a(CommandResultStats.Type commandobjectiveexecutor_enumcommandresult, int i) {
+        this.field_175575_g.func_184932_a(this.func_184102_h(), this, commandobjectiveexecutor_enumcommandresult, i);
     }
 
-    public abstract void updateCommand();
+    public abstract void func_145756_e();
 
-    public void setLastOutput(@Nullable ITextComponent ichatbasecomponent) {
-        this.lastOutput = ichatbasecomponent;
+    public void func_145750_b(@Nullable ITextComponent ichatbasecomponent) {
+        this.field_145762_d = ichatbasecomponent;
     }
 
-    public void setTrackOutput(boolean flag) {
-        this.trackOutput = flag;
+    public void func_175573_a(boolean flag) {
+        this.field_145765_c = flag;
     }
 
-    public boolean shouldTrackOutput() {
-        return this.trackOutput;
+    public boolean func_175571_m() {
+        return this.field_145765_c;
     }
 
-    public boolean tryOpenEditCommandBlock(EntityPlayer entityhuman) {
-        if (!entityhuman.canUseCommandBlock()) {
+    public boolean func_175574_a(EntityPlayer entityhuman) {
+        if (!entityhuman.func_189808_dh()) {
             return false;
         } else {
-            if (entityhuman.getEntityWorld().isRemote) {
-                entityhuman.displayGuiEditCommandCart(this);
+            if (entityhuman.func_130014_f_().field_72995_K) {
+                entityhuman.func_184809_a(this);
             }
 
             return true;
         }
     }
 
-    public CommandResultStats getCommandResultStats() {
-        return this.resultStats;
+    public CommandResultStats func_175572_n() {
+        return this.field_175575_g;
     }
 }

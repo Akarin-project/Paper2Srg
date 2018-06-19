@@ -16,19 +16,19 @@ public class CPacketPlaceRecipe implements Packet<INetHandlerPlayServer> {
 
     public CPacketPlaceRecipe() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
         this.field_194320_a = packetdataserializer.readByte();
-        this.field_194321_b = CraftingManager.getRecipeById(packetdataserializer.readVarInt());
+        this.field_194321_b = CraftingManager.func_193374_a(packetdataserializer.func_150792_a());
         this.field_194322_c = packetdataserializer.readBoolean();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
         packetdataserializer.writeByte(this.field_194320_a);
-        packetdataserializer.writeVarInt(CraftingManager.getIDForRecipe(this.field_194321_b));
+        packetdataserializer.func_150787_b(CraftingManager.func_193375_a(this.field_194321_b));
         packetdataserializer.writeBoolean(this.field_194322_c);
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
         packetlistenerplayin.func_194308_a(this);
     }
 

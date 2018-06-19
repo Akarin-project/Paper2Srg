@@ -139,7 +139,7 @@ public abstract class Entity implements ICommandSender {
     private static final int CURRENT_LEVEL = 2;
     public static Random SHARED_RANDOM = new Random(); // Paper
     static boolean isLevelAtLeast(NBTTagCompound tag, int level) {
-        return tag.hasKey("Bukkit.updateLevel") && tag.getInteger("Bukkit.updateLevel") >= level;
+        return tag.func_74764_b("Bukkit.updateLevel") && tag.func_74762_e("Bukkit.updateLevel") >= level;
     }
 
     protected CraftEntity bukkitEntity;
@@ -147,109 +147,109 @@ public abstract class Entity implements ICommandSender {
     EntityTrackerEntry tracker; // Paper
     public CraftEntity getBukkitEntity() {
         if (bukkitEntity == null) {
-            bukkitEntity = CraftEntity.getEntity(world.getServer(), this);
+            bukkitEntity = CraftEntity.getEntity(field_70170_p.getServer(), this);
         }
         return bukkitEntity;
     }
     // CraftBukikt end
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static final List<ItemStack> EMPTY_EQUIPMENT = Collections.emptyList();
-    private static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
-    private static double renderDistanceWeight = 1.0D;
-    private static int nextEntityID;
-    private int entityId;
-    public boolean preventEntitySpawning; public boolean blocksEntitySpawning() { return preventEntitySpawning; } // Paper - OBFHELPER
-    public final List<Entity> riddenByEntities;
-    protected int rideCooldown;
-    private Entity ridingEntity;public void setVehicle(Entity entity) { this.ridingEntity = entity; } // Paper // OBFHELPER
-    public boolean forceSpawn;
-    public World world;
-    public double prevPosX;
-    public double prevPosY;
-    public double prevPosZ;
-    public double posX;
-    public double posY;
-    public double posZ;
+    private static final Logger field_184243_a = LogManager.getLogger();
+    private static final List<ItemStack> field_190535_b = Collections.emptyList();
+    private static final AxisAlignedBB field_174836_a = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
+    private static double field_70155_l = 1.0D;
+    private static int field_70152_a;
+    private int field_145783_c;
+    public boolean field_70156_m; public boolean blocksEntitySpawning() { return field_70156_m; } // Paper - OBFHELPER
+    public final List<Entity> field_184244_h;
+    protected int field_184245_j;
+    private Entity field_184239_as;public void setVehicle(Entity entity) { this.field_184239_as = entity; } // Paper // OBFHELPER
+    public boolean field_98038_p;
+    public World field_70170_p;
+    public double field_70169_q;
+    public double field_70167_r;
+    public double field_70166_s;
+    public double field_70165_t;
+    public double field_70163_u;
+    public double field_70161_v;
     // Paper start - getters to implement HopperPusher
     public double getX() {
-        return posX;
+        return field_70165_t;
     }
 
     public double getY() {
-        return posY;
+        return field_70163_u;
     }
 
     public double getZ() {
-        return posZ;
+        return field_70161_v;
     }
     // Paper end
-    public double motionX;
-    public double motionY;
-    public double motionZ;
-    public float rotationYaw;
-    public float rotationPitch;
-    public float prevRotationYaw;
-    public float prevRotationPitch;
-    private AxisAlignedBB boundingBox;
-    public boolean onGround;
-    public boolean collidedHorizontally;
-    public boolean collidedVertically;
-    public boolean collided;
-    public boolean velocityChanged;
-    protected boolean isInWeb;
-    private boolean isOutsideBorder;
-    public boolean isDead;
-    public float width;
-    public float height;
-    public float prevDistanceWalkedModified;
-    public float distanceWalkedModified;
-    public float distanceWalkedOnStepModified;
-    public float fallDistance;
-    private int nextStepDistance;
-    private float nextFlap;
-    public double lastTickPosX;
-    public double lastTickPosY;
-    public double lastTickPosZ;
-    public float stepHeight;
-    public boolean noClip;
-    public float entityCollisionReduction;
-    protected Random rand;
-    public int ticksExisted;
-    public int fire;
-    public boolean inWater; // Spigot - protected -> public // PAIL
-    public int hurtResistantTime;
-    protected boolean firstUpdate;
-    protected boolean isImmuneToFire;
-    public EntityDataManager dataManager;
-    protected static final DataParameter<Byte> FLAGS = EntityDataManager.createKey(Entity.class, DataSerializers.BYTE);
-    private static final DataParameter<Integer> AIR = EntityDataManager.createKey(Entity.class, DataSerializers.VARINT);
-    private static final DataParameter<String> CUSTOM_NAME = EntityDataManager.createKey(Entity.class, DataSerializers.STRING);
-    private static final DataParameter<Boolean> CUSTOM_NAME_VISIBLE = EntityDataManager.createKey(Entity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Boolean> SILENT = EntityDataManager.createKey(Entity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Boolean> NO_GRAVITY = EntityDataManager.createKey(Entity.class, DataSerializers.BOOLEAN);
-    public boolean addedToChunk; public boolean isAddedToChunk() { return addedToChunk; } // Paper - OBFHELPER
-    public int chunkCoordX; public int getChunkX() { return chunkCoordX; } // Paper - OBFHELPER
-    public int chunkCoordY; public int getChunkY() { return chunkCoordY; } // Paper - OBFHELPER
-    public int chunkCoordZ; public int getChunkZ() { return chunkCoordZ; } // Paper - OBFHELPER
-    public boolean ignoreFrustumCheck;
-    public boolean isAirBorne;
-    public int timeUntilPortal;
-    protected boolean inPortal; public boolean inPortal() { return inPortal; } // Paper - OBFHELPER
-    protected int portalCounter;
-    public int dimension;
-    protected BlockPos lastPortalPos;
-    protected Vec3d lastPortalVec;
-    protected EnumFacing teleportDirection;
-    private boolean invulnerable;
-    protected UUID entityUniqueID;
-    protected String cachedUniqueIdString;
-    private final CommandResultStats cmdResultStats;
-    public boolean glowing;
-    private final Set<String> tags;
-    private boolean isPositionDirty;
-    private final double[] pistonDeltas;
-    private long pistonDeltasGameTime;
+    public double field_70159_w;
+    public double field_70181_x;
+    public double field_70179_y;
+    public float field_70177_z;
+    public float field_70125_A;
+    public float field_70126_B;
+    public float field_70127_C;
+    private AxisAlignedBB field_70121_D;
+    public boolean field_70122_E;
+    public boolean field_70123_F;
+    public boolean field_70124_G;
+    public boolean field_70132_H;
+    public boolean field_70133_I;
+    protected boolean field_70134_J;
+    private boolean field_174835_g;
+    public boolean field_70128_L;
+    public float field_70130_N;
+    public float field_70131_O;
+    public float field_70141_P;
+    public float field_70140_Q;
+    public float field_82151_R;
+    public float field_70143_R;
+    private int field_70150_b;
+    private float field_191959_ay;
+    public double field_70142_S;
+    public double field_70137_T;
+    public double field_70136_U;
+    public float field_70138_W;
+    public boolean field_70145_X;
+    public float field_70144_Y;
+    protected Random field_70146_Z;
+    public int field_70173_aa;
+    public int field_190534_ay;
+    public boolean field_70171_ac; // Spigot - protected -> public // PAIL
+    public int field_70172_ad;
+    protected boolean field_70148_d;
+    protected boolean field_70178_ae;
+    public EntityDataManager field_70180_af;
+    protected static final DataParameter<Byte> field_184240_ax = EntityDataManager.func_187226_a(Entity.class, DataSerializers.field_187191_a);
+    private static final DataParameter<Integer> field_184241_ay = EntityDataManager.func_187226_a(Entity.class, DataSerializers.field_187192_b);
+    private static final DataParameter<String> field_184242_az = EntityDataManager.func_187226_a(Entity.class, DataSerializers.field_187194_d);
+    private static final DataParameter<Boolean> field_184233_aA = EntityDataManager.func_187226_a(Entity.class, DataSerializers.field_187198_h);
+    private static final DataParameter<Boolean> field_184234_aB = EntityDataManager.func_187226_a(Entity.class, DataSerializers.field_187198_h);
+    private static final DataParameter<Boolean> field_189655_aD = EntityDataManager.func_187226_a(Entity.class, DataSerializers.field_187198_h);
+    public boolean field_70175_ag; public boolean isAddedToChunk() { return field_70175_ag; } // Paper - OBFHELPER
+    public int field_70176_ah; public int getChunkX() { return field_70176_ah; } // Paper - OBFHELPER
+    public int field_70162_ai; public int getChunkY() { return field_70162_ai; } // Paper - OBFHELPER
+    public int field_70164_aj; public int getChunkZ() { return field_70164_aj; } // Paper - OBFHELPER
+    public boolean field_70158_ak;
+    public boolean field_70160_al;
+    public int field_71088_bW;
+    protected boolean field_71087_bX; public boolean inPortal() { return field_71087_bX; } // Paper - OBFHELPER
+    protected int field_82153_h;
+    public int field_71093_bK;
+    protected BlockPos field_181016_an;
+    protected Vec3d field_181017_ao;
+    protected EnumFacing field_181018_ap;
+    private boolean field_83001_bt;
+    protected UUID field_96093_i;
+    protected String field_189513_ar;
+    private final CommandResultStats field_174837_as;
+    public boolean field_184238_ar;
+    private final Set<String> field_184236_aF;
+    private boolean field_184237_aG;
+    private final double[] field_191505_aI;
+    private long field_191506_aJ;
     // CraftBukkit start
     public boolean valid;
     public org.bukkit.projectiles.ProjectileSource projectileSource; // For projectiles only
@@ -267,30 +267,30 @@ public abstract class Entity implements ICommandSender {
     // Spigot end
 
     public float getBukkitYaw() {
-        return this.rotationYaw;
+        return this.field_70177_z;
     }
     // CraftBukkit end
 
     public Entity(World world) {
-        this.entityId = Entity.nextEntityID++;
-        this.riddenByEntities = Lists.newArrayList();
-        this.boundingBox = Entity.ZERO_AABB;
-        this.width = 0.6F;
-        this.height = 1.8F;
-        this.nextStepDistance = 1;
-        this.nextFlap = 1.0F;
-        this.rand = SHARED_RANDOM; // Paper
-        this.fire = -this.getFireImmuneTicks();
-        this.firstUpdate = true;
-        this.entityUniqueID = MathHelper.getRandomUUID(this.rand);
-        this.cachedUniqueIdString = this.entityUniqueID.toString();
-        this.cmdResultStats = new CommandResultStats();
-        this.tags = Sets.newHashSet();
-        this.pistonDeltas = new double[] { 0.0D, 0.0D, 0.0D};
-        this.world = world;
-        this.setPosition(0.0D, 0.0D, 0.0D);
+        this.field_145783_c = Entity.field_70152_a++;
+        this.field_184244_h = Lists.newArrayList();
+        this.field_70121_D = Entity.field_174836_a;
+        this.field_70130_N = 0.6F;
+        this.field_70131_O = 1.8F;
+        this.field_70150_b = 1;
+        this.field_191959_ay = 1.0F;
+        this.field_70146_Z = SHARED_RANDOM; // Paper
+        this.field_190534_ay = -this.func_190531_bD();
+        this.field_70148_d = true;
+        this.field_96093_i = MathHelper.func_180182_a(this.field_70146_Z);
+        this.field_189513_ar = this.field_96093_i.toString();
+        this.field_174837_as = new CommandResultStats();
+        this.field_184236_aF = Sets.newHashSet();
+        this.field_191505_aI = new double[] { 0.0D, 0.0D, 0.0D};
+        this.field_70170_p = world;
+        this.func_70107_b(0.0D, 0.0D, 0.0D);
         if (world != null) {
-            this.dimension = world.provider.getDimensionType().getId();
+            this.field_71093_bK = world.field_73011_w.func_186058_p().func_186068_a();
             // Spigot start
             this.defaultActivationState = org.spigotmc.ActivationRange.initializeEntityActivationState(this, world.spigotConfig);
         } else {
@@ -298,91 +298,91 @@ public abstract class Entity implements ICommandSender {
         }
         // Spigot end
 
-        this.dataManager = new EntityDataManager(this);
-        this.dataManager.register(Entity.FLAGS, Byte.valueOf((byte) 0));
-        this.dataManager.register(Entity.AIR, Integer.valueOf(300));
-        this.dataManager.register(Entity.CUSTOM_NAME_VISIBLE, Boolean.valueOf(false));
-        this.dataManager.register(Entity.CUSTOM_NAME, "");
-        this.dataManager.register(Entity.SILENT, Boolean.valueOf(false));
-        this.dataManager.register(Entity.NO_GRAVITY, Boolean.valueOf(false));
-        this.entityInit();
+        this.field_70180_af = new EntityDataManager(this);
+        this.field_70180_af.func_187214_a(Entity.field_184240_ax, Byte.valueOf((byte) 0));
+        this.field_70180_af.func_187214_a(Entity.field_184241_ay, Integer.valueOf(300));
+        this.field_70180_af.func_187214_a(Entity.field_184233_aA, Boolean.valueOf(false));
+        this.field_70180_af.func_187214_a(Entity.field_184242_az, "");
+        this.field_70180_af.func_187214_a(Entity.field_184234_aB, Boolean.valueOf(false));
+        this.field_70180_af.func_187214_a(Entity.field_189655_aD, Boolean.valueOf(false));
+        this.func_70088_a();
     }
 
-    public int getEntityId() {
-        return this.entityId;
+    public int func_145782_y() {
+        return this.field_145783_c;
     }
 
-    public void setEntityId(int i) {
-        this.entityId = i;
+    public void func_145769_d(int i) {
+        this.field_145783_c = i;
     }
 
-    public Set<String> getTags() {
-        return this.tags;
+    public Set<String> func_184216_O() {
+        return this.field_184236_aF;
     }
 
-    public boolean addTag(String s) {
-        if (this.tags.size() >= 1024) {
+    public boolean func_184211_a(String s) {
+        if (this.field_184236_aF.size() >= 1024) {
             return false;
         } else {
-            this.tags.add(s);
+            this.field_184236_aF.add(s);
             return true;
         }
     }
 
-    public boolean removeTag(String s) {
-        return this.tags.remove(s);
+    public boolean func_184197_b(String s) {
+        return this.field_184236_aF.remove(s);
     }
 
-    public void onKillCommand() {
-        this.setDead();
+    public void func_174812_G() {
+        this.func_70106_y();
     }
 
-    protected abstract void entityInit();
+    protected abstract void func_70088_a();
 
-    public EntityDataManager getDataManager() {
-        return this.dataManager;
+    public EntityDataManager func_184212_Q() {
+        return this.field_70180_af;
     }
 
     @Override
     public boolean equals(Object object) {
-        return object instanceof Entity ? ((Entity) object).entityId == this.entityId : false;
+        return object instanceof Entity ? ((Entity) object).field_145783_c == this.field_145783_c : false;
     }
 
     @Override
     public int hashCode() {
-        return this.entityId;
+        return this.field_145783_c;
     }
 
-    public void setDead() {
-        this.isDead = true;
+    public void func_70106_y() {
+        this.field_70128_L = true;
     }
 
-    public void setDropItemsWhenDead(boolean flag) {}
+    public void func_184174_b(boolean flag) {}
 
-    public void setSize(float f, float f1) {
-        if (f != this.width || f1 != this.height) {
-            float f2 = this.width;
+    public void func_70105_a(float f, float f1) {
+        if (f != this.field_70130_N || f1 != this.field_70131_O) {
+            float f2 = this.field_70130_N;
 
-            this.width = f;
-            this.height = f1;
-            if (this.width < f2) {
+            this.field_70130_N = f;
+            this.field_70131_O = f1;
+            if (this.field_70130_N < f2) {
                 double d0 = f / 2.0D;
 
-                this.setEntityBoundingBox(new AxisAlignedBB(this.posX - d0, this.posY, this.posZ - d0, this.posX + d0, this.posY + this.height, this.posZ + d0));
+                this.func_174826_a(new AxisAlignedBB(this.field_70165_t - d0, this.field_70163_u, this.field_70161_v - d0, this.field_70165_t + d0, this.field_70163_u + this.field_70131_O, this.field_70161_v + d0));
                 return;
             }
 
-            AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
+            AxisAlignedBB axisalignedbb = this.func_174813_aQ();
 
-            this.setEntityBoundingBox(new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + this.width, axisalignedbb.minY + this.height, axisalignedbb.minZ + this.width));
-            if (this.width > f2 && !this.firstUpdate && !this.world.isRemote) {
-                this.move(MoverType.SELF, f2 - this.width, 0.0D, f2 - this.width);
+            this.func_174826_a(new AxisAlignedBB(axisalignedbb.field_72340_a, axisalignedbb.field_72338_b, axisalignedbb.field_72339_c, axisalignedbb.field_72340_a + this.field_70130_N, axisalignedbb.field_72338_b + this.field_70131_O, axisalignedbb.field_72339_c + this.field_70130_N));
+            if (this.field_70130_N > f2 && !this.field_70148_d && !this.field_70170_p.field_72995_K) {
+                this.func_70091_d(MoverType.SELF, f2 - this.field_70130_N, 0.0D, f2 - this.field_70130_N);
             }
         }
 
     }
 
-    protected void setRotation(float f, float f1) {
+    protected void func_70101_b(float f, float f1) {
         // CraftBukkit start - yaw was sometimes set to NaN, so we need to set it back to 0
         if (Float.isNaN(f)) {
             f = 0;
@@ -390,7 +390,7 @@ public abstract class Entity implements ICommandSender {
 
         if (f == Float.POSITIVE_INFINITY || f == Float.NEGATIVE_INFINITY) {
             if (this instanceof EntityPlayerMP) {
-                this.world.getServer().getLogger().warning(this.getName() + " was caught trying to crash the server with an invalid yaw");
+                this.field_70170_p.getServer().getLogger().warning(this.func_70005_c_() + " was caught trying to crash the server with an invalid yaw");
                 ((CraftPlayer) this.getBukkitEntity()).kickPlayer("Infinite yaw (Hacking?)"); //Spigot "Nope" -> Descriptive reason
             }
             f = 0;
@@ -403,96 +403,96 @@ public abstract class Entity implements ICommandSender {
 
         if (f1 == Float.POSITIVE_INFINITY || f1 == Float.NEGATIVE_INFINITY) {
             if (this instanceof EntityPlayerMP) {
-                this.world.getServer().getLogger().warning(this.getName() + " was caught trying to crash the server with an invalid pitch");
+                this.field_70170_p.getServer().getLogger().warning(this.func_70005_c_() + " was caught trying to crash the server with an invalid pitch");
                 ((CraftPlayer) this.getBukkitEntity()).kickPlayer("Infinite pitch (Hacking?)"); //Spigot "Nope" -> Descriptive reason
             }
             f1 = 0;
         }
         // CraftBukkit end
 
-        this.rotationYaw = f % 360.0F;
-        this.rotationPitch = f1 % 360.0F;
+        this.field_70177_z = f % 360.0F;
+        this.field_70125_A = f1 % 360.0F;
     }
 
-    public void setPosition(double d0, double d1, double d2) {
-        this.posX = d0;
-        this.posY = d1;
-        this.posZ = d2;
-        float f = this.width / 2.0F;
-        float f1 = this.height;
+    public void func_70107_b(double d0, double d1, double d2) {
+        this.field_70165_t = d0;
+        this.field_70163_u = d1;
+        this.field_70161_v = d2;
+        float f = this.field_70130_N / 2.0F;
+        float f1 = this.field_70131_O;
 
-        this.setEntityBoundingBox(new AxisAlignedBB(d0 - f, d1, d2 - f, d0 + f, d1 + f1, d2 + f));
+        this.func_174826_a(new AxisAlignedBB(d0 - f, d1, d2 - f, d0 + f, d1 + f1, d2 + f));
     }
 
-    public void onUpdate() {
-        if (!this.world.isRemote) {
-            this.setFlag(6, this.isGlowing());
+    public void func_70071_h_() {
+        if (!this.field_70170_p.field_72995_K) {
+            this.func_70052_a(6, this.func_184202_aL());
         }
 
-        this.onEntityUpdate();
+        this.func_70030_z();
     }
 
     // CraftBukkit start
     public void postTick() {
         // No clean way to break out of ticking once the entity has been copied to a new world, so instead we move the portalling later in the tick cycle
-        if (!this.world.isRemote && this.world instanceof WorldServer) {
-            this.world.profiler.startSection("portal");
-            if (this.inPortal) {
-                MinecraftServer minecraftserver = this.world.getMinecraftServer();
+        if (!this.field_70170_p.field_72995_K && this.field_70170_p instanceof WorldServer) {
+            this.field_70170_p.field_72984_F.func_76320_a("portal");
+            if (this.field_71087_bX) {
+                MinecraftServer minecraftserver = this.field_70170_p.func_73046_m();
 
-                if (true || minecraftserver.getAllowNether()) { // CraftBukkit
-                    if (!this.isRiding()) {
-                        int i = this.getMaxInPortalTime();
+                if (true || minecraftserver.func_71255_r()) { // CraftBukkit
+                    if (!this.func_184218_aH()) {
+                        int i = this.func_82145_z();
 
-                        if (this.portalCounter++ >= i) {
-                            this.portalCounter = i;
-                            this.timeUntilPortal = this.getPortalCooldown();
+                        if (this.field_82153_h++ >= i) {
+                            this.field_82153_h = i;
+                            this.field_71088_bW = this.func_82147_ab();
                             byte b0;
 
-                            if (this.world.provider.getDimensionType().getId() == -1) {
+                            if (this.field_70170_p.field_73011_w.func_186058_p().func_186068_a() == -1) {
                                 b0 = 0;
                             } else {
                                 b0 = -1;
                             }
 
-                            this.changeDimension(b0);
+                            this.func_184204_a(b0);
                         }
                     }
 
-                    this.inPortal = false;
+                    this.field_71087_bX = false;
                 }
             } else {
-                if (this.portalCounter > 0) {
-                    this.portalCounter -= 4;
+                if (this.field_82153_h > 0) {
+                    this.field_82153_h -= 4;
                 }
 
-                if (this.portalCounter < 0) {
-                    this.portalCounter = 0;
+                if (this.field_82153_h < 0) {
+                    this.field_82153_h = 0;
                 }
             }
 
-            this.decrementTimeUntilPortal();
-            this.world.profiler.endSection();
+            this.func_184173_H();
+            this.field_70170_p.field_72984_F.func_76319_b();
         }
     }
     // CraftBukkit end
 
-    public void onEntityUpdate() {
-        this.world.profiler.startSection("entityBaseTick");
-        if (this.isRiding() && this.getRidingEntity().isDead) {
-            this.dismountRidingEntity();
+    public void func_70030_z() {
+        this.field_70170_p.field_72984_F.func_76320_a("entityBaseTick");
+        if (this.func_184218_aH() && this.func_184187_bx().field_70128_L) {
+            this.func_184210_p();
         }
 
-        if (this.rideCooldown > 0) {
-            --this.rideCooldown;
+        if (this.field_184245_j > 0) {
+            --this.field_184245_j;
         }
 
-        this.prevDistanceWalkedModified = this.distanceWalkedModified;
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        this.prevRotationPitch = this.rotationPitch;
-        this.prevRotationYaw = this.rotationYaw;
+        this.field_70141_P = this.field_70140_Q;
+        this.field_70169_q = this.field_70165_t;
+        this.field_70167_r = this.field_70163_u;
+        this.field_70166_s = this.field_70161_v;
+        this.field_70127_C = this.field_70125_A;
+        this.field_70126_B = this.field_70177_z;
         // Moved up to postTick
         /*
         if (!this.world.isClientSide && this.world instanceof WorldServer) {
@@ -536,28 +536,28 @@ public abstract class Entity implements ICommandSender {
         }
         */
 
-        this.spawnRunningParticles();
-        this.handleWaterMovement();
-        if (this.world.isRemote) {
-            this.extinguish();
-        } else if (this.fire > 0) {
-            if (this.isImmuneToFire) {
-                this.fire -= 4;
-                if (this.fire < 0) {
-                    this.extinguish();
+        this.func_174830_Y();
+        this.func_70072_I();
+        if (this.field_70170_p.field_72995_K) {
+            this.func_70066_B();
+        } else if (this.field_190534_ay > 0) {
+            if (this.field_70178_ae) {
+                this.field_190534_ay -= 4;
+                if (this.field_190534_ay < 0) {
+                    this.func_70066_B();
                 }
             } else {
-                if (this.fire % 20 == 0) {
-                    this.attackEntityFrom(DamageSource.ON_FIRE, 1.0F);
+                if (this.field_190534_ay % 20 == 0) {
+                    this.func_70097_a(DamageSource.field_76370_b, 1.0F);
                 }
 
-                --this.fire;
+                --this.field_190534_ay;
             }
         }
 
-        if (this.isInLava()) {
-            this.setOnFireFromLava();
-            this.fallDistance *= 0.5F;
+        if (this.func_180799_ab()) {
+            this.func_70044_A();
+            this.field_70143_R *= 0.5F;
         }
 
         // Paper start - Configurable nether ceiling damage
@@ -570,124 +570,124 @@ public abstract class Entity implements ICommandSender {
         this.checkAndDoHeightDamage();
         // Paper end
 
-        if (!this.world.isRemote) {
-            this.setFlag(0, this.fire > 0);
+        if (!this.field_70170_p.field_72995_K) {
+            this.func_70052_a(0, this.field_190534_ay > 0);
         }
 
-        this.firstUpdate = false;
-        this.world.profiler.endSection();
+        this.field_70148_d = false;
+        this.field_70170_p.field_72984_F.func_76319_b();
     }
 
     // Paper start - Configurable top of nether void damage
     private boolean paperNetherCheck() {
-        return this.world.paperConfig.netherVoidTopDamage && this.world.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER && this.posY >= 128.0D;
+        return this.field_70170_p.paperConfig.netherVoidTopDamage && this.field_70170_p.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER && this.field_70163_u >= 128.0D;
     }
 
     protected void checkAndDoHeightDamage() {
-        if (this.posY < -64.0D || paperNetherCheck()) {
+        if (this.field_70163_u < -64.0D || paperNetherCheck()) {
             this.kill();
         }
     }
     // Paper end
 
-    protected void decrementTimeUntilPortal() {
-        if (this.timeUntilPortal > 0) {
-            --this.timeUntilPortal;
+    protected void func_184173_H() {
+        if (this.field_71088_bW > 0) {
+            --this.field_71088_bW;
         }
 
     }
 
-    public int getMaxInPortalTime() {
+    public int func_82145_z() {
         return 1;
     }
 
-    protected void setOnFireFromLava() {
-        if (!this.isImmuneToFire) {
-            this.attackEntityFrom(DamageSource.LAVA, 4.0F);
+    protected void func_70044_A() {
+        if (!this.field_70178_ae) {
+            this.func_70097_a(DamageSource.field_76371_c, 4.0F);
 
             // CraftBukkit start - Fallen in lava TODO: this event spams!
             if (this instanceof EntityLivingBase) {
-                if (fire <= 0) {
+                if (field_190534_ay <= 0) {
                     // not on fire yet
                     // TODO: shouldn't be sending null for the block
                     org.bukkit.block.Block damager = null; // ((WorldServer) this.l).getWorld().getBlockAt(i, j, k);
                     org.bukkit.entity.Entity damagee = this.getBukkitEntity();
                     EntityCombustEvent combustEvent = new org.bukkit.event.entity.EntityCombustByBlockEvent(damager, damagee, 15);
-                    this.world.getServer().getPluginManager().callEvent(combustEvent);
+                    this.field_70170_p.getServer().getPluginManager().callEvent(combustEvent);
 
                     if (!combustEvent.isCancelled()) {
-                        this.setFire(combustEvent.getDuration());
+                        this.func_70015_d(combustEvent.getDuration());
                     }
                 } else {
                     // This will be called every single tick the entity is in lava, so don't throw an event
-                    this.setFire(15);
+                    this.func_70015_d(15);
                 }
                 return;
             }
             // CraftBukkit end - we also don't throw an event unless the object in lava is living, to save on some event calls
-            this.setFire(15);
+            this.func_70015_d(15);
         }
     }
 
-    public void setFire(int i) {
+    public void func_70015_d(int i) {
         int j = i * 20;
 
         if (this instanceof EntityLivingBase) {
-            j = EnchantmentProtection.getFireTimeForEntity((EntityLivingBase) this, j);
+            j = EnchantmentProtection.func_92093_a((EntityLivingBase) this, j);
         }
 
-        if (this.fire < j) {
-            this.fire = j;
+        if (this.field_190534_ay < j) {
+            this.field_190534_ay = j;
         }
 
     }
 
-    public void extinguish() {
-        this.fire = 0;
+    public void func_70066_B() {
+        this.field_190534_ay = 0;
     }
 
-    protected final void kill() { this.outOfWorld(); } // Paper - OBFHELPER
-    protected void outOfWorld() {
-        this.setDead();
+    protected final void kill() { this.func_70076_C(); } // Paper - OBFHELPER
+    protected void func_70076_C() {
+        this.func_70106_y();
     }
 
-    public boolean isOffsetPositionInLiquid(double d0, double d1, double d2) {
-        AxisAlignedBB axisalignedbb = this.getEntityBoundingBox().offset(d0, d1, d2);
+    public boolean func_70038_c(double d0, double d1, double d2) {
+        AxisAlignedBB axisalignedbb = this.func_174813_aQ().func_72317_d(d0, d1, d2);
 
-        return this.isLiquidPresentInAABB(axisalignedbb);
+        return this.func_174809_b(axisalignedbb);
     }
 
-    private boolean isLiquidPresentInAABB(AxisAlignedBB axisalignedbb) {
-        return this.world.getCollisionBoxes(this, axisalignedbb).isEmpty() && !this.world.containsAnyLiquid(axisalignedbb);
+    private boolean func_174809_b(AxisAlignedBB axisalignedbb) {
+        return this.field_70170_p.func_184144_a(this, axisalignedbb).isEmpty() && !this.field_70170_p.func_72953_d(axisalignedbb);
     }
 
-    public void move(MoverType enummovetype, double d0, double d1, double d2) {
-        if (this.noClip) {
-            this.setEntityBoundingBox(this.getEntityBoundingBox().offset(d0, d1, d2));
-            this.resetPositionToBB();
+    public void func_70091_d(MoverType enummovetype, double d0, double d1, double d2) {
+        if (this.field_70145_X) {
+            this.func_174826_a(this.func_174813_aQ().func_72317_d(d0, d1, d2));
+            this.func_174829_m();
         } else {
             // CraftBukkit start - Don't do anything if we aren't moving
             // We need to do this regardless of whether or not we are moving thanks to portals
             try {
-                this.doBlockCollisions();
+                this.func_145775_I();
             } catch (Throwable throwable) {
-                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Checking entity block collision");
-                CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("Entity being checked for collision");
+                CrashReport crashreport = CrashReport.func_85055_a(throwable, "Checking entity block collision");
+                CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Entity being checked for collision");
 
-                this.addEntityCrashInfo(crashreportsystemdetails);
+                this.func_85029_a(crashreportsystemdetails);
                 throw new ReportedException(crashreport);
             }
             // Check if we're moving
-            if (d0 == 0 && d1 == 0 && d2 == 0 && this.isBeingRidden() && this.isRiding()) {
+            if (d0 == 0 && d1 == 0 && d2 == 0 && this.func_184207_aI() && this.func_184218_aH()) {
                 return;
             }
             // CraftBukkit end
             if (enummovetype == MoverType.PISTON) {
-                long i = this.world.getTotalWorldTime();
+                long i = this.field_70170_p.func_82737_E();
 
-                if (i != this.pistonDeltasGameTime) {
-                    Arrays.fill(this.pistonDeltas, 0.0D);
-                    this.pistonDeltasGameTime = i;
+                if (i != this.field_191506_aJ) {
+                    Arrays.fill(this.field_191505_aI, 0.0D);
+                    this.field_191506_aJ = i;
                 }
 
                 int j;
@@ -695,17 +695,17 @@ public abstract class Entity implements ICommandSender {
 
                 if (d0 != 0.0D) {
                     j = EnumFacing.Axis.X.ordinal();
-                    d3 = MathHelper.clamp(d0 + this.pistonDeltas[j], -0.51D, 0.51D);
-                    d0 = d3 - this.pistonDeltas[j];
-                    this.pistonDeltas[j] = d3;
+                    d3 = MathHelper.func_151237_a(d0 + this.field_191505_aI[j], -0.51D, 0.51D);
+                    d0 = d3 - this.field_191505_aI[j];
+                    this.field_191505_aI[j] = d3;
                     if (Math.abs(d0) <= 9.999999747378752E-6D) {
                         return;
                     }
                 } else if (d1 != 0.0D) {
                     j = EnumFacing.Axis.Y.ordinal();
-                    d3 = MathHelper.clamp(d1 + this.pistonDeltas[j], -0.51D, 0.51D);
-                    d1 = d3 - this.pistonDeltas[j];
-                    this.pistonDeltas[j] = d3;
+                    d3 = MathHelper.func_151237_a(d1 + this.field_191505_aI[j], -0.51D, 0.51D);
+                    d1 = d3 - this.field_191505_aI[j];
+                    this.field_191505_aI[j] = d3;
                     if (Math.abs(d1) <= 9.999999747378752E-6D) {
                         return;
                     }
@@ -715,36 +715,36 @@ public abstract class Entity implements ICommandSender {
                     }
 
                     j = EnumFacing.Axis.Z.ordinal();
-                    d3 = MathHelper.clamp(d2 + this.pistonDeltas[j], -0.51D, 0.51D);
-                    d2 = d3 - this.pistonDeltas[j];
-                    this.pistonDeltas[j] = d3;
+                    d3 = MathHelper.func_151237_a(d2 + this.field_191505_aI[j], -0.51D, 0.51D);
+                    d2 = d3 - this.field_191505_aI[j];
+                    this.field_191505_aI[j] = d3;
                     if (Math.abs(d2) <= 9.999999747378752E-6D) {
                         return;
                     }
                 }
             }
 
-            this.world.profiler.startSection("move");
-            double d4 = this.posX;
-            double d5 = this.posY;
-            double d6 = this.posZ;
+            this.field_70170_p.field_72984_F.func_76320_a("move");
+            double d4 = this.field_70165_t;
+            double d5 = this.field_70163_u;
+            double d6 = this.field_70161_v;
 
-            if (this.isInWeb) {
-                this.isInWeb = false;
+            if (this.field_70134_J) {
+                this.field_70134_J = false;
                 d0 *= 0.25D;
                 d1 *= 0.05000000074505806D;
                 d2 *= 0.25D;
-                this.motionX = 0.0D;
-                this.motionY = 0.0D;
-                this.motionZ = 0.0D;
+                this.field_70159_w = 0.0D;
+                this.field_70181_x = 0.0D;
+                this.field_70179_y = 0.0D;
             }
 
             double d7 = d0;
             double d8 = d1;
             double d9 = d2;
 
-            if ((enummovetype == MoverType.SELF || enummovetype == MoverType.PLAYER) && this.onGround && this.isSneaking() && this instanceof EntityPlayer) {
-                for (double d10 = 0.05D; d0 != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(d0, (-this.stepHeight), 0.0D)).isEmpty(); d7 = d0) {
+            if ((enummovetype == MoverType.SELF || enummovetype == MoverType.PLAYER) && this.field_70122_E && this.func_70093_af() && this instanceof EntityPlayer) {
+                for (double d10 = 0.05D; d0 != 0.0D && this.field_70170_p.func_184144_a(this, this.func_174813_aQ().func_72317_d(d0, (-this.field_70138_W), 0.0D)).isEmpty(); d7 = d0) {
                     if (d0 < 0.05D && d0 >= -0.05D) {
                         d0 = 0.0D;
                     } else if (d0 > 0.0D) {
@@ -754,7 +754,7 @@ public abstract class Entity implements ICommandSender {
                     }
                 }
 
-                for (; d2 != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(0.0D, (-this.stepHeight), d2)).isEmpty(); d9 = d2) {
+                for (; d2 != 0.0D && this.field_70170_p.func_184144_a(this, this.func_174813_aQ().func_72317_d(0.0D, (-this.field_70138_W), d2)).isEmpty(); d9 = d2) {
                     if (d2 < 0.05D && d2 >= -0.05D) {
                         d2 = 0.0D;
                     } else if (d2 > 0.0D) {
@@ -764,7 +764,7 @@ public abstract class Entity implements ICommandSender {
                     }
                 }
 
-                for (; d0 != 0.0D && d2 != 0.0D && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().offset(d0, (-this.stepHeight), d2)).isEmpty(); d9 = d2) {
+                for (; d0 != 0.0D && d2 != 0.0D && this.field_70170_p.func_184144_a(this, this.func_174813_aQ().func_72317_d(d0, (-this.field_70138_W), d2)).isEmpty(); d9 = d2) {
                     if (d0 < 0.05D && d0 >= -0.05D) {
                         d0 = 0.0D;
                     } else if (d0 > 0.0D) {
@@ -784,8 +784,8 @@ public abstract class Entity implements ICommandSender {
                 }
             }
 
-            List list = this.world.getCollisionBoxes(this, this.getEntityBoundingBox().expand(d0, d1, d2));
-            AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
+            List list = this.field_70170_p.func_184144_a(this, this.func_174813_aQ().func_72321_a(d0, d1, d2));
+            AxisAlignedBB axisalignedbb = this.func_174813_aQ();
             int k;
             int l;
 
@@ -793,21 +793,21 @@ public abstract class Entity implements ICommandSender {
                 k = 0;
 
                 for (l = list.size(); k < l; ++k) {
-                    d1 = ((AxisAlignedBB) list.get(k)).calculateYOffset(this.getEntityBoundingBox(), d1);
+                    d1 = ((AxisAlignedBB) list.get(k)).func_72323_b(this.func_174813_aQ(), d1);
                 }
 
-                this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, d1, 0.0D));
+                this.func_174826_a(this.func_174813_aQ().func_72317_d(0.0D, d1, 0.0D));
             }
 
             if (d0 != 0.0D) {
                 k = 0;
 
                 for (l = list.size(); k < l; ++k) {
-                    d0 = ((AxisAlignedBB) list.get(k)).calculateXOffset(this.getEntityBoundingBox(), d0);
+                    d0 = ((AxisAlignedBB) list.get(k)).func_72316_a(this.func_174813_aQ(), d0);
                 }
 
                 if (d0 != 0.0D) {
-                    this.setEntityBoundingBox(this.getEntityBoundingBox().offset(d0, 0.0D, 0.0D));
+                    this.func_174826_a(this.func_174813_aQ().func_72317_d(d0, 0.0D, 0.0D));
                 }
             }
 
@@ -815,78 +815,78 @@ public abstract class Entity implements ICommandSender {
                 k = 0;
 
                 for (l = list.size(); k < l; ++k) {
-                    d2 = ((AxisAlignedBB) list.get(k)).calculateZOffset(this.getEntityBoundingBox(), d2);
+                    d2 = ((AxisAlignedBB) list.get(k)).func_72322_c(this.func_174813_aQ(), d2);
                 }
 
                 if (d2 != 0.0D) {
-                    this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, 0.0D, d2));
+                    this.func_174826_a(this.func_174813_aQ().func_72317_d(0.0D, 0.0D, d2));
                 }
             }
 
-            boolean flag = this.onGround || d1 != d8 && d1 < 0.0D; // CraftBukkit - decompile error
+            boolean flag = this.field_70122_E || d1 != d8 && d1 < 0.0D; // CraftBukkit - decompile error
             double d11;
 
-            if (this.stepHeight > 0.0F && flag && (d7 != d0 || d9 != d2)) {
+            if (this.field_70138_W > 0.0F && flag && (d7 != d0 || d9 != d2)) {
                 double d12 = d0;
                 double d13 = d1;
                 double d14 = d2;
-                AxisAlignedBB axisalignedbb1 = this.getEntityBoundingBox();
+                AxisAlignedBB axisalignedbb1 = this.func_174813_aQ();
 
-                this.setEntityBoundingBox(axisalignedbb);
-                d1 = this.stepHeight;
-                List list1 = this.world.getCollisionBoxes(this, this.getEntityBoundingBox().expand(d7, d1, d9));
-                AxisAlignedBB axisalignedbb2 = this.getEntityBoundingBox();
-                AxisAlignedBB axisalignedbb3 = axisalignedbb2.expand(d7, 0.0D, d9);
+                this.func_174826_a(axisalignedbb);
+                d1 = this.field_70138_W;
+                List list1 = this.field_70170_p.func_184144_a(this, this.func_174813_aQ().func_72321_a(d7, d1, d9));
+                AxisAlignedBB axisalignedbb2 = this.func_174813_aQ();
+                AxisAlignedBB axisalignedbb3 = axisalignedbb2.func_72321_a(d7, 0.0D, d9);
 
                 d11 = d1;
                 int i1 = 0;
 
                 for (int j1 = list1.size(); i1 < j1; ++i1) {
-                    d11 = ((AxisAlignedBB) list1.get(i1)).calculateYOffset(axisalignedbb3, d11);
+                    d11 = ((AxisAlignedBB) list1.get(i1)).func_72323_b(axisalignedbb3, d11);
                 }
 
-                axisalignedbb2 = axisalignedbb2.offset(0.0D, d11, 0.0D);
+                axisalignedbb2 = axisalignedbb2.func_72317_d(0.0D, d11, 0.0D);
                 double d15 = d7;
                 int k1 = 0;
 
                 for (int l1 = list1.size(); k1 < l1; ++k1) {
-                    d15 = ((AxisAlignedBB) list1.get(k1)).calculateXOffset(axisalignedbb2, d15);
+                    d15 = ((AxisAlignedBB) list1.get(k1)).func_72316_a(axisalignedbb2, d15);
                 }
 
-                axisalignedbb2 = axisalignedbb2.offset(d15, 0.0D, 0.0D);
+                axisalignedbb2 = axisalignedbb2.func_72317_d(d15, 0.0D, 0.0D);
                 double d16 = d9;
                 int i2 = 0;
 
                 for (int j2 = list1.size(); i2 < j2; ++i2) {
-                    d16 = ((AxisAlignedBB) list1.get(i2)).calculateZOffset(axisalignedbb2, d16);
+                    d16 = ((AxisAlignedBB) list1.get(i2)).func_72322_c(axisalignedbb2, d16);
                 }
 
-                axisalignedbb2 = axisalignedbb2.offset(0.0D, 0.0D, d16);
-                AxisAlignedBB axisalignedbb4 = this.getEntityBoundingBox();
+                axisalignedbb2 = axisalignedbb2.func_72317_d(0.0D, 0.0D, d16);
+                AxisAlignedBB axisalignedbb4 = this.func_174813_aQ();
                 double d17 = d1;
                 int k2 = 0;
 
                 for (int l2 = list1.size(); k2 < l2; ++k2) {
-                    d17 = ((AxisAlignedBB) list1.get(k2)).calculateYOffset(axisalignedbb4, d17);
+                    d17 = ((AxisAlignedBB) list1.get(k2)).func_72323_b(axisalignedbb4, d17);
                 }
 
-                axisalignedbb4 = axisalignedbb4.offset(0.0D, d17, 0.0D);
+                axisalignedbb4 = axisalignedbb4.func_72317_d(0.0D, d17, 0.0D);
                 double d18 = d7;
                 int i3 = 0;
 
                 for (int j3 = list1.size(); i3 < j3; ++i3) {
-                    d18 = ((AxisAlignedBB) list1.get(i3)).calculateXOffset(axisalignedbb4, d18);
+                    d18 = ((AxisAlignedBB) list1.get(i3)).func_72316_a(axisalignedbb4, d18);
                 }
 
-                axisalignedbb4 = axisalignedbb4.offset(d18, 0.0D, 0.0D);
+                axisalignedbb4 = axisalignedbb4.func_72317_d(d18, 0.0D, 0.0D);
                 double d19 = d9;
                 int k3 = 0;
 
                 for (int l3 = list1.size(); k3 < l3; ++k3) {
-                    d19 = ((AxisAlignedBB) list1.get(k3)).calculateZOffset(axisalignedbb4, d19);
+                    d19 = ((AxisAlignedBB) list1.get(k3)).func_72322_c(axisalignedbb4, d19);
                 }
 
-                axisalignedbb4 = axisalignedbb4.offset(0.0D, 0.0D, d19);
+                axisalignedbb4 = axisalignedbb4.func_72317_d(0.0D, 0.0D, d19);
                 double d20 = d15 * d15 + d16 * d16;
                 double d21 = d18 * d18 + d19 * d19;
 
@@ -894,46 +894,46 @@ public abstract class Entity implements ICommandSender {
                     d0 = d15;
                     d2 = d16;
                     d1 = -d11;
-                    this.setEntityBoundingBox(axisalignedbb2);
+                    this.func_174826_a(axisalignedbb2);
                 } else {
                     d0 = d18;
                     d2 = d19;
                     d1 = -d17;
-                    this.setEntityBoundingBox(axisalignedbb4);
+                    this.func_174826_a(axisalignedbb4);
                 }
 
                 int i4 = 0;
 
                 for (int j4 = list1.size(); i4 < j4; ++i4) {
-                    d1 = ((AxisAlignedBB) list1.get(i4)).calculateYOffset(this.getEntityBoundingBox(), d1);
+                    d1 = ((AxisAlignedBB) list1.get(i4)).func_72323_b(this.func_174813_aQ(), d1);
                 }
 
-                this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0D, d1, 0.0D));
+                this.func_174826_a(this.func_174813_aQ().func_72317_d(0.0D, d1, 0.0D));
                 if (d12 * d12 + d14 * d14 >= d0 * d0 + d2 * d2) {
                     d0 = d12;
                     d1 = d13;
                     d2 = d14;
-                    this.setEntityBoundingBox(axisalignedbb1);
+                    this.func_174826_a(axisalignedbb1);
                 }
             }
 
-            this.world.profiler.endSection();
-            this.world.profiler.startSection("rest");
-            this.resetPositionToBB();
-            this.collidedHorizontally = d7 != d0 || d9 != d2;
-            this.collidedVertically = d1 != d8; // CraftBukkit - decompile error
-            this.onGround = this.collidedVertically && d8 < 0.0D;
-            this.collided = this.collidedHorizontally || this.collidedVertically;
-            l = MathHelper.floor(this.posX);
-            int k4 = MathHelper.floor(this.posY - 0.20000000298023224D);
-            int l4 = MathHelper.floor(this.posZ);
+            this.field_70170_p.field_72984_F.func_76319_b();
+            this.field_70170_p.field_72984_F.func_76320_a("rest");
+            this.func_174829_m();
+            this.field_70123_F = d7 != d0 || d9 != d2;
+            this.field_70124_G = d1 != d8; // CraftBukkit - decompile error
+            this.field_70122_E = this.field_70124_G && d8 < 0.0D;
+            this.field_70132_H = this.field_70123_F || this.field_70124_G;
+            l = MathHelper.func_76128_c(this.field_70165_t);
+            int k4 = MathHelper.func_76128_c(this.field_70163_u - 0.20000000298023224D);
+            int l4 = MathHelper.func_76128_c(this.field_70161_v);
             BlockPos blockposition = new BlockPos(l, k4, l4);
-            IBlockState iblockdata = this.world.getBlockState(blockposition);
+            IBlockState iblockdata = this.field_70170_p.func_180495_p(blockposition);
 
-            if (iblockdata.getMaterial() == Material.AIR) {
-                BlockPos blockposition1 = blockposition.down();
-                IBlockState iblockdata1 = this.world.getBlockState(blockposition1);
-                Block block = iblockdata1.getBlock();
+            if (iblockdata.func_185904_a() == Material.field_151579_a) {
+                BlockPos blockposition1 = blockposition.func_177977_b();
+                IBlockState iblockdata1 = this.field_70170_p.func_180495_p(blockposition1);
+                Block block = iblockdata1.func_177230_c();
 
                 if (block instanceof BlockFence || block instanceof BlockWall || block instanceof BlockFenceGate) {
                     iblockdata = iblockdata1;
@@ -941,25 +941,25 @@ public abstract class Entity implements ICommandSender {
                 }
             }
 
-            this.updateFallState(d1, this.onGround, iblockdata, blockposition);
+            this.func_184231_a(d1, this.field_70122_E, iblockdata, blockposition);
             if (d7 != d0) {
-                this.motionX = 0.0D;
+                this.field_70159_w = 0.0D;
             }
 
             if (d9 != d2) {
-                this.motionZ = 0.0D;
+                this.field_70179_y = 0.0D;
             }
 
-            Block block1 = iblockdata.getBlock();
+            Block block1 = iblockdata.func_177230_c();
 
             if (d8 != d1) {
-                block1.onLanded(this.world, this);
+                block1.func_176216_a(this.field_70170_p, this);
             }
 
             // CraftBukkit start
-            if (collidedHorizontally && getBukkitEntity() instanceof Vehicle) {
+            if (field_70123_F && getBukkitEntity() instanceof Vehicle) {
                 Vehicle vehicle = (Vehicle) this.getBukkitEntity();
-                org.bukkit.block.Block bl = this.world.getWorld().getBlockAt(MathHelper.floor(this.posX), MathHelper.floor(this.posY), MathHelper.floor(this.posZ));
+                org.bukkit.block.Block bl = this.field_70170_p.getWorld().getBlockAt(MathHelper.func_76128_c(this.field_70165_t), MathHelper.func_76128_c(this.field_70163_u), MathHelper.func_76128_c(this.field_70161_v));
 
                 if (d7 > d0) {
                     bl = bl.getRelative(BlockFace.EAST);
@@ -973,43 +973,43 @@ public abstract class Entity implements ICommandSender {
 
                 if (bl.getType() != org.bukkit.Material.AIR) {
                     VehicleBlockCollisionEvent event = new VehicleBlockCollisionEvent(vehicle, bl);
-                    world.getServer().getPluginManager().callEvent(event);
+                    field_70170_p.getServer().getPluginManager().callEvent(event);
                 }
             }
             // CraftBukkit end
 
-            if (this.canTriggerWalking() && (!this.onGround || !this.isSneaking() || !(this instanceof EntityPlayer)) && !this.isRiding()) {
-                double d22 = this.posX - d4;
-                double d23 = this.posY - d5;
+            if (this.func_70041_e_() && (!this.field_70122_E || !this.func_70093_af() || !(this instanceof EntityPlayer)) && !this.func_184218_aH()) {
+                double d22 = this.field_70165_t - d4;
+                double d23 = this.field_70163_u - d5;
 
-                d11 = this.posZ - d6;
-                if (block1 != Blocks.LADDER) {
+                d11 = this.field_70161_v - d6;
+                if (block1 != Blocks.field_150468_ap) {
                     d23 = 0.0D;
                 }
 
-                if (block1 != null && this.onGround) {
-                    block1.onEntityWalk(this.world, blockposition, this);
+                if (block1 != null && this.field_70122_E) {
+                    block1.func_176199_a(this.field_70170_p, blockposition, this);
                 }
 
-                this.distanceWalkedModified = (float) (this.distanceWalkedModified + MathHelper.sqrt(d22 * d22 + d11 * d11) * 0.6D);
-                this.distanceWalkedOnStepModified = (float) (this.distanceWalkedOnStepModified + MathHelper.sqrt(d22 * d22 + d23 * d23 + d11 * d11) * 0.6D);
-                if (this.distanceWalkedOnStepModified > this.nextStepDistance && iblockdata.getMaterial() != Material.AIR) {
-                    this.nextStepDistance = (int) this.distanceWalkedOnStepModified + 1;
-                    if (this.isInWater()) {
-                        Entity entity = this.isBeingRidden() && this.getControllingPassenger() != null ? this.getControllingPassenger() : this;
+                this.field_70140_Q = (float) (this.field_70140_Q + MathHelper.func_76133_a(d22 * d22 + d11 * d11) * 0.6D);
+                this.field_82151_R = (float) (this.field_82151_R + MathHelper.func_76133_a(d22 * d22 + d23 * d23 + d11 * d11) * 0.6D);
+                if (this.field_82151_R > this.field_70150_b && iblockdata.func_185904_a() != Material.field_151579_a) {
+                    this.field_70150_b = (int) this.field_82151_R + 1;
+                    if (this.func_70090_H()) {
+                        Entity entity = this.func_184207_aI() && this.func_184179_bs() != null ? this.func_184179_bs() : this;
                         float f = entity == this ? 0.35F : 0.4F;
-                        float f1 = MathHelper.sqrt(entity.motionX * entity.motionX * 0.20000000298023224D + entity.motionY * entity.motionY + entity.motionZ * entity.motionZ * 0.20000000298023224D) * f;
+                        float f1 = MathHelper.func_76133_a(entity.field_70159_w * entity.field_70159_w * 0.20000000298023224D + entity.field_70181_x * entity.field_70181_x + entity.field_70179_y * entity.field_70179_y * 0.20000000298023224D) * f;
 
                         if (f1 > 1.0F) {
                             f1 = 1.0F;
                         }
 
-                        this.playSound(this.getSwimSound(), f1, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
+                        this.func_184185_a(this.func_184184_Z(), f1, 1.0F + (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.4F);
                     } else {
-                        this.playStepSound(blockposition, block1);
+                        this.func_180429_a(blockposition, block1);
                     }
-                } else if (this.distanceWalkedOnStepModified > this.nextFlap && this.makeFlySound() && iblockdata.getMaterial() == Material.AIR) {
-                    this.nextFlap = this.playFlySound(this.distanceWalkedOnStepModified);
+                } else if (this.field_82151_R > this.field_191959_ay && this.func_191957_ae() && iblockdata.func_185904_a() == Material.field_151579_a) {
+                    this.field_191959_ay = this.func_191954_d(this.field_82151_R);
                 }
             }
 
@@ -1027,73 +1027,73 @@ public abstract class Entity implements ICommandSender {
             */
             // CraftBukkit end
 
-            boolean flag1 = this.isWet();
+            boolean flag1 = this.func_70026_G();
 
-            if (this.world.isFlammableWithin(this.getEntityBoundingBox().shrink(0.001D))) {
+            if (this.field_70170_p.func_147470_e(this.func_174813_aQ().func_186664_h(0.001D))) {
                 this.burn(1);
                 if (!flag1) {
-                    ++this.fire;
-                    if (this.fire == 0) {
+                    ++this.field_190534_ay;
+                    if (this.field_190534_ay == 0) {
                         // CraftBukkit start
                         EntityCombustEvent event = new org.bukkit.event.entity.EntityCombustByBlockEvent(null, getBukkitEntity(), 8);
-                        world.getServer().getPluginManager().callEvent(event);
+                        field_70170_p.getServer().getPluginManager().callEvent(event);
 
                         if (!event.isCancelled()) {
-                            this.setFire(event.getDuration());
+                            this.func_70015_d(event.getDuration());
                         }
                         // CraftBukkit end
                     }
                 }
-            } else if (this.fire <= 0) {
-                this.fire = -this.getFireImmuneTicks();
+            } else if (this.field_190534_ay <= 0) {
+                this.field_190534_ay = -this.func_190531_bD();
             }
 
-            if (flag1 && this.isBurning()) {
-                this.playSound(SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 0.7F, 1.6F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
-                this.fire = -this.getFireImmuneTicks();
+            if (flag1 && this.func_70027_ad()) {
+                this.func_184185_a(SoundEvents.field_187541_bC, 0.7F, 1.6F + (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.4F);
+                this.field_190534_ay = -this.func_190531_bD();
             }
 
-            this.world.profiler.endSection();
+            this.field_70170_p.field_72984_F.func_76319_b();
         }
     }
 
-    public void resetPositionToBB() {
-        AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
+    public void func_174829_m() {
+        AxisAlignedBB axisalignedbb = this.func_174813_aQ();
 
-        this.posX = (axisalignedbb.minX + axisalignedbb.maxX) / 2.0D;
-        this.posY = axisalignedbb.minY;
-        this.posZ = (axisalignedbb.minZ + axisalignedbb.maxZ) / 2.0D;
+        this.field_70165_t = (axisalignedbb.field_72340_a + axisalignedbb.field_72336_d) / 2.0D;
+        this.field_70163_u = axisalignedbb.field_72338_b;
+        this.field_70161_v = (axisalignedbb.field_72339_c + axisalignedbb.field_72334_f) / 2.0D;
     }
 
-    protected SoundEvent getSwimSound() {
-        return SoundEvents.ENTITY_GENERIC_SWIM;
+    protected SoundEvent func_184184_Z() {
+        return SoundEvents.field_187549_bG;
     }
 
-    protected SoundEvent getSplashSound() {
-        return SoundEvents.ENTITY_GENERIC_SPLASH;
+    protected SoundEvent func_184181_aa() {
+        return SoundEvents.field_187547_bF;
     }
 
-    protected void doBlockCollisions() {
-        AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
-        BlockPos.PooledMutableBlockPos blockposition_pooledblockposition = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
-        BlockPos.PooledMutableBlockPos blockposition_pooledblockposition1 = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
-        BlockPos.PooledMutableBlockPos blockposition_pooledblockposition2 = BlockPos.PooledMutableBlockPos.retain();
+    protected void func_145775_I() {
+        AxisAlignedBB axisalignedbb = this.func_174813_aQ();
+        BlockPos.PooledMutableBlockPos blockposition_pooledblockposition = BlockPos.PooledMutableBlockPos.func_185345_c(axisalignedbb.field_72340_a + 0.001D, axisalignedbb.field_72338_b + 0.001D, axisalignedbb.field_72339_c + 0.001D);
+        BlockPos.PooledMutableBlockPos blockposition_pooledblockposition1 = BlockPos.PooledMutableBlockPos.func_185345_c(axisalignedbb.field_72336_d - 0.001D, axisalignedbb.field_72337_e - 0.001D, axisalignedbb.field_72334_f - 0.001D);
+        BlockPos.PooledMutableBlockPos blockposition_pooledblockposition2 = BlockPos.PooledMutableBlockPos.func_185346_s();
 
-        if (this.world.isAreaLoaded(blockposition_pooledblockposition, blockposition_pooledblockposition1)) {
-            for (int i = blockposition_pooledblockposition.getX(); i <= blockposition_pooledblockposition1.getX(); ++i) {
-                for (int j = blockposition_pooledblockposition.getY(); j <= blockposition_pooledblockposition1.getY(); ++j) {
-                    for (int k = blockposition_pooledblockposition.getZ(); k <= blockposition_pooledblockposition1.getZ(); ++k) {
-                        blockposition_pooledblockposition2.setPos(i, j, k);
-                        IBlockState iblockdata = this.world.getBlockState(blockposition_pooledblockposition2);
+        if (this.field_70170_p.func_175707_a(blockposition_pooledblockposition, blockposition_pooledblockposition1)) {
+            for (int i = blockposition_pooledblockposition.func_177958_n(); i <= blockposition_pooledblockposition1.func_177958_n(); ++i) {
+                for (int j = blockposition_pooledblockposition.func_177956_o(); j <= blockposition_pooledblockposition1.func_177956_o(); ++j) {
+                    for (int k = blockposition_pooledblockposition.func_177952_p(); k <= blockposition_pooledblockposition1.func_177952_p(); ++k) {
+                        blockposition_pooledblockposition2.func_181079_c(i, j, k);
+                        IBlockState iblockdata = this.field_70170_p.func_180495_p(blockposition_pooledblockposition2);
 
                         try {
-                            iblockdata.getBlock().onEntityCollidedWithBlock(this.world, blockposition_pooledblockposition2, iblockdata, this);
-                            this.onInsideBlock(iblockdata);
+                            iblockdata.func_177230_c().func_180634_a(this.field_70170_p, blockposition_pooledblockposition2, iblockdata, this);
+                            this.func_191955_a(iblockdata);
                         } catch (Throwable throwable) {
-                            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Colliding entity with block");
-                            CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("Block being collided with");
+                            CrashReport crashreport = CrashReport.func_85055_a(throwable, "Colliding entity with block");
+                            CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Block being collided with");
 
-                            CrashReportCategory.addBlockInfo(crashreportsystemdetails, blockposition_pooledblockposition2, iblockdata);
+                            CrashReportCategory.func_175750_a(crashreportsystemdetails, blockposition_pooledblockposition2, iblockdata);
                             throw new ReportedException(crashreport);
                         }
                     }
@@ -1101,210 +1101,210 @@ public abstract class Entity implements ICommandSender {
             }
         }
 
-        blockposition_pooledblockposition.release();
-        blockposition_pooledblockposition1.release();
-        blockposition_pooledblockposition2.release();
+        blockposition_pooledblockposition.func_185344_t();
+        blockposition_pooledblockposition1.func_185344_t();
+        blockposition_pooledblockposition2.func_185344_t();
     }
 
-    protected void onInsideBlock(IBlockState iblockdata) {}
+    protected void func_191955_a(IBlockState iblockdata) {}
 
-    protected void playStepSound(BlockPos blockposition, Block block) {
-        SoundType soundeffecttype = block.getSoundType();
+    protected void func_180429_a(BlockPos blockposition, Block block) {
+        SoundType soundeffecttype = block.func_185467_w();
 
-        if (this.world.getBlockState(blockposition.up()).getBlock() == Blocks.SNOW_LAYER) {
-            soundeffecttype = Blocks.SNOW_LAYER.getSoundType();
-            this.playSound(soundeffecttype.getStepSound(), soundeffecttype.getVolume() * 0.15F, soundeffecttype.getPitch());
-        } else if (!block.getDefaultState().getMaterial().isLiquid()) {
-            this.playSound(soundeffecttype.getStepSound(), soundeffecttype.getVolume() * 0.15F, soundeffecttype.getPitch());
+        if (this.field_70170_p.func_180495_p(blockposition.func_177984_a()).func_177230_c() == Blocks.field_150431_aC) {
+            soundeffecttype = Blocks.field_150431_aC.func_185467_w();
+            this.func_184185_a(soundeffecttype.func_185844_d(), soundeffecttype.func_185843_a() * 0.15F, soundeffecttype.func_185847_b());
+        } else if (!block.func_176223_P().func_185904_a().func_76224_d()) {
+            this.func_184185_a(soundeffecttype.func_185844_d(), soundeffecttype.func_185843_a() * 0.15F, soundeffecttype.func_185847_b());
         }
 
     }
 
-    protected float playFlySound(float f) {
+    protected float func_191954_d(float f) {
         return 0.0F;
     }
 
-    protected boolean makeFlySound() {
+    protected boolean func_191957_ae() {
         return false;
     }
 
-    public void playSound(SoundEvent soundeffect, float f, float f1) {
-        if (!this.isSilent()) {
-            this.world.playSound((EntityPlayer) null, this.posX, this.posY, this.posZ, soundeffect, this.getSoundCategory(), f, f1);
+    public void func_184185_a(SoundEvent soundeffect, float f, float f1) {
+        if (!this.func_174814_R()) {
+            this.field_70170_p.func_184148_a((EntityPlayer) null, this.field_70165_t, this.field_70163_u, this.field_70161_v, soundeffect, this.func_184176_by(), f, f1);
         }
 
     }
 
-    public boolean isSilent() {
-        return this.dataManager.get(Entity.SILENT).booleanValue();
+    public boolean func_174814_R() {
+        return this.field_70180_af.func_187225_a(Entity.field_184234_aB).booleanValue();
     }
 
-    public void setSilent(boolean flag) {
-        this.dataManager.set(Entity.SILENT, Boolean.valueOf(flag));
+    public void func_174810_b(boolean flag) {
+        this.field_70180_af.func_187227_b(Entity.field_184234_aB, Boolean.valueOf(flag));
     }
 
-    public boolean hasNoGravity() {
-        return this.dataManager.get(Entity.NO_GRAVITY).booleanValue();
+    public boolean func_189652_ae() {
+        return this.field_70180_af.func_187225_a(Entity.field_189655_aD).booleanValue();
     }
 
-    public void setNoGravity(boolean flag) {
-        this.dataManager.set(Entity.NO_GRAVITY, Boolean.valueOf(flag));
+    public void func_189654_d(boolean flag) {
+        this.field_70180_af.func_187227_b(Entity.field_189655_aD, Boolean.valueOf(flag));
     }
 
-    protected boolean canTriggerWalking() {
+    protected boolean func_70041_e_() {
         return true;
     }
 
-    protected void updateFallState(double d0, boolean flag, IBlockState iblockdata, BlockPos blockposition) {
+    protected void func_184231_a(double d0, boolean flag, IBlockState iblockdata, BlockPos blockposition) {
         if (flag) {
-            if (this.fallDistance > 0.0F) {
-                iblockdata.getBlock().onFallenUpon(this.world, blockposition, this, this.fallDistance);
+            if (this.field_70143_R > 0.0F) {
+                iblockdata.func_177230_c().func_180658_a(this.field_70170_p, blockposition, this, this.field_70143_R);
             }
 
-            this.fallDistance = 0.0F;
+            this.field_70143_R = 0.0F;
         } else if (d0 < 0.0D) {
-            this.fallDistance = (float) (this.fallDistance - d0);
+            this.field_70143_R = (float) (this.field_70143_R - d0);
         }
 
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox() {
+    public AxisAlignedBB func_70046_E() {
         return null;
     }
 
     protected void burn(float i) { // CraftBukkit - int -> float
-        if (!this.isImmuneToFire) {
-            this.attackEntityFrom(DamageSource.IN_FIRE, i);
+        if (!this.field_70178_ae) {
+            this.func_70097_a(DamageSource.field_76372_a, i);
         }
 
     }
 
-    public final boolean isImmuneToFire() {
-        return this.isImmuneToFire;
+    public final boolean func_70045_F() {
+        return this.field_70178_ae;
     }
 
-    public void fall(float f, float f1) {
-        if (this.isBeingRidden()) {
-            Iterator iterator = this.getPassengers().iterator();
+    public void func_180430_e(float f, float f1) {
+        if (this.func_184207_aI()) {
+            Iterator iterator = this.func_184188_bt().iterator();
 
             while (iterator.hasNext()) {
                 Entity entity = (Entity) iterator.next();
 
-                entity.fall(f, f1);
+                entity.func_180430_e(f, f1);
             }
         }
 
     }
 
-    public boolean isWet() {
-        if (this.inWater) {
+    public boolean func_70026_G() {
+        if (this.field_70171_ac) {
             return true;
         } else {
-            BlockPos.PooledMutableBlockPos blockposition_pooledblockposition = BlockPos.PooledMutableBlockPos.retain(this.posX, this.posY, this.posZ);
+            BlockPos.PooledMutableBlockPos blockposition_pooledblockposition = BlockPos.PooledMutableBlockPos.func_185345_c(this.field_70165_t, this.field_70163_u, this.field_70161_v);
 
-            if (!this.world.isRainingAt(blockposition_pooledblockposition) && !this.world.isRainingAt(blockposition_pooledblockposition.setPos(this.posX, this.posY + this.height, this.posZ))) {
-                blockposition_pooledblockposition.release();
+            if (!this.field_70170_p.func_175727_C(blockposition_pooledblockposition) && !this.field_70170_p.func_175727_C(blockposition_pooledblockposition.func_189532_c(this.field_70165_t, this.field_70163_u + this.field_70131_O, this.field_70161_v))) {
+                blockposition_pooledblockposition.func_185344_t();
                 return false;
             } else {
-                blockposition_pooledblockposition.release();
+                blockposition_pooledblockposition.func_185344_t();
                 return true;
             }
         }
     }
 
-    public boolean isInWater() {
-        return this.inWater;
+    public boolean func_70090_H() {
+        return this.field_70171_ac;
     }
 
-    public boolean isOverWater() {
-        return this.world.handleMaterialAcceleration(this.getEntityBoundingBox().grow(0.0D, -20.0D, 0.0D).shrink(0.001D), Material.WATER, this);
+    public boolean func_191953_am() {
+        return this.field_70170_p.func_72918_a(this.func_174813_aQ().func_72314_b(0.0D, -20.0D, 0.0D).func_186664_h(0.001D), Material.field_151586_h, this);
     }
 
-    public boolean handleWaterMovement() {
+    public boolean func_70072_I() {
         return this.doWaterMovement();
     }
 
     public boolean doWaterMovement() {
         // Paper end
-        if (this.getRidingEntity() instanceof EntityBoat) {
-            this.inWater = false;
-        } else if (this.world.handleMaterialAcceleration(this.getEntityBoundingBox().grow(0.0D, -0.4000000059604645D, 0.0D).shrink(0.001D), Material.WATER, this)) {
-            if (!this.inWater && !this.firstUpdate) {
-                this.doWaterSplashEffect();
+        if (this.func_184187_bx() instanceof EntityBoat) {
+            this.field_70171_ac = false;
+        } else if (this.field_70170_p.func_72918_a(this.func_174813_aQ().func_72314_b(0.0D, -0.4000000059604645D, 0.0D).func_186664_h(0.001D), Material.field_151586_h, this)) {
+            if (!this.field_70171_ac && !this.field_70148_d) {
+                this.func_71061_d_();
             }
 
-            this.fallDistance = 0.0F;
-            this.inWater = true;
-            this.extinguish();
+            this.field_70143_R = 0.0F;
+            this.field_70171_ac = true;
+            this.func_70066_B();
         } else {
-            this.inWater = false;
+            this.field_70171_ac = false;
         }
 
-        return this.inWater;
+        return this.field_70171_ac;
     }
 
-    protected void doWaterSplashEffect() {
-        Entity entity = this.isBeingRidden() && this.getControllingPassenger() != null ? this.getControllingPassenger() : this;
+    protected void func_71061_d_() {
+        Entity entity = this.func_184207_aI() && this.func_184179_bs() != null ? this.func_184179_bs() : this;
         float f = entity == this ? 0.2F : 0.9F;
-        float f1 = MathHelper.sqrt(entity.motionX * entity.motionX * 0.20000000298023224D + entity.motionY * entity.motionY + entity.motionZ * entity.motionZ * 0.20000000298023224D) * f;
+        float f1 = MathHelper.func_76133_a(entity.field_70159_w * entity.field_70159_w * 0.20000000298023224D + entity.field_70181_x * entity.field_70181_x + entity.field_70179_y * entity.field_70179_y * 0.20000000298023224D) * f;
 
         if (f1 > 1.0F) {
             f1 = 1.0F;
         }
 
-        this.playSound(this.getSplashSound(), f1, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
-        float f2 = MathHelper.floor(this.getEntityBoundingBox().minY);
+        this.func_184185_a(this.func_184181_aa(), f1, 1.0F + (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.4F);
+        float f2 = MathHelper.func_76128_c(this.func_174813_aQ().field_72338_b);
 
         int i;
         float f3;
         float f4;
 
-        for (i = 0; i < 1.0F + this.width * 20.0F; ++i) {
-            f3 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-            f4 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-            this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + f3, f2 + 1.0F, this.posZ + f4, this.motionX, this.motionY - this.rand.nextFloat() * 0.2F, this.motionZ, new int[0]);
+        for (i = 0; i < 1.0F + this.field_70130_N * 20.0F; ++i) {
+            f3 = (this.field_70146_Z.nextFloat() * 2.0F - 1.0F) * this.field_70130_N;
+            f4 = (this.field_70146_Z.nextFloat() * 2.0F - 1.0F) * this.field_70130_N;
+            this.field_70170_p.func_175688_a(EnumParticleTypes.WATER_BUBBLE, this.field_70165_t + f3, f2 + 1.0F, this.field_70161_v + f4, this.field_70159_w, this.field_70181_x - this.field_70146_Z.nextFloat() * 0.2F, this.field_70179_y, new int[0]);
         }
 
-        for (i = 0; i < 1.0F + this.width * 20.0F; ++i) {
-            f3 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-            f4 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-            this.world.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + f3, f2 + 1.0F, this.posZ + f4, this.motionX, this.motionY, this.motionZ, new int[0]);
-        }
-
-    }
-
-    public void spawnRunningParticles() {
-        if (this.isSprinting() && !this.isInWater()) {
-            this.createRunningParticles();
+        for (i = 0; i < 1.0F + this.field_70130_N * 20.0F; ++i) {
+            f3 = (this.field_70146_Z.nextFloat() * 2.0F - 1.0F) * this.field_70130_N;
+            f4 = (this.field_70146_Z.nextFloat() * 2.0F - 1.0F) * this.field_70130_N;
+            this.field_70170_p.func_175688_a(EnumParticleTypes.WATER_SPLASH, this.field_70165_t + f3, f2 + 1.0F, this.field_70161_v + f4, this.field_70159_w, this.field_70181_x, this.field_70179_y, new int[0]);
         }
 
     }
 
-    protected void createRunningParticles() {
-        int i = MathHelper.floor(this.posX);
-        int j = MathHelper.floor(this.posY - 0.20000000298023224D);
-        int k = MathHelper.floor(this.posZ);
+    public void func_174830_Y() {
+        if (this.func_70051_ag() && !this.func_70090_H()) {
+            this.func_174808_Z();
+        }
+
+    }
+
+    protected void func_174808_Z() {
+        int i = MathHelper.func_76128_c(this.field_70165_t);
+        int j = MathHelper.func_76128_c(this.field_70163_u - 0.20000000298023224D);
+        int k = MathHelper.func_76128_c(this.field_70161_v);
         BlockPos blockposition = new BlockPos(i, j, k);
-        IBlockState iblockdata = this.world.getBlockState(blockposition);
+        IBlockState iblockdata = this.field_70170_p.func_180495_p(blockposition);
 
-        if (iblockdata.getRenderType() != EnumBlockRenderType.INVISIBLE) {
-            this.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + (this.rand.nextFloat() - 0.5D) * this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + (this.rand.nextFloat() - 0.5D) * this.width, -this.motionX * 4.0D, 1.5D, -this.motionZ * 4.0D, new int[] { Block.getStateId(iblockdata)});
+        if (iblockdata.func_185901_i() != EnumBlockRenderType.INVISIBLE) {
+            this.field_70170_p.func_175688_a(EnumParticleTypes.BLOCK_CRACK, this.field_70165_t + (this.field_70146_Z.nextFloat() - 0.5D) * this.field_70130_N, this.func_174813_aQ().field_72338_b + 0.1D, this.field_70161_v + (this.field_70146_Z.nextFloat() - 0.5D) * this.field_70130_N, -this.field_70159_w * 4.0D, 1.5D, -this.field_70179_y * 4.0D, new int[] { Block.func_176210_f(iblockdata)});
         }
 
     }
 
-    public boolean isInsideOfMaterial(Material material) {
-        if (this.getRidingEntity() instanceof EntityBoat) {
+    public boolean func_70055_a(Material material) {
+        if (this.func_184187_bx() instanceof EntityBoat) {
             return false;
         } else {
-            double d0 = this.posY + this.getEyeHeight();
-            BlockPos blockposition = new BlockPos(this.posX, d0, this.posZ);
-            IBlockState iblockdata = this.world.getBlockState(blockposition);
+            double d0 = this.field_70163_u + this.func_70047_e();
+            BlockPos blockposition = new BlockPos(this.field_70165_t, d0, this.field_70161_v);
+            IBlockState iblockdata = this.field_70170_p.func_180495_p(blockposition);
 
-            if (iblockdata.getMaterial() == material) {
-                float f = BlockLiquid.getLiquidHeightPercent(iblockdata.getBlock().getMetaFromState(iblockdata)) - 0.11111111F;
-                float f1 = blockposition.getY() + 1 - f;
+            if (iblockdata.func_185904_a() == material) {
+                float f = BlockLiquid.func_149801_b(iblockdata.func_177230_c().func_176201_c(iblockdata)) - 0.11111111F;
+                float f1 = blockposition.func_177956_o() + 1 - f;
                 boolean flag = d0 < f1;
 
                 return !flag && this instanceof EntityPlayer ? false : flag;
@@ -1314,15 +1314,15 @@ public abstract class Entity implements ICommandSender {
         }
     }
 
-    public boolean isInLava() {
-        return this.world.isMaterialInBB(this.getEntityBoundingBox().grow(-0.10000000149011612D, -0.4000000059604645D, -0.10000000149011612D), Material.LAVA);
+    public boolean func_180799_ab() {
+        return this.field_70170_p.func_72875_a(this.func_174813_aQ().func_72314_b(-0.10000000149011612D, -0.4000000059604645D, -0.10000000149011612D), Material.field_151587_i);
     }
 
-    public void moveRelative(float f, float f1, float f2, float f3) {
+    public void func_191958_b(float f, float f1, float f2, float f3) {
         float f4 = f * f + f1 * f1 + f2 * f2;
 
         if (f4 >= 1.0E-4F) {
-            f4 = MathHelper.sqrt(f4);
+            f4 = MathHelper.func_76129_c(f4);
             if (f4 < 1.0F) {
                 f4 = 1.0F;
             }
@@ -1331,133 +1331,133 @@ public abstract class Entity implements ICommandSender {
             f *= f4;
             f1 *= f4;
             f2 *= f4;
-            float f5 = MathHelper.sin(this.rotationYaw * 0.017453292F);
-            float f6 = MathHelper.cos(this.rotationYaw * 0.017453292F);
+            float f5 = MathHelper.func_76126_a(this.field_70177_z * 0.017453292F);
+            float f6 = MathHelper.func_76134_b(this.field_70177_z * 0.017453292F);
 
-            this.motionX += f * f6 - f2 * f5;
-            this.motionY += f1;
-            this.motionZ += f2 * f6 + f * f5;
+            this.field_70159_w += f * f6 - f2 * f5;
+            this.field_70181_x += f1;
+            this.field_70179_y += f2 * f6 + f * f5;
         }
     }
 
-    public float getBrightness() {
-        BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos(MathHelper.floor(this.posX), 0, MathHelper.floor(this.posZ));
+    public float func_70013_c() {
+        BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos(MathHelper.func_76128_c(this.field_70165_t), 0, MathHelper.func_76128_c(this.field_70161_v));
 
-        if (this.world.isBlockLoaded(blockposition_mutableblockposition)) {
-            blockposition_mutableblockposition.setY(MathHelper.floor(this.posY + this.getEyeHeight()));
-            return this.world.getLightBrightness(blockposition_mutableblockposition);
+        if (this.field_70170_p.func_175667_e(blockposition_mutableblockposition)) {
+            blockposition_mutableblockposition.func_185336_p(MathHelper.func_76128_c(this.field_70163_u + this.func_70047_e()));
+            return this.field_70170_p.func_175724_o(blockposition_mutableblockposition);
         } else {
             return 0.0F;
         }
     }
 
-    public void setWorld(World world) {
+    public void func_70029_a(World world) {
         // CraftBukkit start
         if (world == null) {
-            setDead();
-            this.world = ((CraftWorld) Bukkit.getServer().getWorlds().get(0)).getHandle();
+            func_70106_y();
+            this.field_70170_p = ((CraftWorld) Bukkit.getServer().getWorlds().get(0)).getHandle();
             return;
         }
         // CraftBukkit end
-        this.world = world;
+        this.field_70170_p = world;
     }
 
-    public void setPositionAndRotation(double d0, double d1, double d2, float f, float f1) {
-        this.posX = MathHelper.clamp(d0, -3.0E7D, 3.0E7D);
-        this.posY = d1;
-        this.posZ = MathHelper.clamp(d2, -3.0E7D, 3.0E7D);
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        f1 = MathHelper.clamp(f1, -90.0F, 90.0F);
-        this.rotationYaw = f;
-        this.rotationPitch = f1;
-        this.prevRotationYaw = this.rotationYaw;
-        this.prevRotationPitch = this.rotationPitch;
-        double d3 = this.prevRotationYaw - f;
+    public void func_70080_a(double d0, double d1, double d2, float f, float f1) {
+        this.field_70165_t = MathHelper.func_151237_a(d0, -3.0E7D, 3.0E7D);
+        this.field_70163_u = d1;
+        this.field_70161_v = MathHelper.func_151237_a(d2, -3.0E7D, 3.0E7D);
+        this.field_70169_q = this.field_70165_t;
+        this.field_70167_r = this.field_70163_u;
+        this.field_70166_s = this.field_70161_v;
+        f1 = MathHelper.func_76131_a(f1, -90.0F, 90.0F);
+        this.field_70177_z = f;
+        this.field_70125_A = f1;
+        this.field_70126_B = this.field_70177_z;
+        this.field_70127_C = this.field_70125_A;
+        double d3 = this.field_70126_B - f;
 
         if (d3 < -180.0D) {
-            this.prevRotationYaw += 360.0F;
+            this.field_70126_B += 360.0F;
         }
 
         if (d3 >= 180.0D) {
-            this.prevRotationYaw -= 360.0F;
+            this.field_70126_B -= 360.0F;
         }
 
-        this.setPosition(this.posX, this.posY, this.posZ);
-        this.setRotation(f, f1);
+        this.func_70107_b(this.field_70165_t, this.field_70163_u, this.field_70161_v);
+        this.func_70101_b(f, f1);
     }
 
-    public void moveToBlockPosAndAngles(BlockPos blockposition, float f, float f1) {
-        this.setLocationAndAngles(blockposition.getX() + 0.5D, blockposition.getY(), blockposition.getZ() + 0.5D, f, f1);
+    public void func_174828_a(BlockPos blockposition, float f, float f1) {
+        this.func_70012_b(blockposition.func_177958_n() + 0.5D, blockposition.func_177956_o(), blockposition.func_177952_p() + 0.5D, f, f1);
     }
 
-    public void setLocationAndAngles(double d0, double d1, double d2, float f, float f1) {
-        this.posX = d0;
-        this.posY = d1;
-        this.posZ = d2;
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        this.lastTickPosX = this.posX;
-        this.lastTickPosY = this.posY;
-        this.lastTickPosZ = this.posZ;
-        this.rotationYaw = f;
-        this.rotationPitch = f1;
-        this.setPosition(this.posX, this.posY, this.posZ);
+    public void func_70012_b(double d0, double d1, double d2, float f, float f1) {
+        this.field_70165_t = d0;
+        this.field_70163_u = d1;
+        this.field_70161_v = d2;
+        this.field_70169_q = this.field_70165_t;
+        this.field_70167_r = this.field_70163_u;
+        this.field_70166_s = this.field_70161_v;
+        this.field_70142_S = this.field_70165_t;
+        this.field_70137_T = this.field_70163_u;
+        this.field_70136_U = this.field_70161_v;
+        this.field_70177_z = f;
+        this.field_70125_A = f1;
+        this.func_70107_b(this.field_70165_t, this.field_70163_u, this.field_70161_v);
     }
 
-    public float getDistance(Entity entity) {
-        float f = (float) (this.posX - entity.posX);
-        float f1 = (float) (this.posY - entity.posY);
-        float f2 = (float) (this.posZ - entity.posZ);
+    public float func_70032_d(Entity entity) {
+        float f = (float) (this.field_70165_t - entity.field_70165_t);
+        float f1 = (float) (this.field_70163_u - entity.field_70163_u);
+        float f2 = (float) (this.field_70161_v - entity.field_70161_v);
 
-        return MathHelper.sqrt(f * f + f1 * f1 + f2 * f2);
+        return MathHelper.func_76129_c(f * f + f1 * f1 + f2 * f2);
     }
 
-    public double getDistanceSq(double d0, double d1, double d2) {
-        double d3 = this.posX - d0;
-        double d4 = this.posY - d1;
-        double d5 = this.posZ - d2;
+    public double func_70092_e(double d0, double d1, double d2) {
+        double d3 = this.field_70165_t - d0;
+        double d4 = this.field_70163_u - d1;
+        double d5 = this.field_70161_v - d2;
 
         return d3 * d3 + d4 * d4 + d5 * d5;
     }
 
-    public double getDistanceSq(BlockPos blockposition) {
-        return blockposition.distanceSq(this.posX, this.posY, this.posZ);
+    public double func_174818_b(BlockPos blockposition) {
+        return blockposition.func_177954_c(this.field_70165_t, this.field_70163_u, this.field_70161_v);
     }
 
-    public double getDistanceSqToCenter(BlockPos blockposition) {
-        return blockposition.distanceSqToCenter(this.posX, this.posY, this.posZ);
+    public double func_174831_c(BlockPos blockposition) {
+        return blockposition.func_177957_d(this.field_70165_t, this.field_70163_u, this.field_70161_v);
     }
 
-    public double getDistance(double d0, double d1, double d2) {
-        double d3 = this.posX - d0;
-        double d4 = this.posY - d1;
-        double d5 = this.posZ - d2;
+    public double func_70011_f(double d0, double d1, double d2) {
+        double d3 = this.field_70165_t - d0;
+        double d4 = this.field_70163_u - d1;
+        double d5 = this.field_70161_v - d2;
 
-        return MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
+        return MathHelper.func_76133_a(d3 * d3 + d4 * d4 + d5 * d5);
     }
 
-    public double getDistanceSq(Entity entity) {
-        double d0 = this.posX - entity.posX;
-        double d1 = this.posY - entity.posY;
-        double d2 = this.posZ - entity.posZ;
+    public double func_70068_e(Entity entity) {
+        double d0 = this.field_70165_t - entity.field_70165_t;
+        double d1 = this.field_70163_u - entity.field_70163_u;
+        double d2 = this.field_70161_v - entity.field_70161_v;
 
         return d0 * d0 + d1 * d1 + d2 * d2;
     }
 
-    public void onCollideWithPlayer(EntityPlayer entityhuman) {}
+    public void func_70100_b_(EntityPlayer entityhuman) {}
 
-    public void applyEntityCollision(Entity entity) {
-        if (!this.isRidingSameEntity(entity)) {
-            if (!entity.noClip && !this.noClip) {
-                double d0 = entity.posX - this.posX;
-                double d1 = entity.posZ - this.posZ;
-                double d2 = MathHelper.absMax(d0, d1);
+    public void func_70108_f(Entity entity) {
+        if (!this.func_184223_x(entity)) {
+            if (!entity.field_70145_X && !this.field_70145_X) {
+                double d0 = entity.field_70165_t - this.field_70165_t;
+                double d1 = entity.field_70161_v - this.field_70161_v;
+                double d2 = MathHelper.func_76132_a(d0, d1);
 
                 if (d2 >= 0.009999999776482582D) {
-                    d2 = MathHelper.sqrt(d2);
+                    d2 = MathHelper.func_76133_a(d2);
                     d0 /= d2;
                     d1 /= d2;
                     double d3 = 1.0D / d2;
@@ -1470,14 +1470,14 @@ public abstract class Entity implements ICommandSender {
                     d1 *= d3;
                     d0 *= 0.05000000074505806D;
                     d1 *= 0.05000000074505806D;
-                    d0 *= 1.0F - this.entityCollisionReduction;
-                    d1 *= 1.0F - this.entityCollisionReduction;
-                    if (!this.isBeingRidden()) {
-                        this.addVelocity(-d0, 0.0D, -d1);
+                    d0 *= 1.0F - this.field_70144_Y;
+                    d1 *= 1.0F - this.field_70144_Y;
+                    if (!this.func_184207_aI()) {
+                        this.func_70024_g(-d0, 0.0D, -d1);
                     }
 
-                    if (!entity.isBeingRidden()) {
-                        entity.addVelocity(d0, 0.0D, d1);
+                    if (!entity.func_184207_aI()) {
+                        entity.func_70024_g(d0, 0.0D, d1);
                     }
                 }
 
@@ -1485,106 +1485,106 @@ public abstract class Entity implements ICommandSender {
         }
     }
 
-    public void addVelocity(double d0, double d1, double d2) {
-        this.motionX += d0;
-        this.motionY += d1;
-        this.motionZ += d2;
-        this.isAirBorne = true;
+    public void func_70024_g(double d0, double d1, double d2) {
+        this.field_70159_w += d0;
+        this.field_70181_x += d1;
+        this.field_70179_y += d2;
+        this.field_70160_al = true;
     }
 
-    protected void markVelocityChanged() {
-        this.velocityChanged = true;
+    protected void func_70018_K() {
+        this.field_70133_I = true;
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        if (this.isEntityInvulnerable(damagesource)) {
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        if (this.func_180431_b(damagesource)) {
             return false;
         } else {
-            this.markVelocityChanged();
+            this.func_70018_K();
             return false;
         }
     }
 
-    public Vec3d getLook(float f) {
+    public Vec3d func_70676_i(float f) {
         if (f == 1.0F) {
-            return this.getVectorForRotation(this.rotationPitch, this.rotationYaw);
+            return this.func_174806_f(this.field_70125_A, this.field_70177_z);
         } else {
-            float f1 = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * f;
-            float f2 = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * f;
+            float f1 = this.field_70127_C + (this.field_70125_A - this.field_70127_C) * f;
+            float f2 = this.field_70126_B + (this.field_70177_z - this.field_70126_B) * f;
 
-            return this.getVectorForRotation(f1, f2);
+            return this.func_174806_f(f1, f2);
         }
     }
 
-    protected final Vec3d getVectorForRotation(float f, float f1) {
-        float f2 = MathHelper.cos(-f1 * 0.017453292F - 3.1415927F);
-        float f3 = MathHelper.sin(-f1 * 0.017453292F - 3.1415927F);
-        float f4 = -MathHelper.cos(-f * 0.017453292F);
-        float f5 = MathHelper.sin(-f * 0.017453292F);
+    protected final Vec3d func_174806_f(float f, float f1) {
+        float f2 = MathHelper.func_76134_b(-f1 * 0.017453292F - 3.1415927F);
+        float f3 = MathHelper.func_76126_a(-f1 * 0.017453292F - 3.1415927F);
+        float f4 = -MathHelper.func_76134_b(-f * 0.017453292F);
+        float f5 = MathHelper.func_76126_a(-f * 0.017453292F);
 
         return new Vec3d(f3 * f4, f5, f2 * f4);
     }
 
-    public Vec3d getPositionEyes(float f) {
+    public Vec3d func_174824_e(float f) {
         if (f == 1.0F) {
-            return new Vec3d(this.posX, this.posY + this.getEyeHeight(), this.posZ);
+            return new Vec3d(this.field_70165_t, this.field_70163_u + this.func_70047_e(), this.field_70161_v);
         } else {
-            double d0 = this.prevPosX + (this.posX - this.prevPosX) * f;
-            double d1 = this.prevPosY + (this.posY - this.prevPosY) * f + this.getEyeHeight();
-            double d2 = this.prevPosZ + (this.posZ - this.prevPosZ) * f;
+            double d0 = this.field_70169_q + (this.field_70165_t - this.field_70169_q) * f;
+            double d1 = this.field_70167_r + (this.field_70163_u - this.field_70167_r) * f + this.func_70047_e();
+            double d2 = this.field_70166_s + (this.field_70161_v - this.field_70166_s) * f;
 
             return new Vec3d(d0, d1, d2);
         }
     }
 
-    public boolean canBeCollidedWith() {
+    public boolean func_70067_L() {
         return false;
     }
 
-    public boolean canBePushed() {
+    public boolean func_70104_M() {
         return false;
     }
 
-    public void awardKillScore(Entity entity, int i, DamageSource damagesource) {
+    public void func_191956_a(Entity entity, int i, DamageSource damagesource) {
         if (entity instanceof EntityPlayerMP) {
-            CriteriaTriggers.ENTITY_KILLED_PLAYER.trigger((EntityPlayerMP) entity, this, damagesource);
+            CriteriaTriggers.field_192123_c.func_192211_a((EntityPlayerMP) entity, this, damagesource);
         }
 
     }
 
-    public boolean writeToNBTAtomically(NBTTagCompound nbttagcompound) {
-        String s = this.getEntityString();
+    public boolean func_184198_c(NBTTagCompound nbttagcompound) {
+        String s = this.func_70022_Q();
 
-        if (!this.isDead && s != null) {
-            nbttagcompound.setString("id", s);
-            this.writeToNBT(nbttagcompound);
+        if (!this.field_70128_L && s != null) {
+            nbttagcompound.func_74778_a("id", s);
+            this.func_189511_e(nbttagcompound);
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean writeToNBTOptional(NBTTagCompound nbttagcompound) {
-        String s = this.getEntityString();
+    public boolean func_70039_c(NBTTagCompound nbttagcompound) {
+        String s = this.func_70022_Q();
 
-        if (!this.isDead && s != null && !this.isRiding()) {
-            nbttagcompound.setString("id", s);
-            this.writeToNBT(nbttagcompound);
+        if (!this.field_70128_L && s != null && !this.func_184218_aH()) {
+            nbttagcompound.func_74778_a("id", s);
+            this.func_189511_e(nbttagcompound);
             return true;
         } else {
             return false;
         }
     }
 
-    public static void registerFixes(DataFixer dataconvertermanager) {
-        dataconvertermanager.registerWalker(FixTypes.ENTITY, new IDataWalker() {
+    public static void func_190533_a(DataFixer dataconvertermanager) {
+        dataconvertermanager.func_188258_a(FixTypes.ENTITY, new IDataWalker() {
             @Override
-            public NBTTagCompound process(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
-                if (nbttagcompound.hasKey("Passengers", 9)) {
-                    NBTTagList nbttaglist = nbttagcompound.getTagList("Passengers", 10);
+            public NBTTagCompound func_188266_a(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
+                if (nbttagcompound.func_150297_b("Passengers", 9)) {
+                    NBTTagList nbttaglist = nbttagcompound.func_150295_c("Passengers", 10);
 
-                    for (int j = 0; j < nbttaglist.tagCount(); ++j) {
-                        nbttaglist.set(j, dataconverter.process(FixTypes.ENTITY, nbttaglist.getCompoundTagAt(j), i));
+                    for (int j = 0; j < nbttaglist.func_74745_c(); ++j) {
+                        nbttaglist.func_150304_a(j, dataconverter.func_188251_a(FixTypes.ENTITY, nbttaglist.func_150305_b(j), i));
                     }
                 }
 
@@ -1593,122 +1593,122 @@ public abstract class Entity implements ICommandSender {
         });
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
+    public NBTTagCompound func_189511_e(NBTTagCompound nbttagcompound) {
         try {
-            nbttagcompound.setTag("Pos", this.newDoubleNBTList(new double[] { this.posX, this.posY, this.posZ}));
-            nbttagcompound.setTag("Motion", this.newDoubleNBTList(new double[] { this.motionX, this.motionY, this.motionZ}));
+            nbttagcompound.func_74782_a("Pos", this.func_70087_a(new double[] { this.field_70165_t, this.field_70163_u, this.field_70161_v}));
+            nbttagcompound.func_74782_a("Motion", this.func_70087_a(new double[] { this.field_70159_w, this.field_70181_x, this.field_70179_y}));
 
             // CraftBukkit start - Checking for NaN pitch/yaw and resetting to zero
             // TODO: make sure this is the best way to address this.
-            if (Float.isNaN(this.rotationYaw)) {
-                this.rotationYaw = 0;
+            if (Float.isNaN(this.field_70177_z)) {
+                this.field_70177_z = 0;
             }
 
-            if (Float.isNaN(this.rotationPitch)) {
-                this.rotationPitch = 0;
+            if (Float.isNaN(this.field_70125_A)) {
+                this.field_70125_A = 0;
             }
             // CraftBukkit end
 
-            nbttagcompound.setTag("Rotation", this.newFloatNBTList(new float[] { this.rotationYaw, this.rotationPitch}));
-            nbttagcompound.setFloat("FallDistance", this.fallDistance);
-            nbttagcompound.setShort("Fire", (short) this.fire);
-            nbttagcompound.setShort("Air", (short) this.getAir());
-            nbttagcompound.setBoolean("OnGround", this.onGround);
-            nbttagcompound.setInteger("Dimension", this.dimension);
-            nbttagcompound.setBoolean("Invulnerable", this.invulnerable);
-            nbttagcompound.setInteger("PortalCooldown", this.timeUntilPortal);
-            nbttagcompound.setUniqueId("UUID", this.getUniqueID());
+            nbttagcompound.func_74782_a("Rotation", this.func_70049_a(new float[] { this.field_70177_z, this.field_70125_A}));
+            nbttagcompound.func_74776_a("FallDistance", this.field_70143_R);
+            nbttagcompound.func_74777_a("Fire", (short) this.field_190534_ay);
+            nbttagcompound.func_74777_a("Air", (short) this.func_70086_ai());
+            nbttagcompound.func_74757_a("OnGround", this.field_70122_E);
+            nbttagcompound.func_74768_a("Dimension", this.field_71093_bK);
+            nbttagcompound.func_74757_a("Invulnerable", this.field_83001_bt);
+            nbttagcompound.func_74768_a("PortalCooldown", this.field_71088_bW);
+            nbttagcompound.func_186854_a("UUID", this.func_110124_au());
             // CraftBukkit start
             // PAIL: Check above UUID reads 1.8 properly, ie: UUIDMost / UUIDLeast
-            nbttagcompound.setLong("WorldUUIDLeast", this.world.getSaveHandler().getUUID().getLeastSignificantBits());
-            nbttagcompound.setLong("WorldUUIDMost", this.world.getSaveHandler().getUUID().getMostSignificantBits());
-            nbttagcompound.setInteger("Bukkit.updateLevel", CURRENT_LEVEL);
-            nbttagcompound.setInteger("Spigot.ticksLived", this.ticksExisted);
+            nbttagcompound.func_74772_a("WorldUUIDLeast", this.field_70170_p.func_72860_G().getUUID().getLeastSignificantBits());
+            nbttagcompound.func_74772_a("WorldUUIDMost", this.field_70170_p.func_72860_G().getUUID().getMostSignificantBits());
+            nbttagcompound.func_74768_a("Bukkit.updateLevel", CURRENT_LEVEL);
+            nbttagcompound.func_74768_a("Spigot.ticksLived", this.field_70173_aa);
             // CraftBukkit end
-            if (this.hasCustomName()) {
-                nbttagcompound.setString("CustomName", this.getCustomNameTag());
+            if (this.func_145818_k_()) {
+                nbttagcompound.func_74778_a("CustomName", this.func_95999_t());
             }
 
-            if (this.getAlwaysRenderNameTag()) {
-                nbttagcompound.setBoolean("CustomNameVisible", this.getAlwaysRenderNameTag());
+            if (this.func_174833_aM()) {
+                nbttagcompound.func_74757_a("CustomNameVisible", this.func_174833_aM());
             }
 
-            this.cmdResultStats.writeStatsToNBT(nbttagcompound);
-            if (this.isSilent()) {
-                nbttagcompound.setBoolean("Silent", this.isSilent());
+            this.field_174837_as.func_179670_b(nbttagcompound);
+            if (this.func_174814_R()) {
+                nbttagcompound.func_74757_a("Silent", this.func_174814_R());
             }
 
-            if (this.hasNoGravity()) {
-                nbttagcompound.setBoolean("NoGravity", this.hasNoGravity());
+            if (this.func_189652_ae()) {
+                nbttagcompound.func_74757_a("NoGravity", this.func_189652_ae());
             }
 
-            if (this.glowing) {
-                nbttagcompound.setBoolean("Glowing", this.glowing);
+            if (this.field_184238_ar) {
+                nbttagcompound.func_74757_a("Glowing", this.field_184238_ar);
             }
 
             NBTTagList nbttaglist;
             Iterator iterator;
 
-            if (!this.tags.isEmpty()) {
+            if (!this.field_184236_aF.isEmpty()) {
                 nbttaglist = new NBTTagList();
-                iterator = this.tags.iterator();
+                iterator = this.field_184236_aF.iterator();
 
                 while (iterator.hasNext()) {
                     String s = (String) iterator.next();
 
-                    nbttaglist.appendTag(new NBTTagString(s));
+                    nbttaglist.func_74742_a(new NBTTagString(s));
                 }
 
-                nbttagcompound.setTag("Tags", nbttaglist);
+                nbttagcompound.func_74782_a("Tags", nbttaglist);
             }
 
-            this.writeEntityToNBT(nbttagcompound);
-            if (this.isBeingRidden()) {
+            this.func_70014_b(nbttagcompound);
+            if (this.func_184207_aI()) {
                 nbttaglist = new NBTTagList();
-                iterator = this.getPassengers().iterator();
+                iterator = this.func_184188_bt().iterator();
 
                 while (iterator.hasNext()) {
                     Entity entity = (Entity) iterator.next();
                     NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-                    if (entity.writeToNBTAtomically(nbttagcompound1)) {
-                        nbttaglist.appendTag(nbttagcompound1);
+                    if (entity.func_184198_c(nbttagcompound1)) {
+                        nbttaglist.func_74742_a(nbttagcompound1);
                     }
                 }
 
-                if (!nbttaglist.hasNoTags()) {
-                    nbttagcompound.setTag("Passengers", nbttaglist);
+                if (!nbttaglist.func_82582_d()) {
+                    nbttagcompound.func_74782_a("Passengers", nbttaglist);
                 }
             }
 
             // Paper start - Save the entity's origin location
             if (origin != null) {
-                nbttagcompound.setTag("Paper.Origin", this.createList(origin.getX(), origin.getY(), origin.getZ()));
+                nbttagcompound.func_74782_a("Paper.Origin", this.createList(origin.getX(), origin.getY(), origin.getZ()));
             }
             // Save entity's from mob spawner status
             if (spawnedViaMobSpawner) {
-                nbttagcompound.setBoolean("Paper.FromMobSpawner", true);
+                nbttagcompound.func_74757_a("Paper.FromMobSpawner", true);
             }
             // Paper end
             return nbttagcompound;
         } catch (Throwable throwable) {
-            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Saving entity NBT");
-            CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("Entity being saved");
+            CrashReport crashreport = CrashReport.func_85055_a(throwable, "Saving entity NBT");
+            CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Entity being saved");
 
-            this.addEntityCrashInfo(crashreportsystemdetails);
+            this.func_85029_a(crashreportsystemdetails);
             throw new ReportedException(crashreport);
         }
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
+    public void func_70020_e(NBTTagCompound nbttagcompound) {
         try {
-            NBTTagList nbttaglist = nbttagcompound.getTagList("Pos", 6);
-            NBTTagList nbttaglist1 = nbttagcompound.getTagList("Motion", 6);
-            NBTTagList nbttaglist2 = nbttagcompound.getTagList("Rotation", 5);
+            NBTTagList nbttaglist = nbttagcompound.func_150295_c("Pos", 6);
+            NBTTagList nbttaglist1 = nbttagcompound.func_150295_c("Motion", 6);
+            NBTTagList nbttaglist2 = nbttagcompound.func_150295_c("Rotation", 5);
 
-            this.motionX = nbttaglist1.getDoubleAt(0);
-            this.motionY = nbttaglist1.getDoubleAt(1);
-            this.motionZ = nbttaglist1.getDoubleAt(2);
+            this.field_70159_w = nbttaglist1.func_150309_d(0);
+            this.field_70181_x = nbttaglist1.func_150309_d(1);
+            this.field_70179_y = nbttaglist1.func_150309_d(2);
 
             /* CraftBukkit start - Moved section down
             if (Math.abs(this.motX) > 10.0D) {
@@ -1724,88 +1724,88 @@ public abstract class Entity implements ICommandSender {
             }
             // CraftBukkit end */
 
-            this.posX = nbttaglist.getDoubleAt(0);
-            this.posY = nbttaglist.getDoubleAt(1);
-            this.posZ = nbttaglist.getDoubleAt(2);
-            this.lastTickPosX = this.posX;
-            this.lastTickPosY = this.posY;
-            this.lastTickPosZ = this.posZ;
-            this.prevPosX = this.posX;
-            this.prevPosY = this.posY;
-            this.prevPosZ = this.posZ;
-            this.rotationYaw = nbttaglist2.getFloatAt(0);
-            this.rotationPitch = nbttaglist2.getFloatAt(1);
-            this.prevRotationYaw = this.rotationYaw;
-            this.prevRotationPitch = this.rotationPitch;
-            this.setRotationYawHead(this.rotationYaw);
-            this.setRenderYawOffset(this.rotationYaw);
-            this.fallDistance = nbttagcompound.getFloat("FallDistance");
-            this.fire = nbttagcompound.getShort("Fire");
-            this.setAir(nbttagcompound.getShort("Air"));
-            this.onGround = nbttagcompound.getBoolean("OnGround");
-            if (nbttagcompound.hasKey("Dimension")) {
-                this.dimension = nbttagcompound.getInteger("Dimension");
+            this.field_70165_t = nbttaglist.func_150309_d(0);
+            this.field_70163_u = nbttaglist.func_150309_d(1);
+            this.field_70161_v = nbttaglist.func_150309_d(2);
+            this.field_70142_S = this.field_70165_t;
+            this.field_70137_T = this.field_70163_u;
+            this.field_70136_U = this.field_70161_v;
+            this.field_70169_q = this.field_70165_t;
+            this.field_70167_r = this.field_70163_u;
+            this.field_70166_s = this.field_70161_v;
+            this.field_70177_z = nbttaglist2.func_150308_e(0);
+            this.field_70125_A = nbttaglist2.func_150308_e(1);
+            this.field_70126_B = this.field_70177_z;
+            this.field_70127_C = this.field_70125_A;
+            this.func_70034_d(this.field_70177_z);
+            this.func_181013_g(this.field_70177_z);
+            this.field_70143_R = nbttagcompound.func_74760_g("FallDistance");
+            this.field_190534_ay = nbttagcompound.func_74765_d("Fire");
+            this.func_70050_g(nbttagcompound.func_74765_d("Air"));
+            this.field_70122_E = nbttagcompound.func_74767_n("OnGround");
+            if (nbttagcompound.func_74764_b("Dimension")) {
+                this.field_71093_bK = nbttagcompound.func_74762_e("Dimension");
             }
 
-            this.invulnerable = nbttagcompound.getBoolean("Invulnerable");
-            this.timeUntilPortal = nbttagcompound.getInteger("PortalCooldown");
-            if (nbttagcompound.hasUniqueId("UUID")) {
-                this.entityUniqueID = nbttagcompound.getUniqueId("UUID");
-                this.cachedUniqueIdString = this.entityUniqueID.toString();
+            this.field_83001_bt = nbttagcompound.func_74767_n("Invulnerable");
+            this.field_71088_bW = nbttagcompound.func_74762_e("PortalCooldown");
+            if (nbttagcompound.func_186855_b("UUID")) {
+                this.field_96093_i = nbttagcompound.func_186857_a("UUID");
+                this.field_189513_ar = this.field_96093_i.toString();
             }
 
-            this.setPosition(this.posX, this.posY, this.posZ);
-            this.setRotation(this.rotationYaw, this.rotationPitch);
-            if (nbttagcompound.hasKey("CustomName", 8)) {
-                this.setCustomNameTag(nbttagcompound.getString("CustomName"));
+            this.func_70107_b(this.field_70165_t, this.field_70163_u, this.field_70161_v);
+            this.func_70101_b(this.field_70177_z, this.field_70125_A);
+            if (nbttagcompound.func_150297_b("CustomName", 8)) {
+                this.func_96094_a(nbttagcompound.func_74779_i("CustomName"));
             }
 
-            this.setAlwaysRenderNameTag(nbttagcompound.getBoolean("CustomNameVisible"));
-            this.cmdResultStats.readStatsFromNBT(nbttagcompound);
-            this.setSilent(nbttagcompound.getBoolean("Silent"));
-            this.setNoGravity(nbttagcompound.getBoolean("NoGravity"));
-            this.setGlowing(nbttagcompound.getBoolean("Glowing"));
-            if (nbttagcompound.hasKey("Tags", 9)) {
-                this.tags.clear();
-                NBTTagList nbttaglist3 = nbttagcompound.getTagList("Tags", 8);
-                int i = Math.min(nbttaglist3.tagCount(), 1024);
+            this.func_174805_g(nbttagcompound.func_74767_n("CustomNameVisible"));
+            this.field_174837_as.func_179668_a(nbttagcompound);
+            this.func_174810_b(nbttagcompound.func_74767_n("Silent"));
+            this.func_189654_d(nbttagcompound.func_74767_n("NoGravity"));
+            this.func_184195_f(nbttagcompound.func_74767_n("Glowing"));
+            if (nbttagcompound.func_150297_b("Tags", 9)) {
+                this.field_184236_aF.clear();
+                NBTTagList nbttaglist3 = nbttagcompound.func_150295_c("Tags", 8);
+                int i = Math.min(nbttaglist3.func_74745_c(), 1024);
 
                 for (int j = 0; j < i; ++j) {
-                    this.tags.add(nbttaglist3.getStringTagAt(j));
+                    this.field_184236_aF.add(nbttaglist3.func_150307_f(j));
                 }
             }
 
-            this.readEntityFromNBT(nbttagcompound);
-            if (this.shouldSetPosAfterLoading()) {
-                this.setPosition(this.posX, this.posY, this.posZ);
+            this.func_70037_a(nbttagcompound);
+            if (this.func_142008_O()) {
+                this.func_70107_b(this.field_70165_t, this.field_70163_u, this.field_70161_v);
             }
 
             // CraftBukkit start
             if (this instanceof EntityLivingBase) {
                 EntityLivingBase entity = (EntityLivingBase) this;
 
-                this.ticksExisted = nbttagcompound.getInteger("Spigot.ticksLived");
+                this.field_70173_aa = nbttagcompound.func_74762_e("Spigot.ticksLived");
 
                 // Reset the persistence for tamed animals
-                if (entity instanceof EntityTameable && !isLevelAtLeast(nbttagcompound, 2) && !nbttagcompound.getBoolean("PersistenceRequired")) {
+                if (entity instanceof EntityTameable && !isLevelAtLeast(nbttagcompound, 2) && !nbttagcompound.func_74767_n("PersistenceRequired")) {
                     EntityLiving entityinsentient = (EntityLiving) entity;
-                    entityinsentient.persistenceRequired = !entityinsentient.canDespawn();
+                    entityinsentient.field_82179_bU = !entityinsentient.func_70692_ba();
                 }
             }
             // CraftBukkit end
 
             // CraftBukkit start
             double limit = getBukkitEntity() instanceof Vehicle ? 100.0D : 10.0D;
-            if (Math.abs(this.motionX) > limit) {
-                this.motionX = 0.0D;
+            if (Math.abs(this.field_70159_w) > limit) {
+                this.field_70159_w = 0.0D;
             }
 
-            if (Math.abs(this.motionY) > limit) {
-                this.motionY = 0.0D;
+            if (Math.abs(this.field_70181_x) > limit) {
+                this.field_70181_x = 0.0D;
             }
 
-            if (Math.abs(this.motionZ) > limit) {
-                this.motionZ = 0.0D;
+            if (Math.abs(this.field_70179_y) > limit) {
+                this.field_70179_y = 0.0D;
             }
             // CraftBukkit end
 
@@ -1815,10 +1815,10 @@ public abstract class Entity implements ICommandSender {
                 org.bukkit.World bworld = null;
 
                 // TODO: Remove World related checks, replaced with WorldUID
-                String worldName = nbttagcompound.getString("world");
+                String worldName = nbttagcompound.func_74779_i("world");
 
-                if (nbttagcompound.hasKey("WorldUUIDMost") && nbttagcompound.hasKey("WorldUUIDLeast")) {
-                    UUID uid = new UUID(nbttagcompound.getLong("WorldUUIDMost"), nbttagcompound.getLong("WorldUUIDLeast"));
+                if (nbttagcompound.func_74764_b("WorldUUIDMost") && nbttagcompound.func_74764_b("WorldUUIDLeast")) {
+                    UUID uid = new UUID(nbttagcompound.func_74763_f("WorldUUIDMost"), nbttagcompound.func_74763_f("WorldUUIDLeast"));
                     bworld = server.getWorld(uid);
                 } else {
                     bworld = server.getWorld(worldName);
@@ -1826,48 +1826,48 @@ public abstract class Entity implements ICommandSender {
 
                 if (bworld == null) {
                     EntityPlayerMP entityPlayer = (EntityPlayerMP) this;
-                    bworld = ((org.bukkit.craftbukkit.CraftServer) server).getServer().getWorld(entityPlayer.dimension).getWorld();
+                    bworld = ((org.bukkit.craftbukkit.CraftServer) server).getServer().func_71218_a(entityPlayer.field_71093_bK).getWorld();
                 }
 
-                setWorld(bworld == null? null : ((CraftWorld) bworld).getHandle());
+                func_70029_a(bworld == null? null : ((CraftWorld) bworld).getHandle());
             }
             // CraftBukkit end
 
             // Paper start - Restore the entity's origin location
-            NBTTagList originTag = nbttagcompound.getTagList("Paper.Origin", 6);
-            if (!originTag.hasNoTags()) {
-                origin = new Location(world.getWorld(), originTag.getDoubleAt(0), originTag.getDoubleAt(1), originTag.getDoubleAt(2));
+            NBTTagList originTag = nbttagcompound.func_150295_c("Paper.Origin", 6);
+            if (!originTag.func_82582_d()) {
+                origin = new Location(field_70170_p.getWorld(), originTag.getDoubleAt(0), originTag.getDoubleAt(1), originTag.getDoubleAt(2));
             }
 
-            spawnedViaMobSpawner = nbttagcompound.getBoolean("Paper.FromMobSpawner"); // Restore entity's from mob spawner status
+            spawnedViaMobSpawner = nbttagcompound.func_74767_n("Paper.FromMobSpawner"); // Restore entity's from mob spawner status
             // Paper end
 
         } catch (Throwable throwable) {
-            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Loading entity NBT");
-            CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("Entity being loaded");
+            CrashReport crashreport = CrashReport.func_85055_a(throwable, "Loading entity NBT");
+            CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Entity being loaded");
 
-            this.addEntityCrashInfo(crashreportsystemdetails);
+            this.func_85029_a(crashreportsystemdetails);
             throw new ReportedException(crashreport);
         }
     }
 
-    protected boolean shouldSetPosAfterLoading() {
+    protected boolean func_142008_O() {
         return true;
     }
 
     @Nullable
-    public final String getEntityString() {
-        ResourceLocation minecraftkey = EntityList.getKey(this);
+    public final String func_70022_Q() {
+        ResourceLocation minecraftkey = EntityList.func_191301_a(this);
 
         return minecraftkey == null ? null : minecraftkey.toString();
     }
 
-    protected abstract void readEntityFromNBT(NBTTagCompound nbttagcompound);
+    protected abstract void func_70037_a(NBTTagCompound nbttagcompound);
 
-    protected abstract void writeEntityToNBT(NBTTagCompound nbttagcompound);
+    protected abstract void func_70014_b(NBTTagCompound nbttagcompound);
 
-    protected NBTTagList createList(double... adouble) { return newDoubleNBTList(adouble); } // Paper - OBFHELPER
-    protected NBTTagList newDoubleNBTList(double... adouble) {
+    protected NBTTagList createList(double... adouble) { return func_70087_a(adouble); } // Paper - OBFHELPER
+    protected NBTTagList func_70087_a(double... adouble) {
         NBTTagList nbttaglist = new NBTTagList();
         double[] adouble1 = adouble;
         int i = adouble.length;
@@ -1875,13 +1875,13 @@ public abstract class Entity implements ICommandSender {
         for (int j = 0; j < i; ++j) {
             double d0 = adouble1[j];
 
-            nbttaglist.appendTag(new NBTTagDouble(d0));
+            nbttaglist.func_74742_a(new NBTTagDouble(d0));
         }
 
         return nbttaglist;
     }
 
-    protected NBTTagList newFloatNBTList(float... afloat) {
+    protected NBTTagList func_70049_a(float... afloat) {
         NBTTagList nbttaglist = new NBTTagList();
         float[] afloat1 = afloat;
         int i = afloat.length;
@@ -1889,26 +1889,26 @@ public abstract class Entity implements ICommandSender {
         for (int j = 0; j < i; ++j) {
             float f = afloat1[j];
 
-            nbttaglist.appendTag(new NBTTagFloat(f));
+            nbttaglist.func_74742_a(new NBTTagFloat(f));
         }
 
         return nbttaglist;
     }
 
     @Nullable
-    public EntityItem dropItem(Item item, int i) {
-        return this.dropItemWithOffset(item, i, 0.0F);
+    public EntityItem func_145779_a(Item item, int i) {
+        return this.func_145778_a(item, i, 0.0F);
     }
 
     @Nullable
-    public EntityItem dropItemWithOffset(Item item, int i, float f) {
-        return this.entityDropItem(new ItemStack(item, i, 0), f);
+    public EntityItem func_145778_a(Item item, int i, float f) {
+        return this.func_70099_a(new ItemStack(item, i, 0), f);
     }
 
-    @Nullable public final EntityItem dropItem(ItemStack itemstack, float offset) { return this.entityDropItem(itemstack, offset); } // Paper - OBFHELPER
+    @Nullable public final EntityItem dropItem(ItemStack itemstack, float offset) { return this.func_70099_a(itemstack, offset); } // Paper - OBFHELPER
     @Nullable
-    public EntityItem entityDropItem(ItemStack itemstack, float f) {
-        if (itemstack.isEmpty()) {
+    public EntityItem func_70099_a(ItemStack itemstack, float f) {
+        if (itemstack.func_190926_b()) {
             return null;
         } else {
             // CraftBukkit start - Capture drops for death event
@@ -1917,138 +1917,138 @@ public abstract class Entity implements ICommandSender {
                 return null;
             }
             // CraftBukkit end
-            EntityItem entityitem = new EntityItem(this.world, this.posX, this.posY + f, this.posZ, itemstack);
+            EntityItem entityitem = new EntityItem(this.field_70170_p, this.field_70165_t, this.field_70163_u + f, this.field_70161_v, itemstack);
 
-            entityitem.setDefaultPickupDelay();
-            this.world.spawnEntity(entityitem);
+            entityitem.func_174869_p();
+            this.field_70170_p.func_72838_d(entityitem);
             return entityitem;
         }
     }
 
-    public boolean isEntityAlive() {
-        return !this.isDead;
+    public boolean func_70089_S() {
+        return !this.field_70128_L;
     }
 
-    public boolean isEntityInsideOpaqueBlock() {
-        if (this.noClip) {
+    public boolean func_70094_T() {
+        if (this.field_70145_X) {
             return false;
         } else {
-            BlockPos.PooledMutableBlockPos blockposition_pooledblockposition = BlockPos.PooledMutableBlockPos.retain();
+            BlockPos.PooledMutableBlockPos blockposition_pooledblockposition = BlockPos.PooledMutableBlockPos.func_185346_s();
 
             for (int i = 0; i < 8; ++i) {
-                int j = MathHelper.floor(this.posY + ((i >> 0) % 2 - 0.5F) * 0.1F + this.getEyeHeight());
-                int k = MathHelper.floor(this.posX + ((i >> 1) % 2 - 0.5F) * this.width * 0.8F);
-                int l = MathHelper.floor(this.posZ + ((i >> 2) % 2 - 0.5F) * this.width * 0.8F);
+                int j = MathHelper.func_76128_c(this.field_70163_u + ((i >> 0) % 2 - 0.5F) * 0.1F + this.func_70047_e());
+                int k = MathHelper.func_76128_c(this.field_70165_t + ((i >> 1) % 2 - 0.5F) * this.field_70130_N * 0.8F);
+                int l = MathHelper.func_76128_c(this.field_70161_v + ((i >> 2) % 2 - 0.5F) * this.field_70130_N * 0.8F);
 
-                if (blockposition_pooledblockposition.getX() != k || blockposition_pooledblockposition.getY() != j || blockposition_pooledblockposition.getZ() != l) {
-                    blockposition_pooledblockposition.setPos(k, j, l);
-                    if (this.world.getBlockState(blockposition_pooledblockposition).causesSuffocation()) {
-                        blockposition_pooledblockposition.release();
+                if (blockposition_pooledblockposition.func_177958_n() != k || blockposition_pooledblockposition.func_177956_o() != j || blockposition_pooledblockposition.func_177952_p() != l) {
+                    blockposition_pooledblockposition.func_181079_c(k, j, l);
+                    if (this.field_70170_p.func_180495_p(blockposition_pooledblockposition).func_191058_s()) {
+                        blockposition_pooledblockposition.func_185344_t();
                         return true;
                     }
                 }
             }
 
-            blockposition_pooledblockposition.release();
+            blockposition_pooledblockposition.func_185344_t();
             return false;
         }
     }
 
-    public boolean processInitialInteract(EntityPlayer entityhuman, EnumHand enumhand) {
+    public boolean func_184230_a(EntityPlayer entityhuman, EnumHand enumhand) {
         return false;
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBox(Entity entity) {
+    public AxisAlignedBB func_70114_g(Entity entity) {
         return null;
     }
 
-    public void updateRidden() {
-        Entity entity = this.getRidingEntity();
+    public void func_70098_U() {
+        Entity entity = this.func_184187_bx();
 
-        if (this.isRiding() && entity.isDead) {
-            this.dismountRidingEntity();
+        if (this.func_184218_aH() && entity.field_70128_L) {
+            this.func_184210_p();
         } else {
-            this.motionX = 0.0D;
-            this.motionY = 0.0D;
-            this.motionZ = 0.0D;
-            this.onUpdate();
-            if (this.isRiding()) {
-                entity.updatePassenger(this);
+            this.field_70159_w = 0.0D;
+            this.field_70181_x = 0.0D;
+            this.field_70179_y = 0.0D;
+            this.func_70071_h_();
+            if (this.func_184218_aH()) {
+                entity.func_184232_k(this);
             }
         }
     }
 
-    public void updatePassenger(Entity entity) {
-        if (this.isPassenger(entity)) {
-            entity.setPosition(this.posX, this.posY + this.getMountedYOffset() + entity.getYOffset(), this.posZ);
+    public void func_184232_k(Entity entity) {
+        if (this.func_184196_w(entity)) {
+            entity.func_70107_b(this.field_70165_t, this.field_70163_u + this.func_70042_X() + entity.func_70033_W(), this.field_70161_v);
         }
     }
 
-    public double getYOffset() {
+    public double func_70033_W() {
         return 0.0D;
     }
 
-    public double getMountedYOffset() {
-        return this.height * 0.75D;
+    public double func_70042_X() {
+        return this.field_70131_O * 0.75D;
     }
 
-    public boolean startRiding(Entity entity) {
-        return this.startRiding(entity, false);
+    public boolean func_184220_m(Entity entity) {
+        return this.func_184205_a(entity, false);
     }
 
-    public boolean startRiding(Entity entity, boolean flag) {
-        for (Entity entity1 = entity; entity1.ridingEntity != null; entity1 = entity1.ridingEntity) {
-            if (entity1.ridingEntity == this) {
+    public boolean func_184205_a(Entity entity, boolean flag) {
+        for (Entity entity1 = entity; entity1.field_184239_as != null; entity1 = entity1.field_184239_as) {
+            if (entity1.field_184239_as == this) {
                 return false;
             }
         }
 
-        if (!flag && (!this.canBeRidden(entity) || !entity.canFitPassenger(this))) {
+        if (!flag && (!this.func_184228_n(entity) || !entity.func_184219_q(this))) {
             return false;
         } else {
-            if (this.isRiding()) {
-                this.dismountRidingEntity();
+            if (this.func_184218_aH()) {
+                this.func_184210_p();
             }
 
-            this.ridingEntity = entity;
-            this.ridingEntity.addPassenger(this);
+            this.field_184239_as = entity;
+            this.field_184239_as.func_184200_o(this);
             return true;
         }
     }
 
-    protected boolean canBeRidden(Entity entity) {
-        return this.rideCooldown <= 0;
+    protected boolean func_184228_n(Entity entity) {
+        return this.field_184245_j <= 0;
     }
 
-    public void removePassengers() {
-        for (int i = this.riddenByEntities.size() - 1; i >= 0; --i) {
-            this.riddenByEntities.get(i).dismountRidingEntity();
+    public void func_184226_ay() {
+        for (int i = this.field_184244_h.size() - 1; i >= 0; --i) {
+            this.field_184244_h.get(i).func_184210_p();
         }
 
     }
 
-    public void dismountRidingEntity() {
-        if (this.ridingEntity != null) {
-            Entity entity = this.ridingEntity;
+    public void func_184210_p() {
+        if (this.field_184239_as != null) {
+            Entity entity = this.field_184239_as;
 
-            this.ridingEntity = null;
-            entity.removePassenger(this);
+            this.field_184239_as = null;
+            entity.func_184225_p(this);
         }
 
     }
 
-    protected void addPassenger(Entity entity) {
+    protected void func_184200_o(Entity entity) {
         if (entity == this) throw new IllegalArgumentException("Entities cannot become a passenger of themselves"); // Paper - issue 572
-        if (entity.getRidingEntity() != this) {
+        if (entity.func_184187_bx() != this) {
             throw new IllegalStateException("Use x.startRiding(y), not y.addPassenger(x)");
         } else {
             // CraftBukkit start
-            com.google.common.base.Preconditions.checkState(!entity.riddenByEntities.contains(this), "Circular entity riding! %s %s", this, entity);
+            com.google.common.base.Preconditions.checkState(!entity.field_184244_h.contains(this), "Circular entity riding! %s %s", this, entity);
 
             CraftEntity craft = (CraftEntity) entity.getBukkitEntity().getVehicle();
             Entity orig = craft == null ? null : craft.getHandle();
-            if (getBukkitEntity() instanceof Vehicle && entity.getBukkitEntity() instanceof LivingEntity && entity.world.isChunkLoaded((int) entity.posX >> 4, (int) entity.posZ >> 4, false)) { // Boolean not used
+            if (getBukkitEntity() instanceof Vehicle && entity.getBukkitEntity() instanceof LivingEntity && entity.field_70170_p.func_175680_a((int) entity.field_70165_t >> 4, (int) entity.field_70161_v >> 4, false)) { // Boolean not used
                 VehicleEnterEvent event = new VehicleEnterEvent(
                         (Vehicle) getBukkitEntity(),
                          entity.getBukkitEntity()
@@ -2068,17 +2068,17 @@ public abstract class Entity implements ICommandSender {
                 return;
             }
             // Spigot end
-            if (!this.world.isRemote && entity instanceof EntityPlayer && !(this.getControllingPassenger() instanceof EntityPlayer)) {
-                this.riddenByEntities.add(0, entity);
+            if (!this.field_70170_p.field_72995_K && entity instanceof EntityPlayer && !(this.func_184179_bs() instanceof EntityPlayer)) {
+                this.field_184244_h.add(0, entity);
             } else {
-                this.riddenByEntities.add(entity);
+                this.field_184244_h.add(entity);
             }
 
         }
     }
 
-    protected void removePassenger(Entity entity) {
-        if (entity.getRidingEntity() == this) {
+    protected void func_184225_p(Entity entity) {
+        if (entity.func_184187_bx() == this) {
             throw new IllegalStateException("Use x.stopRiding(y), not y.removePassenger(x)");
         } else {
             // CraftBukkit start
@@ -2105,157 +2105,158 @@ public abstract class Entity implements ICommandSender {
             entity.setVehicle(null);
             // Paper end
 
-            this.riddenByEntities.remove(entity);
-            entity.rideCooldown = 60;
+            this.field_184244_h.remove(entity);
+            entity.field_184245_j = 60;
         }
     }
 
-    protected boolean canFitPassenger(Entity entity) {
-        return this.getPassengers().size() < 1;
+    protected boolean func_184219_q(Entity entity) {
+        return this.func_184188_bt().size() < 1;
     }
 
-    public float getCollisionBorderSize() {
+    public float func_70111_Y() {
         return 0.0F;
     }
 
-    public Vec3d getLookVec() {
-        return this.getVectorForRotation(this.rotationPitch, this.rotationYaw);
+    public Vec3d func_70040_Z() {
+        return this.func_174806_f(this.field_70125_A, this.field_70177_z);
     }
 
-    public void setPortal(BlockPos blockposition) {
-        if (this.timeUntilPortal > 0) {
-            this.timeUntilPortal = this.getPortalCooldown();
+    public void func_181015_d(BlockPos blockposition) {
+        if (this.field_71088_bW > 0) {
+            this.field_71088_bW = this.func_82147_ab();
         } else {
-            if (!this.world.isRemote && !blockposition.equals(this.lastPortalPos)) {
-                this.lastPortalPos = new BlockPos(blockposition);
-                BlockPattern.PatternHelper shapedetector_shapedetectorcollection = Blocks.PORTAL.createPatternHelper(this.world, this.lastPortalPos);
-                double d0 = shapedetector_shapedetectorcollection.getForwards().getAxis() == EnumFacing.Axis.X ? (double) shapedetector_shapedetectorcollection.getFrontTopLeft().getZ() : (double) shapedetector_shapedetectorcollection.getFrontTopLeft().getX();
-                double d1 = shapedetector_shapedetectorcollection.getForwards().getAxis() == EnumFacing.Axis.X ? this.posZ : this.posX;
+            if (!this.field_70170_p.field_72995_K && !blockposition.equals(this.field_181016_an)) {
+                this.field_181016_an = new BlockPos(blockposition);
+                BlockPattern.PatternHelper shapedetector_shapedetectorcollection = Blocks.field_150427_aO.func_181089_f(this.field_70170_p, this.field_181016_an);
+                double d0 = shapedetector_shapedetectorcollection.func_177669_b().func_176740_k() == EnumFacing.Axis.X ? (double) shapedetector_shapedetectorcollection.func_181117_a().func_177952_p() : (double) shapedetector_shapedetectorcollection.func_181117_a().func_177958_n();
+                double d1 = shapedetector_shapedetectorcollection.func_177669_b().func_176740_k() == EnumFacing.Axis.X ? this.field_70161_v : this.field_70165_t;
 
-                d1 = Math.abs(MathHelper.pct(d1 - (shapedetector_shapedetectorcollection.getForwards().rotateY().getAxisDirection() == EnumFacing.AxisDirection.NEGATIVE ? 1 : 0), d0, d0 - shapedetector_shapedetectorcollection.getWidth()));
-                double d2 = MathHelper.pct(this.posY - 1.0D, shapedetector_shapedetectorcollection.getFrontTopLeft().getY(), shapedetector_shapedetectorcollection.getFrontTopLeft().getY() - shapedetector_shapedetectorcollection.getHeight());
+                d1 = Math.abs(MathHelper.func_181160_c(d1 - (shapedetector_shapedetectorcollection.func_177669_b().func_176746_e().func_176743_c() == EnumFacing.AxisDirection.NEGATIVE ? 1 : 0), d0, d0 - shapedetector_shapedetectorcollection.func_181118_d()));
+                double d2 = MathHelper.func_181160_c(this.field_70163_u - 1.0D, shapedetector_shapedetectorcollection.func_181117_a().func_177956_o(), shapedetector_shapedetectorcollection.func_181117_a().func_177956_o() - shapedetector_shapedetectorcollection.func_181119_e());
 
-                this.lastPortalVec = new Vec3d(d1, d2, 0.0D);
-                this.teleportDirection = shapedetector_shapedetectorcollection.getForwards();
+                this.field_181017_ao = new Vec3d(d1, d2, 0.0D);
+                this.field_181018_ap = shapedetector_shapedetectorcollection.func_177669_b();
             }
 
-            this.inPortal = true;
+            this.field_71087_bX = true;
         }
     }
 
-    public int getPortalCooldown() {
+    public int func_82147_ab() {
         return 300;
     }
 
-    public Iterable<ItemStack> getHeldEquipment() {
-        return Entity.EMPTY_EQUIPMENT;
+    public Iterable<ItemStack> func_184214_aD() {
+        return Entity.field_190535_b;
     }
 
-    public Iterable<ItemStack> getArmorInventoryList() {
-        return Entity.EMPTY_EQUIPMENT;
+    public Iterable<ItemStack> func_184193_aE() {
+        return Entity.field_190535_b;
     }
 
-    public Iterable<ItemStack> getEquipmentAndArmor() {
-        return Iterables.concat(this.getHeldEquipment(), this.getArmorInventoryList());
+    public Iterable<ItemStack> func_184209_aF() {
+        return Iterables.concat(this.func_184214_aD(), this.func_184193_aE());
     }
 
-    public void setItemStackToSlot(EntityEquipmentSlot enumitemslot, ItemStack itemstack) {}
+    public void func_184201_a(EntityEquipmentSlot enumitemslot, ItemStack itemstack) {}
 
-    public boolean isBurning() {
-        boolean flag = this.world != null && this.world.isRemote;
+    public boolean func_70027_ad() {
+        boolean flag = this.field_70170_p != null && this.field_70170_p.field_72995_K;
 
-        return !this.isImmuneToFire && (this.fire > 0 || flag && this.getFlag(0));
+        return !this.field_70178_ae && (this.field_190534_ay > 0 || flag && this.func_70083_f(0));
     }
 
-    public boolean isRiding() {
-        return this.getRidingEntity() != null;
+    public boolean func_184218_aH() {
+        return this.func_184187_bx() != null;
     }
 
-    public boolean isBeingRidden() {
-        return !this.getPassengers().isEmpty();
+    public boolean func_184207_aI() {
+        return !this.func_184188_bt().isEmpty();
     }
 
-    public boolean isSneaking() {
-        return this.getFlag(1);
+    public boolean func_70093_af() {
+        return this.func_70083_f(1);
     }
 
-    public void setSneaking(boolean flag) {
-        this.setFlag(1, flag);
+    public void func_70095_a(boolean flag) {
+        this.func_70052_a(1, flag);
     }
 
-    public boolean isSprinting() {
-        return this.getFlag(3);
+    public boolean func_70051_ag() {
+        return this.func_70083_f(3);
     }
 
-    public void setSprinting(boolean flag) {
-        this.setFlag(3, flag);
+    public void func_70031_b(boolean flag) {
+        this.func_70052_a(3, flag);
     }
 
-    public boolean isGlowing() {
-        return this.glowing || this.world.isRemote && this.getFlag(6);
+    public boolean func_184202_aL() {
+        return this.field_184238_ar || this.field_70170_p.field_72995_K && this.func_70083_f(6);
     }
 
-    public void setGlowing(boolean flag) {
-        this.glowing = flag;
-        if (!this.world.isRemote) {
-            this.setFlag(6, this.glowing);
+    public void func_184195_f(boolean flag) {
+        this.field_184238_ar = flag;
+        if (!this.field_70170_p.field_72995_K) {
+            this.func_70052_a(6, this.field_184238_ar);
         }
 
     }
 
-    public boolean isInvisible() {
-        return this.getFlag(5);
+    public boolean func_82150_aj() {
+        return this.func_70083_f(5);
     }
 
+    @Nullable public Team getTeam() { return this.func_96124_cp(); } // Paper - OBFHELPER
     @Nullable
-    public Team getTeam() {
-        if (!this.world.paperConfig.nonPlayerEntitiesOnScoreboards && !(this instanceof EntityPlayer)) { return null; } // Paper
-        return this.world.getScoreboard().getPlayersTeam(this.getCachedUniqueIdString());
+    public Team func_96124_cp() {
+        if (!this.field_70170_p.paperConfig.nonPlayerEntitiesOnScoreboards && !(this instanceof EntityPlayer)) { return null; } // Paper
+        return this.field_70170_p.func_96441_U().func_96509_i(this.func_189512_bd());
     }
 
-    public boolean isOnSameTeam(Entity entity) {
-        return this.isOnScoreboardTeam(entity.getTeam());
+    public boolean func_184191_r(Entity entity) {
+        return this.func_184194_a(entity.func_96124_cp());
     }
 
-    public boolean isOnScoreboardTeam(Team scoreboardteambase) {
-        return this.getTeam() != null ? this.getTeam().isSameTeam(scoreboardteambase) : false;
+    public boolean func_184194_a(Team scoreboardteambase) {
+        return this.func_96124_cp() != null ? this.func_96124_cp().func_142054_a(scoreboardteambase) : false;
     }
 
-    public void setInvisible(boolean flag) {
-        this.setFlag(5, flag);
+    public void func_82142_c(boolean flag) {
+        this.func_70052_a(5, flag);
     }
 
-    public boolean getFlag(int i) {
-        return (this.dataManager.get(Entity.FLAGS).byteValue() & 1 << i) != 0;
+    public boolean func_70083_f(int i) {
+        return (this.field_70180_af.func_187225_a(Entity.field_184240_ax).byteValue() & 1 << i) != 0;
     }
 
-    public void setFlag(int i, boolean flag) {
-        byte b0 = this.dataManager.get(Entity.FLAGS).byteValue();
+    public void func_70052_a(int i, boolean flag) {
+        byte b0 = this.field_70180_af.func_187225_a(Entity.field_184240_ax).byteValue();
 
         if (flag) {
-            this.dataManager.set(Entity.FLAGS, Byte.valueOf((byte) (b0 | 1 << i)));
+            this.field_70180_af.func_187227_b(Entity.field_184240_ax, Byte.valueOf((byte) (b0 | 1 << i)));
         } else {
-            this.dataManager.set(Entity.FLAGS, Byte.valueOf((byte) (b0 & ~(1 << i))));
+            this.field_70180_af.func_187227_b(Entity.field_184240_ax, Byte.valueOf((byte) (b0 & ~(1 << i))));
         }
 
     }
 
-    public int getAir() {
-        return this.dataManager.get(Entity.AIR).intValue();
+    public int func_70086_ai() {
+        return this.field_70180_af.func_187225_a(Entity.field_184241_ay).intValue();
     }
 
-    public void setAir(int i) {
+    public void func_70050_g(int i) {
         // CraftBukkit start
         EntityAirChangeEvent event = new EntityAirChangeEvent(this.getBukkitEntity(), i);
         event.getEntity().getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return;
         }
-        this.dataManager.set(Entity.AIR, Integer.valueOf(event.getAmount()));
+        this.field_70180_af.func_187227_b(Entity.field_184241_ay, Integer.valueOf(event.getAmount()));
         // CraftBukkit end
     }
 
-    public void onStruckByLightning(EntityLightningBolt entitylightning) {
+    public void func_70077_a(EntityLightningBolt entitylightning) {
         // CraftBukkit start
         final org.bukkit.entity.Entity thisBukkitEntity = this.getBukkitEntity();
         final org.bukkit.entity.Entity stormBukkitEntity = entitylightning.getBukkitEntity();
@@ -2270,176 +2271,176 @@ public abstract class Entity implements ICommandSender {
             }
         }
 
-        if (this.isImmuneToFire) {
+        if (this.field_70178_ae) {
             return;
         }
         CraftEventFactory.entityDamage = entitylightning;
-        if (!this.attackEntityFrom(DamageSource.LIGHTNING_BOLT, 5.0F)) {
+        if (!this.func_70097_a(DamageSource.field_180137_b, 5.0F)) {
             CraftEventFactory.entityDamage = null;
             return;
         }
         // CraftBukkit end
-        ++this.fire;
-        if (this.fire == 0) {
+        ++this.field_190534_ay;
+        if (this.field_190534_ay == 0) {
             // CraftBukkit start - Call a combust event when lightning strikes
             EntityCombustByEntityEvent entityCombustEvent = new EntityCombustByEntityEvent(stormBukkitEntity, thisBukkitEntity, 8);
             pluginManager.callEvent(entityCombustEvent);
             if (!entityCombustEvent.isCancelled()) {
-                this.setFire(entityCombustEvent.getDuration());
+                this.func_70015_d(entityCombustEvent.getDuration());
             }
             // CraftBukkit end
         }
 
     }
 
-    public void onKillEntity(EntityLivingBase entityliving) {}
+    public void func_70074_a(EntityLivingBase entityliving) {}
 
-    protected boolean pushOutOfBlocks(double d0, double d1, double d2) {
+    protected boolean func_145771_j(double d0, double d1, double d2) {
         BlockPos blockposition = new BlockPos(d0, d1, d2);
-        double d3 = d0 - blockposition.getX();
-        double d4 = d1 - blockposition.getY();
-        double d5 = d2 - blockposition.getZ();
+        double d3 = d0 - blockposition.func_177958_n();
+        double d4 = d1 - blockposition.func_177956_o();
+        double d5 = d2 - blockposition.func_177952_p();
 
-        if (!this.world.collidesWithAnyBlock(this.getEntityBoundingBox())) {
+        if (!this.field_70170_p.func_184143_b(this.func_174813_aQ())) {
             return false;
         } else {
             EnumFacing enumdirection = EnumFacing.UP;
             double d6 = Double.MAX_VALUE;
 
-            if (!this.world.isBlockFullCube(blockposition.west()) && d3 < d6) {
+            if (!this.field_70170_p.func_175665_u(blockposition.func_177976_e()) && d3 < d6) {
                 d6 = d3;
                 enumdirection = EnumFacing.WEST;
             }
 
-            if (!this.world.isBlockFullCube(blockposition.east()) && 1.0D - d3 < d6) {
+            if (!this.field_70170_p.func_175665_u(blockposition.func_177974_f()) && 1.0D - d3 < d6) {
                 d6 = 1.0D - d3;
                 enumdirection = EnumFacing.EAST;
             }
 
-            if (!this.world.isBlockFullCube(blockposition.north()) && d5 < d6) {
+            if (!this.field_70170_p.func_175665_u(blockposition.func_177978_c()) && d5 < d6) {
                 d6 = d5;
                 enumdirection = EnumFacing.NORTH;
             }
 
-            if (!this.world.isBlockFullCube(blockposition.south()) && 1.0D - d5 < d6) {
+            if (!this.field_70170_p.func_175665_u(blockposition.func_177968_d()) && 1.0D - d5 < d6) {
                 d6 = 1.0D - d5;
                 enumdirection = EnumFacing.SOUTH;
             }
 
-            if (!this.world.isBlockFullCube(blockposition.up()) && 1.0D - d4 < d6) {
+            if (!this.field_70170_p.func_175665_u(blockposition.func_177984_a()) && 1.0D - d4 < d6) {
                 d6 = 1.0D - d4;
                 enumdirection = EnumFacing.UP;
             }
 
-            float f = this.rand.nextFloat() * 0.2F + 0.1F;
-            float f1 = enumdirection.getAxisDirection().getOffset();
+            float f = this.field_70146_Z.nextFloat() * 0.2F + 0.1F;
+            float f1 = enumdirection.func_176743_c().func_179524_a();
 
-            if (enumdirection.getAxis() == EnumFacing.Axis.X) {
-                this.motionX = f1 * f;
-                this.motionY *= 0.75D;
-                this.motionZ *= 0.75D;
-            } else if (enumdirection.getAxis() == EnumFacing.Axis.Y) {
-                this.motionX *= 0.75D;
-                this.motionY = f1 * f;
-                this.motionZ *= 0.75D;
-            } else if (enumdirection.getAxis() == EnumFacing.Axis.Z) {
-                this.motionX *= 0.75D;
-                this.motionY *= 0.75D;
-                this.motionZ = f1 * f;
+            if (enumdirection.func_176740_k() == EnumFacing.Axis.X) {
+                this.field_70159_w = f1 * f;
+                this.field_70181_x *= 0.75D;
+                this.field_70179_y *= 0.75D;
+            } else if (enumdirection.func_176740_k() == EnumFacing.Axis.Y) {
+                this.field_70159_w *= 0.75D;
+                this.field_70181_x = f1 * f;
+                this.field_70179_y *= 0.75D;
+            } else if (enumdirection.func_176740_k() == EnumFacing.Axis.Z) {
+                this.field_70159_w *= 0.75D;
+                this.field_70181_x *= 0.75D;
+                this.field_70179_y = f1 * f;
             }
 
             return true;
         }
     }
 
-    public void setInWeb() {
-        this.isInWeb = true;
-        this.fallDistance = 0.0F;
+    public void func_70110_aj() {
+        this.field_70134_J = true;
+        this.field_70143_R = 0.0F;
     }
 
     @Override
-    public String getName() {
-        if (this.hasCustomName()) {
-            return this.getCustomNameTag();
+    public String func_70005_c_() {
+        if (this.func_145818_k_()) {
+            return this.func_95999_t();
         } else {
-            String s = EntityList.getEntityString(this);
+            String s = EntityList.func_75621_b(this);
 
             if (s == null) {
                 s = "generic";
             }
 
-            return I18n.translateToLocal("entity." + s + ".name");
+            return I18n.func_74838_a("entity." + s + ".name");
         }
     }
 
     @Nullable
-    public Entity[] getParts() {
+    public Entity[] func_70021_al() {
         return null;
     }
 
-    public boolean isEntityEqual(Entity entity) {
+    public boolean func_70028_i(Entity entity) {
         return this == entity;
     }
 
-    public float getRotationYawHead() {
+    public float func_70079_am() {
         return 0.0F;
     }
 
-    public void setRotationYawHead(float f) {}
+    public void func_70034_d(float f) {}
 
-    public void setRenderYawOffset(float f) {}
+    public void func_181013_g(float f) {}
 
-    public boolean canBeAttackedWithItem() {
+    public boolean func_70075_an() {
         return true;
     }
 
-    public boolean hitByEntity(Entity entity) {
+    public boolean func_85031_j(Entity entity) {
         return false;
     }
 
     @Override
     public String toString() {
-        return String.format("%s[\'%s\'/%d, l=\'%s\', x=%.2f, y=%.2f, z=%.2f]", new Object[] { this.getClass().getSimpleName(), this.getName(), Integer.valueOf(this.entityId), this.world == null ? "~NULL~" : this.world.getWorldInfo().getWorldName(), Double.valueOf(this.posX), Double.valueOf(this.posY), Double.valueOf(this.posZ)});
+        return String.format("%s[\'%s\'/%d, l=\'%s\', x=%.2f, y=%.2f, z=%.2f]", new Object[] { this.getClass().getSimpleName(), this.func_70005_c_(), Integer.valueOf(this.field_145783_c), this.field_70170_p == null ? "~NULL~" : this.field_70170_p.func_72912_H().func_76065_j(), Double.valueOf(this.field_70165_t), Double.valueOf(this.field_70163_u), Double.valueOf(this.field_70161_v)});
     }
 
-    public boolean isEntityInvulnerable(DamageSource damagesource) {
-        return this.invulnerable && damagesource != DamageSource.OUT_OF_WORLD && !damagesource.isCreativePlayer();
+    public boolean func_180431_b(DamageSource damagesource) {
+        return this.field_83001_bt && damagesource != DamageSource.field_76380_i && !damagesource.func_180136_u();
     }
 
-    public boolean getIsInvulnerable() {
-        return this.invulnerable;
+    public boolean func_190530_aW() {
+        return this.field_83001_bt;
     }
 
-    public void setEntityInvulnerable(boolean flag) {
-        this.invulnerable = flag;
+    public void func_184224_h(boolean flag) {
+        this.field_83001_bt = flag;
     }
 
-    public void copyLocationAndAnglesFrom(Entity entity) {
-        this.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+    public void func_82149_j(Entity entity) {
+        this.func_70012_b(entity.field_70165_t, entity.field_70163_u, entity.field_70161_v, entity.field_70177_z, entity.field_70125_A);
     }
 
-    private void copyDataFromOld(Entity entity) {
-        NBTTagCompound nbttagcompound = entity.writeToNBT(new NBTTagCompound());
+    private void func_180432_n(Entity entity) {
+        NBTTagCompound nbttagcompound = entity.func_189511_e(new NBTTagCompound());
 
-        nbttagcompound.removeTag("Dimension");
-        this.readFromNBT(nbttagcompound);
-        this.timeUntilPortal = entity.timeUntilPortal;
-        this.lastPortalPos = entity.lastPortalPos;
-        this.lastPortalVec = entity.lastPortalVec;
-        this.teleportDirection = entity.teleportDirection;
+        nbttagcompound.func_82580_o("Dimension");
+        this.func_70020_e(nbttagcompound);
+        this.field_71088_bW = entity.field_71088_bW;
+        this.field_181016_an = entity.field_181016_an;
+        this.field_181017_ao = entity.field_181017_ao;
+        this.field_181018_ap = entity.field_181018_ap;
     }
 
     @Nullable
-    public Entity changeDimension(int i) {
-        if (!this.world.isRemote && !this.isDead) {
-            this.world.profiler.startSection("changeDimension");
-            MinecraftServer minecraftserver = this.getServer();
+    public Entity func_184204_a(int i) {
+        if (!this.field_70170_p.field_72995_K && !this.field_70128_L) {
+            this.field_70170_p.field_72984_F.func_76320_a("changeDimension");
+            MinecraftServer minecraftserver = this.func_184102_h();
             // CraftBukkit start - Move logic into new function "teleportTo(Location,boolean)"
             // int j = this.dimension;
             // WorldServer worldserver = minecraftserver.getWorldServer(j);
             // WorldServer worldserver1 = minecraftserver.getWorldServer(i);
             WorldServer exitWorld = null;
-            if (this.dimension < CraftWorld.CUSTOM_DIMENSION_OFFSET) { // Plugins must specify exit from custom Bukkit worlds
+            if (this.field_71093_bK < CraftWorld.CUSTOM_DIMENSION_OFFSET) { // Plugins must specify exit from custom Bukkit worlds
                 // Only target existing worlds (compensate for allow-nether/allow-end as false)
                 for (WorldServer world : minecraftserver.worlds) {
                     if (world.dimension == i) {
@@ -2453,24 +2454,24 @@ public abstract class Entity implements ICommandSender {
             Location exit;
             if (exitWorld != null) {
                 if (blockposition != null) {
-                    exit = new Location(exitWorld.getWorld(), blockposition.getX(), blockposition.getY(), blockposition.getZ());
+                    exit = new Location(exitWorld.getWorld(), blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
                 } else {
-                    exit = minecraftserver.getPlayerList().calculateTarget(enter, minecraftserver.getWorld(i));
+                    exit = minecraftserver.func_184103_al().calculateTarget(enter, minecraftserver.func_71218_a(i));
                 }
             }
             else {
                 exit = null;
             }
-            boolean useTravelAgent = exitWorld != null && !(this.dimension == 1 && exitWorld.dimension == 1); // don't use agent for custom worlds or return from THE_END
+            boolean useTravelAgent = exitWorld != null && !(this.field_71093_bK == 1 && exitWorld.dimension == 1); // don't use agent for custom worlds or return from THE_END
 
-            TravelAgent agent = exit != null ? (TravelAgent) ((CraftWorld) exit.getWorld()).getHandle().getDefaultTeleporter() : org.bukkit.craftbukkit.CraftTravelAgent.DEFAULT; // return arbitrary TA to compensate for implementation dependent plugins
+            TravelAgent agent = exit != null ? (TravelAgent) ((CraftWorld) exit.getWorld()).getHandle().func_85176_s() : org.bukkit.craftbukkit.CraftTravelAgent.DEFAULT; // return arbitrary TA to compensate for implementation dependent plugins
             boolean oldCanCreate = agent.getCanCreatePortal();
             agent.setCanCreatePortal(false); // General entities cannot create portals
 
             EntityPortalEvent event = new EntityPortalEvent(this.getBukkitEntity(), enter, exit, agent);
             event.useTravelAgent(useTravelAgent);
             event.getEntity().getServer().getPluginManager().callEvent(event);
-            if (event.isCancelled() || event.getTo() == null || event.getTo().getWorld() == null || !this.isEntityAlive()) {
+            if (event.isCancelled() || event.getTo() == null || event.getTo().getWorld() == null || !this.func_70089_S()) {
                 agent.setCanCreatePortal(oldCanCreate);
                 return null;
             }
@@ -2479,20 +2480,20 @@ public abstract class Entity implements ICommandSender {
 
             // Need to make sure the profiler state is reset afterwards (but we still want to time the call)
             Entity entity = this.teleportTo(exit, true);
-            this.world.profiler.endSection();
+            this.field_70170_p.field_72984_F.func_76319_b();
             return entity;
         }
         return null;
     }
 
     public Entity teleportTo(Location exit, boolean portal) {
-        if (!this.isDead) { // Paper
+        if (!this.field_70128_L) { // Paper
             WorldServer worldserver = ((CraftWorld) getBukkitEntity().getLocation().getWorld()).getHandle();
             WorldServer worldserver1 = ((CraftWorld) exit.getWorld()).getHandle();
             int i = worldserver1.dimension;
             // CraftBukkit end
 
-            this.dimension = i;
+            this.field_71093_bK = i;
             /* CraftBukkit start - TODO: Check if we need this
             if (j == 1 && i == 1) {
                 worldserver1 = minecraftserver.getWorldServer(0);
@@ -2500,9 +2501,9 @@ public abstract class Entity implements ICommandSender {
             }
             // CraftBukkit end */
 
-            this.world.removeEntityDangerously(this); // Paper - Fully remove entity, can't have dupes in the UUID map
-            this.isDead = false;
-            this.world.profiler.startSection("reposition");
+            this.field_70170_p.func_72973_f(this); // Paper - Fully remove entity, can't have dupes in the UUID map
+            this.field_70128_L = false;
+            this.field_70170_p.field_72984_F.func_76320_a("reposition");
             /* CraftBukkit start - Handled in calculateTarget
             BlockPosition blockposition;
 
@@ -2535,14 +2536,14 @@ public abstract class Entity implements ICommandSender {
             // CraftBukkit end */
             // CraftBukkit start - Ensure chunks are loaded in case TravelAgent is not used which would initially cause chunks to load during find/create
             // minecraftserver.getPlayerList().changeWorld(this, j, worldserver, worldserver1);
-            worldserver1.getMinecraftServer().getPlayerList().repositionEntity(this, exit, portal);
+            worldserver1.func_73046_m().func_184103_al().repositionEntity(this, exit, portal);
             // worldserver.entityJoinedWorld(this, false); // Handled in repositionEntity
             // CraftBukkit end
-            this.world.profiler.endStartSection("reloading");
-            Entity entity = EntityList.newEntity(this.getClass(), worldserver1);
+            this.field_70170_p.field_72984_F.func_76318_c("reloading");
+            Entity entity = EntityList.func_191304_a(this.getClass(), worldserver1);
 
             if (entity != null) {
-                entity.copyDataFromOld(this);
+                entity.func_180432_n(this);
                 /* CraftBukkit start - We need to do this...
                 if (j == 1 && i == 1) {
                     BlockPosition blockposition1 = worldserver1.q(worldserver1.getSpawn());
@@ -2553,26 +2554,26 @@ public abstract class Entity implements ICommandSender {
                 }
                 // CraftBukkit end */
 
-                boolean flag = entity.forceSpawn;
+                boolean flag = entity.field_98038_p;
 
-                entity.forceSpawn = true;
-                worldserver1.spawnEntity(entity);
-                entity.forceSpawn = flag;
-                worldserver1.updateEntityWithOptionalForce(entity, false);
+                entity.field_98038_p = true;
+                worldserver1.func_72838_d(entity);
+                entity.field_98038_p = flag;
+                worldserver1.func_72866_a(entity, false);
                 // CraftBukkit start - Forward the CraftEntity to the new entity
                 this.getBukkitEntity().setHandle(entity);
                 entity.bukkitEntity = this.getBukkitEntity();
 
                 if (this instanceof EntityLiving) {
-                    ((EntityLiving)this).clearLeashed(true, false); // Unleash to prevent duping of leads.
+                    ((EntityLiving)this).func_110160_i(true, false); // Unleash to prevent duping of leads.
                 }
                 // CraftBukkit end
             }
 
-            this.isDead = true;
-            this.world.profiler.endSection();
-            worldserver.resetUpdateEntityTick();
-            worldserver1.resetUpdateEntityTick();
+            this.field_70128_L = true;
+            this.field_70170_p.field_72984_F.func_76319_b();
+            worldserver.func_82742_i();
+            worldserver1.func_82742_i();
             // this.world.methodProfiler.b(); // CraftBukkit: Moved up to keep balanced
             return entity;
         } else {
@@ -2580,38 +2581,38 @@ public abstract class Entity implements ICommandSender {
         }
     }
 
-    public boolean isNonBoss() {
+    public boolean func_184222_aU() {
         return true;
     }
 
-    public float getExplosionResistance(Explosion explosion, World world, BlockPos blockposition, IBlockState iblockdata) {
-        return iblockdata.getBlock().getExplosionResistance(this);
+    public float func_180428_a(Explosion explosion, World world, BlockPos blockposition, IBlockState iblockdata) {
+        return iblockdata.func_177230_c().func_149638_a(this);
     }
 
-    public boolean canExplosionDestroyBlock(Explosion explosion, World world, BlockPos blockposition, IBlockState iblockdata, float f) {
+    public boolean func_174816_a(Explosion explosion, World world, BlockPos blockposition, IBlockState iblockdata, float f) {
         return true;
     }
 
-    public int getMaxFallHeight() {
+    public int func_82143_as() {
         return 3;
     }
 
-    public Vec3d getLastPortalVec() {
-        return this.lastPortalVec;
+    public Vec3d func_181014_aG() {
+        return this.field_181017_ao;
     }
 
-    public EnumFacing getTeleportDirection() {
-        return this.teleportDirection;
+    public EnumFacing func_181012_aH() {
+        return this.field_181018_ap;
     }
 
-    public boolean doesEntityNotTriggerPressurePlate() {
+    public boolean func_145773_az() {
         return false;
     }
 
-    public void addEntityCrashInfo(CrashReportCategory crashreportsystemdetails) {
-        crashreportsystemdetails.addDetail("Entity Type", new ICrashReportDetail() {
+    public void func_85029_a(CrashReportCategory crashreportsystemdetails) {
+        crashreportsystemdetails.func_189529_a("Entity Type", new ICrashReportDetail() {
             public String a() throws Exception {
-                return EntityList.getKey(Entity.this) + " (" + Entity.this.getClass().getCanonicalName() + ")";
+                return EntityList.func_191301_a(Entity.this) + " (" + Entity.this.getClass().getCanonicalName() + ")";
             }
 
             @Override
@@ -2619,10 +2620,10 @@ public abstract class Entity implements ICommandSender {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addCrashSection("Entity ID", Integer.valueOf(this.entityId));
-        crashreportsystemdetails.addDetail("Entity Name", new ICrashReportDetail() {
+        crashreportsystemdetails.func_71507_a("Entity ID", Integer.valueOf(this.field_145783_c));
+        crashreportsystemdetails.func_189529_a("Entity Name", new ICrashReportDetail() {
             public String a() throws Exception {
-                return Entity.this.getName();
+                return Entity.this.func_70005_c_();
             }
 
             @Override
@@ -2630,12 +2631,12 @@ public abstract class Entity implements ICommandSender {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addCrashSection("Entity\'s Exact location", String.format("%.2f, %.2f, %.2f", new Object[] { Double.valueOf(this.posX), Double.valueOf(this.posY), Double.valueOf(this.posZ)}));
-        crashreportsystemdetails.addCrashSection("Entity\'s Block location", CrashReportCategory.getCoordinateInfo(MathHelper.floor(this.posX), MathHelper.floor(this.posY), MathHelper.floor(this.posZ)));
-        crashreportsystemdetails.addCrashSection("Entity\'s Momentum", String.format("%.2f, %.2f, %.2f", new Object[] { Double.valueOf(this.motionX), Double.valueOf(this.motionY), Double.valueOf(this.motionZ)}));
-        crashreportsystemdetails.addDetail("Entity\'s Passengers", new ICrashReportDetail() {
+        crashreportsystemdetails.func_71507_a("Entity\'s Exact location", String.format("%.2f, %.2f, %.2f", new Object[] { Double.valueOf(this.field_70165_t), Double.valueOf(this.field_70163_u), Double.valueOf(this.field_70161_v)}));
+        crashreportsystemdetails.func_71507_a("Entity\'s Block location", CrashReportCategory.func_184876_a(MathHelper.func_76128_c(this.field_70165_t), MathHelper.func_76128_c(this.field_70163_u), MathHelper.func_76128_c(this.field_70161_v)));
+        crashreportsystemdetails.func_71507_a("Entity\'s Momentum", String.format("%.2f, %.2f, %.2f", new Object[] { Double.valueOf(this.field_70159_w), Double.valueOf(this.field_70181_x), Double.valueOf(this.field_70179_y)}));
+        crashreportsystemdetails.func_189529_a("Entity\'s Passengers", new ICrashReportDetail() {
             public String a() throws Exception {
-                return Entity.this.getPassengers().toString();
+                return Entity.this.func_184188_bt().toString();
             }
 
             @Override
@@ -2643,9 +2644,9 @@ public abstract class Entity implements ICommandSender {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Entity\'s Vehicle", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Entity\'s Vehicle", new ICrashReportDetail() {
             public String a() throws Exception {
-                return Entity.this.getRidingEntity().toString();
+                return Entity.this.func_184187_bx().toString();
             }
 
             @Override
@@ -2655,20 +2656,20 @@ public abstract class Entity implements ICommandSender {
         });
     }
 
-    public void setUniqueId(UUID uuid) {
-        this.entityUniqueID = uuid;
-        this.cachedUniqueIdString = this.entityUniqueID.toString();
+    public void func_184221_a(UUID uuid) {
+        this.field_96093_i = uuid;
+        this.field_189513_ar = this.field_96093_i.toString();
     }
 
-    public UUID getUniqueID() {
-        return this.entityUniqueID;
+    public UUID func_110124_au() {
+        return this.field_96093_i;
     }
 
-    public String getCachedUniqueIdString() {
-        return this.cachedUniqueIdString;
+    public String func_189512_bd() {
+        return this.field_189513_ar;
     }
 
-    public boolean isPushedByWater() {
+    public boolean func_96092_aw() {
         return this.pushedByWater();
     }
 
@@ -2678,192 +2679,192 @@ public abstract class Entity implements ICommandSender {
     }
 
     @Override
-    public ITextComponent getDisplayName() {
-        TextComponentString chatcomponenttext = new TextComponentString(ScorePlayerTeam.formatPlayerName(this.getTeam(), this.getName()));
+    public ITextComponent func_145748_c_() {
+        TextComponentString chatcomponenttext = new TextComponentString(ScorePlayerTeam.func_96667_a(this.func_96124_cp(), this.func_70005_c_()));
 
-        chatcomponenttext.getStyle().setHoverEvent(this.getHoverEvent());
-        chatcomponenttext.getStyle().setInsertion(this.getCachedUniqueIdString());
+        chatcomponenttext.func_150256_b().func_150209_a(this.func_174823_aP());
+        chatcomponenttext.func_150256_b().func_179989_a(this.func_189512_bd());
         return chatcomponenttext;
     }
 
-    public void setCustomNameTag(String s) {
+    public void func_96094_a(String s) {
         // CraftBukkit start - Add a sane limit for name length
         if (s.length() > 256) {
             s = s.substring(0, 256);
         }
         // CraftBukkit end
-        this.dataManager.set(Entity.CUSTOM_NAME, s);
+        this.field_70180_af.func_187227_b(Entity.field_184242_az, s);
     }
 
-    public String getCustomNameTag() {
-        return this.dataManager.get(Entity.CUSTOM_NAME);
+    public String func_95999_t() {
+        return this.field_70180_af.func_187225_a(Entity.field_184242_az);
     }
 
-    public boolean hasCustomName() {
-        return !this.dataManager.get(Entity.CUSTOM_NAME).isEmpty();
+    public boolean func_145818_k_() {
+        return !this.field_70180_af.func_187225_a(Entity.field_184242_az).isEmpty();
     }
 
-    public void setAlwaysRenderNameTag(boolean flag) {
-        this.dataManager.set(Entity.CUSTOM_NAME_VISIBLE, Boolean.valueOf(flag));
+    public void func_174805_g(boolean flag) {
+        this.field_70180_af.func_187227_b(Entity.field_184233_aA, Boolean.valueOf(flag));
     }
 
-    public boolean getAlwaysRenderNameTag() {
-        return this.dataManager.get(Entity.CUSTOM_NAME_VISIBLE).booleanValue();
+    public boolean func_174833_aM() {
+        return this.field_70180_af.func_187225_a(Entity.field_184233_aA).booleanValue();
     }
 
-    public void setPositionAndUpdate(double d0, double d1, double d2) {
-        this.isPositionDirty = true;
-        this.setLocationAndAngles(d0, d1, d2, this.rotationYaw, this.rotationPitch);
-        this.world.updateEntityWithOptionalForce(this, false);
+    public void func_70634_a(double d0, double d1, double d2) {
+        this.field_184237_aG = true;
+        this.func_70012_b(d0, d1, d2, this.field_70177_z, this.field_70125_A);
+        this.field_70170_p.func_72866_a(this, false);
     }
 
-    public void notifyDataManagerChange(DataParameter<?> datawatcherobject) {}
+    public void func_184206_a(DataParameter<?> datawatcherobject) {}
 
-    public EnumFacing getHorizontalFacing() {
-        return EnumFacing.getHorizontal(MathHelper.floor(this.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
+    public EnumFacing func_174811_aO() {
+        return EnumFacing.func_176731_b(MathHelper.func_76128_c(this.field_70177_z * 4.0F / 360.0F + 0.5D) & 3);
     }
 
-    public EnumFacing getAdjustedHorizontalFacing() {
-        return this.getHorizontalFacing();
+    public EnumFacing func_184172_bi() {
+        return this.func_174811_aO();
     }
 
-    protected HoverEvent getHoverEvent() {
+    protected HoverEvent func_174823_aP() {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        ResourceLocation minecraftkey = EntityList.getKey(this);
+        ResourceLocation minecraftkey = EntityList.func_191301_a(this);
 
-        nbttagcompound.setString("id", this.getCachedUniqueIdString());
+        nbttagcompound.func_74778_a("id", this.func_189512_bd());
         if (minecraftkey != null) {
-            nbttagcompound.setString("type", minecraftkey.toString());
+            nbttagcompound.func_74778_a("type", minecraftkey.toString());
         }
 
-        nbttagcompound.setString("name", this.getName());
+        nbttagcompound.func_74778_a("name", this.func_70005_c_());
         return new HoverEvent(HoverEvent.Action.SHOW_ENTITY, new TextComponentString(nbttagcompound.toString()));
     }
 
-    public boolean isSpectatedByPlayer(EntityPlayerMP entityplayer) {
+    public boolean func_174827_a(EntityPlayerMP entityplayer) {
         return true;
     }
 
-    public AxisAlignedBB getEntityBoundingBox() {
-        return this.boundingBox;
+    public AxisAlignedBB func_174813_aQ() {
+        return this.field_70121_D;
     }
 
-    public void setEntityBoundingBox(AxisAlignedBB axisalignedbb) {
+    public void func_174826_a(AxisAlignedBB axisalignedbb) {
         // CraftBukkit start - block invalid bounding boxes
-        double a = axisalignedbb.minX,
-                b = axisalignedbb.minY,
-                c = axisalignedbb.minZ,
-                d = axisalignedbb.maxX,
-                e = axisalignedbb.maxY,
-                f = axisalignedbb.maxZ;
-        double len = axisalignedbb.maxX - axisalignedbb.minX;
+        double a = axisalignedbb.field_72340_a,
+                b = axisalignedbb.field_72338_b,
+                c = axisalignedbb.field_72339_c,
+                d = axisalignedbb.field_72336_d,
+                e = axisalignedbb.field_72337_e,
+                f = axisalignedbb.field_72334_f;
+        double len = axisalignedbb.field_72336_d - axisalignedbb.field_72340_a;
         if (len < 0) d = a;
         if (len > 64) d = a + 64.0;
 
-        len = axisalignedbb.maxY - axisalignedbb.minY;
+        len = axisalignedbb.field_72337_e - axisalignedbb.field_72338_b;
         if (len < 0) e = b;
         if (len > 64) e = b + 64.0;
 
-        len = axisalignedbb.maxZ - axisalignedbb.minZ;
+        len = axisalignedbb.field_72334_f - axisalignedbb.field_72339_c;
         if (len < 0) f = c;
         if (len > 64) f = c + 64.0;
-        this.boundingBox = new AxisAlignedBB(a, b, c, d, e, f);
+        this.field_70121_D = new AxisAlignedBB(a, b, c, d, e, f);
         // CraftBukkit end
     }
 
-    public float getEyeHeight() {
-        return this.height * 0.85F;
+    public float func_70047_e() {
+        return this.field_70131_O * 0.85F;
     }
 
-    public boolean isOutsideBorder() {
-        return this.isOutsideBorder;
+    public boolean func_174832_aS() {
+        return this.field_174835_g;
     }
 
-    public void setOutsideBorder(boolean flag) {
-        this.isOutsideBorder = flag;
+    public void func_174821_h(boolean flag) {
+        this.field_174835_g = flag;
     }
 
-    public boolean replaceItemInInventory(int i, ItemStack itemstack) {
+    public boolean func_174820_d(int i, ItemStack itemstack) {
         return false;
     }
 
     @Override
-    public void sendMessage(ITextComponent ichatbasecomponent) {}
+    public void func_145747_a(ITextComponent ichatbasecomponent) {}
 
     @Override
-    public boolean canUseCommand(int i, String s) {
+    public boolean func_70003_b(int i, String s) {
         return true;
     }
 
     @Override
-    public BlockPos getPosition() {
-        return new BlockPos(this.posX, this.posY + 0.5D, this.posZ);
+    public BlockPos func_180425_c() {
+        return new BlockPos(this.field_70165_t, this.field_70163_u + 0.5D, this.field_70161_v);
     }
 
     @Override
-    public Vec3d getPositionVector() {
-        return new Vec3d(this.posX, this.posY, this.posZ);
+    public Vec3d func_174791_d() {
+        return new Vec3d(this.field_70165_t, this.field_70163_u, this.field_70161_v);
     }
 
     @Override
-    public World getEntityWorld() {
-        return this.world;
+    public World func_130014_f_() {
+        return this.field_70170_p;
     }
 
     @Override
-    public Entity getCommandSenderEntity() {
+    public Entity func_174793_f() {
         return this;
     }
 
     @Override
-    public boolean sendCommandFeedback() {
+    public boolean func_174792_t_() {
         return false;
     }
 
     @Override
-    public void setCommandStat(CommandResultStats.Type commandobjectiveexecutor_enumcommandresult, int i) {
-        if (this.world != null && !this.world.isRemote) {
-            this.cmdResultStats.setCommandStatForSender(this.world.getMinecraftServer(), this, commandobjectiveexecutor_enumcommandresult, i);
+    public void func_174794_a(CommandResultStats.Type commandobjectiveexecutor_enumcommandresult, int i) {
+        if (this.field_70170_p != null && !this.field_70170_p.field_72995_K) {
+            this.field_174837_as.func_184932_a(this.field_70170_p.func_73046_m(), this, commandobjectiveexecutor_enumcommandresult, i);
         }
 
     }
 
     @Override
     @Nullable
-    public MinecraftServer getServer() {
-        return this.world.getMinecraftServer();
+    public MinecraftServer func_184102_h() {
+        return this.field_70170_p.func_73046_m();
     }
 
-    public CommandResultStats getCommandStats() {
-        return this.cmdResultStats;
+    public CommandResultStats func_174807_aT() {
+        return this.field_174837_as;
     }
 
-    public void setCommandStats(Entity entity) {
-        this.cmdResultStats.addAllStats(entity.getCommandStats());
+    public void func_174817_o(Entity entity) {
+        this.field_174837_as.func_179671_a(entity.func_174807_aT());
     }
 
-    public EnumActionResult applyPlayerInteraction(EntityPlayer entityhuman, Vec3d vec3d, EnumHand enumhand) {
+    public EnumActionResult func_184199_a(EntityPlayer entityhuman, Vec3d vec3d, EnumHand enumhand) {
         return EnumActionResult.PASS;
     }
 
-    public boolean isImmuneToExplosions() {
+    public boolean func_180427_aV() {
         return false;
     }
 
-    protected void applyEnchantments(EntityLivingBase entityliving, Entity entity) {
+    protected void func_174815_a(EntityLivingBase entityliving, Entity entity) {
         if (entity instanceof EntityLivingBase) {
-            EnchantmentHelper.applyThornEnchantments((EntityLivingBase) entity, (Entity) entityliving);
+            EnchantmentHelper.func_151384_a((EntityLivingBase) entity, (Entity) entityliving);
         }
 
-        EnchantmentHelper.applyArthropodEnchantments(entityliving, entity);
+        EnchantmentHelper.func_151385_b(entityliving, entity);
     }
 
-    public void addTrackingPlayer(EntityPlayerMP entityplayer) {}
+    public void func_184178_b(EntityPlayerMP entityplayer) {}
 
-    public void removeTrackingPlayer(EntityPlayerMP entityplayer) {}
+    public void func_184203_c(EntityPlayerMP entityplayer) {}
 
-    public float getRotatedYaw(Rotation enumblockrotation) {
-        float f = MathHelper.wrapDegrees(this.rotationYaw);
+    public float func_184229_a(Rotation enumblockrotation) {
+        float f = MathHelper.func_76142_g(this.field_70177_z);
 
         switch (enumblockrotation) {
         case CLOCKWISE_180:
@@ -2880,8 +2881,8 @@ public abstract class Entity implements ICommandSender {
         }
     }
 
-    public float getMirroredYaw(Mirror enumblockmirror) {
-        float f = MathHelper.wrapDegrees(this.rotationYaw);
+    public float func_184217_a(Mirror enumblockmirror) {
+        float f = MathHelper.func_76142_g(this.field_70177_z);
 
         switch (enumblockmirror) {
         case LEFT_RIGHT:
@@ -2895,28 +2896,28 @@ public abstract class Entity implements ICommandSender {
         }
     }
 
-    public boolean ignoreItemEntityData() {
+    public boolean func_184213_bq() {
         return false;
     }
 
-    public boolean setPositionNonDirty() {
-        boolean flag = this.isPositionDirty;
+    public boolean func_184189_br() {
+        boolean flag = this.field_184237_aG;
 
-        this.isPositionDirty = false;
+        this.field_184237_aG = false;
         return flag;
     }
 
     @Nullable
-    public Entity getControllingPassenger() {
+    public Entity func_184179_bs() {
         return null;
     }
 
-    public List<Entity> getPassengers() {
-        return (List) (this.riddenByEntities.isEmpty() ? Collections.emptyList() : Lists.newArrayList(this.riddenByEntities));
+    public List<Entity> func_184188_bt() {
+        return (List) (this.field_184244_h.isEmpty() ? Collections.emptyList() : Lists.newArrayList(this.field_184244_h));
     }
 
-    public boolean isPassenger(Entity entity) {
-        Iterator iterator = this.getPassengers().iterator();
+    public boolean func_184196_w(Entity entity) {
+        Iterator iterator = this.func_184188_bt().iterator();
 
         Entity entity1;
 
@@ -2931,24 +2932,24 @@ public abstract class Entity implements ICommandSender {
         return true;
     }
 
-    public Collection<Entity> getRecursivePassengers() {
+    public Collection<Entity> func_184182_bu() {
         HashSet hashset = Sets.newHashSet();
 
-        this.getRecursivePassengersByType(Entity.class, (Set) hashset);
+        this.func_184175_a(Entity.class, (Set) hashset);
         return hashset;
     }
 
-    public <T extends Entity> Collection<T> getRecursivePassengersByType(Class<T> oclass) {
+    public <T extends Entity> Collection<T> func_184180_b(Class<T> oclass) {
         HashSet hashset = Sets.newHashSet();
 
-        this.getRecursivePassengersByType(oclass, (Set) hashset);
+        this.func_184175_a(oclass, (Set) hashset);
         return hashset;
     }
 
-    private <T extends Entity> void getRecursivePassengersByType(Class<T> oclass, Set<T> set) {
+    private <T extends Entity> void func_184175_a(Class<T> oclass, Set<T> set) {
         Entity entity;
 
-        for (Iterator iterator = this.getPassengers().iterator(); iterator.hasNext(); entity.getRecursivePassengersByType(oclass, set)) {
+        for (Iterator iterator = this.func_184188_bt().iterator(); iterator.hasNext(); entity.func_184175_a(oclass, set)) {
             entity = (Entity) iterator.next();
             if (oclass.isAssignableFrom(entity.getClass())) {
                 set.add((T) entity); // CraftBukkit - decompile error
@@ -2957,22 +2958,22 @@ public abstract class Entity implements ICommandSender {
 
     }
 
-    public Entity getLowestRidingEntity() {
+    public Entity func_184208_bv() {
         Entity entity;
 
-        for (entity = this; entity.isRiding(); entity = entity.getRidingEntity()) {
+        for (entity = this; entity.func_184218_aH(); entity = entity.func_184187_bx()) {
             ;
         }
 
         return entity;
     }
 
-    public boolean isRidingSameEntity(Entity entity) {
-        return this.getLowestRidingEntity() == entity.getLowestRidingEntity();
+    public boolean func_184223_x(Entity entity) {
+        return this.func_184208_bv() == entity.func_184208_bv();
     }
 
-    public boolean isRidingOrBeingRiddenBy(Entity entity) {
-        Iterator iterator = this.getPassengers().iterator();
+    public boolean func_184215_y(Entity entity) {
+        Iterator iterator = this.func_184188_bt().iterator();
 
         Entity entity1;
 
@@ -2985,31 +2986,31 @@ public abstract class Entity implements ICommandSender {
             if (entity1.equals(entity)) {
                 return true;
             }
-        } while (!entity1.isRidingOrBeingRiddenBy(entity));
+        } while (!entity1.func_184215_y(entity));
 
         return true;
     }
 
-    public boolean canPassengerSteer() {
-        Entity entity = this.getControllingPassenger();
+    public boolean func_184186_bw() {
+        Entity entity = this.func_184179_bs();
 
-        return entity instanceof EntityPlayer ? ((EntityPlayer) entity).isUser() : !this.world.isRemote;
+        return entity instanceof EntityPlayer ? ((EntityPlayer) entity).func_175144_cb() : !this.field_70170_p.field_72995_K;
     }
 
     @Nullable
-    public Entity getRidingEntity() {
-        return this.ridingEntity;
+    public Entity func_184187_bx() {
+        return this.field_184239_as;
     }
 
-    public EnumPushReaction getPushReaction() {
+    public EnumPushReaction func_184192_z() {
         return EnumPushReaction.NORMAL;
     }
 
-    public SoundCategory getSoundCategory() {
+    public SoundCategory func_184176_by() {
         return SoundCategory.NEUTRAL;
     }
 
-    public int getFireImmuneTicks() {
+    public int func_190531_bD() {
         return 1;
     }
 }

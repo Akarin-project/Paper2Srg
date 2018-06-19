@@ -16,6 +16,15 @@ import net.minecraft.entity.monster.EntityVindicator;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.WorldGenWoodlandMansionPieces.a;
+import net.minecraft.server.WorldGenWoodlandMansionPieces.b;
+import net.minecraft.server.WorldGenWoodlandMansionPieces.c;
+import net.minecraft.server.WorldGenWoodlandMansionPieces.d;
+import net.minecraft.server.WorldGenWoodlandMansionPieces.e;
+import net.minecraft.server.WorldGenWoodlandMansionPieces.f;
+import net.minecraft.server.WorldGenWoodlandMansionPieces.g;
+import net.minecraft.server.WorldGenWoodlandMansionPieces.h;
+import net.minecraft.server.WorldGenWoodlandMansionPieces.i;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
@@ -30,18 +39,18 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class WoodlandMansionPieces {
 
-    public static void registerWoodlandMansionPieces() {
-        MapGenStructureIO.registerStructureComponent(WoodlandMansionPieces.i.class, "WMP");
+    public static void func_191153_a() {
+        MapGenStructureIO.func_143031_a(WorldGenWoodlandMansionPieces.i.class, "WMP");
     }
 
-    public static void generateMansion(TemplateManager definedstructuremanager, BlockPos blockposition, Rotation enumblockrotation, List<WoodlandMansionPieces.i> list, Random random) {
-        WoodlandMansionPieces.c worldgenwoodlandmansionpieces_c = new WoodlandMansionPieces.c(random);
-        WoodlandMansionPieces.d worldgenwoodlandmansionpieces_d = new WoodlandMansionPieces.d(definedstructuremanager, random);
+    public static void func_191152_a(TemplateManager definedstructuremanager, BlockPos blockposition, Rotation enumblockrotation, List<WorldGenWoodlandMansionPieces.i> list, Random random) {
+        WorldGenWoodlandMansionPieces.c worldgenwoodlandmansionpieces_c = new WorldGenWoodlandMansionPieces.c(random);
+        WorldGenWoodlandMansionPieces.d worldgenwoodlandmansionpieces_d = new WorldGenWoodlandMansionPieces.d(definedstructuremanager, random);
 
         worldgenwoodlandmansionpieces_d.a(blockposition, enumblockrotation, list, worldgenwoodlandmansionpieces_c);
     }
 
-    static class h extends WoodlandMansionPieces.f {
+    static class h extends WorldGenWoodlandMansionPieces.f {
 
         private h() {
             super(null);
@@ -52,43 +61,36 @@ public class WoodlandMansionPieces {
         }
     }
 
-    static class f extends WoodlandMansionPieces.b {
+    static class f extends WorldGenWoodlandMansionPieces.b {
 
         private f() {
             super(null);
         }
 
-        @Override
         public String a(Random random) {
             return "1x1_b" + (random.nextInt(4) + 1);
         }
 
-        @Override
         public String b(Random random) {
             return "1x1_as" + (random.nextInt(4) + 1);
         }
 
-        @Override
         public String a(Random random, boolean flag) {
             return flag ? "1x2_c_stairs" : "1x2_c" + (random.nextInt(4) + 1);
         }
 
-        @Override
         public String b(Random random, boolean flag) {
             return flag ? "1x2_d_stairs" : "1x2_d" + (random.nextInt(5) + 1);
         }
 
-        @Override
         public String c(Random random) {
             return "1x2_se" + (random.nextInt(1) + 1);
         }
 
-        @Override
         public String d(Random random) {
             return "2x2_b" + (random.nextInt(5) + 1);
         }
 
-        @Override
         public String e(Random random) {
             return "2x2_s1";
         }
@@ -98,43 +100,36 @@ public class WoodlandMansionPieces {
         }
     }
 
-    static class a extends WoodlandMansionPieces.b {
+    static class a extends WorldGenWoodlandMansionPieces.b {
 
         private a() {
             super(null);
         }
 
-        @Override
         public String a(Random random) {
             return "1x1_a" + (random.nextInt(5) + 1);
         }
 
-        @Override
         public String b(Random random) {
             return "1x1_as" + (random.nextInt(4) + 1);
         }
 
-        @Override
         public String a(Random random, boolean flag) {
             return "1x2_a" + (random.nextInt(9) + 1);
         }
 
-        @Override
         public String b(Random random, boolean flag) {
             return "1x2_b" + (random.nextInt(5) + 1);
         }
 
-        @Override
         public String c(Random random) {
             return "1x2_s" + (random.nextInt(2) + 1);
         }
 
-        @Override
         public String d(Random random) {
             return "2x2_a" + (random.nextInt(4) + 1);
         }
 
-        @Override
         public String e(Random random) {
             return "2x2_s1";
         }
@@ -216,9 +211,9 @@ public class WoodlandMansionPieces {
     static class c {
 
         private final Random a;
-        private final WoodlandMansionPieces.g b;
-        private final WoodlandMansionPieces.g c;
-        private final WoodlandMansionPieces.g[] d;
+        private final WorldGenWoodlandMansionPieces.g b;
+        private final WorldGenWoodlandMansionPieces.g c;
+        private final WorldGenWoodlandMansionPieces.g[] d;
         private final int e;
         private final int f;
 
@@ -228,7 +223,7 @@ public class WoodlandMansionPieces {
 
             this.e = 7;
             this.f = 4;
-            this.b = new WoodlandMansionPieces.g(11, 11, 5);
+            this.b = new WorldGenWoodlandMansionPieces.g(11, 11, 5);
             this.b.a(this.e, this.f, this.e + 1, this.f + 1, 3);
             this.b.a(this.e - 1, this.f, this.e - 1, this.f + 1, 2);
             this.b.a(this.e + 2, this.f - 2, this.e + 3, this.f + 3, 5);
@@ -247,38 +242,38 @@ public class WoodlandMansionPieces {
                 ;
             }
 
-            this.d = new WoodlandMansionPieces.g[3];
-            this.d[0] = new WoodlandMansionPieces.g(11, 11, 5);
-            this.d[1] = new WoodlandMansionPieces.g(11, 11, 5);
-            this.d[2] = new WoodlandMansionPieces.g(11, 11, 5);
+            this.d = new WorldGenWoodlandMansionPieces.g[3];
+            this.d[0] = new WorldGenWoodlandMansionPieces.g(11, 11, 5);
+            this.d[1] = new WorldGenWoodlandMansionPieces.g(11, 11, 5);
+            this.d[2] = new WorldGenWoodlandMansionPieces.g(11, 11, 5);
             this.a(this.b, this.d[0]);
             this.a(this.b, this.d[1]);
             this.d[0].a(this.e + 1, this.f, this.e + 1, this.f + 1, 8388608);
             this.d[1].a(this.e + 1, this.f, this.e + 1, this.f + 1, 8388608);
-            this.c = new WoodlandMansionPieces.g(this.b.b, this.b.c, 5);
+            this.c = new WorldGenWoodlandMansionPieces.g(this.b.b, this.b.c, 5);
             this.b();
             this.a(this.c, this.d[2]);
         }
 
-        public static boolean a(WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, int i, int j) {
+        public static boolean a(WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, int i, int j) {
             int k = worldgenwoodlandmansionpieces_g.a(i, j);
 
             return k == 1 || k == 2 || k == 3 || k == 4;
         }
 
-        public boolean a(WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, int i, int j, int k, int l) {
+        public boolean a(WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, int i, int j, int k, int l) {
             return (this.d[k].a(i, j) & '\uffff') == l;
         }
 
         @Nullable
-        public EnumFacing b(WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, int i, int j, int k, int l) {
-            EnumFacing[] aenumdirection = EnumFacing.Plane.HORIZONTAL.facings();
+        public EnumFacing b(WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, int i, int j, int k, int l) {
+            EnumFacing[] aenumdirection = EnumFacing.Plane.HORIZONTAL.func_179516_a();
             int i1 = aenumdirection.length;
 
             for (int j1 = 0; j1 < i1; ++j1) {
                 EnumFacing enumdirection = aenumdirection[j1];
 
-                if (this.a(worldgenwoodlandmansionpieces_g, i + enumdirection.getFrontOffsetX(), j + enumdirection.getFrontOffsetZ(), k, l)) {
+                if (this.a(worldgenwoodlandmansionpieces_g, i + enumdirection.func_82601_c(), j + enumdirection.func_82599_e(), k, l)) {
                     return enumdirection;
                 }
             }
@@ -286,40 +281,40 @@ public class WoodlandMansionPieces {
             return null;
         }
 
-        private void a(WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, int i, int j, EnumFacing enumdirection, int k) {
+        private void a(WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, int i, int j, EnumFacing enumdirection, int k) {
             if (k > 0) {
                 worldgenwoodlandmansionpieces_g.a(i, j, 1);
-                worldgenwoodlandmansionpieces_g.a(i + enumdirection.getFrontOffsetX(), j + enumdirection.getFrontOffsetZ(), 0, 1);
+                worldgenwoodlandmansionpieces_g.a(i + enumdirection.func_82601_c(), j + enumdirection.func_82599_e(), 0, 1);
 
                 EnumFacing enumdirection1;
 
                 for (int l = 0; l < 8; ++l) {
-                    enumdirection1 = EnumFacing.getHorizontal(this.a.nextInt(4));
-                    if (enumdirection1 != enumdirection.getOpposite() && (enumdirection1 != EnumFacing.EAST || !this.a.nextBoolean())) {
-                        int i1 = i + enumdirection.getFrontOffsetX();
-                        int j1 = j + enumdirection.getFrontOffsetZ();
+                    enumdirection1 = EnumFacing.func_176731_b(this.a.nextInt(4));
+                    if (enumdirection1 != enumdirection.func_176734_d() && (enumdirection1 != EnumFacing.EAST || !this.a.nextBoolean())) {
+                        int i1 = i + enumdirection.func_82601_c();
+                        int j1 = j + enumdirection.func_82599_e();
 
-                        if (worldgenwoodlandmansionpieces_g.a(i1 + enumdirection1.getFrontOffsetX(), j1 + enumdirection1.getFrontOffsetZ()) == 0 && worldgenwoodlandmansionpieces_g.a(i1 + enumdirection1.getFrontOffsetX() * 2, j1 + enumdirection1.getFrontOffsetZ() * 2) == 0) {
-                            this.a(worldgenwoodlandmansionpieces_g, i + enumdirection.getFrontOffsetX() + enumdirection1.getFrontOffsetX(), j + enumdirection.getFrontOffsetZ() + enumdirection1.getFrontOffsetZ(), enumdirection1, k - 1);
+                        if (worldgenwoodlandmansionpieces_g.a(i1 + enumdirection1.func_82601_c(), j1 + enumdirection1.func_82599_e()) == 0 && worldgenwoodlandmansionpieces_g.a(i1 + enumdirection1.func_82601_c() * 2, j1 + enumdirection1.func_82599_e() * 2) == 0) {
+                            this.a(worldgenwoodlandmansionpieces_g, i + enumdirection.func_82601_c() + enumdirection1.func_82601_c(), j + enumdirection.func_82599_e() + enumdirection1.func_82599_e(), enumdirection1, k - 1);
                             break;
                         }
                     }
                 }
 
-                EnumFacing enumdirection2 = enumdirection.rotateY();
+                EnumFacing enumdirection2 = enumdirection.func_176746_e();
 
-                enumdirection1 = enumdirection.rotateYCCW();
-                worldgenwoodlandmansionpieces_g.a(i + enumdirection2.getFrontOffsetX(), j + enumdirection2.getFrontOffsetZ(), 0, 2);
-                worldgenwoodlandmansionpieces_g.a(i + enumdirection1.getFrontOffsetX(), j + enumdirection1.getFrontOffsetZ(), 0, 2);
-                worldgenwoodlandmansionpieces_g.a(i + enumdirection.getFrontOffsetX() + enumdirection2.getFrontOffsetX(), j + enumdirection.getFrontOffsetZ() + enumdirection2.getFrontOffsetZ(), 0, 2);
-                worldgenwoodlandmansionpieces_g.a(i + enumdirection.getFrontOffsetX() + enumdirection1.getFrontOffsetX(), j + enumdirection.getFrontOffsetZ() + enumdirection1.getFrontOffsetZ(), 0, 2);
-                worldgenwoodlandmansionpieces_g.a(i + enumdirection.getFrontOffsetX() * 2, j + enumdirection.getFrontOffsetZ() * 2, 0, 2);
-                worldgenwoodlandmansionpieces_g.a(i + enumdirection2.getFrontOffsetX() * 2, j + enumdirection2.getFrontOffsetZ() * 2, 0, 2);
-                worldgenwoodlandmansionpieces_g.a(i + enumdirection1.getFrontOffsetX() * 2, j + enumdirection1.getFrontOffsetZ() * 2, 0, 2);
+                enumdirection1 = enumdirection.func_176735_f();
+                worldgenwoodlandmansionpieces_g.a(i + enumdirection2.func_82601_c(), j + enumdirection2.func_82599_e(), 0, 2);
+                worldgenwoodlandmansionpieces_g.a(i + enumdirection1.func_82601_c(), j + enumdirection1.func_82599_e(), 0, 2);
+                worldgenwoodlandmansionpieces_g.a(i + enumdirection.func_82601_c() + enumdirection2.func_82601_c(), j + enumdirection.func_82599_e() + enumdirection2.func_82599_e(), 0, 2);
+                worldgenwoodlandmansionpieces_g.a(i + enumdirection.func_82601_c() + enumdirection1.func_82601_c(), j + enumdirection.func_82599_e() + enumdirection1.func_82599_e(), 0, 2);
+                worldgenwoodlandmansionpieces_g.a(i + enumdirection.func_82601_c() * 2, j + enumdirection.func_82599_e() * 2, 0, 2);
+                worldgenwoodlandmansionpieces_g.a(i + enumdirection2.func_82601_c() * 2, j + enumdirection2.func_82599_e() * 2, 0, 2);
+                worldgenwoodlandmansionpieces_g.a(i + enumdirection1.func_82601_c() * 2, j + enumdirection1.func_82599_e() * 2, 0, 2);
             }
         }
 
-        private boolean a(WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g) {
+        private boolean a(WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g) {
             boolean flag = false;
 
             for (int i = 0; i < worldgenwoodlandmansionpieces_g.c; ++i) {
@@ -355,7 +350,7 @@ public class WoodlandMansionPieces {
 
         private void b() {
             ArrayList arraylist = Lists.newArrayList();
-            WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g = this.d[1];
+            WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g = this.d[1];
 
             int i;
             int j;
@@ -376,18 +371,18 @@ public class WoodlandMansionPieces {
             } else {
                 Tuple tuple = (Tuple) arraylist.get(this.a.nextInt(arraylist.size()));
 
-                i = worldgenwoodlandmansionpieces_g.a(((Integer) tuple.getFirst()).intValue(), ((Integer) tuple.getSecond()).intValue());
-                worldgenwoodlandmansionpieces_g.a(((Integer) tuple.getFirst()).intValue(), ((Integer) tuple.getSecond()).intValue(), i | 4194304);
-                EnumFacing enumdirection = this.b(this.b, ((Integer) tuple.getFirst()).intValue(), ((Integer) tuple.getSecond()).intValue(), 1, i & '\uffff');
+                i = worldgenwoodlandmansionpieces_g.a(((Integer) tuple.func_76341_a()).intValue(), ((Integer) tuple.func_76340_b()).intValue());
+                worldgenwoodlandmansionpieces_g.a(((Integer) tuple.func_76341_a()).intValue(), ((Integer) tuple.func_76340_b()).intValue(), i | 4194304);
+                EnumFacing enumdirection = this.b(this.b, ((Integer) tuple.func_76341_a()).intValue(), ((Integer) tuple.func_76340_b()).intValue(), 1, i & '\uffff');
 
-                j = ((Integer) tuple.getFirst()).intValue() + enumdirection.getFrontOffsetX();
-                int i1 = ((Integer) tuple.getSecond()).intValue() + enumdirection.getFrontOffsetZ();
+                j = ((Integer) tuple.func_76341_a()).intValue() + enumdirection.func_82601_c();
+                int i1 = ((Integer) tuple.func_76340_b()).intValue() + enumdirection.func_82599_e();
 
                 for (int j1 = 0; j1 < this.c.c; ++j1) {
                     for (int k1 = 0; k1 < this.c.b; ++k1) {
                         if (!a(this.b, k1, j1)) {
                             this.c.a(k1, j1, 5);
-                        } else if (k1 == ((Integer) tuple.getFirst()).intValue() && j1 == ((Integer) tuple.getSecond()).intValue()) {
+                        } else if (k1 == ((Integer) tuple.func_76341_a()).intValue() && j1 == ((Integer) tuple.func_76340_b()).intValue()) {
                             this.c.a(k1, j1, 3);
                         } else if (k1 == j && j1 == i1) {
                             this.c.a(k1, j1, 3);
@@ -397,24 +392,24 @@ public class WoodlandMansionPieces {
                 }
 
                 ArrayList arraylist1 = Lists.newArrayList();
-                EnumFacing[] aenumdirection = EnumFacing.Plane.HORIZONTAL.facings();
+                EnumFacing[] aenumdirection = EnumFacing.Plane.HORIZONTAL.func_179516_a();
                 int l1 = aenumdirection.length;
 
                 for (int i2 = 0; i2 < l1; ++i2) {
                     EnumFacing enumdirection1 = aenumdirection[i2];
 
-                    if (this.c.a(j + enumdirection1.getFrontOffsetX(), i1 + enumdirection1.getFrontOffsetZ()) == 0) {
+                    if (this.c.a(j + enumdirection1.func_82601_c(), i1 + enumdirection1.func_82599_e()) == 0) {
                         arraylist1.add(enumdirection1);
                     }
                 }
 
                 if (arraylist1.isEmpty()) {
                     this.c.a(0, 0, this.c.b, this.c.c, 5);
-                    worldgenwoodlandmansionpieces_g.a(((Integer) tuple.getFirst()).intValue(), ((Integer) tuple.getSecond()).intValue(), i);
+                    worldgenwoodlandmansionpieces_g.a(((Integer) tuple.func_76341_a()).intValue(), ((Integer) tuple.func_76340_b()).intValue(), i);
                 } else {
                     EnumFacing enumdirection2 = (EnumFacing) arraylist1.get(this.a.nextInt(arraylist1.size()));
 
-                    this.a(this.c, j + enumdirection2.getFrontOffsetX(), i1 + enumdirection2.getFrontOffsetZ(), enumdirection2, 4);
+                    this.a(this.c, j + enumdirection2.func_82601_c(), i1 + enumdirection2.func_82599_e(), enumdirection2, 4);
 
                     while (this.a(this.c)) {
                         ;
@@ -424,7 +419,7 @@ public class WoodlandMansionPieces {
             }
         }
 
-        private void a(WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g1) {
+        private void a(WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g1) {
             ArrayList arraylist = Lists.newArrayList();
 
             int i;
@@ -443,8 +438,8 @@ public class WoodlandMansionPieces {
 
             while (iterator.hasNext()) {
                 Tuple tuple = (Tuple) iterator.next();
-                int k = ((Integer) tuple.getFirst()).intValue();
-                int l = ((Integer) tuple.getSecond()).intValue();
+                int k = ((Integer) tuple.func_76341_a()).intValue();
+                int l = ((Integer) tuple.func_76340_b()).intValue();
 
                 if (worldgenwoodlandmansionpieces_g1.a(k, l) == 0) {
                     int i1 = k;
@@ -529,24 +524,24 @@ public class WoodlandMansionPieces {
             this.b = random;
         }
 
-        public void a(BlockPos blockposition, Rotation enumblockrotation, List<WoodlandMansionPieces.i> list, WoodlandMansionPieces.c worldgenwoodlandmansionpieces_c) {
-            WoodlandMansionPieces.e worldgenwoodlandmansionpieces_e = new WoodlandMansionPieces.e(null);
+        public void a(BlockPos blockposition, Rotation enumblockrotation, List<WorldGenWoodlandMansionPieces.i> list, WorldGenWoodlandMansionPieces.c worldgenwoodlandmansionpieces_c) {
+            WorldGenWoodlandMansionPieces.e worldgenwoodlandmansionpieces_e = new WorldGenWoodlandMansionPieces.e(null);
 
             worldgenwoodlandmansionpieces_e.b = blockposition;
             worldgenwoodlandmansionpieces_e.a = enumblockrotation;
             worldgenwoodlandmansionpieces_e.c = "wall_flat";
-            WoodlandMansionPieces.e worldgenwoodlandmansionpieces_e1 = new WoodlandMansionPieces.e(null);
+            WorldGenWoodlandMansionPieces.e worldgenwoodlandmansionpieces_e1 = new WorldGenWoodlandMansionPieces.e(null);
 
             this.a(list, worldgenwoodlandmansionpieces_e);
-            worldgenwoodlandmansionpieces_e1.b = worldgenwoodlandmansionpieces_e.b.up(8);
+            worldgenwoodlandmansionpieces_e1.b = worldgenwoodlandmansionpieces_e.b.func_177981_b(8);
             worldgenwoodlandmansionpieces_e1.a = worldgenwoodlandmansionpieces_e.a;
             worldgenwoodlandmansionpieces_e1.c = "wall_window";
             if (!list.isEmpty()) {
                 ;
             }
 
-            WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g = worldgenwoodlandmansionpieces_c.b;
-            WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g1 = worldgenwoodlandmansionpieces_c.c;
+            WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g = worldgenwoodlandmansionpieces_c.b;
+            WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g1 = worldgenwoodlandmansionpieces_c.c;
 
             this.c = worldgenwoodlandmansionpieces_c.e + 1;
             this.d = worldgenwoodlandmansionpieces_c.f + 1;
@@ -555,9 +550,9 @@ public class WoodlandMansionPieces {
 
             this.a(list, worldgenwoodlandmansionpieces_e, worldgenwoodlandmansionpieces_g, EnumFacing.SOUTH, this.c, this.d, i, j);
             this.a(list, worldgenwoodlandmansionpieces_e1, worldgenwoodlandmansionpieces_g, EnumFacing.SOUTH, this.c, this.d, i, j);
-            WoodlandMansionPieces.e worldgenwoodlandmansionpieces_e2 = new WoodlandMansionPieces.e(null);
+            WorldGenWoodlandMansionPieces.e worldgenwoodlandmansionpieces_e2 = new WorldGenWoodlandMansionPieces.e(null);
 
-            worldgenwoodlandmansionpieces_e2.b = worldgenwoodlandmansionpieces_e.b.up(19);
+            worldgenwoodlandmansionpieces_e2.b = worldgenwoodlandmansionpieces_e.b.func_177981_b(19);
             worldgenwoodlandmansionpieces_e2.a = worldgenwoodlandmansionpieces_e.a;
             worldgenwoodlandmansionpieces_e2.c = "wall_window";
             boolean flag = false;
@@ -566,9 +561,9 @@ public class WoodlandMansionPieces {
 
             for (int l = 0; l < worldgenwoodlandmansionpieces_g1.c && !flag; ++l) {
                 for (k = worldgenwoodlandmansionpieces_g1.b - 1; k >= 0 && !flag; --k) {
-                    if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g1, k, l)) {
-                        worldgenwoodlandmansionpieces_e2.b = worldgenwoodlandmansionpieces_e2.b.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 8 + (l - this.d) * 8);
-                        worldgenwoodlandmansionpieces_e2.b = worldgenwoodlandmansionpieces_e2.b.offset(enumblockrotation.rotate(EnumFacing.EAST), (k - this.c) * 8);
+                    if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g1, k, l)) {
+                        worldgenwoodlandmansionpieces_e2.b = worldgenwoodlandmansionpieces_e2.b.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 8 + (l - this.d) * 8);
+                        worldgenwoodlandmansionpieces_e2.b = worldgenwoodlandmansionpieces_e2.b.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), (k - this.c) * 8);
                         this.b(list, worldgenwoodlandmansionpieces_e2);
                         this.a(list, worldgenwoodlandmansionpieces_e2, worldgenwoodlandmansionpieces_g1, EnumFacing.SOUTH, k, l, k, l);
                         flag = true;
@@ -576,42 +571,42 @@ public class WoodlandMansionPieces {
                 }
             }
 
-            this.a(list, blockposition.up(16), enumblockrotation, worldgenwoodlandmansionpieces_g, worldgenwoodlandmansionpieces_g1);
-            this.a(list, blockposition.up(27), enumblockrotation, worldgenwoodlandmansionpieces_g1, (WoodlandMansionPieces.g) null);
+            this.a(list, blockposition.func_177981_b(16), enumblockrotation, worldgenwoodlandmansionpieces_g, worldgenwoodlandmansionpieces_g1);
+            this.a(list, blockposition.func_177981_b(27), enumblockrotation, worldgenwoodlandmansionpieces_g1, (WorldGenWoodlandMansionPieces.g) null);
             if (!list.isEmpty()) {
                 ;
             }
 
-            WoodlandMansionPieces.b[] aworldgenwoodlandmansionpieces_b = new WoodlandMansionPieces.b[] { new WoodlandMansionPieces.a(null), new WoodlandMansionPieces.f(null), new WoodlandMansionPieces.h(null)};
+            WorldGenWoodlandMansionPieces.b[] aworldgenwoodlandmansionpieces_b = new WorldGenWoodlandMansionPieces.b[] { new WorldGenWoodlandMansionPieces.a(null), new WorldGenWoodlandMansionPieces.f(null), new WorldGenWoodlandMansionPieces.h(null)};
 
             for (k = 0; k < 3; ++k) {
-                BlockPos blockposition1 = blockposition.up(8 * k + (k == 2 ? 3 : 0));
-                WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g2 = worldgenwoodlandmansionpieces_c.d[k];
-                WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g3 = k == 2 ? worldgenwoodlandmansionpieces_g1 : worldgenwoodlandmansionpieces_g;
+                BlockPos blockposition1 = blockposition.func_177981_b(8 * k + (k == 2 ? 3 : 0));
+                WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g2 = worldgenwoodlandmansionpieces_c.d[k];
+                WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g3 = k == 2 ? worldgenwoodlandmansionpieces_g1 : worldgenwoodlandmansionpieces_g;
                 String s = k == 0 ? "carpet_south" : "carpet_south_2";
                 String s1 = k == 0 ? "carpet_west" : "carpet_west_2";
 
                 for (int i1 = 0; i1 < worldgenwoodlandmansionpieces_g3.c; ++i1) {
                     for (int j1 = 0; j1 < worldgenwoodlandmansionpieces_g3.b; ++j1) {
                         if (worldgenwoodlandmansionpieces_g3.a(j1, i1) == 1) {
-                            BlockPos blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 8 + (i1 - this.d) * 8);
+                            BlockPos blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 8 + (i1 - this.d) * 8);
 
-                            blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.EAST), (j1 - this.c) * 8);
-                            list.add(new WoodlandMansionPieces.i(this.a, "corridor_floor", blockposition2, enumblockrotation));
+                            blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), (j1 - this.c) * 8);
+                            list.add(new WorldGenWoodlandMansionPieces.i(this.a, "corridor_floor", blockposition2, enumblockrotation));
                             if (worldgenwoodlandmansionpieces_g3.a(j1, i1 - 1) == 1 || (worldgenwoodlandmansionpieces_g2.a(j1, i1 - 1) & 8388608) == 8388608) {
-                                list.add(new WoodlandMansionPieces.i(this.a, "carpet_north", blockposition2.offset(enumblockrotation.rotate(EnumFacing.EAST), 1).up(), enumblockrotation));
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "carpet_north", blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 1).func_177984_a(), enumblockrotation));
                             }
 
                             if (worldgenwoodlandmansionpieces_g3.a(j1 + 1, i1) == 1 || (worldgenwoodlandmansionpieces_g2.a(j1 + 1, i1) & 8388608) == 8388608) {
-                                list.add(new WoodlandMansionPieces.i(this.a, "carpet_east", blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 1).offset(enumblockrotation.rotate(EnumFacing.EAST), 5).up(), enumblockrotation));
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "carpet_east", blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 1).func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 5).func_177984_a(), enumblockrotation));
                             }
 
                             if (worldgenwoodlandmansionpieces_g3.a(j1, i1 + 1) == 1 || (worldgenwoodlandmansionpieces_g2.a(j1, i1 + 1) & 8388608) == 8388608) {
-                                list.add(new WoodlandMansionPieces.i(this.a, s, blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 5).offset(enumblockrotation.rotate(EnumFacing.WEST), 1), enumblockrotation));
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, s, blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 5).func_177967_a(enumblockrotation.func_185831_a(EnumFacing.WEST), 1), enumblockrotation));
                             }
 
                             if (worldgenwoodlandmansionpieces_g3.a(j1 - 1, i1) == 1 || (worldgenwoodlandmansionpieces_g2.a(j1 - 1, i1) & 8388608) == 8388608) {
-                                list.add(new WoodlandMansionPieces.i(this.a, s1, blockposition2.offset(enumblockrotation.rotate(EnumFacing.WEST), 1).offset(enumblockrotation.rotate(EnumFacing.NORTH), 1), enumblockrotation));
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, s1, blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.WEST), 1).func_177967_a(enumblockrotation.func_185831_a(EnumFacing.NORTH), 1), enumblockrotation));
                             }
                         }
                     }
@@ -633,13 +628,13 @@ public class WoodlandMansionPieces {
                             flag1 = flag1 && (i2 & 8388608) == 8388608;
                             arraylist.clear();
                             if ((i2 & 2097152) == 2097152) {
-                                EnumFacing[] aenumdirection = EnumFacing.Plane.HORIZONTAL.facings();
+                                EnumFacing[] aenumdirection = EnumFacing.Plane.HORIZONTAL.func_179516_a();
                                 int l2 = aenumdirection.length;
 
                                 for (int i3 = 0; i3 < l2; ++i3) {
                                     EnumFacing enumdirection = aenumdirection[i3];
 
-                                    if (worldgenwoodlandmansionpieces_g3.a(l1 + enumdirection.getFrontOffsetX(), k1 + enumdirection.getFrontOffsetZ()) == 1) {
+                                    if (worldgenwoodlandmansionpieces_g3.a(l1 + enumdirection.func_82601_c(), k1 + enumdirection.func_82599_e()) == 1) {
                                         arraylist.add(enumdirection);
                                     }
                                 }
@@ -653,30 +648,30 @@ public class WoodlandMansionPieces {
                                 enumdirection1 = EnumFacing.UP;
                             }
 
-                            BlockPos blockposition3 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 8 + (k1 - this.d) * 8);
+                            BlockPos blockposition3 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 8 + (k1 - this.d) * 8);
 
-                            blockposition3 = blockposition3.offset(enumblockrotation.rotate(EnumFacing.EAST), -1 + (l1 - this.c) * 8);
-                            if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g3, l1 - 1, k1) && !worldgenwoodlandmansionpieces_c.a(worldgenwoodlandmansionpieces_g3, l1 - 1, k1, k, k2)) {
-                                list.add(new WoodlandMansionPieces.i(this.a, enumdirection1 == EnumFacing.WEST ? s3 : s2, blockposition3, enumblockrotation));
+                            blockposition3 = blockposition3.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), -1 + (l1 - this.c) * 8);
+                            if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g3, l1 - 1, k1) && !worldgenwoodlandmansionpieces_c.a(worldgenwoodlandmansionpieces_g3, l1 - 1, k1, k, k2)) {
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, enumdirection1 == EnumFacing.WEST ? s3 : s2, blockposition3, enumblockrotation));
                             }
 
                             BlockPos blockposition4;
 
                             if (worldgenwoodlandmansionpieces_g3.a(l1 + 1, k1) == 1 && !flag1) {
-                                blockposition4 = blockposition3.offset(enumblockrotation.rotate(EnumFacing.EAST), 8);
-                                list.add(new WoodlandMansionPieces.i(this.a, enumdirection1 == EnumFacing.EAST ? s3 : s2, blockposition4, enumblockrotation));
+                                blockposition4 = blockposition3.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 8);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, enumdirection1 == EnumFacing.EAST ? s3 : s2, blockposition4, enumblockrotation));
                             }
 
-                            if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g3, l1, k1 + 1) && !worldgenwoodlandmansionpieces_c.a(worldgenwoodlandmansionpieces_g3, l1, k1 + 1, k, k2)) {
-                                blockposition4 = blockposition3.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 7);
-                                blockposition4 = blockposition4.offset(enumblockrotation.rotate(EnumFacing.EAST), 7);
-                                list.add(new WoodlandMansionPieces.i(this.a, enumdirection1 == EnumFacing.SOUTH ? s3 : s2, blockposition4, enumblockrotation.add(Rotation.CLOCKWISE_90)));
+                            if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g3, l1, k1 + 1) && !worldgenwoodlandmansionpieces_c.a(worldgenwoodlandmansionpieces_g3, l1, k1 + 1, k, k2)) {
+                                blockposition4 = blockposition3.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 7);
+                                blockposition4 = blockposition4.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 7);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, enumdirection1 == EnumFacing.SOUTH ? s3 : s2, blockposition4, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90)));
                             }
 
                             if (worldgenwoodlandmansionpieces_g3.a(l1, k1 - 1) == 1 && !flag1) {
-                                blockposition4 = blockposition3.offset(enumblockrotation.rotate(EnumFacing.NORTH), 1);
-                                blockposition4 = blockposition4.offset(enumblockrotation.rotate(EnumFacing.EAST), 7);
-                                list.add(new WoodlandMansionPieces.i(this.a, enumdirection1 == EnumFacing.NORTH ? s3 : s2, blockposition4, enumblockrotation.add(Rotation.CLOCKWISE_90)));
+                                blockposition4 = blockposition3.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.NORTH), 1);
+                                blockposition4 = blockposition4.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 7);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, enumdirection1 == EnumFacing.NORTH ? s3 : s2, blockposition4, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90)));
                             }
 
                             if (j2 == 65536) {
@@ -690,9 +685,9 @@ public class WoodlandMansionPieces {
 
                                     this.a(list, blockposition3, enumblockrotation, enumdirection2, enumdirection1, aworldgenwoodlandmansionpieces_b[k], flag2);
                                 } else if (j2 == 262144 && enumdirection1 != null && enumdirection1 != EnumFacing.UP) {
-                                    enumdirection2 = enumdirection1.rotateY();
-                                    if (!worldgenwoodlandmansionpieces_c.a(worldgenwoodlandmansionpieces_g3, l1 + enumdirection2.getFrontOffsetX(), k1 + enumdirection2.getFrontOffsetZ(), k, k2)) {
-                                        enumdirection2 = enumdirection2.getOpposite();
+                                    enumdirection2 = enumdirection1.func_176746_e();
+                                    if (!worldgenwoodlandmansionpieces_c.a(worldgenwoodlandmansionpieces_g3, l1 + enumdirection2.func_82601_c(), k1 + enumdirection2.func_82599_e(), k, k2)) {
+                                        enumdirection2 = enumdirection2.func_176734_d();
                                     }
 
                                     this.a(list, blockposition3, enumblockrotation, enumdirection2, enumdirection1, aworldgenwoodlandmansionpieces_b[k]);
@@ -707,26 +702,26 @@ public class WoodlandMansionPieces {
 
         }
 
-        private void a(List<WoodlandMansionPieces.i> list, WoodlandMansionPieces.e worldgenwoodlandmansionpieces_e, WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, EnumFacing enumdirection, int i, int j, int k, int l) {
+        private void a(List<WorldGenWoodlandMansionPieces.i> list, WorldGenWoodlandMansionPieces.e worldgenwoodlandmansionpieces_e, WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, EnumFacing enumdirection, int i, int j, int k, int l) {
             int i1 = i;
             int j1 = j;
             EnumFacing enumdirection1 = enumdirection;
 
             do {
-                if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, i1 + enumdirection.getFrontOffsetX(), j1 + enumdirection.getFrontOffsetZ())) {
+                if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, i1 + enumdirection.func_82601_c(), j1 + enumdirection.func_82599_e())) {
                     this.c(list, worldgenwoodlandmansionpieces_e);
-                    enumdirection = enumdirection.rotateY();
+                    enumdirection = enumdirection.func_176746_e();
                     if (i1 != k || j1 != l || enumdirection1 != enumdirection) {
                         this.b(list, worldgenwoodlandmansionpieces_e);
                     }
-                } else if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, i1 + enumdirection.getFrontOffsetX(), j1 + enumdirection.getFrontOffsetZ()) && WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, i1 + enumdirection.getFrontOffsetX() + enumdirection.rotateYCCW().getFrontOffsetX(), j1 + enumdirection.getFrontOffsetZ() + enumdirection.rotateYCCW().getFrontOffsetZ())) {
+                } else if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, i1 + enumdirection.func_82601_c(), j1 + enumdirection.func_82599_e()) && WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, i1 + enumdirection.func_82601_c() + enumdirection.func_176735_f().func_82601_c(), j1 + enumdirection.func_82599_e() + enumdirection.func_176735_f().func_82599_e())) {
                     this.d(list, worldgenwoodlandmansionpieces_e);
-                    i1 += enumdirection.getFrontOffsetX();
-                    j1 += enumdirection.getFrontOffsetZ();
-                    enumdirection = enumdirection.rotateYCCW();
+                    i1 += enumdirection.func_82601_c();
+                    j1 += enumdirection.func_82599_e();
+                    enumdirection = enumdirection.func_176735_f();
                 } else {
-                    i1 += enumdirection.getFrontOffsetX();
-                    j1 += enumdirection.getFrontOffsetZ();
+                    i1 += enumdirection.func_82601_c();
+                    j1 += enumdirection.func_82599_e();
                     if (i1 != k || j1 != l || enumdirection1 != enumdirection) {
                         this.b(list, worldgenwoodlandmansionpieces_e);
                     }
@@ -735,7 +730,7 @@ public class WoodlandMansionPieces {
 
         }
 
-        private void a(List<WoodlandMansionPieces.i> list, BlockPos blockposition, Rotation enumblockrotation, WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, @Nullable WoodlandMansionPieces.g worldgenwoodlandmansionpieces_g1) {
+        private void a(List<WorldGenWoodlandMansionPieces.i> list, BlockPos blockposition, Rotation enumblockrotation, WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g, @Nullable WorldGenWoodlandMansionPieces.g worldgenwoodlandmansionpieces_g1) {
             int i;
             int j;
             BlockPos blockposition1;
@@ -744,31 +739,31 @@ public class WoodlandMansionPieces {
 
             for (i = 0; i < worldgenwoodlandmansionpieces_g.c; ++i) {
                 for (j = 0; j < worldgenwoodlandmansionpieces_g.b; ++j) {
-                    blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 8 + (i - this.d) * 8);
-                    blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), (j - this.c) * 8);
-                    flag = worldgenwoodlandmansionpieces_g1 != null && WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g1, j, i);
-                    if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i) && !flag) {
-                        list.add(new WoodlandMansionPieces.i(this.a, "roof", blockposition1.up(3), enumblockrotation));
-                        if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i)) {
-                            blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), 6);
-                            list.add(new WoodlandMansionPieces.i(this.a, "roof_front", blockposition2, enumblockrotation));
+                    blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 8 + (i - this.d) * 8);
+                    blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), (j - this.c) * 8);
+                    flag = worldgenwoodlandmansionpieces_g1 != null && WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g1, j, i);
+                    if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i) && !flag) {
+                        list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof", blockposition1.func_177981_b(3), enumblockrotation));
+                        if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i)) {
+                            blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 6);
+                            list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_front", blockposition2, enumblockrotation));
                         }
 
-                        if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i)) {
-                            blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), 0);
-                            blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 7);
-                            list.add(new WoodlandMansionPieces.i(this.a, "roof_front", blockposition2, enumblockrotation.add(Rotation.CLOCKWISE_180)));
+                        if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i)) {
+                            blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 0);
+                            blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 7);
+                            list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_front", blockposition2, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_180)));
                         }
 
-                        if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
-                            blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.WEST), 1);
-                            list.add(new WoodlandMansionPieces.i(this.a, "roof_front", blockposition2, enumblockrotation.add(Rotation.COUNTERCLOCKWISE_90)));
+                        if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
+                            blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.WEST), 1);
+                            list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_front", blockposition2, enumblockrotation.func_185830_a(Rotation.COUNTERCLOCKWISE_90)));
                         }
 
-                        if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
-                            blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), 6);
-                            blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 6);
-                            list.add(new WoodlandMansionPieces.i(this.a, "roof_front", blockposition2, enumblockrotation.add(Rotation.CLOCKWISE_90)));
+                        if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
+                            blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 6);
+                            blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 6);
+                            list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_front", blockposition2, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90)));
                         }
                     }
                 }
@@ -777,58 +772,58 @@ public class WoodlandMansionPieces {
             if (worldgenwoodlandmansionpieces_g1 != null) {
                 for (i = 0; i < worldgenwoodlandmansionpieces_g.c; ++i) {
                     for (j = 0; j < worldgenwoodlandmansionpieces_g.b; ++j) {
-                        blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 8 + (i - this.d) * 8);
-                        blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), (j - this.c) * 8);
-                        flag = WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g1, j, i);
-                        if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i) && flag) {
-                            if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i)) {
-                                blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), 7);
-                                list.add(new WoodlandMansionPieces.i(this.a, "small_wall", blockposition2, enumblockrotation));
+                        blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 8 + (i - this.d) * 8);
+                        blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), (j - this.c) * 8);
+                        flag = WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g1, j, i);
+                        if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i) && flag) {
+                            if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i)) {
+                                blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 7);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "small_wall", blockposition2, enumblockrotation));
                             }
 
-                            if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i)) {
-                                blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.WEST), 1);
-                                blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 6);
-                                list.add(new WoodlandMansionPieces.i(this.a, "small_wall", blockposition2, enumblockrotation.add(Rotation.CLOCKWISE_180)));
+                            if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i)) {
+                                blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.WEST), 1);
+                                blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 6);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "small_wall", blockposition2, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_180)));
                             }
 
-                            if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
-                                blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.WEST), 0);
-                                blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.NORTH), 1);
-                                list.add(new WoodlandMansionPieces.i(this.a, "small_wall", blockposition2, enumblockrotation.add(Rotation.COUNTERCLOCKWISE_90)));
+                            if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
+                                blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.WEST), 0);
+                                blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.NORTH), 1);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "small_wall", blockposition2, enumblockrotation.func_185830_a(Rotation.COUNTERCLOCKWISE_90)));
                             }
 
-                            if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
-                                blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), 6);
-                                blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 7);
-                                list.add(new WoodlandMansionPieces.i(this.a, "small_wall", blockposition2, enumblockrotation.add(Rotation.CLOCKWISE_90)));
+                            if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
+                                blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 6);
+                                blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 7);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "small_wall", blockposition2, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90)));
                             }
 
-                            if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i)) {
-                                if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
-                                    blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), 7);
-                                    blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.NORTH), 2);
-                                    list.add(new WoodlandMansionPieces.i(this.a, "small_wall_corner", blockposition2, enumblockrotation));
+                            if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i)) {
+                                if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
+                                    blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 7);
+                                    blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.NORTH), 2);
+                                    list.add(new WorldGenWoodlandMansionPieces.i(this.a, "small_wall_corner", blockposition2, enumblockrotation));
                                 }
 
-                                if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
-                                    blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), 8);
-                                    blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 7);
-                                    list.add(new WoodlandMansionPieces.i(this.a, "small_wall_corner", blockposition2, enumblockrotation.add(Rotation.CLOCKWISE_90)));
+                                if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
+                                    blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 8);
+                                    blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 7);
+                                    list.add(new WorldGenWoodlandMansionPieces.i(this.a, "small_wall_corner", blockposition2, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90)));
                                 }
                             }
 
-                            if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i)) {
-                                if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
-                                    blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.WEST), 2);
-                                    blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.NORTH), 1);
-                                    list.add(new WoodlandMansionPieces.i(this.a, "small_wall_corner", blockposition2, enumblockrotation.add(Rotation.COUNTERCLOCKWISE_90)));
+                            if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i)) {
+                                if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
+                                    blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.WEST), 2);
+                                    blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.NORTH), 1);
+                                    list.add(new WorldGenWoodlandMansionPieces.i(this.a, "small_wall_corner", blockposition2, enumblockrotation.func_185830_a(Rotation.COUNTERCLOCKWISE_90)));
                                 }
 
-                                if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
-                                    blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.WEST), 1);
-                                    blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 8);
-                                    list.add(new WoodlandMansionPieces.i(this.a, "small_wall_corner", blockposition2, enumblockrotation.add(Rotation.CLOCKWISE_180)));
+                                if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
+                                    blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.WEST), 1);
+                                    blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 8);
+                                    list.add(new WorldGenWoodlandMansionPieces.i(this.a, "small_wall_corner", blockposition2, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_180)));
                                 }
                             }
                         }
@@ -838,48 +833,48 @@ public class WoodlandMansionPieces {
 
             for (i = 0; i < worldgenwoodlandmansionpieces_g.c; ++i) {
                 for (j = 0; j < worldgenwoodlandmansionpieces_g.b; ++j) {
-                    blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 8 + (i - this.d) * 8);
-                    blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), (j - this.c) * 8);
-                    flag = worldgenwoodlandmansionpieces_g1 != null && WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g1, j, i);
-                    if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i) && !flag) {
+                    blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 8 + (i - this.d) * 8);
+                    blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), (j - this.c) * 8);
+                    flag = worldgenwoodlandmansionpieces_g1 != null && WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g1, j, i);
+                    if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i) && !flag) {
                         BlockPos blockposition3;
 
-                        if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i)) {
-                            blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), 6);
-                            if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
-                                blockposition3 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 6);
-                                list.add(new WoodlandMansionPieces.i(this.a, "roof_corner", blockposition3, enumblockrotation));
-                            } else if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i + 1)) {
-                                blockposition3 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 5);
-                                list.add(new WoodlandMansionPieces.i(this.a, "roof_inner_corner", blockposition3, enumblockrotation));
+                        if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i)) {
+                            blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 6);
+                            if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
+                                blockposition3 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 6);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_corner", blockposition3, enumblockrotation));
+                            } else if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i + 1)) {
+                                blockposition3 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 5);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_inner_corner", blockposition3, enumblockrotation));
                             }
 
-                            if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
-                                list.add(new WoodlandMansionPieces.i(this.a, "roof_corner", blockposition2, enumblockrotation.add(Rotation.COUNTERCLOCKWISE_90)));
-                            } else if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i - 1)) {
-                                blockposition3 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), 9);
-                                blockposition3 = blockposition3.offset(enumblockrotation.rotate(EnumFacing.NORTH), 2);
-                                list.add(new WoodlandMansionPieces.i(this.a, "roof_inner_corner", blockposition3, enumblockrotation.add(Rotation.CLOCKWISE_90)));
+                            if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_corner", blockposition2, enumblockrotation.func_185830_a(Rotation.COUNTERCLOCKWISE_90)));
+                            } else if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j + 1, i - 1)) {
+                                blockposition3 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 9);
+                                blockposition3 = blockposition3.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.NORTH), 2);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_inner_corner", blockposition3, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90)));
                             }
                         }
 
-                        if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i)) {
-                            blockposition2 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.EAST), 0);
-                            blockposition2 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 0);
-                            if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
-                                blockposition3 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 6);
-                                list.add(new WoodlandMansionPieces.i(this.a, "roof_corner", blockposition3, enumblockrotation.add(Rotation.CLOCKWISE_90)));
-                            } else if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i + 1)) {
-                                blockposition3 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 8);
-                                blockposition3 = blockposition3.offset(enumblockrotation.rotate(EnumFacing.WEST), 3);
-                                list.add(new WoodlandMansionPieces.i(this.a, "roof_inner_corner", blockposition3, enumblockrotation.add(Rotation.COUNTERCLOCKWISE_90)));
+                        if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i)) {
+                            blockposition2 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 0);
+                            blockposition2 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 0);
+                            if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i + 1)) {
+                                blockposition3 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 6);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_corner", blockposition3, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90)));
+                            } else if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i + 1)) {
+                                blockposition3 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 8);
+                                blockposition3 = blockposition3.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.WEST), 3);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_inner_corner", blockposition3, enumblockrotation.func_185830_a(Rotation.COUNTERCLOCKWISE_90)));
                             }
 
-                            if (!WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
-                                list.add(new WoodlandMansionPieces.i(this.a, "roof_corner", blockposition2, enumblockrotation.add(Rotation.CLOCKWISE_180)));
-                            } else if (WoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i - 1)) {
-                                blockposition3 = blockposition2.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 1);
-                                list.add(new WoodlandMansionPieces.i(this.a, "roof_inner_corner", blockposition3, enumblockrotation.add(Rotation.CLOCKWISE_180)));
+                            if (!WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j, i - 1)) {
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_corner", blockposition2, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_180)));
+                            } else if (WorldGenWoodlandMansionPieces.c.a(worldgenwoodlandmansionpieces_g, j - 1, i - 1)) {
+                                blockposition3 = blockposition2.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 1);
+                                list.add(new WorldGenWoodlandMansionPieces.i(this.a, "roof_inner_corner", blockposition3, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_180)));
                             }
                         }
                     }
@@ -888,115 +883,115 @@ public class WoodlandMansionPieces {
 
         }
 
-        private void a(List<WoodlandMansionPieces.i> list, WoodlandMansionPieces.e worldgenwoodlandmansionpieces_e) {
-            EnumFacing enumdirection = worldgenwoodlandmansionpieces_e.a.rotate(EnumFacing.WEST);
+        private void a(List<WorldGenWoodlandMansionPieces.i> list, WorldGenWoodlandMansionPieces.e worldgenwoodlandmansionpieces_e) {
+            EnumFacing enumdirection = worldgenwoodlandmansionpieces_e.a.func_185831_a(EnumFacing.WEST);
 
-            list.add(new WoodlandMansionPieces.i(this.a, "entrance", worldgenwoodlandmansionpieces_e.b.offset(enumdirection, 9), worldgenwoodlandmansionpieces_e.a));
-            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.offset(worldgenwoodlandmansionpieces_e.a.rotate(EnumFacing.SOUTH), 16);
+            list.add(new WorldGenWoodlandMansionPieces.i(this.a, "entrance", worldgenwoodlandmansionpieces_e.b.func_177967_a(enumdirection, 9), worldgenwoodlandmansionpieces_e.a));
+            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.func_177967_a(worldgenwoodlandmansionpieces_e.a.func_185831_a(EnumFacing.SOUTH), 16);
         }
 
-        private void b(List<WoodlandMansionPieces.i> list, WoodlandMansionPieces.e worldgenwoodlandmansionpieces_e) {
-            list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_e.c, worldgenwoodlandmansionpieces_e.b.offset(worldgenwoodlandmansionpieces_e.a.rotate(EnumFacing.EAST), 7), worldgenwoodlandmansionpieces_e.a));
-            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.offset(worldgenwoodlandmansionpieces_e.a.rotate(EnumFacing.SOUTH), 8);
+        private void b(List<WorldGenWoodlandMansionPieces.i> list, WorldGenWoodlandMansionPieces.e worldgenwoodlandmansionpieces_e) {
+            list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_e.c, worldgenwoodlandmansionpieces_e.b.func_177967_a(worldgenwoodlandmansionpieces_e.a.func_185831_a(EnumFacing.EAST), 7), worldgenwoodlandmansionpieces_e.a));
+            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.func_177967_a(worldgenwoodlandmansionpieces_e.a.func_185831_a(EnumFacing.SOUTH), 8);
         }
 
-        private void c(List<WoodlandMansionPieces.i> list, WoodlandMansionPieces.e worldgenwoodlandmansionpieces_e) {
-            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.offset(worldgenwoodlandmansionpieces_e.a.rotate(EnumFacing.SOUTH), -1);
-            list.add(new WoodlandMansionPieces.i(this.a, "wall_corner", worldgenwoodlandmansionpieces_e.b, worldgenwoodlandmansionpieces_e.a));
-            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.offset(worldgenwoodlandmansionpieces_e.a.rotate(EnumFacing.SOUTH), -7);
-            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.offset(worldgenwoodlandmansionpieces_e.a.rotate(EnumFacing.WEST), -6);
-            worldgenwoodlandmansionpieces_e.a = worldgenwoodlandmansionpieces_e.a.add(Rotation.CLOCKWISE_90);
+        private void c(List<WorldGenWoodlandMansionPieces.i> list, WorldGenWoodlandMansionPieces.e worldgenwoodlandmansionpieces_e) {
+            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.func_177967_a(worldgenwoodlandmansionpieces_e.a.func_185831_a(EnumFacing.SOUTH), -1);
+            list.add(new WorldGenWoodlandMansionPieces.i(this.a, "wall_corner", worldgenwoodlandmansionpieces_e.b, worldgenwoodlandmansionpieces_e.a));
+            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.func_177967_a(worldgenwoodlandmansionpieces_e.a.func_185831_a(EnumFacing.SOUTH), -7);
+            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.func_177967_a(worldgenwoodlandmansionpieces_e.a.func_185831_a(EnumFacing.WEST), -6);
+            worldgenwoodlandmansionpieces_e.a = worldgenwoodlandmansionpieces_e.a.func_185830_a(Rotation.CLOCKWISE_90);
         }
 
-        private void d(List<WoodlandMansionPieces.i> list, WoodlandMansionPieces.e worldgenwoodlandmansionpieces_e) {
-            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.offset(worldgenwoodlandmansionpieces_e.a.rotate(EnumFacing.SOUTH), 6);
-            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.offset(worldgenwoodlandmansionpieces_e.a.rotate(EnumFacing.EAST), 8);
-            worldgenwoodlandmansionpieces_e.a = worldgenwoodlandmansionpieces_e.a.add(Rotation.COUNTERCLOCKWISE_90);
+        private void d(List<WorldGenWoodlandMansionPieces.i> list, WorldGenWoodlandMansionPieces.e worldgenwoodlandmansionpieces_e) {
+            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.func_177967_a(worldgenwoodlandmansionpieces_e.a.func_185831_a(EnumFacing.SOUTH), 6);
+            worldgenwoodlandmansionpieces_e.b = worldgenwoodlandmansionpieces_e.b.func_177967_a(worldgenwoodlandmansionpieces_e.a.func_185831_a(EnumFacing.EAST), 8);
+            worldgenwoodlandmansionpieces_e.a = worldgenwoodlandmansionpieces_e.a.func_185830_a(Rotation.COUNTERCLOCKWISE_90);
         }
 
-        private void a(List<WoodlandMansionPieces.i> list, BlockPos blockposition, Rotation enumblockrotation, EnumFacing enumdirection, WoodlandMansionPieces.b worldgenwoodlandmansionpieces_b) {
+        private void a(List<WorldGenWoodlandMansionPieces.i> list, BlockPos blockposition, Rotation enumblockrotation, EnumFacing enumdirection, WorldGenWoodlandMansionPieces.b worldgenwoodlandmansionpieces_b) {
             Rotation enumblockrotation1 = Rotation.NONE;
             String s = worldgenwoodlandmansionpieces_b.a(this.b);
 
             if (enumdirection != EnumFacing.EAST) {
                 if (enumdirection == EnumFacing.NORTH) {
-                    enumblockrotation1 = enumblockrotation1.add(Rotation.COUNTERCLOCKWISE_90);
+                    enumblockrotation1 = enumblockrotation1.func_185830_a(Rotation.COUNTERCLOCKWISE_90);
                 } else if (enumdirection == EnumFacing.WEST) {
-                    enumblockrotation1 = enumblockrotation1.add(Rotation.CLOCKWISE_180);
+                    enumblockrotation1 = enumblockrotation1.func_185830_a(Rotation.CLOCKWISE_180);
                 } else if (enumdirection == EnumFacing.SOUTH) {
-                    enumblockrotation1 = enumblockrotation1.add(Rotation.CLOCKWISE_90);
+                    enumblockrotation1 = enumblockrotation1.func_185830_a(Rotation.CLOCKWISE_90);
                 } else {
                     s = worldgenwoodlandmansionpieces_b.b(this.b);
                 }
             }
 
-            BlockPos blockposition1 = Template.getZeroPositionWithTransform(new BlockPos(1, 0, 0), Mirror.NONE, enumblockrotation1, 7, 7);
+            BlockPos blockposition1 = Template.func_191157_a(new BlockPos(1, 0, 0), Mirror.NONE, enumblockrotation1, 7, 7);
 
-            enumblockrotation1 = enumblockrotation1.add(enumblockrotation);
-            blockposition1 = blockposition1.rotate(enumblockrotation);
-            BlockPos blockposition2 = blockposition.add(blockposition1.getX(), 0, blockposition1.getZ());
+            enumblockrotation1 = enumblockrotation1.func_185830_a(enumblockrotation);
+            blockposition1 = blockposition1.func_190942_a(enumblockrotation);
+            BlockPos blockposition2 = blockposition.func_177982_a(blockposition1.func_177958_n(), 0, blockposition1.func_177952_p());
 
-            list.add(new WoodlandMansionPieces.i(this.a, s, blockposition2, enumblockrotation1));
+            list.add(new WorldGenWoodlandMansionPieces.i(this.a, s, blockposition2, enumblockrotation1));
         }
 
-        private void a(List<WoodlandMansionPieces.i> list, BlockPos blockposition, Rotation enumblockrotation, EnumFacing enumdirection, EnumFacing enumdirection1, WoodlandMansionPieces.b worldgenwoodlandmansionpieces_b, boolean flag) {
+        private void a(List<WorldGenWoodlandMansionPieces.i> list, BlockPos blockposition, Rotation enumblockrotation, EnumFacing enumdirection, EnumFacing enumdirection1, WorldGenWoodlandMansionPieces.b worldgenwoodlandmansionpieces_b, boolean flag) {
             BlockPos blockposition1;
 
             if (enumdirection1 == EnumFacing.EAST && enumdirection == EnumFacing.SOUTH) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 1);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 1);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation));
             } else if (enumdirection1 == EnumFacing.EAST && enumdirection == EnumFacing.NORTH) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 1);
-                blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 6);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation, Mirror.LEFT_RIGHT));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 1);
+                blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 6);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation, Mirror.LEFT_RIGHT));
             } else if (enumdirection1 == EnumFacing.WEST && enumdirection == EnumFacing.NORTH) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 7);
-                blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 6);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation.add(Rotation.CLOCKWISE_180)));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 7);
+                blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 6);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_180)));
             } else if (enumdirection1 == EnumFacing.WEST && enumdirection == EnumFacing.SOUTH) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 7);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation, Mirror.FRONT_BACK));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 7);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation, Mirror.FRONT_BACK));
             } else if (enumdirection1 == EnumFacing.SOUTH && enumdirection == EnumFacing.EAST) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 1);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation.add(Rotation.CLOCKWISE_90), Mirror.LEFT_RIGHT));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 1);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90), Mirror.LEFT_RIGHT));
             } else if (enumdirection1 == EnumFacing.SOUTH && enumdirection == EnumFacing.WEST) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 7);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation.add(Rotation.CLOCKWISE_90)));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 7);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90)));
             } else if (enumdirection1 == EnumFacing.NORTH && enumdirection == EnumFacing.WEST) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 7);
-                blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 6);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation.add(Rotation.CLOCKWISE_90), Mirror.FRONT_BACK));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 7);
+                blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 6);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90), Mirror.FRONT_BACK));
             } else if (enumdirection1 == EnumFacing.NORTH && enumdirection == EnumFacing.EAST) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 1);
-                blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 6);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation.add(Rotation.COUNTERCLOCKWISE_90)));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 1);
+                blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 6);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.a(this.b, flag), blockposition1, enumblockrotation.func_185830_a(Rotation.COUNTERCLOCKWISE_90)));
             } else if (enumdirection1 == EnumFacing.SOUTH && enumdirection == EnumFacing.NORTH) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 1);
-                blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.NORTH), 8);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.b(this.b, flag), blockposition1, enumblockrotation));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 1);
+                blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.NORTH), 8);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.b(this.b, flag), blockposition1, enumblockrotation));
             } else if (enumdirection1 == EnumFacing.NORTH && enumdirection == EnumFacing.SOUTH) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 7);
-                blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 14);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.b(this.b, flag), blockposition1, enumblockrotation.add(Rotation.CLOCKWISE_180)));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 7);
+                blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 14);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.b(this.b, flag), blockposition1, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_180)));
             } else if (enumdirection1 == EnumFacing.WEST && enumdirection == EnumFacing.EAST) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 15);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.b(this.b, flag), blockposition1, enumblockrotation.add(Rotation.CLOCKWISE_90)));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 15);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.b(this.b, flag), blockposition1, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90)));
             } else if (enumdirection1 == EnumFacing.EAST && enumdirection == EnumFacing.WEST) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.WEST), 7);
-                blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.SOUTH), 6);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.b(this.b, flag), blockposition1, enumblockrotation.add(Rotation.COUNTERCLOCKWISE_90)));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.WEST), 7);
+                blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), 6);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.b(this.b, flag), blockposition1, enumblockrotation.func_185830_a(Rotation.COUNTERCLOCKWISE_90)));
             } else if (enumdirection1 == EnumFacing.UP && enumdirection == EnumFacing.EAST) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 15);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.c(this.b), blockposition1, enumblockrotation.add(Rotation.CLOCKWISE_90)));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 15);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.c(this.b), blockposition1, enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90)));
             } else if (enumdirection1 == EnumFacing.UP && enumdirection == EnumFacing.SOUTH) {
-                blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 1);
-                blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.NORTH), 0);
-                list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.c(this.b), blockposition1, enumblockrotation));
+                blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 1);
+                blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.NORTH), 0);
+                list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.c(this.b), blockposition1, enumblockrotation));
             }
 
         }
 
-        private void a(List<WoodlandMansionPieces.i> list, BlockPos blockposition, Rotation enumblockrotation, EnumFacing enumdirection, EnumFacing enumdirection1, WoodlandMansionPieces.b worldgenwoodlandmansionpieces_b) {
+        private void a(List<WorldGenWoodlandMansionPieces.i> list, BlockPos blockposition, Rotation enumblockrotation, EnumFacing enumdirection, EnumFacing enumdirection1, WorldGenWoodlandMansionPieces.b worldgenwoodlandmansionpieces_b) {
             byte b0 = 0;
             byte b1 = 0;
             Rotation enumblockrotation1 = enumblockrotation;
@@ -1011,40 +1006,40 @@ public class WoodlandMansionPieces {
             } else if (enumdirection1 == EnumFacing.NORTH && enumdirection == EnumFacing.EAST) {
                 b0 = 1;
                 b1 = 14;
-                enumblockrotation1 = enumblockrotation.add(Rotation.COUNTERCLOCKWISE_90);
+                enumblockrotation1 = enumblockrotation.func_185830_a(Rotation.COUNTERCLOCKWISE_90);
             } else if (enumdirection1 == EnumFacing.NORTH && enumdirection == EnumFacing.WEST) {
                 b0 = 7;
                 b1 = 14;
-                enumblockrotation1 = enumblockrotation.add(Rotation.COUNTERCLOCKWISE_90);
+                enumblockrotation1 = enumblockrotation.func_185830_a(Rotation.COUNTERCLOCKWISE_90);
                 enumblockmirror = Mirror.LEFT_RIGHT;
             } else if (enumdirection1 == EnumFacing.SOUTH && enumdirection == EnumFacing.WEST) {
                 b0 = 7;
                 b1 = -8;
-                enumblockrotation1 = enumblockrotation.add(Rotation.CLOCKWISE_90);
+                enumblockrotation1 = enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90);
             } else if (enumdirection1 == EnumFacing.SOUTH && enumdirection == EnumFacing.EAST) {
                 b0 = 1;
                 b1 = -8;
-                enumblockrotation1 = enumblockrotation.add(Rotation.CLOCKWISE_90);
+                enumblockrotation1 = enumblockrotation.func_185830_a(Rotation.CLOCKWISE_90);
                 enumblockmirror = Mirror.LEFT_RIGHT;
             } else if (enumdirection1 == EnumFacing.WEST && enumdirection == EnumFacing.NORTH) {
                 b0 = 15;
                 b1 = 6;
-                enumblockrotation1 = enumblockrotation.add(Rotation.CLOCKWISE_180);
+                enumblockrotation1 = enumblockrotation.func_185830_a(Rotation.CLOCKWISE_180);
             } else if (enumdirection1 == EnumFacing.WEST && enumdirection == EnumFacing.SOUTH) {
                 b0 = 15;
                 enumblockmirror = Mirror.FRONT_BACK;
             }
 
-            BlockPos blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), b0);
+            BlockPos blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), b0);
 
-            blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.SOUTH), b1);
-            list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.d(this.b), blockposition1, enumblockrotation1, enumblockmirror));
+            blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.SOUTH), b1);
+            list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.d(this.b), blockposition1, enumblockrotation1, enumblockmirror));
         }
 
-        private void a(List<WoodlandMansionPieces.i> list, BlockPos blockposition, Rotation enumblockrotation, WoodlandMansionPieces.b worldgenwoodlandmansionpieces_b) {
-            BlockPos blockposition1 = blockposition.offset(enumblockrotation.rotate(EnumFacing.EAST), 1);
+        private void a(List<WorldGenWoodlandMansionPieces.i> list, BlockPos blockposition, Rotation enumblockrotation, WorldGenWoodlandMansionPieces.b worldgenwoodlandmansionpieces_b) {
+            BlockPos blockposition1 = blockposition.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.EAST), 1);
 
-            list.add(new WoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.e(this.b), blockposition1, enumblockrotation, Mirror.NONE));
+            list.add(new WorldGenWoodlandMansionPieces.i(this.a, worldgenwoodlandmansionpieces_b.e(this.b), blockposition1, enumblockrotation, Mirror.NONE));
         }
     }
 
@@ -1076,68 +1071,65 @@ public class WoodlandMansionPieces {
         public i(TemplateManager definedstructuremanager, String s, BlockPos blockposition, Rotation enumblockrotation, Mirror enumblockmirror) {
             super(0);
             this.d = s;
-            this.templatePosition = blockposition;
+            this.field_186178_c = blockposition;
             this.e = enumblockrotation;
             this.f = enumblockmirror;
             this.a(definedstructuremanager);
         }
 
         private void a(TemplateManager definedstructuremanager) {
-            Template definedstructure = definedstructuremanager.getTemplate((MinecraftServer) null, new ResourceLocation("mansion/" + this.d));
-            PlacementSettings definedstructureinfo = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.e).setMirror(this.f);
+            Template definedstructure = definedstructuremanager.func_186237_a((MinecraftServer) null, new ResourceLocation("mansion/" + this.d));
+            PlacementSettings definedstructureinfo = (new PlacementSettings()).func_186222_a(true).func_186220_a(this.e).func_186214_a(this.f);
 
-            this.setup(definedstructure, this.templatePosition, definedstructureinfo);
+            this.func_186173_a(definedstructure, this.field_186178_c, definedstructureinfo);
         }
 
-        @Override
-        protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
-            super.writeStructureToNBT(nbttagcompound);
-            nbttagcompound.setString("Template", this.d);
-            nbttagcompound.setString("Rot", this.placeSettings.getRotation().name());
-            nbttagcompound.setString("Mi", this.placeSettings.getMirror().name());
+        protected void func_143012_a(NBTTagCompound nbttagcompound) {
+            super.func_143012_a(nbttagcompound);
+            nbttagcompound.func_74778_a("Template", this.d);
+            nbttagcompound.func_74778_a("Rot", this.field_186177_b.func_186215_c().name());
+            nbttagcompound.func_74778_a("Mi", this.field_186177_b.func_186212_b().name());
         }
 
-        @Override
-        protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
-            super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
-            this.d = nbttagcompound.getString("Template");
-            this.e = Rotation.valueOf(nbttagcompound.getString("Rot"));
-            this.f = Mirror.valueOf(nbttagcompound.getString("Mi"));
+        protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
+            super.func_143011_b(nbttagcompound, definedstructuremanager);
+            this.d = nbttagcompound.func_74779_i("Template");
+            this.e = Rotation.valueOf(nbttagcompound.func_74779_i("Rot"));
+            this.f = Mirror.valueOf(nbttagcompound.func_74779_i("Mi"));
             this.a(definedstructuremanager);
         }
 
-        @Override
-        protected void handleDataMarker(String s, BlockPos blockposition, World world, Random random, StructureBoundingBox structureboundingbox) {
+        protected void func_186175_a(String s, BlockPos blockposition, World world, Random random, StructureBoundingBox structureboundingbox) {
             if (s.startsWith("Chest")) {
-                Rotation enumblockrotation = this.placeSettings.getRotation();
-                IBlockState iblockdata = Blocks.CHEST.getDefaultState();
+                Rotation enumblockrotation = this.field_186177_b.func_186215_c();
+                IBlockState iblockdata = Blocks.field_150486_ae.func_176223_P();
 
                 if ("ChestWest".equals(s)) {
-                    iblockdata = iblockdata.withProperty(BlockChest.FACING, enumblockrotation.rotate(EnumFacing.WEST));
+                    iblockdata = iblockdata.func_177226_a(BlockChest.field_176459_a, enumblockrotation.func_185831_a(EnumFacing.WEST));
                 } else if ("ChestEast".equals(s)) {
-                    iblockdata = iblockdata.withProperty(BlockChest.FACING, enumblockrotation.rotate(EnumFacing.EAST));
+                    iblockdata = iblockdata.func_177226_a(BlockChest.field_176459_a, enumblockrotation.func_185831_a(EnumFacing.EAST));
                 } else if ("ChestSouth".equals(s)) {
-                    iblockdata = iblockdata.withProperty(BlockChest.FACING, enumblockrotation.rotate(EnumFacing.SOUTH));
+                    iblockdata = iblockdata.func_177226_a(BlockChest.field_176459_a, enumblockrotation.func_185831_a(EnumFacing.SOUTH));
                 } else if ("ChestNorth".equals(s)) {
-                    iblockdata = iblockdata.withProperty(BlockChest.FACING, enumblockrotation.rotate(EnumFacing.NORTH));
+                    iblockdata = iblockdata.func_177226_a(BlockChest.field_176459_a, enumblockrotation.func_185831_a(EnumFacing.NORTH));
                 }
 
-                this.generateChest(world, structureboundingbox, random, blockposition, LootTableList.CHESTS_WOODLAND_MANSION, iblockdata);
+                this.func_191080_a(world, structureboundingbox, random, blockposition, LootTableList.field_191192_o, iblockdata);
             } else if ("Mage".equals(s)) {
                 EntityEvoker entityevoker = new EntityEvoker(world);
 
-                entityevoker.enablePersistence();
-                entityevoker.moveToBlockPosAndAngles(blockposition, 0.0F, 0.0F);
-                world.spawnEntity(entityevoker);
-                world.setBlockState(blockposition, Blocks.AIR.getDefaultState(), 2);
+                entityevoker.func_110163_bv();
+                entityevoker.func_174828_a(blockposition, 0.0F, 0.0F);
+                world.func_72838_d(entityevoker);
+                world.func_180501_a(blockposition, Blocks.field_150350_a.func_176223_P(), 2);
             } else if ("Warrior".equals(s)) {
                 EntityVindicator entityvindicator = new EntityVindicator(world);
 
-                entityvindicator.enablePersistence();
-                entityvindicator.moveToBlockPosAndAngles(blockposition, 0.0F, 0.0F);
-                entityvindicator.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entityvindicator)), (IEntityLivingData) null);
-                world.spawnEntity(entityvindicator);
-                world.setBlockState(blockposition, Blocks.AIR.getDefaultState(), 2);
+                entityvindicator.func_110163_bv();
+                entityvindicator.func_174828_a(blockposition, 0.0F, 0.0F);
+                entityvindicator.func_180482_a(world.func_175649_E(new BlockPos(entityvindicator)), (IEntityLivingData) null);
+                world.func_72838_d(entityvindicator);
+                world.func_180501_a(blockposition, Blocks.field_150350_a.func_176223_P(), 2);
             }
 
         }

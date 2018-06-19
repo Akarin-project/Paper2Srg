@@ -26,13 +26,13 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
     public String getName() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return objective.getName();
+        return objective.func_96679_b();
     }
 
     public String getDisplayName() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return objective.getDisplayName();
+        return objective.func_96678_d();
     }
 
     public void setDisplayName(String displayName) throws IllegalStateException, IllegalArgumentException {
@@ -40,7 +40,7 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
         Validate.isTrue(displayName.length() <= 32, "Display name '" + displayName + "' is longer than the limit of 32 characters");
         CraftScoreboard scoreboard = checkState();
 
-        objective.setDisplayName(displayName);
+        objective.func_96681_a(displayName);
     }
 
     public String getCriteria() throws IllegalStateException {
@@ -52,7 +52,7 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
     public boolean isModifiable() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return !criteria.criteria.isReadOnly();
+        return !criteria.criteria.func_96637_b();
     }
 
     public void setDisplaySlot(DisplaySlot slot) throws IllegalStateException {
@@ -61,13 +61,13 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
         ScoreObjective objective = this.objective;
 
         for (int i = 0; i < CraftScoreboardTranslations.MAX_DISPLAY_SLOT; i++) {
-            if (board.getObjectiveInDisplaySlot(i) == objective) {
-                board.setObjectiveInDisplaySlot(i, null);
+            if (board.func_96539_a(i) == objective) {
+                board.func_96530_a(i, null);
             }
         }
         if (slot != null) {
             int slotNumber = CraftScoreboardTranslations.fromBukkitSlot(slot);
-            board.setObjectiveInDisplaySlot(slotNumber, getHandle());
+            board.func_96530_a(slotNumber, getHandle());
         }
     }
 
@@ -77,7 +77,7 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
         ScoreObjective objective = this.objective;
 
         for (int i = 0; i < CraftScoreboardTranslations.MAX_DISPLAY_SLOT; i++) {
-            if (board.getObjectiveInDisplaySlot(i) == objective) {
+            if (board.func_96539_a(i) == objective) {
                 return CraftScoreboardTranslations.toBukkitSlot(i);
             }
         }
@@ -103,12 +103,12 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
     public void unregister() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        scoreboard.board.removeObjective(objective);
+        scoreboard.board.func_96519_k(objective);
     }
 
     @Override
     CraftScoreboard checkState() throws IllegalStateException {
-        if (getScoreboard().board.getObjective(objective.getName()) == null) {
+        if (getScoreboard().board.func_96518_b(objective.func_96679_b()) == null) {
             throw new IllegalStateException("Unregistered scoreboard component");
         }
         

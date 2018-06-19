@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.Nullable;
+import net;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,11 +32,11 @@ import org.bukkit.craftbukkit.inventory.CraftShapedRecipe;
 
 public class ShapedRecipes implements IRecipe {
 
-    private final int recipeWidth;
-    private final int recipeHeight;
-    private final NonNullList<Ingredient> recipeItems;
-    private final ItemStack recipeOutput;
-    private final String group;
+    private final int field_77576_b;
+    private final int field_77577_c;
+    private final NonNullList<Ingredient> field_77574_d;
+    private final ItemStack field_77575_e;
+    private final String field_194137_e;
     // CraftBukkit start
     public ResourceLocation key;
 
@@ -46,21 +47,20 @@ public class ShapedRecipes implements IRecipe {
     // CraftBukkit end
 
     public ShapedRecipes(String s, int i, int j, NonNullList<Ingredient> nonnulllist, ItemStack itemstack) {
-        this.group = s;
-        this.recipeWidth = i;
-        this.recipeHeight = j;
-        this.recipeItems = nonnulllist;
-        this.recipeOutput = itemstack;
+        this.field_194137_e = s;
+        this.field_77576_b = i;
+        this.field_77577_c = j;
+        this.field_77574_d = nonnulllist;
+        this.field_77575_e = itemstack;
     }
 
     // CraftBukkit start
-    @Override
     public org.bukkit.inventory.ShapedRecipe toBukkitRecipe() {
-        CraftItemStack result = CraftItemStack.asCraftMirror(this.recipeOutput);
+        CraftItemStack result = CraftItemStack.asCraftMirror(this.field_77575_e);
         CraftShapedRecipe recipe = new CraftShapedRecipe(result, this);
-        switch (this.recipeHeight) {
+        switch (this.field_77577_c) {
         case 1:
-            switch (this.recipeWidth) {
+            switch (this.field_77576_b) {
             case 1:
                 recipe.shape("a");
                 break;
@@ -73,7 +73,7 @@ public class ShapedRecipes implements IRecipe {
             }
             break;
         case 2:
-            switch (this.recipeWidth) {
+            switch (this.field_77576_b) {
             case 1:
                 recipe.shape("a","b");
                 break;
@@ -86,7 +86,7 @@ public class ShapedRecipes implements IRecipe {
             }
             break;
         case 3:
-            switch (this.recipeWidth) {
+            switch (this.field_77576_b) {
             case 1:
                 recipe.shape("a","b","c");
                 break;
@@ -100,10 +100,10 @@ public class ShapedRecipes implements IRecipe {
             break;
         }
         char c = 'a';
-        for (Ingredient list : this.recipeItems) {
-            if (list != null && list.matchingStacks.length > 0) {
-                net.minecraft.item.ItemStack stack = list.matchingStacks[0];
-                recipe.setIngredient(c, org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(stack.getItem()), (list.matchingStacks.length) > 1 ? 32767 : stack.getMetadata());
+        for (Ingredient list : this.field_77574_d) {
+            if (list != null && list.field_193371_b.length > 0) {
+                net.minecraft.item.ItemStack stack = list.field_193371_b[0];
+                recipe.setIngredient(c, org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(stack.func_77973_b()), (list.field_193371_b.length) > 1 ? 32767 : stack.func_77960_j());
             }
             c++;
         }
@@ -111,40 +111,36 @@ public class ShapedRecipes implements IRecipe {
     }
     // CraftBukkit end
 
-    @Override
-    public ItemStack getRecipeOutput() {
-        return this.recipeOutput;
+    public ItemStack func_77571_b() {
+        return this.field_77575_e;
     }
 
-    @Override
-    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inventorycrafting) {
-        NonNullList nonnulllist = NonNullList.withSize(inventorycrafting.getSizeInventory(), ItemStack.EMPTY);
+    public NonNullList<ItemStack> func_179532_b(InventoryCrafting inventorycrafting) {
+        NonNullList nonnulllist = NonNullList.func_191197_a(inventorycrafting.func_70302_i_(), ItemStack.field_190927_a);
 
         for (int i = 0; i < nonnulllist.size(); ++i) {
-            ItemStack itemstack = inventorycrafting.getStackInSlot(i);
+            ItemStack itemstack = inventorycrafting.func_70301_a(i);
 
-            if (itemstack.getItem().hasContainerItem()) {
-                nonnulllist.set(i, new ItemStack(itemstack.getItem().getContainerItem()));
+            if (itemstack.func_77973_b().func_77634_r()) {
+                nonnulllist.set(i, new ItemStack(itemstack.func_77973_b().func_77668_q()));
             }
         }
 
         return nonnulllist;
     }
 
-    @Override
-    public NonNullList<Ingredient> getIngredients() {
-        return this.recipeItems;
+    public NonNullList<Ingredient> func_192400_c() {
+        return this.field_77574_d;
     }
 
-    @Override
-    public boolean matches(InventoryCrafting inventorycrafting, World world) {
-        for (int i = 0; i <= 3 - this.recipeWidth; ++i) {
-            for (int j = 0; j <= 3 - this.recipeHeight; ++j) {
-                if (this.checkMatch(inventorycrafting, i, j, true)) {
+    public boolean func_77569_a(InventoryCrafting inventorycrafting, World world) {
+        for (int i = 0; i <= 3 - this.field_77576_b; ++i) {
+            for (int j = 0; j <= 3 - this.field_77577_c; ++j) {
+                if (this.func_77573_a(inventorycrafting, i, j, true)) {
                     return true;
                 }
 
-                if (this.checkMatch(inventorycrafting, i, j, false)) {
+                if (this.func_77573_a(inventorycrafting, i, j, false)) {
                     return true;
                 }
             }
@@ -153,22 +149,22 @@ public class ShapedRecipes implements IRecipe {
         return false;
     }
 
-    private boolean checkMatch(InventoryCrafting inventorycrafting, int i, int j, boolean flag) {
+    private boolean func_77573_a(InventoryCrafting inventorycrafting, int i, int j, boolean flag) {
         for (int k = 0; k < 3; ++k) {
             for (int l = 0; l < 3; ++l) {
                 int i1 = k - i;
                 int j1 = l - j;
-                Ingredient recipeitemstack = Ingredient.EMPTY;
+                Ingredient recipeitemstack = Ingredient.field_193370_a;
 
-                if (i1 >= 0 && j1 >= 0 && i1 < this.recipeWidth && j1 < this.recipeHeight) {
+                if (i1 >= 0 && j1 >= 0 && i1 < this.field_77576_b && j1 < this.field_77577_c) {
                     if (flag) {
-                        recipeitemstack = this.recipeItems.get(this.recipeWidth - i1 - 1 + j1 * this.recipeWidth);
+                        recipeitemstack = (Ingredient) this.field_77574_d.get(this.field_77576_b - i1 - 1 + j1 * this.field_77576_b);
                     } else {
-                        recipeitemstack = this.recipeItems.get(i1 + j1 * this.recipeWidth);
+                        recipeitemstack = (Ingredient) this.field_77574_d.get(i1 + j1 * this.field_77576_b);
                     }
                 }
 
-                if (!recipeitemstack.apply(inventorycrafting.getStackInRowAndColumn(k, l))) {
+                if (!recipeitemstack.apply(inventorycrafting.func_70463_b(k, l))) {
                     return false;
                 }
             }
@@ -177,33 +173,32 @@ public class ShapedRecipes implements IRecipe {
         return true;
     }
 
-    @Override
-    public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
-        return this.getRecipeOutput().copy();
+    public ItemStack func_77572_b(InventoryCrafting inventorycrafting) {
+        return this.func_77571_b().func_77946_l();
     }
 
-    public int getWidth() {
-        return this.recipeWidth;
+    public int func_192403_f() {
+        return this.field_77576_b;
     }
 
-    public int getHeight() {
-        return this.recipeHeight;
+    public int func_192404_g() {
+        return this.field_77577_c;
     }
 
-    public static ShapedRecipes deserialize(JsonObject jsonobject) {
-        String s = JsonUtils.getString(jsonobject, "group", "");
-        Map map = deserializeKey(JsonUtils.getJsonObject(jsonobject, "key"));
-        String[] astring = shrink(patternFromJson(JsonUtils.getJsonArray(jsonobject, "pattern")));
+    public static ShapedRecipes func_193362_a(JsonObject jsonobject) {
+        String s = JsonUtils.func_151219_a(jsonobject, "group", "");
+        Map map = func_192408_a(JsonUtils.func_152754_s(jsonobject, "key"));
+        String[] astring = func_194134_a(func_192407_a(JsonUtils.func_151214_t(jsonobject, "pattern")));
         int i = astring[0].length();
         int j = astring.length;
-        NonNullList nonnulllist = deserializeIngredients(astring, map, i, j);
-        ItemStack itemstack = deserializeItem(JsonUtils.getJsonObject(jsonobject, "result"), true);
+        NonNullList nonnulllist = func_192402_a(astring, map, i, j);
+        ItemStack itemstack = func_192405_a(JsonUtils.func_152754_s(jsonobject, "result"), true);
 
         return new ShapedRecipes(s, i, j, nonnulllist, itemstack);
     }
 
-    private static NonNullList<Ingredient> deserializeIngredients(String[] astring, Map<String, Ingredient> map, int i, int j) {
-        NonNullList nonnulllist = NonNullList.withSize(i * j, Ingredient.EMPTY);
+    private static NonNullList<Ingredient> func_192402_a(String[] astring, Map<String, Ingredient> map, int i, int j) {
+        NonNullList nonnulllist = NonNullList.func_191197_a(i * j, Ingredient.field_193370_a);
         HashSet hashset = Sets.newHashSet(map.keySet());
 
         hashset.remove(" ");
@@ -211,7 +206,7 @@ public class ShapedRecipes implements IRecipe {
         for (int k = 0; k < astring.length; ++k) {
             for (int l = 0; l < astring[k].length(); ++l) {
                 String s = astring[k].substring(l, l + 1);
-                Ingredient recipeitemstack = map.get(s);
+                Ingredient recipeitemstack = (Ingredient) map.get(s);
 
                 if (recipeitemstack == null) {
                     throw new JsonSyntaxException("Pattern references symbol \'" + s + "\' but it\'s not defined in the key");
@@ -230,7 +225,7 @@ public class ShapedRecipes implements IRecipe {
     }
 
     @VisibleForTesting
-    static String[] shrink(String... astring) {
+    static String[] func_194134_a(String... astring) {
         int i = Integer.MAX_VALUE;
         int j = 0;
         int k = 0;
@@ -239,8 +234,8 @@ public class ShapedRecipes implements IRecipe {
         for (int i1 = 0; i1 < astring.length; ++i1) {
             String s = astring[i1];
 
-            i = Math.min(i, firstNonSpace(s));
-            int j1 = lastNonSpace(s);
+            i = Math.min(i, func_194135_a(s));
+            int j1 = func_194136_b(s);
 
             j = Math.max(j, j1);
             if (j1 < 0) {
@@ -267,7 +262,7 @@ public class ShapedRecipes implements IRecipe {
         }
     }
 
-    private static int firstNonSpace(String s) {
+    private static int func_194135_a(String s) {
         int i;
 
         for (i = 0; i < s.length() && s.charAt(i) == 32; ++i) {
@@ -277,7 +272,7 @@ public class ShapedRecipes implements IRecipe {
         return i;
     }
 
-    private static int lastNonSpace(String s) {
+    private static int func_194136_b(String s) {
         int i;
 
         for (i = s.length() - 1; i >= 0 && s.charAt(i) == 32; --i) {
@@ -287,7 +282,7 @@ public class ShapedRecipes implements IRecipe {
         return i;
     }
 
-    private static String[] patternFromJson(JsonArray jsonarray) {
+    private static String[] func_192407_a(JsonArray jsonarray) {
         String[] astring = new String[jsonarray.size()];
 
         if (astring.length > 3) {
@@ -296,7 +291,7 @@ public class ShapedRecipes implements IRecipe {
             throw new JsonSyntaxException("Invalid pattern: empty pattern not allowed");
         } else {
             for (int i = 0; i < astring.length; ++i) {
-                String s = JsonUtils.getString(jsonarray.get(i), "pattern[" + i + "]");
+                String s = JsonUtils.func_151206_a(jsonarray.get(i), "pattern[" + i + "]");
 
                 if (s.length() > 3) {
                     throw new JsonSyntaxException("Invalid pattern: too many columns, 3 is maximum");
@@ -313,7 +308,7 @@ public class ShapedRecipes implements IRecipe {
         }
     }
 
-    private static Map<String, Ingredient> deserializeKey(JsonObject jsonobject) {
+    private static Map<String, Ingredient> func_192408_a(JsonObject jsonobject) {
         HashMap hashmap = Maps.newHashMap();
         Iterator iterator = jsonobject.entrySet().iterator();
 
@@ -328,17 +323,17 @@ public class ShapedRecipes implements IRecipe {
                 throw new JsonSyntaxException("Invalid key entry: \' \' is a reserved symbol.");
             }
 
-            hashmap.put(entry.getKey(), deserializeIngredient((JsonElement) entry.getValue()));
+            hashmap.put(entry.getKey(), func_193361_a((JsonElement) entry.getValue()));
         }
 
-        hashmap.put(" ", Ingredient.EMPTY);
+        hashmap.put(" ", Ingredient.field_193370_a);
         return hashmap;
     }
 
-    public static Ingredient deserializeIngredient(@Nullable JsonElement jsonelement) {
+    public static Ingredient func_193361_a(@Nullable JsonElement jsonelement) {
         if (jsonelement != null && !jsonelement.isJsonNull()) {
             if (jsonelement.isJsonObject()) {
-                return Ingredient.fromStacks(new ItemStack[] { deserializeItem(jsonelement.getAsJsonObject(), false)});
+                return Ingredient.func_193369_a(new ItemStack[] { func_192405_a(jsonelement.getAsJsonObject(), false)});
             } else if (!jsonelement.isJsonArray()) {
                 throw new JsonSyntaxException("Expected item to be object or array of objects");
             } else {
@@ -350,10 +345,10 @@ public class ShapedRecipes implements IRecipe {
                     ItemStack[] aitemstack = new ItemStack[jsonarray.size()];
 
                     for (int i = 0; i < jsonarray.size(); ++i) {
-                        aitemstack[i] = deserializeItem(JsonUtils.getJsonObject(jsonarray.get(i), "item"), false);
+                        aitemstack[i] = func_192405_a(JsonUtils.func_151210_l(jsonarray.get(i), "item"), false);
                     }
 
-                    return Ingredient.fromStacks(aitemstack);
+                    return Ingredient.func_193369_a(aitemstack);
                 }
             }
         } else {
@@ -361,17 +356,17 @@ public class ShapedRecipes implements IRecipe {
         }
     }
 
-    public static ItemStack deserializeItem(JsonObject jsonobject, boolean flag) {
-        String s = JsonUtils.getString(jsonobject, "item");
-        Item item = Item.REGISTRY.getObject(new ResourceLocation(s));
+    public static ItemStack func_192405_a(JsonObject jsonobject, boolean flag) {
+        String s = JsonUtils.func_151200_h(jsonobject, "item");
+        Item item = (Item) Item.field_150901_e.func_82594_a(new ResourceLocation(s));
 
         if (item == null) {
             throw new JsonSyntaxException("Unknown item \'" + s + "\'");
-        } else if (item.getHasSubtypes() && !jsonobject.has("data")) {
+        } else if (item.func_77614_k() && !jsonobject.has("data")) {
             throw new JsonParseException("Missing data for item \'" + s + "\'");
         } else {
-            int i = JsonUtils.getInt(jsonobject, "data", 0);
-            int j = flag ? JsonUtils.getInt(jsonobject, "count", 1) : 1;
+            int i = JsonUtils.func_151208_a(jsonobject, "data", 0);
+            int j = flag ? JsonUtils.func_151208_a(jsonobject, "count", 1) : 1;
 
             return new ItemStack(item, j, i);
         }

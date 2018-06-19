@@ -9,11 +9,11 @@ import net.minecraft.util.text.ITextComponent;
 
 public class SPacketOpenWindow implements Packet<INetHandlerPlayClient> {
 
-    private int windowId;
-    private String inventoryType;
-    private ITextComponent windowTitle;
-    private int slotCount;
-    private int entityId;
+    private int field_148909_a;
+    private String field_148907_b;
+    private ITextComponent field_148908_c;
+    private int field_148905_d;
+    private int field_148904_f;
 
     public SPacketOpenWindow() {}
 
@@ -22,39 +22,39 @@ public class SPacketOpenWindow implements Packet<INetHandlerPlayClient> {
     }
 
     public SPacketOpenWindow(int i, String s, ITextComponent ichatbasecomponent, int j) {
-        this.windowId = i;
-        this.inventoryType = s;
-        this.windowTitle = ichatbasecomponent;
-        this.slotCount = j;
+        this.field_148909_a = i;
+        this.field_148907_b = s;
+        this.field_148908_c = ichatbasecomponent;
+        this.field_148905_d = j;
     }
 
     public SPacketOpenWindow(int i, String s, ITextComponent ichatbasecomponent, int j, int k) {
         this(i, s, ichatbasecomponent, j);
-        this.entityId = k;
+        this.field_148904_f = k;
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleOpenWindow(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147265_a(this);
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.windowId = packetdataserializer.readUnsignedByte();
-        this.inventoryType = packetdataserializer.readString(32);
-        this.windowTitle = packetdataserializer.readTextComponent();
-        this.slotCount = packetdataserializer.readUnsignedByte();
-        if (this.inventoryType.equals("EntityHorse")) {
-            this.entityId = packetdataserializer.readInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_148909_a = packetdataserializer.readUnsignedByte();
+        this.field_148907_b = packetdataserializer.func_150789_c(32);
+        this.field_148908_c = packetdataserializer.func_179258_d();
+        this.field_148905_d = packetdataserializer.readUnsignedByte();
+        if (this.field_148907_b.equals("EntityHorse")) {
+            this.field_148904_f = packetdataserializer.readInt();
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeByte(this.windowId);
-        packetdataserializer.writeString(this.inventoryType);
-        packetdataserializer.writeTextComponent(this.windowTitle);
-        packetdataserializer.writeByte(this.slotCount);
-        if (this.inventoryType.equals("EntityHorse")) {
-            packetdataserializer.writeInt(this.entityId);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeByte(this.field_148909_a);
+        packetdataserializer.func_180714_a(this.field_148907_b);
+        packetdataserializer.func_179256_a(this.field_148908_c);
+        packetdataserializer.writeByte(this.field_148905_d);
+        if (this.field_148907_b.equals("EntityHorse")) {
+            packetdataserializer.writeInt(this.field_148904_f);
         }
 
     }

@@ -17,156 +17,156 @@ import net.minecraft.world.World;
 
 public class TileEntityCommandBlock extends TileEntity {
 
-    private boolean powered;
-    private boolean auto;
-    private boolean conditionMet;
-    private boolean sendToClient;
-    private final CommandBlockBaseLogic commandBlockLogic = new CommandBlockBaseLogic() {
+    private boolean field_184259_a;
+    private boolean field_184260_f;
+    private boolean field_184261_g;
+    private boolean field_184262_h;
+    private final CommandBlockBaseLogic field_145994_a = new CommandBlockBaseLogic() {
         {
             sender = new org.bukkit.craftbukkit.command.CraftBlockCommandSender(this); // CraftBukkit - add sender
         }
-        public BlockPos getPosition() {
-            return TileEntityCommandBlock.this.pos;
+        public BlockPos func_180425_c() {
+            return TileEntityCommandBlock.this.field_174879_c;
         }
 
-        public Vec3d getPositionVector() {
-            return new Vec3d((double) TileEntityCommandBlock.this.pos.getX() + 0.5D, (double) TileEntityCommandBlock.this.pos.getY() + 0.5D, (double) TileEntityCommandBlock.this.pos.getZ() + 0.5D);
+        public Vec3d func_174791_d() {
+            return new Vec3d((double) TileEntityCommandBlock.this.field_174879_c.func_177958_n() + 0.5D, (double) TileEntityCommandBlock.this.field_174879_c.func_177956_o() + 0.5D, (double) TileEntityCommandBlock.this.field_174879_c.func_177952_p() + 0.5D);
         }
 
-        public World getEntityWorld() {
-            return TileEntityCommandBlock.this.getWorld();
+        public World func_130014_f_() {
+            return TileEntityCommandBlock.this.func_145831_w();
         }
 
-        public void setCommand(String s) {
-            super.setCommand(s);
-            TileEntityCommandBlock.this.markDirty();
+        public void func_145752_a(String s) {
+            super.func_145752_a(s);
+            TileEntityCommandBlock.this.func_70296_d();
         }
 
-        public void updateCommand() {
-            IBlockState iblockdata = TileEntityCommandBlock.this.world.getBlockState(TileEntityCommandBlock.this.pos);
+        public void func_145756_e() {
+            IBlockState iblockdata = TileEntityCommandBlock.this.field_145850_b.func_180495_p(TileEntityCommandBlock.this.field_174879_c);
 
-            TileEntityCommandBlock.this.getWorld().notifyBlockUpdate(TileEntityCommandBlock.this.pos, iblockdata, iblockdata, 3);
+            TileEntityCommandBlock.this.func_145831_w().func_184138_a(TileEntityCommandBlock.this.field_174879_c, iblockdata, iblockdata, 3);
         }
 
-        public MinecraftServer getServer() {
-            return TileEntityCommandBlock.this.world.getMinecraftServer();
+        public MinecraftServer func_184102_h() {
+            return TileEntityCommandBlock.this.field_145850_b.func_73046_m();
         }
     };
 
     public TileEntityCommandBlock() {}
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        super.writeToNBT(nbttagcompound);
-        this.commandBlockLogic.writeToNBT(nbttagcompound);
-        nbttagcompound.setBoolean("powered", this.isPowered());
-        nbttagcompound.setBoolean("conditionMet", this.isConditionMet());
-        nbttagcompound.setBoolean("auto", this.isAuto());
+    public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
+        super.func_189515_b(nbttagcompound);
+        this.field_145994_a.func_189510_a(nbttagcompound);
+        nbttagcompound.func_74757_a("powered", this.func_184255_d());
+        nbttagcompound.func_74757_a("conditionMet", this.func_184256_g());
+        nbttagcompound.func_74757_a("auto", this.func_184254_e());
         return nbttagcompound;
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        super.readFromNBT(nbttagcompound);
-        this.commandBlockLogic.readDataFromNBT(nbttagcompound);
-        this.powered = nbttagcompound.getBoolean("powered");
-        this.conditionMet = nbttagcompound.getBoolean("conditionMet");
-        this.setAuto(nbttagcompound.getBoolean("auto"));
+    public void func_145839_a(NBTTagCompound nbttagcompound) {
+        super.func_145839_a(nbttagcompound);
+        this.field_145994_a.func_145759_b(nbttagcompound);
+        this.field_184259_a = nbttagcompound.func_74767_n("powered");
+        this.field_184261_g = nbttagcompound.func_74767_n("conditionMet");
+        this.func_184253_b(nbttagcompound.func_74767_n("auto"));
     }
 
     @Nullable
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        if (this.isSendToClient()) {
-            this.setSendToClient(false);
-            NBTTagCompound nbttagcompound = this.writeToNBT(new NBTTagCompound());
+    public SPacketUpdateTileEntity func_189518_D_() {
+        if (this.func_184257_h()) {
+            this.func_184252_d(false);
+            NBTTagCompound nbttagcompound = this.func_189515_b(new NBTTagCompound());
 
-            return new SPacketUpdateTileEntity(this.pos, 2, nbttagcompound);
+            return new SPacketUpdateTileEntity(this.field_174879_c, 2, nbttagcompound);
         } else {
             return null;
         }
     }
 
-    public boolean onlyOpsCanSetNbt() {
+    public boolean func_183000_F() {
         return true;
     }
 
-    public CommandBlockBaseLogic getCommandBlockLogic() {
-        return this.commandBlockLogic;
+    public CommandBlockBaseLogic func_145993_a() {
+        return this.field_145994_a;
     }
 
-    public CommandResultStats getCommandResultStats() {
-        return this.commandBlockLogic.getCommandResultStats();
+    public CommandResultStats func_175124_c() {
+        return this.field_145994_a.func_175572_n();
     }
 
-    public void setPowered(boolean flag) {
-        this.powered = flag;
+    public void func_184250_a(boolean flag) {
+        this.field_184259_a = flag;
     }
 
-    public boolean isPowered() {
-        return this.powered;
+    public boolean func_184255_d() {
+        return this.field_184259_a;
     }
 
-    public boolean isAuto() {
-        return this.auto;
+    public boolean func_184254_e() {
+        return this.field_184260_f;
     }
 
-    public void setAuto(boolean flag) {
-        boolean flag1 = this.auto;
+    public void func_184253_b(boolean flag) {
+        boolean flag1 = this.field_184260_f;
 
-        this.auto = flag;
-        if (!flag1 && flag && !this.powered && this.world != null && this.getMode() != TileEntityCommandBlock.Mode.SEQUENCE) {
-            Block block = this.getBlockType();
+        this.field_184260_f = flag;
+        if (!flag1 && flag && !this.field_184259_a && this.field_145850_b != null && this.func_184251_i() != TileEntityCommandBlock.Mode.SEQUENCE) {
+            Block block = this.func_145838_q();
 
             if (block instanceof BlockCommandBlock) {
-                this.setConditionMet();
-                this.world.scheduleUpdate(this.pos, block, block.tickRate(this.world));
+                this.func_184249_c();
+                this.field_145850_b.func_175684_a(this.field_174879_c, block, block.func_149738_a(this.field_145850_b));
             }
         }
 
     }
 
-    public boolean isConditionMet() {
-        return this.conditionMet;
+    public boolean func_184256_g() {
+        return this.field_184261_g;
     }
 
-    public boolean setConditionMet() {
-        this.conditionMet = true;
-        if (this.isConditional()) {
-            BlockPos blockposition = this.pos.offset(((EnumFacing) this.world.getBlockState(this.pos).getValue(BlockCommandBlock.FACING)).getOpposite());
+    public boolean func_184249_c() {
+        this.field_184261_g = true;
+        if (this.func_184258_j()) {
+            BlockPos blockposition = this.field_174879_c.func_177972_a(((EnumFacing) this.field_145850_b.func_180495_p(this.field_174879_c).func_177229_b(BlockCommandBlock.field_185564_a)).func_176734_d());
 
-            if (this.world.getBlockState(blockposition).getBlock() instanceof BlockCommandBlock) {
-                TileEntity tileentity = this.world.getTileEntity(blockposition);
+            if (this.field_145850_b.func_180495_p(blockposition).func_177230_c() instanceof BlockCommandBlock) {
+                TileEntity tileentity = this.field_145850_b.func_175625_s(blockposition);
 
-                this.conditionMet = tileentity instanceof TileEntityCommandBlock && ((TileEntityCommandBlock) tileentity).getCommandBlockLogic().getSuccessCount() > 0;
+                this.field_184261_g = tileentity instanceof TileEntityCommandBlock && ((TileEntityCommandBlock) tileentity).func_145993_a().func_145760_g() > 0;
             } else {
-                this.conditionMet = false;
+                this.field_184261_g = false;
             }
         }
 
-        return this.conditionMet;
+        return this.field_184261_g;
     }
 
-    public boolean isSendToClient() {
-        return this.sendToClient;
+    public boolean func_184257_h() {
+        return this.field_184262_h;
     }
 
-    public void setSendToClient(boolean flag) {
-        this.sendToClient = flag;
+    public void func_184252_d(boolean flag) {
+        this.field_184262_h = flag;
     }
 
-    public TileEntityCommandBlock.Mode getMode() {
-        Block block = this.getBlockType();
+    public TileEntityCommandBlock.Mode func_184251_i() {
+        Block block = this.func_145838_q();
 
-        return block == Blocks.COMMAND_BLOCK ? TileEntityCommandBlock.Mode.REDSTONE : (block == Blocks.REPEATING_COMMAND_BLOCK ? TileEntityCommandBlock.Mode.AUTO : (block == Blocks.CHAIN_COMMAND_BLOCK ? TileEntityCommandBlock.Mode.SEQUENCE : TileEntityCommandBlock.Mode.REDSTONE));
+        return block == Blocks.field_150483_bI ? TileEntityCommandBlock.Mode.REDSTONE : (block == Blocks.field_185776_dc ? TileEntityCommandBlock.Mode.AUTO : (block == Blocks.field_185777_dd ? TileEntityCommandBlock.Mode.SEQUENCE : TileEntityCommandBlock.Mode.REDSTONE));
     }
 
-    public boolean isConditional() {
-        IBlockState iblockdata = this.world.getBlockState(this.getPos());
+    public boolean func_184258_j() {
+        IBlockState iblockdata = this.field_145850_b.func_180495_p(this.func_174877_v());
 
-        return iblockdata.getBlock() instanceof BlockCommandBlock ? ((Boolean) iblockdata.getValue(BlockCommandBlock.CONDITIONAL)).booleanValue() : false;
+        return iblockdata.func_177230_c() instanceof BlockCommandBlock ? ((Boolean) iblockdata.func_177229_b(BlockCommandBlock.field_185565_b)).booleanValue() : false;
     }
 
-    public void validate() {
-        this.blockType = null;
-        super.validate();
+    public void func_145829_t() {
+        this.field_145854_h = null;
+        super.func_145829_t();
     }
 
     public static enum Mode {

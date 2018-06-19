@@ -4,5 +4,5 @@ import net.minecraft.util.ResourceLocation;
 
 public interface ILootContainer {
 
-    ResourceLocation getLootTable();
+    ResourceLocation func_184276_b();
 }

@@ -8,38 +8,38 @@ import net.minecraft.util.JsonUtils;
 
 public class MinMaxBounds {
 
-    public static final MinMaxBounds UNBOUNDED = new MinMaxBounds((Float) null, (Float) null);
-    private final Float min;
-    private final Float max;
+    public static final MinMaxBounds field_192516_a = new MinMaxBounds((Float) null, (Float) null);
+    private final Float field_192517_b;
+    private final Float field_192518_c;
 
     public MinMaxBounds(@Nullable Float ofloat, @Nullable Float ofloat1) {
-        this.min = ofloat;
-        this.max = ofloat1;
+        this.field_192517_b = ofloat;
+        this.field_192518_c = ofloat1;
     }
 
-    public boolean test(float f) {
-        return this.min != null && this.min.floatValue() > f ? false : this.max == null || this.max.floatValue() >= f;
+    public boolean func_192514_a(float f) {
+        return this.field_192517_b != null && this.field_192517_b.floatValue() > f ? false : this.field_192518_c == null || this.field_192518_c.floatValue() >= f;
     }
 
-    public boolean testSquare(double d0) {
-        return this.min != null && (double) (this.min.floatValue() * this.min.floatValue()) > d0 ? false : this.max == null || (double) (this.max.floatValue() * this.max.floatValue()) >= d0;
+    public boolean func_192513_a(double d0) {
+        return this.field_192517_b != null && (double) (this.field_192517_b.floatValue() * this.field_192517_b.floatValue()) > d0 ? false : this.field_192518_c == null || (double) (this.field_192518_c.floatValue() * this.field_192518_c.floatValue()) >= d0;
     }
 
-    public static MinMaxBounds deserialize(@Nullable JsonElement jsonelement) {
+    public static MinMaxBounds func_192515_a(@Nullable JsonElement jsonelement) {
         if (jsonelement != null && !jsonelement.isJsonNull()) {
-            if (JsonUtils.isNumber(jsonelement)) {
-                float f = JsonUtils.getFloat(jsonelement, "value");
+            if (JsonUtils.func_188175_b(jsonelement)) {
+                float f = JsonUtils.func_151220_d(jsonelement, "value");
 
                 return new MinMaxBounds(Float.valueOf(f), Float.valueOf(f));
             } else {
-                JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "value");
-                Float ofloat = jsonobject.has("min") ? Float.valueOf(JsonUtils.getFloat(jsonobject, "min")) : null;
-                Float ofloat1 = jsonobject.has("max") ? Float.valueOf(JsonUtils.getFloat(jsonobject, "max")) : null;
+                JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "value");
+                Float ofloat = jsonobject.has("min") ? Float.valueOf(JsonUtils.func_151217_k(jsonobject, "min")) : null;
+                Float ofloat1 = jsonobject.has("max") ? Float.valueOf(JsonUtils.func_151217_k(jsonobject, "max")) : null;
 
                 return new MinMaxBounds(ofloat, ofloat1);
             }
         } else {
-            return MinMaxBounds.UNBOUNDED;
+            return MinMaxBounds.field_192516_a;
         }
     }
 }

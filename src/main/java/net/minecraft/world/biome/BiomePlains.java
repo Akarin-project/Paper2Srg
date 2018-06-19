@@ -12,22 +12,21 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
 public class BiomePlains extends Biome {
 
-    protected boolean sunflowers;
+    protected boolean field_150628_aC;
 
-    protected BiomePlains(boolean flag, Biome.a biomebase_a) {
+    protected BiomePlains(boolean flag, BiomeBase.a biomebase_a) {
         super(biomebase_a);
-        this.sunflowers = flag;
-        this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityHorse.class, 5, 2, 6));
-        this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityDonkey.class, 1, 1, 3));
-        this.decorator.treesPerChunk = 0;
-        this.decorator.extraTreeChance = 0.05F;
-        this.decorator.flowersPerChunk = 4;
-        this.decorator.grassPerChunk = 10;
+        this.field_150628_aC = flag;
+        this.field_76762_K.add(new Biome.SpawnListEntry(EntityHorse.class, 5, 2, 6));
+        this.field_76762_K.add(new Biome.SpawnListEntry(EntityDonkey.class, 1, 1, 3));
+        this.field_76760_I.field_76832_z = 0;
+        this.field_76760_I.field_189870_A = 0.05F;
+        this.field_76760_I.field_76802_A = 4;
+        this.field_76760_I.field_76803_B = 10;
     }
 
-    @Override
-    public BlockFlower.EnumFlowerType pickRandomFlower(Random random, BlockPos blockposition) {
-        double d0 = BiomePlains.GRASS_COLOR_NOISE.getValue(blockposition.getX() / 200.0D, blockposition.getZ() / 200.0D);
+    public BlockFlower.EnumFlowerType func_180623_a(Random random, BlockPos blockposition) {
+        double d0 = BiomePlains.field_180281_af.func_151601_a((double) blockposition.func_177958_n() / 200.0D, (double) blockposition.func_177952_p() / 200.0D);
         int i;
 
         if (d0 < -0.8D) {
@@ -54,46 +53,44 @@ public class BiomePlains extends Biome {
         }
     }
 
-    @Override
-    public void decorate(World world, Random random, BlockPos blockposition) {
-        double d0 = BiomePlains.GRASS_COLOR_NOISE.getValue((blockposition.getX() + 8) / 200.0D, (blockposition.getZ() + 8) / 200.0D);
+    public void func_180624_a(World world, Random random, BlockPos blockposition) {
+        double d0 = BiomePlains.field_180281_af.func_151601_a((double) (blockposition.func_177958_n() + 8) / 200.0D, (double) (blockposition.func_177952_p() + 8) / 200.0D);
         int i;
         int j;
         int k;
         int l;
 
         if (d0 < -0.8D) {
-            this.decorator.flowersPerChunk = 15;
-            this.decorator.grassPerChunk = 5;
+            this.field_76760_I.field_76802_A = 15;
+            this.field_76760_I.field_76803_B = 5;
         } else {
-            this.decorator.flowersPerChunk = 4;
-            this.decorator.grassPerChunk = 10;
-            BiomePlains.DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.GRASS);
+            this.field_76760_I.field_76802_A = 4;
+            this.field_76760_I.field_76803_B = 10;
+            BiomePlains.field_180280_ag.func_180710_a(BlockDoublePlant.EnumPlantType.GRASS);
 
             for (i = 0; i < 7; ++i) {
                 j = random.nextInt(16) + 8;
                 k = random.nextInt(16) + 8;
-                l = random.nextInt(world.getHeight(blockposition.add(j, 0, k)).getY() + 32);
-                BiomePlains.DOUBLE_PLANT_GENERATOR.generate(world, random, blockposition.add(j, l, k));
+                l = random.nextInt(world.func_175645_m(blockposition.func_177982_a(j, 0, k)).func_177956_o() + 32);
+                BiomePlains.field_180280_ag.func_180709_b(world, random, blockposition.func_177982_a(j, l, k));
             }
         }
 
-        if (this.sunflowers) {
-            BiomePlains.DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.SUNFLOWER);
+        if (this.field_150628_aC) {
+            BiomePlains.field_180280_ag.func_180710_a(BlockDoublePlant.EnumPlantType.SUNFLOWER);
 
             for (i = 0; i < 10; ++i) {
                 j = random.nextInt(16) + 8;
                 k = random.nextInt(16) + 8;
-                l = random.nextInt(world.getHeight(blockposition.add(j, 0, k)).getY() + 32);
-                BiomePlains.DOUBLE_PLANT_GENERATOR.generate(world, random, blockposition.add(j, l, k));
+                l = random.nextInt(world.func_175645_m(blockposition.func_177982_a(j, 0, k)).func_177956_o() + 32);
+                BiomePlains.field_180280_ag.func_180709_b(world, random, blockposition.func_177982_a(j, l, k));
             }
         }
 
-        super.decorate(world, random, blockposition);
+        super.func_180624_a(world, random, blockposition);
     }
 
-    @Override
-    public WorldGenAbstractTree getRandomTreeFeature(Random random) {
-        return random.nextInt(3) == 0 ? BiomePlains.BIG_TREE_FEATURE : BiomePlains.TREE_FEATURE;
+    public WorldGenAbstractTree func_150567_a(Random random) {
+        return (WorldGenAbstractTree) (random.nextInt(3) == 0 ? BiomePlains.field_76758_O : BiomePlains.field_76757_N);
     }
 }

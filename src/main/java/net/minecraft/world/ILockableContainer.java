@@ -4,9 +4,9 @@ import net.minecraft.inventory.IInventory;
 
 public interface ILockableContainer extends IInventory, IInteractionObject {
 
-    boolean isLocked();
+    boolean func_174893_q_();
 
-    void setLockCode(LockCode chestlock);
+    void func_174892_a(LockCode chestlock);
 
-    LockCode getLockCode();
+    LockCode func_174891_i();
 }

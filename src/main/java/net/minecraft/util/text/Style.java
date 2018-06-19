@@ -16,123 +16,102 @@ import net.minecraft.util.text.event.HoverEvent;
 
 public class Style {
 
-    private Style parentStyle;
-    private TextFormatting color;
-    private Boolean bold;
-    private Boolean italic;
-    private Boolean underlined;
-    private Boolean strikethrough;
-    private Boolean obfuscated;
-    private ClickEvent clickEvent;
-    private HoverEvent hoverEvent;
-    private String insertion;
-    private static final Style ROOT = new Style() {
-        @Override
+    private Style field_150249_a;
+    private TextFormatting field_150247_b;
+    private Boolean field_150248_c;
+    private Boolean field_150245_d;
+    private Boolean field_150246_e;
+    private Boolean field_150243_f;
+    private Boolean field_150244_g;
+    private ClickEvent field_150251_h;
+    private HoverEvent field_150252_i;
+    private String field_179990_j;
+    private static final Style field_150250_j = new Style() {
         @Nullable
-        public TextFormatting getColor() {
+        public TextFormatting func_150215_a() {
             return null;
         }
 
-        @Override
-        public boolean getBold() {
+        public boolean func_150223_b() {
             return false;
         }
 
-        @Override
-        public boolean getItalic() {
+        public boolean func_150242_c() {
             return false;
         }
 
-        @Override
-        public boolean getStrikethrough() {
+        public boolean func_150236_d() {
             return false;
         }
 
-        @Override
-        public boolean getUnderlined() {
+        public boolean func_150234_e() {
             return false;
         }
 
-        @Override
-        public boolean getObfuscated() {
+        public boolean func_150233_f() {
             return false;
         }
 
-        @Override
         @Nullable
-        public ClickEvent getClickEvent() {
+        public ClickEvent func_150235_h() {
             return null;
         }
 
-        @Override
         @Nullable
-        public HoverEvent getHoverEvent() {
+        public HoverEvent func_150210_i() {
             return null;
         }
 
-        @Override
         @Nullable
-        public String getInsertion() {
+        public String func_179986_j() {
             return null;
         }
 
-        @Override
-        public Style setColor(TextFormatting enumchatformat) {
+        public Style func_150238_a(TextFormatting enumchatformat) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Style setBold(Boolean obool) {
+        public Style func_150227_a(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Style setItalic(Boolean obool) {
+        public Style func_150217_b(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Style setStrikethrough(Boolean obool) {
+        public Style func_150225_c(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Style setUnderlined(Boolean obool) {
+        public Style func_150228_d(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Style setObfuscated(Boolean obool) {
+        public Style func_150237_e(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Style setClickEvent(ClickEvent chatclickable) {
+        public Style func_150241_a(ClickEvent chatclickable) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Style setHoverEvent(HoverEvent chathoverable) {
+        public Style func_150209_a(HoverEvent chathoverable) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
-        public Style setParentStyle(Style chatmodifier) {
+        public Style func_150221_a(Style chatmodifier) {
             throw new UnsupportedOperationException();
         }
 
-        @Override
         public String toString() {
             return "Style.ROOT";
         }
 
-        @Override
         public Style clone() {
             return this;
         }
 
-        @Override
-        public Style createDeepCopy() {
+        public Style func_150206_m() {
             return this;
         }
     };
@@ -140,109 +119,107 @@ public class Style {
     public Style() {}
 
     @Nullable
-    public TextFormatting getColor() {
-        return this.color == null ? this.getParent().getColor() : this.color;
+    public TextFormatting func_150215_a() {
+        return this.field_150247_b == null ? this.func_150224_n().func_150215_a() : this.field_150247_b;
     }
 
-    public boolean getBold() {
-        return this.bold == null ? this.getParent().getBold() : this.bold.booleanValue();
+    public boolean func_150223_b() {
+        return this.field_150248_c == null ? this.func_150224_n().func_150223_b() : this.field_150248_c.booleanValue();
     }
 
-    public boolean getItalic() {
-        return this.italic == null ? this.getParent().getItalic() : this.italic.booleanValue();
+    public boolean func_150242_c() {
+        return this.field_150245_d == null ? this.func_150224_n().func_150242_c() : this.field_150245_d.booleanValue();
     }
 
-    public boolean getStrikethrough() {
-        return this.strikethrough == null ? this.getParent().getStrikethrough() : this.strikethrough.booleanValue();
+    public boolean func_150236_d() {
+        return this.field_150243_f == null ? this.func_150224_n().func_150236_d() : this.field_150243_f.booleanValue();
     }
 
-    public boolean getUnderlined() {
-        return this.underlined == null ? this.getParent().getUnderlined() : this.underlined.booleanValue();
+    public boolean func_150234_e() {
+        return this.field_150246_e == null ? this.func_150224_n().func_150234_e() : this.field_150246_e.booleanValue();
     }
 
-    public boolean getObfuscated() {
-        return this.obfuscated == null ? this.getParent().getObfuscated() : this.obfuscated.booleanValue();
+    public boolean func_150233_f() {
+        return this.field_150244_g == null ? this.func_150224_n().func_150233_f() : this.field_150244_g.booleanValue();
     }
 
-    public boolean isEmpty() {
-        return this.bold == null && this.italic == null && this.strikethrough == null && this.underlined == null && this.obfuscated == null && this.color == null && this.clickEvent == null && this.hoverEvent == null && this.insertion == null;
-    }
-
-    @Nullable
-    public ClickEvent getClickEvent() {
-        return this.clickEvent == null ? this.getParent().getClickEvent() : this.clickEvent;
+    public boolean func_150229_g() {
+        return this.field_150248_c == null && this.field_150245_d == null && this.field_150243_f == null && this.field_150246_e == null && this.field_150244_g == null && this.field_150247_b == null && this.field_150251_h == null && this.field_150252_i == null && this.field_179990_j == null;
     }
 
     @Nullable
-    public HoverEvent getHoverEvent() {
-        return this.hoverEvent == null ? this.getParent().getHoverEvent() : this.hoverEvent;
+    public ClickEvent func_150235_h() {
+        return this.field_150251_h == null ? this.func_150224_n().func_150235_h() : this.field_150251_h;
     }
 
     @Nullable
-    public String getInsertion() {
-        return this.insertion == null ? this.getParent().getInsertion() : this.insertion;
+    public HoverEvent func_150210_i() {
+        return this.field_150252_i == null ? this.func_150224_n().func_150210_i() : this.field_150252_i;
     }
 
-    public Style setColor(TextFormatting enumchatformat) {
-        this.color = enumchatformat;
+    @Nullable
+    public String func_179986_j() {
+        return this.field_179990_j == null ? this.func_150224_n().func_179986_j() : this.field_179990_j;
+    }
+
+    public Style func_150238_a(TextFormatting enumchatformat) {
+        this.field_150247_b = enumchatformat;
         return this;
     }
 
-    public Style setBold(Boolean obool) {
-        this.bold = obool;
+    public Style func_150227_a(Boolean obool) {
+        this.field_150248_c = obool;
         return this;
     }
 
-    public Style setItalic(Boolean obool) {
-        this.italic = obool;
+    public Style func_150217_b(Boolean obool) {
+        this.field_150245_d = obool;
         return this;
     }
 
-    public Style setStrikethrough(Boolean obool) {
-        this.strikethrough = obool;
+    public Style func_150225_c(Boolean obool) {
+        this.field_150243_f = obool;
         return this;
     }
 
-    public Style setUnderlined(Boolean obool) {
-        this.underlined = obool;
+    public Style func_150228_d(Boolean obool) {
+        this.field_150246_e = obool;
         return this;
     }
 
-    public Style setObfuscated(Boolean obool) {
-        this.obfuscated = obool;
+    public Style func_150237_e(Boolean obool) {
+        this.field_150244_g = obool;
         return this;
     }
 
-    public Style setClickEvent(ClickEvent chatclickable) {
-        this.clickEvent = chatclickable;
+    public Style func_150241_a(ClickEvent chatclickable) {
+        this.field_150251_h = chatclickable;
         return this;
     }
 
-    public Style setHoverEvent(HoverEvent chathoverable) {
-        this.hoverEvent = chathoverable;
+    public Style func_150209_a(HoverEvent chathoverable) {
+        this.field_150252_i = chathoverable;
         return this;
     }
 
-    public Style setInsertion(String s) {
-        this.insertion = s;
+    public Style func_179989_a(String s) {
+        this.field_179990_j = s;
         return this;
     }
 
-    public Style setParentStyle(Style chatmodifier) {
-        this.parentStyle = chatmodifier;
+    public Style func_150221_a(Style chatmodifier) {
+        this.field_150249_a = chatmodifier;
         return this;
     }
 
-    private Style getParent() {
-        return this.parentStyle == null ? Style.ROOT : this.parentStyle;
+    private Style func_150224_n() {
+        return this.field_150249_a == null ? Style.field_150250_j : this.field_150249_a;
     }
 
-    @Override
     public String toString() {
-        return "Style{hasParent=" + (this.parentStyle != null) + ", color=" + this.color + ", bold=" + this.bold + ", italic=" + this.italic + ", underlined=" + this.underlined + ", obfuscated=" + this.obfuscated + ", clickEvent=" + this.getClickEvent() + ", hoverEvent=" + this.getHoverEvent() + ", insertion=" + this.getInsertion() + '}';
+        return "Style{hasParent=" + (this.field_150249_a != null) + ", color=" + this.field_150247_b + ", bold=" + this.field_150248_c + ", italic=" + this.field_150245_d + ", underlined=" + this.field_150246_e + ", obfuscated=" + this.field_150244_g + ", clickEvent=" + this.func_150235_h() + ", hoverEvent=" + this.func_150210_i() + ", insertion=" + this.func_179986_j() + '}';
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -252,29 +229,29 @@ public class Style {
             Style chatmodifier = (Style) object;
             boolean flag;
 
-            if (this.getBold() == chatmodifier.getBold() && this.getColor() == chatmodifier.getColor() && this.getItalic() == chatmodifier.getItalic() && this.getObfuscated() == chatmodifier.getObfuscated() && this.getStrikethrough() == chatmodifier.getStrikethrough() && this.getUnderlined() == chatmodifier.getUnderlined()) {
+            if (this.func_150223_b() == chatmodifier.func_150223_b() && this.func_150215_a() == chatmodifier.func_150215_a() && this.func_150242_c() == chatmodifier.func_150242_c() && this.func_150233_f() == chatmodifier.func_150233_f() && this.func_150236_d() == chatmodifier.func_150236_d() && this.func_150234_e() == chatmodifier.func_150234_e()) {
                 label65: {
-                    if (this.getClickEvent() != null) {
-                        if (!this.getClickEvent().equals(chatmodifier.getClickEvent())) {
+                    if (this.func_150235_h() != null) {
+                        if (!this.func_150235_h().equals(chatmodifier.func_150235_h())) {
                             break label65;
                         }
-                    } else if (chatmodifier.getClickEvent() != null) {
+                    } else if (chatmodifier.func_150235_h() != null) {
                         break label65;
                     }
 
-                    if (this.getHoverEvent() != null) {
-                        if (!this.getHoverEvent().equals(chatmodifier.getHoverEvent())) {
+                    if (this.func_150210_i() != null) {
+                        if (!this.func_150210_i().equals(chatmodifier.func_150210_i())) {
                             break label65;
                         }
-                    } else if (chatmodifier.getHoverEvent() != null) {
+                    } else if (chatmodifier.func_150210_i() != null) {
                         break label65;
                     }
 
-                    if (this.getInsertion() != null) {
-                        if (!this.getInsertion().equals(chatmodifier.getInsertion())) {
+                    if (this.func_179986_j() != null) {
+                        if (!this.func_179986_j().equals(chatmodifier.func_179986_j())) {
                             break label65;
                         }
-                    } else if (chatmodifier.getInsertion() != null) {
+                    } else if (chatmodifier.func_179986_j() != null) {
                         break label65;
                     }
 
@@ -288,51 +265,50 @@ public class Style {
         }
     }
 
-    @Override
     public int hashCode() {
         // CraftBukkit start - fix npe
-        int i = color == null ? 0 : this.color.hashCode();
+        int i = field_150247_b == null ? 0 : this.field_150247_b.hashCode();
 
-        i = 31 * i + (bold == null ? 0 : this.bold.hashCode());
-        i = 31 * i + (italic == null ? 0 : this.italic.hashCode());
-        i = 31 * i + (underlined == null ? 0 : this.underlined.hashCode());
-        i = 31 * i + (strikethrough == null ? 0 : this.strikethrough.hashCode());
-        i = 31 * i + (obfuscated == null ? 0 : this.obfuscated.hashCode());
-        i = 31 * i + (clickEvent == null ? 0 : this.clickEvent.hashCode());
-        i = 31 * i + (this.hoverEvent == null ? 0 : this.hoverEvent.hashCode());
-        i = 31 * i + (insertion == null ? 0 : this.insertion.hashCode());
+        i = 31 * i + (field_150248_c == null ? 0 : this.field_150248_c.hashCode());
+        i = 31 * i + (field_150245_d == null ? 0 : this.field_150245_d.hashCode());
+        i = 31 * i + (field_150246_e == null ? 0 : this.field_150246_e.hashCode());
+        i = 31 * i + (field_150243_f == null ? 0 : this.field_150243_f.hashCode());
+        i = 31 * i + (field_150244_g == null ? 0 : this.field_150244_g.hashCode());
+        i = 31 * i + (field_150251_h == null ? 0 : this.field_150251_h.hashCode());
+        i = 31 * i + (this.field_150252_i == null ? 0 : this.field_150252_i.hashCode());
+        i = 31 * i + (field_179990_j == null ? 0 : this.field_179990_j.hashCode());
         // CraftBukkit end
         return i;
     }
 
-    public Style createShallowCopy() {
+    public Style func_150232_l() {
         Style chatmodifier = new Style();
 
-        chatmodifier.bold = this.bold;
-        chatmodifier.italic = this.italic;
-        chatmodifier.strikethrough = this.strikethrough;
-        chatmodifier.underlined = this.underlined;
-        chatmodifier.obfuscated = this.obfuscated;
-        chatmodifier.color = this.color;
-        chatmodifier.clickEvent = this.clickEvent;
-        chatmodifier.hoverEvent = this.hoverEvent;
-        chatmodifier.parentStyle = this.parentStyle;
-        chatmodifier.insertion = this.insertion;
+        chatmodifier.field_150248_c = this.field_150248_c;
+        chatmodifier.field_150245_d = this.field_150245_d;
+        chatmodifier.field_150243_f = this.field_150243_f;
+        chatmodifier.field_150246_e = this.field_150246_e;
+        chatmodifier.field_150244_g = this.field_150244_g;
+        chatmodifier.field_150247_b = this.field_150247_b;
+        chatmodifier.field_150251_h = this.field_150251_h;
+        chatmodifier.field_150252_i = this.field_150252_i;
+        chatmodifier.field_150249_a = this.field_150249_a;
+        chatmodifier.field_179990_j = this.field_179990_j;
         return chatmodifier;
     }
 
-    public Style createDeepCopy() {
+    public Style func_150206_m() {
         Style chatmodifier = new Style();
 
-        chatmodifier.setBold(Boolean.valueOf(this.getBold()));
-        chatmodifier.setItalic(Boolean.valueOf(this.getItalic()));
-        chatmodifier.setStrikethrough(Boolean.valueOf(this.getStrikethrough()));
-        chatmodifier.setUnderlined(Boolean.valueOf(this.getUnderlined()));
-        chatmodifier.setObfuscated(Boolean.valueOf(this.getObfuscated()));
-        chatmodifier.setColor(this.getColor());
-        chatmodifier.setClickEvent(this.getClickEvent());
-        chatmodifier.setHoverEvent(this.getHoverEvent());
-        chatmodifier.setInsertion(this.getInsertion());
+        chatmodifier.func_150227_a(Boolean.valueOf(this.func_150223_b()));
+        chatmodifier.func_150217_b(Boolean.valueOf(this.func_150242_c()));
+        chatmodifier.func_150225_c(Boolean.valueOf(this.func_150236_d()));
+        chatmodifier.func_150228_d(Boolean.valueOf(this.func_150234_e()));
+        chatmodifier.func_150237_e(Boolean.valueOf(this.func_150233_f()));
+        chatmodifier.func_150238_a(this.func_150215_a());
+        chatmodifier.func_150241_a(this.func_150235_h());
+        chatmodifier.func_150209_a(this.func_150210_i());
+        chatmodifier.func_179989_a(this.func_179986_j());
         return chatmodifier;
     }
 
@@ -340,7 +316,6 @@ public class Style {
 
         public Serializer() {}
 
-        @Override
         @Nullable
         public Style deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             if (jsonelement.isJsonObject()) {
@@ -351,31 +326,31 @@ public class Style {
                     return null;
                 } else {
                     if (jsonobject.has("bold")) {
-                        chatmodifier.bold = Boolean.valueOf(jsonobject.get("bold").getAsBoolean());
+                        chatmodifier.field_150248_c = Boolean.valueOf(jsonobject.get("bold").getAsBoolean());
                     }
 
                     if (jsonobject.has("italic")) {
-                        chatmodifier.italic = Boolean.valueOf(jsonobject.get("italic").getAsBoolean());
+                        chatmodifier.field_150245_d = Boolean.valueOf(jsonobject.get("italic").getAsBoolean());
                     }
 
                     if (jsonobject.has("underlined")) {
-                        chatmodifier.underlined = Boolean.valueOf(jsonobject.get("underlined").getAsBoolean());
+                        chatmodifier.field_150246_e = Boolean.valueOf(jsonobject.get("underlined").getAsBoolean());
                     }
 
                     if (jsonobject.has("strikethrough")) {
-                        chatmodifier.strikethrough = Boolean.valueOf(jsonobject.get("strikethrough").getAsBoolean());
+                        chatmodifier.field_150243_f = Boolean.valueOf(jsonobject.get("strikethrough").getAsBoolean());
                     }
 
                     if (jsonobject.has("obfuscated")) {
-                        chatmodifier.obfuscated = Boolean.valueOf(jsonobject.get("obfuscated").getAsBoolean());
+                        chatmodifier.field_150244_g = Boolean.valueOf(jsonobject.get("obfuscated").getAsBoolean());
                     }
 
                     if (jsonobject.has("color")) {
-                        chatmodifier.color = (TextFormatting) jsondeserializationcontext.deserialize(jsonobject.get("color"), TextFormatting.class);
+                        chatmodifier.field_150247_b = (TextFormatting) jsondeserializationcontext.deserialize(jsonobject.get("color"), TextFormatting.class);
                     }
 
                     if (jsonobject.has("insertion")) {
-                        chatmodifier.insertion = jsonobject.get("insertion").getAsString();
+                        chatmodifier.field_179990_j = jsonobject.get("insertion").getAsString();
                     }
 
                     JsonObject jsonobject1;
@@ -385,12 +360,12 @@ public class Style {
                         jsonobject1 = jsonobject.getAsJsonObject("clickEvent");
                         if (jsonobject1 != null) {
                             jsonprimitive = jsonobject1.getAsJsonPrimitive("action");
-                            ClickEvent.Action chatclickable_enumclickaction = jsonprimitive == null ? null : ClickEvent.Action.getValueByCanonicalName(jsonprimitive.getAsString());
+                            ClickEvent.Action chatclickable_enumclickaction = jsonprimitive == null ? null : ClickEvent.Action.func_150672_a(jsonprimitive.getAsString());
                             JsonPrimitive jsonprimitive1 = jsonobject1.getAsJsonPrimitive("value");
                             String s = jsonprimitive1 == null ? null : jsonprimitive1.getAsString();
 
-                            if (chatclickable_enumclickaction != null && s != null && chatclickable_enumclickaction.shouldAllowInChat()) {
-                                chatmodifier.clickEvent = new ClickEvent(chatclickable_enumclickaction, s);
+                            if (chatclickable_enumclickaction != null && s != null && chatclickable_enumclickaction.func_150674_a()) {
+                                chatmodifier.field_150251_h = new ClickEvent(chatclickable_enumclickaction, s);
                             }
                         }
                     }
@@ -399,11 +374,11 @@ public class Style {
                         jsonobject1 = jsonobject.getAsJsonObject("hoverEvent");
                         if (jsonobject1 != null) {
                             jsonprimitive = jsonobject1.getAsJsonPrimitive("action");
-                            HoverEvent.Action chathoverable_enumhoveraction = jsonprimitive == null ? null : HoverEvent.Action.getValueByCanonicalName(jsonprimitive.getAsString());
+                            HoverEvent.Action chathoverable_enumhoveraction = jsonprimitive == null ? null : HoverEvent.Action.func_150684_a(jsonprimitive.getAsString());
                             ITextComponent ichatbasecomponent = (ITextComponent) jsondeserializationcontext.deserialize(jsonobject1.get("value"), ITextComponent.class);
 
-                            if (chathoverable_enumhoveraction != null && ichatbasecomponent != null && chathoverable_enumhoveraction.shouldAllowInChat()) {
-                                chatmodifier.hoverEvent = new HoverEvent(chathoverable_enumhoveraction, ichatbasecomponent);
+                            if (chathoverable_enumhoveraction != null && ichatbasecomponent != null && chathoverable_enumhoveraction.func_150686_a()) {
+                                chatmodifier.field_150252_i = new HoverEvent(chathoverable_enumhoveraction, ichatbasecomponent);
                             }
                         }
                     }
@@ -415,60 +390,69 @@ public class Style {
             }
         }
 
-        @Override
         @Nullable
         public JsonElement serialize(Style chatmodifier, Type type, JsonSerializationContext jsonserializationcontext) {
-            if (chatmodifier.isEmpty()) {
+            if (chatmodifier.func_150229_g()) {
                 return null;
             } else {
                 JsonObject jsonobject = new JsonObject();
 
-                if (chatmodifier.bold != null) {
-                    jsonobject.addProperty("bold", chatmodifier.bold);
+                if (chatmodifier.field_150248_c != null) {
+                    jsonobject.addProperty("bold", chatmodifier.field_150248_c);
                 }
 
-                if (chatmodifier.italic != null) {
-                    jsonobject.addProperty("italic", chatmodifier.italic);
+                if (chatmodifier.field_150245_d != null) {
+                    jsonobject.addProperty("italic", chatmodifier.field_150245_d);
                 }
 
-                if (chatmodifier.underlined != null) {
-                    jsonobject.addProperty("underlined", chatmodifier.underlined);
+                if (chatmodifier.field_150246_e != null) {
+                    jsonobject.addProperty("underlined", chatmodifier.field_150246_e);
                 }
 
-                if (chatmodifier.strikethrough != null) {
-                    jsonobject.addProperty("strikethrough", chatmodifier.strikethrough);
+                if (chatmodifier.field_150243_f != null) {
+                    jsonobject.addProperty("strikethrough", chatmodifier.field_150243_f);
                 }
 
-                if (chatmodifier.obfuscated != null) {
-                    jsonobject.addProperty("obfuscated", chatmodifier.obfuscated);
+                if (chatmodifier.field_150244_g != null) {
+                    jsonobject.addProperty("obfuscated", chatmodifier.field_150244_g);
                 }
 
-                if (chatmodifier.color != null) {
-                    jsonobject.add("color", jsonserializationcontext.serialize(chatmodifier.color));
+                if (chatmodifier.field_150247_b != null) {
+                    jsonobject.add("color", jsonserializationcontext.serialize(chatmodifier.field_150247_b));
                 }
 
-                if (chatmodifier.insertion != null) {
-                    jsonobject.add("insertion", jsonserializationcontext.serialize(chatmodifier.insertion));
+                if (chatmodifier.field_179990_j != null) {
+                    jsonobject.add("insertion", jsonserializationcontext.serialize(chatmodifier.field_179990_j));
                 }
 
                 JsonObject jsonobject1;
 
-                if (chatmodifier.clickEvent != null) {
+                if (chatmodifier.field_150251_h != null) {
                     jsonobject1 = new JsonObject();
-                    jsonobject1.addProperty("action", chatmodifier.clickEvent.getAction().getCanonicalName());
-                    jsonobject1.addProperty("value", chatmodifier.clickEvent.getValue());
+                    jsonobject1.addProperty("action", chatmodifier.field_150251_h.func_150669_a().func_150673_b());
+                    jsonobject1.addProperty("value", chatmodifier.field_150251_h.func_150668_b());
                     jsonobject.add("clickEvent", jsonobject1);
                 }
 
-                if (chatmodifier.hoverEvent != null) {
+                if (chatmodifier.field_150252_i != null) {
                     jsonobject1 = new JsonObject();
-                    jsonobject1.addProperty("action", chatmodifier.hoverEvent.getAction().getCanonicalName());
-                    jsonobject1.add("value", jsonserializationcontext.serialize(chatmodifier.hoverEvent.getValue()));
+                    jsonobject1.addProperty("action", chatmodifier.field_150252_i.func_150701_a().func_150685_b());
+                    jsonobject1.add("value", jsonserializationcontext.serialize(chatmodifier.field_150252_i.func_150702_b()));
                     jsonobject.add("hoverEvent", jsonobject1);
                 }
 
                 return jsonobject;
             }
+        }
+
+        @Nullable
+        public JsonElement serialize(Style object, Type type, JsonSerializationContext jsonserializationcontext) { // CraftBukkit - fix decompile error
+            return this.serialize((Style) object, type, jsonserializationcontext);
+        }
+
+        @Nullable
+        public Style deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException { // CraftBukkit - fix decompile error
+            return this.deserialize(jsonelement, type, jsondeserializationcontext);
         }
     }
 }

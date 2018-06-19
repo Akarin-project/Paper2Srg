@@ -7,80 +7,80 @@ import net.minecraft.util.math.Vec3d;
 
 public class Path {
 
-    private final PathPoint[] points;
-    private PathPoint[] openSet = new PathPoint[0];
-    private PathPoint[] closedSet = new PathPoint[0];
-    private int currentPathIndex;
-    private int pathLength;
+    private final PathPoint[] field_75884_a;
+    private PathPoint[] field_186312_b = new PathPoint[0];
+    private PathPoint[] field_186313_c = new PathPoint[0];
+    private int field_75882_b;
+    private int field_75883_c;
 
     public Path(PathPoint[] apathpoint) {
-        this.points = apathpoint;
-        this.pathLength = apathpoint.length;
+        this.field_75884_a = apathpoint;
+        this.field_75883_c = apathpoint.length;
     }
 
-    public void incrementPathIndex() {
-        ++this.currentPathIndex;
+    public void func_75875_a() {
+        ++this.field_75882_b;
     }
 
-    public boolean isFinished() {
-        return this.currentPathIndex >= this.pathLength;
+    public boolean func_75879_b() {
+        return this.field_75882_b >= this.field_75883_c;
     }
 
     @Nullable
-    public PathPoint getFinalPathPoint() {
-        return this.pathLength > 0 ? this.points[this.pathLength - 1] : null;
+    public PathPoint func_75870_c() {
+        return this.field_75883_c > 0 ? this.field_75884_a[this.field_75883_c - 1] : null;
     }
 
-    public PathPoint getPathPointFromIndex(int i) {
-        return this.points[i];
+    public PathPoint func_75877_a(int i) {
+        return this.field_75884_a[i];
     }
 
-    public void setPoint(int i, PathPoint pathpoint) {
-        this.points[i] = pathpoint;
+    public void func_186309_a(int i, PathPoint pathpoint) {
+        this.field_75884_a[i] = pathpoint;
     }
 
-    public int getCurrentPathLength() {
-        return this.pathLength;
+    public int func_75874_d() {
+        return this.field_75883_c;
     }
 
-    public void setCurrentPathLength(int i) {
-        this.pathLength = i;
+    public void func_75871_b(int i) {
+        this.field_75883_c = i;
     }
 
-    public int getCurrentPathIndex() {
-        return this.currentPathIndex;
+    public int func_75873_e() {
+        return this.field_75882_b;
     }
 
-    public void setCurrentPathIndex(int i) {
-        this.currentPathIndex = i;
+    public void func_75872_c(int i) {
+        this.field_75882_b = i;
     }
 
-    public Vec3d getVectorFromIndex(Entity entity, int i) {
-        double d0 = (double) this.points[i].x + (double) ((int) (entity.width + 1.0F)) * 0.5D;
-        double d1 = (double) this.points[i].y;
-        double d2 = (double) this.points[i].z + (double) ((int) (entity.width + 1.0F)) * 0.5D;
+    public Vec3d func_75881_a(Entity entity, int i) {
+        double d0 = (double) this.field_75884_a[i].field_75839_a + (double) ((int) (entity.field_70130_N + 1.0F)) * 0.5D;
+        double d1 = (double) this.field_75884_a[i].field_75837_b;
+        double d2 = (double) this.field_75884_a[i].field_75838_c + (double) ((int) (entity.field_70130_N + 1.0F)) * 0.5D;
 
         return new Vec3d(d0, d1, d2);
     }
 
-    public Vec3d getPosition(Entity entity) {
-        return this.getVectorFromIndex(entity, this.currentPathIndex);
+    public Vec3d func_75878_a(Entity entity) {
+        return this.func_75881_a(entity, this.field_75882_b);
     }
 
-    public Vec3d getCurrentPos() {
-        PathPoint pathpoint = this.points[this.currentPathIndex];
+    public Vec3d func_186310_f() {
+        PathPoint pathpoint = this.field_75884_a[this.field_75882_b];
 
-        return new Vec3d((double) pathpoint.x, (double) pathpoint.y, (double) pathpoint.z);
+        return new Vec3d((double) pathpoint.field_75839_a, (double) pathpoint.field_75837_b, (double) pathpoint.field_75838_c);
     }
 
-    public boolean isSamePath(Path pathentity) {
+    public boolean func_75876_a(Path pathentity) {
         if (pathentity == null) {
             return false;
-        } else if (pathentity.points.length != this.points.length) {
+        } else if (pathentity.field_75884_a.length != this.field_75884_a.length) {
             return false;
         } else {
-            for (int i = 0; i < this.points.length; ++i) {
-                if (this.points[i].x != pathentity.points[i].x || this.points[i].y != pathentity.points[i].y || this.points[i].z != pathentity.points[i].z) {
+            for (int i = 0; i < this.field_75884_a.length; ++i) {
+                if (this.field_75884_a[i].field_75839_a != pathentity.field_75884_a[i].field_75839_a || this.field_75884_a[i].field_75837_b != pathentity.field_75884_a[i].field_75837_b || this.field_75884_a[i].field_75838_c != pathentity.field_75884_a[i].field_75838_c) {
                     return false;
                 }
             }

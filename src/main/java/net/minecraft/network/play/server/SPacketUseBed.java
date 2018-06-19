@@ -10,27 +10,27 @@ import net.minecraft.util.math.BlockPos;
 
 public class SPacketUseBed implements Packet<INetHandlerPlayClient> {
 
-    private int playerID;
-    private BlockPos bedPos;
+    private int field_149097_a;
+    private BlockPos field_179799_b;
 
     public SPacketUseBed() {}
 
     public SPacketUseBed(EntityPlayer entityhuman, BlockPos blockposition) {
-        this.playerID = entityhuman.getEntityId();
-        this.bedPos = blockposition;
+        this.field_149097_a = entityhuman.func_145782_y();
+        this.field_179799_b = blockposition;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.playerID = packetdataserializer.readVarInt();
-        this.bedPos = packetdataserializer.readBlockPos();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149097_a = packetdataserializer.func_150792_a();
+        this.field_179799_b = packetdataserializer.func_179259_c();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.playerID);
-        packetdataserializer.writeBlockPos(this.bedPos);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_149097_a);
+        packetdataserializer.func_179255_a(this.field_179799_b);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleUseBed(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147278_a(this);
     }
 }

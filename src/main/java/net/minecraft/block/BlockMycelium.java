@@ -28,29 +28,29 @@ import org.bukkit.event.block.BlockSpreadEvent;
 
 public class BlockMycelium extends Block {
 
-    public static final PropertyBool SNOWY = PropertyBool.create("snowy");
+    public static final PropertyBool field_176384_a = PropertyBool.func_177716_a("snowy");
 
     protected BlockMycelium() {
-        super(Material.GRASS, MapColor.PURPLE);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockMycelium.SNOWY, Boolean.valueOf(false)));
-        this.setTickRandomly(true);
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151577_b, MapColor.field_151678_z);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockMycelium.field_176384_a, Boolean.valueOf(false)));
+        this.func_149675_a(true);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public IBlockState getActualState(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        Block block = iblockaccess.getBlockState(blockposition.up()).getBlock();
+    public IBlockState func_176221_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        Block block = iblockaccess.func_180495_p(blockposition.func_177984_a()).func_177230_c();
 
-        return iblockdata.withProperty(BlockMycelium.SNOWY, Boolean.valueOf(block == Blocks.SNOW || block == Blocks.SNOW_LAYER));
+        return iblockdata.func_177226_a(BlockMycelium.field_176384_a, Boolean.valueOf(block == Blocks.field_150433_aE || block == Blocks.field_150431_aC));
     }
 
-    public void updateTick(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        if (!world.isRemote) {
-            if (world.getLightFromNeighbors(blockposition.up()) < 4 && world.getBlockState(blockposition.up()).getLightOpacity() > 2) {
+    public void func_180650_b(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        if (!world.field_72995_K) {
+            if (world.func_175671_l(blockposition.func_177984_a()) < 4 && world.func_180495_p(blockposition.func_177984_a()).func_185891_c() > 2) {
                 // CraftBukkit start
                 // world.setTypeUpdate(blockposition, Blocks.DIRT.getBlockData().set(BlockDirt.VARIANT, BlockDirt.EnumDirtVariant.DIRT));
                 org.bukkit.World bworld = world.getWorld();
-                BlockState blockState = bworld.getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()).getState();
-                blockState.setType(CraftMagicNumbers.getMaterial(Blocks.DIRT));
+                BlockState blockState = bworld.getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p()).getState();
+                blockState.setType(CraftMagicNumbers.getMaterial(Blocks.field_150346_d));
 
                 BlockFadeEvent event = new BlockFadeEvent(blockState.getBlock(), blockState);
                 world.getServer().getPluginManager().callEvent(event);
@@ -60,20 +60,20 @@ public class BlockMycelium extends Block {
                 }
                 // CraftBukkit end
             } else {
-                if (world.getLightFromNeighbors(blockposition.up()) >= 9) {
+                if (world.func_175671_l(blockposition.func_177984_a()) >= 9) {
                     for (int i = 0; i < 4; ++i) {
-                        BlockPos blockposition1 = blockposition.add(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
-                        IBlockState iblockdata1 = world.getBlockState(blockposition1);
-                        IBlockState iblockdata2 = world.getBlockState(blockposition1.up());
+                        BlockPos blockposition1 = blockposition.func_177982_a(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+                        IBlockState iblockdata1 = world.func_180495_p(blockposition1);
+                        IBlockState iblockdata2 = world.func_180495_p(blockposition1.func_177984_a());
 
-                        if (iblockdata1.getBlock() == Blocks.DIRT && iblockdata1.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT && world.getLightFromNeighbors(blockposition1.up()) >= 4 && iblockdata2.getLightOpacity() <= 2) {
+                        if (iblockdata1.func_177230_c() == Blocks.field_150346_d && iblockdata1.func_177229_b(BlockDirt.field_176386_a) == BlockDirt.DirtType.DIRT && world.func_175671_l(blockposition1.func_177984_a()) >= 4 && iblockdata2.func_185891_c() <= 2) {
                             // CraftBukkit start
                             // world.setTypeUpdate(blockposition1, this.getBlockData());
                             org.bukkit.World bworld = world.getWorld();
-                            BlockState blockState = bworld.getBlockAt(blockposition1.getX(), blockposition1.getY(), blockposition1.getZ()).getState();
+                            BlockState blockState = bworld.getBlockAt(blockposition1.func_177958_n(), blockposition1.func_177956_o(), blockposition1.func_177952_p()).getState();
                             blockState.setType(CraftMagicNumbers.getMaterial(this));
 
-                            BlockSpreadEvent event = new BlockSpreadEvent(blockState.getBlock(), bworld.getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()), blockState);
+                            BlockSpreadEvent event = new BlockSpreadEvent(blockState.getBlock(), bworld.getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p()), blockState);
                             world.getServer().getPluginManager().callEvent(event);
 
                             if (!event.isCancelled()) {
@@ -88,15 +88,15 @@ public class BlockMycelium extends Block {
         }
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Blocks.DIRT.getItemDropped(Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT), random, i);
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Blocks.field_150346_d.func_180660_a(Blocks.field_150346_d.func_176223_P().func_177226_a(BlockDirt.field_176386_a, BlockDirt.DirtType.DIRT), random, i);
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         return 0;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockMycelium.SNOWY});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockMycelium.field_176384_a});
     }
 }

@@ -8,37 +8,37 @@ import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 
 public interface IInventory extends IWorldNameable {
 
-    int getSizeInventory();
+    int func_70302_i_();
 
-    boolean isEmpty();
+    boolean func_191420_l();
 
-    ItemStack getStackInSlot(int i);
+    ItemStack func_70301_a(int i);
 
-    ItemStack decrStackSize(int i, int j);
+    ItemStack func_70298_a(int i, int j);
 
-    ItemStack removeStackFromSlot(int i);
+    ItemStack func_70304_b(int i);
 
-    void setInventorySlotContents(int i, ItemStack itemstack);
+    void func_70299_a(int i, ItemStack itemstack);
 
-    int getInventoryStackLimit();
+    int func_70297_j_();
 
-    void markDirty();
+    void func_70296_d();
 
-    boolean isUsableByPlayer(EntityPlayer entityhuman);
+    boolean func_70300_a(EntityPlayer entityhuman);
 
-    void openInventory(EntityPlayer entityhuman);
+    void func_174889_b(EntityPlayer entityhuman);
 
-    void closeInventory(EntityPlayer entityhuman);
+    void func_174886_c(EntityPlayer entityhuman);
 
-    boolean isItemValidForSlot(int i, ItemStack itemstack);
+    boolean func_94041_b(int i, ItemStack itemstack);
 
-    int getField(int i);
+    int func_174887_a_(int i);
 
-    void setField(int i, int j);
+    void func_174885_b(int i, int j);
 
-    int getFieldCount();
+    int func_174890_g();
 
-    void clear();
+    void func_174888_l();
 
     // CraftBukkit start
     java.util.List<ItemStack> getContents();

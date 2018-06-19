@@ -10,16 +10,16 @@ import net.minecraft.util.datafix.IDataWalker;
 
 public class EntityTag implements IDataWalker {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger field_188270_a = LogManager.getLogger();
 
     public EntityTag() {}
 
-    public NBTTagCompound process(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
-        NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("tag");
+    public NBTTagCompound func_188266_a(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
+        NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("tag");
 
-        if (nbttagcompound1.hasKey("EntityTag", 10)) {
-            NBTTagCompound nbttagcompound2 = nbttagcompound1.getCompoundTag("EntityTag");
-            String s = nbttagcompound.getString("id");
+        if (nbttagcompound1.func_150297_b("EntityTag", 10)) {
+            NBTTagCompound nbttagcompound2 = nbttagcompound1.func_74775_l("EntityTag");
+            String s = nbttagcompound.func_74779_i("id");
             String s1;
 
             if ("minecraft:armor_stand".equals(s)) {
@@ -29,22 +29,22 @@ public class EntityTag implements IDataWalker {
                     return nbttagcompound;
                 }
 
-                s1 = nbttagcompound2.getString("id");
+                s1 = nbttagcompound2.func_74779_i("id");
             }
 
             boolean flag;
 
             if (s1 == null) {
-                EntityTag.LOGGER.warn("Unable to resolve Entity for ItemInstance: {}", s);
+                EntityTag.field_188270_a.warn("Unable to resolve Entity for ItemInstance: {}", s);
                 flag = false;
             } else {
-                flag = !nbttagcompound2.hasKey("id", 8);
-                nbttagcompound2.setString("id", s1);
+                flag = !nbttagcompound2.func_150297_b("id", 8);
+                nbttagcompound2.func_74778_a("id", s1);
             }
 
-            dataconverter.process(FixTypes.ENTITY, nbttagcompound2, i);
+            dataconverter.func_188251_a(FixTypes.ENTITY, nbttagcompound2, i);
             if (flag) {
-                nbttagcompound2.removeTag("id");
+                nbttagcompound2.func_82580_o("id");
             }
         }
 

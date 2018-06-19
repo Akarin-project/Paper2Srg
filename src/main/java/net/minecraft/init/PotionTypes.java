@@ -8,48 +8,48 @@ import net.minecraft.util.ResourceLocation;
 
 public class PotionTypes {
 
-    private static final Set<PotionType> CACHE;
-    public static final PotionType EMPTY;
-    public static final PotionType WATER;
-    public static final PotionType MUNDANE;
-    public static final PotionType THICK;
-    public static final PotionType AWKWARD;
-    public static final PotionType NIGHT_VISION;
-    public static final PotionType LONG_NIGHT_VISION;
-    public static final PotionType INVISIBILITY;
-    public static final PotionType LONG_INVISIBILITY;
-    public static final PotionType LEAPING;
-    public static final PotionType LONG_LEAPING;
-    public static final PotionType STRONG_LEAPING;
-    public static final PotionType FIRE_RESISTANCE;
-    public static final PotionType LONG_FIRE_RESISTANCE;
-    public static final PotionType SWIFTNESS;
-    public static final PotionType LONG_SWIFTNESS;
-    public static final PotionType STRONG_SWIFTNESS;
-    public static final PotionType SLOWNESS;
-    public static final PotionType LONG_SLOWNESS;
-    public static final PotionType WATER_BREATHING;
-    public static final PotionType LONG_WATER_BREATHING;
-    public static final PotionType HEALING;
-    public static final PotionType STRONG_HEALING;
-    public static final PotionType HARMING;
-    public static final PotionType STRONG_HARMING;
-    public static final PotionType POISON;
-    public static final PotionType LONG_POISON;
-    public static final PotionType STRONG_POISON;
-    public static final PotionType REGENERATION;
-    public static final PotionType LONG_REGENERATION;
-    public static final PotionType STRONG_REGENERATION;
-    public static final PotionType STRENGTH;
-    public static final PotionType LONG_STRENGTH;
-    public static final PotionType STRONG_STRENGTH;
-    public static final PotionType WEAKNESS;
-    public static final PotionType LONG_WEAKNESS;
+    private static final Set<PotionType> field_185228_K;
+    public static final PotionType field_185229_a;
+    public static final PotionType field_185230_b;
+    public static final PotionType field_185231_c;
+    public static final PotionType field_185232_d;
+    public static final PotionType field_185233_e;
+    public static final PotionType field_185234_f;
+    public static final PotionType field_185235_g;
+    public static final PotionType field_185236_h;
+    public static final PotionType field_185237_i;
+    public static final PotionType field_185238_j;
+    public static final PotionType field_185239_k;
+    public static final PotionType field_185240_l;
+    public static final PotionType field_185241_m;
+    public static final PotionType field_185242_n;
+    public static final PotionType field_185243_o;
+    public static final PotionType field_185244_p;
+    public static final PotionType field_185245_q;
+    public static final PotionType field_185246_r;
+    public static final PotionType field_185247_s;
+    public static final PotionType field_185248_t;
+    public static final PotionType field_185249_u;
+    public static final PotionType field_185250_v;
+    public static final PotionType field_185251_w;
+    public static final PotionType field_185252_x;
+    public static final PotionType field_185253_y;
+    public static final PotionType field_185254_z;
+    public static final PotionType field_185218_A;
+    public static final PotionType field_185219_B;
+    public static final PotionType field_185220_C;
+    public static final PotionType field_185221_D;
+    public static final PotionType field_185222_E;
+    public static final PotionType field_185223_F;
+    public static final PotionType field_185224_G;
+    public static final PotionType field_185225_H;
+    public static final PotionType field_185226_I;
+    public static final PotionType field_185227_J;
 
-    private static PotionType getRegisteredPotionType(String s) {
-        PotionType potionregistry = (PotionType) PotionType.REGISTRY.getObject(new ResourceLocation(s));
+    private static PotionType func_185217_a(String s) {
+        PotionType potionregistry = (PotionType) PotionType.field_185176_a.func_82594_a(new ResourceLocation(s));
 
-        if (!PotionTypes.CACHE.add(potionregistry)) {
+        if (!PotionTypes.field_185228_K.add(potionregistry)) {
             throw new IllegalStateException("Invalid Potion requested: " + s);
         } else {
             return potionregistry;
@@ -57,47 +57,47 @@ public class PotionTypes {
     }
 
     static {
-        if (!Bootstrap.isRegistered()) {
+        if (!Bootstrap.func_179869_a()) {
             throw new RuntimeException("Accessed Potions before Bootstrap!");
         } else {
-            CACHE = Sets.newHashSet();
-            EMPTY = getRegisteredPotionType("empty");
-            WATER = getRegisteredPotionType("water");
-            MUNDANE = getRegisteredPotionType("mundane");
-            THICK = getRegisteredPotionType("thick");
-            AWKWARD = getRegisteredPotionType("awkward");
-            NIGHT_VISION = getRegisteredPotionType("night_vision");
-            LONG_NIGHT_VISION = getRegisteredPotionType("long_night_vision");
-            INVISIBILITY = getRegisteredPotionType("invisibility");
-            LONG_INVISIBILITY = getRegisteredPotionType("long_invisibility");
-            LEAPING = getRegisteredPotionType("leaping");
-            LONG_LEAPING = getRegisteredPotionType("long_leaping");
-            STRONG_LEAPING = getRegisteredPotionType("strong_leaping");
-            FIRE_RESISTANCE = getRegisteredPotionType("fire_resistance");
-            LONG_FIRE_RESISTANCE = getRegisteredPotionType("long_fire_resistance");
-            SWIFTNESS = getRegisteredPotionType("swiftness");
-            LONG_SWIFTNESS = getRegisteredPotionType("long_swiftness");
-            STRONG_SWIFTNESS = getRegisteredPotionType("strong_swiftness");
-            SLOWNESS = getRegisteredPotionType("slowness");
-            LONG_SLOWNESS = getRegisteredPotionType("long_slowness");
-            WATER_BREATHING = getRegisteredPotionType("water_breathing");
-            LONG_WATER_BREATHING = getRegisteredPotionType("long_water_breathing");
-            HEALING = getRegisteredPotionType("healing");
-            STRONG_HEALING = getRegisteredPotionType("strong_healing");
-            HARMING = getRegisteredPotionType("harming");
-            STRONG_HARMING = getRegisteredPotionType("strong_harming");
-            POISON = getRegisteredPotionType("poison");
-            LONG_POISON = getRegisteredPotionType("long_poison");
-            STRONG_POISON = getRegisteredPotionType("strong_poison");
-            REGENERATION = getRegisteredPotionType("regeneration");
-            LONG_REGENERATION = getRegisteredPotionType("long_regeneration");
-            STRONG_REGENERATION = getRegisteredPotionType("strong_regeneration");
-            STRENGTH = getRegisteredPotionType("strength");
-            LONG_STRENGTH = getRegisteredPotionType("long_strength");
-            STRONG_STRENGTH = getRegisteredPotionType("strong_strength");
-            WEAKNESS = getRegisteredPotionType("weakness");
-            LONG_WEAKNESS = getRegisteredPotionType("long_weakness");
-            PotionTypes.CACHE.clear();
+            field_185228_K = Sets.newHashSet();
+            field_185229_a = func_185217_a("empty");
+            field_185230_b = func_185217_a("water");
+            field_185231_c = func_185217_a("mundane");
+            field_185232_d = func_185217_a("thick");
+            field_185233_e = func_185217_a("awkward");
+            field_185234_f = func_185217_a("night_vision");
+            field_185235_g = func_185217_a("long_night_vision");
+            field_185236_h = func_185217_a("invisibility");
+            field_185237_i = func_185217_a("long_invisibility");
+            field_185238_j = func_185217_a("leaping");
+            field_185239_k = func_185217_a("long_leaping");
+            field_185240_l = func_185217_a("strong_leaping");
+            field_185241_m = func_185217_a("fire_resistance");
+            field_185242_n = func_185217_a("long_fire_resistance");
+            field_185243_o = func_185217_a("swiftness");
+            field_185244_p = func_185217_a("long_swiftness");
+            field_185245_q = func_185217_a("strong_swiftness");
+            field_185246_r = func_185217_a("slowness");
+            field_185247_s = func_185217_a("long_slowness");
+            field_185248_t = func_185217_a("water_breathing");
+            field_185249_u = func_185217_a("long_water_breathing");
+            field_185250_v = func_185217_a("healing");
+            field_185251_w = func_185217_a("strong_healing");
+            field_185252_x = func_185217_a("harming");
+            field_185253_y = func_185217_a("strong_harming");
+            field_185254_z = func_185217_a("poison");
+            field_185218_A = func_185217_a("long_poison");
+            field_185219_B = func_185217_a("strong_poison");
+            field_185220_C = func_185217_a("regeneration");
+            field_185221_D = func_185217_a("long_regeneration");
+            field_185222_E = func_185217_a("strong_regeneration");
+            field_185223_F = func_185217_a("strength");
+            field_185224_G = func_185217_a("long_strength");
+            field_185225_H = func_185217_a("strong_strength");
+            field_185226_I = func_185217_a("weakness");
+            field_185227_J = func_185217_a("long_weakness");
+            PotionTypes.field_185228_K.clear();
         }
     }
 }

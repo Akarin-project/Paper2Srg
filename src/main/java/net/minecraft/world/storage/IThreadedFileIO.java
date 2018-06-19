@@ -2,5 +2,5 @@ package net.minecraft.world.storage;
 
 public interface IThreadedFileIO {
 
-    boolean writeNextIO();
+    boolean func_75814_c();
 }

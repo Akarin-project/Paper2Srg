@@ -9,84 +9,76 @@ import javax.annotation.Nullable;
 
 public abstract class TextComponentBase implements ITextComponent {
 
-    protected List<ITextComponent> siblings = Lists.newArrayList();
-    private Style style;
+    protected List<ITextComponent> field_150264_a = Lists.newArrayList();
+    private Style field_150263_b;
 
     public TextComponentBase() {}
 
-    @Override
-    public ITextComponent appendSibling(ITextComponent ichatbasecomponent) {
-        ichatbasecomponent.getStyle().setParentStyle(this.getStyle());
-        this.siblings.add(ichatbasecomponent);
+    public ITextComponent func_150257_a(ITextComponent ichatbasecomponent) {
+        ichatbasecomponent.func_150256_b().func_150221_a(this.func_150256_b());
+        this.field_150264_a.add(ichatbasecomponent);
         return this;
     }
 
-    @Override
-    public List<ITextComponent> getSiblings() {
-        return this.siblings;
+    public List<ITextComponent> func_150253_a() {
+        return this.field_150264_a;
     }
 
-    @Override
-    public ITextComponent appendText(String s) {
-        return this.appendSibling(new TextComponentString(s));
+    public ITextComponent func_150258_a(String s) {
+        return this.func_150257_a(new TextComponentString(s));
     }
 
-    @Override
-    public ITextComponent setStyle(Style chatmodifier) {
-        this.style = chatmodifier;
-        Iterator iterator = this.siblings.iterator();
+    public ITextComponent func_150255_a(Style chatmodifier) {
+        this.field_150263_b = chatmodifier;
+        Iterator iterator = this.field_150264_a.iterator();
 
         while (iterator.hasNext()) {
             ITextComponent ichatbasecomponent = (ITextComponent) iterator.next();
 
-            ichatbasecomponent.getStyle().setParentStyle(this.getStyle());
+            ichatbasecomponent.func_150256_b().func_150221_a(this.func_150256_b());
         }
 
         return this;
     }
 
-    @Override
-    public Style getStyle() {
-        if (this.style == null) {
-            this.style = new Style();
-            Iterator iterator = this.siblings.iterator();
+    public Style func_150256_b() {
+        if (this.field_150263_b == null) {
+            this.field_150263_b = new Style();
+            Iterator iterator = this.field_150264_a.iterator();
 
             while (iterator.hasNext()) {
                 ITextComponent ichatbasecomponent = (ITextComponent) iterator.next();
 
-                ichatbasecomponent.getStyle().setParentStyle(this.style);
+                ichatbasecomponent.func_150256_b().func_150221_a(this.field_150263_b);
             }
         }
 
-        return this.style;
+        return this.field_150263_b;
     }
 
-    @Override
     public Iterator<ITextComponent> iterator() {
-        return Iterators.concat(Iterators.forArray(new TextComponentBase[] { this}), createDeepCopyIterator(this.siblings)); // Akarin - fix compile error
+        return Iterators.concat(Iterators.forArray(new TextComponentBase[] { this}), func_150262_a(this.field_150264_a));
     }
 
-    @Override
-    public final String getUnformattedText() {
+    public final String func_150260_c() {
         StringBuilder stringbuilder = new StringBuilder();
         Iterator iterator = this.iterator();
 
         while (iterator.hasNext()) {
             ITextComponent ichatbasecomponent = (ITextComponent) iterator.next();
 
-            stringbuilder.append(ichatbasecomponent.getUnformattedComponentText());
+            stringbuilder.append(ichatbasecomponent.func_150261_e());
         }
 
         return stringbuilder.toString();
     }
 
-    public static Iterator<ITextComponent> createDeepCopyIterator(Iterable<ITextComponent> iterable) {
+    public static Iterator<ITextComponent> func_150262_a(Iterable<ITextComponent> iterable) {
         Iterator iterator = Iterators.concat(Iterators.transform(iterable.iterator(), new Function() {
             public Iterator<ITextComponent> a(@Nullable ITextComponent ichatbasecomponent) {
                 return ichatbasecomponent.iterator();
             }
 
-            @Override
             public Object apply(@Nullable Object object) {
                 return this.a((ITextComponent) object);
             }
@@ -94,13 +86,12 @@ public abstract class TextComponentBase implements ITextComponent {
 
         iterator = Iterators.transform(iterator, new Function() {
             public ITextComponent a(@Nullable ITextComponent ichatbasecomponent) {
-                ITextComponent ichatbasecomponent1 = ichatbasecomponent.createCopy();
+                ITextComponent ichatbasecomponent1 = ichatbasecomponent.func_150259_f();
 
-                ichatbasecomponent1.setStyle(ichatbasecomponent1.getStyle().createDeepCopy());
+                ichatbasecomponent1.func_150255_a(ichatbasecomponent1.func_150256_b().func_150206_m());
                 return ichatbasecomponent1;
             }
 
-            @Override
             public Object apply(@Nullable Object object) {
                 return this.a((ITextComponent) object);
             }
@@ -108,7 +99,6 @@ public abstract class TextComponentBase implements ITextComponent {
         return iterator;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -117,17 +107,15 @@ public abstract class TextComponentBase implements ITextComponent {
         } else {
             TextComponentBase chatbasecomponent = (TextComponentBase) object;
 
-            return this.siblings.equals(chatbasecomponent.siblings) && this.getStyle().equals(chatbasecomponent.getStyle());
+            return this.field_150264_a.equals(chatbasecomponent.field_150264_a) && this.func_150256_b().equals(chatbasecomponent.func_150256_b());
         }
     }
 
-    @Override
     public int hashCode() {
-        return 31 * this.getStyle().hashCode() + this.siblings.hashCode(); // CraftBukkit - fix null pointer
+        return 31 * this.func_150256_b().hashCode() + this.field_150264_a.hashCode(); // CraftBukkit - fix null pointer
     }
 
-    @Override
     public String toString() {
-        return "BaseComponent{style=" + this.style + ", siblings=" + this.siblings + '}';
+        return "BaseComponent{style=" + this.field_150263_b + ", siblings=" + this.field_150264_a + '}';
     }
 }

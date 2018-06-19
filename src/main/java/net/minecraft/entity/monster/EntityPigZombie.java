@@ -30,164 +30,164 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityPigZombie extends EntityZombie {
 
-    private static final UUID ATTACK_SPEED_BOOST_MODIFIER_UUID = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
-    private static final AttributeModifier ATTACK_SPEED_BOOST_MODIFIER = (new AttributeModifier(EntityPigZombie.ATTACK_SPEED_BOOST_MODIFIER_UUID, "Attacking speed boost", 0.05D, 0)).setSaved(false);
-    public int angerLevel;
-    private int randomSoundDelay;
-    private UUID angerTargetUUID;
+    private static final UUID field_110189_bq = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
+    private static final AttributeModifier field_110190_br = (new AttributeModifier(EntityPigZombie.field_110189_bq, "Attacking speed boost", 0.05D, 0)).func_111168_a(false);
+    public int field_70837_d;
+    private int field_70838_e;
+    private UUID field_175459_bn;
 
     public EntityPigZombie(World world) {
         super(world);
-        this.isImmuneToFire = true;
+        this.field_70178_ae = true;
     }
 
-    public void setRevengeTarget(@Nullable EntityLivingBase entityliving) {
-        super.setRevengeTarget(entityliving);
+    public void func_70604_c(@Nullable EntityLivingBase entityliving) {
+        super.func_70604_c(entityliving);
         if (entityliving != null) {
-            this.angerTargetUUID = entityliving.getUniqueID();
+            this.field_175459_bn = entityliving.func_110124_au();
         }
 
     }
 
-    protected void applyEntityAI() {
-        this.targetTasks.addTask(1, new EntityPigZombie.AIHurtByAggressor(this));
-        this.targetTasks.addTask(2, new EntityPigZombie.AITargetAggressor(this));
+    protected void func_175456_n() {
+        this.field_70715_bh.func_75776_a(1, new EntityPigZombie.AIHurtByAggressor(this));
+        this.field_70715_bh.func_75776_a(2, new EntityPigZombie.AITargetAggressor(this));
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(EntityPigZombie.SPAWN_REINFORCEMENTS_CHANCE).setBaseValue(0.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(EntityPigZombie.field_110186_bp).func_111128_a(0.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.23000000417232513D);
+        this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(5.0D);
     }
 
-    protected void updateAITasks() {
-        IAttributeInstance attributeinstance = this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+    protected void func_70619_bc() {
+        IAttributeInstance attributeinstance = this.func_110148_a(SharedMonsterAttributes.field_111263_d);
 
-        if (this.isAngry()) {
-            if (!this.isChild() && !attributeinstance.hasModifier(EntityPigZombie.ATTACK_SPEED_BOOST_MODIFIER)) {
-                attributeinstance.applyModifier(EntityPigZombie.ATTACK_SPEED_BOOST_MODIFIER);
+        if (this.func_175457_ck()) {
+            if (!this.func_70631_g_() && !attributeinstance.func_180374_a(EntityPigZombie.field_110190_br)) {
+                attributeinstance.func_111121_a(EntityPigZombie.field_110190_br);
             }
 
-            --this.angerLevel;
-        } else if (attributeinstance.hasModifier(EntityPigZombie.ATTACK_SPEED_BOOST_MODIFIER)) {
-            attributeinstance.removeModifier(EntityPigZombie.ATTACK_SPEED_BOOST_MODIFIER);
+            --this.field_70837_d;
+        } else if (attributeinstance.func_180374_a(EntityPigZombie.field_110190_br)) {
+            attributeinstance.func_111124_b(EntityPigZombie.field_110190_br);
         }
 
-        if (this.randomSoundDelay > 0 && --this.randomSoundDelay == 0) {
-            this.playSound(SoundEvents.ENTITY_ZOMBIE_PIG_ANGRY, this.getSoundVolume() * 2.0F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F) * 1.8F);
+        if (this.field_70838_e > 0 && --this.field_70838_e == 0) {
+            this.func_184185_a(SoundEvents.field_187936_hj, this.func_70599_aP() * 2.0F, ((this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F + 1.0F) * 1.8F);
         }
 
-        if (this.angerLevel > 0 && this.angerTargetUUID != null && this.getRevengeTarget() == null) {
-            EntityPlayer entityhuman = this.world.getPlayerEntityByUUID(this.angerTargetUUID);
+        if (this.field_70837_d > 0 && this.field_175459_bn != null && this.func_70643_av() == null) {
+            EntityPlayer entityhuman = this.field_70170_p.func_152378_a(this.field_175459_bn);
 
-            this.setRevengeTarget((EntityLivingBase) entityhuman);
-            this.attackingPlayer = entityhuman;
-            this.recentlyHit = this.getRevengeTimer();
+            this.func_70604_c((EntityLivingBase) entityhuman);
+            this.field_70717_bb = entityhuman;
+            this.field_70718_bc = this.func_142015_aE();
         }
 
-        super.updateAITasks();
+        super.func_70619_bc();
     }
 
-    public boolean getCanSpawnHere() {
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
+    public boolean func_70601_bi() {
+        return this.field_70170_p.func_175659_aa() != EnumDifficulty.PEACEFUL;
     }
 
-    public boolean isNotColliding() {
-        return this.world.checkNoEntityCollision(this.getEntityBoundingBox(), (Entity) this) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox());
+    public boolean func_70058_J() {
+        return this.field_70170_p.func_72917_a(this.func_174813_aQ(), (Entity) this) && this.field_70170_p.func_184144_a(this, this.func_174813_aQ()).isEmpty() && !this.field_70170_p.func_72953_d(this.func_174813_aQ());
     }
 
-    public static void registerFixesPigZombie(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityPigZombie.class);
+    public static void func_189781_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityPigZombie.class);
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setShort("Anger", (short) this.angerLevel);
-        if (this.angerTargetUUID != null) {
-            nbttagcompound.setString("HurtBy", this.angerTargetUUID.toString());
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74777_a("Anger", (short) this.field_70837_d);
+        if (this.field_175459_bn != null) {
+            nbttagcompound.func_74778_a("HurtBy", this.field_175459_bn.toString());
         } else {
-            nbttagcompound.setString("HurtBy", "");
+            nbttagcompound.func_74778_a("HurtBy", "");
         }
 
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.angerLevel = nbttagcompound.getShort("Anger");
-        String s = nbttagcompound.getString("HurtBy");
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.field_70837_d = nbttagcompound.func_74765_d("Anger");
+        String s = nbttagcompound.func_74779_i("HurtBy");
 
         if (!s.isEmpty()) {
-            this.angerTargetUUID = UUID.fromString(s);
-            EntityPlayer entityhuman = this.world.getPlayerEntityByUUID(this.angerTargetUUID);
+            this.field_175459_bn = UUID.fromString(s);
+            EntityPlayer entityhuman = this.field_70170_p.func_152378_a(this.field_175459_bn);
 
-            this.setRevengeTarget((EntityLivingBase) entityhuman);
+            this.func_70604_c((EntityLivingBase) entityhuman);
             if (entityhuman != null) {
-                this.attackingPlayer = entityhuman;
-                this.recentlyHit = this.getRevengeTimer();
+                this.field_70717_bb = entityhuman;
+                this.field_70718_bc = this.func_142015_aE();
             }
         }
 
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        if (this.isEntityInvulnerable(damagesource)) {
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        if (this.func_180431_b(damagesource)) {
             return false;
         } else {
-            Entity entity = damagesource.getTrueSource();
+            Entity entity = damagesource.func_76346_g();
 
             if (entity instanceof EntityPlayer) {
-                this.becomeAngryAt(entity);
+                this.func_70835_c(entity);
             }
 
-            return super.attackEntityFrom(damagesource, f);
+            return super.func_70097_a(damagesource, f);
         }
     }
 
-    private void becomeAngryAt(Entity entity) {
-        this.angerLevel = 400 + this.rand.nextInt(400);
-        this.randomSoundDelay = this.rand.nextInt(40);
+    private void func_70835_c(Entity entity) {
+        this.field_70837_d = 400 + this.field_70146_Z.nextInt(400);
+        this.field_70838_e = this.field_70146_Z.nextInt(40);
         if (entity instanceof EntityLivingBase) {
-            this.setRevengeTarget((EntityLivingBase) entity);
+            this.func_70604_c((EntityLivingBase) entity);
         }
 
     }
 
-    public boolean isAngry() {
-        return this.angerLevel > 0;
+    public boolean func_175457_ck() {
+        return this.field_70837_d > 0;
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_ZOMBIE_PIG_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_187935_hi;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_ZOMBIE_PIG_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187938_hl;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_ZOMBIE_PIG_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187937_hk;
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_ZOMBIE_PIGMAN;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186384_ai;
     }
 
-    public boolean processInteract(EntityPlayer entityhuman, EnumHand enumhand) {
+    public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         return false;
     }
 
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficultydamagescaler) {
-        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
+    protected void func_180481_a(DifficultyInstance difficultydamagescaler) {
+        this.func_184201_a(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.field_151010_B));
     }
 
-    protected ItemStack getSkullDrop() {
-        return ItemStack.EMPTY;
+    protected ItemStack func_190732_dj() {
+        return ItemStack.field_190927_a;
     }
 
-    public boolean isPreventingPlayerRest(EntityPlayer entityhuman) {
-        return this.isAngry();
+    public boolean func_191990_c(EntityPlayer entityhuman) {
+        return this.func_175457_ck();
     }
 
     static class AITargetAggressor extends EntityAINearestAttackableTarget<EntityPlayer> {
@@ -196,8 +196,8 @@ public class EntityPigZombie extends EntityZombie {
             super(entitypigzombie, EntityPlayer.class, true);
         }
 
-        public boolean shouldExecute() {
-            return ((EntityPigZombie) this.taskOwner).isAngry() && super.shouldExecute();
+        public boolean func_75250_a() {
+            return ((EntityPigZombie) this.field_75299_d).func_175457_ck() && super.func_75250_a();
         }
     }
 
@@ -207,10 +207,10 @@ public class EntityPigZombie extends EntityZombie {
             super(entitypigzombie, true, new Class[0]);
         }
 
-        protected void setEntityAttackTarget(EntityCreature entitycreature, EntityLivingBase entityliving) {
-            super.setEntityAttackTarget(entitycreature, entityliving);
+        protected void func_179446_a(EntityCreature entitycreature, EntityLivingBase entityliving) {
+            super.func_179446_a(entitycreature, entityliving);
             if (entitycreature instanceof EntityPigZombie) {
-                ((EntityPigZombie) entitycreature).becomeAngryAt((Entity) entityliving);
+                ((EntityPigZombie) entitycreature).func_70835_c((Entity) entityliving);
             }
 
         }

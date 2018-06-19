@@ -19,43 +19,43 @@ import net.minecraft.world.World;
 
 public class ItemBlockSpecial extends Item {
 
-    public final Block block; // PAIL: private->public
+    public final Block field_150935_a; // PAIL: private->public
 
     public ItemBlockSpecial(Block block) {
-        this.block = block;
+        this.field_150935_a = block;
     }
 
-    public EnumActionResult onItemUse(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        IBlockState iblockdata = world.getBlockState(blockposition);
-        Block block = iblockdata.getBlock();
+    public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        IBlockState iblockdata = world.func_180495_p(blockposition);
+        Block block = iblockdata.func_177230_c();
 
-        if (block == Blocks.SNOW_LAYER && ((Integer) iblockdata.getValue(BlockSnow.LAYERS)).intValue() < 1) {
+        if (block == Blocks.field_150431_aC && ((Integer) iblockdata.func_177229_b(BlockSnow.field_176315_a)).intValue() < 1) {
             enumdirection = EnumFacing.UP;
-        } else if (!block.isReplaceable((IBlockAccess) world, blockposition)) {
-            blockposition = blockposition.offset(enumdirection);
+        } else if (!block.func_176200_f((IBlockAccess) world, blockposition)) {
+            blockposition = blockposition.func_177972_a(enumdirection);
         }
 
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (!itemstack.isEmpty() && entityhuman.canPlayerEdit(blockposition, enumdirection, itemstack) && world.mayPlace(this.block, blockposition, false, enumdirection, (Entity) null)) {
-            IBlockState iblockdata1 = this.block.getStateForPlacement(world, blockposition, enumdirection, f, f1, f2, 0, entityhuman);
+        if (!itemstack.func_190926_b() && entityhuman.func_175151_a(blockposition, enumdirection, itemstack) && world.func_190527_a(this.field_150935_a, blockposition, false, enumdirection, (Entity) null)) {
+            IBlockState iblockdata1 = this.field_150935_a.func_180642_a(world, blockposition, enumdirection, f, f1, f2, 0, entityhuman);
 
-            if (!world.setBlockState(blockposition, iblockdata1, 11)) {
+            if (!world.func_180501_a(blockposition, iblockdata1, 11)) {
                 return EnumActionResult.FAIL;
             } else {
-                iblockdata1 = world.getBlockState(blockposition);
-                if (iblockdata1.getBlock() == this.block) {
-                    ItemBlock.setTileEntityNBT(world, entityhuman, blockposition, itemstack);
-                    iblockdata1.getBlock().onBlockPlacedBy(world, blockposition, iblockdata1, entityhuman, itemstack);
+                iblockdata1 = world.func_180495_p(blockposition);
+                if (iblockdata1.func_177230_c() == this.field_150935_a) {
+                    ItemBlock.func_179224_a(world, entityhuman, blockposition, itemstack);
+                    iblockdata1.func_177230_c().func_180633_a(world, blockposition, iblockdata1, entityhuman, itemstack);
                     if (entityhuman instanceof EntityPlayerMP) {
-                        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) entityhuman, blockposition, itemstack);
+                        CriteriaTriggers.field_193137_x.func_193173_a((EntityPlayerMP) entityhuman, blockposition, itemstack);
                     }
                 }
 
-                SoundType soundeffecttype = this.block.getSoundType();
+                SoundType soundeffecttype = this.field_150935_a.func_185467_w();
 
-                world.playSound(entityhuman, blockposition, soundeffecttype.getPlaceSound(), SoundCategory.BLOCKS, (soundeffecttype.getVolume() + 1.0F) / 2.0F, soundeffecttype.getPitch() * 0.8F);
-                itemstack.shrink(1);
+                world.func_184133_a(entityhuman, blockposition, soundeffecttype.func_185841_e(), SoundCategory.BLOCKS, (soundeffecttype.func_185843_a() + 1.0F) / 2.0F, soundeffecttype.func_185847_b() * 0.8F);
+                itemstack.func_190918_g(1);
                 return EnumActionResult.SUCCESS;
             }
         } else {

@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import net;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JsonUtils;
@@ -22,9 +23,9 @@ import org.bukkit.craftbukkit.inventory.CraftShapelessRecipe;
 
 public class ShapelessRecipes implements IRecipe {
 
-    private final ItemStack recipeOutput;
-    private final NonNullList<Ingredient> recipeItems;
-    private final String group;
+    private final ItemStack field_77580_a;
+    private final NonNullList<Ingredient> field_77579_b;
+    private final String field_194138_c;
     // CraftBukkit start
     public ResourceLocation key;
 
@@ -35,61 +36,56 @@ public class ShapelessRecipes implements IRecipe {
     // CraftBukkit end
 
     public ShapelessRecipes(String s, ItemStack itemstack, NonNullList<Ingredient> nonnulllist) {
-        this.group = s;
-        this.recipeOutput = itemstack;
-        this.recipeItems = nonnulllist;
+        this.field_194138_c = s;
+        this.field_77580_a = itemstack;
+        this.field_77579_b = nonnulllist;
     }
 
     // CraftBukkit start
-    @Override
     @SuppressWarnings("unchecked")
     public org.bukkit.inventory.ShapelessRecipe toBukkitRecipe() {
-        CraftItemStack result = CraftItemStack.asCraftMirror(this.recipeOutput);
+        CraftItemStack result = CraftItemStack.asCraftMirror(this.field_77580_a);
         CraftShapelessRecipe recipe = new CraftShapelessRecipe(result, this);
-        for (Ingredient list : this.recipeItems) {
+        for (Ingredient list : this.field_77579_b) {
             if (list != null) {
-                net.minecraft.item.ItemStack stack = list.matchingStacks[0];
-                recipe.addIngredient(org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(stack.getItem()), (list.matchingStacks.length) > 1 ? 32767 : stack.getMetadata());
+                net.minecraft.item.ItemStack stack = list.field_193371_b[0];
+                recipe.addIngredient(org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(stack.func_77973_b()), (list.field_193371_b.length) > 1 ? 32767 : stack.func_77960_j());
             }
         }
         return recipe;
     }
     // CraftBukkit end
 
-    @Override
-    public ItemStack getRecipeOutput() {
-        return this.recipeOutput;
+    public ItemStack func_77571_b() {
+        return this.field_77580_a;
     }
 
-    @Override
-    public NonNullList<Ingredient> getIngredients() {
-        return this.recipeItems;
+    public NonNullList<Ingredient> func_192400_c() {
+        return this.field_77579_b;
     }
 
-    @Override
-    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inventorycrafting) {
-        NonNullList nonnulllist = NonNullList.withSize(inventorycrafting.getSizeInventory(), ItemStack.EMPTY);
+    public NonNullList<ItemStack> func_179532_b(InventoryCrafting inventorycrafting) {
+        NonNullList nonnulllist = NonNullList.func_191197_a(inventorycrafting.func_70302_i_(), ItemStack.field_190927_a);
 
         for (int i = 0; i < nonnulllist.size(); ++i) {
-            ItemStack itemstack = inventorycrafting.getStackInSlot(i);
+            ItemStack itemstack = inventorycrafting.func_70301_a(i);
 
-            if (itemstack.getItem().hasContainerItem()) {
-                nonnulllist.set(i, new ItemStack(itemstack.getItem().getContainerItem()));
+            if (itemstack.func_77973_b().func_77634_r()) {
+                nonnulllist.set(i, new ItemStack(itemstack.func_77973_b().func_77668_q()));
             }
         }
 
         return nonnulllist;
     }
 
-    @Override
-    public boolean matches(InventoryCrafting inventorycrafting, World world) {
-        ArrayList arraylist = Lists.newArrayList(this.recipeItems);
+    public boolean func_77569_a(InventoryCrafting inventorycrafting, World world) {
+        ArrayList arraylist = Lists.newArrayList(this.field_77579_b);
 
-        for (int i = 0; i < inventorycrafting.getHeight(); ++i) {
-            for (int j = 0; j < inventorycrafting.getWidth(); ++j) {
-                ItemStack itemstack = inventorycrafting.getStackInRowAndColumn(j, i);
+        for (int i = 0; i < inventorycrafting.func_174923_h(); ++i) {
+            for (int j = 0; j < inventorycrafting.func_174922_i(); ++j) {
+                ItemStack itemstack = inventorycrafting.func_70463_b(j, i);
 
-                if (!itemstack.isEmpty()) {
+                if (!itemstack.func_190926_b()) {
                     boolean flag = false;
                     Iterator iterator = arraylist.iterator();
 
@@ -113,33 +109,32 @@ public class ShapelessRecipes implements IRecipe {
         return arraylist.isEmpty();
     }
 
-    @Override
-    public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
-        return this.recipeOutput.copy();
+    public ItemStack func_77572_b(InventoryCrafting inventorycrafting) {
+        return this.field_77580_a.func_77946_l();
     }
 
-    public static ShapelessRecipes deserialize(JsonObject jsonobject) {
-        String s = JsonUtils.getString(jsonobject, "group", "");
-        NonNullList nonnulllist = deserializeIngredients(JsonUtils.getJsonArray(jsonobject, "ingredients"));
+    public static ShapelessRecipes func_193363_a(JsonObject jsonobject) {
+        String s = JsonUtils.func_151219_a(jsonobject, "group", "");
+        NonNullList nonnulllist = func_193364_a(JsonUtils.func_151214_t(jsonobject, "ingredients"));
 
         if (nonnulllist.isEmpty()) {
             throw new JsonParseException("No ingredients for shapeless recipe");
         } else if (nonnulllist.size() > 9) {
             throw new JsonParseException("Too many ingredients for shapeless recipe");
         } else {
-            ItemStack itemstack = ShapedRecipes.deserializeItem(JsonUtils.getJsonObject(jsonobject, "result"), true);
+            ItemStack itemstack = ShapedRecipes.func_192405_a(JsonUtils.func_152754_s(jsonobject, "result"), true);
 
             return new ShapelessRecipes(s, itemstack, nonnulllist);
         }
     }
 
-    private static NonNullList<Ingredient> deserializeIngredients(JsonArray jsonarray) {
-        NonNullList nonnulllist = NonNullList.create();
+    private static NonNullList<Ingredient> func_193364_a(JsonArray jsonarray) {
+        NonNullList nonnulllist = NonNullList.func_191196_a();
 
         for (int i = 0; i < jsonarray.size(); ++i) {
-            Ingredient recipeitemstack = ShapedRecipes.deserializeIngredient(jsonarray.get(i));
+            Ingredient recipeitemstack = ShapedRecipes.func_193361_a(jsonarray.get(i));
 
-            if (recipeitemstack != Ingredient.EMPTY) {
+            if (recipeitemstack != Ingredient.field_193370_a) {
                 nonnulllist.add(recipeitemstack);
             }
         }

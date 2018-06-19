@@ -20,44 +20,44 @@ import net.minecraft.world.World;
 
 public class ItemKnowledgeBook extends Item {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger field_194126_a = LogManager.getLogger();
 
     public ItemKnowledgeBook() {
-        this.setMaxStackSize(1);
+        this.func_77625_d(1);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
-        NBTTagCompound nbttagcompound = itemstack.getTagCompound();
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
+        NBTTagCompound nbttagcompound = itemstack.func_77978_p();
 
-        if (!entityhuman.capabilities.isCreativeMode) {
-            entityhuman.setHeldItem(enumhand, ItemStack.EMPTY);
+        if (!entityhuman.field_71075_bZ.field_75098_d) {
+            entityhuman.func_184611_a(enumhand, ItemStack.field_190927_a);
         }
 
-        if (nbttagcompound != null && nbttagcompound.hasKey("Recipes", 9)) {
-            if (!world.isRemote) {
-                NBTTagList nbttaglist = nbttagcompound.getTagList("Recipes", 8);
+        if (nbttagcompound != null && nbttagcompound.func_150297_b("Recipes", 9)) {
+            if (!world.field_72995_K) {
+                NBTTagList nbttaglist = nbttagcompound.func_150295_c("Recipes", 8);
                 ArrayList arraylist = Lists.newArrayList();
 
-                for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                    String s = nbttaglist.getStringTagAt(i);
-                    IRecipe irecipe = CraftingManager.getRecipe(new ResourceLocation(s));
+                for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+                    String s = nbttaglist.func_150307_f(i);
+                    IRecipe irecipe = CraftingManager.func_193373_a(new ResourceLocation(s));
 
                     if (irecipe == null) {
-                        ItemKnowledgeBook.LOGGER.error("Invalid recipe: " + s);
+                        ItemKnowledgeBook.field_194126_a.error("Invalid recipe: " + s);
                         return new ActionResult(EnumActionResult.FAIL, itemstack);
                     }
 
                     arraylist.add(irecipe);
                 }
 
-                entityhuman.unlockRecipes((List) arraylist);
-                entityhuman.addStat(StatList.getObjectUseStats((Item) this));
+                entityhuman.func_192021_a((List) arraylist);
+                entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
             }
 
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         } else {
-            ItemKnowledgeBook.LOGGER.error("Tag not valid: " + nbttagcompound);
+            ItemKnowledgeBook.field_194126_a.error("Tag not valid: " + nbttagcompound);
             return new ActionResult(EnumActionResult.FAIL, itemstack);
         }
     }

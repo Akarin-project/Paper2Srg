@@ -16,78 +16,78 @@ public class CommandEnchant extends CommandBase {
 
     public CommandEnchant() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "enchant";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 2;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.enchant.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 2) {
             throw new WrongUsageException("commands.enchant.usage", new Object[0]);
         } else {
-            EntityLivingBase entityliving = (EntityLivingBase) getEntity(minecraftserver, icommandlistener, astring[0], EntityLivingBase.class);
+            EntityLivingBase entityliving = (EntityLivingBase) func_184884_a(minecraftserver, icommandlistener, astring[0], EntityLivingBase.class);
 
-            icommandlistener.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
+            icommandlistener.func_174794_a(CommandResultStats.Type.AFFECTED_ITEMS, 0);
 
             Enchantment enchantment;
 
             try {
-                enchantment = Enchantment.getEnchantmentByID(parseInt(astring[1], 0));
+                enchantment = Enchantment.func_185262_c(func_180528_a(astring[1], 0));
             } catch (NumberInvalidException exceptioninvalidnumber) {
-                enchantment = Enchantment.getEnchantmentByLocation(astring[1]);
+                enchantment = Enchantment.func_180305_b(astring[1]);
             }
 
             if (enchantment == null) {
                 throw new NumberInvalidException("commands.enchant.notFound", new Object[] { astring[1]});
             } else {
                 int i = 1;
-                ItemStack itemstack = entityliving.getHeldItemMainhand();
+                ItemStack itemstack = entityliving.func_184614_ca();
 
-                if (itemstack.isEmpty()) {
+                if (itemstack.func_190926_b()) {
                     throw new CommandException("commands.enchant.noItem", new Object[0]);
-                } else if (!enchantment.canApply(itemstack)) {
+                } else if (!enchantment.func_92089_a(itemstack)) {
                     throw new CommandException("commands.enchant.cantEnchant", new Object[0]);
                 } else {
                     if (astring.length >= 3) {
-                        i = parseInt(astring[2], enchantment.getMinLevel(), enchantment.getMaxLevel());
+                        i = func_175764_a(astring[2], enchantment.func_77319_d(), enchantment.func_77325_b());
                     }
 
-                    if (itemstack.hasTagCompound()) {
-                        NBTTagList nbttaglist = itemstack.getEnchantmentTagList();
+                    if (itemstack.func_77942_o()) {
+                        NBTTagList nbttaglist = itemstack.func_77986_q();
 
-                        for (int j = 0; j < nbttaglist.tagCount(); ++j) {
-                            short short0 = nbttaglist.getCompoundTagAt(j).getShort("id");
+                        for (int j = 0; j < nbttaglist.func_74745_c(); ++j) {
+                            short short0 = nbttaglist.func_150305_b(j).func_74765_d("id");
 
-                            if (Enchantment.getEnchantmentByID(short0) != null) {
-                                Enchantment enchantment1 = Enchantment.getEnchantmentByID(short0);
+                            if (Enchantment.func_185262_c(short0) != null) {
+                                Enchantment enchantment1 = Enchantment.func_185262_c(short0);
 
-                                if (!enchantment.isCompatibleWith(enchantment1)) {
-                                    throw new CommandException("commands.enchant.cantCombine", new Object[] { enchantment.getTranslatedName(i), enchantment1.getTranslatedName(nbttaglist.getCompoundTagAt(j).getShort("lvl"))});
+                                if (!enchantment.func_191560_c(enchantment1)) {
+                                    throw new CommandException("commands.enchant.cantCombine", new Object[] { enchantment.func_77316_c(i), enchantment1.func_77316_c(nbttaglist.func_150305_b(j).func_74765_d("lvl"))});
                                 }
                             }
                         }
                     }
 
-                    itemstack.addEnchantment(enchantment, i);
-                    notifyCommandListener(icommandlistener, (ICommand) this, "commands.enchant.success", new Object[0]);
-                    icommandlistener.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 1);
+                    itemstack.func_77966_a(enchantment, i);
+                    func_152373_a(icommandlistener, (ICommand) this, "commands.enchant.success", new Object[0]);
+                    icommandlistener.func_174794_a(CommandResultStats.Type.AFFECTED_ITEMS, 1);
                 }
             }
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, minecraftserver.getOnlinePlayerNames()) : (astring.length == 2 ? getListOfStringsMatchingLastWord(astring, (Collection) Enchantment.REGISTRY.getKeys()) : Collections.emptyList());
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length == 1 ? func_71530_a(astring, minecraftserver.func_71213_z()) : (astring.length == 2 ? func_175762_a(astring, (Collection) Enchantment.field_185264_b.func_148742_b()) : Collections.emptyList());
     }
 
-    public boolean isUsernameIndex(String[] astring, int i) {
+    public boolean func_82358_a(String[] astring, int i) {
         return i == 0;
     }
 }

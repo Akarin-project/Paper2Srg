@@ -9,39 +9,39 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient> {
 
-    private int entityID;
-    private double posX;
-    private double posY;
-    private double posZ;
-    private int xpValue;
+    private int field_148992_a;
+    private double field_148990_b;
+    private double field_148991_c;
+    private double field_148988_d;
+    private int field_148989_e;
 
     public SPacketSpawnExperienceOrb() {}
 
     public SPacketSpawnExperienceOrb(EntityXPOrb entityexperienceorb) {
-        this.entityID = entityexperienceorb.getEntityId();
-        this.posX = entityexperienceorb.posX;
-        this.posY = entityexperienceorb.posY;
-        this.posZ = entityexperienceorb.posZ;
-        this.xpValue = entityexperienceorb.getXpValue();
+        this.field_148992_a = entityexperienceorb.func_145782_y();
+        this.field_148990_b = entityexperienceorb.field_70165_t;
+        this.field_148991_c = entityexperienceorb.field_70163_u;
+        this.field_148988_d = entityexperienceorb.field_70161_v;
+        this.field_148989_e = entityexperienceorb.func_70526_d();
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.entityID = packetdataserializer.readVarInt();
-        this.posX = packetdataserializer.readDouble();
-        this.posY = packetdataserializer.readDouble();
-        this.posZ = packetdataserializer.readDouble();
-        this.xpValue = packetdataserializer.readShort();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_148992_a = packetdataserializer.func_150792_a();
+        this.field_148990_b = packetdataserializer.readDouble();
+        this.field_148991_c = packetdataserializer.readDouble();
+        this.field_148988_d = packetdataserializer.readDouble();
+        this.field_148989_e = packetdataserializer.readShort();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.entityID);
-        packetdataserializer.writeDouble(this.posX);
-        packetdataserializer.writeDouble(this.posY);
-        packetdataserializer.writeDouble(this.posZ);
-        packetdataserializer.writeShort(this.xpValue);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_148992_a);
+        packetdataserializer.writeDouble(this.field_148990_b);
+        packetdataserializer.writeDouble(this.field_148991_c);
+        packetdataserializer.writeDouble(this.field_148988_d);
+        packetdataserializer.writeShort(this.field_148989_e);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleSpawnExperienceOrb(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147286_a(this);
     }
 }

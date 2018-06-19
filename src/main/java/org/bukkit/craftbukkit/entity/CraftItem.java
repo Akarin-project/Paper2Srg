@@ -22,19 +22,19 @@ public class CraftItem extends CraftEntity implements Item {
     }
 
     public ItemStack getItemStack() {
-        return CraftItemStack.asCraftMirror(item.getItem());
+        return CraftItemStack.asCraftMirror(item.func_92059_d());
     }
 
     public void setItemStack(ItemStack stack) {
-        item.setItem(CraftItemStack.asNMSCopy(stack));
+        item.func_92058_a(CraftItemStack.asNMSCopy(stack));
     }
 
     public int getPickupDelay() {
-        return item.pickupDelay;
+        return item.field_145804_b;
     }
 
     public void setPickupDelay(int delay) {
-        item.pickupDelay = Math.min(delay, Short.MAX_VALUE);
+        item.field_145804_b = Math.min(delay, Short.MAX_VALUE);
     }
 
     // Paper Start

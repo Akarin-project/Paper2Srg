@@ -10,33 +10,33 @@ import net.minecraft.world.World;
 
 public class WorldGenSand extends WorldGenerator {
 
-    private final Block block;
-    private final int radius;
+    private final Block field_150517_a;
+    private final int field_76539_b;
 
     public WorldGenSand(Block block, int i) {
-        this.block = block;
-        this.radius = i;
+        this.field_150517_a = block;
+        this.field_76539_b = i;
     }
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
-        if (world.getBlockState(blockposition).getMaterial() != Material.WATER) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
+        if (world.func_180495_p(blockposition).func_185904_a() != Material.field_151586_h) {
             return false;
         } else {
-            int i = random.nextInt(this.radius - 2) + 2;
+            int i = random.nextInt(this.field_76539_b - 2) + 2;
             boolean flag = true;
 
-            for (int j = blockposition.getX() - i; j <= blockposition.getX() + i; ++j) {
-                for (int k = blockposition.getZ() - i; k <= blockposition.getZ() + i; ++k) {
-                    int l = j - blockposition.getX();
-                    int i1 = k - blockposition.getZ();
+            for (int j = blockposition.func_177958_n() - i; j <= blockposition.func_177958_n() + i; ++j) {
+                for (int k = blockposition.func_177952_p() - i; k <= blockposition.func_177952_p() + i; ++k) {
+                    int l = j - blockposition.func_177958_n();
+                    int i1 = k - blockposition.func_177952_p();
 
                     if (l * l + i1 * i1 <= i * i) {
-                        for (int j1 = blockposition.getY() - 2; j1 <= blockposition.getY() + 2; ++j1) {
+                        for (int j1 = blockposition.func_177956_o() - 2; j1 <= blockposition.func_177956_o() + 2; ++j1) {
                             BlockPos blockposition1 = new BlockPos(j, j1, k);
-                            Block block = world.getBlockState(blockposition1).getBlock();
+                            Block block = world.func_180495_p(blockposition1).func_177230_c();
 
-                            if (block == Blocks.DIRT || block == Blocks.GRASS) {
-                                world.setBlockState(blockposition1, this.block.getDefaultState(), 2);
+                            if (block == Blocks.field_150346_d || block == Blocks.field_150349_c) {
+                                world.func_180501_a(blockposition1, this.field_150517_a.func_176223_P(), 2);
                             }
                         }
                     }

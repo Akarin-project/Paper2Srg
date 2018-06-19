@@ -22,49 +22,49 @@ import net.minecraft.world.World;
 public class ItemArmorStand extends Item {
 
     public ItemArmorStand() {
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        this.func_77637_a(CreativeTabs.field_78031_c);
     }
 
-    public EnumActionResult onItemUse(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+    public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
         if (enumdirection == EnumFacing.DOWN) {
             return EnumActionResult.FAIL;
         } else {
-            boolean flag = world.getBlockState(blockposition).getBlock().isReplaceable((IBlockAccess) world, blockposition);
-            BlockPos blockposition1 = flag ? blockposition : blockposition.offset(enumdirection);
-            ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+            boolean flag = world.func_180495_p(blockposition).func_177230_c().func_176200_f((IBlockAccess) world, blockposition);
+            BlockPos blockposition1 = flag ? blockposition : blockposition.func_177972_a(enumdirection);
+            ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-            if (!entityhuman.canPlayerEdit(blockposition1, enumdirection, itemstack)) {
+            if (!entityhuman.func_175151_a(blockposition1, enumdirection, itemstack)) {
                 return EnumActionResult.FAIL;
             } else {
-                BlockPos blockposition2 = blockposition1.up();
-                boolean flag1 = !world.isAirBlock(blockposition1) && !world.getBlockState(blockposition1).getBlock().isReplaceable((IBlockAccess) world, blockposition1);
+                BlockPos blockposition2 = blockposition1.func_177984_a();
+                boolean flag1 = !world.func_175623_d(blockposition1) && !world.func_180495_p(blockposition1).func_177230_c().func_176200_f((IBlockAccess) world, blockposition1);
 
-                flag1 |= !world.isAirBlock(blockposition2) && !world.getBlockState(blockposition2).getBlock().isReplaceable((IBlockAccess) world, blockposition2);
+                flag1 |= !world.func_175623_d(blockposition2) && !world.func_180495_p(blockposition2).func_177230_c().func_176200_f((IBlockAccess) world, blockposition2);
                 if (flag1) {
                     return EnumActionResult.FAIL;
                 } else {
-                    double d0 = (double) blockposition1.getX();
-                    double d1 = (double) blockposition1.getY();
-                    double d2 = (double) blockposition1.getZ();
-                    List list = world.getEntitiesWithinAABBExcludingEntity((Entity) null, new AxisAlignedBB(d0, d1, d2, d0 + 1.0D, d1 + 2.0D, d2 + 1.0D));
+                    double d0 = (double) blockposition1.func_177958_n();
+                    double d1 = (double) blockposition1.func_177956_o();
+                    double d2 = (double) blockposition1.func_177952_p();
+                    List list = world.func_72839_b((Entity) null, new AxisAlignedBB(d0, d1, d2, d0 + 1.0D, d1 + 2.0D, d2 + 1.0D));
 
                     if (!list.isEmpty()) {
                         return EnumActionResult.FAIL;
                     } else {
-                        if (!world.isRemote) {
-                            world.setBlockToAir(blockposition1);
-                            world.setBlockToAir(blockposition2);
+                        if (!world.field_72995_K) {
+                            world.func_175698_g(blockposition1);
+                            world.func_175698_g(blockposition2);
                             EntityArmorStand entityarmorstand = new EntityArmorStand(world, d0 + 0.5D, d1, d2 + 0.5D);
-                            float f3 = (float) MathHelper.floor((MathHelper.wrapDegrees(entityhuman.rotationYaw - 180.0F) + 22.5F) / 45.0F) * 45.0F;
+                            float f3 = (float) MathHelper.func_76141_d((MathHelper.func_76142_g(entityhuman.field_70177_z - 180.0F) + 22.5F) / 45.0F) * 45.0F;
 
-                            entityarmorstand.setLocationAndAngles(d0 + 0.5D, d1, d2 + 0.5D, f3, 0.0F);
-                            this.applyRandomRotations(entityarmorstand, world.rand);
-                            ItemMonsterPlacer.applyItemEntityDataToEntity(world, entityhuman, itemstack, (Entity) entityarmorstand);
-                            world.spawnEntity(entityarmorstand);
-                            world.playSound((EntityPlayer) null, entityarmorstand.posX, entityarmorstand.posY, entityarmorstand.posZ, SoundEvents.ENTITY_ARMORSTAND_PLACE, SoundCategory.BLOCKS, 0.75F, 0.8F);
+                            entityarmorstand.func_70012_b(d0 + 0.5D, d1, d2 + 0.5D, f3, 0.0F);
+                            this.func_179221_a(entityarmorstand, world.field_73012_v);
+                            ItemMonsterPlacer.func_185079_a(world, entityhuman, itemstack, (Entity) entityarmorstand);
+                            world.func_72838_d(entityarmorstand);
+                            world.func_184148_a((EntityPlayer) null, entityarmorstand.field_70165_t, entityarmorstand.field_70163_u, entityarmorstand.field_70161_v, SoundEvents.field_187710_m, SoundCategory.BLOCKS, 0.75F, 0.8F);
                         }
 
-                        itemstack.shrink(1);
+                        itemstack.func_190918_g(1);
                         return EnumActionResult.SUCCESS;
                     }
                 }
@@ -72,16 +72,16 @@ public class ItemArmorStand extends Item {
         }
     }
 
-    private void applyRandomRotations(EntityArmorStand entityarmorstand, Random random) {
-        Rotations vector3f = entityarmorstand.getHeadRotation();
+    private void func_179221_a(EntityArmorStand entityarmorstand, Random random) {
+        Rotations vector3f = entityarmorstand.func_175418_s();
         float f = random.nextFloat() * 5.0F;
         float f1 = random.nextFloat() * 20.0F - 10.0F;
-        Rotations vector3f1 = new Rotations(vector3f.getX() + f, vector3f.getY() + f1, vector3f.getZ());
+        Rotations vector3f1 = new Rotations(vector3f.func_179415_b() + f, vector3f.func_179416_c() + f1, vector3f.func_179413_d());
 
-        entityarmorstand.setHeadRotation(vector3f1);
-        vector3f = entityarmorstand.getBodyRotation();
+        entityarmorstand.func_175415_a(vector3f1);
+        vector3f = entityarmorstand.func_175408_t();
         f = random.nextFloat() * 10.0F - 5.0F;
-        vector3f1 = new Rotations(vector3f.getX(), vector3f.getY() + f, vector3f.getZ());
-        entityarmorstand.setBodyRotation(vector3f1);
+        vector3f1 = new Rotations(vector3f.func_179415_b(), vector3f.func_179416_c() + f, vector3f.func_179413_d());
+        entityarmorstand.func_175424_b(vector3f1);
     }
 }

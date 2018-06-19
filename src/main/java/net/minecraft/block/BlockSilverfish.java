@@ -20,163 +20,163 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 public class BlockSilverfish extends Block {
 
-    public static final PropertyEnum<BlockSilverfish.EnumType> VARIANT = PropertyEnum.create("variant", BlockSilverfish.EnumType.class);
+    public static final PropertyEnum<BlockSilverfish.EnumType> field_176378_a = PropertyEnum.func_177709_a("variant", BlockSilverfish.EnumType.class);
 
     public BlockSilverfish() {
-        super(Material.CLAY);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.STONE));
-        this.setHardness(0.0F);
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        super(Material.field_151571_B);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockSilverfish.field_176378_a, BlockSilverfish.EnumType.STONE));
+        this.func_149711_c(0.0F);
+        this.func_149647_a(CreativeTabs.field_78031_c);
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 0;
     }
 
-    public static boolean canContainSilverfish(IBlockState iblockdata) {
-        Block block = iblockdata.getBlock();
+    public static boolean func_176377_d(IBlockState iblockdata) {
+        Block block = iblockdata.func_177230_c();
 
-        return iblockdata == Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.STONE) || block == Blocks.COBBLESTONE || block == Blocks.STONEBRICK;
+        return iblockdata == Blocks.field_150348_b.func_176223_P().func_177226_a(BlockStone.field_176247_a, BlockStone.EnumType.STONE) || block == Blocks.field_150347_e || block == Blocks.field_150417_aV;
     }
 
-    protected ItemStack getSilkTouchDrop(IBlockState iblockdata) {
-        switch ((BlockSilverfish.EnumType) iblockdata.getValue(BlockSilverfish.VARIANT)) {
+    protected ItemStack func_180643_i(IBlockState iblockdata) {
+        switch ((BlockSilverfish.EnumType) iblockdata.func_177229_b(BlockSilverfish.field_176378_a)) {
         case COBBLESTONE:
-            return new ItemStack(Blocks.COBBLESTONE);
+            return new ItemStack(Blocks.field_150347_e);
 
         case STONEBRICK:
-            return new ItemStack(Blocks.STONEBRICK);
+            return new ItemStack(Blocks.field_150417_aV);
 
         case MOSSY_STONEBRICK:
-            return new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.EnumType.MOSSY.getMetadata());
+            return new ItemStack(Blocks.field_150417_aV, 1, BlockStoneBrick.EnumType.MOSSY.func_176612_a());
 
         case CRACKED_STONEBRICK:
-            return new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.EnumType.CRACKED.getMetadata());
+            return new ItemStack(Blocks.field_150417_aV, 1, BlockStoneBrick.EnumType.CRACKED.func_176612_a());
 
         case CHISELED_STONEBRICK:
-            return new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.EnumType.CHISELED.getMetadata());
+            return new ItemStack(Blocks.field_150417_aV, 1, BlockStoneBrick.EnumType.CHISELED.func_176612_a());
 
         default:
-            return new ItemStack(Blocks.STONE);
+            return new ItemStack(Blocks.field_150348_b);
         }
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
-        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops")) {
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
+        if (!world.field_72995_K && world.func_82736_K().func_82766_b("doTileDrops")) {
             EntitySilverfish entitysilverfish = new EntitySilverfish(world);
 
-            entitysilverfish.setLocationAndAngles((double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D, 0.0F, 0.0F);
+            entitysilverfish.func_70012_b((double) blockposition.func_177958_n() + 0.5D, (double) blockposition.func_177956_o(), (double) blockposition.func_177952_p() + 0.5D, 0.0F, 0.0F);
             world.addEntity(entitysilverfish, SpawnReason.SILVERFISH_BLOCK); // CraftBukkit - add SpawnReason
-            entitysilverfish.spawnExplosionParticle();
+            entitysilverfish.func_70656_aK();
         }
 
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(this, 1, iblockdata.getBlock().getMetaFromState(iblockdata));
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(this, 1, iblockdata.func_177230_c().func_176201_c(iblockdata));
     }
 
-    public void getSubBlocks(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+    public void func_149666_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
         BlockSilverfish.EnumType[] ablockmonstereggs_enummonstereggvarient = BlockSilverfish.EnumType.values();
         int i = ablockmonstereggs_enummonstereggvarient.length;
 
         for (int j = 0; j < i; ++j) {
             BlockSilverfish.EnumType blockmonstereggs_enummonstereggvarient = ablockmonstereggs_enummonstereggvarient[j];
 
-            nonnulllist.add(new ItemStack(this, 1, blockmonstereggs_enummonstereggvarient.getMetadata()));
+            nonnulllist.add(new ItemStack(this, 1, blockmonstereggs_enummonstereggvarient.func_176881_a()));
         }
 
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.byMetadata(i));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockSilverfish.field_176378_a, BlockSilverfish.EnumType.func_176879_a(i));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((BlockSilverfish.EnumType) iblockdata.getValue(BlockSilverfish.VARIANT)).getMetadata();
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((BlockSilverfish.EnumType) iblockdata.func_177229_b(BlockSilverfish.field_176378_a)).func_176881_a();
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockSilverfish.VARIANT});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockSilverfish.field_176378_a});
     }
 
     public static enum EnumType implements IStringSerializable {
 
         STONE(0, "stone") {;
-            public IBlockState getModelBlock() {
-                return Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.STONE);
+            public IBlockState func_176883_d() {
+                return Blocks.field_150348_b.func_176223_P().func_177226_a(BlockStone.field_176247_a, BlockStone.EnumType.STONE);
             }
         }, COBBLESTONE(1, "cobblestone", "cobble") {;
-    public IBlockState getModelBlock() {
-        return Blocks.COBBLESTONE.getDefaultState();
+    public IBlockState func_176883_d() {
+        return Blocks.field_150347_e.func_176223_P();
     }
 }, STONEBRICK(2, "stone_brick", "brick") {;
-    public IBlockState getModelBlock() {
-        return Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.DEFAULT);
+    public IBlockState func_176883_d() {
+        return Blocks.field_150417_aV.func_176223_P().func_177226_a(BlockStoneBrick.field_176249_a, BlockStoneBrick.EnumType.DEFAULT);
     }
 }, MOSSY_STONEBRICK(3, "mossy_brick", "mossybrick") {;
-    public IBlockState getModelBlock() {
-        return Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.MOSSY);
+    public IBlockState func_176883_d() {
+        return Blocks.field_150417_aV.func_176223_P().func_177226_a(BlockStoneBrick.field_176249_a, BlockStoneBrick.EnumType.MOSSY);
     }
 }, CRACKED_STONEBRICK(4, "cracked_brick", "crackedbrick") {;
-    public IBlockState getModelBlock() {
-        return Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CRACKED);
+    public IBlockState func_176883_d() {
+        return Blocks.field_150417_aV.func_176223_P().func_177226_a(BlockStoneBrick.field_176249_a, BlockStoneBrick.EnumType.CRACKED);
     }
 }, CHISELED_STONEBRICK(5, "chiseled_brick", "chiseledbrick") {;
-    public IBlockState getModelBlock() {
-        return Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED);
+    public IBlockState func_176883_d() {
+        return Blocks.field_150417_aV.func_176223_P().func_177226_a(BlockStoneBrick.field_176249_a, BlockStoneBrick.EnumType.CHISELED);
     }
 };
 
-        private static final BlockSilverfish.EnumType[] META_LOOKUP = new BlockSilverfish.EnumType[values().length];
-        private final int meta;
-        private final String name;
-        private final String unlocalizedName;
+        private static final BlockSilverfish.EnumType[] field_176885_g = new BlockSilverfish.EnumType[values().length];
+        private final int field_176893_h;
+        private final String field_176894_i;
+        private final String field_176891_j;
 
         private EnumType(int i, String s) {
             this(i, s, s);
         }
 
         private EnumType(int i, String s, String s1) {
-            this.meta = i;
-            this.name = s;
-            this.unlocalizedName = s1;
+            this.field_176893_h = i;
+            this.field_176894_i = s;
+            this.field_176891_j = s1;
         }
 
-        public int getMetadata() {
-            return this.meta;
+        public int func_176881_a() {
+            return this.field_176893_h;
         }
 
         public String toString() {
-            return this.name;
+            return this.field_176894_i;
         }
 
-        public static BlockSilverfish.EnumType byMetadata(int i) {
-            if (i < 0 || i >= BlockSilverfish.EnumType.META_LOOKUP.length) {
+        public static BlockSilverfish.EnumType func_176879_a(int i) {
+            if (i < 0 || i >= BlockSilverfish.EnumType.field_176885_g.length) {
                 i = 0;
             }
 
-            return BlockSilverfish.EnumType.META_LOOKUP[i];
+            return BlockSilverfish.EnumType.field_176885_g[i];
         }
 
-        public String getName() {
-            return this.name;
+        public String func_176610_l() {
+            return this.field_176894_i;
         }
 
-        public String getUnlocalizedName() {
-            return this.unlocalizedName;
+        public String func_176882_c() {
+            return this.field_176891_j;
         }
 
-        public abstract IBlockState getModelBlock();
+        public abstract IBlockState func_176883_d();
 
-        public static BlockSilverfish.EnumType forModelBlock(IBlockState iblockdata) {
+        public static BlockSilverfish.EnumType func_176878_a(IBlockState iblockdata) {
             BlockSilverfish.EnumType[] ablockmonstereggs_enummonstereggvarient = values();
             int i = ablockmonstereggs_enummonstereggvarient.length;
 
             for (int j = 0; j < i; ++j) {
                 BlockSilverfish.EnumType blockmonstereggs_enummonstereggvarient = ablockmonstereggs_enummonstereggvarient[j];
 
-                if (iblockdata == blockmonstereggs_enummonstereggvarient.getModelBlock()) {
+                if (iblockdata == blockmonstereggs_enummonstereggvarient.func_176883_d()) {
                     return blockmonstereggs_enummonstereggvarient;
                 }
             }
@@ -199,7 +199,7 @@ public class BlockSilverfish extends Block {
             for (int j = 0; j < i; ++j) {
                 BlockSilverfish.EnumType blockmonstereggs_enummonstereggvarient = ablockmonstereggs_enummonstereggvarient[j];
 
-                BlockSilverfish.EnumType.META_LOOKUP[blockmonstereggs_enummonstereggvarient.getMetadata()] = blockmonstereggs_enummonstereggvarient;
+                BlockSilverfish.EnumType.field_176885_g[blockmonstereggs_enummonstereggvarient.func_176881_a()] = blockmonstereggs_enummonstereggvarient;
             }
 
         }

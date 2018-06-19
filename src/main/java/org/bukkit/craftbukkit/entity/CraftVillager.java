@@ -43,18 +43,18 @@ public class CraftVillager extends CraftAgeable implements Villager, InventoryHo
     }
 
     public Profession getProfession() {
-        return Profession.values()[getHandle().getProfession() + 1]; // Offset by 1 from the zombie types
+        return Profession.values()[getHandle().func_70946_n() + 1]; // Offset by 1 from the zombie types
     }
 
     public void setProfession(Profession profession) {
         Validate.notNull(profession);
         Validate.isTrue(!profession.isZombie(), "Profession is reserved for Zombies: ", profession);
-        getHandle().setProfession(profession.ordinal() - 1);
+        getHandle().func_70938_b(profession.ordinal() - 1);
     }
 
     @Override
     public Career getCareer() {
-        return getCareer(getProfession(), getHandle().careerId);
+        return getCareer(getProfession(), getHandle().field_175563_bv);
     }
 
     @Override
@@ -65,21 +65,21 @@ public class CraftVillager extends CraftAgeable implements Villager, InventoryHo
     @Override
     public void setCareer(Career career, boolean resetTrades) {
         if (career == null) {
-            getHandle().careerId = 0; // reset career
+            getHandle().field_175563_bv = 0; // reset career
         } else {
             Validate.isTrue(career.getProfession() == getProfession(), "Career assignment mismatch. Found (" + getProfession() + ") Required (" + career.getProfession() + ")");
-            getHandle().careerId = getCareerID(career);
+            getHandle().field_175563_bv = getCareerID(career);
         }
 
         if (resetTrades) {
-            getHandle().buyingList = null;
-            getHandle().populateBuyingList();
+            getHandle().field_70963_i = null;
+            getHandle().func_175554_cu();
         }
     }
 
     @Override
     public Inventory getInventory() {
-        return new CraftInventory(getHandle().villagerInventory);
+        return new CraftInventory(getHandle().field_175560_bz);
     }
 
     private CraftMerchant getMerchant() {
@@ -123,12 +123,12 @@ public class CraftVillager extends CraftAgeable implements Villager, InventoryHo
 
     @Override
     public int getRiches() {
-        return getHandle().wealth;
+        return getHandle().field_70956_bz;
     }
 
     @Override
     public void setRiches(int riches) {
-        getHandle().wealth = riches;
+        getHandle().field_70956_bz = riches;
     }
 
     @Nullable

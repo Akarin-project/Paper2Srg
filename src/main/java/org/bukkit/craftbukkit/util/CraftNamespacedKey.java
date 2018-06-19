@@ -13,7 +13,7 @@ public final class CraftNamespacedKey {
     }
 
     public static NamespacedKey fromMinecraft(ResourceLocation minecraft) {
-        return new NamespacedKey(minecraft.getResourceDomain(), minecraft.getResourcePath());
+        return new NamespacedKey(minecraft.func_110624_b(), minecraft.func_110623_a());
     }
 
     public static ResourceLocation toMinecraft(NamespacedKey key) {

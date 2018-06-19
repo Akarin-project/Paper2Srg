@@ -12,81 +12,81 @@ import net.minecraft.world.gen.feature.WorldGenEndPodium;
 
 public class PhaseLandingApproach extends PhaseBase {
 
-    private Path currentPath;
-    private Vec3d targetLocation;
+    private Path field_188683_b;
+    private Vec3d field_188684_c;
 
     public PhaseLandingApproach(EntityDragon entityenderdragon) {
         super(entityenderdragon);
     }
 
-    public PhaseList<PhaseLandingApproach> getType() {
-        return PhaseList.LANDING_APPROACH;
+    public PhaseList<PhaseLandingApproach> func_188652_i() {
+        return PhaseList.field_188743_c;
     }
 
-    public void initPhase() {
-        this.currentPath = null;
-        this.targetLocation = null;
+    public void func_188660_d() {
+        this.field_188683_b = null;
+        this.field_188684_c = null;
     }
 
-    public void doLocalUpdate() {
-        double d0 = this.targetLocation == null ? 0.0D : this.targetLocation.squareDistanceTo(this.dragon.posX, this.dragon.posY, this.dragon.posZ);
+    public void func_188659_c() {
+        double d0 = this.field_188684_c == null ? 0.0D : this.field_188684_c.func_186679_c(this.field_188661_a.field_70165_t, this.field_188661_a.field_70163_u, this.field_188661_a.field_70161_v);
 
-        if (d0 < 100.0D || d0 > 22500.0D || this.dragon.collidedHorizontally || this.dragon.collidedVertically) {
-            this.findNewTarget();
+        if (d0 < 100.0D || d0 > 22500.0D || this.field_188661_a.field_70123_F || this.field_188661_a.field_70124_G) {
+            this.func_188681_j();
         }
 
     }
 
     @Nullable
-    public Vec3d getTargetLocation() {
-        return this.targetLocation;
+    public Vec3d func_188650_g() {
+        return this.field_188684_c;
     }
 
-    private void findNewTarget() {
-        if (this.currentPath == null || this.currentPath.isFinished()) {
-            int i = this.dragon.initPathPoints();
-            BlockPos blockposition = this.dragon.world.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION);
-            EntityPlayer entityhuman = this.dragon.world.getNearestAttackablePlayer(blockposition, 128.0D, 128.0D);
+    private void func_188681_j() {
+        if (this.field_188683_b == null || this.field_188683_b.func_75879_b()) {
+            int i = this.field_188661_a.func_184671_o();
+            BlockPos blockposition = this.field_188661_a.field_70170_p.func_175672_r(WorldGenEndPodium.field_186139_a);
+            EntityPlayer entityhuman = this.field_188661_a.field_70170_p.func_184139_a(blockposition, 128.0D, 128.0D);
             int j;
 
             if (entityhuman != null) {
-                Vec3d vec3d = (new Vec3d(entityhuman.posX, 0.0D, entityhuman.posZ)).normalize();
+                Vec3d vec3d = (new Vec3d(entityhuman.field_70165_t, 0.0D, entityhuman.field_70161_v)).func_72432_b();
 
-                j = this.dragon.getNearestPpIdx(-vec3d.x * 40.0D, 105.0D, -vec3d.z * 40.0D);
+                j = this.field_188661_a.func_184663_l(-vec3d.field_72450_a * 40.0D, 105.0D, -vec3d.field_72449_c * 40.0D);
             } else {
-                j = this.dragon.getNearestPpIdx(40.0D, (double) blockposition.getY(), 0.0D);
+                j = this.field_188661_a.func_184663_l(40.0D, (double) blockposition.func_177956_o(), 0.0D);
             }
 
-            PathPoint pathpoint = new PathPoint(blockposition.getX(), blockposition.getY(), blockposition.getZ());
+            PathPoint pathpoint = new PathPoint(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
 
-            this.currentPath = this.dragon.findPath(i, j, pathpoint);
-            if (this.currentPath != null) {
-                this.currentPath.incrementPathIndex();
+            this.field_188683_b = this.field_188661_a.func_184666_a(i, j, pathpoint);
+            if (this.field_188683_b != null) {
+                this.field_188683_b.func_75875_a();
             }
         }
 
-        this.navigateToNextPathNode();
-        if (this.currentPath != null && this.currentPath.isFinished()) {
-            this.dragon.getPhaseManager().setPhase(PhaseList.LANDING);
+        this.func_188682_k();
+        if (this.field_188683_b != null && this.field_188683_b.func_75879_b()) {
+            this.field_188661_a.func_184670_cT().func_188758_a(PhaseList.field_188744_d);
         }
 
     }
 
-    private void navigateToNextPathNode() {
-        if (this.currentPath != null && !this.currentPath.isFinished()) {
-            Vec3d vec3d = this.currentPath.getCurrentPos();
+    private void func_188682_k() {
+        if (this.field_188683_b != null && !this.field_188683_b.func_75879_b()) {
+            Vec3d vec3d = this.field_188683_b.func_186310_f();
 
-            this.currentPath.incrementPathIndex();
-            double d0 = vec3d.x;
-            double d1 = vec3d.z;
+            this.field_188683_b.func_75875_a();
+            double d0 = vec3d.field_72450_a;
+            double d1 = vec3d.field_72449_c;
 
             double d2;
 
             do {
-                d2 = vec3d.y + (double) (this.dragon.getRNG().nextFloat() * 20.0F);
-            } while (d2 < vec3d.y);
+                d2 = vec3d.field_72448_b + (double) (this.field_188661_a.func_70681_au().nextFloat() * 20.0F);
+            } while (d2 < vec3d.field_72448_b);
 
-            this.targetLocation = new Vec3d(d0, d2, d1);
+            this.field_188684_c = new Vec3d(d0, d2, d1);
         }
 
     }

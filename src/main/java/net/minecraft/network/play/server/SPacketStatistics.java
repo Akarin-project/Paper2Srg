@@ -14,43 +14,43 @@ import net.minecraft.stats.StatList;
 
 public class SPacketStatistics implements Packet<INetHandlerPlayClient> {
 
-    private Map<StatBase, Integer> statisticMap;
+    private Map<StatBase, Integer> field_148976_a;
 
     public SPacketStatistics() {}
 
     public SPacketStatistics(Map<StatBase, Integer> map) {
-        this.statisticMap = map;
+        this.field_148976_a = map;
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleStatistics(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147293_a(this);
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        int i = packetdataserializer.readVarInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        int i = packetdataserializer.func_150792_a();
 
-        this.statisticMap = Maps.newHashMap();
+        this.field_148976_a = Maps.newHashMap();
 
         for (int j = 0; j < i; ++j) {
-            StatBase statistic = StatList.getOneShotStat(packetdataserializer.readString(32767));
-            int k = packetdataserializer.readVarInt();
+            StatBase statistic = StatList.func_151177_a(packetdataserializer.func_150789_c(32767));
+            int k = packetdataserializer.func_150792_a();
 
             if (statistic != null) {
-                this.statisticMap.put(statistic, Integer.valueOf(k));
+                this.field_148976_a.put(statistic, Integer.valueOf(k));
             }
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.statisticMap.size());
-        Iterator iterator = this.statisticMap.entrySet().iterator();
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_148976_a.size());
+        Iterator iterator = this.field_148976_a.entrySet().iterator();
 
         while (iterator.hasNext()) {
             Entry entry = (Entry) iterator.next();
 
-            packetdataserializer.writeString(((StatBase) entry.getKey()).statId);
-            packetdataserializer.writeVarInt(((Integer) entry.getValue()).intValue());
+            packetdataserializer.func_180714_a(((StatBase) entry.getKey()).field_75975_e);
+            packetdataserializer.func_150787_b(((Integer) entry.getValue()).intValue());
         }
 
     }

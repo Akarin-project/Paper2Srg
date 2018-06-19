@@ -5,15 +5,15 @@ import net.minecraft.init.Blocks;
 
 public class BiomeEnd extends Biome {
 
-    public BiomeEnd(Biome.a biomebase_a) {
+    public BiomeEnd(BiomeBase.a biomebase_a) {
         super(biomebase_a);
-        this.spawnableMonsterList.clear();
-        this.spawnableCreatureList.clear();
-        this.spawnableWaterCreatureList.clear();
-        this.spawnableCaveCreatureList.clear();
-        this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntityEnderman.class, 10, 4, 4));
-        this.topBlock = Blocks.DIRT.getDefaultState();
-        this.fillerBlock = Blocks.DIRT.getDefaultState();
-        this.decorator = new BiomeEndDecorator();
+        this.field_76761_J.clear();
+        this.field_76762_K.clear();
+        this.field_76755_L.clear();
+        this.field_82914_M.clear();
+        this.field_76761_J.add(new Biome.SpawnListEntry(EntityEnderman.class, 10, 4, 4));
+        this.field_76752_A = Blocks.field_150346_d.func_176223_P();
+        this.field_76753_B = Blocks.field_150346_d.func_176223_P();
+        this.field_76760_I = new BiomeEndDecorator();
     }
 }

@@ -19,91 +19,91 @@ import net.minecraft.world.storage.WorldSavedData;
 
 public class VillageCollection extends WorldSavedData {
 
-    private World world;
-    private final List<BlockPos> villagerPositionsList = Lists.newArrayList();
-    private final List<VillageDoorInfo> newDoors = Lists.newArrayList();
-    private final List<Village> villageList = Lists.newArrayList();
-    private int tickCounter;
+    private World field_75556_a;
+    private final List<BlockPos> field_75554_b = Lists.newArrayList();
+    private final List<VillageDoorInfo> field_75555_c = Lists.newArrayList();
+    private final List<Village> field_75552_d = Lists.newArrayList();
+    private int field_75553_e;
 
     public VillageCollection(String s) {
         super(s);
     }
 
     public VillageCollection(World world) {
-        super(fileNameForProvider(world.provider));
-        this.world = world;
-        this.markDirty();
+        super(func_176062_a(world.field_73011_w));
+        this.field_75556_a = world;
+        this.func_76185_a();
     }
 
-    public void setWorldsForAll(World world) {
-        this.world = world;
-        Iterator iterator = this.villageList.iterator();
+    public void func_82566_a(World world) {
+        this.field_75556_a = world;
+        Iterator iterator = this.field_75552_d.iterator();
 
         while (iterator.hasNext()) {
             Village village = (Village) iterator.next();
 
-            village.setWorld(world);
+            village.func_82691_a(world);
         }
 
     }
 
-    public void addToVillagerPositionList(BlockPos blockposition) {
-        if (this.villagerPositionsList.size() <= 64) {
-            if (!this.positionInList(blockposition)) {
-                this.villagerPositionsList.add(blockposition);
+    public void func_176060_a(BlockPos blockposition) {
+        if (this.field_75554_b.size() <= 64) {
+            if (!this.func_176057_e(blockposition)) {
+                this.field_75554_b.add(blockposition);
             }
 
         }
     }
 
-    public void tick() {
-        ++this.tickCounter;
-        Iterator iterator = this.villageList.iterator();
+    public void func_75544_a() {
+        ++this.field_75553_e;
+        Iterator iterator = this.field_75552_d.iterator();
 
         while (iterator.hasNext()) {
             Village village = (Village) iterator.next();
 
-            village.tick(this.tickCounter);
+            village.func_75560_a(this.field_75553_e);
         }
 
-        this.removeAnnihilatedVillages();
-        this.dropOldestVillagerPosition();
-        this.addNewDoorsToVillageOrCreateVillage();
-        if (this.tickCounter % 400 == 0) {
-            this.markDirty();
+        this.func_75549_c();
+        this.func_75543_d();
+        this.func_75545_e();
+        if (this.field_75553_e % 400 == 0) {
+            this.func_76185_a();
         }
 
     }
 
-    private void removeAnnihilatedVillages() {
-        Iterator iterator = this.villageList.iterator();
+    private void func_75549_c() {
+        Iterator iterator = this.field_75552_d.iterator();
 
         while (iterator.hasNext()) {
             Village village = (Village) iterator.next();
 
-            if (village.isAnnihilated()) {
+            if (village.func_75566_g()) {
                 iterator.remove();
-                this.markDirty();
+                this.func_76185_a();
             }
         }
 
     }
 
-    public List<Village> getVillageList() {
-        return this.villageList;
+    public List<Village> func_75540_b() {
+        return this.field_75552_d;
     }
 
-    public Village getNearestVillage(BlockPos blockposition, int i) {
+    public Village func_176056_a(BlockPos blockposition, int i) {
         Village village = null;
         double d0 = 3.4028234663852886E38D;
-        Iterator iterator = this.villageList.iterator();
+        Iterator iterator = this.field_75552_d.iterator();
 
         while (iterator.hasNext()) {
             Village village1 = (Village) iterator.next();
-            double d1 = village1.getCenter().distanceSq(blockposition);
+            double d1 = village1.func_180608_a().func_177951_i(blockposition);
 
             if (d1 < d0) {
-                float f = (float) (i + village1.getVillageRadius());
+                float f = (float) (i + village1.func_75568_b());
 
                 if (d1 <= (double) (f * f)) {
                     village = village1;
@@ -115,30 +115,30 @@ public class VillageCollection extends WorldSavedData {
         return village;
     }
 
-    private void dropOldestVillagerPosition() {
-        if (!this.villagerPositionsList.isEmpty()) {
-            this.addDoorsAround((BlockPos) this.villagerPositionsList.remove(0));
+    private void func_75543_d() {
+        if (!this.field_75554_b.isEmpty()) {
+            this.func_180609_b((BlockPos) this.field_75554_b.remove(0));
         }
     }
 
-    private void addNewDoorsToVillageOrCreateVillage() {
-        for (int i = 0; i < this.newDoors.size(); ++i) {
-            VillageDoorInfo villagedoor = (VillageDoorInfo) this.newDoors.get(i);
-            Village village = this.getNearestVillage(villagedoor.getDoorBlockPos(), 32);
+    private void func_75545_e() {
+        for (int i = 0; i < this.field_75555_c.size(); ++i) {
+            VillageDoorInfo villagedoor = (VillageDoorInfo) this.field_75555_c.get(i);
+            Village village = this.func_176056_a(villagedoor.func_179852_d(), 32);
 
             if (village == null) {
-                village = new Village(this.world);
-                this.villageList.add(village);
-                this.markDirty();
+                village = new Village(this.field_75556_a);
+                this.field_75552_d.add(village);
+                this.func_76185_a();
             }
 
-            village.addVillageDoorInfo(villagedoor);
+            village.func_75576_a(villagedoor);
         }
 
-        this.newDoors.clear();
+        this.field_75555_c.clear();
     }
 
-    private void addDoorsAround(BlockPos blockposition) {
+    private void func_180609_b(BlockPos blockposition) {
         boolean flag = true;
         boolean flag1 = true;
         boolean flag2 = true;
@@ -146,15 +146,15 @@ public class VillageCollection extends WorldSavedData {
         for (int i = -16; i < 16; ++i) {
             for (int j = -4; j < 4; ++j) {
                 for (int k = -16; k < 16; ++k) {
-                    BlockPos blockposition1 = blockposition.add(i, j, k);
+                    BlockPos blockposition1 = blockposition.func_177982_a(i, j, k);
 
-                    if (this.isWoodDoor(blockposition1)) {
-                        VillageDoorInfo villagedoor = this.checkDoorExistence(blockposition1);
+                    if (this.func_176058_f(blockposition1)) {
+                        VillageDoorInfo villagedoor = this.func_176055_c(blockposition1);
 
                         if (villagedoor == null) {
-                            this.addToNewDoorsList(blockposition1);
+                            this.func_176059_d(blockposition1);
                         } else {
-                            villagedoor.setLastActivityTimestamp(this.tickCounter);
+                            villagedoor.func_179849_a(this.field_75553_e);
                         }
                     }
                 }
@@ -164,14 +164,14 @@ public class VillageCollection extends WorldSavedData {
     }
 
     @Nullable
-    private VillageDoorInfo checkDoorExistence(BlockPos blockposition) {
-        Iterator iterator = this.newDoors.iterator();
+    private VillageDoorInfo func_176055_c(BlockPos blockposition) {
+        Iterator iterator = this.field_75555_c.iterator();
 
         VillageDoorInfo villagedoor;
 
         do {
             if (!iterator.hasNext()) {
-                iterator = this.villageList.iterator();
+                iterator = this.field_75552_d.iterator();
 
                 VillageDoorInfo villagedoor1;
 
@@ -182,35 +182,35 @@ public class VillageCollection extends WorldSavedData {
 
                     Village village = (Village) iterator.next();
 
-                    villagedoor1 = village.getExistedDoor(blockposition);
+                    villagedoor1 = village.func_179864_e(blockposition);
                 } while (villagedoor1 == null);
 
                 return villagedoor1;
             }
 
             villagedoor = (VillageDoorInfo) iterator.next();
-        } while (villagedoor.getDoorBlockPos().getX() != blockposition.getX() || villagedoor.getDoorBlockPos().getZ() != blockposition.getZ() || Math.abs(villagedoor.getDoorBlockPos().getY() - blockposition.getY()) > 1);
+        } while (villagedoor.func_179852_d().func_177958_n() != blockposition.func_177958_n() || villagedoor.func_179852_d().func_177952_p() != blockposition.func_177952_p() || Math.abs(villagedoor.func_179852_d().func_177956_o() - blockposition.func_177956_o()) > 1);
 
         return villagedoor;
     }
 
-    private void addToNewDoorsList(BlockPos blockposition) {
-        EnumFacing enumdirection = BlockDoor.getFacing(this.world, blockposition);
-        EnumFacing enumdirection1 = enumdirection.getOpposite();
-        int i = this.countBlocksCanSeeSky(blockposition, enumdirection, 5);
-        int j = this.countBlocksCanSeeSky(blockposition, enumdirection1, i + 1);
+    private void func_176059_d(BlockPos blockposition) {
+        EnumFacing enumdirection = BlockDoor.func_176517_h(this.field_75556_a, blockposition);
+        EnumFacing enumdirection1 = enumdirection.func_176734_d();
+        int i = this.func_176061_a(blockposition, enumdirection, 5);
+        int j = this.func_176061_a(blockposition, enumdirection1, i + 1);
 
         if (i != j) {
-            this.newDoors.add(new VillageDoorInfo(blockposition, i < j ? enumdirection : enumdirection1, this.tickCounter));
+            this.field_75555_c.add(new VillageDoorInfo(blockposition, i < j ? enumdirection : enumdirection1, this.field_75553_e));
         }
 
     }
 
-    private int countBlocksCanSeeSky(BlockPos blockposition, EnumFacing enumdirection, int i) {
+    private int func_176061_a(BlockPos blockposition, EnumFacing enumdirection, int i) {
         int j = 0;
 
         for (int k = 1; k <= 5; ++k) {
-            if (this.world.canSeeSky(blockposition.offset(enumdirection, k))) {
+            if (this.field_75556_a.func_175678_i(blockposition.func_177967_a(enumdirection, k))) {
                 ++j;
                 if (j >= i) {
                     return j;
@@ -221,8 +221,8 @@ public class VillageCollection extends WorldSavedData {
         return j;
     }
 
-    private boolean positionInList(BlockPos blockposition) {
-        Iterator iterator = this.villagerPositionsList.iterator();
+    private boolean func_176057_e(BlockPos blockposition) {
+        Iterator iterator = this.field_75554_b.iterator();
 
         BlockPos blockposition1;
 
@@ -237,50 +237,50 @@ public class VillageCollection extends WorldSavedData {
         return true;
     }
 
-    private boolean isWoodDoor(BlockPos blockposition) {
+    private boolean func_176058_f(BlockPos blockposition) {
         // Paper start
-        IBlockState iblockdata = this.world.getTypeIfLoaded(blockposition);
+        IBlockState iblockdata = this.field_75556_a.getTypeIfLoaded(blockposition);
         if (iblockdata == null) {
             return false;
         }
         // Paper end
-        Block block = iblockdata.getBlock();
+        Block block = iblockdata.func_177230_c();
 
-        return block instanceof BlockDoor ? iblockdata.getMaterial() == Material.WOOD : false;
+        return block instanceof BlockDoor ? iblockdata.func_185904_a() == Material.field_151575_d : false;
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        this.tickCounter = nbttagcompound.getInteger("Tick");
-        NBTTagList nbttaglist = nbttagcompound.getTagList("Villages", 10);
+    public void func_76184_a(NBTTagCompound nbttagcompound) {
+        this.field_75553_e = nbttagcompound.func_74762_e("Tick");
+        NBTTagList nbttaglist = nbttagcompound.func_150295_c("Villages", 10);
 
-        for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-            Village village = new Village(world); // Paper
+        for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+            NBTTagCompound nbttagcompound1 = nbttaglist.func_150305_b(i);
+            Village village = new Village(field_75556_a); // Paper
 
-            village.readVillageDataFromNBT(nbttagcompound1);
-            this.villageList.add(village);
+            village.func_82690_a(nbttagcompound1);
+            this.field_75552_d.add(village);
         }
 
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setInteger("Tick", this.tickCounter);
+    public NBTTagCompound func_189551_b(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74768_a("Tick", this.field_75553_e);
         NBTTagList nbttaglist = new NBTTagList();
-        Iterator iterator = this.villageList.iterator();
+        Iterator iterator = this.field_75552_d.iterator();
 
         while (iterator.hasNext()) {
             Village village = (Village) iterator.next();
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-            village.writeVillageDataToNBT(nbttagcompound1);
-            nbttaglist.appendTag(nbttagcompound1);
+            village.func_82689_b(nbttagcompound1);
+            nbttaglist.func_74742_a(nbttagcompound1);
         }
 
-        nbttagcompound.setTag("Villages", nbttaglist);
+        nbttagcompound.func_74782_a("Villages", nbttaglist);
         return nbttagcompound;
     }
 
-    public static String fileNameForProvider(WorldProvider worldprovider) {
-        return "villages" + worldprovider.getDimensionType().getSuffix();
+    public static String func_176062_a(WorldProvider worldprovider) {
+        return "villages" + worldprovider.func_186058_p().func_186067_c();
     }
 }

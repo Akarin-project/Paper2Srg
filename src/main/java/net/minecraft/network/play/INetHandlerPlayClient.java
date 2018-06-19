@@ -81,157 +81,157 @@ import net.minecraft.network.play.server.SPacketWorldBorder;
 
 public interface INetHandlerPlayClient extends INetHandler {
 
-    void handleSpawnObject(SPacketSpawnObject packetplayoutspawnentity);
+    void func_147235_a(SPacketSpawnObject packetplayoutspawnentity);
 
-    void handleSpawnExperienceOrb(SPacketSpawnExperienceOrb packetplayoutspawnentityexperienceorb);
+    void func_147286_a(SPacketSpawnExperienceOrb packetplayoutspawnentityexperienceorb);
 
-    void handleSpawnGlobalEntity(SPacketSpawnGlobalEntity packetplayoutspawnentityweather);
+    void func_147292_a(SPacketSpawnGlobalEntity packetplayoutspawnentityweather);
 
-    void handleSpawnMob(SPacketSpawnMob packetplayoutspawnentityliving);
+    void func_147281_a(SPacketSpawnMob packetplayoutspawnentityliving);
 
-    void handleScoreboardObjective(SPacketScoreboardObjective packetplayoutscoreboardobjective);
+    void func_147291_a(SPacketScoreboardObjective packetplayoutscoreboardobjective);
 
-    void handleSpawnPainting(SPacketSpawnPainting packetplayoutspawnentitypainting);
+    void func_147288_a(SPacketSpawnPainting packetplayoutspawnentitypainting);
 
-    void handleSpawnPlayer(SPacketSpawnPlayer packetplayoutnamedentityspawn);
+    void func_147237_a(SPacketSpawnPlayer packetplayoutnamedentityspawn);
 
-    void handleAnimation(SPacketAnimation packetplayoutanimation);
+    void func_147279_a(SPacketAnimation packetplayoutanimation);
 
-    void handleStatistics(SPacketStatistics packetplayoutstatistic);
+    void func_147293_a(SPacketStatistics packetplayoutstatistic);
 
-    void handleRecipeBook(SPacketRecipeBook packetplayoutrecipes);
+    void func_191980_a(SPacketRecipeBook packetplayoutrecipes);
 
-    void handleBlockBreakAnim(SPacketBlockBreakAnim packetplayoutblockbreakanimation);
+    void func_147294_a(SPacketBlockBreakAnim packetplayoutblockbreakanimation);
 
-    void handleSignEditorOpen(SPacketSignEditorOpen packetplayoutopensigneditor);
+    void func_147268_a(SPacketSignEditorOpen packetplayoutopensigneditor);
 
-    void handleUpdateTileEntity(SPacketUpdateTileEntity packetplayouttileentitydata);
+    void func_147273_a(SPacketUpdateTileEntity packetplayouttileentitydata);
 
-    void handleBlockAction(SPacketBlockAction packetplayoutblockaction);
+    void func_147261_a(SPacketBlockAction packetplayoutblockaction);
 
-    void handleBlockChange(SPacketBlockChange packetplayoutblockchange);
+    void func_147234_a(SPacketBlockChange packetplayoutblockchange);
 
-    void handleChat(SPacketChat packetplayoutchat);
+    void func_147251_a(SPacketChat packetplayoutchat);
 
-    void handleTabComplete(SPacketTabComplete packetplayouttabcomplete);
+    void func_147274_a(SPacketTabComplete packetplayouttabcomplete);
 
-    void handleMultiBlockChange(SPacketMultiBlockChange packetplayoutmultiblockchange);
+    void func_147287_a(SPacketMultiBlockChange packetplayoutmultiblockchange);
 
-    void handleMaps(SPacketMaps packetplayoutmap);
+    void func_147264_a(SPacketMaps packetplayoutmap);
 
-    void handleConfirmTransaction(SPacketConfirmTransaction packetplayouttransaction);
+    void func_147239_a(SPacketConfirmTransaction packetplayouttransaction);
 
-    void handleCloseWindow(SPacketCloseWindow packetplayoutclosewindow);
+    void func_147276_a(SPacketCloseWindow packetplayoutclosewindow);
 
-    void handleWindowItems(SPacketWindowItems packetplayoutwindowitems);
+    void func_147241_a(SPacketWindowItems packetplayoutwindowitems);
 
-    void handleOpenWindow(SPacketOpenWindow packetplayoutopenwindow);
+    void func_147265_a(SPacketOpenWindow packetplayoutopenwindow);
 
-    void handleWindowProperty(SPacketWindowProperty packetplayoutwindowdata);
+    void func_147245_a(SPacketWindowProperty packetplayoutwindowdata);
 
-    void handleSetSlot(SPacketSetSlot packetplayoutsetslot);
+    void func_147266_a(SPacketSetSlot packetplayoutsetslot);
 
-    void handleCustomPayload(SPacketCustomPayload packetplayoutcustompayload);
+    void func_147240_a(SPacketCustomPayload packetplayoutcustompayload);
 
-    void handleDisconnect(SPacketDisconnect packetplayoutkickdisconnect);
+    void func_147253_a(SPacketDisconnect packetplayoutkickdisconnect);
 
-    void handleUseBed(SPacketUseBed packetplayoutbed);
+    void func_147278_a(SPacketUseBed packetplayoutbed);
 
-    void handleEntityStatus(SPacketEntityStatus packetplayoutentitystatus);
+    void func_147236_a(SPacketEntityStatus packetplayoutentitystatus);
 
-    void handleEntityAttach(SPacketEntityAttach packetplayoutattachentity);
+    void func_147243_a(SPacketEntityAttach packetplayoutattachentity);
 
-    void handleSetPassengers(SPacketSetPassengers packetplayoutmount);
+    void func_184328_a(SPacketSetPassengers packetplayoutmount);
 
-    void handleExplosion(SPacketExplosion packetplayoutexplosion);
+    void func_147283_a(SPacketExplosion packetplayoutexplosion);
 
-    void handleChangeGameState(SPacketChangeGameState packetplayoutgamestatechange);
+    void func_147252_a(SPacketChangeGameState packetplayoutgamestatechange);
 
-    void handleKeepAlive(SPacketKeepAlive packetplayoutkeepalive);
+    void func_147272_a(SPacketKeepAlive packetplayoutkeepalive);
 
-    void handleChunkData(SPacketChunkData packetplayoutmapchunk);
+    void func_147263_a(SPacketChunkData packetplayoutmapchunk);
 
-    void processChunkUnload(SPacketUnloadChunk packetplayoutunloadchunk);
+    void func_184326_a(SPacketUnloadChunk packetplayoutunloadchunk);
 
-    void handleEffect(SPacketEffect packetplayoutworldevent);
+    void func_147277_a(SPacketEffect packetplayoutworldevent);
 
-    void handleJoinGame(SPacketJoinGame packetplayoutlogin);
+    void func_147282_a(SPacketJoinGame packetplayoutlogin);
 
-    void handleEntityMovement(SPacketEntity packetplayoutentity);
+    void func_147259_a(SPacketEntity packetplayoutentity);
 
-    void handlePlayerPosLook(SPacketPlayerPosLook packetplayoutposition);
+    void func_184330_a(SPacketPlayerPosLook packetplayoutposition);
 
-    void handleParticles(SPacketParticles packetplayoutworldparticles);
+    void func_147289_a(SPacketParticles packetplayoutworldparticles);
 
-    void handlePlayerAbilities(SPacketPlayerAbilities packetplayoutabilities);
+    void func_147270_a(SPacketPlayerAbilities packetplayoutabilities);
 
-    void handlePlayerListItem(SPacketPlayerListItem packetplayoutplayerinfo);
+    void func_147256_a(SPacketPlayerListItem packetplayoutplayerinfo);
 
-    void handleDestroyEntities(SPacketDestroyEntities packetplayoutentitydestroy);
+    void func_147238_a(SPacketDestroyEntities packetplayoutentitydestroy);
 
-    void handleRemoveEntityEffect(SPacketRemoveEntityEffect packetplayoutremoveentityeffect);
+    void func_147262_a(SPacketRemoveEntityEffect packetplayoutremoveentityeffect);
 
-    void handleRespawn(SPacketRespawn packetplayoutrespawn);
+    void func_147280_a(SPacketRespawn packetplayoutrespawn);
 
-    void handleEntityHeadLook(SPacketEntityHeadLook packetplayoutentityheadrotation);
+    void func_147267_a(SPacketEntityHeadLook packetplayoutentityheadrotation);
 
-    void handleHeldItemChange(SPacketHeldItemChange packetplayouthelditemslot);
+    void func_147257_a(SPacketHeldItemChange packetplayouthelditemslot);
 
-    void handleDisplayObjective(SPacketDisplayObjective packetplayoutscoreboarddisplayobjective);
+    void func_147254_a(SPacketDisplayObjective packetplayoutscoreboarddisplayobjective);
 
-    void handleEntityMetadata(SPacketEntityMetadata packetplayoutentitymetadata);
+    void func_147284_a(SPacketEntityMetadata packetplayoutentitymetadata);
 
-    void handleEntityVelocity(SPacketEntityVelocity packetplayoutentityvelocity);
+    void func_147244_a(SPacketEntityVelocity packetplayoutentityvelocity);
 
-    void handleEntityEquipment(SPacketEntityEquipment packetplayoutentityequipment);
+    void func_147242_a(SPacketEntityEquipment packetplayoutentityequipment);
 
-    void handleSetExperience(SPacketSetExperience packetplayoutexperience);
+    void func_147295_a(SPacketSetExperience packetplayoutexperience);
 
-    void handleUpdateHealth(SPacketUpdateHealth packetplayoutupdatehealth);
+    void func_147249_a(SPacketUpdateHealth packetplayoutupdatehealth);
 
-    void handleTeams(SPacketTeams packetplayoutscoreboardteam);
+    void func_147247_a(SPacketTeams packetplayoutscoreboardteam);
 
-    void handleUpdateScore(SPacketUpdateScore packetplayoutscoreboardscore);
+    void func_147250_a(SPacketUpdateScore packetplayoutscoreboardscore);
 
-    void handleSpawnPosition(SPacketSpawnPosition packetplayoutspawnposition);
+    void func_147271_a(SPacketSpawnPosition packetplayoutspawnposition);
 
-    void handleTimeUpdate(SPacketTimeUpdate packetplayoutupdatetime);
+    void func_147285_a(SPacketTimeUpdate packetplayoutupdatetime);
 
-    void handleSoundEffect(SPacketSoundEffect packetplayoutnamedsoundeffect);
+    void func_184327_a(SPacketSoundEffect packetplayoutnamedsoundeffect);
 
-    void handleCustomSound(SPacketCustomSound packetplayoutcustomsoundeffect);
+    void func_184329_a(SPacketCustomSound packetplayoutcustomsoundeffect);
 
-    void handleCollectItem(SPacketCollectItem packetplayoutcollect);
+    void func_147246_a(SPacketCollectItem packetplayoutcollect);
 
-    void handleEntityTeleport(SPacketEntityTeleport packetplayoutentityteleport);
+    void func_147275_a(SPacketEntityTeleport packetplayoutentityteleport);
 
-    void handleEntityProperties(SPacketEntityProperties packetplayoutupdateattributes);
+    void func_147290_a(SPacketEntityProperties packetplayoutupdateattributes);
 
-    void handleEntityEffect(SPacketEntityEffect packetplayoutentityeffect);
+    void func_147260_a(SPacketEntityEffect packetplayoutentityeffect);
 
-    void handleCombatEvent(SPacketCombatEvent packetplayoutcombatevent);
+    void func_175098_a(SPacketCombatEvent packetplayoutcombatevent);
 
-    void handleServerDifficulty(SPacketServerDifficulty packetplayoutserverdifficulty);
+    void func_175101_a(SPacketServerDifficulty packetplayoutserverdifficulty);
 
-    void handleCamera(SPacketCamera packetplayoutcamera);
+    void func_175094_a(SPacketCamera packetplayoutcamera);
 
-    void handleWorldBorder(SPacketWorldBorder packetplayoutworldborder);
+    void func_175093_a(SPacketWorldBorder packetplayoutworldborder);
 
-    void handleTitle(SPacketTitle packetplayouttitle);
+    void func_175099_a(SPacketTitle packetplayouttitle);
 
-    void handlePlayerListHeaderFooter(SPacketPlayerListHeaderFooter packetplayoutplayerlistheaderfooter);
+    void func_175096_a(SPacketPlayerListHeaderFooter packetplayoutplayerlistheaderfooter);
 
-    void handleResourcePack(SPacketResourcePackSend packetplayoutresourcepacksend);
+    void func_175095_a(SPacketResourcePackSend packetplayoutresourcepacksend);
 
-    void handleUpdateBossInfo(SPacketUpdateBossInfo packetplayoutboss);
+    void func_184325_a(SPacketUpdateBossInfo packetplayoutboss);
 
-    void handleCooldown(SPacketCooldown packetplayoutsetcooldown);
+    void func_184324_a(SPacketCooldown packetplayoutsetcooldown);
 
-    void handleMoveVehicle(SPacketMoveVehicle packetplayoutvehiclemove);
+    void func_184323_a(SPacketMoveVehicle packetplayoutvehiclemove);
 
-    void handleAdvancementInfo(SPacketAdvancementInfo packetplayoutadvancements);
+    void func_191981_a(SPacketAdvancementInfo packetplayoutadvancements);
 
-    void handleSelectAdvancementsTab(SPacketSelectAdvancementsTab packetplayoutselectadvancementtab);
+    void func_194022_a(SPacketSelectAdvancementsTab packetplayoutselectadvancementtab);
 
     void func_194307_a(SPacketPlaceGhostRecipe packetplayoutautorecipe);
 }

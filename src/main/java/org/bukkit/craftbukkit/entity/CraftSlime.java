@@ -14,11 +14,11 @@ public class CraftSlime extends CraftLivingEntity implements Slime {
     }
 
     public int getSize() {
-        return getHandle().getSlimeSize();
+        return getHandle().func_70809_q();
     }
 
     public void setSize(int size) {
-        getHandle().setSlimeSize(size, true);
+        getHandle().func_70799_a(size, true);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class CraftSlime extends CraftLivingEntity implements Slime {
 
     @Override
     public LivingEntity getTarget() {
-        return getHandle().getAttackTarget() == null ? null : (LivingEntity)getHandle().getAttackTarget().getBukkitEntity();
+        return getHandle().func_70638_az() == null ? null : (LivingEntity)getHandle().func_70638_az().getBukkitEntity();
     }
 
     @Override

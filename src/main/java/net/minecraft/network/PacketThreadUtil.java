@@ -8,15 +8,15 @@ import net.minecraft.util.IThreadListener;
 public class PacketThreadUtil {
 
     // Paper start, fix decompile and add timings
-    public static <T extends INetHandler> void checkThreadAndEnqueue(final Packet<T> packet, final T listener, IThreadListener iasynctaskhandler) throws ThreadQuickExitException {
-        if (!iasynctaskhandler.isCallingFromMinecraftThread()) {
+    public static <T extends INetHandler> void func_180031_a(final Packet<T> packet, final T listener, IThreadListener iasynctaskhandler) throws ThreadQuickExitException {
+        if (!iasynctaskhandler.func_152345_ab()) {
             Timing timing = MinecraftTimings.getPacketTiming(packet);
-            iasynctaskhandler.addScheduledTask(() -> {
+            iasynctaskhandler.func_152344_a(() -> {
                 try (Timing ignored = timing.startTiming()) {
-                    packet.processPacket(listener);
+                    packet.func_148833_a(listener);
                 }
             });
-            throw ThreadQuickExitException.INSTANCE;
+            throw ThreadQuickExitException.field_179886_a;
         }
     }
     // Paper end

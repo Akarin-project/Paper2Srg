@@ -51,13 +51,13 @@ import java.util.concurrent.Callable;
 
 public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Paper - remove tickable
 
-    private int skullType;
-    public int skullRotation;
-    private GameProfile playerProfile;
-    private int dragonAnimatedTicks;
-    private boolean dragonAnimated;
-    private static PlayerProfileCache profileCache;
-    private static MinecraftSessionService sessionService;
+    private int field_145908_a;
+    public int field_145910_i;
+    private GameProfile field_152110_j;
+    private int field_184296_h;
+    private boolean field_184297_i;
+    private static PlayerProfileCache field_184298_j;
+    private static MinecraftSessionService field_184299_k;
     // Spigot start
     public static final ExecutorService executor = Executors.newFixedThreadPool(3,
             new ThreadFactoryBuilder()
@@ -86,11 +86,11 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
                         }
                     };
 
-                    MinecraftServer.getServer().getGameProfileRepository().findProfilesByNames(new String[] { key }, Agent.MINECRAFT, gameProfileLookup);
+                    MinecraftServer.getServer().func_152359_aw().findProfilesByNames(new String[] { key }, Agent.MINECRAFT, gameProfileLookup);
 
                     GameProfile profile = profiles[ 0 ];
                     if (profile == null) {
-                        UUID uuid = EntityPlayer.getUUID(new GameProfile(null, key));
+                        UUID uuid = EntityPlayer.func_146094_a(new GameProfile(null, key));
                         profile = new GameProfile(uuid, key);
 
                         gameProfileLookup.onProfileLookupSucceeded(profile);
@@ -101,7 +101,7 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
 
                         if ( property == null )
                         {
-                            profile = MinecraftServer.getServer().getMinecraftSessionService().fillProfileProperties( profile, true );
+                            profile = MinecraftServer.getServer().func_147130_as().fillProfileProperties( profile, true );
                         }
                     }
 
@@ -113,97 +113,97 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
 
     public TileEntitySkull() {}
 
-    public static void setProfileCache(PlayerProfileCache usercache) {
-        TileEntitySkull.profileCache = usercache;
+    public static void func_184293_a(PlayerProfileCache usercache) {
+        TileEntitySkull.field_184298_j = usercache;
     }
 
-    public static void setSessionService(MinecraftSessionService minecraftsessionservice) {
-        TileEntitySkull.sessionService = minecraftsessionservice;
+    public static void func_184294_a(MinecraftSessionService minecraftsessionservice) {
+        TileEntitySkull.field_184299_k = minecraftsessionservice;
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        super.writeToNBT(nbttagcompound);
-        nbttagcompound.setByte("SkullType", (byte) (this.skullType & 255));
-        nbttagcompound.setByte("Rot", (byte) (this.skullRotation & 255));
-        if (this.playerProfile != null) {
+    public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
+        super.func_189515_b(nbttagcompound);
+        nbttagcompound.func_74774_a("SkullType", (byte) (this.field_145908_a & 255));
+        nbttagcompound.func_74774_a("Rot", (byte) (this.field_145910_i & 255));
+        if (this.field_152110_j != null) {
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-            NBTUtil.writeGameProfile(nbttagcompound1, this.playerProfile);
-            nbttagcompound.setTag("Owner", nbttagcompound1);
+            NBTUtil.func_180708_a(nbttagcompound1, this.field_152110_j);
+            nbttagcompound.func_74782_a("Owner", nbttagcompound1);
         }
 
         return nbttagcompound;
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        super.readFromNBT(nbttagcompound);
-        this.skullType = nbttagcompound.getByte("SkullType");
-        this.skullRotation = nbttagcompound.getByte("Rot");
-        if (this.skullType == 3) {
-            if (nbttagcompound.hasKey("Owner", 10)) {
-                this.playerProfile = NBTUtil.readGameProfileFromNBT(nbttagcompound.getCompoundTag("Owner"));
-            } else if (nbttagcompound.hasKey("ExtraType", 8)) {
-                String s = nbttagcompound.getString("ExtraType");
+    public void func_145839_a(NBTTagCompound nbttagcompound) {
+        super.func_145839_a(nbttagcompound);
+        this.field_145908_a = nbttagcompound.func_74771_c("SkullType");
+        this.field_145910_i = nbttagcompound.func_74771_c("Rot");
+        if (this.field_145908_a == 3) {
+            if (nbttagcompound.func_150297_b("Owner", 10)) {
+                this.field_152110_j = NBTUtil.func_152459_a(nbttagcompound.func_74775_l("Owner"));
+            } else if (nbttagcompound.func_150297_b("ExtraType", 8)) {
+                String s = nbttagcompound.func_74779_i("ExtraType");
 
-                if (!StringUtils.isNullOrEmpty(s)) {
-                    this.playerProfile = new GameProfile((UUID) null, s);
-                    this.updatePlayerProfile();
+                if (!StringUtils.func_151246_b(s)) {
+                    this.field_152110_j = new GameProfile((UUID) null, s);
+                    this.func_152109_d();
                 }
             }
         }
 
     }
 
-    public void update() {
-        if (this.skullType == 5) {
-            if (this.world.isBlockPowered(this.pos)) {
-                this.dragonAnimated = true;
-                ++this.dragonAnimatedTicks;
+    public void func_73660_a() {
+        if (this.field_145908_a == 5) {
+            if (this.field_145850_b.func_175640_z(this.field_174879_c)) {
+                this.field_184297_i = true;
+                ++this.field_184296_h;
             } else {
-                this.dragonAnimated = false;
+                this.field_184297_i = false;
             }
         }
 
     }
 
     @Nullable
-    public GameProfile getPlayerProfile() {
-        return this.playerProfile;
+    public GameProfile func_152108_a() {
+        return this.field_152110_j;
     }
 
     @Nullable
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        return new SPacketUpdateTileEntity(this.pos, 4, this.getUpdateTag());
+    public SPacketUpdateTileEntity func_189518_D_() {
+        return new SPacketUpdateTileEntity(this.field_174879_c, 4, this.func_189517_E_());
     }
 
-    public NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+    public NBTTagCompound func_189517_E_() {
+        return this.func_189515_b(new NBTTagCompound());
     }
 
-    public void setType(int i) {
-        this.skullType = i;
-        this.playerProfile = null;
+    public void func_152107_a(int i) {
+        this.field_145908_a = i;
+        this.field_152110_j = null;
     }
 
-    public void setPlayerProfile(@Nullable GameProfile gameprofile) {
-        this.skullType = 3;
-        this.playerProfile = gameprofile;
-        this.updatePlayerProfile();
+    public void func_152106_a(@Nullable GameProfile gameprofile) {
+        this.field_145908_a = 3;
+        this.field_152110_j = gameprofile;
+        this.func_152109_d();
     }
 
-    private void updatePlayerProfile() {
+    private void func_152109_d() {
         // Spigot start
-        GameProfile profile = this.playerProfile;
-        setType( 0 ); // Work around client bug
+        GameProfile profile = this.field_152110_j;
+        func_152107_a( 0 ); // Work around client bug
         b(profile, new Predicate<GameProfile>() {
 
             @Override
             public boolean apply(GameProfile input) {
-                setType(3); // Work around client bug
-                playerProfile = input;
-                markDirty();
-                if (world != null) {
-                    world.notifyLightSet(pos); // PAIL: notify
+                func_152107_a(3); // Work around client bug
+                field_152110_j = input;
+                func_70296_d();
+                if (field_145850_b != null) {
+                    field_145850_b.func_175679_n(field_174879_c); // PAIL: notify
                 }
                 return false;
             }
@@ -213,7 +213,7 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
 
     // Spigot start - Support async lookups
     public static Future<GameProfile> b(final GameProfile gameprofile, final Predicate<GameProfile> callback, boolean sync) {
-        if (gameprofile != null && !StringUtils.isNullOrEmpty(gameprofile.getName())) {
+        if (gameprofile != null && !StringUtils.func_151246_b(gameprofile.getName())) {
             if (gameprofile.isComplete() && gameprofile.getProperties().containsKey("textures")) {
                 callback.apply(gameprofile);
             } else if (MinecraftServer.getServer() == null) {
@@ -262,24 +262,24 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
     }
     // Spigot end
 
-    public int getSkullType() {
-        return this.skullType;
+    public int func_145904_a() {
+        return this.field_145908_a;
     }
 
-    public void setSkullRotation(int i) {
-        this.skullRotation = i;
+    public void func_145903_a(int i) {
+        this.field_145910_i = i;
     }
 
-    public void mirror(Mirror enumblockmirror) {
-        if (this.world != null && this.world.getBlockState(this.getPos()).getValue(BlockSkull.FACING) == EnumFacing.UP) {
-            this.skullRotation = enumblockmirror.mirrorRotation(this.skullRotation, 16);
+    public void func_189668_a(Mirror enumblockmirror) {
+        if (this.field_145850_b != null && this.field_145850_b.func_180495_p(this.func_174877_v()).func_177229_b(BlockSkull.field_176418_a) == EnumFacing.UP) {
+            this.field_145910_i = enumblockmirror.func_185802_a(this.field_145910_i, 16);
         }
 
     }
 
-    public void rotate(Rotation enumblockrotation) {
-        if (this.world != null && this.world.getBlockState(this.getPos()).getValue(BlockSkull.FACING) == EnumFacing.UP) {
-            this.skullRotation = enumblockrotation.rotate(this.skullRotation, 16);
+    public void func_189667_a(Rotation enumblockrotation) {
+        if (this.field_145850_b != null && this.field_145850_b.func_180495_p(this.func_174877_v()).func_177229_b(BlockSkull.field_176418_a) == EnumFacing.UP) {
+            this.field_145910_i = enumblockrotation.func_185833_a(this.field_145910_i, 16);
         }
 
     }

@@ -25,7 +25,7 @@ public class BlockStateListPopulator {
 
     public void setTypeAndData(int x, int y, int z, Block block, int data, int light) {
         BlockState state = world.getBlockAt(x, y, z).getState();
-        state.setTypeId(Block.getIdFromBlock(block));
+        state.setTypeId(Block.func_149682_b(block));
         state.setRawData((byte) data);
         list.add(state);
     }
@@ -40,13 +40,13 @@ public class BlockStateListPopulator {
     }    
     
     public void setTypeUpdate(BlockPos position, IBlockState data) { 
-        setTypeAndData(position.getX(), position.getY(), position.getZ(), data.getBlock(), data.getBlock().getMetaFromState(data), 0);
+        setTypeAndData(position.func_177958_n(), position.func_177956_o(), position.func_177952_p(), data.func_177230_c(), data.func_177230_c().func_176201_c(data), 0);
         
     }
 
     public void setType(int x, int y, int z, Block block) {
         BlockState state = world.getBlockAt(x, y, z).getState();
-        state.setTypeId(Block.getIdFromBlock(block));
+        state.setTypeId(Block.func_149682_b(block));
         list.add(state);
     }
 

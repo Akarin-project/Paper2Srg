@@ -32,9 +32,9 @@ public class CraftSkull extends CraftBlockEntityState<TileEntitySkull> implement
     public void load(TileEntitySkull skull) {
         super.load(skull);
 
-        profile = skull.getPlayerProfile();
-        skullType = getSkullType(skull.getSkullType());
-        rotation = (byte) skull.skullRotation;
+        profile = skull.func_152108_a();
+        skullType = getSkullType(skull.func_145904_a());
+        rotation = (byte) skull.field_145910_i;
     }
 
     static SkullType getSkullType(int id) {
@@ -167,7 +167,7 @@ public class CraftSkull extends CraftBlockEntityState<TileEntitySkull> implement
             return false;
         }
 
-        GameProfile profile = MinecraftServer.getServer().getPlayerProfileCache().getGameProfileForUsername(name);
+        GameProfile profile = MinecraftServer.getServer().func_152358_ax().func_152655_a(name);
         if (profile == null) {
             return false;
         }
@@ -235,11 +235,11 @@ public class CraftSkull extends CraftBlockEntityState<TileEntitySkull> implement
         super.applyTo(skull);
 
         if (skullType == SkullType.PLAYER) {
-            skull.setPlayerProfile(profile);
+            skull.func_152106_a(profile);
         } else {
-            skull.setType(getSkullType(skullType));
+            skull.func_152107_a(getSkullType(skullType));
         }
 
-        skull.setSkullRotation(rotation);
+        skull.func_145903_a(rotation);
     }
 }

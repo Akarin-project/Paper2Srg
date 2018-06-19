@@ -34,7 +34,7 @@ public class CraftContainer extends Container {
 
     public CraftContainer(InventoryView view, EntityPlayer player, int id) {
         this.view = view;
-        this.windowId = id;
+        this.field_75152_c = id;
         // TODO: Do we need to check that it really is a CraftInventory?
         IInventory top = ((CraftInventory) view.getTopInventory()).getInventory();
         InventoryPlayer bottom = (InventoryPlayer) ((CraftInventory) view.getBottomInventory()).getInventory();
@@ -78,7 +78,7 @@ public class CraftContainer extends Container {
     }
 
     @Override
-    public boolean getCanCraft(EntityPlayer entityhuman) {
+    public boolean func_75129_b(EntityPlayer entityhuman) {
         if (cachedType == view.getType() && cachedSize == getSize() && cachedTitle.equals(view.getTitle())) {
             return true;
         }
@@ -93,13 +93,13 @@ public class CraftContainer extends Container {
             String type = getNotchInventoryType(cachedType);
             IInventory top = ((CraftInventory) view.getTopInventory()).getInventory();
             InventoryPlayer bottom = (InventoryPlayer) ((CraftInventory) view.getBottomInventory()).getInventory();
-            this.inventoryItemStacks.clear();
-            this.inventorySlots.clear();
+            this.field_75153_a.clear();
+            this.field_75151_b.clear();
             if (typeChanged) {
                 setupSlots(top, bottom, player.getHandle());
             }
             int size = getSize();
-            player.getHandle().connection.sendPacket(new SPacketOpenWindow(this.windowId, type, new TextComponentString(cachedTitle), size));
+            player.getHandle().field_71135_a.func_147359_a(new SPacketOpenWindow(this.field_75152_c, type, new TextComponentString(cachedTitle), size));
             player.updateInventory();
         }
         return true;
@@ -152,7 +152,7 @@ public class CraftContainer extends Container {
                 setupWorkbench(top, bottom); // SPIGOT-3812 - manually set up slots so we can use the delegated inventory and not the automatically created one
                 break;
             case ENCHANTING:
-                delegate = new ContainerEnchantment(bottom, entityhuman.world, entityhuman.getPosition());
+                delegate = new ContainerEnchantment(bottom, entityhuman.field_70170_p, entityhuman.func_180425_c());
                 break;
             case BREWING:
                 delegate = new ContainerBrewingStand(bottom, top);
@@ -161,7 +161,7 @@ public class CraftContainer extends Container {
                 delegate = new ContainerHopper(bottom, top, entityhuman);
                 break;
             case ANVIL:
-                delegate = new ContainerRepair(bottom, entityhuman.world, entityhuman.getPosition(), entityhuman);
+                delegate = new ContainerRepair(bottom, entityhuman.field_70170_p, entityhuman.func_180425_c(), entityhuman);
                 break;
             case BEACON:
                 delegate = new ContainerBeacon(bottom, top);
@@ -172,43 +172,43 @@ public class CraftContainer extends Container {
         }
 
         if (delegate != null) {
-            this.inventoryItemStacks = delegate.inventoryItemStacks;
-            this.inventorySlots = delegate.inventorySlots;
+            this.field_75153_a = delegate.field_75153_a;
+            this.field_75151_b = delegate.field_75151_b;
         }
     }
 
     private void setupWorkbench(IInventory top, IInventory bottom) {
         // This code copied from ContainerWorkbench
-        this.addSlotToContainer(new Slot(top, 0, 124, 35));
+        this.func_75146_a(new Slot(top, 0, 124, 35));
 
         int row;
         int col;
 
         for (row = 0; row < 3; ++row) {
             for (col = 0; col < 3; ++col) {
-                this.addSlotToContainer(new Slot(top, 1 + col + row * 3, 30 + col * 18, 17 + row * 18));
+                this.func_75146_a(new Slot(top, 1 + col + row * 3, 30 + col * 18, 17 + row * 18));
             }
         }
 
         for (row = 0; row < 3; ++row) {
             for (col = 0; col < 9; ++col) {
-                this.addSlotToContainer(new Slot(bottom, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
+                this.func_75146_a(new Slot(bottom, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
             }
         }
 
         for (col = 0; col < 9; ++col) {
-            this.addSlotToContainer(new Slot(bottom, col, 8 + col * 18, 142));
+            this.func_75146_a(new Slot(bottom, col, 8 + col * 18, 142));
         }
         // End copy from ContainerWorkbench
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer entityhuman, int i) {
-        return (delegate != null) ? delegate.transferStackInSlot(entityhuman, i) : super.transferStackInSlot(entityhuman, i);
+    public ItemStack func_82846_b(EntityPlayer entityhuman, int i) {
+        return (delegate != null) ? delegate.func_82846_b(entityhuman, i) : super.func_82846_b(entityhuman, i);
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer entity) {
+    public boolean func_75145_c(EntityPlayer entity) {
         return true;
     }
 }

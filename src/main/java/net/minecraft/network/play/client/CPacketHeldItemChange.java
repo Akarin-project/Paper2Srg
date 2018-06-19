@@ -8,23 +8,23 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketHeldItemChange implements Packet<INetHandlerPlayServer> {
 
-    private int slotId;
+    private int field_149615_a;
 
     public CPacketHeldItemChange() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.slotId = packetdataserializer.readShort();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149615_a = packetdataserializer.readShort();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeShort(this.slotId);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeShort(this.field_149615_a);
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.processHeldItemChange(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_147355_a(this);
     }
 
-    public int getSlotId() {
-        return this.slotId;
+    public int func_149614_c() {
+        return this.field_149615_a;
     }
 }

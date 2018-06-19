@@ -21,60 +21,60 @@ import net.minecraft.world.WorldServer;
 
 public class PositionTrigger implements ICriterionTrigger<CriterionTriggerLocation.b> {
 
-    private final ResourceLocation id;
-    private final Map<PlayerAdvancements, CriterionTriggerLocation.a> listeners = Maps.newHashMap();
+    private final ResourceLocation field_192217_a;
+    private final Map<PlayerAdvancements, CriterionTriggerLocation.a> field_192218_b = Maps.newHashMap();
 
     public PositionTrigger(ResourceLocation minecraftkey) {
-        this.id = minecraftkey;
+        this.field_192217_a = minecraftkey;
     }
 
-    public ResourceLocation getId() {
-        return this.id;
+    public ResourceLocation func_192163_a() {
+        return this.field_192217_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerLocation.b> criteriontrigger_a) {
-        CriterionTriggerLocation.a criteriontriggerlocation_a = (CriterionTriggerLocation.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerLocation.a criteriontriggerlocation_a = (CriterionTriggerLocation.a) this.field_192218_b.get(advancementdataplayer);
 
         if (criteriontriggerlocation_a == null) {
             criteriontriggerlocation_a = new CriterionTriggerLocation.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerlocation_a);
+            this.field_192218_b.put(advancementdataplayer, criteriontriggerlocation_a);
         }
 
         criteriontriggerlocation_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerLocation.b> criteriontrigger_a) {
-        CriterionTriggerLocation.a criteriontriggerlocation_a = (CriterionTriggerLocation.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerLocation.a criteriontriggerlocation_a = (CriterionTriggerLocation.a) this.field_192218_b.get(advancementdataplayer);
 
         if (criteriontriggerlocation_a != null) {
             criteriontriggerlocation_a.b(criteriontrigger_a);
             if (criteriontriggerlocation_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192218_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192218_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerLocation.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        LocationPredicate criterionconditionlocation = LocationPredicate.deserialize(jsonobject);
+        LocationPredicate criterionconditionlocation = LocationPredicate.func_193454_a(jsonobject);
 
-        return new CriterionTriggerLocation.b(this.id, criterionconditionlocation);
+        return new CriterionTriggerLocation.b(this.field_192217_a, criterionconditionlocation);
     }
 
-    public void trigger(EntityPlayerMP entityplayer) {
-        CriterionTriggerLocation.a criteriontriggerlocation_a = (CriterionTriggerLocation.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_192215_a(EntityPlayerMP entityplayer) {
+        CriterionTriggerLocation.a criteriontriggerlocation_a = (CriterionTriggerLocation.a) this.field_192218_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerlocation_a != null) {
-            criteriontriggerlocation_a.a(entityplayer.getServerWorld(), entityplayer.posX, entityplayer.posY, entityplayer.posZ);
+            criteriontriggerlocation_a.a(entityplayer.func_71121_q(), entityplayer.field_70165_t, entityplayer.field_70163_u, entityplayer.field_70161_v);
         }
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -138,7 +138,7 @@ public class PositionTrigger implements ICriterionTrigger<CriterionTriggerLocati
         }
 
         public boolean a(WorldServer worldserver, double d0, double d1, double d2) {
-            return this.a.test(worldserver, d0, d1, d2);
+            return this.a.func_193452_a(worldserver, d0, d1, d2);
         }
     }
 }

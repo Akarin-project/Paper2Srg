@@ -24,7 +24,7 @@ public class CraftBed extends CraftBlockEntityState<TileEntityBed> implements Be
     public void load(TileEntityBed bed) {
         super.load(bed);
 
-        color = DyeColor.getByWoolData((byte) bed.getColor().getMetadata());
+        color = DyeColor.getByWoolData((byte) bed.func_193048_a().func_176765_a());
     }
 
     @Override
@@ -43,6 +43,6 @@ public class CraftBed extends CraftBlockEntityState<TileEntityBed> implements Be
     public void applyTo(TileEntityBed bed) {
         super.applyTo(bed);
 
-        bed.setColor(EnumDyeColor.byMetadata(color.getWoolData()));
+        bed.func_193052_a(EnumDyeColor.func_176764_b(color.getWoolData()));
     }
 }

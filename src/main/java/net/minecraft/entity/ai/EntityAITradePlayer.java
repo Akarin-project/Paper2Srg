@@ -5,34 +5,34 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class EntityAITradePlayer extends EntityAIBase {
 
-    private final EntityVillager villager;
+    private final EntityVillager field_75276_a;
 
     public EntityAITradePlayer(EntityVillager entityvillager) {
-        this.villager = entityvillager;
-        this.setMutexBits(5);
+        this.field_75276_a = entityvillager;
+        this.func_75248_a(5);
     }
 
-    public boolean shouldExecute() {
-        if (!this.villager.isEntityAlive()) {
+    public boolean func_75250_a() {
+        if (!this.field_75276_a.func_70089_S()) {
             return false;
-        } else if (this.villager.isInWater()) {
+        } else if (this.field_75276_a.func_70090_H()) {
             return false;
-        } else if (!this.villager.onGround) {
+        } else if (!this.field_75276_a.field_70122_E) {
             return false;
-        } else if (this.villager.velocityChanged) {
+        } else if (this.field_75276_a.field_70133_I) {
             return false;
         } else {
-            EntityPlayer entityhuman = this.villager.getCustomer();
+            EntityPlayer entityhuman = this.field_75276_a.func_70931_l_();
 
-            return entityhuman == null ? false : (this.villager.getDistanceSq(entityhuman) > 16.0D ? false : entityhuman.openContainer != null);
+            return entityhuman == null ? false : (this.field_75276_a.func_70068_e(entityhuman) > 16.0D ? false : entityhuman.field_71070_bA != null);
         }
     }
 
-    public void startExecuting() {
-        this.villager.getNavigator().clearPath();
+    public void func_75249_e() {
+        this.field_75276_a.func_70661_as().func_75499_g();
     }
 
-    public void resetTask() {
-        this.villager.setCustomer((EntityPlayer) null);
+    public void func_75251_c() {
+        this.field_75276_a.func_70932_a_((EntityPlayer) null);
     }
 }

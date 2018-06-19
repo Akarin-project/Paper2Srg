@@ -15,41 +15,41 @@ import net.minecraft.world.storage.MapDecoration;
 public class RecipesMapExtending extends ShapedRecipes {
 
     public RecipesMapExtending() {
-        super("", 3, 3, NonNullList.from(Ingredient.EMPTY, new Ingredient[] { Ingredient.fromItems(new Item[] { Items.PAPER}), Ingredient.fromItems(new Item[] { Items.PAPER}), Ingredient.fromItems(new Item[] { Items.PAPER}), Ingredient.fromItems(new Item[] { Items.PAPER}), Ingredient.fromItem((Item) Items.FILLED_MAP), Ingredient.fromItems(new Item[] { Items.PAPER}), Ingredient.fromItems(new Item[] { Items.PAPER}), Ingredient.fromItems(new Item[] { Items.PAPER}), Ingredient.fromItems(new Item[] { Items.PAPER})}), new ItemStack(Items.MAP));
+        super("", 3, 3, NonNullList.func_193580_a(Ingredient.field_193370_a, new Ingredient[] { Ingredient.func_193368_a(new Item[] { Items.field_151121_aF}), Ingredient.func_193368_a(new Item[] { Items.field_151121_aF}), Ingredient.func_193368_a(new Item[] { Items.field_151121_aF}), Ingredient.func_193368_a(new Item[] { Items.field_151121_aF}), Ingredient.func_193367_a((Item) Items.field_151098_aY), Ingredient.func_193368_a(new Item[] { Items.field_151121_aF}), Ingredient.func_193368_a(new Item[] { Items.field_151121_aF}), Ingredient.func_193368_a(new Item[] { Items.field_151121_aF}), Ingredient.func_193368_a(new Item[] { Items.field_151121_aF})}), new ItemStack(Items.field_151148_bJ));
     }
 
-    public boolean matches(InventoryCrafting inventorycrafting, World world) {
-        if (!super.matches(inventorycrafting, world)) {
+    public boolean func_77569_a(InventoryCrafting inventorycrafting, World world) {
+        if (!super.func_77569_a(inventorycrafting, world)) {
             return false;
         } else {
-            ItemStack itemstack = ItemStack.EMPTY;
+            ItemStack itemstack = ItemStack.field_190927_a;
 
-            for (int i = 0; i < inventorycrafting.getSizeInventory() && itemstack.isEmpty(); ++i) {
-                ItemStack itemstack1 = inventorycrafting.getStackInSlot(i);
+            for (int i = 0; i < inventorycrafting.func_70302_i_() && itemstack.func_190926_b(); ++i) {
+                ItemStack itemstack1 = inventorycrafting.func_70301_a(i);
 
-                if (itemstack1.getItem() == Items.FILLED_MAP) {
+                if (itemstack1.func_77973_b() == Items.field_151098_aY) {
                     itemstack = itemstack1;
                 }
             }
 
-            if (itemstack.isEmpty()) {
+            if (itemstack.func_190926_b()) {
                 return false;
             } else {
-                MapData worldmap = Items.FILLED_MAP.getMapData(itemstack, world);
+                MapData worldmap = Items.field_151098_aY.func_77873_a(itemstack, world);
 
-                return worldmap == null ? false : (this.isExplorationMap(worldmap) ? false : worldmap.scale < 4);
+                return worldmap == null ? false : (this.func_190934_a(worldmap) ? false : worldmap.field_76197_d < 4);
             }
         }
     }
 
-    private boolean isExplorationMap(MapData worldmap) {
-        if (worldmap.mapDecorations != null) {
-            Iterator iterator = worldmap.mapDecorations.values().iterator();
+    private boolean func_190934_a(MapData worldmap) {
+        if (worldmap.field_76203_h != null) {
+            Iterator iterator = worldmap.field_76203_h.values().iterator();
 
             while (iterator.hasNext()) {
                 MapDecoration mapicon = (MapDecoration) iterator.next();
 
-                if (mapicon.getType() == MapDecoration.Type.MANSION || mapicon.getType() == MapDecoration.Type.MONUMENT) {
+                if (mapicon.func_191179_b() == MapDecoration.Type.MANSION || mapicon.func_191179_b() == MapDecoration.Type.MONUMENT) {
                     return true;
                 }
             }
@@ -58,28 +58,28 @@ public class RecipesMapExtending extends ShapedRecipes {
         return false;
     }
 
-    public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
-        ItemStack itemstack = ItemStack.EMPTY;
+    public ItemStack func_77572_b(InventoryCrafting inventorycrafting) {
+        ItemStack itemstack = ItemStack.field_190927_a;
 
-        for (int i = 0; i < inventorycrafting.getSizeInventory() && itemstack.isEmpty(); ++i) {
-            ItemStack itemstack1 = inventorycrafting.getStackInSlot(i);
+        for (int i = 0; i < inventorycrafting.func_70302_i_() && itemstack.func_190926_b(); ++i) {
+            ItemStack itemstack1 = inventorycrafting.func_70301_a(i);
 
-            if (itemstack1.getItem() == Items.FILLED_MAP) {
+            if (itemstack1.func_77973_b() == Items.field_151098_aY) {
                 itemstack = itemstack1;
             }
         }
 
-        itemstack = itemstack.copy();
-        itemstack.setCount(1);
-        if (itemstack.getTagCompound() == null) {
-            itemstack.setTagCompound(new NBTTagCompound());
+        itemstack = itemstack.func_77946_l();
+        itemstack.func_190920_e(1);
+        if (itemstack.func_77978_p() == null) {
+            itemstack.func_77982_d(new NBTTagCompound());
         }
 
-        itemstack.getTagCompound().setInteger("map_scale_direction", 1);
+        itemstack.func_77978_p().func_74768_a("map_scale_direction", 1);
         return itemstack;
     }
 
-    public boolean isDynamic() {
+    public boolean func_192399_d() {
         return true;
     }
 }

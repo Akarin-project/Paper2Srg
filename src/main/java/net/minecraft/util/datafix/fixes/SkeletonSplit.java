@@ -7,23 +7,23 @@ public class SkeletonSplit implements IFixableData {
 
     public SkeletonSplit() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 701;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        String s = nbttagcompound.getString("id");
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        String s = nbttagcompound.func_74779_i("id");
 
         if ("Skeleton".equals(s)) {
-            int i = nbttagcompound.getInteger("SkeletonType");
+            int i = nbttagcompound.func_74762_e("SkeletonType");
 
             if (i == 1) {
-                nbttagcompound.setString("id", "WitherSkeleton");
+                nbttagcompound.func_74778_a("id", "WitherSkeleton");
             } else if (i == 2) {
-                nbttagcompound.setString("id", "Stray");
+                nbttagcompound.func_74778_a("id", "Stray");
             }
 
-            nbttagcompound.removeTag("SkeletonType");
+            nbttagcompound.func_82580_o("SkeletonType");
         }
 
         return nbttagcompound;

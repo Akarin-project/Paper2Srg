@@ -9,144 +9,144 @@ import net.minecraft.util.text.TextFormatting;
 
 public class ScorePlayerTeam extends Team {
 
-    private final Scoreboard scoreboard;
-    private final String name;
-    private final Set<String> membershipSet = Sets.newHashSet();
-    private String displayName;
-    private String prefix = "";
-    private String suffix = "";
-    private boolean allowFriendlyFire = true;
-    private boolean canSeeFriendlyInvisibles = true;
-    private Team.EnumVisible nameTagVisibility;
-    private Team.EnumVisible deathMessageVisibility;
-    private TextFormatting color;
-    private Team.CollisionRule collisionRule;
+    private final Scoreboard field_96677_a;
+    private final String field_96675_b;
+    private final Set<String> field_96676_c = Sets.newHashSet();
+    private String field_96673_d;
+    private String field_96674_e = "";
+    private String field_96671_f = "";
+    private boolean field_96672_g = true;
+    private boolean field_98301_h = true;
+    private Team.EnumVisible field_178778_i;
+    private Team.EnumVisible field_178776_j;
+    private TextFormatting field_178777_k;
+    private Team.CollisionRule field_186683_l;
 
     public ScorePlayerTeam(Scoreboard scoreboard, String s) {
-        this.nameTagVisibility = Team.EnumVisible.ALWAYS;
-        this.deathMessageVisibility = Team.EnumVisible.ALWAYS;
-        this.color = TextFormatting.RESET;
-        this.collisionRule = Team.CollisionRule.ALWAYS;
-        this.scoreboard = scoreboard;
-        this.name = s;
-        this.displayName = s;
+        this.field_178778_i = Team.EnumVisible.ALWAYS;
+        this.field_178776_j = Team.EnumVisible.ALWAYS;
+        this.field_178777_k = TextFormatting.RESET;
+        this.field_186683_l = Team.CollisionRule.ALWAYS;
+        this.field_96677_a = scoreboard;
+        this.field_96675_b = s;
+        this.field_96673_d = s;
     }
 
-    public String getName() {
-        return this.name;
+    public String func_96661_b() {
+        return this.field_96675_b;
     }
 
-    public String getDisplayName() {
-        return this.displayName;
+    public String func_96669_c() {
+        return this.field_96673_d;
     }
 
-    public void setDisplayName(String s) {
+    public void func_96664_a(String s) {
         if (s == null) {
             throw new IllegalArgumentException("Name cannot be null");
         } else {
-            this.displayName = s;
-            this.scoreboard.broadcastTeamInfoUpdate(this);
+            this.field_96673_d = s;
+            this.field_96677_a.func_96538_b(this);
         }
     }
 
-    public Collection<String> getMembershipCollection() {
-        return this.membershipSet;
+    public Collection<String> func_96670_d() {
+        return this.field_96676_c;
     }
 
-    public String getPrefix() {
-        return this.prefix;
+    public String func_96668_e() {
+        return this.field_96674_e;
     }
 
-    public void setPrefix(String s) {
+    public void func_96666_b(String s) {
         if (s == null) {
             throw new IllegalArgumentException("Prefix cannot be null");
         } else {
-            this.prefix = s;
-            this.scoreboard.broadcastTeamInfoUpdate(this);
+            this.field_96674_e = s;
+            this.field_96677_a.func_96538_b(this);
         }
     }
 
-    public String getSuffix() {
-        return this.suffix;
+    public String func_96663_f() {
+        return this.field_96671_f;
     }
 
-    public void setSuffix(String s) {
-        this.suffix = s;
-        this.scoreboard.broadcastTeamInfoUpdate(this);
+    public void func_96662_c(String s) {
+        this.field_96671_f = s;
+        this.field_96677_a.func_96538_b(this);
     }
 
-    public String formatString(String s) {
-        return this.getPrefix() + s + this.getSuffix();
+    public String func_142053_d(String s) {
+        return this.func_96668_e() + s + this.func_96663_f();
     }
 
-    public static String formatPlayerName(@Nullable Team scoreboardteambase, String s) {
-        return scoreboardteambase == null ? s : scoreboardteambase.formatString(s);
+    public static String func_96667_a(@Nullable Team scoreboardteambase, String s) {
+        return scoreboardteambase == null ? s : scoreboardteambase.func_142053_d(s);
     }
 
-    public boolean getAllowFriendlyFire() {
-        return this.allowFriendlyFire;
+    public boolean func_96665_g() {
+        return this.field_96672_g;
     }
 
-    public void setAllowFriendlyFire(boolean flag) {
-        this.allowFriendlyFire = flag;
-        this.scoreboard.broadcastTeamInfoUpdate(this);
+    public void func_96660_a(boolean flag) {
+        this.field_96672_g = flag;
+        this.field_96677_a.func_96538_b(this);
     }
 
-    public boolean getSeeFriendlyInvisiblesEnabled() {
-        return this.canSeeFriendlyInvisibles;
+    public boolean func_98297_h() {
+        return this.field_98301_h;
     }
 
-    public void setSeeFriendlyInvisiblesEnabled(boolean flag) {
-        this.canSeeFriendlyInvisibles = flag;
-        this.scoreboard.broadcastTeamInfoUpdate(this);
+    public void func_98300_b(boolean flag) {
+        this.field_98301_h = flag;
+        this.field_96677_a.func_96538_b(this);
     }
 
-    public Team.EnumVisible getNameTagVisibility() {
-        return this.nameTagVisibility;
+    public Team.EnumVisible func_178770_i() {
+        return this.field_178778_i;
     }
 
-    public Team.EnumVisible getDeathMessageVisibility() {
-        return this.deathMessageVisibility;
+    public Team.EnumVisible func_178771_j() {
+        return this.field_178776_j;
     }
 
-    public void setNameTagVisibility(Team.EnumVisible scoreboardteambase_enumnametagvisibility) {
-        this.nameTagVisibility = scoreboardteambase_enumnametagvisibility;
-        this.scoreboard.broadcastTeamInfoUpdate(this);
+    public void func_178772_a(Team.EnumVisible scoreboardteambase_enumnametagvisibility) {
+        this.field_178778_i = scoreboardteambase_enumnametagvisibility;
+        this.field_96677_a.func_96538_b(this);
     }
 
-    public void setDeathMessageVisibility(Team.EnumVisible scoreboardteambase_enumnametagvisibility) {
-        this.deathMessageVisibility = scoreboardteambase_enumnametagvisibility;
-        this.scoreboard.broadcastTeamInfoUpdate(this);
+    public void func_178773_b(Team.EnumVisible scoreboardteambase_enumnametagvisibility) {
+        this.field_178776_j = scoreboardteambase_enumnametagvisibility;
+        this.field_96677_a.func_96538_b(this);
     }
 
-    public Team.CollisionRule getCollisionRule() {
-        return this.collisionRule;
+    public Team.CollisionRule func_186681_k() {
+        return this.field_186683_l;
     }
 
-    public void setCollisionRule(Team.CollisionRule scoreboardteambase_enumteampush) {
-        this.collisionRule = scoreboardteambase_enumteampush;
-        this.scoreboard.broadcastTeamInfoUpdate(this);
+    public void func_186682_a(Team.CollisionRule scoreboardteambase_enumteampush) {
+        this.field_186683_l = scoreboardteambase_enumteampush;
+        this.field_96677_a.func_96538_b(this);
     }
 
-    public int getFriendlyFlags() {
+    public int func_98299_i() {
         int i = 0;
 
-        if (this.getAllowFriendlyFire()) {
+        if (this.func_96665_g()) {
             i |= 1;
         }
 
-        if (this.getSeeFriendlyInvisiblesEnabled()) {
+        if (this.func_98297_h()) {
             i |= 2;
         }
 
         return i;
     }
 
-    public void setColor(TextFormatting enumchatformat) {
-        this.color = enumchatformat;
+    public void func_178774_a(TextFormatting enumchatformat) {
+        this.field_178777_k = enumchatformat;
     }
 
-    public TextFormatting getColor() {
-        return this.color;
+    public TextFormatting func_178775_l() {
+        return this.field_178777_k;
     }
 }

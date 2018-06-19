@@ -21,24 +21,24 @@ public class EntitySnowball extends EntityThrowable {
         super(world, d0, d1, d2);
     }
 
-    public static void registerFixesSnowball(DataFixer dataconvertermanager) {
-        EntityThrowable.registerFixesThrowable(dataconvertermanager, "Snowball");
+    public static void func_189662_a(DataFixer dataconvertermanager) {
+        EntityThrowable.func_189661_a(dataconvertermanager, "Snowball");
     }
 
-    protected void onImpact(RayTraceResult movingobjectposition) {
-        if (movingobjectposition.entityHit != null) {
+    protected void func_70184_a(RayTraceResult movingobjectposition) {
+        if (movingobjectposition.field_72308_g != null) {
             byte b0 = 0;
 
-            if (movingobjectposition.entityHit instanceof EntityBlaze) {
+            if (movingobjectposition.field_72308_g instanceof EntityBlaze) {
                 b0 = 3;
             }
 
-            movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float) b0);
+            movingobjectposition.field_72308_g.func_70097_a(DamageSource.func_76356_a(this, this.func_85052_h()), (float) b0);
         }
 
-        if (!this.world.isRemote) {
-            this.world.setEntityState(this, (byte) 3);
-            this.setDead();
+        if (!this.field_70170_p.field_72995_K) {
+            this.field_70170_p.func_72960_a(this, (byte) 3);
+            this.func_70106_y();
         }
 
     }

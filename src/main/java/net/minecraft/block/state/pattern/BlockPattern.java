@@ -16,60 +16,60 @@ import net.minecraft.world.World;
 
 public class BlockPattern {
 
-    private final Predicate<BlockWorldState>[][][] blockMatches;
-    private final int fingerLength;
-    private final int thumbLength;
-    private final int palmLength;
+    private final Predicate<BlockWorldState>[][][] field_177689_a;
+    private final int field_177687_b;
+    private final int field_177688_c;
+    private final int field_177686_d;
 
     public BlockPattern(Predicate<BlockWorldState>[][][] apredicate) {
-        this.blockMatches = apredicate;
-        this.fingerLength = apredicate.length;
-        if (this.fingerLength > 0) {
-            this.thumbLength = apredicate[0].length;
-            if (this.thumbLength > 0) {
-                this.palmLength = apredicate[0][0].length;
+        this.field_177689_a = apredicate;
+        this.field_177687_b = apredicate.length;
+        if (this.field_177687_b > 0) {
+            this.field_177688_c = apredicate[0].length;
+            if (this.field_177688_c > 0) {
+                this.field_177686_d = apredicate[0][0].length;
             } else {
-                this.palmLength = 0;
+                this.field_177686_d = 0;
             }
         } else {
-            this.thumbLength = 0;
-            this.palmLength = 0;
+            this.field_177688_c = 0;
+            this.field_177686_d = 0;
         }
 
     }
 
-    public int getFingerLength() {
-        return this.fingerLength;
+    public int func_185922_a() {
+        return this.field_177687_b;
     }
 
-    public int getThumbLength() {
-        return this.thumbLength;
+    public int func_177685_b() {
+        return this.field_177688_c;
     }
 
-    public int getPalmLength() {
-        return this.palmLength;
+    public int func_177684_c() {
+        return this.field_177686_d;
     }
 
     @Nullable
-    private BlockPattern.PatternHelper checkPatternAt(BlockPos blockposition, EnumFacing enumdirection, EnumFacing enumdirection1, LoadingCache<BlockPos, BlockWorldState> loadingcache) {
-        for (int i = 0; i < this.palmLength; ++i) {
-            for (int j = 0; j < this.thumbLength; ++j) {
-                for (int k = 0; k < this.fingerLength; ++k) {
-                    if (!this.blockMatches[k][j][i].apply(loadingcache.getUnchecked(translateOffset(blockposition, enumdirection, enumdirection1, i, j, k)))) {
+    private BlockPattern.PatternHelper func_177682_a(BlockPos blockposition, EnumFacing enumdirection, EnumFacing enumdirection1, LoadingCache<BlockPos, BlockWorldState> loadingcache) {
+        for (int i = 0; i < this.field_177686_d; ++i) {
+            for (int j = 0; j < this.field_177688_c; ++j) {
+                for (int k = 0; k < this.field_177687_b; ++k) {
+                    if (!this.field_177689_a[k][j][i].apply(loadingcache.getUnchecked(func_177683_a(blockposition, enumdirection, enumdirection1, i, j, k)))) {
                         return null;
                     }
                 }
             }
         }
 
-        return new BlockPattern.PatternHelper(blockposition, enumdirection, enumdirection1, loadingcache, this.palmLength, this.thumbLength, this.fingerLength);
+        return new BlockPattern.PatternHelper(blockposition, enumdirection, enumdirection1, loadingcache, this.field_177686_d, this.field_177688_c, this.field_177687_b);
     }
 
     @Nullable
-    public BlockPattern.PatternHelper match(World world, BlockPos blockposition) {
-        LoadingCache loadingcache = createLoadingCache(world, false);
-        int i = Math.max(Math.max(this.palmLength, this.thumbLength), this.fingerLength);
-        Iterator iterator = BlockPos.getAllInBox(blockposition, blockposition.add(i - 1, i - 1, i - 1)).iterator();
+    public BlockPattern.PatternHelper func_177681_a(World world, BlockPos blockposition) {
+        LoadingCache loadingcache = func_181627_a(world, false);
+        int i = Math.max(Math.max(this.field_177686_d, this.field_177688_c), this.field_177687_b);
+        Iterator iterator = BlockPos.func_177980_a(blockposition, blockposition.func_177982_a(i - 1, i - 1, i - 1)).iterator();
 
         while (iterator.hasNext()) {
             BlockPos blockposition1 = (BlockPos) iterator.next();
@@ -84,8 +84,8 @@ public class BlockPattern {
                 for (int i1 = 0; i1 < l; ++i1) {
                     EnumFacing enumdirection1 = aenumdirection1[i1];
 
-                    if (enumdirection1 != enumdirection && enumdirection1 != enumdirection.getOpposite()) {
-                        BlockPattern.PatternHelper shapedetector_shapedetectorcollection = this.checkPatternAt(blockposition1, enumdirection, enumdirection1, loadingcache);
+                    if (enumdirection1 != enumdirection && enumdirection1 != enumdirection.func_176734_d()) {
+                        BlockPattern.PatternHelper shapedetector_shapedetectorcollection = this.func_177682_a(blockposition1, enumdirection, enumdirection1, loadingcache);
 
                         if (shapedetector_shapedetectorcollection != null) {
                             return shapedetector_shapedetectorcollection;
@@ -98,17 +98,17 @@ public class BlockPattern {
         return null;
     }
 
-    public static LoadingCache<BlockPos, BlockWorldState> createLoadingCache(World world, boolean flag) {
+    public static LoadingCache<BlockPos, BlockWorldState> func_181627_a(World world, boolean flag) {
         return CacheBuilder.newBuilder().build(new BlockPattern.CacheLoader(world, flag));
     }
 
-    protected static BlockPos translateOffset(BlockPos blockposition, EnumFacing enumdirection, EnumFacing enumdirection1, int i, int j, int k) {
-        if (enumdirection != enumdirection1 && enumdirection != enumdirection1.getOpposite()) {
-            Vec3i baseblockposition = new Vec3i(enumdirection.getFrontOffsetX(), enumdirection.getFrontOffsetY(), enumdirection.getFrontOffsetZ());
-            Vec3i baseblockposition1 = new Vec3i(enumdirection1.getFrontOffsetX(), enumdirection1.getFrontOffsetY(), enumdirection1.getFrontOffsetZ());
-            Vec3i baseblockposition2 = baseblockposition.crossProduct(baseblockposition1);
+    protected static BlockPos func_177683_a(BlockPos blockposition, EnumFacing enumdirection, EnumFacing enumdirection1, int i, int j, int k) {
+        if (enumdirection != enumdirection1 && enumdirection != enumdirection1.func_176734_d()) {
+            Vec3i baseblockposition = new Vec3i(enumdirection.func_82601_c(), enumdirection.func_96559_d(), enumdirection.func_82599_e());
+            Vec3i baseblockposition1 = new Vec3i(enumdirection1.func_82601_c(), enumdirection1.func_96559_d(), enumdirection1.func_82599_e());
+            Vec3i baseblockposition2 = baseblockposition.func_177955_d(baseblockposition1);
 
-            return blockposition.add(baseblockposition1.getX() * -j + baseblockposition2.getX() * i + baseblockposition.getX() * k, baseblockposition1.getY() * -j + baseblockposition2.getY() * i + baseblockposition.getY() * k, baseblockposition1.getZ() * -j + baseblockposition2.getZ() * i + baseblockposition.getZ() * k);
+            return blockposition.func_177982_a(baseblockposition1.func_177958_n() * -j + baseblockposition2.func_177958_n() * i + baseblockposition.func_177958_n() * k, baseblockposition1.func_177956_o() * -j + baseblockposition2.func_177956_o() * i + baseblockposition.func_177956_o() * k, baseblockposition1.func_177952_p() * -j + baseblockposition2.func_177952_p() * i + baseblockposition.func_177952_p() * k);
         } else {
             throw new IllegalArgumentException("Invalid forwards & up combination");
         }
@@ -116,65 +116,65 @@ public class BlockPattern {
 
     public static class PatternHelper {
 
-        private final BlockPos frontTopLeft;
-        private final EnumFacing forwards;
-        private final EnumFacing up;
-        private final LoadingCache<BlockPos, BlockWorldState> lcache;
-        private final int width;
-        private final int height;
-        private final int depth;
+        private final BlockPos field_177674_a;
+        private final EnumFacing field_177672_b;
+        private final EnumFacing field_177673_c;
+        private final LoadingCache<BlockPos, BlockWorldState> field_177671_d;
+        private final int field_181120_e;
+        private final int field_181121_f;
+        private final int field_181122_g;
 
         public PatternHelper(BlockPos blockposition, EnumFacing enumdirection, EnumFacing enumdirection1, LoadingCache<BlockPos, BlockWorldState> loadingcache, int i, int j, int k) {
-            this.frontTopLeft = blockposition;
-            this.forwards = enumdirection;
-            this.up = enumdirection1;
-            this.lcache = loadingcache;
-            this.width = i;
-            this.height = j;
-            this.depth = k;
+            this.field_177674_a = blockposition;
+            this.field_177672_b = enumdirection;
+            this.field_177673_c = enumdirection1;
+            this.field_177671_d = loadingcache;
+            this.field_181120_e = i;
+            this.field_181121_f = j;
+            this.field_181122_g = k;
         }
 
-        public BlockPos getFrontTopLeft() {
-            return this.frontTopLeft;
+        public BlockPos func_181117_a() {
+            return this.field_177674_a;
         }
 
-        public EnumFacing getForwards() {
-            return this.forwards;
+        public EnumFacing func_177669_b() {
+            return this.field_177672_b;
         }
 
-        public EnumFacing getUp() {
-            return this.up;
+        public EnumFacing func_177668_c() {
+            return this.field_177673_c;
         }
 
-        public int getWidth() {
-            return this.width;
+        public int func_181118_d() {
+            return this.field_181120_e;
         }
 
-        public int getHeight() {
-            return this.height;
+        public int func_181119_e() {
+            return this.field_181121_f;
         }
 
-        public BlockWorldState translateOffset(int i, int j, int k) {
-            return (BlockWorldState) this.lcache.getUnchecked(BlockPattern.translateOffset(this.frontTopLeft, this.getForwards(), this.getUp(), i, j, k));
+        public BlockWorldState func_177670_a(int i, int j, int k) {
+            return (BlockWorldState) this.field_177671_d.getUnchecked(BlockPattern.func_177683_a(this.field_177674_a, this.func_177669_b(), this.func_177668_c(), i, j, k));
         }
 
         public String toString() {
-            return MoreObjects.toStringHelper(this).add("up", this.up).add("forwards", this.forwards).add("frontTopLeft", this.frontTopLeft).toString();
+            return MoreObjects.toStringHelper(this).add("up", this.field_177673_c).add("forwards", this.field_177672_b).add("frontTopLeft", this.field_177674_a).toString();
         }
     }
 
     static class CacheLoader extends CacheLoader<BlockPos, BlockWorldState> {
 
-        private final World world;
-        private final boolean forceLoad;
+        private final World field_177680_a;
+        private final boolean field_181626_b;
 
         public CacheLoader(World world, boolean flag) {
-            this.world = world;
-            this.forceLoad = flag;
+            this.field_177680_a = world;
+            this.field_181626_b = flag;
         }
 
         public BlockWorldState load(BlockPos blockposition) throws Exception {
-            return new BlockWorldState(this.world, blockposition, this.forceLoad);
+            return new BlockWorldState(this.field_177680_a, blockposition, this.field_181626_b);
         }
 
         public Object load(Object object) throws Exception {

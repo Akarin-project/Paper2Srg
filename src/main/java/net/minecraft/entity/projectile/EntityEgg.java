@@ -29,21 +29,21 @@ public class EntityEgg extends EntityThrowable {
         super(world, d0, d1, d2);
     }
 
-    public static void registerFixesEgg(DataFixer dataconvertermanager) {
-        EntityThrowable.registerFixesThrowable(dataconvertermanager, "ThrownEgg");
+    public static void func_189664_a(DataFixer dataconvertermanager) {
+        EntityThrowable.func_189661_a(dataconvertermanager, "ThrownEgg");
     }
 
-    protected void onImpact(RayTraceResult movingobjectposition) {
-        if (movingobjectposition.entityHit != null) {
-            movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
+    protected void func_70184_a(RayTraceResult movingobjectposition) {
+        if (movingobjectposition.field_72308_g != null) {
+            movingobjectposition.field_72308_g.func_70097_a(DamageSource.func_76356_a(this, this.func_85052_h()), 0.0F);
         }
 
-        if (!this.world.isRemote) {
-            boolean hatching = this.rand.nextInt(8) == 0; // CraftBukkit
+        if (!this.field_70170_p.field_72995_K) {
+            boolean hatching = this.field_70146_Z.nextInt(8) == 0; // CraftBukkit
             if (true) {
                 byte b0 = 1;
 
-                if (this.rand.nextInt(32) == 0) {
+                if (this.field_70146_Z.nextInt(32) == 0) {
                     b0 = 4;
                 }
 
@@ -53,10 +53,10 @@ public class EntityEgg extends EntityThrowable {
                 }
                 EntityType hatchingType = EntityType.CHICKEN;
 
-                Entity shooter = this.getThrower();
+                Entity shooter = this.func_85052_h();
                 if (shooter instanceof EntityPlayerMP) {
                     PlayerEggThrowEvent event = new PlayerEggThrowEvent((Player) shooter.getBukkitEntity(), (org.bukkit.entity.Egg) this.getBukkitEntity(), hatching, b0, hatchingType);
-                    this.world.getServer().getPluginManager().callEvent(event);
+                    this.field_70170_p.getServer().getPluginManager().callEvent(event);
 
                     b0 = event.getNumHatches();
                     hatching = event.isHatching();
@@ -65,18 +65,18 @@ public class EntityEgg extends EntityThrowable {
 
                 if (hatching) {
                     for (int i = 0; i < b0; ++i) {
-                        Entity entity = world.getWorld().createEntity(new org.bukkit.Location(world.getWorld(), this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F), hatchingType.getEntityClass());
+                        Entity entity = field_70170_p.getWorld().createEntity(new org.bukkit.Location(field_70170_p.getWorld(), this.field_70165_t, this.field_70163_u, this.field_70161_v, this.field_70177_z, 0.0F), hatchingType.getEntityClass());
                         if (entity.getBukkitEntity() instanceof Ageable) {
                             ((Ageable) entity.getBukkitEntity()).setBaby();
                         }
-                        world.getWorld().addEntity(entity, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.EGG);
+                        field_70170_p.getWorld().addEntity(entity, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.EGG);
                     }
                 }
                 // CraftBukkit end
             }
 
-            this.world.setEntityState(this, (byte) 3);
-            this.setDead();
+            this.field_70170_p.func_72960_a(this, (byte) 3);
+            this.func_70106_y();
         }
 
     }

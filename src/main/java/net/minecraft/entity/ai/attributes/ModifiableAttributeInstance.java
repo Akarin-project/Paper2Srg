@@ -12,142 +12,131 @@ import javax.annotation.Nullable;
 
 public class ModifiableAttributeInstance implements IAttributeInstance {
 
-    private final AbstractAttributeMap attributeMap;
-    private final IAttribute genericAttribute;
-    private final Map<Integer, Set<AttributeModifier>> mapByOperation = Maps.newHashMap();
-    private final Map<String, Set<AttributeModifier>> mapByName = Maps.newHashMap();
-    private final Map<UUID, AttributeModifier> mapByUUID = Maps.newHashMap();
-    private double baseValue;
-    private boolean needsUpdate = true;
-    private double cachedValue;
+    private final AbstractAttributeMap field_111138_a;
+    private final IAttribute field_111136_b;
+    private final Map<Integer, Set<AttributeModifier>> field_111137_c = Maps.newHashMap();
+    private final Map<String, Set<AttributeModifier>> field_111134_d = Maps.newHashMap();
+    private final Map<UUID, AttributeModifier> field_111135_e = Maps.newHashMap();
+    private double field_111132_f;
+    private boolean field_111133_g = true;
+    private double field_111139_h;
 
     public ModifiableAttributeInstance(AbstractAttributeMap attributemapbase, IAttribute iattribute) {
-        this.attributeMap = attributemapbase;
-        this.genericAttribute = iattribute;
-        this.baseValue = iattribute.getDefaultValue();
+        this.field_111138_a = attributemapbase;
+        this.field_111136_b = iattribute;
+        this.field_111132_f = iattribute.func_111110_b();
 
         for (int i = 0; i < 3; ++i) {
-            this.mapByOperation.put(Integer.valueOf(i), Sets.newHashSet());
+            this.field_111137_c.put(Integer.valueOf(i), Sets.newHashSet());
         }
 
     }
 
-    @Override
-    public IAttribute getAttribute() {
-        return this.genericAttribute;
+    public IAttribute func_111123_a() {
+        return this.field_111136_b;
     }
 
-    @Override
-    public double getBaseValue() {
-        return this.baseValue;
+    public double func_111125_b() {
+        return this.field_111132_f;
     }
 
-    @Override
-    public void setBaseValue(double d0) {
-        if (d0 != this.getBaseValue()) {
-            this.baseValue = d0;
-            this.flagForUpdate();
+    public void func_111128_a(double d0) {
+        if (d0 != this.func_111125_b()) {
+            this.field_111132_f = d0;
+            this.func_111131_f();
         }
     }
 
-    @Override
-    public Collection<AttributeModifier> getModifiersByOperation(int i) {
-        return this.mapByOperation.get(Integer.valueOf(i));
+    public Collection<AttributeModifier> func_111130_a(int i) {
+        return (Collection) this.field_111137_c.get(Integer.valueOf(i));
     }
 
-    @Override
-    public Collection<AttributeModifier> getModifiers() {
+    public Collection<AttributeModifier> func_111122_c() {
         HashSet hashset = Sets.newHashSet();
 
         for (int i = 0; i < 3; ++i) {
-            hashset.addAll(this.getModifiersByOperation(i));
+            hashset.addAll(this.func_111130_a(i));
         }
 
         return hashset;
     }
 
-    @Override
     @Nullable
-    public AttributeModifier getModifier(UUID uuid) {
-        return this.mapByUUID.get(uuid);
+    public AttributeModifier func_111127_a(UUID uuid) {
+        return (AttributeModifier) this.field_111135_e.get(uuid);
     }
 
-    @Override
-    public boolean hasModifier(AttributeModifier attributemodifier) {
-        return this.mapByUUID.get(attributemodifier.getID()) != null;
+    public boolean func_180374_a(AttributeModifier attributemodifier) {
+        return this.field_111135_e.get(attributemodifier.func_111167_a()) != null;
     }
 
-    @Override
-    public void applyModifier(AttributeModifier attributemodifier) {
-        if (this.getModifier(attributemodifier.getID()) != null) {
+    public void func_111121_a(AttributeModifier attributemodifier) {
+        if (this.func_111127_a(attributemodifier.func_111167_a()) != null) {
             throw new IllegalArgumentException("Modifier is already applied on this attribute!");
         } else {
-            Set<AttributeModifier> object = this.mapByName.get(attributemodifier.getName());
+            Object object = (Set) this.field_111134_d.get(attributemodifier.func_111166_b());
 
             if (object == null) {
                 object = Sets.newHashSet();
-                this.mapByName.put(attributemodifier.getName(), object);
+                this.field_111134_d.put(attributemodifier.func_111166_b(), object);
             }
 
-            ((Set) this.mapByOperation.get(Integer.valueOf(attributemodifier.getOperation()))).add(attributemodifier);
+            ((Set) this.field_111137_c.get(Integer.valueOf(attributemodifier.func_111169_c()))).add(attributemodifier);
             ((Set) object).add(attributemodifier);
-            this.mapByUUID.put(attributemodifier.getID(), attributemodifier);
-            this.flagForUpdate();
+            this.field_111135_e.put(attributemodifier.func_111167_a(), attributemodifier);
+            this.func_111131_f();
         }
     }
 
-    protected void flagForUpdate() {
-        this.needsUpdate = true;
-        this.attributeMap.onAttributeModified(this);
+    protected void func_111131_f() {
+        this.field_111133_g = true;
+        this.field_111138_a.func_180794_a((IAttributeInstance) this);
     }
 
-    @Override
-    public void removeModifier(AttributeModifier attributemodifier) {
+    public void func_111124_b(AttributeModifier attributemodifier) {
         for (int i = 0; i < 3; ++i) {
-            Set set = this.mapByOperation.get(Integer.valueOf(i));
+            Set set = (Set) this.field_111137_c.get(Integer.valueOf(i));
 
             set.remove(attributemodifier);
         }
 
-        Set set1 = this.mapByName.get(attributemodifier.getName());
+        Set set1 = (Set) this.field_111134_d.get(attributemodifier.func_111166_b());
 
         if (set1 != null) {
             set1.remove(attributemodifier);
             if (set1.isEmpty()) {
-                this.mapByName.remove(attributemodifier.getName());
+                this.field_111134_d.remove(attributemodifier.func_111166_b());
             }
         }
 
-        this.mapByUUID.remove(attributemodifier.getID());
-        this.flagForUpdate();
+        this.field_111135_e.remove(attributemodifier.func_111167_a());
+        this.func_111131_f();
     }
 
-    @Override
-    public void removeModifier(UUID uuid) {
-        AttributeModifier attributemodifier = this.getModifier(uuid);
+    public void func_188479_b(UUID uuid) {
+        AttributeModifier attributemodifier = this.func_111127_a(uuid);
 
         if (attributemodifier != null) {
-            this.removeModifier(attributemodifier);
+            this.func_111124_b(attributemodifier);
         }
 
     }
 
-    @Override
-    public double getAttributeValue() {
-        if (this.needsUpdate) {
-            this.cachedValue = this.computeValue();
-            this.needsUpdate = false;
+    public double func_111126_e() {
+        if (this.field_111133_g) {
+            this.field_111139_h = this.func_111129_g();
+            this.field_111133_g = false;
         }
 
-        return this.cachedValue;
+        return this.field_111139_h;
     }
 
-    private double computeValue() {
-        double d0 = this.getBaseValue();
+    private double func_111129_g() {
+        double d0 = this.func_111125_b();
 
         AttributeModifier attributemodifier;
 
-        for (Iterator iterator = this.getAppliedModifiers(0).iterator(); iterator.hasNext(); d0 += attributemodifier.getAmount()) {
+        for (Iterator iterator = this.func_180375_b(0).iterator(); iterator.hasNext(); d0 += attributemodifier.func_111164_d()) {
             attributemodifier = (AttributeModifier) iterator.next();
         }
 
@@ -156,25 +145,25 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
         Iterator iterator1;
         AttributeModifier attributemodifier1;
 
-        for (iterator1 = this.getAppliedModifiers(1).iterator(); iterator1.hasNext(); d1 += d0 * attributemodifier1.getAmount()) {
+        for (iterator1 = this.func_180375_b(1).iterator(); iterator1.hasNext(); d1 += d0 * attributemodifier1.func_111164_d()) {
             attributemodifier1 = (AttributeModifier) iterator1.next();
         }
 
-        for (iterator1 = this.getAppliedModifiers(2).iterator(); iterator1.hasNext(); d1 *= 1.0D + attributemodifier1.getAmount()) {
+        for (iterator1 = this.func_180375_b(2).iterator(); iterator1.hasNext(); d1 *= 1.0D + attributemodifier1.func_111164_d()) {
             attributemodifier1 = (AttributeModifier) iterator1.next();
         }
 
-        return this.genericAttribute.clampValue(d1);
+        return this.field_111136_b.func_111109_a(d1);
     }
 
-    private Collection<AttributeModifier> getAppliedModifiers(int i) {
-        HashSet hashset = Sets.newHashSet(this.getModifiersByOperation(i));
+    private Collection<AttributeModifier> func_180375_b(int i) {
+        HashSet hashset = Sets.newHashSet(this.func_111130_a(i));
 
-        for (IAttribute iattribute = this.genericAttribute.getParent(); iattribute != null; iattribute = iattribute.getParent()) {
-            IAttributeInstance attributeinstance = this.attributeMap.getAttributeInstance(iattribute);
+        for (IAttribute iattribute = this.field_111136_b.func_180372_d(); iattribute != null; iattribute = iattribute.func_180372_d()) {
+            IAttributeInstance attributeinstance = this.field_111138_a.func_111151_a(iattribute);
 
             if (attributeinstance != null) {
-                hashset.addAll(attributeinstance.getModifiersByOperation(i));
+                hashset.addAll(attributeinstance.func_111130_a(i));
             }
         }
 

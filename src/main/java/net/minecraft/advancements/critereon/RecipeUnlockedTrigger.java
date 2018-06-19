@@ -24,45 +24,45 @@ import net.minecraft.util.ResourceLocation;
 
 public class RecipeUnlockedTrigger implements ICriterionTrigger<CriterionTriggerRecipeUnlocked.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("recipe_unlocked");
-    private final Map<PlayerAdvancements, CriterionTriggerRecipeUnlocked.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_192227_a = new ResourceLocation("recipe_unlocked");
+    private final Map<PlayerAdvancements, CriterionTriggerRecipeUnlocked.a> field_192228_b = Maps.newHashMap();
 
     public RecipeUnlockedTrigger() {}
 
-    public ResourceLocation getId() {
-        return RecipeUnlockedTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return RecipeUnlockedTrigger.field_192227_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerRecipeUnlocked.b> criteriontrigger_a) {
-        CriterionTriggerRecipeUnlocked.a criteriontriggerrecipeunlocked_a = (CriterionTriggerRecipeUnlocked.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerRecipeUnlocked.a criteriontriggerrecipeunlocked_a = (CriterionTriggerRecipeUnlocked.a) this.field_192228_b.get(advancementdataplayer);
 
         if (criteriontriggerrecipeunlocked_a == null) {
             criteriontriggerrecipeunlocked_a = new CriterionTriggerRecipeUnlocked.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerrecipeunlocked_a);
+            this.field_192228_b.put(advancementdataplayer, criteriontriggerrecipeunlocked_a);
         }
 
         criteriontriggerrecipeunlocked_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerRecipeUnlocked.b> criteriontrigger_a) {
-        CriterionTriggerRecipeUnlocked.a criteriontriggerrecipeunlocked_a = (CriterionTriggerRecipeUnlocked.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerRecipeUnlocked.a criteriontriggerrecipeunlocked_a = (CriterionTriggerRecipeUnlocked.a) this.field_192228_b.get(advancementdataplayer);
 
         if (criteriontriggerrecipeunlocked_a != null) {
             criteriontriggerrecipeunlocked_a.b(criteriontrigger_a);
             if (criteriontriggerrecipeunlocked_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192228_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192228_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerRecipeUnlocked.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.getString(jsonobject, "recipe"));
-        IRecipe irecipe = CraftingManager.getRecipe(minecraftkey);
+        ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.func_151200_h(jsonobject, "recipe"));
+        IRecipe irecipe = CraftingManager.func_193373_a(minecraftkey);
 
         if (irecipe == null) {
             throw new JsonSyntaxException("Unknown recipe \'" + minecraftkey + "\'");
@@ -71,8 +71,8 @@ public class RecipeUnlockedTrigger implements ICriterionTrigger<CriterionTrigger
         }
     }
 
-    public void trigger(EntityPlayerMP entityplayer, IRecipe irecipe) {
-        CriterionTriggerRecipeUnlocked.a criteriontriggerrecipeunlocked_a = (CriterionTriggerRecipeUnlocked.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_192225_a(EntityPlayerMP entityplayer, IRecipe irecipe) {
+        CriterionTriggerRecipeUnlocked.a criteriontriggerrecipeunlocked_a = (CriterionTriggerRecipeUnlocked.a) this.field_192228_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerrecipeunlocked_a != null) {
             criteriontriggerrecipeunlocked_a.a(irecipe);
@@ -80,7 +80,7 @@ public class RecipeUnlockedTrigger implements ICriterionTrigger<CriterionTrigger
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -139,7 +139,7 @@ public class RecipeUnlockedTrigger implements ICriterionTrigger<CriterionTrigger
         private final IRecipe a;
 
         public b(IRecipe irecipe) {
-            super(RecipeUnlockedTrigger.ID);
+            super(RecipeUnlockedTrigger.field_192227_a);
             this.a = irecipe;
         }
 

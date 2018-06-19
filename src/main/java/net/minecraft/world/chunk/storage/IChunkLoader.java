@@ -10,15 +10,15 @@ import net.minecraft.world.chunk.Chunk;
 public interface IChunkLoader {
 
     @Nullable
-    Chunk loadChunk(World world, int i, int j) throws IOException;
+    Chunk func_75815_a(World world, int i, int j) throws IOException;
 
     void saveChunk(World world, Chunk chunk, boolean unloaded) throws IOException, MinecraftException; // Spigot
 
     // void b(World world, Chunk chunk) throws IOException; // Spigot
 
-    void chunkTick();
+    void func_75817_a();
 
-    void flush();
+    void func_75818_b();
 
-    boolean isChunkGeneratedAt(int i, int j);
+    boolean func_191063_a(int i, int j);
 }

@@ -6,68 +6,68 @@ import java.io.IOException;
 
 public class NBTTagShort extends NBTPrimitive {
 
-    private short data;
+    private short field_74752_a;
 
     public NBTTagShort() {}
 
     public NBTTagShort(short short0) {
-        this.data = short0;
+        this.field_74752_a = short0;
     }
 
-    void write(DataOutput dataoutput) throws IOException {
-        dataoutput.writeShort(this.data);
+    void func_74734_a(DataOutput dataoutput) throws IOException {
+        dataoutput.writeShort(this.field_74752_a);
     }
 
-    void read(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
-        nbtreadlimiter.read(80L);
-        this.data = datainput.readShort();
+    void func_152446_a(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
+        nbtreadlimiter.func_152450_a(80L);
+        this.field_74752_a = datainput.readShort();
     }
 
-    public byte getId() {
+    public byte func_74732_a() {
         return (byte) 2;
     }
 
     public String toString() {
-        return this.data + "s";
+        return this.field_74752_a + "s";
     }
 
-    public NBTTagShort copy() {
-        return new NBTTagShort(this.data);
+    public NBTTagShort func_74737_b() {
+        return new NBTTagShort(this.field_74752_a);
     }
 
     public boolean equals(Object object) {
-        return super.equals(object) && this.data == ((NBTTagShort) object).data;
+        return super.equals(object) && this.field_74752_a == ((NBTTagShort) object).field_74752_a;
     }
 
     public int hashCode() {
-        return super.hashCode() ^ this.data;
+        return super.hashCode() ^ this.field_74752_a;
     }
 
-    public long getLong() {
-        return (long) this.data;
+    public long func_150291_c() {
+        return (long) this.field_74752_a;
     }
 
-    public int getInt() {
-        return this.data;
+    public int func_150287_d() {
+        return this.field_74752_a;
     }
 
-    public short getShort() {
-        return this.data;
+    public short func_150289_e() {
+        return this.field_74752_a;
     }
 
-    public byte getByte() {
-        return (byte) (this.data & 255);
+    public byte func_150290_f() {
+        return (byte) (this.field_74752_a & 255);
     }
 
-    public double getDouble() {
-        return (double) this.data;
+    public double func_150286_g() {
+        return (double) this.field_74752_a;
     }
 
-    public float getFloat() {
-        return (float) this.data;
+    public float func_150288_h() {
+        return (float) this.field_74752_a;
     }
 
     public NBTBase clone() {
-        return this.copy();
+        return this.func_74737_b();
     }
 }

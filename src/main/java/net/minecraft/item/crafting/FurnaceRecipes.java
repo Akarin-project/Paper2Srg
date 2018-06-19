@@ -16,93 +16,93 @@ import net.minecraft.item.ItemStack;
 
 public class FurnaceRecipes {
 
-    private static final FurnaceRecipes SMELTING_BASE = new FurnaceRecipes();
-    public Map<ItemStack, ItemStack> smeltingList = Maps.newHashMap();
-    private final Map<ItemStack, Float> experienceList = Maps.newHashMap();
+    private static final FurnaceRecipes field_77606_a = new FurnaceRecipes();
+    public Map<ItemStack, ItemStack> field_77604_b = Maps.newHashMap();
+    private final Map<ItemStack, Float> field_77605_c = Maps.newHashMap();
     public Map<ItemStack,ItemStack> customRecipes = Maps.newHashMap(); // CraftBukkit - add field
     public Map<ItemStack,Float> customExperience = Maps.newHashMap(); // CraftBukkit - add field
 
-    public static FurnaceRecipes instance() {
-        return FurnaceRecipes.SMELTING_BASE;
+    public static FurnaceRecipes func_77602_a() {
+        return FurnaceRecipes.field_77606_a;
     }
 
     public FurnaceRecipes() {
-        this.addSmeltingRecipeForBlock(Blocks.IRON_ORE, new ItemStack(Items.IRON_INGOT), 0.7F);
-        this.addSmeltingRecipeForBlock(Blocks.GOLD_ORE, new ItemStack(Items.GOLD_INGOT), 1.0F);
-        this.addSmeltingRecipeForBlock(Blocks.DIAMOND_ORE, new ItemStack(Items.DIAMOND), 1.0F);
-        this.addSmeltingRecipeForBlock(Blocks.SAND, new ItemStack(Blocks.GLASS), 0.1F);
-        this.addSmelting(Items.PORKCHOP, new ItemStack(Items.COOKED_PORKCHOP), 0.35F);
-        this.addSmelting(Items.BEEF, new ItemStack(Items.COOKED_BEEF), 0.35F);
-        this.addSmelting(Items.CHICKEN, new ItemStack(Items.COOKED_CHICKEN), 0.35F);
-        this.addSmelting(Items.RABBIT, new ItemStack(Items.COOKED_RABBIT), 0.35F);
-        this.addSmelting(Items.MUTTON, new ItemStack(Items.COOKED_MUTTON), 0.35F);
-        this.addSmeltingRecipeForBlock(Blocks.COBBLESTONE, new ItemStack(Blocks.STONE), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.DEFAULT_META), new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.CRACKED_META), 0.1F);
-        this.addSmelting(Items.CLAY_BALL, new ItemStack(Items.BRICK), 0.3F);
-        this.addSmeltingRecipeForBlock(Blocks.CLAY, new ItemStack(Blocks.HARDENED_CLAY), 0.35F);
-        this.addSmeltingRecipeForBlock(Blocks.CACTUS, new ItemStack(Items.DYE, 1, EnumDyeColor.GREEN.getDyeDamage()), 0.2F);
-        this.addSmeltingRecipeForBlock(Blocks.LOG, new ItemStack(Items.COAL, 1, 1), 0.15F);
-        this.addSmeltingRecipeForBlock(Blocks.LOG2, new ItemStack(Items.COAL, 1, 1), 0.15F);
-        this.addSmeltingRecipeForBlock(Blocks.EMERALD_ORE, new ItemStack(Items.EMERALD), 1.0F);
-        this.addSmelting(Items.POTATO, new ItemStack(Items.BAKED_POTATO), 0.35F);
-        this.addSmeltingRecipeForBlock(Blocks.NETHERRACK, new ItemStack(Items.NETHERBRICK), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.SPONGE, 1, 1), new ItemStack(Blocks.SPONGE, 1, 0), 0.15F);
-        this.addSmelting(Items.CHORUS_FRUIT, new ItemStack(Items.CHORUS_FRUIT_POPPED), 0.1F);
+        this.func_151393_a(Blocks.field_150366_p, new ItemStack(Items.field_151042_j), 0.7F);
+        this.func_151393_a(Blocks.field_150352_o, new ItemStack(Items.field_151043_k), 1.0F);
+        this.func_151393_a(Blocks.field_150482_ag, new ItemStack(Items.field_151045_i), 1.0F);
+        this.func_151393_a(Blocks.field_150354_m, new ItemStack(Blocks.field_150359_w), 0.1F);
+        this.func_151396_a(Items.field_151147_al, new ItemStack(Items.field_151157_am), 0.35F);
+        this.func_151396_a(Items.field_151082_bd, new ItemStack(Items.field_151083_be), 0.35F);
+        this.func_151396_a(Items.field_151076_bf, new ItemStack(Items.field_151077_bg), 0.35F);
+        this.func_151396_a(Items.field_179558_bo, new ItemStack(Items.field_179559_bp), 0.35F);
+        this.func_151396_a(Items.field_179561_bm, new ItemStack(Items.field_179557_bn), 0.35F);
+        this.func_151393_a(Blocks.field_150347_e, new ItemStack(Blocks.field_150348_b), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150417_aV, 1, BlockStoneBrick.field_176248_b), new ItemStack(Blocks.field_150417_aV, 1, BlockStoneBrick.field_176251_N), 0.1F);
+        this.func_151396_a(Items.field_151119_aD, new ItemStack(Items.field_151118_aC), 0.3F);
+        this.func_151393_a(Blocks.field_150435_aG, new ItemStack(Blocks.field_150405_ch), 0.35F);
+        this.func_151393_a(Blocks.field_150434_aF, new ItemStack(Items.field_151100_aR, 1, EnumDyeColor.GREEN.func_176767_b()), 0.2F);
+        this.func_151393_a(Blocks.field_150364_r, new ItemStack(Items.field_151044_h, 1, 1), 0.15F);
+        this.func_151393_a(Blocks.field_150363_s, new ItemStack(Items.field_151044_h, 1, 1), 0.15F);
+        this.func_151393_a(Blocks.field_150412_bA, new ItemStack(Items.field_151166_bC), 1.0F);
+        this.func_151396_a(Items.field_151174_bG, new ItemStack(Items.field_151168_bH), 0.35F);
+        this.func_151393_a(Blocks.field_150424_aL, new ItemStack(Items.field_151130_bT), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150360_v, 1, 1), new ItemStack(Blocks.field_150360_v, 1, 0), 0.15F);
+        this.func_151396_a(Items.field_185161_cS, new ItemStack(Items.field_185162_cT), 0.1F);
         ItemFishFood.FishType[] aitemfish_enumfish = ItemFishFood.FishType.values();
         int i = aitemfish_enumfish.length;
 
         for (int j = 0; j < i; ++j) {
             ItemFishFood.FishType itemfish_enumfish = aitemfish_enumfish[j];
 
-            if (itemfish_enumfish.canCook()) {
-                this.addSmeltingRecipe(new ItemStack(Items.FISH, 1, itemfish_enumfish.getMetadata()), new ItemStack(Items.COOKED_FISH, 1, itemfish_enumfish.getMetadata()), 0.35F);
+            if (itemfish_enumfish.func_150973_i()) {
+                this.func_151394_a(new ItemStack(Items.field_151115_aP, 1, itemfish_enumfish.func_150976_a()), new ItemStack(Items.field_179566_aV, 1, itemfish_enumfish.func_150976_a()), 0.35F);
             }
         }
 
-        this.addSmeltingRecipeForBlock(Blocks.COAL_ORE, new ItemStack(Items.COAL), 0.1F);
-        this.addSmeltingRecipeForBlock(Blocks.REDSTONE_ORE, new ItemStack(Items.REDSTONE), 0.7F);
-        this.addSmeltingRecipeForBlock(Blocks.LAPIS_ORE, new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()), 0.2F);
-        this.addSmeltingRecipeForBlock(Blocks.QUARTZ_ORE, new ItemStack(Items.QUARTZ), 0.2F);
-        this.addSmelting((Item) Items.CHAINMAIL_HELMET, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.CHAINMAIL_CHESTPLATE, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.CHAINMAIL_LEGGINGS, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.CHAINMAIL_BOOTS, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting(Items.IRON_PICKAXE, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting(Items.IRON_SHOVEL, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting(Items.IRON_AXE, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting(Items.IRON_HOE, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting(Items.IRON_SWORD, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.IRON_HELMET, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.IRON_CHESTPLATE, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.IRON_LEGGINGS, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.IRON_BOOTS, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting(Items.IRON_HORSE_ARMOR, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        this.addSmelting(Items.GOLDEN_PICKAXE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        this.addSmelting(Items.GOLDEN_SHOVEL, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        this.addSmelting(Items.GOLDEN_AXE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        this.addSmelting(Items.GOLDEN_HOE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        this.addSmelting(Items.GOLDEN_SWORD, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.GOLDEN_HELMET, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.GOLDEN_CHESTPLATE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.GOLDEN_LEGGINGS, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        this.addSmelting((Item) Items.GOLDEN_BOOTS, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        this.addSmelting(Items.GOLDEN_HORSE_ARMOR, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.WHITE.getMetadata()), new ItemStack(Blocks.WHITE_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.ORANGE.getMetadata()), new ItemStack(Blocks.ORANGE_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.MAGENTA.getMetadata()), new ItemStack(Blocks.MAGENTA_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.LIGHT_BLUE.getMetadata()), new ItemStack(Blocks.LIGHT_BLUE_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.YELLOW.getMetadata()), new ItemStack(Blocks.YELLOW_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.LIME.getMetadata()), new ItemStack(Blocks.LIME_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.PINK.getMetadata()), new ItemStack(Blocks.PINK_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.GRAY.getMetadata()), new ItemStack(Blocks.GRAY_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.SILVER.getMetadata()), new ItemStack(Blocks.SILVER_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.CYAN.getMetadata()), new ItemStack(Blocks.CYAN_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.PURPLE.getMetadata()), new ItemStack(Blocks.PURPLE_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BLUE.getMetadata()), new ItemStack(Blocks.BLUE_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BROWN.getMetadata()), new ItemStack(Blocks.BROWN_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.GREEN.getMetadata()), new ItemStack(Blocks.GREEN_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.RED.getMetadata()), new ItemStack(Blocks.RED_GLAZED_TERRACOTTA), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BLACK.getMetadata()), new ItemStack(Blocks.BLACK_GLAZED_TERRACOTTA), 0.1F);
+        this.func_151393_a(Blocks.field_150365_q, new ItemStack(Items.field_151044_h), 0.1F);
+        this.func_151393_a(Blocks.field_150450_ax, new ItemStack(Items.field_151137_ax), 0.7F);
+        this.func_151393_a(Blocks.field_150369_x, new ItemStack(Items.field_151100_aR, 1, EnumDyeColor.BLUE.func_176767_b()), 0.2F);
+        this.func_151393_a(Blocks.field_150449_bY, new ItemStack(Items.field_151128_bU), 0.2F);
+        this.func_151396_a((Item) Items.field_151020_U, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a((Item) Items.field_151023_V, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a((Item) Items.field_151022_W, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a((Item) Items.field_151029_X, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a(Items.field_151035_b, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a(Items.field_151037_a, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a(Items.field_151036_c, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a(Items.field_151019_K, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a(Items.field_151040_l, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a((Item) Items.field_151028_Y, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a((Item) Items.field_151030_Z, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a((Item) Items.field_151165_aa, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a((Item) Items.field_151167_ab, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a(Items.field_151138_bX, new ItemStack(Items.field_191525_da), 0.1F);
+        this.func_151396_a(Items.field_151005_D, new ItemStack(Items.field_151074_bl), 0.1F);
+        this.func_151396_a(Items.field_151011_C, new ItemStack(Items.field_151074_bl), 0.1F);
+        this.func_151396_a(Items.field_151006_E, new ItemStack(Items.field_151074_bl), 0.1F);
+        this.func_151396_a(Items.field_151013_M, new ItemStack(Items.field_151074_bl), 0.1F);
+        this.func_151396_a(Items.field_151010_B, new ItemStack(Items.field_151074_bl), 0.1F);
+        this.func_151396_a((Item) Items.field_151169_ag, new ItemStack(Items.field_151074_bl), 0.1F);
+        this.func_151396_a((Item) Items.field_151171_ah, new ItemStack(Items.field_151074_bl), 0.1F);
+        this.func_151396_a((Item) Items.field_151149_ai, new ItemStack(Items.field_151074_bl), 0.1F);
+        this.func_151396_a((Item) Items.field_151151_aj, new ItemStack(Items.field_151074_bl), 0.1F);
+        this.func_151396_a(Items.field_151136_bY, new ItemStack(Items.field_151074_bl), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.WHITE.func_176765_a()), new ItemStack(Blocks.field_192427_dB), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.ORANGE.func_176765_a()), new ItemStack(Blocks.field_192428_dC), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.MAGENTA.func_176765_a()), new ItemStack(Blocks.field_192429_dD), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.LIGHT_BLUE.func_176765_a()), new ItemStack(Blocks.field_192430_dE), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.YELLOW.func_176765_a()), new ItemStack(Blocks.field_192431_dF), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.LIME.func_176765_a()), new ItemStack(Blocks.field_192432_dG), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.PINK.func_176765_a()), new ItemStack(Blocks.field_192433_dH), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.GRAY.func_176765_a()), new ItemStack(Blocks.field_192434_dI), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.SILVER.func_176765_a()), new ItemStack(Blocks.field_192435_dJ), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.CYAN.func_176765_a()), new ItemStack(Blocks.field_192436_dK), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.PURPLE.func_176765_a()), new ItemStack(Blocks.field_192437_dL), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.BLUE.func_176765_a()), new ItemStack(Blocks.field_192438_dM), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.BROWN.func_176765_a()), new ItemStack(Blocks.field_192439_dN), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.GREEN.func_176765_a()), new ItemStack(Blocks.field_192440_dO), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.RED.func_176765_a()), new ItemStack(Blocks.field_192441_dP), 0.1F);
+        this.func_151394_a(new ItemStack(Blocks.field_150406_ce, 1, EnumDyeColor.BLACK.func_176765_a()), new ItemStack(Blocks.field_192442_dQ), 0.1F);
     }
 
     // CraftBukkit start - add method
@@ -112,20 +112,20 @@ public class FurnaceRecipes {
     }
     // CraftBukkit end
 
-    public void addSmeltingRecipeForBlock(Block block, ItemStack itemstack, float f) {
-        this.addSmelting(Item.getItemFromBlock(block), itemstack, f);
+    public void func_151393_a(Block block, ItemStack itemstack, float f) {
+        this.func_151396_a(Item.func_150898_a(block), itemstack, f);
     }
 
-    public void addSmelting(Item item, ItemStack itemstack, float f) {
-        this.addSmeltingRecipe(new ItemStack(item, 1, 32767), itemstack, f);
+    public void func_151396_a(Item item, ItemStack itemstack, float f) {
+        this.func_151394_a(new ItemStack(item, 1, 32767), itemstack, f);
     }
 
-    public void addSmeltingRecipe(ItemStack itemstack, ItemStack itemstack1, float f) {
-        this.smeltingList.put(itemstack, itemstack1);
-        this.experienceList.put(itemstack1, Float.valueOf(f));
+    public void func_151394_a(ItemStack itemstack, ItemStack itemstack1, float f) {
+        this.field_77604_b.put(itemstack, itemstack1);
+        this.field_77605_c.put(itemstack1, Float.valueOf(f));
     }
 
-    public ItemStack getSmeltingResult(ItemStack itemstack) {
+    public ItemStack func_151395_a(ItemStack itemstack) {
         // CraftBukkit start - initialize to customRecipes
         boolean vanilla = false;
         Iterator<Entry<ItemStack, ItemStack>> iterator = this.customRecipes.entrySet().iterator();
@@ -136,30 +136,30 @@ public class FurnaceRecipes {
         do {
             if (!iterator.hasNext()) {
                 // CraftBukkit start - fall back to vanilla recipes
-                if (!vanilla && !this.smeltingList.isEmpty()) {
-                    iterator = this.smeltingList.entrySet().iterator();
+                if (!vanilla && !this.field_77604_b.isEmpty()) {
+                    iterator = this.field_77604_b.entrySet().iterator();
                     vanilla = true;
                 } else {
-                    return ItemStack.EMPTY;
+                    return ItemStack.field_190927_a;
                 }
                 // CraftBukkit end
             }
 
             entry = (Entry) iterator.next();
-        } while (!this.compareItemStacks(itemstack, (ItemStack) entry.getKey()));
+        } while (!this.func_151397_a(itemstack, (ItemStack) entry.getKey()));
 
         return (ItemStack) entry.getValue();
     }
 
-    private boolean compareItemStacks(ItemStack itemstack, ItemStack itemstack1) {
-        return itemstack1.getItem() == itemstack.getItem() && (itemstack1.getMetadata() == 32767 || itemstack1.getMetadata() == itemstack.getMetadata());
+    private boolean func_151397_a(ItemStack itemstack, ItemStack itemstack1) {
+        return itemstack1.func_77973_b() == itemstack.func_77973_b() && (itemstack1.func_77960_j() == 32767 || itemstack1.func_77960_j() == itemstack.func_77960_j());
     }
 
-    public Map<ItemStack, ItemStack> getSmeltingList() {
-        return this.smeltingList;
+    public Map<ItemStack, ItemStack> func_77599_b() {
+        return this.field_77604_b;
     }
 
-    public float getSmeltingExperience(ItemStack itemstack) {
+    public float func_151398_b(ItemStack itemstack) {
         // CraftBukkit start - initialize to customRecipes
         boolean vanilla = false;
         Iterator<Entry<ItemStack, Float>> iterator = this.customExperience.entrySet().iterator();
@@ -170,8 +170,8 @@ public class FurnaceRecipes {
         do {
             if (!iterator.hasNext()) {
                 // CraftBukkit start - fall back to vanilla recipes
-                if (!vanilla && !this.experienceList.isEmpty()) {
-                    iterator = this.experienceList.entrySet().iterator();
+                if (!vanilla && !this.field_77605_c.isEmpty()) {
+                    iterator = this.field_77605_c.entrySet().iterator();
                     vanilla = true;
                 } else {
                     return 0.0F;
@@ -180,7 +180,7 @@ public class FurnaceRecipes {
             }
 
             entry = (Entry) iterator.next();
-        } while (!this.compareItemStacks(itemstack, (ItemStack) entry.getKey()));
+        } while (!this.func_151397_a(itemstack, (ItemStack) entry.getKey()));
 
         return ((Float) entry.getValue()).floatValue();
     }

@@ -18,36 +18,36 @@ import org.bukkit.event.player.PlayerFishEvent;
 public class ItemFishingRod extends Item {
 
     public ItemFishingRod() {
-        this.setMaxDamage(64);
-        this.setMaxStackSize(1);
-        this.setCreativeTab(CreativeTabs.TOOLS);
-        this.addPropertyOverride(new ResourceLocation("cast"), new IItemPropertyGetter() {
+        this.func_77656_e(64);
+        this.func_77625_d(1);
+        this.func_77637_a(CreativeTabs.field_78040_i);
+        this.func_185043_a(new ResourceLocation("cast"), new IItemPropertyGetter() {
         });
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (entityhuman.fishEntity != null) {
-            int i = entityhuman.fishEntity.handleHookRetraction();
+        if (entityhuman.field_71104_cf != null) {
+            int i = entityhuman.field_71104_cf.func_146034_e();
 
-            itemstack.damageItem(i, entityhuman);
-            entityhuman.swingArm(enumhand);
-            world.playSound((EntityPlayer) null, entityhuman.posX, entityhuman.posY, entityhuman.posZ, SoundEvents.ENTITY_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 1.0F, 0.4F / (ItemFishingRod.itemRand.nextFloat() * 0.4F + 0.8F));
+            itemstack.func_77972_a(i, entityhuman);
+            entityhuman.func_184609_a(enumhand);
+            world.func_184148_a((EntityPlayer) null, entityhuman.field_70165_t, entityhuman.field_70163_u, entityhuman.field_70161_v, SoundEvents.field_193780_J, SoundCategory.NEUTRAL, 1.0F, 0.4F / (ItemFishingRod.field_77697_d.nextFloat() * 0.4F + 0.8F));
         } else {
             // world.a((EntityHuman) null, entityhuman.locX, entityhuman.locY, entityhuman.locZ, SoundEffects.L, SoundCategory.NEUTRAL, 0.5F, 0.4F / (ItemFishingRod.j.nextFloat() * 0.4F + 0.8F)); // CraftBukkit - moved down
-            if (!world.isRemote) {
+            if (!world.field_72995_K) {
                 EntityFishHook entityfishinghook = new EntityFishHook(world, entityhuman);
-                int j = EnchantmentHelper.getFishingSpeedBonus(itemstack);
+                int j = EnchantmentHelper.func_191528_c(itemstack);
 
                 if (j > 0) {
-                    entityfishinghook.setLureSpeed(j);
+                    entityfishinghook.func_191516_a(j);
                 }
 
-                int k = EnchantmentHelper.getFishingLuckBonus(itemstack);
+                int k = EnchantmentHelper.func_191529_b(itemstack);
 
                 if (k > 0) {
-                    entityfishinghook.setLuck(k);
+                    entityfishinghook.func_191517_b(k);
                 }
 
                 // CraftBukkit start
@@ -55,23 +55,23 @@ public class ItemFishingRod extends Item {
                 world.getServer().getPluginManager().callEvent(playerFishEvent);
 
                 if (playerFishEvent.isCancelled()) {
-                    entityhuman.fishEntity = null;
+                    entityhuman.field_71104_cf = null;
                     return new ActionResult(EnumActionResult.PASS, itemstack);
                 }
-                world.playSound((EntityPlayer) null, entityhuman.posX, entityhuman.posY, entityhuman.posZ, SoundEvents.ENTITY_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (ItemFishingRod.itemRand.nextFloat() * 0.4F + 0.8F));
+                world.func_184148_a((EntityPlayer) null, entityhuman.field_70165_t, entityhuman.field_70163_u, entityhuman.field_70161_v, SoundEvents.field_187612_G, SoundCategory.NEUTRAL, 0.5F, 0.4F / (ItemFishingRod.field_77697_d.nextFloat() * 0.4F + 0.8F));
                 // CraftBukkit end
 
-                world.spawnEntity(entityfishinghook);
+                world.func_72838_d(entityfishinghook);
             }
 
-            entityhuman.swingArm(enumhand);
-            entityhuman.addStat(StatList.getObjectUseStats((Item) this));
+            entityhuman.func_184609_a(enumhand);
+            entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
         }
 
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
     }
 
-    public int getItemEnchantability() {
+    public int func_77619_b() {
         return 1;
     }
 }

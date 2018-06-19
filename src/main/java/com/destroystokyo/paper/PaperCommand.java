@@ -136,7 +136,7 @@ public class PaperCommand extends Command {
                 }
                 WorldServer world = ((CraftWorld) Bukkit.getWorld(worldName)).getHandle();
 
-                List<Entity> entities = world.loadedEntityList;
+                List<Entity> entities = world.field_72996_f;
                 entities.forEach(e -> {
                     ResourceLocation key = EntityList.getKey(e);
 
@@ -156,7 +156,7 @@ public class PaperCommand extends Command {
                     sender.sendMessage("Entity: " + name + " Total: " + info.getLeft());
                     info.getRight().entrySet().stream()
                             .sorted((a, b) -> !a.getValue().equals(b.getValue()) ? b.getValue() - a.getValue() : a.getKey().toString().compareTo(b.getKey().toString()))
-                            .limit(10).forEach(e -> sender.sendMessage("  " + e.getValue() + ": " + e.getKey().x + ", " + e.getKey().z));
+                            .limit(10).forEach(e -> sender.sendMessage("  " + e.getValue() + ": " + e.getKey().field_77276_a + ", " + e.getKey().field_77275_b));
                 } else {
                     List<Pair<ResourceLocation, Integer>> info = list.entrySet().stream()
                             .filter(e -> names.contains(e.getKey()))

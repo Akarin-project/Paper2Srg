@@ -18,7 +18,6 @@ import javax.annotation.Nullable;
 
 import java.util.LinkedList;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.PlayerChunkMap.ChunkCoordComparator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -32,69 +31,71 @@ import java.util.LinkedList;
 
 public class PlayerChunkMap {
 
-    private static final Predicate<EntityPlayerMP> NOT_SPECTATOR = new Predicate() {
+    private static final Predicate<EntityPlayerMP> field_187308_a = new Predicate() {
         public boolean a(@Nullable EntityPlayerMP entityplayer) {
-            return entityplayer != null && !entityplayer.isSpectator();
+            return entityplayer != null && !entityplayer.func_175149_v();
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((EntityPlayerMP) object);
         }
     };
-    private static final Predicate<EntityPlayerMP> CAN_GENERATE_CHUNKS = new Predicate() {
+    private static final Predicate<EntityPlayerMP> field_187309_b = new Predicate() {
         public boolean a(@Nullable EntityPlayerMP entityplayer) {
-            return entityplayer != null && (!entityplayer.isSpectator() || entityplayer.getServerWorld().getGameRules().getBoolean("spectatorsGenerateChunks"));
+            return entityplayer != null && (!entityplayer.func_175149_v() || entityplayer.func_71121_q().func_82736_K().func_82766_b("spectatorsGenerateChunks"));
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((EntityPlayerMP) object);
         }
     };
-    private final WorldServer world;
-    private final List<EntityPlayerMP> players = Lists.newArrayList();
-    private final Long2ObjectMap<PlayerChunkMapEntry> entryMap = new Long2ObjectOpenHashMap(4096);
-    private final Set<PlayerChunkMapEntry> dirtyEntries = Sets.newHashSet();
-    private final List<PlayerChunkMapEntry> pendingSendToPlayers = Lists.newLinkedList();
-    private final List<PlayerChunkMapEntry> entriesWithoutChunks = Lists.newLinkedList();
-    private final List<PlayerChunkMapEntry> entries = Lists.newArrayList();
-    private int playerViewRadius;public int getViewDistance() { return playerViewRadius; } // Paper OBFHELPER
-    private long previousTotalWorldTime;
-    private boolean sortMissingChunks = true;
-    private boolean sortSendToPlayers = true;
+    private final WorldServer field_72701_a;
+    private final List<EntityPlayerMP> field_72699_b = Lists.newArrayList();
+    private final Long2ObjectMap<PlayerChunkMapEntry> field_72700_c = new Long2ObjectOpenHashMap(4096);
+    private final Set<PlayerChunkMapEntry> field_72697_d = Sets.newHashSet();
+    private final List<PlayerChunkMapEntry> field_187310_g = Lists.newLinkedList();
+    private final List<PlayerChunkMapEntry> field_187311_h = Lists.newLinkedList();
+    private final List<PlayerChunkMapEntry> field_111193_e = Lists.newArrayList();
+    private int field_72698_e;public int getViewDistance() { return field_72698_e; } // Paper OBFHELPER
+    private long field_111192_g;
+    private boolean field_187312_l = true;
+    private boolean field_187313_m = true;
     private boolean wasNotEmpty; // CraftBukkit - add field
 
     public PlayerChunkMap(WorldServer worldserver) {
-        this.world = worldserver;
-        this.setPlayerViewRadius(worldserver.spigotConfig.viewDistance); // Spigot
+        this.field_72701_a = worldserver;
+        this.func_152622_a(worldserver.spigotConfig.viewDistance); // Spigot
     }
 
-    public WorldServer getWorldServer() {
-        return this.world;
+    public WorldServer func_72688_a() {
+        return this.field_72701_a;
     }
 
-    public Iterator<Chunk> getChunkIterator() {
-        final Iterator iterator = this.entries.iterator();
+    public Iterator<Chunk> func_187300_b() {
+        final Iterator iterator = this.field_111193_e.iterator();
 
         return new AbstractIterator() {
             protected Chunk a() {
                 while (true) {
                     if (iterator.hasNext()) {
                         PlayerChunkMapEntry playerchunk = (PlayerChunkMapEntry) iterator.next();
-                        Chunk chunk = playerchunk.getChunk();
+                        Chunk chunk = playerchunk.func_187266_f();
 
                         if (chunk == null) {
                             continue;
                         }
 
-                        if (!chunk.isLightPopulated() && chunk.isTerrainPopulated()) {
+                        if (!chunk.func_177423_u() && chunk.func_177419_t()) {
                             return chunk;
                         }
 
-                        if (!chunk.wasTicked()) {
+                        if (!chunk.func_186035_j()) {
                             return chunk;
                         }
 
-                        if (!playerchunk.hasPlayerMatchingInRange(128.0D, PlayerChunkMap.NOT_SPECTATOR)) {
+                        if (!playerchunk.func_187271_a(128.0D, PlayerChunkMap.field_187308_a)) {
                             continue;
                         }
 
@@ -105,50 +106,52 @@ public class PlayerChunkMap {
                 }
             }
 
+            @Override
             protected Object computeNext() {
                 return this.a();
             }
         };
     }
 
-    public void tick() {
-        long i = this.world.getTotalWorldTime();
+    public void func_72693_b() {
+        long i = this.field_72701_a.func_82737_E();
         int j;
         PlayerChunkMapEntry playerchunk;
 
-        if (i - this.previousTotalWorldTime > 8000L) {
-            try (Timing ignored = world.timings.doChunkMapUpdate.startTiming()) { // Paper
-            this.previousTotalWorldTime = i;
+        if (i - this.field_111192_g > 8000L) {
+            try (Timing ignored = field_72701_a.timings.doChunkMapUpdate.startTiming()) { // Paper
+            this.field_111192_g = i;
 
-            for (j = 0; j < this.entries.size(); ++j) {
-                playerchunk = (PlayerChunkMapEntry) this.entries.get(j);
-                playerchunk.update();
-                playerchunk.updateChunkInhabitedTime();
+            for (j = 0; j < this.field_111193_e.size(); ++j) {
+                playerchunk = this.field_111193_e.get(j);
+                playerchunk.func_187280_d();
+                playerchunk.func_187279_c();
             }
             } // Paper timing
         }
 
-        if (!this.dirtyEntries.isEmpty()) {
-            try (Timing ignored = world.timings.doChunkMapToUpdate.startTiming()) { // Paper
-            Iterator iterator = this.dirtyEntries.iterator();
+        if (!this.field_72697_d.isEmpty()) {
+            try (Timing ignored = field_72701_a.timings.doChunkMapToUpdate.startTiming()) { // Paper
+            Iterator iterator = this.field_72697_d.iterator();
 
             while (iterator.hasNext()) {
                 playerchunk = (PlayerChunkMapEntry) iterator.next();
-                playerchunk.update();
+                playerchunk.func_187280_d();
             }
 
-            this.dirtyEntries.clear();
+            this.field_72697_d.clear();
             } // Paper timing
         }
 
-        if (this.sortMissingChunks && i % 4L == 0L) {
-            this.sortMissingChunks = false;
-            try (Timing ignored = world.timings.doChunkMapSortMissing.startTiming()) { // Paper
-            Collections.sort(this.entriesWithoutChunks, new Comparator() {
+        if (this.field_187312_l && i % 4L == 0L) {
+            this.field_187312_l = false;
+            try (Timing ignored = field_72701_a.timings.doChunkMapSortMissing.startTiming()) { // Paper
+            Collections.sort(this.field_187311_h, new Comparator() {
                 public int a(PlayerChunkMapEntry playerchunk, PlayerChunkMapEntry playerchunk1) {
-                    return ComparisonChain.start().compare(playerchunk.getClosestPlayerDistance(), playerchunk1.getClosestPlayerDistance()).result();
+                    return ComparisonChain.start().compare(playerchunk.func_187270_g(), playerchunk1.func_187270_g()).result();
                 }
 
+                @Override
                 public int compare(Object object, Object object1) {
                     return this.a((PlayerChunkMapEntry) object, (PlayerChunkMapEntry) object1);
                 }
@@ -156,14 +159,15 @@ public class PlayerChunkMap {
             } // Paper timing
         }
 
-        if (this.sortSendToPlayers && i % 4L == 2L) {
-            this.sortSendToPlayers = false;
-            try (Timing ignored = world.timings.doChunkMapSortSendToPlayers.startTiming()) { // Paper
-            Collections.sort(this.pendingSendToPlayers, new Comparator() {
+        if (this.field_187313_m && i % 4L == 2L) {
+            this.field_187313_m = false;
+            try (Timing ignored = field_72701_a.timings.doChunkMapSortSendToPlayers.startTiming()) { // Paper
+            Collections.sort(this.field_187310_g, new Comparator() {
                 public int a(PlayerChunkMapEntry playerchunk, PlayerChunkMapEntry playerchunk1) {
-                    return ComparisonChain.start().compare(playerchunk.getClosestPlayerDistance(), playerchunk1.getClosestPlayerDistance()).result();
+                    return ComparisonChain.start().compare(playerchunk.func_187270_g(), playerchunk1.func_187270_g()).result();
                 }
 
+                @Override
                 public int compare(Object object, Object object1) {
                     return this.a((PlayerChunkMapEntry) object, (PlayerChunkMapEntry) object1);
                 }
@@ -171,31 +175,31 @@ public class PlayerChunkMap {
             } // Paper timing
         }
 
-        if (!this.entriesWithoutChunks.isEmpty()) {
-            try (Timing ignored = world.timings.doChunkMapPlayersNeedingChunks.startTiming()) { // Paper
+        if (!this.field_187311_h.isEmpty()) {
+            try (Timing ignored = field_72701_a.timings.doChunkMapPlayersNeedingChunks.startTiming()) { // Paper
             // Spigot start
-            org.spigotmc.SlackActivityAccountant activityAccountant = this.world.getMinecraftServer().slackActivityAccountant;
+            org.spigotmc.SlackActivityAccountant activityAccountant = this.field_72701_a.func_73046_m().slackActivityAccountant;
             activityAccountant.startActivity(0.5);
-            int chunkGensAllowed = world.paperConfig.maxChunkGensPerTick; // Paper
+            int chunkGensAllowed = field_72701_a.paperConfig.maxChunkGensPerTick; // Paper
             // Spigot end
 
-            Iterator iterator1 = this.entriesWithoutChunks.iterator();
+            Iterator iterator1 = this.field_187311_h.iterator();
 
             while (iterator1.hasNext()) {
                 PlayerChunkMapEntry playerchunk1 = (PlayerChunkMapEntry) iterator1.next();
 
-                if (playerchunk1.getChunk() == null) {
-                    boolean flag = playerchunk1.hasPlayerMatching(PlayerChunkMap.CAN_GENERATE_CHUNKS);
+                if (playerchunk1.func_187266_f() == null) {
+                    boolean flag = playerchunk1.func_187269_a(PlayerChunkMap.field_187309_b);
                     // Paper start
                     if (flag && !playerchunk1.chunkExists && chunkGensAllowed-- <= 0) {
                         continue;
                     }
                     // Paper end
 
-                    if (playerchunk1.providePlayerChunk(flag)) {
+                    if (playerchunk1.func_187268_a(flag)) {
                         iterator1.remove();
-                        if (playerchunk1.sendToPlayers()) {
-                            this.pendingSendToPlayers.remove(playerchunk1);
+                        if (playerchunk1.func_187272_b()) {
+                            this.field_187310_g.remove(playerchunk1);
                         }
 
                         if (activityAccountant.activityTimeIsExhausted()) { // Spigot
@@ -213,15 +217,15 @@ public class PlayerChunkMap {
             } // Paper timing
         }
 
-        if (!this.pendingSendToPlayers.isEmpty()) {
-            j = world.paperConfig.maxChunkSendsPerTick; // Paper
-            try (Timing ignored = world.timings.doChunkMapPendingSendToPlayers.startTiming()) { // Paper
-            Iterator iterator2 = this.pendingSendToPlayers.iterator();
+        if (!this.field_187310_g.isEmpty()) {
+            j = field_72701_a.paperConfig.maxChunkSendsPerTick; // Paper
+            try (Timing ignored = field_72701_a.timings.doChunkMapPendingSendToPlayers.startTiming()) { // Paper
+            Iterator iterator2 = this.field_187310_g.iterator();
 
             while (iterator2.hasNext()) {
                 PlayerChunkMapEntry playerchunk2 = (PlayerChunkMapEntry) iterator2.next();
 
-                if (playerchunk2.sendToPlayers()) {
+                if (playerchunk2.func_187272_b()) {
                     iterator2.remove();
                     --j;
                     if (j < 0) {
@@ -232,43 +236,43 @@ public class PlayerChunkMap {
             } // Paper timing
         }
 
-        if (this.players.isEmpty()) {
-            try (Timing ignored = world.timings.doChunkMapUnloadChunks.startTiming()) { // Paper
-            WorldProvider worldprovider = this.world.provider;
+        if (this.field_72699_b.isEmpty()) {
+            try (Timing ignored = field_72701_a.timings.doChunkMapUnloadChunks.startTiming()) { // Paper
+            WorldProvider worldprovider = this.field_72701_a.field_73011_w;
 
-            if (!worldprovider.canRespawnHere() && !this.world.disableLevelSaving) { // Paper - respect saving disabled setting
-                this.world.getChunkProvider().queueUnloadAll();
+            if (!worldprovider.func_76567_e() && !this.field_72701_a.field_73058_d) { // Paper - respect saving disabled setting
+                this.field_72701_a.func_72863_F().func_73240_a();
             }
             } // Paper timing
         }
 
     }
 
-    public boolean contains(int i, int j) {
-        long k = getIndex(i, j);
+    public boolean func_152621_a(int i, int j) {
+        long k = func_187307_d(i, j);
 
-        return this.entryMap.get(k) != null;
+        return this.field_72700_c.get(k) != null;
     }
 
     @Nullable
-    public PlayerChunkMapEntry getEntry(int i, int j) {
-        return (PlayerChunkMapEntry) this.entryMap.get(getIndex(i, j));
+    public PlayerChunkMapEntry func_187301_b(int i, int j) {
+        return this.field_72700_c.get(func_187307_d(i, j));
     }
 
-    private PlayerChunkMapEntry getOrCreateEntry(int i, int j) {
-        long k = getIndex(i, j);
-        PlayerChunkMapEntry playerchunk = (PlayerChunkMapEntry) this.entryMap.get(k);
+    private PlayerChunkMapEntry func_187302_c(int i, int j) {
+        long k = func_187307_d(i, j);
+        PlayerChunkMapEntry playerchunk = this.field_72700_c.get(k);
 
         if (playerchunk == null) {
             playerchunk = new PlayerChunkMapEntry(this, i, j);
-            this.entryMap.put(k, playerchunk);
-            this.entries.add(playerchunk);
-            if (playerchunk.getChunk() == null) {
-                this.entriesWithoutChunks.add(playerchunk);
+            this.field_72700_c.put(k, playerchunk);
+            this.field_111193_e.add(playerchunk);
+            if (playerchunk.func_187266_f() == null) {
+                this.field_187311_h.add(playerchunk);
             }
 
-            if (!playerchunk.sendToPlayers()) {
-                this.pendingSendToPlayers.add(playerchunk);
+            if (!playerchunk.func_187272_b()) {
+                this.field_187310_g.add(playerchunk);
             }
         }
 
@@ -277,31 +281,31 @@ public class PlayerChunkMap {
 
     // CraftBukkit start - add method
     public final boolean isChunkInUse(int x, int z) {
-        PlayerChunkMapEntry pi = getEntry(x, z);
+        PlayerChunkMapEntry pi = func_187301_b(x, z);
         if (pi != null) {
-            return (pi.players.size() > 0);
+            return (pi.field_187283_c.size() > 0);
         }
         return false;
     }
     // CraftBukkit end
 
-    public void markBlockForUpdate(BlockPos blockposition) {
-        int i = blockposition.getX() >> 4;
-        int j = blockposition.getZ() >> 4;
-        PlayerChunkMapEntry playerchunk = this.getEntry(i, j);
+    public void func_180244_a(BlockPos blockposition) {
+        int i = blockposition.func_177958_n() >> 4;
+        int j = blockposition.func_177952_p() >> 4;
+        PlayerChunkMapEntry playerchunk = this.func_187301_b(i, j);
 
         if (playerchunk != null) {
-            playerchunk.blockChanged(blockposition.getX() & 15, blockposition.getY(), blockposition.getZ() & 15);
+            playerchunk.func_187265_a(blockposition.func_177958_n() & 15, blockposition.func_177956_o(), blockposition.func_177952_p() & 15);
         }
 
     }
 
-    public void addPlayer(EntityPlayerMP entityplayer) {
-        int i = (int) entityplayer.posX >> 4;
-        int j = (int) entityplayer.posZ >> 4;
+    public void func_72683_a(EntityPlayerMP entityplayer) {
+        int i = (int) entityplayer.field_70165_t >> 4;
+        int j = (int) entityplayer.field_70161_v >> 4;
 
-        entityplayer.managedPosX = entityplayer.posX;
-        entityplayer.managedPosZ = entityplayer.posZ;
+        entityplayer.field_71131_d = entityplayer.field_70165_t;
+        entityplayer.field_71132_e = entityplayer.field_70161_v;
 
 
         // CraftBukkit start - Load nearby chunks first
@@ -318,52 +322,52 @@ public class PlayerChunkMap {
 
         Collections.sort(chunkList, new ChunkCoordComparator(entityplayer));
         for (ChunkPos pair : chunkList) {
-            this.getOrCreateEntry(pair.x, pair.z).addPlayer(entityplayer);
+            this.func_187302_c(pair.field_77276_a, pair.field_77275_b).func_187276_a(entityplayer);
         }
         // CraftBukkit end
 
-        this.players.add(entityplayer);
-        this.markSortPending();
+        this.field_72699_b.add(entityplayer);
+        this.func_187306_e();
     }
 
-    public void removePlayer(EntityPlayerMP entityplayer) {
-        int i = (int) entityplayer.managedPosX >> 4;
-        int j = (int) entityplayer.managedPosZ >> 4;
+    public void func_72695_c(EntityPlayerMP entityplayer) {
+        int i = (int) entityplayer.field_71131_d >> 4;
+        int j = (int) entityplayer.field_71132_e >> 4;
 
         // Paper start - Player view distance API
         int viewDistance = entityplayer.getViewDistance();
         for (int k = i - viewDistance; k <= i + viewDistance; ++k) {
             for (int l = j - viewDistance; l <= j + viewDistance; ++l) {
                 // Paper end
-                PlayerChunkMapEntry playerchunk = this.getEntry(k, l);
+                PlayerChunkMapEntry playerchunk = this.func_187301_b(k, l);
 
                 if (playerchunk != null) {
-                    playerchunk.removePlayer(entityplayer);
+                    playerchunk.func_187277_b(entityplayer);
                 }
             }
         }
 
-        this.players.remove(entityplayer);
-        this.markSortPending();
+        this.field_72699_b.remove(entityplayer);
+        this.func_187306_e();
     }
 
-    private boolean overlaps(int i, int j, int k, int l, int i1) {
+    private boolean func_72684_a(int i, int j, int k, int l, int i1) {
         int j1 = i - k;
         int k1 = j - l;
 
         return j1 >= -i1 && j1 <= i1 ? k1 >= -i1 && k1 <= i1 : false;
     }
 
-    public void updateMovingPlayer(EntityPlayerMP entityplayer) {
-        int i = (int) entityplayer.posX >> 4;
-        int j = (int) entityplayer.posZ >> 4;
-        double d0 = entityplayer.managedPosX - entityplayer.posX;
-        double d1 = entityplayer.managedPosZ - entityplayer.posZ;
+    public void func_72685_d(EntityPlayerMP entityplayer) {
+        int i = (int) entityplayer.field_70165_t >> 4;
+        int j = (int) entityplayer.field_70161_v >> 4;
+        double d0 = entityplayer.field_71131_d - entityplayer.field_70165_t;
+        double d1 = entityplayer.field_71132_e - entityplayer.field_70161_v;
         double d2 = d0 * d0 + d1 * d1;
 
         if (d2 >= 64.0D) {
-            int k = (int) entityplayer.managedPosX >> 4;
-            int l = (int) entityplayer.managedPosZ >> 4;
+            int k = (int) entityplayer.field_71131_d >> 4;
+            int l = (int) entityplayer.field_71132_e >> 4;
             final int viewDistance = entityplayer.getViewDistance(); // Paper - Player view distance API
             int i1 = Math.max(getViewDistance(), viewDistance); // Paper - Player view distance API
 
@@ -375,48 +379,48 @@ public class PlayerChunkMap {
             if (j1 != 0 || k1 != 0) {
                 for (int l1 = i - i1; l1 <= i + i1; ++l1) {
                     for (int i2 = j - i1; i2 <= j + i1; ++i2) {
-                        if (!this.overlaps(l1, i2, k, l, viewDistance)) { // Paper - Player view distance API
+                        if (!this.func_72684_a(l1, i2, k, l, viewDistance)) { // Paper - Player view distance API
                             // this.c(l1, i2).a(entityplayer);
                             chunksToLoad.add(new ChunkPos(l1, i2)); // CraftBukkit
                         }
 
-                        if (!this.overlaps(l1 - j1, i2 - k1, i, j, i1)) {
-                            PlayerChunkMapEntry playerchunk = this.getEntry(l1 - j1, i2 - k1);
+                        if (!this.func_72684_a(l1 - j1, i2 - k1, i, j, i1)) {
+                            PlayerChunkMapEntry playerchunk = this.func_187301_b(l1 - j1, i2 - k1);
 
                             if (playerchunk != null) {
-                                playerchunk.removePlayer(entityplayer);
+                                playerchunk.func_187277_b(entityplayer);
                             }
                         }
                     }
                 }
 
-                entityplayer.managedPosX = entityplayer.posX;
-                entityplayer.managedPosZ = entityplayer.posZ;
-                this.markSortPending();
+                entityplayer.field_71131_d = entityplayer.field_70165_t;
+                entityplayer.field_71132_e = entityplayer.field_70161_v;
+                this.func_187306_e();
 
                 // CraftBukkit start - send nearest chunks first
                 Collections.sort(chunksToLoad, new ChunkCoordComparator(entityplayer));
                 for (ChunkPos pair : chunksToLoad) {
-                    this.getOrCreateEntry(pair.x, pair.z).addPlayer(entityplayer);
+                    this.func_187302_c(pair.field_77276_a, pair.field_77275_b).func_187276_a(entityplayer);
                 }
                 // CraftBukkit end
             }
         }
     }
 
-    public boolean isPlayerWatchingChunk(EntityPlayerMP entityplayer, int i, int j) {
-        PlayerChunkMapEntry playerchunk = this.getEntry(i, j);
+    public boolean func_72694_a(EntityPlayerMP entityplayer, int i, int j) {
+        PlayerChunkMapEntry playerchunk = this.func_187301_b(i, j);
 
-        return playerchunk != null && playerchunk.containsPlayer(entityplayer) && playerchunk.isSentToPlayers();
+        return playerchunk != null && playerchunk.func_187275_d(entityplayer) && playerchunk.func_187274_e();
     }
 
-    public final void setViewDistanceForAll(int viewDistance) { this.setPlayerViewRadius(viewDistance); } // Paper - OBFHELPER
+    public final void setViewDistanceForAll(int viewDistance) { this.func_152622_a(viewDistance); } // Paper - OBFHELPER
     // Paper start - Separate into two methods
-    public void setPlayerViewRadius(int i) {
-        i = MathHelper.clamp(i, 3, 32);
-        if (i != this.playerViewRadius) {
-            int j = i - this.playerViewRadius;
-            ArrayList arraylist = Lists.newArrayList(this.players);
+    public void func_152622_a(int i) {
+        i = MathHelper.func_76125_a(i, 3, 32);
+        if (i != this.field_72698_e) {
+            int j = i - this.field_72698_e;
+            ArrayList arraylist = Lists.newArrayList(this.field_72699_b);
             Iterator iterator = arraylist.iterator();
 
             while (iterator.hasNext()) {
@@ -424,8 +428,8 @@ public class PlayerChunkMap {
                 this.setViewDistance(entityplayer, i, false); // Paper - Split, don't mark sort pending, we'll handle it after
             }
 
-            this.playerViewRadius = i;
-            this.markSortPending();
+            this.field_72698_e = i;
+            this.func_187306_e();
         }
     }
 
@@ -435,77 +439,77 @@ public class PlayerChunkMap {
     
     // Copied from above with minor changes
     public void setViewDistance(EntityPlayerMP entityplayer, int i, boolean markSort) {
-        i = MathHelper.clamp(i, 3, 32);
+        i = MathHelper.func_76125_a(i, 3, 32);
         int oldViewDistance = entityplayer.getViewDistance();
         if (i != oldViewDistance) {
             int j = i - oldViewDistance;
             
-            int k = (int) entityplayer.posX >> 4;
-            int l = (int) entityplayer.posZ >> 4;
+            int k = (int) entityplayer.field_70165_t >> 4;
+            int l = (int) entityplayer.field_70161_v >> 4;
             int i1;
             int j1;
 
             if (j > 0) {
                 for (i1 = k - i; i1 <= k + i; ++i1) {
                     for (j1 = l - i; j1 <= l + i; ++j1) {
-                        PlayerChunkMapEntry playerchunk = this.getOrCreateEntry(i1, j1);
+                        PlayerChunkMapEntry playerchunk = this.func_187302_c(i1, j1);
 
-                        if (!playerchunk.containsPlayer(entityplayer)) {
-                            playerchunk.addPlayer(entityplayer);
+                        if (!playerchunk.func_187275_d(entityplayer)) {
+                            playerchunk.func_187276_a(entityplayer);
                         }
                     }
                 }
             } else {
                 for (i1 = k - oldViewDistance; i1 <= k + oldViewDistance; ++i1) {
                     for (j1 = l - oldViewDistance; j1 <= l + oldViewDistance; ++j1) {
-                        if (!this.overlaps(i1, j1, k, l, i)) {
-                            this.getOrCreateEntry(i1, j1).removePlayer(entityplayer);
+                        if (!this.func_72684_a(i1, j1, k, l, i)) {
+                            this.func_187302_c(i1, j1).func_187277_b(entityplayer);
                         }
                     }
                 }
                 if (markSort) {
-                    this.markSortPending();
+                    this.func_187306_e();
                 }
             }
         }
     }
     // Paper end
 
-    private void markSortPending() {
-        this.sortMissingChunks = true;
-        this.sortSendToPlayers = true;
+    private void func_187306_e() {
+        this.field_187312_l = true;
+        this.field_187313_m = true;
     }
 
-    public static int getFurthestViewableBlock(int i) {
+    public static int func_72686_a(int i) {
         return i * 16 - 16;
     }
 
-    private static long getIndex(int i, int j) {
-        return (long) i + 2147483647L | (long) j + 2147483647L << 32;
+    private static long func_187307_d(int i, int j) {
+        return i + 2147483647L | j + 2147483647L << 32;
     }
 
-    public void entryChanged(PlayerChunkMapEntry playerchunk) {
+    public void func_187304_a(PlayerChunkMapEntry playerchunk) {
         org.spigotmc.AsyncCatcher.catchOp("Async Player Chunk Add"); // Paper
-        this.dirtyEntries.add(playerchunk);
+        this.field_72697_d.add(playerchunk);
     }
 
-    public void removeEntry(PlayerChunkMapEntry playerchunk) {
+    public void func_187305_b(PlayerChunkMapEntry playerchunk) {
         org.spigotmc.AsyncCatcher.catchOp("Async Player Chunk Remove"); // Paper
-        ChunkPos chunkcoordintpair = playerchunk.getPos();
-        long i = getIndex(chunkcoordintpair.x, chunkcoordintpair.z);
+        ChunkPos chunkcoordintpair = playerchunk.func_187264_a();
+        long i = func_187307_d(chunkcoordintpair.field_77276_a, chunkcoordintpair.field_77275_b);
 
-        playerchunk.updateChunkInhabitedTime();
-        this.entryMap.remove(i);
-        this.entries.remove(playerchunk);
-        this.dirtyEntries.remove(playerchunk);
-        this.pendingSendToPlayers.remove(playerchunk);
-        this.entriesWithoutChunks.remove(playerchunk);
-        Chunk chunk = playerchunk.getChunk();
+        playerchunk.func_187279_c();
+        this.field_72700_c.remove(i);
+        this.field_111193_e.remove(playerchunk);
+        this.field_72697_d.remove(playerchunk);
+        this.field_187310_g.remove(playerchunk);
+        this.field_187311_h.remove(playerchunk);
+        Chunk chunk = playerchunk.func_187266_f();
 
         if (chunk != null) {
             // Paper start - delay chunk unloads
-            if (world.paperConfig.delayChunkUnloadsBy <= 0) {
-                this.getWorldServer().getChunkProvider().queueUnload(chunk);
+            if (field_72701_a.paperConfig.delayChunkUnloadsBy <= 0) {
+                this.func_72688_a().func_72863_F().func_189549_a(chunk);
             } else {
                 chunk.scheduledForUnload = System.currentTimeMillis();
             }
@@ -520,20 +524,21 @@ public class PlayerChunkMap {
         private int z;
 
         public ChunkCoordComparator (EntityPlayerMP entityplayer) {
-            x = (int) entityplayer.posX >> 4;
-            z = (int) entityplayer.posZ >> 4;
+            x = (int) entityplayer.field_70165_t >> 4;
+            z = (int) entityplayer.field_70161_v >> 4;
         }
 
+        @Override
         public int compare(ChunkPos a, ChunkPos b) {
             if (a.equals(b)) {
                 return 0;
             }
 
             // Subtract current position to set center point
-            int ax = a.x - this.x;
-            int az = a.z - this.z;
-            int bx = b.x - this.x;
-            int bz = b.z - this.z;
+            int ax = a.field_77276_a - this.x;
+            int az = a.field_77275_b - this.z;
+            int bx = b.field_77276_a - this.x;
+            int bz = b.field_77275_b - this.z;
 
             int result = ((ax - bx) * (ax + bx)) + ((az - bz) * (az + bz));
             if (result != 0) {
@@ -563,7 +568,7 @@ public class PlayerChunkMap {
 
         // This represents the view distance that we will set on the player
         // It can exist as a negative value
-        int playerViewDistance = MathHelper.clamp(distanceIn, 3, 32);
+        int playerViewDistance = MathHelper.func_76125_a(distanceIn, 3, 32);
 
         // This value is the one we actually use to update the chunk map
         // We don't ever want this to be a negative
@@ -571,7 +576,7 @@ public class PlayerChunkMap {
 
         if (distanceIn < 0) {
             playerViewDistance = -1;
-            toSet = world.getPlayerChunkMap().getViewDistance();
+            toSet = field_72701_a.func_184164_w().getViewDistance();
         }
 
         if (toSet != oldViewDistance) {

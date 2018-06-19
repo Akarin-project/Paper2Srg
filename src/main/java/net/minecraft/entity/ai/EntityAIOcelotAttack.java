@@ -7,41 +7,41 @@ import net.minecraft.world.World;
 
 public class EntityAIOcelotAttack extends EntityAIBase {
 
-    World world;
-    EntityLiving entity;
-    EntityLivingBase target;
-    int attackCountdown;
+    World field_75411_a;
+    EntityLiving field_75409_b;
+    EntityLivingBase field_75410_c;
+    int field_75408_d;
 
     public EntityAIOcelotAttack(EntityLiving entityinsentient) {
-        this.entity = entityinsentient;
-        this.world = entityinsentient.world;
-        this.setMutexBits(3);
+        this.field_75409_b = entityinsentient;
+        this.field_75411_a = entityinsentient.field_70170_p;
+        this.func_75248_a(3);
     }
 
-    public boolean shouldExecute() {
-        EntityLivingBase entityliving = this.entity.getAttackTarget();
+    public boolean func_75250_a() {
+        EntityLivingBase entityliving = this.field_75409_b.func_70638_az();
 
         if (entityliving == null) {
             return false;
         } else {
-            this.target = entityliving;
+            this.field_75410_c = entityliving;
             return true;
         }
     }
 
-    public boolean shouldContinueExecuting() {
-        return !this.target.isEntityAlive() ? false : (this.entity.getDistanceSq(this.target) > 225.0D ? false : !this.entity.getNavigator().noPath() || this.shouldExecute());
+    public boolean func_75253_b() {
+        return !this.field_75410_c.func_70089_S() ? false : (this.field_75409_b.func_70068_e(this.field_75410_c) > 225.0D ? false : !this.field_75409_b.func_70661_as().func_75500_f() || this.func_75250_a());
     }
 
-    public void resetTask() {
-        this.target = null;
-        this.entity.getNavigator().clearPath();
+    public void func_75251_c() {
+        this.field_75410_c = null;
+        this.field_75409_b.func_70661_as().func_75499_g();
     }
 
-    public void updateTask() {
-        this.entity.getLookHelper().setLookPositionWithEntity(this.target, 30.0F, 30.0F);
-        double d0 = (double) (this.entity.width * 2.0F * this.entity.width * 2.0F);
-        double d1 = this.entity.getDistanceSq(this.target.posX, this.target.getEntityBoundingBox().minY, this.target.posZ);
+    public void func_75246_d() {
+        this.field_75409_b.func_70671_ap().func_75651_a(this.field_75410_c, 30.0F, 30.0F);
+        double d0 = (double) (this.field_75409_b.field_70130_N * 2.0F * this.field_75409_b.field_70130_N * 2.0F);
+        double d1 = this.field_75409_b.func_70092_e(this.field_75410_c.field_70165_t, this.field_75410_c.func_174813_aQ().field_72338_b, this.field_75410_c.field_70161_v);
         double d2 = 0.8D;
 
         if (d1 > d0 && d1 < 16.0D) {
@@ -50,12 +50,12 @@ public class EntityAIOcelotAttack extends EntityAIBase {
             d2 = 0.6D;
         }
 
-        this.entity.getNavigator().tryMoveToEntityLiving((Entity) this.target, d2);
-        this.attackCountdown = Math.max(this.attackCountdown - 1, 0);
+        this.field_75409_b.func_70661_as().func_75497_a((Entity) this.field_75410_c, d2);
+        this.field_75408_d = Math.max(this.field_75408_d - 1, 0);
         if (d1 <= d0) {
-            if (this.attackCountdown <= 0) {
-                this.attackCountdown = 20;
-                this.entity.attackEntityAsMob(this.target);
+            if (this.field_75408_d <= 0) {
+                this.field_75408_d = 20;
+                this.field_75409_b.func_70652_k(this.field_75410_c);
             }
         }
     }

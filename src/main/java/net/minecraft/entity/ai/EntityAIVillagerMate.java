@@ -9,35 +9,35 @@ import net.minecraft.world.World;
 
 public class EntityAIVillagerMate extends EntityAIBase {
 
-    private final EntityVillager villager;
-    private EntityVillager mate;
-    private final World world;
-    private int matingTimeout;
-    Village village;
+    private final EntityVillager field_75450_b;
+    private EntityVillager field_75451_c;
+    private final World field_75448_d;
+    private int field_75449_e;
+    Village field_75452_a;
 
     public EntityAIVillagerMate(EntityVillager entityvillager) {
-        this.villager = entityvillager;
-        this.world = entityvillager.world;
-        this.setMutexBits(3);
+        this.field_75450_b = entityvillager;
+        this.field_75448_d = entityvillager.field_70170_p;
+        this.func_75248_a(3);
     }
 
-    public boolean shouldExecute() {
-        if (this.villager.getGrowingAge() != 0) {
+    public boolean func_75250_a() {
+        if (this.field_75450_b.func_70874_b() != 0) {
             return false;
-        } else if (this.villager.getRNG().nextInt(500) != 0) {
+        } else if (this.field_75450_b.func_70681_au().nextInt(500) != 0) {
             return false;
         } else {
-            this.village = this.world.getVillageCollection().getNearestVillage(new BlockPos(this.villager), 0);
-            if (this.village == null) {
+            this.field_75452_a = this.field_75448_d.func_175714_ae().func_176056_a(new BlockPos(this.field_75450_b), 0);
+            if (this.field_75452_a == null) {
                 return false;
-            } else if (this.checkSufficientDoorsPresentForNewVillager() && this.villager.getIsWillingToMate(true)) {
-                Entity entity = this.world.findNearestEntityWithinAABB(EntityVillager.class, this.villager.getEntityBoundingBox().grow(8.0D, 3.0D, 8.0D), (Entity) this.villager);
+            } else if (this.func_75446_f() && this.field_75450_b.func_175550_n(true)) {
+                Entity entity = this.field_75448_d.func_72857_a(EntityVillager.class, this.field_75450_b.func_174813_aQ().func_72314_b(8.0D, 3.0D, 8.0D), (Entity) this.field_75450_b);
 
                 if (entity == null) {
                     return false;
                 } else {
-                    this.mate = (EntityVillager) entity;
-                    return this.mate.getGrowingAge() == 0 && this.mate.getIsWillingToMate(true);
+                    this.field_75451_c = (EntityVillager) entity;
+                    return this.field_75451_c.func_70874_b() == 0 && this.field_75451_c.func_175550_n(true);
                 }
             } else {
                 return false;
@@ -45,61 +45,61 @@ public class EntityAIVillagerMate extends EntityAIBase {
         }
     }
 
-    public void startExecuting() {
-        this.matingTimeout = 300;
-        this.villager.setMating(true);
+    public void func_75249_e() {
+        this.field_75449_e = 300;
+        this.field_75450_b.func_70947_e(true);
     }
 
-    public void resetTask() {
-        this.village = null;
-        this.mate = null;
-        this.villager.setMating(false);
+    public void func_75251_c() {
+        this.field_75452_a = null;
+        this.field_75451_c = null;
+        this.field_75450_b.func_70947_e(false);
     }
 
-    public boolean shouldContinueExecuting() {
-        return this.matingTimeout >= 0 && this.checkSufficientDoorsPresentForNewVillager() && this.villager.getGrowingAge() == 0 && this.villager.getIsWillingToMate(false);
+    public boolean func_75253_b() {
+        return this.field_75449_e >= 0 && this.func_75446_f() && this.field_75450_b.func_70874_b() == 0 && this.field_75450_b.func_175550_n(false);
     }
 
-    public void updateTask() {
-        --this.matingTimeout;
-        this.villager.getLookHelper().setLookPositionWithEntity(this.mate, 10.0F, 30.0F);
-        if (this.villager.getDistanceSq(this.mate) > 2.25D) {
-            this.villager.getNavigator().tryMoveToEntityLiving((Entity) this.mate, 0.25D);
-        } else if (this.matingTimeout == 0 && this.mate.isMating()) {
-            this.giveBirth();
+    public void func_75246_d() {
+        --this.field_75449_e;
+        this.field_75450_b.func_70671_ap().func_75651_a(this.field_75451_c, 10.0F, 30.0F);
+        if (this.field_75450_b.func_70068_e(this.field_75451_c) > 2.25D) {
+            this.field_75450_b.func_70661_as().func_75497_a((Entity) this.field_75451_c, 0.25D);
+        } else if (this.field_75449_e == 0 && this.field_75451_c.func_70941_o()) {
+            this.func_75447_i();
         }
 
-        if (this.villager.getRNG().nextInt(35) == 0) {
-            this.world.setEntityState(this.villager, (byte) 12);
+        if (this.field_75450_b.func_70681_au().nextInt(35) == 0) {
+            this.field_75448_d.func_72960_a(this.field_75450_b, (byte) 12);
         }
 
     }
 
-    private boolean checkSufficientDoorsPresentForNewVillager() {
-        if (!this.village.isMatingSeason()) {
+    private boolean func_75446_f() {
+        if (!this.field_75452_a.func_82686_i()) {
             return false;
         } else {
-            int i = (int) ((double) ((float) this.village.getNumVillageDoors()) * 0.35D);
+            int i = (int) ((double) ((float) this.field_75452_a.func_75567_c()) * 0.35D);
 
-            return this.village.getNumVillagers() < i;
+            return this.field_75452_a.func_75562_e() < i;
         }
     }
 
-    private void giveBirth() {
-        EntityVillager entityvillager = this.villager.createChild((EntityAgeable) this.mate);
+    private void func_75447_i() {
+        EntityVillager entityvillager = this.field_75450_b.func_90011_a((EntityAgeable) this.field_75451_c);
         // CraftBukkit start - call EntityBreedEvent
-        if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityBreedEvent(entityvillager, this.villager, this.mate, null, null, 0).isCancelled()) {
+        if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityBreedEvent(entityvillager, this.field_75450_b, this.field_75451_c, null, null, 0).isCancelled()) {
             return;
         }
         // CraftBukkit end
 
-        this.mate.setGrowingAge(6000);
-        this.villager.setGrowingAge(6000);
-        this.mate.setIsWillingToMate(false);
-        this.villager.setIsWillingToMate(false);
-        entityvillager.setGrowingAge(-24000);
-        entityvillager.setLocationAndAngles(this.villager.posX, this.villager.posY, this.villager.posZ, 0.0F, 0.0F);
-        this.world.addEntity(entityvillager, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.BREEDING); // CraftBukkit - added SpawnReason
-        this.world.setEntityState(entityvillager, (byte) 12);
+        this.field_75451_c.func_70873_a(6000);
+        this.field_75450_b.func_70873_a(6000);
+        this.field_75451_c.func_175549_o(false);
+        this.field_75450_b.func_175549_o(false);
+        entityvillager.func_70873_a(-24000);
+        entityvillager.func_70012_b(this.field_75450_b.field_70165_t, this.field_75450_b.field_70163_u, this.field_75450_b.field_70161_v, 0.0F, 0.0F);
+        this.field_75448_d.addEntity(entityvillager, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.BREEDING); // CraftBukkit - added SpawnReason
+        this.field_75448_d.func_72960_a(entityvillager, (byte) 12);
     }
 }

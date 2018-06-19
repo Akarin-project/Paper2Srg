@@ -8,17 +8,17 @@ import net.minecraft.util.math.BlockPos;
 
 public interface ICommand extends Comparable<ICommand> {
 
-    String getName();
+    String func_71517_b();
 
-    String getUsage(ICommandSender icommandlistener);
+    String func_71518_a(ICommandSender icommandlistener);
 
-    List<String> getAliases();
+    List<String> func_71514_a();
 
-    void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException;
+    void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException;
 
-    boolean checkPermission(MinecraftServer minecraftserver, ICommandSender icommandlistener);
+    boolean func_184882_a(MinecraftServer minecraftserver, ICommandSender icommandlistener);
 
-    List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition);
+    List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition);
 
-    boolean isUsernameIndex(String[] astring, int i);
+    boolean func_82358_a(String[] astring, int i);
 }

@@ -21,50 +21,50 @@ import net.minecraft.util.ResourceLocation;
 
 public class SummonedEntityTrigger implements ICriterionTrigger<CriterionTriggerSummonedEntity.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("summoned_entity");
-    private final Map<PlayerAdvancements, CriterionTriggerSummonedEntity.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_192232_a = new ResourceLocation("summoned_entity");
+    private final Map<PlayerAdvancements, CriterionTriggerSummonedEntity.a> field_192233_b = Maps.newHashMap();
 
     public SummonedEntityTrigger() {}
 
-    public ResourceLocation getId() {
-        return SummonedEntityTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return SummonedEntityTrigger.field_192232_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerSummonedEntity.b> criteriontrigger_a) {
-        CriterionTriggerSummonedEntity.a criteriontriggersummonedentity_a = (CriterionTriggerSummonedEntity.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerSummonedEntity.a criteriontriggersummonedentity_a = (CriterionTriggerSummonedEntity.a) this.field_192233_b.get(advancementdataplayer);
 
         if (criteriontriggersummonedentity_a == null) {
             criteriontriggersummonedentity_a = new CriterionTriggerSummonedEntity.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggersummonedentity_a);
+            this.field_192233_b.put(advancementdataplayer, criteriontriggersummonedentity_a);
         }
 
         criteriontriggersummonedentity_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerSummonedEntity.b> criteriontrigger_a) {
-        CriterionTriggerSummonedEntity.a criteriontriggersummonedentity_a = (CriterionTriggerSummonedEntity.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerSummonedEntity.a criteriontriggersummonedentity_a = (CriterionTriggerSummonedEntity.a) this.field_192233_b.get(advancementdataplayer);
 
         if (criteriontriggersummonedentity_a != null) {
             criteriontriggersummonedentity_a.b(criteriontrigger_a);
             if (criteriontriggersummonedentity_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192233_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192233_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerSummonedEntity.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        EntityPredicate criterionconditionentity = EntityPredicate.deserialize(jsonobject.get("entity"));
+        EntityPredicate criterionconditionentity = EntityPredicate.func_192481_a(jsonobject.get("entity"));
 
         return new CriterionTriggerSummonedEntity.b(criterionconditionentity);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, Entity entity) {
-        CriterionTriggerSummonedEntity.a criteriontriggersummonedentity_a = (CriterionTriggerSummonedEntity.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_192229_a(EntityPlayerMP entityplayer, Entity entity) {
+        CriterionTriggerSummonedEntity.a criteriontriggersummonedentity_a = (CriterionTriggerSummonedEntity.a) this.field_192233_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggersummonedentity_a != null) {
             criteriontriggersummonedentity_a.a(entityplayer, entity);
@@ -72,7 +72,7 @@ public class SummonedEntityTrigger implements ICriterionTrigger<CriterionTrigger
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -131,12 +131,12 @@ public class SummonedEntityTrigger implements ICriterionTrigger<CriterionTrigger
         private final EntityPredicate a;
 
         public b(EntityPredicate criterionconditionentity) {
-            super(SummonedEntityTrigger.ID);
+            super(SummonedEntityTrigger.field_192232_a);
             this.a = criterionconditionentity;
         }
 
         public boolean a(EntityPlayerMP entityplayer, Entity entity) {
-            return this.a.test(entityplayer, entity);
+            return this.a.func_192482_a(entityplayer, entity);
         }
     }
 }

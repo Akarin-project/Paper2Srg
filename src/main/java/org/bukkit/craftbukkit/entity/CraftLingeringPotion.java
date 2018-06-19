@@ -22,7 +22,7 @@ public class CraftLingeringPotion extends CraftThrownPotion implements Lingering
         // The ItemStack must be a potion.
         Validate.isTrue(item.getType() == Material.LINGERING_POTION, "ItemStack must be a lingering potion. This item stack was " + item.getType() + ".");
 
-        getHandle().setItem(CraftItemStack.asNMSCopy(item));
+        getHandle().func_184541_a(CraftItemStack.asNMSCopy(item));
     }
 
     @Override

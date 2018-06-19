@@ -15,16 +15,16 @@ import net.minecraft.util.Rotation;
 @Immutable
 public class BlockPos extends Vec3i {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    public static final BlockPos ORIGIN = new BlockPos(0, 0, 0);
-    private static final int NUM_X_BITS = 1 + MathHelper.log2(MathHelper.smallestEncompassingPowerOfTwo(30000000));
-    private static final int NUM_Z_BITS = BlockPos.NUM_X_BITS;
-    private static final int NUM_Y_BITS = 64 - BlockPos.NUM_X_BITS - BlockPos.NUM_Z_BITS;
-    private static final int Y_SHIFT = 0 + BlockPos.NUM_Z_BITS;
-    private static final int X_SHIFT = BlockPos.Y_SHIFT + BlockPos.NUM_Y_BITS;
-    private static final long X_MASK = (1L << BlockPos.NUM_X_BITS) - 1L;
-    private static final long Y_MASK = (1L << BlockPos.NUM_Y_BITS) - 1L;
-    private static final long Z_MASK = (1L << BlockPos.NUM_Z_BITS) - 1L;
+    private static final Logger field_185335_c = LogManager.getLogger();
+    public static final BlockPos field_177992_a = new BlockPos(0, 0, 0);
+    private static final int field_177990_b = 1 + MathHelper.func_151239_c(MathHelper.func_151236_b(30000000));
+    private static final int field_177991_c = BlockPos.field_177990_b;
+    private static final int field_177989_d = 64 - BlockPos.field_177990_b - BlockPos.field_177991_c;
+    private static final int field_177987_f = 0 + BlockPos.field_177991_c;
+    private static final int field_177988_g = BlockPos.field_177987_f + BlockPos.field_177989_d;
+    private static final long field_177994_h = (1L << BlockPos.field_177990_b) - 1L;
+    private static final long field_177995_i = (1L << BlockPos.field_177989_d) - 1L;
+    private static final long field_177993_j = (1L << BlockPos.field_177991_c) - 1L;
 
     public BlockPos(int i, int j, int k) {
         super(i, j, k);
@@ -35,128 +35,128 @@ public class BlockPos extends Vec3i {
     }
 
     public BlockPos(Entity entity) {
-        this(entity.posX, entity.posY, entity.posZ);
+        this(entity.field_70165_t, entity.field_70163_u, entity.field_70161_v);
     }
 
     public BlockPos(Vec3d vec3d) {
-        this(vec3d.x, vec3d.y, vec3d.z);
+        this(vec3d.field_72450_a, vec3d.field_72448_b, vec3d.field_72449_c);
     }
 
     public BlockPos(Vec3i baseblockposition) {
-        this(baseblockposition.getX(), baseblockposition.getY(), baseblockposition.getZ());
+        this(baseblockposition.func_177958_n(), baseblockposition.func_177956_o(), baseblockposition.func_177952_p());
     }
 
-    public BlockPos add(double x, double y, double z) { return this.add(x, y, z); } // Paper - OBFHELPER
-    public BlockPos add(double d0, double d1, double d2) {
-        return d0 == 0.0D && d1 == 0.0D && d2 == 0.0D ? this : new BlockPos((double) this.getX() + d0, (double) this.getY() + d1, (double) this.getZ() + d2);
+    public BlockPos add(double x, double y, double z) { return this.func_177963_a(x, y, z); } // Paper - OBFHELPER
+    public BlockPos func_177963_a(double d0, double d1, double d2) {
+        return d0 == 0.0D && d1 == 0.0D && d2 == 0.0D ? this : new BlockPos((double) this.func_177958_n() + d0, (double) this.func_177956_o() + d1, (double) this.func_177952_p() + d2);
     }
 
-    public BlockPos add(int i, int j, int k) {
-        return i == 0 && j == 0 && k == 0 ? this : new BlockPos(this.getX() + i, this.getY() + j, this.getZ() + k);
+    public BlockPos func_177982_a(int i, int j, int k) {
+        return i == 0 && j == 0 && k == 0 ? this : new BlockPos(this.func_177958_n() + i, this.func_177956_o() + j, this.func_177952_p() + k);
     }
 
-    public BlockPos add(Vec3i baseblockposition) {
-        return this.add(baseblockposition.getX(), baseblockposition.getY(), baseblockposition.getZ());
+    public BlockPos func_177971_a(Vec3i baseblockposition) {
+        return this.func_177982_a(baseblockposition.func_177958_n(), baseblockposition.func_177956_o(), baseblockposition.func_177952_p());
     }
 
-    public BlockPos subtract(Vec3i baseblockposition) {
-        return this.add(-baseblockposition.getX(), -baseblockposition.getY(), -baseblockposition.getZ());
+    public BlockPos func_177973_b(Vec3i baseblockposition) {
+        return this.func_177982_a(-baseblockposition.func_177958_n(), -baseblockposition.func_177956_o(), -baseblockposition.func_177952_p());
     }
 
-    public BlockPos up() {
-        return this.up(1);
+    public BlockPos func_177984_a() {
+        return this.func_177981_b(1);
     }
 
-    public BlockPos up(int i) {
-        return this.offset(EnumFacing.UP, i);
+    public BlockPos func_177981_b(int i) {
+        return this.func_177967_a(EnumFacing.UP, i);
     }
 
-    public BlockPos down() {
-        return this.down(1);
+    public BlockPos func_177977_b() {
+        return this.func_177979_c(1);
     }
 
-    public BlockPos down(int i) {
-        return this.offset(EnumFacing.DOWN, i);
+    public BlockPos func_177979_c(int i) {
+        return this.func_177967_a(EnumFacing.DOWN, i);
     }
 
-    public BlockPos north() {
-        return this.north(1);
+    public BlockPos func_177978_c() {
+        return this.func_177964_d(1);
     }
 
-    public BlockPos north(int i) {
-        return this.offset(EnumFacing.NORTH, i);
+    public BlockPos func_177964_d(int i) {
+        return this.func_177967_a(EnumFacing.NORTH, i);
     }
 
-    public BlockPos south() {
-        return this.south(1);
+    public BlockPos func_177968_d() {
+        return this.func_177970_e(1);
     }
 
-    public BlockPos south(int i) {
-        return this.offset(EnumFacing.SOUTH, i);
+    public BlockPos func_177970_e(int i) {
+        return this.func_177967_a(EnumFacing.SOUTH, i);
     }
 
-    public BlockPos west() {
-        return this.west(1);
+    public BlockPos func_177976_e() {
+        return this.func_177985_f(1);
     }
 
-    public BlockPos west(int i) {
-        return this.offset(EnumFacing.WEST, i);
+    public BlockPos func_177985_f(int i) {
+        return this.func_177967_a(EnumFacing.WEST, i);
     }
 
-    public BlockPos east() {
-        return this.east(1);
+    public BlockPos func_177974_f() {
+        return this.func_177965_g(1);
     }
 
-    public BlockPos east(int i) {
-        return this.offset(EnumFacing.EAST, i);
+    public BlockPos func_177965_g(int i) {
+        return this.func_177967_a(EnumFacing.EAST, i);
     }
 
-    public BlockPos offset(EnumFacing enumdirection) {
-        return this.offset(enumdirection, 1);
+    public BlockPos func_177972_a(EnumFacing enumdirection) {
+        return this.func_177967_a(enumdirection, 1);
     }
 
-    public BlockPos offset(EnumFacing enumdirection, int i) {
-        return i == 0 ? this : new BlockPos(this.getX() + enumdirection.getFrontOffsetX() * i, this.getY() + enumdirection.getFrontOffsetY() * i, this.getZ() + enumdirection.getFrontOffsetZ() * i);
+    public BlockPos func_177967_a(EnumFacing enumdirection, int i) {
+        return i == 0 ? this : new BlockPos(this.func_177958_n() + enumdirection.func_82601_c() * i, this.func_177956_o() + enumdirection.func_96559_d() * i, this.func_177952_p() + enumdirection.func_82599_e() * i);
     }
 
-    public BlockPos rotate(Rotation enumblockrotation) {
+    public BlockPos func_190942_a(Rotation enumblockrotation) {
         switch (enumblockrotation) {
         case NONE:
         default:
             return this;
 
         case CLOCKWISE_90:
-            return new BlockPos(-this.getZ(), this.getY(), this.getX());
+            return new BlockPos(-this.func_177952_p(), this.func_177956_o(), this.func_177958_n());
 
         case CLOCKWISE_180:
-            return new BlockPos(-this.getX(), this.getY(), -this.getZ());
+            return new BlockPos(-this.func_177958_n(), this.func_177956_o(), -this.func_177952_p());
 
         case COUNTERCLOCKWISE_90:
-            return new BlockPos(this.getZ(), this.getY(), -this.getX());
+            return new BlockPos(this.func_177952_p(), this.func_177956_o(), -this.func_177958_n());
         }
     }
 
-    public BlockPos crossProduct(Vec3i baseblockposition) {
-        return new BlockPos(this.getY() * baseblockposition.getZ() - this.getZ() * baseblockposition.getY(), this.getZ() * baseblockposition.getX() - this.getX() * baseblockposition.getZ(), this.getX() * baseblockposition.getY() - this.getY() * baseblockposition.getX());
+    public BlockPos func_177955_d(Vec3i baseblockposition) {
+        return new BlockPos(this.func_177956_o() * baseblockposition.func_177952_p() - this.func_177952_p() * baseblockposition.func_177956_o(), this.func_177952_p() * baseblockposition.func_177958_n() - this.func_177958_n() * baseblockposition.func_177952_p(), this.func_177958_n() * baseblockposition.func_177956_o() - this.func_177956_o() * baseblockposition.func_177958_n());
     }
 
-    public long toLong() {
-        return ((long) this.getX() & BlockPos.X_MASK) << BlockPos.X_SHIFT | ((long) this.getY() & BlockPos.Y_MASK) << BlockPos.Y_SHIFT | ((long) this.getZ() & BlockPos.Z_MASK) << 0;
+    public long func_177986_g() {
+        return ((long) this.func_177958_n() & BlockPos.field_177994_h) << BlockPos.field_177988_g | ((long) this.func_177956_o() & BlockPos.field_177995_i) << BlockPos.field_177987_f | ((long) this.func_177952_p() & BlockPos.field_177993_j) << 0;
     }
 
-    public static BlockPos fromLong(long i) {
-        int j = (int) (i << 64 - BlockPos.X_SHIFT - BlockPos.NUM_X_BITS >> 64 - BlockPos.NUM_X_BITS);
-        int k = (int) (i << 64 - BlockPos.Y_SHIFT - BlockPos.NUM_Y_BITS >> 64 - BlockPos.NUM_Y_BITS);
-        int l = (int) (i << 64 - BlockPos.NUM_Z_BITS >> 64 - BlockPos.NUM_Z_BITS);
+    public static BlockPos func_177969_a(long i) {
+        int j = (int) (i << 64 - BlockPos.field_177988_g - BlockPos.field_177990_b >> 64 - BlockPos.field_177990_b);
+        int k = (int) (i << 64 - BlockPos.field_177987_f - BlockPos.field_177989_d >> 64 - BlockPos.field_177989_d);
+        int l = (int) (i << 64 - BlockPos.field_177991_c >> 64 - BlockPos.field_177991_c);
 
         return new BlockPos(j, k, l);
     }
 
-    public static Iterable<BlockPos> getAllInBox(BlockPos blockposition, BlockPos blockposition1) {
-        return getAllInBox(Math.min(blockposition.getX(), blockposition1.getX()), Math.min(blockposition.getY(), blockposition1.getY()), Math.min(blockposition.getZ(), blockposition1.getZ()), Math.max(blockposition.getX(), blockposition1.getX()), Math.max(blockposition.getY(), blockposition1.getY()), Math.max(blockposition.getZ(), blockposition1.getZ()));
+    public static Iterable<BlockPos> func_177980_a(BlockPos blockposition, BlockPos blockposition1) {
+        return func_191532_a(Math.min(blockposition.func_177958_n(), blockposition1.func_177958_n()), Math.min(blockposition.func_177956_o(), blockposition1.func_177956_o()), Math.min(blockposition.func_177952_p(), blockposition1.func_177952_p()), Math.max(blockposition.func_177958_n(), blockposition1.func_177958_n()), Math.max(blockposition.func_177956_o(), blockposition1.func_177956_o()), Math.max(blockposition.func_177952_p(), blockposition1.func_177952_p()));
     }
 
-    public static Iterable<BlockPos> getAllInBox(final int i, final int j, final int k, final int l, final int i1, final int j1) {
+    public static Iterable<BlockPos> func_191532_a(final int i, final int j, final int k, final int l, final int i1, final int j1) {
         return new Iterable() {
             public Iterator<BlockPos> iterator() {
                 return new AbstractIterator() {
@@ -198,15 +198,15 @@ public class BlockPos extends Vec3i {
         };
     }
 
-    public BlockPos toImmutable() {
+    public BlockPos func_185334_h() {
         return this;
     }
 
-    public static Iterable<BlockPos.MutableBlockPos> getAllInBoxMutable(BlockPos blockposition, BlockPos blockposition1) {
-        return getAllInBoxMutable(Math.min(blockposition.getX(), blockposition1.getX()), Math.min(blockposition.getY(), blockposition1.getY()), Math.min(blockposition.getZ(), blockposition1.getZ()), Math.max(blockposition.getX(), blockposition1.getX()), Math.max(blockposition.getY(), blockposition1.getY()), Math.max(blockposition.getZ(), blockposition1.getZ()));
+    public static Iterable<BlockPos.MutableBlockPos> func_177975_b(BlockPos blockposition, BlockPos blockposition1) {
+        return func_191531_b(Math.min(blockposition.func_177958_n(), blockposition1.func_177958_n()), Math.min(blockposition.func_177956_o(), blockposition1.func_177956_o()), Math.min(blockposition.func_177952_p(), blockposition1.func_177952_p()), Math.max(blockposition.func_177958_n(), blockposition1.func_177958_n()), Math.max(blockposition.func_177956_o(), blockposition1.func_177956_o()), Math.max(blockposition.func_177952_p(), blockposition1.func_177952_p()));
     }
 
-    public static Iterable<BlockPos.MutableBlockPos> getAllInBoxMutable(final int i, final int j, final int k, final int l, final int i1, final int j1) {
+    public static Iterable<BlockPos.MutableBlockPos> func_191531_b(final int i, final int j, final int k, final int l, final int i1, final int j1) {
         return new Iterable() {
             public Iterator<BlockPos.MutableBlockPos> iterator() {
                 return new AbstractIterator() {
@@ -217,18 +217,18 @@ public class BlockPos extends Vec3i {
                             this.b = new BlockPos.MutableBlockPos(i, j, k);
                             return this.b;
                         // Paper start - b, c, d, refer to x, y, z, and as such, a, b, c of BaseBlockPosition
-                        } else if (((Vec3i)this.b).x == l && ((Vec3i)this.b).y == i1 && ((Vec3i)this.b).z == j1) {
+                        } else if (((Vec3i)this.b).field_177962_a == l && ((Vec3i)this.b).field_177960_b == i1 && ((Vec3i)this.b).field_177961_c == j1) {
                             return (BlockPos.MutableBlockPos) this.endOfData();
                         } else {
-                            if (((Vec3i) this.b).x < l) {
-                                ++((Vec3i) this.b).x;
-                            } else if (((Vec3i) this.b).y < i1) {
-                                ((Vec3i) this.b).x = i;
-                                ++((Vec3i) this.b).y;
-                            } else if (((Vec3i) this.b).z < j1) {
-                                ((Vec3i) this.b).x = i;
-                                ((Vec3i) this.b).y = j;
-                                ++((Vec3i) this.b).z;
+                            if (((Vec3i) this.b).field_177962_a < l) {
+                                ++((Vec3i) this.b).field_177962_a;
+                            } else if (((Vec3i) this.b).field_177960_b < i1) {
+                                ((Vec3i) this.b).field_177962_a = i;
+                                ++((Vec3i) this.b).field_177960_b;
+                            } else if (((Vec3i) this.b).field_177961_c < j1) {
+                                ((Vec3i) this.b).field_177962_a = i;
+                                ((Vec3i) this.b).field_177960_b = j;
+                                ++((Vec3i) this.b).field_177961_c;
                             }
                             // Paper end
 
@@ -244,38 +244,38 @@ public class BlockPos extends Vec3i {
         };
     }
 
-    public Vec3i crossProduct(Vec3i baseblockposition) {
-        return this.crossProduct(baseblockposition);
+    public Vec3i func_177955_d(Vec3i baseblockposition) {
+        return this.func_177955_d(baseblockposition);
     }
 
     public static final class PooledMutableBlockPos extends BlockPos.MutableBlockPos {
 
-        private boolean released;
-        private static final List<BlockPos.PooledMutableBlockPos> POOL = Lists.newArrayList();
+        private boolean field_185350_f;
+        private static final List<BlockPos.PooledMutableBlockPos> field_185351_g = Lists.newArrayList();
 
         private PooledMutableBlockPos(int i, int j, int k) {
             super(i, j, k);
         }
 
-        public static BlockPos.PooledMutableBlockPos aquire() { return retain(); } // Paper - OBFHELPER
-        public static BlockPos.PooledMutableBlockPos retain() {
-            return retain(0, 0, 0);
+        public static BlockPos.PooledMutableBlockPos aquire() { return func_185346_s(); } // Paper - OBFHELPER
+        public static BlockPos.PooledMutableBlockPos func_185346_s() {
+            return func_185339_c(0, 0, 0);
         }
 
-        public static BlockPos.PooledMutableBlockPos retain(double d0, double d1, double d2) {
-            return retain(MathHelper.floor(d0), MathHelper.floor(d1), MathHelper.floor(d2));
+        public static BlockPos.PooledMutableBlockPos func_185345_c(double d0, double d1, double d2) {
+            return func_185339_c(MathHelper.func_76128_c(d0), MathHelper.func_76128_c(d1), MathHelper.func_76128_c(d2));
         }
 
-        public static BlockPos.PooledMutableBlockPos retain(int i, int j, int k) {
-            List list = BlockPos.PooledMutableBlockPos.POOL;
+        public static BlockPos.PooledMutableBlockPos func_185339_c(int i, int j, int k) {
+            List list = BlockPos.PooledMutableBlockPos.field_185351_g;
 
-            synchronized (BlockPos.PooledMutableBlockPos.POOL) {
-                if (!BlockPos.PooledMutableBlockPos.POOL.isEmpty()) {
-                    BlockPos.PooledMutableBlockPos blockposition_pooledblockposition = (BlockPos.PooledMutableBlockPos) BlockPos.PooledMutableBlockPos.POOL.remove(BlockPos.PooledMutableBlockPos.POOL.size() - 1);
+            synchronized (BlockPos.PooledMutableBlockPos.field_185351_g) {
+                if (!BlockPos.PooledMutableBlockPos.field_185351_g.isEmpty()) {
+                    BlockPos.PooledMutableBlockPos blockposition_pooledblockposition = (BlockPos.PooledMutableBlockPos) BlockPos.PooledMutableBlockPos.field_185351_g.remove(BlockPos.PooledMutableBlockPos.field_185351_g.size() - 1);
 
-                    if (blockposition_pooledblockposition != null && blockposition_pooledblockposition.released) {
-                        blockposition_pooledblockposition.released = false;
-                        blockposition_pooledblockposition.setPos(i, j, k);
+                    if (blockposition_pooledblockposition != null && blockposition_pooledblockposition.field_185350_f) {
+                        blockposition_pooledblockposition.field_185350_f = false;
+                        blockposition_pooledblockposition.func_181079_c(i, j, k);
                         return blockposition_pooledblockposition;
                     }
                 }
@@ -284,62 +284,62 @@ public class BlockPos extends Vec3i {
             return new BlockPos.PooledMutableBlockPos(i, j, k);
         }
 
-        public void free() { release(); } // Paper - OBFHELPER
-        public void release() {
-            List list = BlockPos.PooledMutableBlockPos.POOL;
+        public void free() { func_185344_t(); } // Paper - OBFHELPER
+        public void func_185344_t() {
+            List list = BlockPos.PooledMutableBlockPos.field_185351_g;
 
-            synchronized (BlockPos.PooledMutableBlockPos.POOL) {
-                if (BlockPos.PooledMutableBlockPos.POOL.size() < 100) {
-                    BlockPos.PooledMutableBlockPos.POOL.add(this);
+            synchronized (BlockPos.PooledMutableBlockPos.field_185351_g) {
+                if (BlockPos.PooledMutableBlockPos.field_185351_g.size() < 100) {
+                    BlockPos.PooledMutableBlockPos.field_185351_g.add(this);
                 }
 
-                this.released = true;
+                this.field_185350_f = true;
             }
         }
 
-        public BlockPos.PooledMutableBlockPos setPos(int i, int j, int k) {
-            if (this.released) {
-                BlockPos.LOGGER.error("PooledMutableBlockPosition modified after it was released.", new Throwable());
-                this.released = false;
+        public BlockPos.PooledMutableBlockPos func_181079_c(int i, int j, int k) {
+            if (this.field_185350_f) {
+                BlockPos.field_185335_c.error("PooledMutableBlockPosition modified after it was released.", new Throwable());
+                this.field_185350_f = false;
             }
 
-            return (BlockPos.PooledMutableBlockPos) super.setPos(i, j, k);
+            return (BlockPos.PooledMutableBlockPos) super.func_181079_c(i, j, k);
         }
 
-        public BlockPos.PooledMutableBlockPos setPos(double d0, double d1, double d2) {
-            return (BlockPos.PooledMutableBlockPos) super.setPos(d0, d1, d2);
+        public BlockPos.PooledMutableBlockPos func_189532_c(double d0, double d1, double d2) {
+            return (BlockPos.PooledMutableBlockPos) super.func_189532_c(d0, d1, d2);
         }
 
-        public BlockPos.PooledMutableBlockPos setPos(Vec3i baseblockposition) {
-            return (BlockPos.PooledMutableBlockPos) super.setPos(baseblockposition);
+        public BlockPos.PooledMutableBlockPos func_189533_g(Vec3i baseblockposition) {
+            return (BlockPos.PooledMutableBlockPos) super.func_189533_g(baseblockposition);
         }
 
-        public BlockPos.PooledMutableBlockPos move(EnumFacing enumdirection) {
-            return (BlockPos.PooledMutableBlockPos) super.move(enumdirection);
+        public BlockPos.PooledMutableBlockPos func_189536_c(EnumFacing enumdirection) {
+            return (BlockPos.PooledMutableBlockPos) super.func_189536_c(enumdirection);
         }
 
-        public BlockPos.PooledMutableBlockPos move(EnumFacing enumdirection, int i) {
-            return (BlockPos.PooledMutableBlockPos) super.move(enumdirection, i);
+        public BlockPos.PooledMutableBlockPos func_189534_c(EnumFacing enumdirection, int i) {
+            return (BlockPos.PooledMutableBlockPos) super.func_189534_c(enumdirection, i);
         }
 
-        public BlockPos.MutableBlockPos move(EnumFacing enumdirection, int i) {
-            return this.move(enumdirection, i);
+        public BlockPos.MutableBlockPos func_189534_c(EnumFacing enumdirection, int i) {
+            return this.func_189534_c(enumdirection, i);
         }
 
-        public BlockPos.MutableBlockPos move(EnumFacing enumdirection) {
-            return this.move(enumdirection);
+        public BlockPos.MutableBlockPos func_189536_c(EnumFacing enumdirection) {
+            return this.func_189536_c(enumdirection);
         }
 
-        public BlockPos.MutableBlockPos setPos(Vec3i baseblockposition) {
-            return this.setPos(baseblockposition);
+        public BlockPos.MutableBlockPos func_189533_g(Vec3i baseblockposition) {
+            return this.func_189533_g(baseblockposition);
         }
 
-        public BlockPos.MutableBlockPos setPos(double d0, double d1, double d2) {
-            return this.setPos(d0, d1, d2);
+        public BlockPos.MutableBlockPos func_189532_c(double d0, double d1, double d2) {
+            return this.func_189532_c(d0, d1, d2);
         }
 
-        public BlockPos.MutableBlockPos setPos(int i, int j, int k) {
-            return this.setPos(i, j, k);
+        public BlockPos.MutableBlockPos func_181079_c(int i, int j, int k) {
+            return this.func_181079_c(i, j, k);
         }
     }
 
@@ -367,32 +367,32 @@ public class BlockPos extends Vec3i {
         }
 
         public MutableBlockPos(BlockPos blockposition) {
-            this(blockposition.getX(), blockposition.getY(), blockposition.getZ());
+            this(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
         }
 
         public MutableBlockPos(int i, int j, int k) {
             super(0, 0, 0);
             // Paper start - Modify base position variables
-            ((Vec3i) this).x = i;
-            ((Vec3i) this).y = j;
-            ((Vec3i) this).z = k;
+            ((Vec3i) this).field_177962_a = i;
+            ((Vec3i) this).field_177960_b = j;
+            ((Vec3i) this).field_177961_c = k;
             // Paper end
         }
 
-        public BlockPos add(double d0, double d1, double d2) {
-            return super.add(d0, d1, d2).toImmutable();
+        public BlockPos func_177963_a(double d0, double d1, double d2) {
+            return super.func_177963_a(d0, d1, d2).func_185334_h();
         }
 
-        public BlockPos add(int i, int j, int k) {
-            return super.add(i, j, k).toImmutable();
+        public BlockPos func_177982_a(int i, int j, int k) {
+            return super.func_177982_a(i, j, k).func_185334_h();
         }
 
-        public BlockPos offset(EnumFacing enumdirection, int i) {
-            return super.offset(enumdirection, i).toImmutable();
+        public BlockPos func_177967_a(EnumFacing enumdirection, int i) {
+            return super.func_177967_a(enumdirection, i).func_185334_h();
         }
 
-        public BlockPos rotate(Rotation enumblockrotation) {
-            return super.rotate(enumblockrotation).toImmutable();
+        public BlockPos func_190942_a(Rotation enumblockrotation) {
+            return super.func_190942_a(enumblockrotation).func_185334_h();
         }
 
         // Paper start - Use superclass methods
@@ -411,42 +411,42 @@ public class BlockPos extends Vec3i {
         */
         // Paper end
 
-        public void setValues(int x, int y, int z) { setPos(x, y, z); } // Paper - OBFHELPER
-        public BlockPos.MutableBlockPos setPos(int i, int j, int k) {
+        public void setValues(int x, int y, int z) { func_181079_c(x, y, z); } // Paper - OBFHELPER
+        public BlockPos.MutableBlockPos func_181079_c(int i, int j, int k) {
             // Paper start - Modify base position variables
-            ((Vec3i) this).x = i;
-            ((Vec3i) this).y = j;
-            ((Vec3i) this).z = k;
+            ((Vec3i) this).field_177962_a = i;
+            ((Vec3i) this).field_177960_b = j;
+            ((Vec3i) this).field_177961_c = k;
             // Paper end
             return this;
         }
 
-        public BlockPos.MutableBlockPos setPos(double d0, double d1, double d2) {
-            return this.setPos(MathHelper.floor(d0), MathHelper.floor(d1), MathHelper.floor(d2));
+        public BlockPos.MutableBlockPos func_189532_c(double d0, double d1, double d2) {
+            return this.func_181079_c(MathHelper.func_76128_c(d0), MathHelper.func_76128_c(d1), MathHelper.func_76128_c(d2));
         }
 
-        public BlockPos.MutableBlockPos setPos(Vec3i baseblockposition) {
-            return this.setPos(baseblockposition.getX(), baseblockposition.getY(), baseblockposition.getZ());
+        public BlockPos.MutableBlockPos func_189533_g(Vec3i baseblockposition) {
+            return this.func_181079_c(baseblockposition.func_177958_n(), baseblockposition.func_177956_o(), baseblockposition.func_177952_p());
         }
 
-        public BlockPos.MutableBlockPos move(EnumFacing enumdirection) {
-            return this.move(enumdirection, 1);
+        public BlockPos.MutableBlockPos func_189536_c(EnumFacing enumdirection) {
+            return this.func_189534_c(enumdirection, 1);
         }
 
-        public BlockPos.MutableBlockPos move(EnumFacing enumdirection, int i) {
-            return this.setPos(this.getX() + enumdirection.getFrontOffsetX() * i, this.getY() + enumdirection.getFrontOffsetY() * i, this.getZ() + enumdirection.getFrontOffsetZ() * i); // Paper - USE THE BLEEPING GETTERS
+        public BlockPos.MutableBlockPos func_189534_c(EnumFacing enumdirection, int i) {
+            return this.func_181079_c(this.func_177958_n() + enumdirection.func_82601_c() * i, this.func_177956_o() + enumdirection.func_96559_d() * i, this.func_177952_p() + enumdirection.func_82599_e() * i); // Paper - USE THE BLEEPING GETTERS
         }
 
-        public void setY(int i) {
-            ((Vec3i) this).y = i; // Paper - Modify base variable
+        public void func_185336_p(int i) {
+            ((Vec3i) this).field_177960_b = i; // Paper - Modify base variable
         }
 
-        public BlockPos toImmutable() {
+        public BlockPos func_185334_h() {
             return new BlockPos(this);
         }
 
-        public Vec3i crossProduct(Vec3i baseblockposition) {
-            return super.crossProduct(baseblockposition);
+        public Vec3i func_177955_d(Vec3i baseblockposition) {
+            return super.func_177955_d(baseblockposition);
         }
     }
 }

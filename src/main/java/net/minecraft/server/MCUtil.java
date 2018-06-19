@@ -125,7 +125,7 @@ public final class MCUtil {
      * @return
      */
     public static double distanceSq(Entity e1, Entity e2) {
-        return distanceSq(e1.posX,e1.posY,e1.posZ, e2.posX,e2.posY,e2.posZ);
+        return distanceSq(e1.field_70165_t,e1.field_70163_u,e1.field_70161_v, e2.field_70165_t,e2.field_70163_u,e2.field_70161_v);
     }
 
     /**
@@ -135,7 +135,7 @@ public final class MCUtil {
      * @return
      */
     public static double distanceSq(BlockPos pos1, BlockPos pos2) {
-        return distanceSq(pos1.getX(), pos1.getY(), pos1.getZ(), pos2.getX(), pos2.getY(), pos2.getZ());
+        return distanceSq(pos1.func_177958_n(), pos1.func_177956_o(), pos1.func_177952_p(), pos2.func_177958_n(), pos2.func_177956_o(), pos2.func_177952_p());
     }
 
     /**
@@ -171,7 +171,7 @@ public final class MCUtil {
      * @return
      */
     public static Location toLocation(World world, BlockPos pos) {
-        return new Location(world.getWorld(), pos.getX(), pos.getY(), pos.getZ());
+        return new Location(world.getWorld(), pos.func_177958_n(), pos.func_177956_o(), pos.func_177952_p());
     }
 
     /**
@@ -180,7 +180,7 @@ public final class MCUtil {
      * @return
      */
     public static Location toLocation(Entity entity) {
-        return new Location(entity.getEntityWorld().getWorld(), entity.posX, entity.posY, entity.posZ);
+        return new Location(entity.func_130014_f_().getWorld(), entity.field_70165_t, entity.field_70163_u, entity.field_70161_v);
     }
 
     public static BlockPos toBlockPosition(Location loc) {
@@ -188,8 +188,8 @@ public final class MCUtil {
     }
 
     public static boolean isEdgeOfChunk(BlockPos pos) {
-        final int modX = pos.getX() & 15;
-        final int modZ = pos.getZ() & 15;
+        final int modX = pos.func_177958_n() & 15;
+        final int modZ = pos.func_177952_p() & 15;
         return (modX == 0 || modX == 15 || modZ == 0 || modZ == 15);
     }
 
@@ -202,7 +202,7 @@ public final class MCUtil {
      */
     @Nullable
     public static Chunk getLoadedChunkWithoutMarkingActive(World world, int x, int z) {
-        return ((ChunkProviderServer) world.chunkProvider).id2ChunkMap.get(ChunkPos.asLong(x, z));
+        return ((ChunkProviderServer) world.field_73020_y).field_73244_f.get(ChunkPos.func_77272_a(x, z));
     }
 
     /**
@@ -214,7 +214,7 @@ public final class MCUtil {
      */
     @Nullable
     public static Chunk getLoadedChunkWithoutMarkingActive(IChunkProvider provider, int x, int z) {
-        return ((ChunkProviderServer)provider).id2ChunkMap.get(ChunkPos.asLong(x, z));
+        return ((ChunkProviderServer)provider).field_73244_f.get(ChunkPos.func_77272_a(x, z));
     }
 
     /**
@@ -227,8 +227,8 @@ public final class MCUtil {
 
     @Nullable
     public static TileEntityHopper getHopper(World world, BlockPos pos) {
-        Chunk chunk = world.getChunkIfLoaded(pos.getX() >> 4, pos.getZ() >> 4);
-        if (chunk != null && chunk.getBlockState(pos).getBlock() == Blocks.HOPPER) {
+        Chunk chunk = world.getChunkIfLoaded(pos.func_177958_n() >> 4, pos.func_177952_p() >> 4);
+        if (chunk != null && chunk.func_177435_g(pos).func_177230_c() == Blocks.field_150438_bZ) {
             TileEntity tileEntity = chunk.getTileEntityImmediately(pos);
             if (tileEntity instanceof TileEntityHopper) {
                 return (TileEntityHopper) tileEntity;

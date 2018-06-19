@@ -9,15 +9,15 @@ public class TileEntityDropper extends TileEntityDispenser {
 
     public TileEntityDropper() {}
 
-    public static void registerFixesDropper(DataFixer dataconvertermanager) {
-        dataconvertermanager.registerWalker(FixTypes.BLOCK_ENTITY, (IDataWalker) (new ItemStackDataLists(TileEntityDropper.class, new String[] { "Items"})));
+    public static void func_189679_b(DataFixer dataconvertermanager) {
+        dataconvertermanager.func_188258_a(FixTypes.BLOCK_ENTITY, (IDataWalker) (new ItemStackDataLists(TileEntityDropper.class, new String[] { "Items"})));
     }
 
-    public String getName() {
-        return this.hasCustomName() ? this.customName : "container.dropper";
+    public String func_70005_c_() {
+        return this.func_145818_k_() ? this.field_190577_o : "container.dropper";
     }
 
-    public String getGuiID() {
+    public String func_174875_k() {
         return "minecraft:dropper";
     }
 }

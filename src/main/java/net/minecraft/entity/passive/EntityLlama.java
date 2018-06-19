@@ -54,396 +54,396 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob {
 
-    private static final DataParameter<Integer> DATA_STRENGTH_ID = EntityDataManager.createKey(EntityLlama.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> DATA_COLOR_ID = EntityDataManager.createKey(EntityLlama.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> DATA_VARIANT_ID = EntityDataManager.createKey(EntityLlama.class, DataSerializers.VARINT);
-    private boolean didSpit;
+    private static final DataParameter<Integer> field_190720_bG = EntityDataManager.func_187226_a(EntityLlama.class, DataSerializers.field_187192_b);
+    private static final DataParameter<Integer> field_190721_bH = EntityDataManager.func_187226_a(EntityLlama.class, DataSerializers.field_187192_b);
+    private static final DataParameter<Integer> field_190722_bI = EntityDataManager.func_187226_a(EntityLlama.class, DataSerializers.field_187192_b);
+    private boolean field_190723_bJ;
     @Nullable
-    private EntityLlama caravanHead;
+    private EntityLlama field_190724_bK;
     @Nullable
-    private EntityLlama caravanTail;
+    private EntityLlama field_190725_bL;
 
     public EntityLlama(World world) {
         super(world);
-        this.setSize(0.9F, 1.87F);
+        this.func_70105_a(0.9F, 1.87F);
     }
 
-    public void setStrength(int i) {
-        this.dataManager.set(EntityLlama.DATA_STRENGTH_ID, Integer.valueOf(Math.max(1, Math.min(5, i))));
+    public void func_190706_p(int i) {
+        this.field_70180_af.func_187227_b(EntityLlama.field_190720_bG, Integer.valueOf(Math.max(1, Math.min(5, i))));
     }
 
-    private void setRandomStrength() {
-        int i = this.rand.nextFloat() < 0.04F ? 5 : 3;
+    private void func_190705_dT() {
+        int i = this.field_70146_Z.nextFloat() < 0.04F ? 5 : 3;
 
-        this.setStrength(1 + this.rand.nextInt(i));
+        this.func_190706_p(1 + this.field_70146_Z.nextInt(i));
     }
 
-    public int getStrength() {
-        return ((Integer) this.dataManager.get(EntityLlama.DATA_STRENGTH_ID)).intValue();
+    public int func_190707_dL() {
+        return ((Integer) this.field_70180_af.func_187225_a(EntityLlama.field_190720_bG)).intValue();
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setInteger("Variant", this.getVariant());
-        nbttagcompound.setInteger("Strength", this.getStrength());
-        if (!this.horseChest.getStackInSlot(1).isEmpty()) {
-            nbttagcompound.setTag("DecorItem", this.horseChest.getStackInSlot(1).writeToNBT(new NBTTagCompound()));
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74768_a("Variant", this.func_190719_dM());
+        nbttagcompound.func_74768_a("Strength", this.func_190707_dL());
+        if (!this.field_110296_bG.func_70301_a(1).func_190926_b()) {
+            nbttagcompound.func_74782_a("DecorItem", this.field_110296_bG.func_70301_a(1).func_77955_b(new NBTTagCompound()));
         }
 
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        this.setStrength(nbttagcompound.getInteger("Strength"));
-        super.readEntityFromNBT(nbttagcompound);
-        this.setVariant(nbttagcompound.getInteger("Variant"));
-        if (nbttagcompound.hasKey("DecorItem", 10)) {
-            this.horseChest.setInventorySlotContents(1, new ItemStack(nbttagcompound.getCompoundTag("DecorItem")));
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        this.func_190706_p(nbttagcompound.func_74762_e("Strength"));
+        super.func_70037_a(nbttagcompound);
+        this.func_190710_o(nbttagcompound.func_74762_e("Variant"));
+        if (nbttagcompound.func_150297_b("DecorItem", 10)) {
+            this.field_110296_bG.func_70299_a(1, new ItemStack(nbttagcompound.func_74775_l("DecorItem")));
         }
 
-        this.updateHorseSlots();
+        this.func_110232_cE();
     }
 
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIRunAroundLikeCrazy(this, 1.2D));
-        this.tasks.addTask(2, new EntityAILlamaFollowCaravan(this, 2.0999999046325684D));
-        this.tasks.addTask(3, new EntityAIAttackRanged(this, 1.25D, 40, 20.0F));
-        this.tasks.addTask(3, new EntityAIPanic(this, 1.2D));
-        this.tasks.addTask(4, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(5, new EntityAIFollowParent(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.7D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityLlama.c(this));
-        this.targetTasks.addTask(2, new EntityLlama.a(this));
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(1, new EntityAIRunAroundLikeCrazy(this, 1.2D));
+        this.field_70714_bg.func_75776_a(2, new EntityAILlamaFollowCaravan(this, 2.0999999046325684D));
+        this.field_70714_bg.func_75776_a(3, new EntityAIAttackRanged(this, 1.25D, 40, 20.0F));
+        this.field_70714_bg.func_75776_a(3, new EntityAIPanic(this, 1.2D));
+        this.field_70714_bg.func_75776_a(4, new EntityAIMate(this, 1.0D));
+        this.field_70714_bg.func_75776_a(5, new EntityAIFollowParent(this, 1.0D));
+        this.field_70714_bg.func_75776_a(6, new EntityAIWanderAvoidWater(this, 0.7D));
+        this.field_70714_bg.func_75776_a(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.field_70714_bg.func_75776_a(8, new EntityAILookIdle(this));
+        this.field_70715_bh.func_75776_a(1, new EntityLlama.c(this));
+        this.field_70715_bh.func_75776_a(2, new EntityLlama.a(this));
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(40.0D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111265_b).func_111128_a(40.0D);
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(EntityLlama.DATA_STRENGTH_ID, Integer.valueOf(0));
-        this.dataManager.register(EntityLlama.DATA_COLOR_ID, Integer.valueOf(-1));
-        this.dataManager.register(EntityLlama.DATA_VARIANT_ID, Integer.valueOf(0));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(EntityLlama.field_190720_bG, Integer.valueOf(0));
+        this.field_70180_af.func_187214_a(EntityLlama.field_190721_bH, Integer.valueOf(-1));
+        this.field_70180_af.func_187214_a(EntityLlama.field_190722_bI, Integer.valueOf(0));
     }
 
-    public int getVariant() {
-        return MathHelper.clamp(((Integer) this.dataManager.get(EntityLlama.DATA_VARIANT_ID)).intValue(), 0, 3);
+    public int func_190719_dM() {
+        return MathHelper.func_76125_a(((Integer) this.field_70180_af.func_187225_a(EntityLlama.field_190722_bI)).intValue(), 0, 3);
     }
 
-    public void setVariant(int i) {
-        this.dataManager.set(EntityLlama.DATA_VARIANT_ID, Integer.valueOf(i));
+    public void func_190710_o(int i) {
+        this.field_70180_af.func_187227_b(EntityLlama.field_190722_bI, Integer.valueOf(i));
     }
 
-    protected int getInventorySize() {
-        return this.hasChest() ? 2 + 3 * this.getInventoryColumns() : super.getInventorySize();
+    protected int func_190686_di() {
+        return this.func_190695_dh() ? 2 + 3 * this.func_190696_dl() : super.func_190686_di();
     }
 
-    public void updatePassenger(Entity entity) {
-        if (this.isPassenger(entity)) {
-            float f = MathHelper.cos(this.renderYawOffset * 0.017453292F);
-            float f1 = MathHelper.sin(this.renderYawOffset * 0.017453292F);
+    public void func_184232_k(Entity entity) {
+        if (this.func_184196_w(entity)) {
+            float f = MathHelper.func_76134_b(this.field_70761_aq * 0.017453292F);
+            float f1 = MathHelper.func_76126_a(this.field_70761_aq * 0.017453292F);
             float f2 = 0.3F;
 
-            entity.setPosition(this.posX + (double) (0.3F * f1), this.posY + this.getMountedYOffset() + entity.getYOffset(), this.posZ - (double) (0.3F * f));
+            entity.func_70107_b(this.field_70165_t + (double) (0.3F * f1), this.field_70163_u + this.func_70042_X() + entity.func_70033_W(), this.field_70161_v - (double) (0.3F * f));
         }
     }
 
-    public double getMountedYOffset() {
-        return (double) this.height * 0.67D;
+    public double func_70042_X() {
+        return (double) this.field_70131_O * 0.67D;
     }
 
-    public boolean canBeSteered() {
+    public boolean func_82171_bF() {
         return false;
     }
 
-    protected boolean handleEating(EntityPlayer entityhuman, ItemStack itemstack) {
+    protected boolean func_190678_b(EntityPlayer entityhuman, ItemStack itemstack) {
         byte b0 = 0;
         byte b1 = 0;
         float f = 0.0F;
         boolean flag = false;
-        Item item = itemstack.getItem();
+        Item item = itemstack.func_77973_b();
 
-        if (item == Items.WHEAT) {
+        if (item == Items.field_151015_O) {
             b0 = 10;
             b1 = 3;
             f = 2.0F;
-        } else if (item == Item.getItemFromBlock(Blocks.HAY_BLOCK)) {
+        } else if (item == Item.func_150898_a(Blocks.field_150407_cf)) {
             b0 = 90;
             b1 = 6;
             f = 10.0F;
-            if (this.isTame() && this.getGrowingAge() == 0) {
+            if (this.func_110248_bS() && this.func_70874_b() == 0) {
                 flag = true;
-                this.setInLove(entityhuman);
+                this.func_146082_f(entityhuman);
             }
         }
 
-        if (this.getHealth() < this.getMaxHealth() && f > 0.0F) {
-            this.heal(f);
+        if (this.func_110143_aJ() < this.func_110138_aP() && f > 0.0F) {
+            this.func_70691_i(f);
             flag = true;
         }
 
-        if (this.isChild() && b0 > 0) {
-            this.world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, 0.0D, 0.0D, 0.0D, new int[0]);
-            if (!this.world.isRemote) {
-                this.addGrowth(b0);
+        if (this.func_70631_g_() && b0 > 0) {
+            this.field_70170_p.func_175688_a(EnumParticleTypes.VILLAGER_HAPPY, this.field_70165_t + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, this.field_70163_u + 0.5D + (double) (this.field_70146_Z.nextFloat() * this.field_70131_O), this.field_70161_v + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, 0.0D, 0.0D, 0.0D, new int[0]);
+            if (!this.field_70170_p.field_72995_K) {
+                this.func_110195_a(b0);
             }
 
             flag = true;
         }
 
-        if (b1 > 0 && (flag || !this.isTame()) && this.getTemper() < this.getMaxTemper()) {
+        if (b1 > 0 && (flag || !this.func_110248_bS()) && this.func_110252_cg() < this.func_190676_dC()) {
             flag = true;
-            if (!this.world.isRemote) {
-                this.increaseTemper(b1);
+            if (!this.field_70170_p.field_72995_K) {
+                this.func_110198_t(b1);
             }
         }
 
-        if (flag && !this.isSilent()) {
-            this.world.playSound((EntityPlayer) null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+        if (flag && !this.func_174814_R()) {
+            this.field_70170_p.func_184148_a((EntityPlayer) null, this.field_70165_t, this.field_70163_u, this.field_70161_v, SoundEvents.field_191253_dD, this.func_184176_by(), 1.0F, 1.0F + (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F);
         }
 
         return flag;
     }
 
-    protected boolean isMovementBlocked() {
-        return this.getHealth() <= 0.0F || this.isEatingHaystack();
+    protected boolean func_70610_aX() {
+        return this.func_110143_aJ() <= 0.0F || this.func_110204_cc();
     }
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
-        Object object = super.onInitialSpawn(difficultydamagescaler, groupdataentity);
+    public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
+        Object object = super.func_180482_a(difficultydamagescaler, groupdataentity);
 
-        this.setRandomStrength();
+        this.func_190705_dT();
         int i;
 
         if (object instanceof EntityLlama.b) {
             i = ((EntityLlama.b) object).a;
         } else {
-            i = this.rand.nextInt(4);
+            i = this.field_70146_Z.nextInt(4);
             object = new EntityLlama.b(i, null);
         }
 
-        this.setVariant(i);
+        this.func_190710_o(i);
         return (IEntityLivingData) object;
     }
 
-    protected SoundEvent getAngrySound() {
-        return SoundEvents.ENTITY_LLAMA_ANGRY;
+    protected SoundEvent func_184785_dv() {
+        return SoundEvents.field_191250_dA;
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_LLAMA_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_191260_dz;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_LLAMA_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_191254_dE;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_LLAMA_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_191252_dC;
     }
 
-    protected void playStepSound(BlockPos blockposition, Block block) {
-        this.playSound(SoundEvents.ENTITY_LLAMA_STEP, 0.15F, 1.0F);
+    protected void func_180429_a(BlockPos blockposition, Block block) {
+        this.func_184185_a(SoundEvents.field_191256_dG, 0.15F, 1.0F);
     }
 
-    protected void playChestEquipSound() {
-        this.playSound(SoundEvents.ENTITY_LLAMA_CHEST, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+    protected void func_190697_dk() {
+        this.func_184185_a(SoundEvents.field_191251_dB, 1.0F, (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F + 1.0F);
     }
 
-    public void makeMad() {
-        SoundEvent soundeffect = this.getAngrySound();
+    public void func_190687_dF() {
+        SoundEvent soundeffect = this.func_184785_dv();
 
         if (soundeffect != null) {
-            this.playSound(soundeffect, this.getSoundVolume(), this.getSoundPitch());
+            this.func_184185_a(soundeffect, this.func_70599_aP(), this.func_70647_i());
         }
 
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_LLAMA;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_191187_aw;
     }
 
-    public int getInventoryColumns() {
-        return this.getStrength();
+    public int func_190696_dl() {
+        return this.func_190707_dL();
     }
 
-    public boolean wearsArmor() {
+    public boolean func_190677_dK() {
         return true;
     }
 
-    public boolean isArmor(ItemStack itemstack) {
-        return itemstack.getItem() == Item.getItemFromBlock(Blocks.CARPET);
+    public boolean func_190682_f(ItemStack itemstack) {
+        return itemstack.func_77973_b() == Item.func_150898_a(Blocks.field_150404_cg);
     }
 
-    public boolean canBeSaddled() {
+    public boolean func_190685_dA() {
         return false;
     }
 
-    public void onInventoryChanged(IInventory iinventory) {
-        EnumDyeColor enumcolor = this.getColor();
+    public void func_76316_a(IInventory iinventory) {
+        EnumDyeColor enumcolor = this.func_190704_dO();
 
-        super.onInventoryChanged(iinventory);
-        EnumDyeColor enumcolor1 = this.getColor();
+        super.func_76316_a(iinventory);
+        EnumDyeColor enumcolor1 = this.func_190704_dO();
 
-        if (this.ticksExisted > 20 && enumcolor1 != null && enumcolor1 != enumcolor) {
-            this.playSound(SoundEvents.ENTITY_LLAMA_SWAG, 0.5F, 1.0F);
+        if (this.field_70173_aa > 20 && enumcolor1 != null && enumcolor1 != enumcolor) {
+            this.func_184185_a(SoundEvents.field_191257_dH, 0.5F, 1.0F);
         }
 
     }
 
-    protected void updateHorseSlots() {
-        if (!this.world.isRemote) {
-            super.updateHorseSlots();
-            this.setColorByItem(this.horseChest.getStackInSlot(1));
+    protected void func_110232_cE() {
+        if (!this.field_70170_p.field_72995_K) {
+            super.func_110232_cE();
+            this.func_190702_g(this.field_110296_bG.func_70301_a(1));
         }
     }
 
-    private void setColor(@Nullable EnumDyeColor enumcolor) {
-        this.dataManager.set(EntityLlama.DATA_COLOR_ID, Integer.valueOf(enumcolor == null ? -1 : enumcolor.getMetadata()));
+    private void func_190711_a(@Nullable EnumDyeColor enumcolor) {
+        this.field_70180_af.func_187227_b(EntityLlama.field_190721_bH, Integer.valueOf(enumcolor == null ? -1 : enumcolor.func_176765_a()));
     }
 
-    private void setColorByItem(ItemStack itemstack) {
-        if (this.isArmor(itemstack)) {
-            this.setColor(EnumDyeColor.byMetadata(itemstack.getMetadata()));
+    private void func_190702_g(ItemStack itemstack) {
+        if (this.func_190682_f(itemstack)) {
+            this.func_190711_a(EnumDyeColor.func_176764_b(itemstack.func_77960_j()));
         } else {
-            this.setColor((EnumDyeColor) null);
+            this.func_190711_a((EnumDyeColor) null);
         }
 
     }
 
     @Nullable
-    public EnumDyeColor getColor() {
-        int i = ((Integer) this.dataManager.get(EntityLlama.DATA_COLOR_ID)).intValue();
+    public EnumDyeColor func_190704_dO() {
+        int i = ((Integer) this.field_70180_af.func_187225_a(EntityLlama.field_190721_bH)).intValue();
 
-        return i == -1 ? null : EnumDyeColor.byMetadata(i);
+        return i == -1 ? null : EnumDyeColor.func_176764_b(i);
     }
 
-    public int getMaxTemper() {
+    public int func_190676_dC() {
         return 30;
     }
 
-    public boolean canMateWith(EntityAnimal entityanimal) {
-        return entityanimal != this && entityanimal instanceof EntityLlama && this.canMate() && ((EntityLlama) entityanimal).canMate();
+    public boolean func_70878_b(EntityAnimal entityanimal) {
+        return entityanimal != this && entityanimal instanceof EntityLlama && this.func_110200_cJ() && ((EntityLlama) entityanimal).func_110200_cJ();
     }
 
-    public EntityLlama createChild(EntityAgeable entityageable) {
-        EntityLlama entityllama = new EntityLlama(this.world);
+    public EntityLlama func_90011_a(EntityAgeable entityageable) {
+        EntityLlama entityllama = new EntityLlama(this.field_70170_p);
 
-        this.setOffspringAttributes(entityageable, (AbstractHorse) entityllama);
+        this.func_190681_a(entityageable, (AbstractHorse) entityllama);
         EntityLlama entityllama1 = (EntityLlama) entityageable;
-        int i = this.rand.nextInt(Math.max(this.getStrength(), entityllama1.getStrength())) + 1;
+        int i = this.field_70146_Z.nextInt(Math.max(this.func_190707_dL(), entityllama1.func_190707_dL())) + 1;
 
-        if (this.rand.nextFloat() < 0.03F) {
+        if (this.field_70146_Z.nextFloat() < 0.03F) {
             ++i;
         }
 
-        entityllama.setStrength(i);
-        entityllama.setVariant(this.rand.nextBoolean() ? this.getVariant() : entityllama1.getVariant());
+        entityllama.func_190706_p(i);
+        entityllama.func_190710_o(this.field_70146_Z.nextBoolean() ? this.func_190719_dM() : entityllama1.func_190719_dM());
         return entityllama;
     }
 
-    private void spit(EntityLivingBase entityliving) {
-        EntityLlamaSpit entityllamaspit = new EntityLlamaSpit(this.world, this);
-        double d0 = entityliving.posX - this.posX;
-        double d1 = entityliving.getEntityBoundingBox().minY + (double) (entityliving.height / 3.0F) - entityllamaspit.posY;
-        double d2 = entityliving.posZ - this.posZ;
-        float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
+    private void func_190713_e(EntityLivingBase entityliving) {
+        EntityLlamaSpit entityllamaspit = new EntityLlamaSpit(this.field_70170_p, this);
+        double d0 = entityliving.field_70165_t - this.field_70165_t;
+        double d1 = entityliving.func_174813_aQ().field_72338_b + (double) (entityliving.field_70131_O / 3.0F) - entityllamaspit.field_70163_u;
+        double d2 = entityliving.field_70161_v - this.field_70161_v;
+        float f = MathHelper.func_76133_a(d0 * d0 + d2 * d2) * 0.2F;
 
-        entityllamaspit.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
-        this.world.playSound((EntityPlayer) null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-        this.world.spawnEntity(entityllamaspit);
-        this.didSpit = true;
+        entityllamaspit.func_70186_c(d0, d1 + (double) f, d2, 1.5F, 10.0F);
+        this.field_70170_p.func_184148_a((EntityPlayer) null, this.field_70165_t, this.field_70163_u, this.field_70161_v, SoundEvents.field_191255_dF, this.func_184176_by(), 1.0F, 1.0F + (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F);
+        this.field_70170_p.func_72838_d(entityllamaspit);
+        this.field_190723_bJ = true;
     }
 
-    private void setDidSpit(boolean flag) {
-        this.didSpit = flag;
+    private void func_190714_x(boolean flag) {
+        this.field_190723_bJ = flag;
     }
 
-    public void fall(float f, float f1) {
-        int i = MathHelper.ceil((f * 0.5F - 3.0F) * f1);
+    public void func_180430_e(float f, float f1) {
+        int i = MathHelper.func_76123_f((f * 0.5F - 3.0F) * f1);
 
         if (i > 0) {
             if (f >= 6.0F) {
-                this.attackEntityFrom(DamageSource.FALL, (float) i);
-                if (this.isBeingRidden()) {
-                    Iterator iterator = this.getRecursivePassengers().iterator();
+                this.func_70097_a(DamageSource.field_76379_h, (float) i);
+                if (this.func_184207_aI()) {
+                    Iterator iterator = this.func_184182_bu().iterator();
 
                     while (iterator.hasNext()) {
                         Entity entity = (Entity) iterator.next();
 
-                        entity.attackEntityFrom(DamageSource.FALL, (float) i);
+                        entity.func_70097_a(DamageSource.field_76379_h, (float) i);
                     }
                 }
             }
 
-            IBlockState iblockdata = this.world.getBlockState(new BlockPos(this.posX, this.posY - 0.2D - (double) this.prevRotationYaw, this.posZ));
-            Block block = iblockdata.getBlock();
+            IBlockState iblockdata = this.field_70170_p.func_180495_p(new BlockPos(this.field_70165_t, this.field_70163_u - 0.2D - (double) this.field_70126_B, this.field_70161_v));
+            Block block = iblockdata.func_177230_c();
 
-            if (iblockdata.getMaterial() != Material.AIR && !this.isSilent()) {
-                SoundType soundeffecttype = block.getSoundType();
+            if (iblockdata.func_185904_a() != Material.field_151579_a && !this.func_174814_R()) {
+                SoundType soundeffecttype = block.func_185467_w();
 
-                this.world.playSound((EntityPlayer) null, this.posX, this.posY, this.posZ, soundeffecttype.getStepSound(), this.getSoundCategory(), soundeffecttype.getVolume() * 0.5F, soundeffecttype.getPitch() * 0.75F);
+                this.field_70170_p.func_184148_a((EntityPlayer) null, this.field_70165_t, this.field_70163_u, this.field_70161_v, soundeffecttype.func_185844_d(), this.func_184176_by(), soundeffecttype.func_185843_a() * 0.5F, soundeffecttype.func_185847_b() * 0.75F);
             }
 
         }
     }
 
-    public void leaveCaravan() {
-        if (this.caravanHead != null) {
-            this.caravanHead.caravanTail = null;
+    public void func_190709_dP() {
+        if (this.field_190724_bK != null) {
+            this.field_190724_bK.field_190725_bL = null;
         }
 
-        this.caravanHead = null;
+        this.field_190724_bK = null;
     }
 
-    public void joinCaravan(EntityLlama entityllama) {
-        this.caravanHead = entityllama;
-        this.caravanHead.caravanTail = this;
+    public void func_190715_a(EntityLlama entityllama) {
+        this.field_190724_bK = entityllama;
+        this.field_190724_bK.field_190725_bL = this;
     }
 
-    public boolean hasCaravanTrail() {
-        return this.caravanTail != null;
+    public boolean func_190712_dQ() {
+        return this.field_190725_bL != null;
     }
 
-    public boolean inCaravan() { return this.inCaravan(); } // Paper - OBFHELPER
-    public boolean inCaravan() {
-        return this.caravanHead != null;
+    public boolean inCaravan() { return this.func_190718_dR(); } // Paper - OBFHELPER
+    public boolean func_190718_dR() {
+        return this.field_190724_bK != null;
     }
 
     @Nullable
-    public EntityLlama getCaravanHead() {
-        return this.caravanHead;
+    public EntityLlama func_190716_dS() {
+        return this.field_190724_bK;
     }
 
-    protected double followLeashSpeed() {
+    protected double func_190634_dg() {
         return 2.0D;
     }
 
-    protected void followMother() {
-        if (!this.inCaravan() && this.isChild()) {
-            super.followMother();
+    protected void func_190679_dD() {
+        if (!this.func_190718_dR() && this.func_70631_g_()) {
+            super.func_190679_dD();
         }
 
     }
 
-    public boolean canEatGrass() {
+    public boolean func_190684_dE() {
         return false;
     }
 
-    public void attackEntityWithRangedAttack(EntityLivingBase entityliving, float f) {
-        this.spit(entityliving);
+    public void func_82196_d(EntityLivingBase entityliving, float f) {
+        this.func_190713_e(entityliving);
     }
 
-    public void setSwingingArms(boolean flag) {}
+    public void func_184724_a(boolean flag) {}
 
-    public EntityAgeable createChild(EntityAgeable entityageable) {
-        return this.createChild(entityageable);
+    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
+        return this.func_90011_a(entityageable);
     }
 
     static class a extends EntityAINearestAttackableTarget<EntityWolf> {
@@ -452,17 +452,17 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
             super(entityllama, EntityWolf.class, 16, false, true, (Predicate) null);
         }
 
-        public boolean shouldExecute() {
-            if (super.shouldExecute() && this.targetEntity != null && !((EntityWolf) this.targetEntity).isTamed()) {
+        public boolean func_75250_a() {
+            if (super.func_75250_a() && this.field_75309_a != null && !((EntityWolf) this.field_75309_a).func_70909_n()) {
                 return true;
             } else {
-                this.taskOwner.setAttackTarget((EntityLivingBase) null);
+                this.field_75299_d.func_70624_b((EntityLivingBase) null);
                 return false;
             }
         }
 
-        protected double getTargetDistance() {
-            return super.getTargetDistance() * 0.25D;
+        protected double func_111175_f() {
+            return super.func_111175_f() * 0.25D;
         }
     }
 
@@ -472,17 +472,17 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
             super(entityllama, false, new Class[0]);
         }
 
-        public boolean shouldContinueExecuting() {
-            if (this.taskOwner instanceof EntityLlama) {
-                EntityLlama entityllama = (EntityLlama) this.taskOwner;
+        public boolean func_75253_b() {
+            if (this.field_75299_d instanceof EntityLlama) {
+                EntityLlama entityllama = (EntityLlama) this.field_75299_d;
 
-                if (entityllama.didSpit) {
-                    entityllama.setDidSpit(false);
+                if (entityllama.field_190723_bJ) {
+                    entityllama.func_190714_x(false);
                     return false;
                 }
             }
 
-            return super.shouldContinueExecuting();
+            return super.func_75253_b();
         }
     }
 

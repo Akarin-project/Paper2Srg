@@ -8,30 +8,30 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketEnchantItem implements Packet<INetHandlerPlayServer> {
 
-    private int windowId;
-    private int button;
+    private int field_149541_a;
+    private int field_149540_b;
 
     public CPacketEnchantItem() {}
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.processEnchantItem(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_147338_a(this);
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.windowId = packetdataserializer.readByte();
-        this.button = packetdataserializer.readByte();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149541_a = packetdataserializer.readByte();
+        this.field_149540_b = packetdataserializer.readByte();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeByte(this.windowId);
-        packetdataserializer.writeByte(this.button);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeByte(this.field_149541_a);
+        packetdataserializer.writeByte(this.field_149540_b);
     }
 
-    public int getWindowId() {
-        return this.windowId;
+    public int func_149539_c() {
+        return this.field_149541_a;
     }
 
-    public int getButton() {
-        return this.button;
+    public int func_149537_d() {
+        return this.field_149540_b;
     }
 }

@@ -22,117 +22,117 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntitySkeletonHorse extends AbstractHorse {
 
-    private final EntityAISkeletonRiders skeletonTrapAI = new EntityAISkeletonRiders(this);
-    private boolean skeletonTrap;
-    private int skeletonTrapTime;
+    private final EntityAISkeletonRiders field_184792_bN = new EntityAISkeletonRiders(this);
+    private boolean field_184793_bU;
+    private int field_184794_bV;
 
     public EntitySkeletonHorse(World world) {
         super(world);
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20000000298023224D);
-        this.getEntityAttribute(EntitySkeletonHorse.JUMP_STRENGTH).setBaseValue(this.getModifiedJumpStrength());
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(15.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.20000000298023224D);
+        this.func_110148_a(EntitySkeletonHorse.field_110271_bv).func_111128_a(this.func_110245_cM());
     }
 
-    protected SoundEvent getAmbientSound() {
-        super.getAmbientSound();
-        return SoundEvents.ENTITY_SKELETON_HORSE_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        super.func_184639_G();
+        return SoundEvents.field_187858_fe;
     }
 
-    protected SoundEvent getDeathSound() {
-        super.getDeathSound();
-        return SoundEvents.ENTITY_SKELETON_HORSE_DEATH;
+    protected SoundEvent func_184615_bR() {
+        super.func_184615_bR();
+        return SoundEvents.field_187860_ff;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        super.getHurtSound(damagesource);
-        return SoundEvents.ENTITY_SKELETON_HORSE_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        super.func_184601_bQ(damagesource);
+        return SoundEvents.field_187862_fg;
     }
 
-    public EnumCreatureAttribute getCreatureAttribute() {
+    public EnumCreatureAttribute func_70668_bt() {
         return EnumCreatureAttribute.UNDEAD;
     }
 
-    public double getMountedYOffset() {
-        return super.getMountedYOffset() - 0.1875D;
+    public double func_70042_X() {
+        return super.func_70042_X() - 0.1875D;
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_SKELETON_HORSE;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186398_F;
     }
 
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        if (this.isTrap() && this.skeletonTrapTime++ >= 18000) {
-            this.setDead();
+    public void func_70636_d() {
+        super.func_70636_d();
+        if (this.func_190690_dh() && this.field_184794_bV++ >= 18000) {
+            this.func_70106_y();
         }
 
     }
 
-    public static void registerFixesSkeletonHorse(DataFixer dataconvertermanager) {
-        AbstractHorse.registerFixesAbstractHorse(dataconvertermanager, EntitySkeletonHorse.class);
+    public static void func_190692_b(DataFixer dataconvertermanager) {
+        AbstractHorse.func_190683_c(dataconvertermanager, EntitySkeletonHorse.class);
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setBoolean("SkeletonTrap", this.isTrap());
-        nbttagcompound.setInteger("SkeletonTrapTime", this.skeletonTrapTime);
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74757_a("SkeletonTrap", this.func_190690_dh());
+        nbttagcompound.func_74768_a("SkeletonTrapTime", this.field_184794_bV);
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.setTrap(nbttagcompound.getBoolean("SkeletonTrap"));
-        this.skeletonTrapTime = nbttagcompound.getInteger("SkeletonTrapTime");
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.func_190691_p(nbttagcompound.func_74767_n("SkeletonTrap"));
+        this.field_184794_bV = nbttagcompound.func_74762_e("SkeletonTrapTime");
     }
 
-    public boolean isTrap() {
-        return this.skeletonTrap;
+    public boolean func_190690_dh() {
+        return this.field_184793_bU;
     }
 
-    public void setTrap(boolean flag) {
-        if (flag != this.skeletonTrap) {
-            this.skeletonTrap = flag;
+    public void func_190691_p(boolean flag) {
+        if (flag != this.field_184793_bU) {
+            this.field_184793_bU = flag;
             if (flag) {
-                this.tasks.addTask(1, this.skeletonTrapAI);
+                this.field_70714_bg.func_75776_a(1, this.field_184792_bN);
             } else {
-                this.tasks.removeTask((EntityAIBase) this.skeletonTrapAI);
+                this.field_70714_bg.func_85156_a((EntityAIBase) this.field_184792_bN);
             }
 
         }
     }
 
-    public boolean processInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
-        boolean flag = !itemstack.isEmpty();
+    public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
+        boolean flag = !itemstack.func_190926_b();
 
-        if (flag && itemstack.getItem() == Items.SPAWN_EGG) {
-            return super.processInteract(entityhuman, enumhand);
-        } else if (!this.isTame()) {
+        if (flag && itemstack.func_77973_b() == Items.field_151063_bx) {
+            return super.func_184645_a(entityhuman, enumhand);
+        } else if (!this.func_110248_bS()) {
             return false;
-        } else if (this.isChild()) {
-            return super.processInteract(entityhuman, enumhand);
-        } else if (entityhuman.isSneaking()) {
-            this.openGUI(entityhuman);
+        } else if (this.func_70631_g_()) {
+            return super.func_184645_a(entityhuman, enumhand);
+        } else if (entityhuman.func_70093_af()) {
+            this.func_110199_f(entityhuman);
             return true;
-        } else if (this.isBeingRidden()) {
-            return super.processInteract(entityhuman, enumhand);
+        } else if (this.func_184207_aI()) {
+            return super.func_184645_a(entityhuman, enumhand);
         } else {
             if (flag) {
-                if (itemstack.getItem() == Items.SADDLE && !this.isHorseSaddled()) {
-                    this.openGUI(entityhuman);
+                if (itemstack.func_77973_b() == Items.field_151141_av && !this.func_110257_ck()) {
+                    this.func_110199_f(entityhuman);
                     return true;
                 }
 
-                if (itemstack.interactWithEntity(entityhuman, (EntityLivingBase) this, enumhand)) {
+                if (itemstack.func_111282_a(entityhuman, (EntityLivingBase) this, enumhand)) {
                     return true;
                 }
             }
 
-            this.mountTo(entityhuman);
+            this.func_110237_h(entityhuman);
             return true;
         }
     }

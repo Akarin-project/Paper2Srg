@@ -16,18 +16,18 @@ public class UserListBansEntry extends UserListEntryBan<GameProfile> {
     }
 
     public UserListBansEntry(JsonObject jsonobject) {
-        super(toGameProfile(jsonobject), jsonobject);
+        super(func_152648_b(jsonobject), jsonobject);
     }
 
-    protected void onSerialization(JsonObject jsonobject) {
-        if (this.getValue() != null) {
-            jsonobject.addProperty("uuid", ((GameProfile) this.getValue()).getId() == null ? "" : ((GameProfile) this.getValue()).getId().toString());
-            jsonobject.addProperty("name", ((GameProfile) this.getValue()).getName());
-            super.onSerialization(jsonobject);
+    protected void func_152641_a(JsonObject jsonobject) {
+        if (this.func_152640_f() != null) {
+            jsonobject.addProperty("uuid", ((GameProfile) this.func_152640_f()).getId() == null ? "" : ((GameProfile) this.func_152640_f()).getId().toString());
+            jsonobject.addProperty("name", ((GameProfile) this.func_152640_f()).getName());
+            super.func_152641_a(jsonobject);
         }
     }
 
-    private static GameProfile toGameProfile(JsonObject jsonobject) {
+    private static GameProfile func_152648_b(JsonObject jsonobject) {
         // Spigot start
         // this whole method has to be reworked to account for the fact Bukkit only accepts UUID bans and gives no way for usernames to be stored!
         UUID uuid = null;

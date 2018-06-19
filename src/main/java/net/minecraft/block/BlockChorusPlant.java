@@ -25,119 +25,119 @@ import net.minecraft.world.World;
 
 public class BlockChorusPlant extends Block {
 
-    public static final PropertyBool NORTH = PropertyBool.create("north");
-    public static final PropertyBool EAST = PropertyBool.create("east");
-    public static final PropertyBool SOUTH = PropertyBool.create("south");
-    public static final PropertyBool WEST = PropertyBool.create("west");
-    public static final PropertyBool UP = PropertyBool.create("up");
-    public static final PropertyBool DOWN = PropertyBool.create("down");
+    public static final PropertyBool field_185609_a = PropertyBool.func_177716_a("north");
+    public static final PropertyBool field_185610_b = PropertyBool.func_177716_a("east");
+    public static final PropertyBool field_185611_c = PropertyBool.func_177716_a("south");
+    public static final PropertyBool field_185612_d = PropertyBool.func_177716_a("west");
+    public static final PropertyBool field_185613_e = PropertyBool.func_177716_a("up");
+    public static final PropertyBool field_185614_f = PropertyBool.func_177716_a("down");
 
     protected BlockChorusPlant() {
-        super(Material.PLANTS, MapColor.PURPLE);
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockChorusPlant.NORTH, Boolean.valueOf(false)).withProperty(BlockChorusPlant.EAST, Boolean.valueOf(false)).withProperty(BlockChorusPlant.SOUTH, Boolean.valueOf(false)).withProperty(BlockChorusPlant.WEST, Boolean.valueOf(false)).withProperty(BlockChorusPlant.UP, Boolean.valueOf(false)).withProperty(BlockChorusPlant.DOWN, Boolean.valueOf(false)));
+        super(Material.field_151585_k, MapColor.field_151678_z);
+        this.func_149647_a(CreativeTabs.field_78031_c);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockChorusPlant.field_185609_a, Boolean.valueOf(false)).func_177226_a(BlockChorusPlant.field_185610_b, Boolean.valueOf(false)).func_177226_a(BlockChorusPlant.field_185611_c, Boolean.valueOf(false)).func_177226_a(BlockChorusPlant.field_185612_d, Boolean.valueOf(false)).func_177226_a(BlockChorusPlant.field_185613_e, Boolean.valueOf(false)).func_177226_a(BlockChorusPlant.field_185614_f, Boolean.valueOf(false)));
     }
 
-    public IBlockState getActualState(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        Block block = iblockaccess.getBlockState(blockposition.down()).getBlock();
-        Block block1 = iblockaccess.getBlockState(blockposition.up()).getBlock();
-        Block block2 = iblockaccess.getBlockState(blockposition.north()).getBlock();
-        Block block3 = iblockaccess.getBlockState(blockposition.east()).getBlock();
-        Block block4 = iblockaccess.getBlockState(blockposition.south()).getBlock();
-        Block block5 = iblockaccess.getBlockState(blockposition.west()).getBlock();
+    public IBlockState func_176221_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        Block block = iblockaccess.func_180495_p(blockposition.func_177977_b()).func_177230_c();
+        Block block1 = iblockaccess.func_180495_p(blockposition.func_177984_a()).func_177230_c();
+        Block block2 = iblockaccess.func_180495_p(blockposition.func_177978_c()).func_177230_c();
+        Block block3 = iblockaccess.func_180495_p(blockposition.func_177974_f()).func_177230_c();
+        Block block4 = iblockaccess.func_180495_p(blockposition.func_177968_d()).func_177230_c();
+        Block block5 = iblockaccess.func_180495_p(blockposition.func_177976_e()).func_177230_c();
 
-        return iblockdata.withProperty(BlockChorusPlant.DOWN, Boolean.valueOf(block == this || block == Blocks.CHORUS_FLOWER || block == Blocks.END_STONE)).withProperty(BlockChorusPlant.UP, Boolean.valueOf(block1 == this || block1 == Blocks.CHORUS_FLOWER)).withProperty(BlockChorusPlant.NORTH, Boolean.valueOf(block2 == this || block2 == Blocks.CHORUS_FLOWER)).withProperty(BlockChorusPlant.EAST, Boolean.valueOf(block3 == this || block3 == Blocks.CHORUS_FLOWER)).withProperty(BlockChorusPlant.SOUTH, Boolean.valueOf(block4 == this || block4 == Blocks.CHORUS_FLOWER)).withProperty(BlockChorusPlant.WEST, Boolean.valueOf(block5 == this || block5 == Blocks.CHORUS_FLOWER));
+        return iblockdata.func_177226_a(BlockChorusPlant.field_185614_f, Boolean.valueOf(block == this || block == Blocks.field_185766_cS || block == Blocks.field_150377_bs)).func_177226_a(BlockChorusPlant.field_185613_e, Boolean.valueOf(block1 == this || block1 == Blocks.field_185766_cS)).func_177226_a(BlockChorusPlant.field_185609_a, Boolean.valueOf(block2 == this || block2 == Blocks.field_185766_cS)).func_177226_a(BlockChorusPlant.field_185610_b, Boolean.valueOf(block3 == this || block3 == Blocks.field_185766_cS)).func_177226_a(BlockChorusPlant.field_185611_c, Boolean.valueOf(block4 == this || block4 == Blocks.field_185766_cS)).func_177226_a(BlockChorusPlant.field_185612_d, Boolean.valueOf(block5 == this || block5 == Blocks.field_185766_cS));
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        iblockdata = iblockdata.getActualState(iblockaccess, blockposition);
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        iblockdata = iblockdata.func_185899_b(iblockaccess, blockposition);
         float f = 0.1875F;
-        float f1 = ((Boolean) iblockdata.getValue(BlockChorusPlant.WEST)).booleanValue() ? 0.0F : 0.1875F;
-        float f2 = ((Boolean) iblockdata.getValue(BlockChorusPlant.DOWN)).booleanValue() ? 0.0F : 0.1875F;
-        float f3 = ((Boolean) iblockdata.getValue(BlockChorusPlant.NORTH)).booleanValue() ? 0.0F : 0.1875F;
-        float f4 = ((Boolean) iblockdata.getValue(BlockChorusPlant.EAST)).booleanValue() ? 1.0F : 0.8125F;
-        float f5 = ((Boolean) iblockdata.getValue(BlockChorusPlant.UP)).booleanValue() ? 1.0F : 0.8125F;
-        float f6 = ((Boolean) iblockdata.getValue(BlockChorusPlant.SOUTH)).booleanValue() ? 1.0F : 0.8125F;
+        float f1 = ((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185612_d)).booleanValue() ? 0.0F : 0.1875F;
+        float f2 = ((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185614_f)).booleanValue() ? 0.0F : 0.1875F;
+        float f3 = ((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185609_a)).booleanValue() ? 0.0F : 0.1875F;
+        float f4 = ((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185610_b)).booleanValue() ? 1.0F : 0.8125F;
+        float f5 = ((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185613_e)).booleanValue() ? 1.0F : 0.8125F;
+        float f6 = ((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185611_c)).booleanValue() ? 1.0F : 0.8125F;
 
         return new AxisAlignedBB((double) f1, (double) f2, (double) f3, (double) f4, (double) f5, (double) f6);
     }
 
-    public void addCollisionBoxToList(IBlockState iblockdata, World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity, boolean flag) {
+    public void func_185477_a(IBlockState iblockdata, World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity, boolean flag) {
         if (!flag) {
-            iblockdata = iblockdata.getActualState(world, blockposition);
+            iblockdata = iblockdata.func_185899_b(world, blockposition);
         }
 
         float f = 0.1875F;
         float f1 = 0.8125F;
 
-        addCollisionBoxToList(blockposition, axisalignedbb, list, new AxisAlignedBB(0.1875D, 0.1875D, 0.1875D, 0.8125D, 0.8125D, 0.8125D));
-        if (((Boolean) iblockdata.getValue(BlockChorusPlant.WEST)).booleanValue()) {
-            addCollisionBoxToList(blockposition, axisalignedbb, list, new AxisAlignedBB(0.0D, 0.1875D, 0.1875D, 0.1875D, 0.8125D, 0.8125D));
+        func_185492_a(blockposition, axisalignedbb, list, new AxisAlignedBB(0.1875D, 0.1875D, 0.1875D, 0.8125D, 0.8125D, 0.8125D));
+        if (((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185612_d)).booleanValue()) {
+            func_185492_a(blockposition, axisalignedbb, list, new AxisAlignedBB(0.0D, 0.1875D, 0.1875D, 0.1875D, 0.8125D, 0.8125D));
         }
 
-        if (((Boolean) iblockdata.getValue(BlockChorusPlant.EAST)).booleanValue()) {
-            addCollisionBoxToList(blockposition, axisalignedbb, list, new AxisAlignedBB(0.8125D, 0.1875D, 0.1875D, 1.0D, 0.8125D, 0.8125D));
+        if (((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185610_b)).booleanValue()) {
+            func_185492_a(blockposition, axisalignedbb, list, new AxisAlignedBB(0.8125D, 0.1875D, 0.1875D, 1.0D, 0.8125D, 0.8125D));
         }
 
-        if (((Boolean) iblockdata.getValue(BlockChorusPlant.UP)).booleanValue()) {
-            addCollisionBoxToList(blockposition, axisalignedbb, list, new AxisAlignedBB(0.1875D, 0.8125D, 0.1875D, 0.8125D, 1.0D, 0.8125D));
+        if (((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185613_e)).booleanValue()) {
+            func_185492_a(blockposition, axisalignedbb, list, new AxisAlignedBB(0.1875D, 0.8125D, 0.1875D, 0.8125D, 1.0D, 0.8125D));
         }
 
-        if (((Boolean) iblockdata.getValue(BlockChorusPlant.DOWN)).booleanValue()) {
-            addCollisionBoxToList(blockposition, axisalignedbb, list, new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 0.8125D, 0.1875D, 0.8125D));
+        if (((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185614_f)).booleanValue()) {
+            func_185492_a(blockposition, axisalignedbb, list, new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 0.8125D, 0.1875D, 0.8125D));
         }
 
-        if (((Boolean) iblockdata.getValue(BlockChorusPlant.NORTH)).booleanValue()) {
-            addCollisionBoxToList(blockposition, axisalignedbb, list, new AxisAlignedBB(0.1875D, 0.1875D, 0.0D, 0.8125D, 0.8125D, 0.1875D));
+        if (((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185609_a)).booleanValue()) {
+            func_185492_a(blockposition, axisalignedbb, list, new AxisAlignedBB(0.1875D, 0.1875D, 0.0D, 0.8125D, 0.8125D, 0.1875D));
         }
 
-        if (((Boolean) iblockdata.getValue(BlockChorusPlant.SOUTH)).booleanValue()) {
-            addCollisionBoxToList(blockposition, axisalignedbb, list, new AxisAlignedBB(0.1875D, 0.1875D, 0.8125D, 0.8125D, 0.8125D, 1.0D));
+        if (((Boolean) iblockdata.func_177229_b(BlockChorusPlant.field_185611_c)).booleanValue()) {
+            func_185492_a(blockposition, axisalignedbb, list, new AxisAlignedBB(0.1875D, 0.1875D, 0.8125D, 0.8125D, 0.8125D, 1.0D));
         }
 
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         return 0;
     }
 
-    public void updateTick(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        if (!this.canSurviveAt(world, blockposition)) {
-            world.destroyBlock(blockposition, true);
+    public void func_180650_b(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        if (!this.func_185608_b(world, blockposition)) {
+            world.func_175655_b(blockposition, true);
         }
 
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.CHORUS_FRUIT;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_185161_cS;
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return random.nextInt(2);
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean canPlaceBlockAt(World world, BlockPos blockposition) {
-        return super.canPlaceBlockAt(world, blockposition) ? this.canSurviveAt(world, blockposition) : false;
+    public boolean func_176196_c(World world, BlockPos blockposition) {
+        return super.func_176196_c(world, blockposition) ? this.func_185608_b(world, blockposition) : false;
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        if (!this.canSurviveAt(world, blockposition)) {
-            world.scheduleUpdate(blockposition, (Block) this, 1);
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        if (!this.func_185608_b(world, blockposition)) {
+            world.func_175684_a(blockposition, (Block) this, 1);
         }
 
     }
 
-    public boolean canSurviveAt(World world, BlockPos blockposition) {
-        boolean flag = world.isAirBlock(blockposition.up());
-        boolean flag1 = world.isAirBlock(blockposition.down());
+    public boolean func_185608_b(World world, BlockPos blockposition) {
+        boolean flag = world.func_175623_d(blockposition.func_177984_a());
+        boolean flag1 = world.func_175623_d(blockposition.func_177977_b());
         Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 
         Block block;
@@ -148,36 +148,36 @@ public class BlockChorusPlant extends Block {
 
             do {
                 if (!iterator.hasNext()) {
-                    Block block2 = world.getBlockState(blockposition.down()).getBlock();
+                    Block block2 = world.func_180495_p(blockposition.func_177977_b()).func_177230_c();
 
-                    return block2 == this || block2 == Blocks.END_STONE;
+                    return block2 == this || block2 == Blocks.field_150377_bs;
                 }
 
                 EnumFacing enumdirection = (EnumFacing) iterator.next();
 
-                blockposition1 = blockposition.offset(enumdirection);
-                block1 = world.getBlockState(blockposition1).getBlock();
+                blockposition1 = blockposition.func_177972_a(enumdirection);
+                block1 = world.func_180495_p(blockposition1).func_177230_c();
             } while (block1 != this);
 
             if (!flag && !flag1) {
                 return false;
             }
 
-            block = world.getBlockState(blockposition1.down()).getBlock();
-        } while (block != this && block != Blocks.END_STONE);
+            block = world.func_180495_p(blockposition1.func_177977_b()).func_177230_c();
+        } while (block != this && block != Blocks.field_150377_bs);
 
         return true;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockChorusPlant.NORTH, BlockChorusPlant.EAST, BlockChorusPlant.SOUTH, BlockChorusPlant.WEST, BlockChorusPlant.UP, BlockChorusPlant.DOWN});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockChorusPlant.field_185609_a, BlockChorusPlant.field_185610_b, BlockChorusPlant.field_185611_c, BlockChorusPlant.field_185612_d, BlockChorusPlant.field_185613_e, BlockChorusPlant.field_185614_f});
     }
 
-    public boolean isPassable(IBlockAccess iblockaccess, BlockPos blockposition) {
+    public boolean func_176205_b(IBlockAccess iblockaccess, BlockPos blockposition) {
         return false;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.UNDEFINED;
     }
 }

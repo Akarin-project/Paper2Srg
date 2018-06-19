@@ -13,11 +13,11 @@ public class BlockEmptyDrops extends Block {
         super(material);
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 0;
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.AIR;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_190931_a;
     }
 }

@@ -11,83 +11,83 @@ import org.apache.logging.log4j.Logger;
 
 public class RConThreadClient extends RConThreadBase {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private boolean loggedIn;
-    private Socket clientSocket;
-    private final byte[] buffer = new byte[1460];
-    private final String rconPassword;
+    private static final Logger field_164005_h = LogManager.getLogger();
+    private boolean field_72657_g;
+    private Socket field_72659_h;
+    private final byte[] field_72660_i = new byte[1460];
+    private final String field_72658_j;
 
     RConThreadClient(IServer iminecraftserver, Socket socket) {
         super(iminecraftserver, "RCON Client");
-        this.clientSocket = socket;
+        this.field_72659_h = socket;
 
         try {
-            this.clientSocket.setSoTimeout(0);
+            this.field_72659_h.setSoTimeout(0);
         } catch (Exception exception) {
-            this.running = false;
+            this.field_72619_a = false;
         }
 
-        this.rconPassword = iminecraftserver.getStringProperty("rcon.password", "");
-        this.logInfo("Rcon connection from: " + socket.getInetAddress());
+        this.field_72658_j = iminecraftserver.func_71330_a("rcon.password", "");
+        this.func_72609_b("Rcon connection from: " + socket.getInetAddress());
     }
 
     public void run() {
         while (true) {
             try {
-                if (!this.running) {
+                if (!this.field_72619_a) {
                     return;
                 }
 
-                BufferedInputStream bufferedinputstream = new BufferedInputStream(this.clientSocket.getInputStream());
-                int i = bufferedinputstream.read(this.buffer, 0, 1460);
+                BufferedInputStream bufferedinputstream = new BufferedInputStream(this.field_72659_h.getInputStream());
+                int i = bufferedinputstream.read(this.field_72660_i, 0, 1460);
 
                 if (10 > i) {
                     return;
                 }
 
                 byte b0 = 0;
-                int j = RConUtils.getBytesAsLEInt(this.buffer, 0, i);
+                int j = RConUtils.func_72665_b(this.field_72660_i, 0, i);
 
                 if (j == i - 4) {
                     int k = b0 + 4;
-                    int l = RConUtils.getBytesAsLEInt(this.buffer, k, i);
+                    int l = RConUtils.func_72665_b(this.field_72660_i, k, i);
 
                     k += 4;
-                    int i1 = RConUtils.getRemainingBytesAsLEInt(this.buffer, k);
+                    int i1 = RConUtils.func_72662_b(this.field_72660_i, k);
 
                     k += 4;
                     switch (i1) {
                     case 2:
-                        if (this.loggedIn) {
-                            String s = RConUtils.getBytesAsString(this.buffer, k, i);
+                        if (this.field_72657_g) {
+                            String s = RConUtils.func_72661_a(this.field_72660_i, k, i);
 
                             try {
-                                this.sendMultipacketResponse(l, this.server.handleRConCommand(s));
+                                this.func_72655_a(l, this.field_72617_b.func_71252_i(s));
                             } catch (Exception exception) {
-                                this.sendMultipacketResponse(l, "Error executing: " + s + " (" + exception.getMessage() + ")");
+                                this.func_72655_a(l, "Error executing: " + s + " (" + exception.getMessage() + ")");
                             }
                             continue;
                         }
 
-                        this.sendLoginFailedResponse();
+                        this.func_72656_f();
                         continue;
 
                     case 3:
-                        String s1 = RConUtils.getBytesAsString(this.buffer, k, i);
+                        String s1 = RConUtils.func_72661_a(this.field_72660_i, k, i);
                         int j1 = k + s1.length();
 
-                        if (!s1.isEmpty() && s1.equals(this.rconPassword)) {
-                            this.loggedIn = true;
-                            this.sendResponse(l, 2, "");
+                        if (!s1.isEmpty() && s1.equals(this.field_72658_j)) {
+                            this.field_72657_g = true;
+                            this.func_72654_a(l, 2, "");
                             continue;
                         }
 
-                        this.loggedIn = false;
-                        this.sendLoginFailedResponse();
+                        this.field_72657_g = false;
+                        this.func_72656_f();
                         continue;
 
                     default:
-                        this.sendMultipacketResponse(l, String.format("Unknown request %s", new Object[] { Integer.toHexString(i1)}));
+                        this.func_72655_a(l, String.format("Unknown request %s", new Object[] { Integer.toHexString(i1)}));
                         continue;
                     }
                 }
@@ -96,17 +96,17 @@ public class RConThreadClient extends RConThreadBase {
             } catch (IOException ioexception) {
                 return;
             } catch (Exception exception1) {
-                RConThreadClient.LOGGER.error("Exception whilst parsing RCON input", exception1);
+                RConThreadClient.field_164005_h.error("Exception whilst parsing RCON input", exception1);
                 return;
             } finally {
-                this.closeSocket();
+                this.func_72653_g();
             }
 
             return;
         }
     }
 
-    private void sendResponse(int i, int j, String s) throws IOException {
+    private void func_72654_a(int i, int j, String s) throws IOException {
         ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream(1248);
         DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream);
         byte[] abyte = s.getBytes("UTF-8");
@@ -117,35 +117,35 @@ public class RConThreadClient extends RConThreadBase {
         dataoutputstream.write(abyte);
         dataoutputstream.write(0);
         dataoutputstream.write(0);
-        this.clientSocket.getOutputStream().write(bytearrayoutputstream.toByteArray());
+        this.field_72659_h.getOutputStream().write(bytearrayoutputstream.toByteArray());
     }
 
-    private void sendLoginFailedResponse() throws IOException {
-        this.sendResponse(-1, 2, "");
+    private void func_72656_f() throws IOException {
+        this.func_72654_a(-1, 2, "");
     }
 
-    private void sendMultipacketResponse(int i, String s) throws IOException {
+    private void func_72655_a(int i, String s) throws IOException {
         int j = s.length();
 
         do {
             int k = 4096 <= j ? 4096 : j;
 
-            this.sendResponse(i, 0, s.substring(0, k));
+            this.func_72654_a(i, 0, s.substring(0, k));
             s = s.substring(k);
             j = s.length();
         } while (0 != j);
 
     }
 
-    private void closeSocket() {
-        if (null != this.clientSocket) {
+    private void func_72653_g() {
+        if (null != this.field_72659_h) {
             try {
-                this.clientSocket.close();
+                this.field_72659_h.close();
             } catch (IOException ioexception) {
-                this.logWarning("IO: " + ioexception.getMessage());
+                this.func_72606_c("IO: " + ioexception.getMessage());
             }
 
-            this.clientSocket = null;
+            this.field_72659_h = null;
         }
     }
 }

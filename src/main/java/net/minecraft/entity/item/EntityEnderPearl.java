@@ -30,7 +30,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class EntityEnderPearl extends EntityThrowable {
 
-    private EntityLivingBase perlThrower;
+    private EntityLivingBase field_181555_c;
 
     public EntityEnderPearl(World world) {
         super(world);
@@ -38,55 +38,55 @@ public class EntityEnderPearl extends EntityThrowable {
 
     public EntityEnderPearl(World world, EntityLivingBase entityliving) {
         super(world, entityliving);
-        this.perlThrower = entityliving;
+        this.field_181555_c = entityliving;
     }
 
-    public static void registerFixesEnderPearl(DataFixer dataconvertermanager) {
-        EntityThrowable.registerFixesThrowable(dataconvertermanager, "ThrownEnderpearl");
+    public static void func_189663_a(DataFixer dataconvertermanager) {
+        EntityThrowable.func_189661_a(dataconvertermanager, "ThrownEnderpearl");
     }
 
-    protected void onImpact(RayTraceResult movingobjectposition) {
-        EntityLivingBase entityliving = this.getThrower();
+    protected void func_70184_a(RayTraceResult movingobjectposition) {
+        EntityLivingBase entityliving = this.func_85052_h();
 
-        if (movingobjectposition.entityHit != null) {
-            if (movingobjectposition.entityHit == this.perlThrower) {
+        if (movingobjectposition.field_72308_g != null) {
+            if (movingobjectposition.field_72308_g == this.field_181555_c) {
                 return;
             }
 
-            movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, entityliving), 0.0F);
+            movingobjectposition.field_72308_g.func_70097_a(DamageSource.func_76356_a(this, entityliving), 0.0F);
         }
 
-        if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK) {
-            BlockPos blockposition = movingobjectposition.getBlockPos();
-            TileEntity tileentity = this.world.getTileEntity(blockposition);
+        if (movingobjectposition.field_72313_a == RayTraceResult.Type.BLOCK) {
+            BlockPos blockposition = movingobjectposition.func_178782_a();
+            TileEntity tileentity = this.field_70170_p.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityEndGateway) {
                 TileEntityEndGateway tileentityendgateway = (TileEntityEndGateway) tileentity;
 
                 if (entityliving != null) {
                     if (entityliving instanceof EntityPlayerMP) {
-                        CriteriaTriggers.ENTER_BLOCK.trigger((EntityPlayerMP) entityliving, this.world.getBlockState(blockposition));
+                        CriteriaTriggers.field_192124_d.func_192193_a((EntityPlayerMP) entityliving, this.field_70170_p.func_180495_p(blockposition));
                     }
 
-                    tileentityendgateway.teleportEntity((Entity) entityliving);
-                    this.setDead();
+                    tileentityendgateway.func_184306_a((Entity) entityliving);
+                    this.func_70106_y();
                     return;
                 }
 
-                tileentityendgateway.teleportEntity((Entity) this);
+                tileentityendgateway.func_184306_a((Entity) this);
                 return;
             }
         }
 
         for (int i = 0; i < 32; ++i) {
-            this.world.spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
+            this.field_70170_p.func_175688_a(EnumParticleTypes.PORTAL, this.field_70165_t, this.field_70163_u + this.field_70146_Z.nextDouble() * 2.0D, this.field_70161_v, this.field_70146_Z.nextGaussian(), 0.0D, this.field_70146_Z.nextGaussian(), new int[0]);
         }
 
-        if (!this.world.isRemote) {
+        if (!this.field_70170_p.field_72995_K) {
             if (entityliving instanceof EntityPlayerMP) {
                 EntityPlayerMP entityplayer = (EntityPlayerMP) entityliving;
 
-                if (entityplayer.connection.getNetworkManager().isChannelOpen() && entityplayer.world == this.world && !entityplayer.isPlayerSleeping()) {
+                if (entityplayer.field_71135_a.func_147362_b().func_150724_d() && entityplayer.field_70170_p == this.field_70170_p && !entityplayer.func_70608_bn()) {
                     // CraftBukkit start - Fire PlayerTeleportEvent
                     org.bukkit.craftbukkit.entity.CraftPlayer player = entityplayer.getBukkitEntity();
                     org.bukkit.Location location = getBukkitEntity().getLocation();
@@ -96,54 +96,54 @@ public class EntityEnderPearl extends EntityThrowable {
                     PlayerTeleportEvent teleEvent = new PlayerTeleportEvent(player, player.getLocation(), location, PlayerTeleportEvent.TeleportCause.ENDER_PEARL);
                     Bukkit.getPluginManager().callEvent(teleEvent);
 
-                    if (!teleEvent.isCancelled() && !entityplayer.connection.isDisconnected()) {
-                        if (this.rand.nextFloat() < 0.05F && this.world.getGameRules().getBoolean("doMobSpawning")) {
-                            EntityEndermite entityendermite = new EntityEndermite(this.world);
+                    if (!teleEvent.isCancelled() && !entityplayer.field_71135_a.isDisconnected()) {
+                        if (this.field_70146_Z.nextFloat() < 0.05F && this.field_70170_p.func_82736_K().func_82766_b("doMobSpawning")) {
+                            EntityEndermite entityendermite = new EntityEndermite(this.field_70170_p);
 
-                            entityendermite.setSpawnedByPlayer(true);
-                            entityendermite.setLocationAndAngles(entityliving.posX, entityliving.posY, entityliving.posZ, entityliving.rotationYaw, entityliving.rotationPitch);
-                            this.world.addEntity(entityendermite, CreatureSpawnEvent.SpawnReason.ENDER_PEARL);
+                            entityendermite.func_175496_a(true);
+                            entityendermite.func_70012_b(entityliving.field_70165_t, entityliving.field_70163_u, entityliving.field_70161_v, entityliving.field_70177_z, entityliving.field_70125_A);
+                            this.field_70170_p.addEntity(entityendermite, CreatureSpawnEvent.SpawnReason.ENDER_PEARL);
                         }
 
-                        if (entityliving.isRiding()) {
-                            entityliving.dismountRidingEntity();
+                        if (entityliving.func_184218_aH()) {
+                            entityliving.func_184210_p();
                         }
 
-                        entityplayer.connection.teleport(teleEvent.getTo());
-                        entityliving.fallDistance = 0.0F;
+                        entityplayer.field_71135_a.teleport(teleEvent.getTo());
+                        entityliving.field_70143_R = 0.0F;
                         CraftEventFactory.entityDamage = this;
-                        entityliving.attackEntityFrom(DamageSource.FALL, 5.0F);
+                        entityliving.func_70097_a(DamageSource.field_76379_h, 5.0F);
                         CraftEventFactory.entityDamage = null;
                     }
                     // CraftBukkit end
                 }
             } else if (entityliving != null) {
-                entityliving.setPositionAndUpdate(this.posX, this.posY, this.posZ);
-                entityliving.fallDistance = 0.0F;
+                entityliving.func_70634_a(this.field_70165_t, this.field_70163_u, this.field_70161_v);
+                entityliving.field_70143_R = 0.0F;
             }
 
-            this.setDead();
+            this.func_70106_y();
         }
 
     }
 
-    public void onUpdate() {
-        EntityLivingBase entityliving = this.getThrower();
+    public void func_70071_h_() {
+        EntityLivingBase entityliving = this.func_85052_h();
 
-        if (entityliving != null && entityliving instanceof EntityPlayer && !entityliving.isEntityAlive()) {
-            this.setDead();
+        if (entityliving != null && entityliving instanceof EntityPlayer && !entityliving.func_70089_S()) {
+            this.func_70106_y();
         } else {
-            super.onUpdate();
+            super.func_70071_h_();
         }
 
     }
 
     @Nullable
-    public Entity changeDimension(int i) {
-        if (this.thrower.dimension != i) {
-            this.thrower = null;
+    public Entity func_184204_a(int i) {
+        if (this.field_70192_c.field_71093_bK != i) {
+            this.field_70192_c = null;
         }
 
-        return super.changeDimension(i);
+        return super.func_184204_a(i);
     }
 }

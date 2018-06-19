@@ -2,13 +2,13 @@ package net.minecraft.world.storage;
 
 public class WorldSavedDataCallableSave implements Runnable {
 
-    private final WorldSavedData data;
+    private final WorldSavedData field_186338_a;
 
     public WorldSavedDataCallableSave(WorldSavedData persistentbase) {
-        this.data = persistentbase;
+        this.field_186338_a = persistentbase;
     }
 
     public void run() {
-        this.data.markDirty();
+        this.field_186338_a.func_76185_a();
     }
 }

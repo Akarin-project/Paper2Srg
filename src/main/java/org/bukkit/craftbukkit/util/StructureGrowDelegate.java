@@ -61,7 +61,7 @@ public class StructureGrowDelegate implements BlockChangeDelegate {
     public boolean isEmpty(int x, int y, int z) {
         for (BlockState state : blocks) {
             if (state.getX() == x && state.getY() == y && state.getZ() == z) {
-                return Block.getBlockById(state.getTypeId()) == Blocks.AIR;
+                return Block.func_149729_e(state.getTypeId()) == Blocks.field_150350_a;
             }
         }
 

@@ -25,7 +25,7 @@ public class CraftMapRenderer extends MapRenderer {
         // Map
         for (int x = 0; x < 128; ++x) {
             for (int y = 0; y < 128; ++y) {
-                canvas.setPixel(x, y, worldMap.colors[y * 128 + x]);
+                canvas.setPixel(x, y, worldMap.field_76198_e[y * 128 + x]);
             }
         }
 
@@ -35,15 +35,15 @@ public class CraftMapRenderer extends MapRenderer {
             cursors.removeCursor(cursors.getCursor(0));
         }
 
-        for (UUID key : worldMap.mapDecorations.keySet()) { // Spigot string -> uuid.
+        for (UUID key : worldMap.field_76203_h.keySet()) { // Spigot string -> uuid.
             // If this cursor is for a player check visibility with vanish system
             Player other = Bukkit.getPlayer(key); // Spigot
             if (other != null && !player.canSee(other)) {
                 continue;
             }
 
-            MapDecoration decoration = (MapDecoration) worldMap.mapDecorations.get(key);
-            cursors.addCursor(decoration.getX(), decoration.getY(), (byte) (decoration.getRotation() & 15), decoration.getImage());
+            MapDecoration decoration = (MapDecoration) worldMap.field_76203_h.get(key);
+            cursors.addCursor(decoration.func_176112_b(), decoration.func_176113_c(), (byte) (decoration.func_176111_d() & 15), decoration.func_176110_a());
         }
     }
 

@@ -15,45 +15,45 @@ import net.minecraft.world.World;
 
 public class BlockPistonStructureHelper {
 
-    private final World world;
-    private final BlockPos pistonPos;
-    private final BlockPos blockToMove;
-    private final EnumFacing moveDirection;
-    private final List<BlockPos> toMove = Lists.newArrayList();
-    private final List<BlockPos> toDestroy = Lists.newArrayList();
+    private final World field_177261_a;
+    private final BlockPos field_177259_b;
+    private final BlockPos field_177260_c;
+    private final EnumFacing field_177257_d;
+    private final List<BlockPos> field_177258_e = Lists.newArrayList();
+    private final List<BlockPos> field_177256_f = Lists.newArrayList();
 
     public BlockPistonStructureHelper(World world, BlockPos blockposition, EnumFacing enumdirection, boolean flag) {
-        this.world = world;
-        this.pistonPos = blockposition;
+        this.field_177261_a = world;
+        this.field_177259_b = blockposition;
         if (flag) {
-            this.moveDirection = enumdirection;
-            this.blockToMove = blockposition.offset(enumdirection);
+            this.field_177257_d = enumdirection;
+            this.field_177260_c = blockposition.func_177972_a(enumdirection);
         } else {
-            this.moveDirection = enumdirection.getOpposite();
-            this.blockToMove = blockposition.offset(enumdirection, 2);
+            this.field_177257_d = enumdirection.func_176734_d();
+            this.field_177260_c = blockposition.func_177967_a(enumdirection, 2);
         }
 
     }
 
-    public boolean canMove() {
-        this.toMove.clear();
-        this.toDestroy.clear();
-        IBlockState iblockdata = this.world.getBlockState(this.blockToMove);
+    public boolean func_177253_a() {
+        this.field_177258_e.clear();
+        this.field_177256_f.clear();
+        IBlockState iblockdata = this.field_177261_a.func_180495_p(this.field_177260_c);
 
-        if (!BlockPistonBase.canPush(iblockdata, this.world, this.blockToMove, this.moveDirection, false, this.moveDirection)) {
-            if (iblockdata.getMobilityFlag() == EnumPushReaction.DESTROY) {
-                this.toDestroy.add(this.blockToMove);
+        if (!BlockPistonBase.func_185646_a(iblockdata, this.field_177261_a, this.field_177260_c, this.field_177257_d, false, this.field_177257_d)) {
+            if (iblockdata.func_185905_o() == EnumPushReaction.DESTROY) {
+                this.field_177256_f.add(this.field_177260_c);
                 return true;
             } else {
                 return false;
             }
-        } else if (!this.addBlockLine(this.blockToMove, this.moveDirection)) {
+        } else if (!this.func_177251_a(this.field_177260_c, this.field_177257_d)) {
             return false;
         } else {
-            for (int i = 0; i < this.toMove.size(); ++i) {
-                BlockPos blockposition = (BlockPos) this.toMove.get(i);
+            for (int i = 0; i < this.field_177258_e.size(); ++i) {
+                BlockPos blockposition = (BlockPos) this.field_177258_e.get(i);
 
-                if (this.world.getBlockState(blockposition).getBlock() == Blocks.SLIME_BLOCK && !this.addBranchingBlocks(blockposition)) {
+                if (this.field_177261_a.func_180495_p(blockposition).func_177230_c() == Blocks.field_180399_cE && !this.func_177250_b(blockposition)) {
                     return false;
                 }
             }
@@ -62,35 +62,35 @@ public class BlockPistonStructureHelper {
         }
     }
 
-    private boolean addBlockLine(BlockPos blockposition, EnumFacing enumdirection) {
-        IBlockState iblockdata = this.world.getBlockState(blockposition);
-        Block block = iblockdata.getBlock();
+    private boolean func_177251_a(BlockPos blockposition, EnumFacing enumdirection) {
+        IBlockState iblockdata = this.field_177261_a.func_180495_p(blockposition);
+        Block block = iblockdata.func_177230_c();
 
-        if (iblockdata.getMaterial() == Material.AIR) {
+        if (iblockdata.func_185904_a() == Material.field_151579_a) {
             return true;
-        } else if (!BlockPistonBase.canPush(iblockdata, this.world, blockposition, this.moveDirection, false, enumdirection)) {
+        } else if (!BlockPistonBase.func_185646_a(iblockdata, this.field_177261_a, blockposition, this.field_177257_d, false, enumdirection)) {
             return true;
-        } else if (blockposition.equals(this.pistonPos)) {
+        } else if (blockposition.equals(this.field_177259_b)) {
             return true;
-        } else if (this.toMove.contains(blockposition)) {
+        } else if (this.field_177258_e.contains(blockposition)) {
             return true;
         } else {
             int i = 1;
 
-            if (i + this.toMove.size() > 12) {
+            if (i + this.field_177258_e.size() > 12) {
                 return false;
             } else {
-                while (block == Blocks.SLIME_BLOCK) {
-                    BlockPos blockposition1 = blockposition.offset(this.moveDirection.getOpposite(), i);
+                while (block == Blocks.field_180399_cE) {
+                    BlockPos blockposition1 = blockposition.func_177967_a(this.field_177257_d.func_176734_d(), i);
 
-                    iblockdata = this.world.getBlockState(blockposition1);
-                    block = iblockdata.getBlock();
-                    if (iblockdata.getMaterial() == Material.AIR || !BlockPistonBase.canPush(iblockdata, this.world, blockposition1, this.moveDirection, false, this.moveDirection.getOpposite()) || blockposition1.equals(this.pistonPos)) {
+                    iblockdata = this.field_177261_a.func_180495_p(blockposition1);
+                    block = iblockdata.func_177230_c();
+                    if (iblockdata.func_185904_a() == Material.field_151579_a || !BlockPistonBase.func_185646_a(iblockdata, this.field_177261_a, blockposition1, this.field_177257_d, false, this.field_177257_d.func_176734_d()) || blockposition1.equals(this.field_177259_b)) {
                         break;
                     }
 
                     ++i;
-                    if (i + this.toMove.size() > 12) {
+                    if (i + this.field_177258_e.size() > 12) {
                         return false;
                     }
                 }
@@ -100,23 +100,23 @@ public class BlockPistonStructureHelper {
                 int k;
 
                 for (k = i - 1; k >= 0; --k) {
-                    this.toMove.add(blockposition.offset(this.moveDirection.getOpposite(), k));
+                    this.field_177258_e.add(blockposition.func_177967_a(this.field_177257_d.func_176734_d(), k));
                     ++j;
                 }
 
                 k = 1;
 
                 while (true) {
-                    BlockPos blockposition2 = blockposition.offset(this.moveDirection, k);
-                    int l = this.toMove.indexOf(blockposition2);
+                    BlockPos blockposition2 = blockposition.func_177967_a(this.field_177257_d, k);
+                    int l = this.field_177258_e.indexOf(blockposition2);
 
                     if (l > -1) {
-                        this.reorderListAtCollision(j, l);
+                        this.func_177255_a(j, l);
 
                         for (int i1 = 0; i1 <= l + j; ++i1) {
-                            BlockPos blockposition3 = (BlockPos) this.toMove.get(i1);
+                            BlockPos blockposition3 = (BlockPos) this.field_177258_e.get(i1);
 
-                            if (this.world.getBlockState(blockposition3).getBlock() == Blocks.SLIME_BLOCK && !this.addBranchingBlocks(blockposition3)) {
+                            if (this.field_177261_a.func_180495_p(blockposition3).func_177230_c() == Blocks.field_180399_cE && !this.func_177250_b(blockposition3)) {
                                 return false;
                             }
                         }
@@ -124,25 +124,25 @@ public class BlockPistonStructureHelper {
                         return true;
                     }
 
-                    iblockdata = this.world.getBlockState(blockposition2);
-                    if (iblockdata.getMaterial() == Material.AIR) {
+                    iblockdata = this.field_177261_a.func_180495_p(blockposition2);
+                    if (iblockdata.func_185904_a() == Material.field_151579_a) {
                         return true;
                     }
 
-                    if (!BlockPistonBase.canPush(iblockdata, this.world, blockposition2, this.moveDirection, true, this.moveDirection) || blockposition2.equals(this.pistonPos)) {
+                    if (!BlockPistonBase.func_185646_a(iblockdata, this.field_177261_a, blockposition2, this.field_177257_d, true, this.field_177257_d) || blockposition2.equals(this.field_177259_b)) {
                         return false;
                     }
 
-                    if (iblockdata.getMobilityFlag() == EnumPushReaction.DESTROY) {
-                        this.toDestroy.add(blockposition2);
+                    if (iblockdata.func_185905_o() == EnumPushReaction.DESTROY) {
+                        this.field_177256_f.add(blockposition2);
                         return true;
                     }
 
-                    if (this.toMove.size() >= 12) {
+                    if (this.field_177258_e.size() >= 12) {
                         return false;
                     }
 
-                    this.toMove.add(blockposition2);
+                    this.field_177258_e.add(blockposition2);
                     ++j;
                     ++k;
                 }
@@ -150,28 +150,28 @@ public class BlockPistonStructureHelper {
         }
     }
 
-    private void reorderListAtCollision(int i, int j) {
+    private void func_177255_a(int i, int j) {
         ArrayList arraylist = Lists.newArrayList();
         ArrayList arraylist1 = Lists.newArrayList();
         ArrayList arraylist2 = Lists.newArrayList();
 
-        arraylist.addAll(this.toMove.subList(0, j));
-        arraylist1.addAll(this.toMove.subList(this.toMove.size() - i, this.toMove.size()));
-        arraylist2.addAll(this.toMove.subList(j, this.toMove.size() - i));
-        this.toMove.clear();
-        this.toMove.addAll(arraylist);
-        this.toMove.addAll(arraylist1);
-        this.toMove.addAll(arraylist2);
+        arraylist.addAll(this.field_177258_e.subList(0, j));
+        arraylist1.addAll(this.field_177258_e.subList(this.field_177258_e.size() - i, this.field_177258_e.size()));
+        arraylist2.addAll(this.field_177258_e.subList(j, this.field_177258_e.size() - i));
+        this.field_177258_e.clear();
+        this.field_177258_e.addAll(arraylist);
+        this.field_177258_e.addAll(arraylist1);
+        this.field_177258_e.addAll(arraylist2);
     }
 
-    private boolean addBranchingBlocks(BlockPos blockposition) {
+    private boolean func_177250_b(BlockPos blockposition) {
         EnumFacing[] aenumdirection = EnumFacing.values();
         int i = aenumdirection.length;
 
         for (int j = 0; j < i; ++j) {
             EnumFacing enumdirection = aenumdirection[j];
 
-            if (enumdirection.getAxis() != this.moveDirection.getAxis() && !this.addBlockLine(blockposition.offset(enumdirection), enumdirection)) {
+            if (enumdirection.func_176740_k() != this.field_177257_d.func_176740_k() && !this.func_177251_a(blockposition.func_177972_a(enumdirection), enumdirection)) {
                 return false;
             }
         }
@@ -179,11 +179,11 @@ public class BlockPistonStructureHelper {
         return true;
     }
 
-    public List<BlockPos> getBlocksToMove() {
-        return this.toMove;
+    public List<BlockPos> func_177254_c() {
+        return this.field_177258_e;
     }
 
-    public List<BlockPos> getBlocksToDestroy() {
-        return this.toDestroy;
+    public List<BlockPos> func_177252_d() {
+        return this.field_177256_f;
     }
 }

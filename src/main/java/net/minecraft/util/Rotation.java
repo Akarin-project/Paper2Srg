@@ -4,14 +4,14 @@ public enum Rotation {
 
     NONE("rotate_0"), CLOCKWISE_90("rotate_90"), CLOCKWISE_180("rotate_180"), COUNTERCLOCKWISE_90("rotate_270");
 
-    private final String name;
-    private static final String[] rotationNames = new String[values().length];
+    private final String field_185838_e;
+    private static final String[] field_185839_f = new String[values().length];
 
     private Rotation(String s) {
-        this.name = s;
+        this.field_185838_e = s;
     }
 
-    public Rotation add(Rotation enumblockrotation) {
+    public Rotation func_185830_a(Rotation enumblockrotation) {
         switch (enumblockrotation) {
         case CLOCKWISE_180:
             switch (this) {
@@ -63,19 +63,19 @@ public enum Rotation {
         }
     }
 
-    public EnumFacing rotate(EnumFacing enumdirection) {
-        if (enumdirection.getAxis() == EnumFacing.Axis.Y) {
+    public EnumFacing func_185831_a(EnumFacing enumdirection) {
+        if (enumdirection.func_176740_k() == EnumFacing.Axis.Y) {
             return enumdirection;
         } else {
             switch (this) {
             case CLOCKWISE_90:
-                return enumdirection.rotateY();
+                return enumdirection.func_176746_e();
 
             case CLOCKWISE_180:
-                return enumdirection.getOpposite();
+                return enumdirection.func_176734_d();
 
             case COUNTERCLOCKWISE_90:
-                return enumdirection.rotateYCCW();
+                return enumdirection.func_176735_f();
 
             default:
                 return enumdirection;
@@ -83,7 +83,7 @@ public enum Rotation {
         }
     }
 
-    public int rotate(int i, int j) {
+    public int func_185833_a(int i, int j) {
         switch (this) {
         case CLOCKWISE_90:
             return (i + j / 4) % j;
@@ -107,7 +107,7 @@ public enum Rotation {
         for (int k = 0; k < j; ++k) {
             Rotation enumblockrotation = aenumblockrotation[k];
 
-            Rotation.rotationNames[i++] = enumblockrotation.name;
+            Rotation.field_185839_f[i++] = enumblockrotation.field_185838_e;
         }
 
     }

@@ -22,51 +22,51 @@ import net.minecraft.util.ResourceLocation;
 
 public class PlayerHurtEntityTrigger implements ICriterionTrigger<CriterionTriggerPlayerHurtEntity.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("player_hurt_entity");
-    private final Map<PlayerAdvancements, CriterionTriggerPlayerHurtEntity.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_192222_a = new ResourceLocation("player_hurt_entity");
+    private final Map<PlayerAdvancements, CriterionTriggerPlayerHurtEntity.a> field_192223_b = Maps.newHashMap();
 
     public PlayerHurtEntityTrigger() {}
 
-    public ResourceLocation getId() {
-        return PlayerHurtEntityTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return PlayerHurtEntityTrigger.field_192222_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerPlayerHurtEntity.b> criteriontrigger_a) {
-        CriterionTriggerPlayerHurtEntity.a criteriontriggerplayerhurtentity_a = (CriterionTriggerPlayerHurtEntity.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerPlayerHurtEntity.a criteriontriggerplayerhurtentity_a = (CriterionTriggerPlayerHurtEntity.a) this.field_192223_b.get(advancementdataplayer);
 
         if (criteriontriggerplayerhurtentity_a == null) {
             criteriontriggerplayerhurtentity_a = new CriterionTriggerPlayerHurtEntity.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerplayerhurtentity_a);
+            this.field_192223_b.put(advancementdataplayer, criteriontriggerplayerhurtentity_a);
         }
 
         criteriontriggerplayerhurtentity_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerPlayerHurtEntity.b> criteriontrigger_a) {
-        CriterionTriggerPlayerHurtEntity.a criteriontriggerplayerhurtentity_a = (CriterionTriggerPlayerHurtEntity.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerPlayerHurtEntity.a criteriontriggerplayerhurtentity_a = (CriterionTriggerPlayerHurtEntity.a) this.field_192223_b.get(advancementdataplayer);
 
         if (criteriontriggerplayerhurtentity_a != null) {
             criteriontriggerplayerhurtentity_a.b(criteriontrigger_a);
             if (criteriontriggerplayerhurtentity_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192223_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192223_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerPlayerHurtEntity.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        DamagePredicate criterionconditiondamage = DamagePredicate.deserialize(jsonobject.get("damage"));
-        EntityPredicate criterionconditionentity = EntityPredicate.deserialize(jsonobject.get("entity"));
+        DamagePredicate criterionconditiondamage = DamagePredicate.func_192364_a(jsonobject.get("damage"));
+        EntityPredicate criterionconditionentity = EntityPredicate.func_192481_a(jsonobject.get("entity"));
 
         return new CriterionTriggerPlayerHurtEntity.b(criterionconditiondamage, criterionconditionentity);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, Entity entity, DamageSource damagesource, float f, float f1, boolean flag) {
-        CriterionTriggerPlayerHurtEntity.a criteriontriggerplayerhurtentity_a = (CriterionTriggerPlayerHurtEntity.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_192220_a(EntityPlayerMP entityplayer, Entity entity, DamageSource damagesource, float f, float f1, boolean flag) {
+        CriterionTriggerPlayerHurtEntity.a criteriontriggerplayerhurtentity_a = (CriterionTriggerPlayerHurtEntity.a) this.field_192223_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerplayerhurtentity_a != null) {
             criteriontriggerplayerhurtentity_a.a(entityplayer, entity, damagesource, f, f1, flag);
@@ -74,7 +74,7 @@ public class PlayerHurtEntityTrigger implements ICriterionTrigger<CriterionTrigg
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -134,13 +134,13 @@ public class PlayerHurtEntityTrigger implements ICriterionTrigger<CriterionTrigg
         private final EntityPredicate b;
 
         public b(DamagePredicate criterionconditiondamage, EntityPredicate criterionconditionentity) {
-            super(PlayerHurtEntityTrigger.ID);
+            super(PlayerHurtEntityTrigger.field_192222_a);
             this.a = criterionconditiondamage;
             this.b = criterionconditionentity;
         }
 
         public boolean a(EntityPlayerMP entityplayer, Entity entity, DamageSource damagesource, float f, float f1, boolean flag) {
-            return !this.a.test(entityplayer, damagesource, f, f1, flag) ? false : this.b.test(entityplayer, entity);
+            return !this.a.func_192365_a(entityplayer, damagesource, f, f1, flag) ? false : this.b.func_192482_a(entityplayer, entity);
         }
     }
 }

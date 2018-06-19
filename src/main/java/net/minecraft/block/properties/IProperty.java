@@ -5,13 +5,13 @@ import java.util.Collection;
 
 public interface IProperty<T extends Comparable<T>> {
 
-    String getName();
+    String func_177701_a();
 
-    Collection<T> getAllowedValues();
+    Collection<T> func_177700_c();
 
-    Class<T> getValueClass();
+    Class<T> func_177699_b();
 
-    Optional<T> parseValue(String s);
+    Optional<T> func_185929_b(String s);
 
-    String getName(T t0);
+    String func_177702_a(T t0);
 }

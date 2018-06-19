@@ -10,15 +10,15 @@ public class SlotFurnaceFuel extends Slot {
         super(iinventory, i, j, k);
     }
 
-    public boolean isItemValid(ItemStack itemstack) {
-        return TileEntityFurnace.isItemFuel(itemstack) || isBucket(itemstack);
+    public boolean func_75214_a(ItemStack itemstack) {
+        return TileEntityFurnace.func_145954_b(itemstack) || func_178173_c_(itemstack);
     }
 
-    public int getItemStackLimit(ItemStack itemstack) {
-        return isBucket(itemstack) ? 1 : super.getItemStackLimit(itemstack);
+    public int func_178170_b(ItemStack itemstack) {
+        return func_178173_c_(itemstack) ? 1 : super.func_178170_b(itemstack);
     }
 
-    public static boolean isBucket(ItemStack itemstack) {
-        return itemstack.getItem() == Items.BUCKET;
+    public static boolean func_178173_c_(ItemStack itemstack) {
+        return itemstack.func_77973_b() == Items.field_151133_ar;
     }
 }

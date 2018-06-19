@@ -14,37 +14,39 @@ import net.minecraft.pathfinding.PathNodeType;
 
 public class EntityAIFollow extends EntityAIBase {
 
-    private final EntityLiving entity;
-    private final Predicate<EntityLiving> followPredicate;
-    private EntityLiving followingEntity;
-    private final double speedModifier;
-    private final PathNavigate navigation;
-    private int timeToRecalcPath;
-    private final float stopDistance;
-    private float oldWaterCost;
-    private final float areaSize;
+    private final EntityLiving field_192372_a;
+    private final Predicate<EntityLiving> field_192373_b;
+    private EntityLiving field_192374_c;
+    private final double field_192375_d;
+    private final PathNavigate field_192376_e;
+    private int field_192377_f;
+    private final float field_192378_g;
+    private float field_192379_h;
+    private final float field_192380_i;
 
     public EntityAIFollow(final EntityLiving entityinsentient, double d0, float f, float f1) {
-        this.entity = entityinsentient;
-        this.followPredicate = new Predicate<EntityLiving>() {
-            @Override
-            public boolean apply(@Nullable EntityLiving entity) {
-                return entity != null && entityinsentient.getClass() != entity.getClass();
+        this.field_192372_a = entityinsentient;
+        this.field_192373_b = new Predicate() {
+            public boolean a(@Nullable EntityLiving entityinsentient) {
+                return entityinsentient != null && entityinsentient1.getClass() != entityinsentient.getClass();
+            }
+
+            public boolean apply(@Nullable Object object) {
+                return this.a((EntityLiving) object);
             }
         };
-        this.speedModifier = d0;
-        this.navigation = entityinsentient.getNavigator();
-        this.stopDistance = f;
-        this.areaSize = f1;
-        this.setMutexBits(3);
-        if (!(entityinsentient.getNavigator() instanceof PathNavigateGround) && !(entityinsentient.getNavigator() instanceof PathNavigateFlying)) {
+        this.field_192375_d = d0;
+        this.field_192376_e = entityinsentient.func_70661_as();
+        this.field_192378_g = f;
+        this.field_192380_i = f1;
+        this.func_75248_a(3);
+        if (!(entityinsentient.func_70661_as() instanceof PathNavigateGround) && !(entityinsentient.func_70661_as() instanceof PathNavigateFlying)) {
             throw new IllegalArgumentException("Unsupported mob type for FollowMobGoal");
         }
     }
 
-    @Override
-    public boolean shouldExecute() {
-        List list = this.entity.world.getEntitiesWithinAABB(EntityLiving.class, this.entity.getEntityBoundingBox().grow(this.areaSize), this.followPredicate);
+    public boolean func_75250_a() {
+        List list = this.field_192372_a.field_70170_p.func_175647_a(EntityLiving.class, this.field_192372_a.func_174813_aQ().func_186662_g((double) this.field_192380_i), this.field_192373_b);
 
         if (!list.isEmpty()) {
             Iterator iterator = list.iterator();
@@ -52,8 +54,8 @@ public class EntityAIFollow extends EntityAIBase {
             while (iterator.hasNext()) {
                 EntityLiving entityinsentient = (EntityLiving) iterator.next();
 
-                if (!entityinsentient.isInvisible()) {
-                    this.followingEntity = entityinsentient;
+                if (!entityinsentient.func_82150_aj()) {
+                    this.field_192374_c = entityinsentient;
                     return true;
                 }
             }
@@ -62,47 +64,43 @@ public class EntityAIFollow extends EntityAIBase {
         return false;
     }
 
-    @Override
-    public boolean shouldContinueExecuting() {
-        return this.followingEntity != null && !this.navigation.noPath() && this.entity.getDistanceSq(this.followingEntity) > this.stopDistance * this.stopDistance;
+    public boolean func_75253_b() {
+        return this.field_192374_c != null && !this.field_192376_e.func_75500_f() && this.field_192372_a.func_70068_e(this.field_192374_c) > (double) (this.field_192378_g * this.field_192378_g);
     }
 
-    @Override
-    public void startExecuting() {
-        this.timeToRecalcPath = 0;
-        this.oldWaterCost = this.entity.getPathPriority(PathNodeType.WATER);
-        this.entity.setPathPriority(PathNodeType.WATER, 0.0F);
+    public void func_75249_e() {
+        this.field_192377_f = 0;
+        this.field_192379_h = this.field_192372_a.func_184643_a(PathNodeType.WATER);
+        this.field_192372_a.func_184644_a(PathNodeType.WATER, 0.0F);
     }
 
-    @Override
-    public void resetTask() {
-        this.followingEntity = null;
-        this.navigation.clearPath();
-        this.entity.setPathPriority(PathNodeType.WATER, this.oldWaterCost);
+    public void func_75251_c() {
+        this.field_192374_c = null;
+        this.field_192376_e.func_75499_g();
+        this.field_192372_a.func_184644_a(PathNodeType.WATER, this.field_192379_h);
     }
 
-    @Override
-    public void updateTask() {
-        if (this.followingEntity != null && !this.entity.getLeashed()) {
-            this.entity.getLookHelper().setLookPositionWithEntity(this.followingEntity, 10.0F, this.entity.getVerticalFaceSpeed());
-            if (--this.timeToRecalcPath <= 0) {
-                this.timeToRecalcPath = 10;
-                double d0 = this.entity.posX - this.followingEntity.posX;
-                double d1 = this.entity.posY - this.followingEntity.posY;
-                double d2 = this.entity.posZ - this.followingEntity.posZ;
+    public void func_75246_d() {
+        if (this.field_192374_c != null && !this.field_192372_a.func_110167_bD()) {
+            this.field_192372_a.func_70671_ap().func_75651_a(this.field_192374_c, 10.0F, (float) this.field_192372_a.func_70646_bf());
+            if (--this.field_192377_f <= 0) {
+                this.field_192377_f = 10;
+                double d0 = this.field_192372_a.field_70165_t - this.field_192374_c.field_70165_t;
+                double d1 = this.field_192372_a.field_70163_u - this.field_192374_c.field_70163_u;
+                double d2 = this.field_192372_a.field_70161_v - this.field_192374_c.field_70161_v;
                 double d3 = d0 * d0 + d1 * d1 + d2 * d2;
 
-                if (d3 > this.stopDistance * this.stopDistance) {
-                    this.navigation.tryMoveToEntityLiving(this.followingEntity, this.speedModifier);
+                if (d3 > (double) (this.field_192378_g * this.field_192378_g)) {
+                    this.field_192376_e.func_75497_a((Entity) this.field_192374_c, this.field_192375_d);
                 } else {
-                    this.navigation.clearPath();
-                    EntityLookHelper controllerlook = this.followingEntity.getLookHelper();
+                    this.field_192376_e.func_75499_g();
+                    EntityLookHelper controllerlook = this.field_192374_c.func_70671_ap();
 
-                    if (d3 <= this.stopDistance || controllerlook.getLookPosX() == this.entity.posX && controllerlook.getLookPosY() == this.entity.posY && controllerlook.getLookPosZ() == this.entity.posZ) {
-                        double d4 = this.followingEntity.posX - this.entity.posX;
-                        double d5 = this.followingEntity.posZ - this.entity.posZ;
+                    if (d3 <= (double) this.field_192378_g || controllerlook.func_180423_e() == this.field_192372_a.field_70165_t && controllerlook.func_180422_f() == this.field_192372_a.field_70163_u && controllerlook.func_180421_g() == this.field_192372_a.field_70161_v) {
+                        double d4 = this.field_192374_c.field_70165_t - this.field_192372_a.field_70165_t;
+                        double d5 = this.field_192374_c.field_70161_v - this.field_192372_a.field_70161_v;
 
-                        this.navigation.tryMoveToXYZ(this.entity.posX - d4, this.entity.posY, this.entity.posZ - d5, this.speedModifier);
+                        this.field_192376_e.func_75492_a(this.field_192372_a.field_70165_t - d4, this.field_192372_a.field_70163_u, this.field_192372_a.field_70161_v - d5, this.field_192375_d);
                     }
 
                 }

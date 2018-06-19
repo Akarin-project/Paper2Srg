@@ -11,29 +11,29 @@ import net.minecraft.util.ResourceLocation;
 public class SPacketSelectAdvancementsTab implements Packet<INetHandlerPlayClient> {
 
     @Nullable
-    private ResourceLocation tab;
+    private ResourceLocation field_194155_a;
 
     public SPacketSelectAdvancementsTab() {}
 
     public SPacketSelectAdvancementsTab(@Nullable ResourceLocation minecraftkey) {
-        this.tab = minecraftkey;
+        this.field_194155_a = minecraftkey;
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleSelectAdvancementsTab(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_194022_a(this);
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
         if (packetdataserializer.readBoolean()) {
-            this.tab = packetdataserializer.readResourceLocation();
+            this.field_194155_a = packetdataserializer.func_192575_l();
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeBoolean(this.tab != null);
-        if (this.tab != null) {
-            packetdataserializer.writeResourceLocation(this.tab);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeBoolean(this.field_194155_a != null);
+        if (this.field_194155_a != null) {
+            packetdataserializer.func_192572_a(this.field_194155_a);
         }
 
     }

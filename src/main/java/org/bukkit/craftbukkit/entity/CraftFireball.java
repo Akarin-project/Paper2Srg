@@ -37,15 +37,15 @@ public class CraftFireball extends AbstractProjectile implements Fireball {
 
     public void setShooter(ProjectileSource shooter) {
         if (shooter instanceof CraftLivingEntity) {
-            getHandle().shootingEntity = ((CraftLivingEntity) shooter).getHandle();
+            getHandle().field_70235_a = ((CraftLivingEntity) shooter).getHandle();
         } else {
-            getHandle().shootingEntity = null;
+            getHandle().field_70235_a = null;
         }
         getHandle().projectileSource = shooter;
     }
 
     public Vector getDirection() {
-        return new Vector(getHandle().accelerationX, getHandle().accelerationY, getHandle().accelerationZ);
+        return new Vector(getHandle().field_70232_b, getHandle().field_70233_c, getHandle().field_70230_d);
     }
 
     public void setDirection(Vector direction) {
@@ -53,10 +53,10 @@ public class CraftFireball extends AbstractProjectile implements Fireball {
         double x = direction.getX();
         double y = direction.getY();
         double z = direction.getZ();
-        double magnitude = (double) MathHelper.sqrt(x * x + y * y + z * z);
-        getHandle().accelerationX = x / magnitude;
-        getHandle().accelerationY = y / magnitude;
-        getHandle().accelerationZ = z / magnitude;
+        double magnitude = (double) MathHelper.func_76133_a(x * x + y * y + z * z);
+        getHandle().field_70232_b = x / magnitude;
+        getHandle().field_70233_c = y / magnitude;
+        getHandle().field_70230_d = z / magnitude;
     }
 
     @Override

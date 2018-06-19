@@ -6,22 +6,22 @@ public class EnchantmentMending extends Enchantment {
 
     public EnchantmentMending(Enchantment.Rarity enchantment_rarity, EntityEquipmentSlot... aenumitemslot) {
         super(enchantment_rarity, EnumEnchantmentType.BREAKABLE, aenumitemslot);
-        this.setName("mending");
+        this.func_77322_b("mending");
     }
 
-    public int getMinEnchantability(int i) {
+    public int func_77321_a(int i) {
         return i * 25;
     }
 
-    public int getMaxEnchantability(int i) {
-        return this.getMinEnchantability(i) + 50;
+    public int func_77317_b(int i) {
+        return this.func_77321_a(i) + 50;
     }
 
-    public boolean isTreasureEnchantment() {
+    public boolean func_185261_e() {
         return true;
     }
 
-    public int getMaxLevel() {
+    public int func_77325_b() {
         return 1;
     }
 }

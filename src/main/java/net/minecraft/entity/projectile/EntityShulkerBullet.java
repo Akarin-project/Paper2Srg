@@ -29,288 +29,288 @@ import net.minecraft.world.WorldServer;
 
 public class EntityShulkerBullet extends Entity {
 
-    private EntityLivingBase owner;
-    private Entity target;
+    private EntityLivingBase field_184570_a;
+    private Entity field_184571_b;
     @Nullable
-    private EnumFacing direction;
-    private int steps;
-    private double targetDeltaX;
-    private double targetDeltaY;
-    private double targetDeltaZ;
+    private EnumFacing field_184573_c;
+    private int field_184575_d;
+    private double field_184577_e;
+    private double field_184578_f;
+    private double field_184579_g;
     @Nullable
-    private UUID ownerUniqueId;
-    private BlockPos ownerBlockPos;
+    private UUID field_184580_h;
+    private BlockPos field_184572_as;
     @Nullable
-    private UUID targetUniqueId;
-    private BlockPos targetBlockPos;
+    private UUID field_184574_at;
+    private BlockPos field_184576_au;
 
     public EntityShulkerBullet(World world) {
         super(world);
-        this.setSize(0.3125F, 0.3125F);
-        this.noClip = true;
+        this.func_70105_a(0.3125F, 0.3125F);
+        this.field_70145_X = true;
     }
 
-    public SoundCategory getSoundCategory() {
+    public SoundCategory func_184176_by() {
         return SoundCategory.HOSTILE;
     }
 
     public EntityShulkerBullet(World world, EntityLivingBase entityliving, Entity entity, EnumFacing.Axis enumdirection_enumaxis) {
         this(world);
-        this.owner = entityliving;
+        this.field_184570_a = entityliving;
         BlockPos blockposition = new BlockPos(entityliving);
-        double d0 = (double) blockposition.getX() + 0.5D;
-        double d1 = (double) blockposition.getY() + 0.5D;
-        double d2 = (double) blockposition.getZ() + 0.5D;
+        double d0 = (double) blockposition.func_177958_n() + 0.5D;
+        double d1 = (double) blockposition.func_177956_o() + 0.5D;
+        double d2 = (double) blockposition.func_177952_p() + 0.5D;
 
-        this.setLocationAndAngles(d0, d1, d2, this.rotationYaw, this.rotationPitch);
-        this.target = entity;
-        this.direction = EnumFacing.UP;
-        this.selectNextMoveDirection(enumdirection_enumaxis);
+        this.func_70012_b(d0, d1, d2, this.field_70177_z, this.field_70125_A);
+        this.field_184571_b = entity;
+        this.field_184573_c = EnumFacing.UP;
+        this.func_184569_a(enumdirection_enumaxis);
         projectileSource = (org.bukkit.entity.LivingEntity) entityliving.getBukkitEntity(); // CraftBukkit
     }
 
     // CraftBukkit start
     public EntityLivingBase getShooter() {
-        return this.owner;
+        return this.field_184570_a;
     }
 
     public void setShooter(EntityLivingBase e) {
-        this.owner = e;
+        this.field_184570_a = e;
     }
 
     public Entity getTarget() {
-        return this.target;
+        return this.field_184571_b;
     }
 
     public void setTarget(Entity e) {
-        this.target = e;
-        this.direction = EnumFacing.UP;
-        this.selectNextMoveDirection(EnumFacing.Axis.X);
+        this.field_184571_b = e;
+        this.field_184573_c = EnumFacing.UP;
+        this.func_184569_a(EnumFacing.Axis.X);
     }
     // CraftBukkit end
 
-    protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+    protected void func_70014_b(NBTTagCompound nbttagcompound) {
         BlockPos blockposition;
         NBTTagCompound nbttagcompound1;
 
-        if (this.owner != null) {
-            blockposition = new BlockPos(this.owner);
-            nbttagcompound1 = NBTUtil.createUUIDTag(this.owner.getUniqueID());
-            nbttagcompound1.setInteger("X", blockposition.getX());
-            nbttagcompound1.setInteger("Y", blockposition.getY());
-            nbttagcompound1.setInteger("Z", blockposition.getZ());
-            nbttagcompound.setTag("Owner", nbttagcompound1);
+        if (this.field_184570_a != null) {
+            blockposition = new BlockPos(this.field_184570_a);
+            nbttagcompound1 = NBTUtil.func_186862_a(this.field_184570_a.func_110124_au());
+            nbttagcompound1.func_74768_a("X", blockposition.func_177958_n());
+            nbttagcompound1.func_74768_a("Y", blockposition.func_177956_o());
+            nbttagcompound1.func_74768_a("Z", blockposition.func_177952_p());
+            nbttagcompound.func_74782_a("Owner", nbttagcompound1);
         }
 
-        if (this.target != null) {
-            blockposition = new BlockPos(this.target);
-            nbttagcompound1 = NBTUtil.createUUIDTag(this.target.getUniqueID());
-            nbttagcompound1.setInteger("X", blockposition.getX());
-            nbttagcompound1.setInteger("Y", blockposition.getY());
-            nbttagcompound1.setInteger("Z", blockposition.getZ());
-            nbttagcompound.setTag("Target", nbttagcompound1);
+        if (this.field_184571_b != null) {
+            blockposition = new BlockPos(this.field_184571_b);
+            nbttagcompound1 = NBTUtil.func_186862_a(this.field_184571_b.func_110124_au());
+            nbttagcompound1.func_74768_a("X", blockposition.func_177958_n());
+            nbttagcompound1.func_74768_a("Y", blockposition.func_177956_o());
+            nbttagcompound1.func_74768_a("Z", blockposition.func_177952_p());
+            nbttagcompound.func_74782_a("Target", nbttagcompound1);
         }
 
-        if (this.direction != null) {
-            nbttagcompound.setInteger("Dir", this.direction.getIndex());
+        if (this.field_184573_c != null) {
+            nbttagcompound.func_74768_a("Dir", this.field_184573_c.func_176745_a());
         }
 
-        nbttagcompound.setInteger("Steps", this.steps);
-        nbttagcompound.setDouble("TXD", this.targetDeltaX);
-        nbttagcompound.setDouble("TYD", this.targetDeltaY);
-        nbttagcompound.setDouble("TZD", this.targetDeltaZ);
+        nbttagcompound.func_74768_a("Steps", this.field_184575_d);
+        nbttagcompound.func_74780_a("TXD", this.field_184577_e);
+        nbttagcompound.func_74780_a("TYD", this.field_184578_f);
+        nbttagcompound.func_74780_a("TZD", this.field_184579_g);
     }
 
-    protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        this.steps = nbttagcompound.getInteger("Steps");
-        this.targetDeltaX = nbttagcompound.getDouble("TXD");
-        this.targetDeltaY = nbttagcompound.getDouble("TYD");
-        this.targetDeltaZ = nbttagcompound.getDouble("TZD");
-        if (nbttagcompound.hasKey("Dir", 99)) {
-            this.direction = EnumFacing.getFront(nbttagcompound.getInteger("Dir"));
+    protected void func_70037_a(NBTTagCompound nbttagcompound) {
+        this.field_184575_d = nbttagcompound.func_74762_e("Steps");
+        this.field_184577_e = nbttagcompound.func_74769_h("TXD");
+        this.field_184578_f = nbttagcompound.func_74769_h("TYD");
+        this.field_184579_g = nbttagcompound.func_74769_h("TZD");
+        if (nbttagcompound.func_150297_b("Dir", 99)) {
+            this.field_184573_c = EnumFacing.func_82600_a(nbttagcompound.func_74762_e("Dir"));
         }
 
         NBTTagCompound nbttagcompound1;
 
-        if (nbttagcompound.hasKey("Owner", 10)) {
-            nbttagcompound1 = nbttagcompound.getCompoundTag("Owner");
-            this.ownerUniqueId = NBTUtil.getUUIDFromTag(nbttagcompound1);
-            this.ownerBlockPos = new BlockPos(nbttagcompound1.getInteger("X"), nbttagcompound1.getInteger("Y"), nbttagcompound1.getInteger("Z"));
+        if (nbttagcompound.func_150297_b("Owner", 10)) {
+            nbttagcompound1 = nbttagcompound.func_74775_l("Owner");
+            this.field_184580_h = NBTUtil.func_186860_b(nbttagcompound1);
+            this.field_184572_as = new BlockPos(nbttagcompound1.func_74762_e("X"), nbttagcompound1.func_74762_e("Y"), nbttagcompound1.func_74762_e("Z"));
         }
 
-        if (nbttagcompound.hasKey("Target", 10)) {
-            nbttagcompound1 = nbttagcompound.getCompoundTag("Target");
-            this.targetUniqueId = NBTUtil.getUUIDFromTag(nbttagcompound1);
-            this.targetBlockPos = new BlockPos(nbttagcompound1.getInteger("X"), nbttagcompound1.getInteger("Y"), nbttagcompound1.getInteger("Z"));
+        if (nbttagcompound.func_150297_b("Target", 10)) {
+            nbttagcompound1 = nbttagcompound.func_74775_l("Target");
+            this.field_184574_at = NBTUtil.func_186860_b(nbttagcompound1);
+            this.field_184576_au = new BlockPos(nbttagcompound1.func_74762_e("X"), nbttagcompound1.func_74762_e("Y"), nbttagcompound1.func_74762_e("Z"));
         }
 
     }
 
-    protected void entityInit() {}
+    protected void func_70088_a() {}
 
-    private void setDirection(@Nullable EnumFacing enumdirection) {
-        this.direction = enumdirection;
+    private void func_184568_a(@Nullable EnumFacing enumdirection) {
+        this.field_184573_c = enumdirection;
     }
 
-    private void selectNextMoveDirection(@Nullable EnumFacing.Axis enumdirection_enumaxis) {
+    private void func_184569_a(@Nullable EnumFacing.Axis enumdirection_enumaxis) {
         double d0 = 0.5D;
         BlockPos blockposition;
 
-        if (this.target == null) {
-            blockposition = (new BlockPos(this)).down();
+        if (this.field_184571_b == null) {
+            blockposition = (new BlockPos(this)).func_177977_b();
         } else {
-            d0 = (double) this.target.height * 0.5D;
-            blockposition = new BlockPos(this.target.posX, this.target.posY + d0, this.target.posZ);
+            d0 = (double) this.field_184571_b.field_70131_O * 0.5D;
+            blockposition = new BlockPos(this.field_184571_b.field_70165_t, this.field_184571_b.field_70163_u + d0, this.field_184571_b.field_70161_v);
         }
 
-        double d1 = (double) blockposition.getX() + 0.5D;
-        double d2 = (double) blockposition.getY() + d0;
-        double d3 = (double) blockposition.getZ() + 0.5D;
+        double d1 = (double) blockposition.func_177958_n() + 0.5D;
+        double d2 = (double) blockposition.func_177956_o() + d0;
+        double d3 = (double) blockposition.func_177952_p() + 0.5D;
         EnumFacing enumdirection = null;
 
-        if (blockposition.distanceSqToCenter(this.posX, this.posY, this.posZ) >= 4.0D) {
+        if (blockposition.func_177957_d(this.field_70165_t, this.field_70163_u, this.field_70161_v) >= 4.0D) {
             BlockPos blockposition1 = new BlockPos(this);
             ArrayList arraylist = Lists.newArrayList();
 
             if (enumdirection_enumaxis != EnumFacing.Axis.X) {
-                if (blockposition1.getX() < blockposition.getX() && this.world.isAirBlock(blockposition1.east())) {
+                if (blockposition1.func_177958_n() < blockposition.func_177958_n() && this.field_70170_p.func_175623_d(blockposition1.func_177974_f())) {
                     arraylist.add(EnumFacing.EAST);
-                } else if (blockposition1.getX() > blockposition.getX() && this.world.isAirBlock(blockposition1.west())) {
+                } else if (blockposition1.func_177958_n() > blockposition.func_177958_n() && this.field_70170_p.func_175623_d(blockposition1.func_177976_e())) {
                     arraylist.add(EnumFacing.WEST);
                 }
             }
 
             if (enumdirection_enumaxis != EnumFacing.Axis.Y) {
-                if (blockposition1.getY() < blockposition.getY() && this.world.isAirBlock(blockposition1.up())) {
+                if (blockposition1.func_177956_o() < blockposition.func_177956_o() && this.field_70170_p.func_175623_d(blockposition1.func_177984_a())) {
                     arraylist.add(EnumFacing.UP);
-                } else if (blockposition1.getY() > blockposition.getY() && this.world.isAirBlock(blockposition1.down())) {
+                } else if (blockposition1.func_177956_o() > blockposition.func_177956_o() && this.field_70170_p.func_175623_d(blockposition1.func_177977_b())) {
                     arraylist.add(EnumFacing.DOWN);
                 }
             }
 
             if (enumdirection_enumaxis != EnumFacing.Axis.Z) {
-                if (blockposition1.getZ() < blockposition.getZ() && this.world.isAirBlock(blockposition1.south())) {
+                if (blockposition1.func_177952_p() < blockposition.func_177952_p() && this.field_70170_p.func_175623_d(blockposition1.func_177968_d())) {
                     arraylist.add(EnumFacing.SOUTH);
-                } else if (blockposition1.getZ() > blockposition.getZ() && this.world.isAirBlock(blockposition1.north())) {
+                } else if (blockposition1.func_177952_p() > blockposition.func_177952_p() && this.field_70170_p.func_175623_d(blockposition1.func_177978_c())) {
                     arraylist.add(EnumFacing.NORTH);
                 }
             }
 
-            enumdirection = EnumFacing.random(this.rand);
+            enumdirection = EnumFacing.func_176741_a(this.field_70146_Z);
             if (arraylist.isEmpty()) {
-                for (int i = 5; !this.world.isAirBlock(blockposition1.offset(enumdirection)) && i > 0; --i) {
-                    enumdirection = EnumFacing.random(this.rand);
+                for (int i = 5; !this.field_70170_p.func_175623_d(blockposition1.func_177972_a(enumdirection)) && i > 0; --i) {
+                    enumdirection = EnumFacing.func_176741_a(this.field_70146_Z);
                 }
             } else {
-                enumdirection = (EnumFacing) arraylist.get(this.rand.nextInt(arraylist.size()));
+                enumdirection = (EnumFacing) arraylist.get(this.field_70146_Z.nextInt(arraylist.size()));
             }
 
-            d1 = this.posX + (double) enumdirection.getFrontOffsetX();
-            d2 = this.posY + (double) enumdirection.getFrontOffsetY();
-            d3 = this.posZ + (double) enumdirection.getFrontOffsetZ();
+            d1 = this.field_70165_t + (double) enumdirection.func_82601_c();
+            d2 = this.field_70163_u + (double) enumdirection.func_96559_d();
+            d3 = this.field_70161_v + (double) enumdirection.func_82599_e();
         }
 
-        this.setDirection(enumdirection);
-        double d4 = d1 - this.posX;
-        double d5 = d2 - this.posY;
-        double d6 = d3 - this.posZ;
-        double d7 = (double) MathHelper.sqrt(d4 * d4 + d5 * d5 + d6 * d6);
+        this.func_184568_a(enumdirection);
+        double d4 = d1 - this.field_70165_t;
+        double d5 = d2 - this.field_70163_u;
+        double d6 = d3 - this.field_70161_v;
+        double d7 = (double) MathHelper.func_76133_a(d4 * d4 + d5 * d5 + d6 * d6);
 
         if (d7 == 0.0D) {
-            this.targetDeltaX = 0.0D;
-            this.targetDeltaY = 0.0D;
-            this.targetDeltaZ = 0.0D;
+            this.field_184577_e = 0.0D;
+            this.field_184578_f = 0.0D;
+            this.field_184579_g = 0.0D;
         } else {
-            this.targetDeltaX = d4 / d7 * 0.15D;
-            this.targetDeltaY = d5 / d7 * 0.15D;
-            this.targetDeltaZ = d6 / d7 * 0.15D;
+            this.field_184577_e = d4 / d7 * 0.15D;
+            this.field_184578_f = d5 / d7 * 0.15D;
+            this.field_184579_g = d6 / d7 * 0.15D;
         }
 
-        this.isAirBorne = true;
-        this.steps = 10 + this.rand.nextInt(5) * 10;
+        this.field_70160_al = true;
+        this.field_184575_d = 10 + this.field_70146_Z.nextInt(5) * 10;
     }
 
-    public void onUpdate() {
-        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
-            this.setDead();
+    public void func_70071_h_() {
+        if (!this.field_70170_p.field_72995_K && this.field_70170_p.func_175659_aa() == EnumDifficulty.PEACEFUL) {
+            this.func_70106_y();
         } else {
-            super.onUpdate();
-            if (!this.world.isRemote) {
+            super.func_70071_h_();
+            if (!this.field_70170_p.field_72995_K) {
                 List list;
                 Iterator iterator;
                 EntityLivingBase entityliving;
 
-                if (this.target == null && this.targetUniqueId != null) {
-                    list = this.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(this.targetBlockPos.add(-2, -2, -2), this.targetBlockPos.add(2, 2, 2)));
+                if (this.field_184571_b == null && this.field_184574_at != null) {
+                    list = this.field_70170_p.func_72872_a(EntityLivingBase.class, new AxisAlignedBB(this.field_184576_au.func_177982_a(-2, -2, -2), this.field_184576_au.func_177982_a(2, 2, 2)));
                     iterator = list.iterator();
 
                     while (iterator.hasNext()) {
                         entityliving = (EntityLivingBase) iterator.next();
-                        if (entityliving.getUniqueID().equals(this.targetUniqueId)) {
-                            this.target = entityliving;
+                        if (entityliving.func_110124_au().equals(this.field_184574_at)) {
+                            this.field_184571_b = entityliving;
                             break;
                         }
                     }
 
-                    this.targetUniqueId = null;
+                    this.field_184574_at = null;
                 }
 
-                if (this.owner == null && this.ownerUniqueId != null) {
-                    list = this.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(this.ownerBlockPos.add(-2, -2, -2), this.ownerBlockPos.add(2, 2, 2)));
+                if (this.field_184570_a == null && this.field_184580_h != null) {
+                    list = this.field_70170_p.func_72872_a(EntityLivingBase.class, new AxisAlignedBB(this.field_184572_as.func_177982_a(-2, -2, -2), this.field_184572_as.func_177982_a(2, 2, 2)));
                     iterator = list.iterator();
 
                     while (iterator.hasNext()) {
                         entityliving = (EntityLivingBase) iterator.next();
-                        if (entityliving.getUniqueID().equals(this.ownerUniqueId)) {
-                            this.owner = entityliving;
+                        if (entityliving.func_110124_au().equals(this.field_184580_h)) {
+                            this.field_184570_a = entityliving;
                             break;
                         }
                     }
 
-                    this.ownerUniqueId = null;
+                    this.field_184580_h = null;
                 }
 
-                if (this.target != null && this.target.isEntityAlive() && (!(this.target instanceof EntityPlayer) || !((EntityPlayer) this.target).isSpectator())) {
-                    this.targetDeltaX = MathHelper.clamp(this.targetDeltaX * 1.025D, -1.0D, 1.0D);
-                    this.targetDeltaY = MathHelper.clamp(this.targetDeltaY * 1.025D, -1.0D, 1.0D);
-                    this.targetDeltaZ = MathHelper.clamp(this.targetDeltaZ * 1.025D, -1.0D, 1.0D);
-                    this.motionX += (this.targetDeltaX - this.motionX) * 0.2D;
-                    this.motionY += (this.targetDeltaY - this.motionY) * 0.2D;
-                    this.motionZ += (this.targetDeltaZ - this.motionZ) * 0.2D;
-                } else if (!this.hasNoGravity()) {
-                    this.motionY -= 0.04D;
+                if (this.field_184571_b != null && this.field_184571_b.func_70089_S() && (!(this.field_184571_b instanceof EntityPlayer) || !((EntityPlayer) this.field_184571_b).func_175149_v())) {
+                    this.field_184577_e = MathHelper.func_151237_a(this.field_184577_e * 1.025D, -1.0D, 1.0D);
+                    this.field_184578_f = MathHelper.func_151237_a(this.field_184578_f * 1.025D, -1.0D, 1.0D);
+                    this.field_184579_g = MathHelper.func_151237_a(this.field_184579_g * 1.025D, -1.0D, 1.0D);
+                    this.field_70159_w += (this.field_184577_e - this.field_70159_w) * 0.2D;
+                    this.field_70181_x += (this.field_184578_f - this.field_70181_x) * 0.2D;
+                    this.field_70179_y += (this.field_184579_g - this.field_70179_y) * 0.2D;
+                } else if (!this.func_189652_ae()) {
+                    this.field_70181_x -= 0.04D;
                 }
 
-                RayTraceResult movingobjectposition = ProjectileHelper.forwardsRaycast(this, true, false, this.owner);
+                RayTraceResult movingobjectposition = ProjectileHelper.func_188802_a(this, true, false, this.field_184570_a);
 
                 if (movingobjectposition != null) {
-                    this.bulletHit(movingobjectposition);
+                    this.func_184567_a(movingobjectposition);
                 }
             }
 
-            this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-            ProjectileHelper.rotateTowardsMovement(this, 0.5F);
-            if (this.world.isRemote) {
-                this.world.spawnParticle(EnumParticleTypes.END_ROD, this.posX - this.motionX, this.posY - this.motionY + 0.15D, this.posZ - this.motionZ, 0.0D, 0.0D, 0.0D, new int[0]);
-            } else if (this.target != null && !this.target.isDead) {
-                if (this.steps > 0) {
-                    --this.steps;
-                    if (this.steps == 0) {
-                        this.selectNextMoveDirection(this.direction == null ? null : this.direction.getAxis());
+            this.func_70107_b(this.field_70165_t + this.field_70159_w, this.field_70163_u + this.field_70181_x, this.field_70161_v + this.field_70179_y);
+            ProjectileHelper.func_188803_a(this, 0.5F);
+            if (this.field_70170_p.field_72995_K) {
+                this.field_70170_p.func_175688_a(EnumParticleTypes.END_ROD, this.field_70165_t - this.field_70159_w, this.field_70163_u - this.field_70181_x + 0.15D, this.field_70161_v - this.field_70179_y, 0.0D, 0.0D, 0.0D, new int[0]);
+            } else if (this.field_184571_b != null && !this.field_184571_b.field_70128_L) {
+                if (this.field_184575_d > 0) {
+                    --this.field_184575_d;
+                    if (this.field_184575_d == 0) {
+                        this.func_184569_a(this.field_184573_c == null ? null : this.field_184573_c.func_176740_k());
                     }
                 }
 
-                if (this.direction != null) {
+                if (this.field_184573_c != null) {
                     BlockPos blockposition = new BlockPos(this);
-                    EnumFacing.Axis enumdirection_enumaxis = this.direction.getAxis();
+                    EnumFacing.Axis enumdirection_enumaxis = this.field_184573_c.func_176740_k();
 
-                    if (this.world.isBlockNormalCube(blockposition.offset(this.direction), false)) {
-                        this.selectNextMoveDirection(enumdirection_enumaxis);
+                    if (this.field_70170_p.func_175677_d(blockposition.func_177972_a(this.field_184573_c), false)) {
+                        this.func_184569_a(enumdirection_enumaxis);
                     } else {
-                        BlockPos blockposition1 = new BlockPos(this.target);
+                        BlockPos blockposition1 = new BlockPos(this.field_184571_b);
 
-                        if (enumdirection_enumaxis == EnumFacing.Axis.X && blockposition.getX() == blockposition1.getX() || enumdirection_enumaxis == EnumFacing.Axis.Z && blockposition.getZ() == blockposition1.getZ() || enumdirection_enumaxis == EnumFacing.Axis.Y && blockposition.getY() == blockposition1.getY()) {
-                            this.selectNextMoveDirection(enumdirection_enumaxis);
+                        if (enumdirection_enumaxis == EnumFacing.Axis.X && blockposition.func_177958_n() == blockposition1.func_177958_n() || enumdirection_enumaxis == EnumFacing.Axis.Z && blockposition.func_177952_p() == blockposition1.func_177952_p() || enumdirection_enumaxis == EnumFacing.Axis.Y && blockposition.func_177956_o() == blockposition1.func_177956_o()) {
+                            this.func_184569_a(enumdirection_enumaxis);
                         }
                     }
                 }
@@ -319,42 +319,42 @@ public class EntityShulkerBullet extends Entity {
         }
     }
 
-    public boolean isBurning() {
+    public boolean func_70027_ad() {
         return false;
     }
 
-    public float getBrightness() {
+    public float func_70013_c() {
         return 1.0F;
     }
 
-    protected void bulletHit(RayTraceResult movingobjectposition) {
+    protected void func_184567_a(RayTraceResult movingobjectposition) {
         org.bukkit.craftbukkit.event.CraftEventFactory.callProjectileHitEvent(this, movingobjectposition); // Craftbukkit - Call event
-        if (movingobjectposition.entityHit == null) {
-            ((WorldServer) this.world).spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX, this.posY, this.posZ, 2, 0.2D, 0.2D, 0.2D, 0.0D, new int[0]);
-            this.playSound(SoundEvents.ENTITY_SHULKER_BULLET_HIT, 1.0F, 1.0F);
+        if (movingobjectposition.field_72308_g == null) {
+            ((WorldServer) this.field_70170_p).func_175739_a(EnumParticleTypes.EXPLOSION_LARGE, this.field_70165_t, this.field_70163_u, this.field_70161_v, 2, 0.2D, 0.2D, 0.2D, 0.0D, new int[0]);
+            this.func_184185_a(SoundEvents.field_187775_eP, 1.0F, 1.0F);
         } else {
-            boolean flag = movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeIndirectDamage(this, this.owner).setProjectile(), 4.0F);
+            boolean flag = movingobjectposition.field_72308_g.func_70097_a(DamageSource.func_188403_a(this, this.field_184570_a).func_76349_b(), 4.0F);
 
             if (flag) {
-                this.applyEnchantments(this.owner, movingobjectposition.entityHit);
-                if (movingobjectposition.entityHit instanceof EntityLivingBase) {
-                    ((EntityLivingBase) movingobjectposition.entityHit).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 200));
+                this.func_174815_a(this.field_184570_a, movingobjectposition.field_72308_g);
+                if (movingobjectposition.field_72308_g instanceof EntityLivingBase) {
+                    ((EntityLivingBase) movingobjectposition.field_72308_g).func_70690_d(new PotionEffect(MobEffects.field_188424_y, 200));
                 }
             }
         }
 
-        this.setDead();
+        this.func_70106_y();
     }
 
-    public boolean canBeCollidedWith() {
+    public boolean func_70067_L() {
         return true;
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        if (!this.world.isRemote) {
-            this.playSound(SoundEvents.ENTITY_SHULKER_BULLET_HURT, 1.0F, 1.0F);
-            ((WorldServer) this.world).spawnParticle(EnumParticleTypes.CRIT, this.posX, this.posY, this.posZ, 15, 0.2D, 0.2D, 0.2D, 0.0D, new int[0]);
-            this.setDead();
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        if (!this.field_70170_p.field_72995_K) {
+            this.func_184185_a(SoundEvents.field_187777_eQ, 1.0F, 1.0F);
+            ((WorldServer) this.field_70170_p).func_175739_a(EnumParticleTypes.CRIT, this.field_70165_t, this.field_70163_u, this.field_70161_v, 15, 0.2D, 0.2D, 0.2D, 0.0D, new int[0]);
+            this.func_70106_y();
         }
 
         return true;

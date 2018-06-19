@@ -10,42 +10,42 @@ import net.minecraft.world.chunk.NibbleArray;
 
 public class ChunkLoader {
 
-    public static ChunkLoader.AnvilConverterData load(NBTTagCompound nbttagcompound) {
-        int i = nbttagcompound.getInteger("xPos");
-        int j = nbttagcompound.getInteger("zPos");
+    public static ChunkLoader.AnvilConverterData func_76691_a(NBTTagCompound nbttagcompound) {
+        int i = nbttagcompound.func_74762_e("xPos");
+        int j = nbttagcompound.func_74762_e("zPos");
         ChunkLoader.AnvilConverterData oldchunkloader_oldchunk = new ChunkLoader.AnvilConverterData(i, j);
 
-        oldchunkloader_oldchunk.blocks = nbttagcompound.getByteArray("Blocks");
-        oldchunkloader_oldchunk.data = new NibbleArrayReader(nbttagcompound.getByteArray("Data"), 7);
-        oldchunkloader_oldchunk.skyLight = new NibbleArrayReader(nbttagcompound.getByteArray("SkyLight"), 7);
-        oldchunkloader_oldchunk.blockLight = new NibbleArrayReader(nbttagcompound.getByteArray("BlockLight"), 7);
-        oldchunkloader_oldchunk.heightmap = nbttagcompound.getByteArray("HeightMap");
-        oldchunkloader_oldchunk.terrainPopulated = nbttagcompound.getBoolean("TerrainPopulated");
-        oldchunkloader_oldchunk.entities = nbttagcompound.getTagList("Entities", 10);
-        oldchunkloader_oldchunk.tileEntities = nbttagcompound.getTagList("TileEntities", 10);
-        oldchunkloader_oldchunk.tileTicks = nbttagcompound.getTagList("TileTicks", 10);
+        oldchunkloader_oldchunk.field_76693_g = nbttagcompound.func_74770_j("Blocks");
+        oldchunkloader_oldchunk.field_76692_f = new NibbleArrayReader(nbttagcompound.func_74770_j("Data"), 7);
+        oldchunkloader_oldchunk.field_76695_e = new NibbleArrayReader(nbttagcompound.func_74770_j("SkyLight"), 7);
+        oldchunkloader_oldchunk.field_76694_d = new NibbleArrayReader(nbttagcompound.func_74770_j("BlockLight"), 7);
+        oldchunkloader_oldchunk.field_76697_c = nbttagcompound.func_74770_j("HeightMap");
+        oldchunkloader_oldchunk.field_76696_b = nbttagcompound.func_74767_n("TerrainPopulated");
+        oldchunkloader_oldchunk.field_76702_h = nbttagcompound.func_150295_c("Entities", 10);
+        oldchunkloader_oldchunk.field_151564_i = nbttagcompound.func_150295_c("TileEntities", 10);
+        oldchunkloader_oldchunk.field_151563_j = nbttagcompound.func_150295_c("TileTicks", 10);
 
         try {
-            oldchunkloader_oldchunk.lastUpdated = nbttagcompound.getLong("LastUpdate");
+            oldchunkloader_oldchunk.field_76698_a = nbttagcompound.func_74763_f("LastUpdate");
         } catch (ClassCastException classcastexception) {
-            oldchunkloader_oldchunk.lastUpdated = (long) nbttagcompound.getInteger("LastUpdate");
+            oldchunkloader_oldchunk.field_76698_a = (long) nbttagcompound.func_74762_e("LastUpdate");
         }
 
         return oldchunkloader_oldchunk;
     }
 
-    public static void convertToAnvilFormat(ChunkLoader.AnvilConverterData oldchunkloader_oldchunk, NBTTagCompound nbttagcompound, BiomeProvider worldchunkmanager) {
-        nbttagcompound.setInteger("xPos", oldchunkloader_oldchunk.x);
-        nbttagcompound.setInteger("zPos", oldchunkloader_oldchunk.z);
-        nbttagcompound.setLong("LastUpdate", oldchunkloader_oldchunk.lastUpdated);
-        int[] aint = new int[oldchunkloader_oldchunk.heightmap.length];
+    public static void func_76690_a(ChunkLoader.AnvilConverterData oldchunkloader_oldchunk, NBTTagCompound nbttagcompound, BiomeProvider worldchunkmanager) {
+        nbttagcompound.func_74768_a("xPos", oldchunkloader_oldchunk.field_76701_k);
+        nbttagcompound.func_74768_a("zPos", oldchunkloader_oldchunk.field_76699_l);
+        nbttagcompound.func_74772_a("LastUpdate", oldchunkloader_oldchunk.field_76698_a);
+        int[] aint = new int[oldchunkloader_oldchunk.field_76697_c.length];
 
-        for (int i = 0; i < oldchunkloader_oldchunk.heightmap.length; ++i) {
-            aint[i] = oldchunkloader_oldchunk.heightmap[i];
+        for (int i = 0; i < oldchunkloader_oldchunk.field_76697_c.length; ++i) {
+            aint[i] = oldchunkloader_oldchunk.field_76697_c[i];
         }
 
-        nbttagcompound.setIntArray("HeightMap", aint);
-        nbttagcompound.setBoolean("TerrainPopulated", oldchunkloader_oldchunk.terrainPopulated);
+        nbttagcompound.func_74783_a("HeightMap", aint);
+        nbttagcompound.func_74757_a("TerrainPopulated", oldchunkloader_oldchunk.field_76696_b);
         NBTTagList nbttaglist = new NBTTagList();
 
         int j;
@@ -63,7 +63,7 @@ public class ChunkLoader {
                     while (true) {
                         if (i1 < 16) {
                             int j1 = j << 11 | i1 << 7 | k + (l << 4);
-                            byte b0 = oldchunkloader_oldchunk.blocks[j1];
+                            byte b0 = oldchunkloader_oldchunk.field_76693_g[j1];
 
                             if (b0 == 0) {
                                 ++i1;
@@ -89,65 +89,65 @@ public class ChunkLoader {
                     for (int l1 = 0; l1 < 16; ++l1) {
                         for (int i2 = 0; i2 < 16; ++i2) {
                             int j2 = k1 << 11 | i2 << 7 | l1 + (l << 4);
-                            byte b1 = oldchunkloader_oldchunk.blocks[j2];
+                            byte b1 = oldchunkloader_oldchunk.field_76693_g[j2];
 
                             abyte[l1 << 8 | i2 << 4 | k1] = (byte) (b1 & 255);
-                            nibblearray.set(k1, l1, i2, oldchunkloader_oldchunk.data.get(k1, l1 + (l << 4), i2));
-                            nibblearray1.set(k1, l1, i2, oldchunkloader_oldchunk.skyLight.get(k1, l1 + (l << 4), i2));
-                            nibblearray2.set(k1, l1, i2, oldchunkloader_oldchunk.blockLight.get(k1, l1 + (l << 4), i2));
+                            nibblearray.func_76581_a(k1, l1, i2, oldchunkloader_oldchunk.field_76692_f.func_76686_a(k1, l1 + (l << 4), i2));
+                            nibblearray1.func_76581_a(k1, l1, i2, oldchunkloader_oldchunk.field_76695_e.func_76686_a(k1, l1 + (l << 4), i2));
+                            nibblearray2.func_76581_a(k1, l1, i2, oldchunkloader_oldchunk.field_76694_d.func_76686_a(k1, l1 + (l << 4), i2));
                         }
                     }
                 }
 
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-                nbttagcompound1.setByte("Y", (byte) (l & 255));
-                nbttagcompound1.setByteArray("Blocks", abyte);
-                nbttagcompound1.setByteArray("Data", nibblearray.getData());
-                nbttagcompound1.setByteArray("SkyLight", nibblearray1.getData());
-                nbttagcompound1.setByteArray("BlockLight", nibblearray2.getData());
-                nbttaglist.appendTag(nbttagcompound1);
+                nbttagcompound1.func_74774_a("Y", (byte) (l & 255));
+                nbttagcompound1.func_74773_a("Blocks", abyte);
+                nbttagcompound1.func_74773_a("Data", nibblearray.func_177481_a());
+                nbttagcompound1.func_74773_a("SkyLight", nibblearray1.func_177481_a());
+                nbttagcompound1.func_74773_a("BlockLight", nibblearray2.func_177481_a());
+                nbttaglist.func_74742_a(nbttagcompound1);
             }
         }
 
-        nbttagcompound.setTag("Sections", nbttaglist);
+        nbttagcompound.func_74782_a("Sections", nbttaglist);
         byte[] abyte1 = new byte[256];
         BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos();
 
         for (j = 0; j < 16; ++j) {
             for (k = 0; k < 16; ++k) {
-                blockposition_mutableblockposition.setPos(oldchunkloader_oldchunk.x << 4 | j, 0, oldchunkloader_oldchunk.z << 4 | k);
-                abyte1[k << 4 | j] = (byte) (Biome.getIdForBiome(worldchunkmanager.getBiome(blockposition_mutableblockposition, Biomes.DEFAULT)) & 255);
+                blockposition_mutableblockposition.func_181079_c(oldchunkloader_oldchunk.field_76701_k << 4 | j, 0, oldchunkloader_oldchunk.field_76699_l << 4 | k);
+                abyte1[k << 4 | j] = (byte) (Biome.func_185362_a(worldchunkmanager.func_180300_a(blockposition_mutableblockposition, Biomes.field_180279_ad)) & 255);
             }
         }
 
-        nbttagcompound.setByteArray("Biomes", abyte1);
-        nbttagcompound.setTag("Entities", oldchunkloader_oldchunk.entities);
-        nbttagcompound.setTag("TileEntities", oldchunkloader_oldchunk.tileEntities);
-        if (oldchunkloader_oldchunk.tileTicks != null) {
-            nbttagcompound.setTag("TileTicks", oldchunkloader_oldchunk.tileTicks);
+        nbttagcompound.func_74773_a("Biomes", abyte1);
+        nbttagcompound.func_74782_a("Entities", oldchunkloader_oldchunk.field_76702_h);
+        nbttagcompound.func_74782_a("TileEntities", oldchunkloader_oldchunk.field_151564_i);
+        if (oldchunkloader_oldchunk.field_151563_j != null) {
+            nbttagcompound.func_74782_a("TileTicks", oldchunkloader_oldchunk.field_151563_j);
         }
 
     }
 
     public static class AnvilConverterData {
 
-        public long lastUpdated;
-        public boolean terrainPopulated;
-        public byte[] heightmap;
-        public NibbleArrayReader blockLight;
-        public NibbleArrayReader skyLight;
-        public NibbleArrayReader data;
-        public byte[] blocks;
-        public NBTTagList entities;
-        public NBTTagList tileEntities;
-        public NBTTagList tileTicks;
-        public final int x;
-        public final int z;
+        public long field_76698_a;
+        public boolean field_76696_b;
+        public byte[] field_76697_c;
+        public NibbleArrayReader field_76694_d;
+        public NibbleArrayReader field_76695_e;
+        public NibbleArrayReader field_76692_f;
+        public byte[] field_76693_g;
+        public NBTTagList field_76702_h;
+        public NBTTagList field_151564_i;
+        public NBTTagList field_151563_j;
+        public final int field_76701_k;
+        public final int field_76699_l;
 
         public AnvilConverterData(int i, int j) {
-            this.x = i;
-            this.z = j;
+            this.field_76701_k = i;
+            this.field_76699_l = j;
         }
     }
 }

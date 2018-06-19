@@ -21,68 +21,68 @@ import org.bukkit.Material;
 
 public class EntityAIEatGrass extends EntityAIBase {
 
-    private static final Predicate<IBlockState> IS_TALL_GRASS = BlockStateMatcher.forBlock((Block) Blocks.TALLGRASS).where(BlockTallGrass.TYPE, Predicates.equalTo(BlockTallGrass.EnumType.GRASS));
-    private final EntityLiving grassEaterEntity;
-    private final World entityWorld;
-    int eatingGrassTimer;
+    private static final Predicate<IBlockState> field_179505_b = BlockStateMatcher.func_177638_a((Block) Blocks.field_150329_H).func_177637_a(BlockTallGrass.field_176497_a, Predicates.equalTo(BlockTallGrass.EnumType.GRASS));
+    private final EntityLiving field_151500_b;
+    private final World field_151501_c;
+    int field_151502_a;
 
     public EntityAIEatGrass(EntityLiving entityinsentient) {
-        this.grassEaterEntity = entityinsentient;
-        this.entityWorld = entityinsentient.world;
-        this.setMutexBits(7);
+        this.field_151500_b = entityinsentient;
+        this.field_151501_c = entityinsentient.field_70170_p;
+        this.func_75248_a(7);
     }
 
-    public boolean shouldExecute() {
-        if (this.grassEaterEntity.getRNG().nextInt(this.grassEaterEntity.isChild() ? 50 : 1000) != 0) {
+    public boolean func_75250_a() {
+        if (this.field_151500_b.func_70681_au().nextInt(this.field_151500_b.func_70631_g_() ? 50 : 1000) != 0) {
             return false;
         } else {
-            BlockPos blockposition = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
+            BlockPos blockposition = new BlockPos(this.field_151500_b.field_70165_t, this.field_151500_b.field_70163_u, this.field_151500_b.field_70161_v);
 
-            return EntityAIEatGrass.IS_TALL_GRASS.apply(this.entityWorld.getBlockState(blockposition)) ? true : this.entityWorld.getBlockState(blockposition.down()).getBlock() == Blocks.GRASS;
+            return EntityAIEatGrass.field_179505_b.apply(this.field_151501_c.func_180495_p(blockposition)) ? true : this.field_151501_c.func_180495_p(blockposition.func_177977_b()).func_177230_c() == Blocks.field_150349_c;
         }
     }
 
-    public void startExecuting() {
-        this.eatingGrassTimer = 40;
-        this.entityWorld.setEntityState(this.grassEaterEntity, (byte) 10);
-        this.grassEaterEntity.getNavigator().clearPath();
+    public void func_75249_e() {
+        this.field_151502_a = 40;
+        this.field_151501_c.func_72960_a(this.field_151500_b, (byte) 10);
+        this.field_151500_b.func_70661_as().func_75499_g();
     }
 
-    public void resetTask() {
-        this.eatingGrassTimer = 0;
+    public void func_75251_c() {
+        this.field_151502_a = 0;
     }
 
-    public boolean shouldContinueExecuting() {
-        return this.eatingGrassTimer > 0;
+    public boolean func_75253_b() {
+        return this.field_151502_a > 0;
     }
 
-    public int getEatingGrassTimer() {
-        return this.eatingGrassTimer;
+    public int func_151499_f() {
+        return this.field_151502_a;
     }
 
-    public void updateTask() {
-        this.eatingGrassTimer = Math.max(0, this.eatingGrassTimer - 1);
-        if (this.eatingGrassTimer == 4) {
-            BlockPos blockposition = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
+    public void func_75246_d() {
+        this.field_151502_a = Math.max(0, this.field_151502_a - 1);
+        if (this.field_151502_a == 4) {
+            BlockPos blockposition = new BlockPos(this.field_151500_b.field_70165_t, this.field_151500_b.field_70163_u, this.field_151500_b.field_70161_v);
 
-            if (EntityAIEatGrass.IS_TALL_GRASS.apply(this.entityWorld.getBlockState(blockposition))) {
+            if (EntityAIEatGrass.field_179505_b.apply(this.field_151501_c.func_180495_p(blockposition))) {
                 // CraftBukkit
-                if (!CraftEventFactory.callEntityChangeBlockEvent(this.grassEaterEntity, this.grassEaterEntity.world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()), Material.AIR, !this.entityWorld.getGameRules().getBoolean("mobGriefing")).isCancelled()) {
-                    this.entityWorld.destroyBlock(blockposition, false);
+                if (!CraftEventFactory.callEntityChangeBlockEvent(this.field_151500_b, this.field_151500_b.field_70170_p.getWorld().getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p()), Material.AIR, !this.field_151501_c.func_82736_K().func_82766_b("mobGriefing")).isCancelled()) {
+                    this.field_151501_c.func_175655_b(blockposition, false);
                 }
 
-                this.grassEaterEntity.eatGrassBonus();
+                this.field_151500_b.func_70615_aA();
             } else {
-                BlockPos blockposition1 = blockposition.down();
+                BlockPos blockposition1 = blockposition.func_177977_b();
 
-                if (this.entityWorld.getBlockState(blockposition1).getBlock() == Blocks.GRASS) {
+                if (this.field_151501_c.func_180495_p(blockposition1).func_177230_c() == Blocks.field_150349_c) {
                     // CraftBukkit
-                    if (!CraftEventFactory.callEntityChangeBlockEvent(this.grassEaterEntity, this.grassEaterEntity.world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()), Material.AIR, !this.entityWorld.getGameRules().getBoolean("mobGriefing")).isCancelled()) {
-                        this.entityWorld.playEvent(2001, blockposition1, Block.getIdFromBlock(Blocks.GRASS));
-                        this.entityWorld.setBlockState(blockposition1, Blocks.DIRT.getDefaultState(), 2);
+                    if (!CraftEventFactory.callEntityChangeBlockEvent(this.field_151500_b, this.field_151500_b.field_70170_p.getWorld().getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p()), Material.AIR, !this.field_151501_c.func_82736_K().func_82766_b("mobGriefing")).isCancelled()) {
+                        this.field_151501_c.func_175718_b(2001, blockposition1, Block.func_149682_b(Blocks.field_150349_c));
+                        this.field_151501_c.func_180501_a(blockposition1, Blocks.field_150346_d.func_176223_P(), 2);
                     }
 
-                    this.grassEaterEntity.eatGrassBonus();
+                    this.field_151500_b.func_70615_aA();
                 }
             }
 

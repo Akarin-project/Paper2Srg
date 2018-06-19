@@ -27,7 +27,7 @@ public class CraftMerchant implements Merchant {
 
     @Override
     public List<MerchantRecipe> getRecipes() {
-        return Collections.unmodifiableList(Lists.transform(merchant.getRecipes(null), new Function<net.minecraft.village.MerchantRecipe, MerchantRecipe>() {
+        return Collections.unmodifiableList(Lists.transform(merchant.func_70934_b(null), new Function<net.minecraft.village.MerchantRecipe, MerchantRecipe>() {
             @Override
             public MerchantRecipe apply(net.minecraft.village.MerchantRecipe recipe) {
                 return recipe.asBukkit();
@@ -37,7 +37,7 @@ public class CraftMerchant implements Merchant {
 
     @Override
     public void setRecipes(List<MerchantRecipe> recipes) {
-        MerchantRecipeList recipesList = merchant.getRecipes(null);
+        MerchantRecipeList recipesList = merchant.func_70934_b(null);
         recipesList.clear();
         for (MerchantRecipe recipe : recipes) {
             recipesList.add(CraftMerchantRecipe.fromBukkit(recipe).toMinecraft());
@@ -46,17 +46,17 @@ public class CraftMerchant implements Merchant {
 
     @Override
     public MerchantRecipe getRecipe(int i) {
-        return merchant.getRecipes(null).get(i).asBukkit();
+        return merchant.func_70934_b(null).get(i).asBukkit();
     }
 
     @Override
     public void setRecipe(int i, MerchantRecipe merchantRecipe) {
-        merchant.getRecipes(null).set(i, CraftMerchantRecipe.fromBukkit(merchantRecipe).toMinecraft());
+        merchant.func_70934_b(null).set(i, CraftMerchantRecipe.fromBukkit(merchantRecipe).toMinecraft());
     }
 
     @Override
     public int getRecipeCount() {
-        return merchant.getRecipes(null).size();
+        return merchant.func_70934_b(null).size();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CraftMerchant implements Merchant {
 
     @Override
     public HumanEntity getTrader() {
-        EntityPlayer eh = merchant.getCustomer();
+        EntityPlayer eh = merchant.func_70931_l_();
         return eh == null ? null : eh.getBukkitEntity();
     }
 

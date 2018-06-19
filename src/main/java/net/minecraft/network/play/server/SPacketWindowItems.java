@@ -12,49 +12,49 @@ import net.minecraft.util.NonNullList;
 
 public class SPacketWindowItems implements Packet<INetHandlerPlayClient> {
 
-    private int windowId;
-    private List<ItemStack> itemStacks;
+    private int field_148914_a;
+    private List<ItemStack> field_148913_b;
 
     public SPacketWindowItems() {}
 
     public SPacketWindowItems(int i, NonNullList<ItemStack> nonnulllist) {
-        this.windowId = i;
-        this.itemStacks = NonNullList.withSize(nonnulllist.size(), ItemStack.EMPTY);
+        this.field_148914_a = i;
+        this.field_148913_b = NonNullList.func_191197_a(nonnulllist.size(), ItemStack.field_190927_a);
 
-        for (int j = 0; j < this.itemStacks.size(); ++j) {
+        for (int j = 0; j < this.field_148913_b.size(); ++j) {
             ItemStack itemstack = (ItemStack) nonnulllist.get(j);
 
-            this.itemStacks.set(j, itemstack.copy());
+            this.field_148913_b.set(j, itemstack.func_77946_l());
         }
 
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.windowId = packetdataserializer.readUnsignedByte();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_148914_a = packetdataserializer.readUnsignedByte();
         short short0 = packetdataserializer.readShort();
 
-        this.itemStacks = NonNullList.withSize(short0, ItemStack.EMPTY);
+        this.field_148913_b = NonNullList.func_191197_a(short0, ItemStack.field_190927_a);
 
         for (int i = 0; i < short0; ++i) {
-            this.itemStacks.set(i, packetdataserializer.readItemStack());
+            this.field_148913_b.set(i, packetdataserializer.func_150791_c());
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeByte(this.windowId);
-        packetdataserializer.writeShort(this.itemStacks.size());
-        Iterator iterator = this.itemStacks.iterator();
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeByte(this.field_148914_a);
+        packetdataserializer.writeShort(this.field_148913_b.size());
+        Iterator iterator = this.field_148913_b.iterator();
 
         while (iterator.hasNext()) {
             ItemStack itemstack = (ItemStack) iterator.next();
 
-            packetdataserializer.writeItemStack(itemstack);
+            packetdataserializer.func_150788_a(itemstack);
         }
 
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleWindowItems(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147241_a(this);
     }
 }

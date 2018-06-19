@@ -13,70 +13,70 @@ import net.minecraft.util.LowerStringMap;
 
 public abstract class AbstractAttributeMap {
 
-    protected final Map<IAttribute, IAttributeInstance> attributes = Maps.newHashMap();
-    protected final Map<String, IAttributeInstance> attributesByName = new LowerStringMap();
-    protected final Multimap<IAttribute, IAttribute> descendantsByParent = HashMultimap.create();
+    protected final Map<IAttribute, IAttributeInstance> field_111154_a = Maps.newHashMap();
+    protected final Map<String, IAttributeInstance> field_111153_b = new LowerStringMap();
+    protected final Multimap<IAttribute, IAttribute> field_180377_c = HashMultimap.create();
 
     public AbstractAttributeMap() {}
 
-    public IAttributeInstance getAttributeInstance(IAttribute iattribute) {
-        return (IAttributeInstance) this.attributes.get(iattribute);
+    public IAttributeInstance func_111151_a(IAttribute iattribute) {
+        return (IAttributeInstance) this.field_111154_a.get(iattribute);
     }
 
     @Nullable
-    public IAttributeInstance getAttributeInstanceByName(String s) {
-        return (IAttributeInstance) this.attributesByName.get(s);
+    public IAttributeInstance func_111152_a(String s) {
+        return (IAttributeInstance) this.field_111153_b.get(s);
     }
 
-    public IAttributeInstance registerAttribute(IAttribute iattribute) {
-        if (this.attributesByName.containsKey(iattribute.getName())) {
+    public IAttributeInstance func_111150_b(IAttribute iattribute) {
+        if (this.field_111153_b.containsKey(iattribute.func_111108_a())) {
             throw new IllegalArgumentException("Attribute is already registered!");
         } else {
-            IAttributeInstance attributeinstance = this.createInstance(iattribute);
+            IAttributeInstance attributeinstance = this.func_180376_c(iattribute);
 
-            this.attributesByName.put(iattribute.getName(), attributeinstance);
-            this.attributes.put(iattribute, attributeinstance);
+            this.field_111153_b.put(iattribute.func_111108_a(), attributeinstance);
+            this.field_111154_a.put(iattribute, attributeinstance);
 
-            for (IAttribute iattribute1 = iattribute.getParent(); iattribute1 != null; iattribute1 = iattribute1.getParent()) {
-                this.descendantsByParent.put(iattribute1, iattribute);
+            for (IAttribute iattribute1 = iattribute.func_180372_d(); iattribute1 != null; iattribute1 = iattribute1.func_180372_d()) {
+                this.field_180377_c.put(iattribute1, iattribute);
             }
 
             return attributeinstance;
         }
     }
 
-    protected abstract IAttributeInstance createInstance(IAttribute iattribute);
+    protected abstract IAttributeInstance func_180376_c(IAttribute iattribute);
 
-    public Collection<IAttributeInstance> getAllAttributes() {
-        return this.attributesByName.values();
+    public Collection<IAttributeInstance> func_111146_a() {
+        return this.field_111153_b.values();
     }
 
-    public void onAttributeModified(IAttributeInstance attributeinstance) {}
+    public void func_180794_a(IAttributeInstance attributeinstance) {}
 
-    public void removeAttributeModifiers(Multimap<String, AttributeModifier> multimap) {
+    public void func_111148_a(Multimap<String, AttributeModifier> multimap) {
         Iterator iterator = multimap.entries().iterator();
 
         while (iterator.hasNext()) {
             Entry entry = (Entry) iterator.next();
-            IAttributeInstance attributeinstance = this.getAttributeInstanceByName((String) entry.getKey());
+            IAttributeInstance attributeinstance = this.func_111152_a((String) entry.getKey());
 
             if (attributeinstance != null) {
-                attributeinstance.removeModifier((AttributeModifier) entry.getValue());
+                attributeinstance.func_111124_b((AttributeModifier) entry.getValue());
             }
         }
 
     }
 
-    public void applyAttributeModifiers(Multimap<String, AttributeModifier> multimap) {
+    public void func_111147_b(Multimap<String, AttributeModifier> multimap) {
         Iterator iterator = multimap.entries().iterator();
 
         while (iterator.hasNext()) {
             Entry entry = (Entry) iterator.next();
-            IAttributeInstance attributeinstance = this.getAttributeInstanceByName((String) entry.getKey());
+            IAttributeInstance attributeinstance = this.func_111152_a((String) entry.getKey());
 
             if (attributeinstance != null) {
-                attributeinstance.removeModifier((AttributeModifier) entry.getValue());
-                attributeinstance.applyModifier((AttributeModifier) entry.getValue());
+                attributeinstance.func_111124_b((AttributeModifier) entry.getValue());
+                attributeinstance.func_111121_a((AttributeModifier) entry.getValue());
             }
         }
 

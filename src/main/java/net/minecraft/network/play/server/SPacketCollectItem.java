@@ -8,31 +8,31 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketCollectItem implements Packet<INetHandlerPlayClient> {
 
-    private int collectedItemEntityId;
-    private int entityId;
-    private int collectedQuantity;
+    private int field_149357_a;
+    private int field_149356_b;
+    private int field_191209_c;
 
     public SPacketCollectItem() {}
 
     public SPacketCollectItem(int i, int j, int k) {
-        this.collectedItemEntityId = i;
-        this.entityId = j;
-        this.collectedQuantity = k;
+        this.field_149357_a = i;
+        this.field_149356_b = j;
+        this.field_191209_c = k;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.collectedItemEntityId = packetdataserializer.readVarInt();
-        this.entityId = packetdataserializer.readVarInt();
-        this.collectedQuantity = packetdataserializer.readVarInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149357_a = packetdataserializer.func_150792_a();
+        this.field_149356_b = packetdataserializer.func_150792_a();
+        this.field_191209_c = packetdataserializer.func_150792_a();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.collectedItemEntityId);
-        packetdataserializer.writeVarInt(this.entityId);
-        packetdataserializer.writeVarInt(this.collectedQuantity);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_149357_a);
+        packetdataserializer.func_150787_b(this.field_149356_b);
+        packetdataserializer.func_150787_b(this.field_191209_c);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleCollectItem(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147246_a(this);
     }
 }

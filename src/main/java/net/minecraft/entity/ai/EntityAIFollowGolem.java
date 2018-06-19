@@ -9,23 +9,23 @@ import net.minecraft.entity.passive.EntityVillager;
 
 public class EntityAIFollowGolem extends EntityAIBase {
 
-    private final EntityVillager villager;
-    private EntityIronGolem ironGolem;
-    private int takeGolemRoseTick;
-    private boolean tookGolemRose;
+    private final EntityVillager field_75294_a;
+    private EntityIronGolem field_75292_b;
+    private int field_75293_c;
+    private boolean field_75291_d;
 
     public EntityAIFollowGolem(EntityVillager entityvillager) {
-        this.villager = entityvillager;
-        this.setMutexBits(3);
+        this.field_75294_a = entityvillager;
+        this.func_75248_a(3);
     }
 
-    public boolean shouldExecute() {
-        if (this.villager.getGrowingAge() >= 0) {
+    public boolean func_75250_a() {
+        if (this.field_75294_a.func_70874_b() >= 0) {
             return false;
-        } else if (!this.villager.world.isDaytime()) {
+        } else if (!this.field_75294_a.field_70170_p.func_72935_r()) {
             return false;
         } else {
-            List list = this.villager.world.getEntitiesWithinAABB(EntityIronGolem.class, this.villager.getEntityBoundingBox().grow(6.0D, 2.0D, 6.0D));
+            List list = this.field_75294_a.field_70170_p.func_72872_a(EntityIronGolem.class, this.field_75294_a.func_174813_aQ().func_72314_b(6.0D, 2.0D, 6.0D));
 
             if (list.isEmpty()) {
                 return false;
@@ -35,42 +35,42 @@ public class EntityAIFollowGolem extends EntityAIBase {
                 while (iterator.hasNext()) {
                     EntityIronGolem entityirongolem = (EntityIronGolem) iterator.next();
 
-                    if (entityirongolem.getHoldRoseTick() > 0) {
-                        this.ironGolem = entityirongolem;
+                    if (entityirongolem.func_70853_p() > 0) {
+                        this.field_75292_b = entityirongolem;
                         break;
                     }
                 }
 
-                return this.ironGolem != null;
+                return this.field_75292_b != null;
             }
         }
     }
 
-    public boolean shouldContinueExecuting() {
-        return this.ironGolem.getHoldRoseTick() > 0;
+    public boolean func_75253_b() {
+        return this.field_75292_b.func_70853_p() > 0;
     }
 
-    public void startExecuting() {
-        this.takeGolemRoseTick = this.villager.getRNG().nextInt(320);
-        this.tookGolemRose = false;
-        this.ironGolem.getNavigator().clearPath();
+    public void func_75249_e() {
+        this.field_75293_c = this.field_75294_a.func_70681_au().nextInt(320);
+        this.field_75291_d = false;
+        this.field_75292_b.func_70661_as().func_75499_g();
     }
 
-    public void resetTask() {
-        this.ironGolem = null;
-        this.villager.getNavigator().clearPath();
+    public void func_75251_c() {
+        this.field_75292_b = null;
+        this.field_75294_a.func_70661_as().func_75499_g();
     }
 
-    public void updateTask() {
-        this.villager.getLookHelper().setLookPositionWithEntity(this.ironGolem, 30.0F, 30.0F);
-        if (this.ironGolem.getHoldRoseTick() == this.takeGolemRoseTick) {
-            this.villager.getNavigator().tryMoveToEntityLiving((Entity) this.ironGolem, 0.5D);
-            this.tookGolemRose = true;
+    public void func_75246_d() {
+        this.field_75294_a.func_70671_ap().func_75651_a(this.field_75292_b, 30.0F, 30.0F);
+        if (this.field_75292_b.func_70853_p() == this.field_75293_c) {
+            this.field_75294_a.func_70661_as().func_75497_a((Entity) this.field_75292_b, 0.5D);
+            this.field_75291_d = true;
         }
 
-        if (this.tookGolemRose && this.villager.getDistanceSq(this.ironGolem) < 4.0D) {
-            this.ironGolem.setHoldingRose(false);
-            this.villager.getNavigator().clearPath();
+        if (this.field_75291_d && this.field_75294_a.func_70068_e(this.field_75292_b) < 4.0D) {
+            this.field_75292_b.func_70851_e(false);
+            this.field_75294_a.func_70661_as().func_75499_g();
         }
 
     }

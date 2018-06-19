@@ -15,7 +15,7 @@ public class CraftFunctionCommandSender extends ServerCommandSender {
     @Override
     public void sendMessage(String message) {
         for (ITextComponent component : CraftChatMessage.fromString(message)) {
-            handle.sendMessage(component);
+            handle.func_145747_a(component);
         }
     }
 
@@ -28,7 +28,7 @@ public class CraftFunctionCommandSender extends ServerCommandSender {
 
     @Override
     public String getName() {
-        return handle.getName();
+        return handle.func_70005_c_();
     }
 
     @Override

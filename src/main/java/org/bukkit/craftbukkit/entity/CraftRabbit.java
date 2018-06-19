@@ -33,7 +33,7 @@ public class CraftRabbit extends CraftAnimals implements Rabbit {
 
     @Override
     public Type getRabbitType() {
-        int type = getHandle().getRabbitType(); 
+        int type = getHandle().func_175531_cl(); 
         return CraftMagicMapping.fromMagic(type);
     }
 
@@ -43,12 +43,12 @@ public class CraftRabbit extends CraftAnimals implements Rabbit {
         if (getRabbitType() == Type.THE_KILLER_BUNNY) {
             // Reset goals and target finders.
             World world = ((CraftWorld) this.getWorld()).getHandle();
-            entity.tasks = new EntityAITasks(world != null && world.profiler != null ? world.profiler : null);
-            entity.targetTasks = new EntityAITasks(world != null && world.profiler != null ? world.profiler : null);
+            entity.field_70714_bg = new EntityAITasks(world != null && world.field_72984_F != null ? world.field_72984_F : null);
+            entity.field_70715_bh = new EntityAITasks(world != null && world.field_72984_F != null ? world.field_72984_F : null);
             entity.initializePathFinderGoals();
         }
 
-        entity.setRabbitType(CraftMagicMapping.toMagic(type)); 
+        entity.func_175529_r(CraftMagicMapping.toMagic(type)); 
     }
 
     private static class CraftMagicMapping {

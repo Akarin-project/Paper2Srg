@@ -5,7 +5,7 @@ import net.minecraft.block.properties.PropertyDirection;
 
 public abstract class BlockDirectional extends Block {
 
-    public static final PropertyDirection FACING = PropertyDirection.create("facing");
+    public static final PropertyDirection field_176387_N = PropertyDirection.func_177714_a("facing");
 
     protected BlockDirectional(Material material) {
         super(material);

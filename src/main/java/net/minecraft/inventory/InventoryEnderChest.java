@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntityEnderChest;
 
 public class InventoryEnderChest extends InventoryBasic {
 
-    private TileEntityEnderChest associatedChest; public TileEntityEnderChest getTileEntity() { return associatedChest; } // Paper - OBFHELPER
+    private TileEntityEnderChest field_70488_a; public TileEntityEnderChest getTileEntity() { return field_70488_a; } // Paper - OBFHELPER
     // CraftBukkit start
     private final EntityPlayer owner;
 
@@ -22,7 +22,7 @@ public class InventoryEnderChest extends InventoryBasic {
     @Override
     public Location getLocation() {
         if (getTileEntity() == null) return null; // Paper - return null if there is no TE bound (opened by plugin)
-        return new Location(this.associatedChest.getWorld().getWorld(), this.associatedChest.getPos().getX(), this.associatedChest.getPos().getY(), this.associatedChest.getPos().getZ());
+        return new Location(this.field_70488_a.func_145831_w().getWorld(), this.field_70488_a.func_174877_v().func_177958_n(), this.field_70488_a.func_174877_v().func_177956_o(), this.field_70488_a.func_174877_v().func_177952_p());
     }
 
     public InventoryEnderChest(EntityPlayer owner) {
@@ -31,64 +31,64 @@ public class InventoryEnderChest extends InventoryBasic {
         // CraftBukkit end
     }
 
-    public void setChestTileEntity(TileEntityEnderChest tileentityenderchest) {
-        this.associatedChest = tileentityenderchest;
+    public void func_146031_a(TileEntityEnderChest tileentityenderchest) {
+        this.field_70488_a = tileentityenderchest;
     }
 
-    public void loadInventoryFromNBT(NBTTagList nbttaglist) {
+    public void func_70486_a(NBTTagList nbttaglist) {
         int i;
 
-        for (i = 0; i < this.getSizeInventory(); ++i) {
-            this.setInventorySlotContents(i, ItemStack.EMPTY);
+        for (i = 0; i < this.func_70302_i_(); ++i) {
+            this.func_70299_a(i, ItemStack.field_190927_a);
         }
 
-        for (i = 0; i < nbttaglist.tagCount(); ++i) {
-            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-            int j = nbttagcompound.getByte("Slot") & 255;
+        for (i = 0; i < nbttaglist.func_74745_c(); ++i) {
+            NBTTagCompound nbttagcompound = nbttaglist.func_150305_b(i);
+            int j = nbttagcompound.func_74771_c("Slot") & 255;
 
-            if (j >= 0 && j < this.getSizeInventory()) {
-                this.setInventorySlotContents(j, new ItemStack(nbttagcompound));
+            if (j >= 0 && j < this.func_70302_i_()) {
+                this.func_70299_a(j, new ItemStack(nbttagcompound));
             }
         }
 
     }
 
-    public NBTTagList saveInventoryToNBT() {
+    public NBTTagList func_70487_g() {
         NBTTagList nbttaglist = new NBTTagList();
 
-        for (int i = 0; i < this.getSizeInventory(); ++i) {
-            ItemStack itemstack = this.getStackInSlot(i);
+        for (int i = 0; i < this.func_70302_i_(); ++i) {
+            ItemStack itemstack = this.func_70301_a(i);
 
-            if (!itemstack.isEmpty()) {
+            if (!itemstack.func_190926_b()) {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-                nbttagcompound.setByte("Slot", (byte) i);
-                itemstack.writeToNBT(nbttagcompound);
-                nbttaglist.appendTag(nbttagcompound);
+                nbttagcompound.func_74774_a("Slot", (byte) i);
+                itemstack.func_77955_b(nbttagcompound);
+                nbttaglist.func_74742_a(nbttagcompound);
             }
         }
 
         return nbttaglist;
     }
 
-    public boolean isUsableByPlayer(EntityPlayer entityhuman) {
-        return this.associatedChest != null && !this.associatedChest.canBeUsed(entityhuman) ? false : super.isUsableByPlayer(entityhuman);
+    public boolean func_70300_a(EntityPlayer entityhuman) {
+        return this.field_70488_a != null && !this.field_70488_a.func_145971_a(entityhuman) ? false : super.func_70300_a(entityhuman);
     }
 
-    public void openInventory(EntityPlayer entityhuman) {
-        if (this.associatedChest != null) {
-            this.associatedChest.openChest();
+    public void func_174889_b(EntityPlayer entityhuman) {
+        if (this.field_70488_a != null) {
+            this.field_70488_a.func_145969_a();
         }
 
-        super.openInventory(entityhuman);
+        super.func_174889_b(entityhuman);
     }
 
-    public void closeInventory(EntityPlayer entityhuman) {
-        if (this.associatedChest != null) {
-            this.associatedChest.closeChest();
+    public void func_174886_c(EntityPlayer entityhuman) {
+        if (this.field_70488_a != null) {
+            this.field_70488_a.func_145970_b();
         }
 
-        super.closeInventory(entityhuman);
-        this.associatedChest = null;
+        super.func_174886_c(entityhuman);
+        this.field_70488_a = null;
     }
 }

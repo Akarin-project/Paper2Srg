@@ -25,52 +25,49 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class BiomeJungle extends Biome {
 
-    private final boolean isEdge;
-    private static final IBlockState JUNGLE_LOG = Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
-    private static final IBlockState JUNGLE_LEAF = Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
-    private static final IBlockState OAK_LEAF = Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+    private final boolean field_150614_aC;
+    private static final IBlockState field_181620_aE = Blocks.field_150364_r.func_176223_P().func_177226_a(BlockOldLog.field_176301_b, BlockPlanks.EnumType.JUNGLE);
+    private static final IBlockState field_181621_aF = Blocks.field_150362_t.func_176223_P().func_177226_a(BlockOldLeaf.field_176239_P, BlockPlanks.EnumType.JUNGLE).func_177226_a(BlockLeaves.field_176236_b, Boolean.valueOf(false));
+    private static final IBlockState field_181622_aG = Blocks.field_150362_t.func_176223_P().func_177226_a(BlockOldLeaf.field_176239_P, BlockPlanks.EnumType.OAK).func_177226_a(BlockLeaves.field_176236_b, Boolean.valueOf(false));
 
-    public BiomeJungle(boolean flag, Biome.a biomebase_a) {
+    public BiomeJungle(boolean flag, BiomeBase.a biomebase_a) {
         super(biomebase_a);
-        this.isEdge = flag;
+        this.field_150614_aC = flag;
         if (flag) {
-            this.decorator.treesPerChunk = 2;
+            this.field_76760_I.field_76832_z = 2;
         } else {
-            this.decorator.treesPerChunk = 50;
+            this.field_76760_I.field_76832_z = 50;
         }
 
-        this.decorator.grassPerChunk = 25;
-        this.decorator.flowersPerChunk = 4;
+        this.field_76760_I.field_76803_B = 25;
+        this.field_76760_I.field_76802_A = 4;
         if (!flag) {
-            this.spawnableMonsterList.add(new Biome.SpawnListEntry(EntityOcelot.class, 2, 1, 1));
+            this.field_76761_J.add(new Biome.SpawnListEntry(EntityOcelot.class, 2, 1, 1));
         }
 
-        this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityParrot.class, 40, 1, 2));
-        this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityChicken.class, 10, 4, 4));
+        this.field_76762_K.add(new Biome.SpawnListEntry(EntityParrot.class, 40, 1, 2));
+        this.field_76762_K.add(new Biome.SpawnListEntry(EntityChicken.class, 10, 4, 4));
     }
 
-    @Override
-    public WorldGenAbstractTree getRandomTreeFeature(Random random) {
-        return random.nextInt(10) == 0 ? BiomeJungle.BIG_TREE_FEATURE : (random.nextInt(2) == 0 ? new WorldGenShrub(BiomeJungle.JUNGLE_LOG, BiomeJungle.OAK_LEAF) : (!this.isEdge && random.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, BiomeJungle.JUNGLE_LOG, BiomeJungle.JUNGLE_LEAF) : new WorldGenTrees(false, 4 + random.nextInt(7), BiomeJungle.JUNGLE_LOG, BiomeJungle.JUNGLE_LEAF, true)));
+    public WorldGenAbstractTree func_150567_a(Random random) {
+        return (WorldGenAbstractTree) (random.nextInt(10) == 0 ? BiomeJungle.field_76758_O : (random.nextInt(2) == 0 ? new WorldGenShrub(BiomeJungle.field_181620_aE, BiomeJungle.field_181622_aG) : (!this.field_150614_aC && random.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, BiomeJungle.field_181620_aE, BiomeJungle.field_181621_aF) : new WorldGenTrees(false, 4 + random.nextInt(7), BiomeJungle.field_181620_aE, BiomeJungle.field_181621_aF, true))));
     }
 
-    @Override
-    public WorldGenerator getRandomWorldGenForGrass(Random random) {
+    public WorldGenerator func_76730_b(Random random) {
         return random.nextInt(4) == 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN) : new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
     }
 
-    @Override
-    public void decorate(World world, Random random, BlockPos blockposition) {
-        super.decorate(world, random, blockposition);
+    public void func_180624_a(World world, Random random, BlockPos blockposition) {
+        super.func_180624_a(world, random, blockposition);
         int i = random.nextInt(16) + 8;
         int j = random.nextInt(16) + 8;
         // Paper start - Don't allow a 0 height
-        int height = world.getHeight(blockposition.add(i, 0, j)).getY() * 2;
+        int height = world.func_175645_m(blockposition.add(i, 0, j)).func_177956_o() * 2;
         if (height < 1) height = 1;
         int k = random.nextInt(height);
         // Paper end
 
-        (new WorldGenMelon()).generate(world, random, blockposition.add(i, k, j));
+        (new WorldGenMelon()).func_180709_b(world, random, blockposition.func_177982_a(i, k, j));
         WorldGenVines worldgenvines = new WorldGenVines();
 
         for (j = 0; j < 50; ++j) {
@@ -78,7 +75,7 @@ public class BiomeJungle extends Biome {
             boolean flag = true;
             int l = random.nextInt(16) + 8;
 
-            worldgenvines.generate(world, random, blockposition.add(k, 128, l));
+            worldgenvines.func_180709_b(world, random, blockposition.func_177982_a(k, 128, l));
         }
 
     }

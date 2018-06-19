@@ -16,22 +16,22 @@ public class BlockGlowstone extends Block {
 
     public BlockGlowstone(Material material) {
         super(material);
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public int quantityDroppedWithBonus(int i, Random random) {
-        return MathHelper.clamp(this.quantityDropped(random) + random.nextInt(i + 1), 1, 4);
+    public int func_149679_a(int i, Random random) {
+        return MathHelper.func_76125_a(this.func_149745_a(random) + random.nextInt(i + 1), 1, 4);
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 2 + random.nextInt(3);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.GLOWSTONE_DUST;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_151114_aO;
     }
 
-    public MapColor getMapColor(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return MapColor.SAND;
+    public MapColor func_180659_g(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return MapColor.field_151658_d;
     }
 }

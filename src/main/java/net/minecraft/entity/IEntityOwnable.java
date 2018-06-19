@@ -6,8 +6,8 @@ import javax.annotation.Nullable;
 public interface IEntityOwnable {
 
     @Nullable
-    UUID getOwnerId();
+    UUID func_184753_b();
 
     @Nullable
-    Entity getOwner();
+    Entity func_70902_q();
 }

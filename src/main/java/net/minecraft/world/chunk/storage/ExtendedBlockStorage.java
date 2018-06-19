@@ -8,12 +8,12 @@ import net.minecraft.world.chunk.NibbleArray;
 
 public class ExtendedBlockStorage {
 
-    private final int yBase;
-    private int blockRefCount;
-    private int tickRefCount;
-    public final BlockStateContainer data; // Paper - package
-    private NibbleArray blockLight;
-    private NibbleArray skyLight;
+    private final int field_76684_a;
+    private int field_76682_b;
+    private int field_76683_c;
+    final BlockStateContainer field_177488_d; // Paper - package
+    private NibbleArray field_76679_g;
+    private NibbleArray field_76685_h;
 
     // Paper start - Anti-Xray - Support default constructor
     public ExtendedBlockStorage(int i, boolean flag) {
@@ -22,11 +22,11 @@ public class ExtendedBlockStorage {
     // Paper end
 
     public ExtendedBlockStorage(int i, boolean flag, IBlockState[] predefinedBlockData) { // Paper - Anti-Xray - Add predefined block data
-        this.yBase = i;
-        this.data = new BlockStateContainer(predefinedBlockData); // Paper - Anti-Xray - Add predefined block data
-        this.blockLight = new NibbleArray();
+        this.field_76684_a = i;
+        this.field_177488_d = new BlockStateContainer(predefinedBlockData); // Paper - Anti-Xray - Add predefined block data
+        this.field_76679_g = new NibbleArray();
         if (flag) {
-            this.skyLight = new NibbleArray();
+            this.field_76685_h = new NibbleArray();
         }
 
     }
@@ -39,89 +39,89 @@ public class ExtendedBlockStorage {
 
     // CraftBukkit start
     public ExtendedBlockStorage(int y, boolean flag, char[] blockIds, IBlockState[] predefinedBlockData) { // Paper - Anti-Xray - Add predefined block data
-        this.yBase = y;
-        this.data = new BlockStateContainer(predefinedBlockData); // Paper - Anti-Xray - Add predefined block data
+        this.field_76684_a = y;
+        this.field_177488_d = new BlockStateContainer(predefinedBlockData); // Paper - Anti-Xray - Add predefined block data
         for (int i = 0; i < blockIds.length; i++) {
             int xx = i & 15;
             int yy = (i >> 8) & 15;
             int zz = (i >> 4) & 15;
-            this.data.set(xx, yy, zz, Block.BLOCK_STATE_IDS.getByValue(blockIds[i]));
+            this.field_177488_d.func_186013_a(xx, yy, zz, Block.field_176229_d.func_148745_a(blockIds[i]));
         }
-        this.blockLight = new NibbleArray();
+        this.field_76679_g = new NibbleArray();
         if (flag) {
-            this.skyLight = new NibbleArray();
+            this.field_76685_h = new NibbleArray();
         }
-        recalculateRefCounts();
+        func_76672_e();
     }
     // CraftBukkit end
 
-    public IBlockState get(int i, int j, int k) {
-        return this.data.get(i, j, k);
+    public IBlockState func_177485_a(int i, int j, int k) {
+        return this.field_177488_d.func_186016_a(i, j, k);
     }
 
-    public void set(int i, int j, int k, IBlockState iblockdata) {
-        IBlockState iblockdata1 = this.get(i, j, k);
-        Block block = iblockdata1.getBlock();
-        Block block1 = iblockdata.getBlock();
+    public void func_177484_a(int i, int j, int k, IBlockState iblockdata) {
+        IBlockState iblockdata1 = this.func_177485_a(i, j, k);
+        Block block = iblockdata1.func_177230_c();
+        Block block1 = iblockdata.func_177230_c();
 
-        if (block != Blocks.AIR) {
-            --this.blockRefCount;
-            if (block.getTickRandomly()) {
-                --this.tickRefCount;
+        if (block != Blocks.field_150350_a) {
+            --this.field_76682_b;
+            if (block.func_149653_t()) {
+                --this.field_76683_c;
             }
         }
 
-        if (block1 != Blocks.AIR) {
-            ++this.blockRefCount;
-            if (block1.getTickRandomly()) {
-                ++this.tickRefCount;
+        if (block1 != Blocks.field_150350_a) {
+            ++this.field_76682_b;
+            if (block1.func_149653_t()) {
+                ++this.field_76683_c;
             }
         }
 
-        this.data.set(i, j, k, iblockdata);
+        this.field_177488_d.func_186013_a(i, j, k, iblockdata);
     }
 
-    public boolean isEmpty() {
+    public boolean func_76663_a() {
         return false; // CraftBukkit - MC-80966
     }
 
-    public boolean needsRandomTick() {
-        return this.tickRefCount > 0;
+    public boolean func_76675_b() {
+        return this.field_76683_c > 0;
     }
 
-    public int getYLocation() {
-        return this.yBase;
+    public int func_76662_d() {
+        return this.field_76684_a;
     }
 
-    public void setSkyLight(int i, int j, int k, int l) {
-        this.skyLight.set(i, j, k, l);
+    public void func_76657_c(int i, int j, int k, int l) {
+        this.field_76685_h.func_76581_a(i, j, k, l);
     }
 
-    public int getSkyLight(int i, int j, int k) {
-        return this.skyLight.get(i, j, k);
+    public int func_76670_c(int i, int j, int k) {
+        return this.field_76685_h.func_76582_a(i, j, k);
     }
 
-    public void setBlockLight(int i, int j, int k, int l) {
-        this.blockLight.set(i, j, k, l);
+    public void func_76677_d(int i, int j, int k, int l) {
+        this.field_76679_g.func_76581_a(i, j, k, l);
     }
 
-    public int getBlockLight(int i, int j, int k) {
-        return this.blockLight.get(i, j, k);
+    public int func_76674_d(int i, int j, int k) {
+        return this.field_76679_g.func_76582_a(i, j, k);
     }
 
-    public void recalculateRefCounts() {
-        this.blockRefCount = 0;
-        this.tickRefCount = 0;
+    public void func_76672_e() {
+        this.field_76682_b = 0;
+        this.field_76683_c = 0;
 
         for (int i = 0; i < 16; ++i) {
             for (int j = 0; j < 16; ++j) {
                 for (int k = 0; k < 16; ++k) {
-                    Block block = this.get(i, j, k).getBlock();
+                    Block block = this.func_177485_a(i, j, k).func_177230_c();
 
-                    if (block != Blocks.AIR) {
-                        ++this.blockRefCount;
-                        if (block.getTickRandomly()) {
-                            ++this.tickRefCount;
+                    if (block != Blocks.field_150350_a) {
+                        ++this.field_76682_b;
+                        if (block.func_149653_t()) {
+                            ++this.field_76683_c;
                         }
                     }
                 }
@@ -130,23 +130,23 @@ public class ExtendedBlockStorage {
 
     }
 
-    public BlockStateContainer getData() {
-        return this.data;
+    public BlockStateContainer func_186049_g() {
+        return this.field_177488_d;
     }
 
-    public NibbleArray getBlockLight() {
-        return this.blockLight;
+    public NibbleArray func_76661_k() {
+        return this.field_76679_g;
     }
 
-    public NibbleArray getSkyLight() {
-        return this.skyLight;
+    public NibbleArray func_76671_l() {
+        return this.field_76685_h;
     }
 
-    public void setBlockLight(NibbleArray nibblearray) {
-        this.blockLight = nibblearray;
+    public void func_76659_c(NibbleArray nibblearray) {
+        this.field_76679_g = nibblearray;
     }
 
-    public void setSkyLight(NibbleArray nibblearray) {
-        this.skyLight = nibblearray;
+    public void func_76666_d(NibbleArray nibblearray) {
+        this.field_76685_h = nibblearray;
     }
 }

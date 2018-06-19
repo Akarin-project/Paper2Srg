@@ -9,31 +9,31 @@ import net.minecraft.util.math.BlockPos;
 
 public class SPacketBlockBreakAnim implements Packet<INetHandlerPlayClient> {
 
-    private int breakerId;
-    private BlockPos position;
-    private int progress;
+    private int field_148852_a;
+    private BlockPos field_179822_b;
+    private int field_148849_e;
 
     public SPacketBlockBreakAnim() {}
 
     public SPacketBlockBreakAnim(int i, BlockPos blockposition, int j) {
-        this.breakerId = i;
-        this.position = blockposition;
-        this.progress = j;
+        this.field_148852_a = i;
+        this.field_179822_b = blockposition;
+        this.field_148849_e = j;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.breakerId = packetdataserializer.readVarInt();
-        this.position = packetdataserializer.readBlockPos();
-        this.progress = packetdataserializer.readUnsignedByte();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_148852_a = packetdataserializer.func_150792_a();
+        this.field_179822_b = packetdataserializer.func_179259_c();
+        this.field_148849_e = packetdataserializer.readUnsignedByte();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.breakerId);
-        packetdataserializer.writeBlockPos(this.position);
-        packetdataserializer.writeByte(this.progress);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_148852_a);
+        packetdataserializer.func_179255_a(this.field_179822_b);
+        packetdataserializer.writeByte(this.field_148849_e);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleBlockBreakAnim(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147294_a(this);
     }
 }

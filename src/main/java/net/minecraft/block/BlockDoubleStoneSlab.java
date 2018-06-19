@@ -10,11 +10,11 @@ public class BlockDoubleStoneSlab extends BlockStoneSlab {
 
     public BlockDoubleStoneSlab() {}
 
-    public boolean isDouble() {
+    public boolean func_176552_j() {
         return true;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.SOLID;
     }
 }

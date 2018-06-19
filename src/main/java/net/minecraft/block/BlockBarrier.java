@@ -9,20 +9,20 @@ import net.minecraft.world.World;
 public class BlockBarrier extends Block {
 
     protected BlockBarrier() {
-        super(Material.BARRIER);
-        this.setBlockUnbreakable();
-        this.setResistance(6000001.0F);
-        this.disableStats();
-        this.translucent = true;
+        super(Material.field_175972_I);
+        this.func_149722_s();
+        this.func_149752_b(6000001.0F);
+        this.func_149649_H();
+        this.field_149785_s = true;
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.INVISIBLE;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {}
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {}
 }

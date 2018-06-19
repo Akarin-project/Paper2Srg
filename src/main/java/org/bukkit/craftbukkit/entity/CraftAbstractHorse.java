@@ -27,17 +27,17 @@ public abstract class CraftAbstractHorse extends CraftAnimals implements Abstrac
     }
 
     public int getDomestication() {
-        return getHandle().getTemper();
+        return getHandle().func_110252_cg();
     }
 
     public void setDomestication(int value) {
         Validate.isTrue(value >= 0, "Domestication cannot be less than zero");
         Validate.isTrue(value <= getMaxDomestication(), "Domestication cannot be greater than the max domestication");
-        getHandle().setTemper(value);
+        getHandle().func_110238_s(value);
     }
 
     public int getMaxDomestication() {
-        return getHandle().getMaxTemper();
+        return getHandle().func_190676_dC();
     }
 
     public void setMaxDomestication(int value) {
@@ -46,22 +46,22 @@ public abstract class CraftAbstractHorse extends CraftAnimals implements Abstrac
     }
 
     public double getJumpStrength() {
-        return getHandle().getHorseJumpStrength();
+        return getHandle().func_110215_cj();
     }
 
     public void setJumpStrength(double strength) {
         Validate.isTrue(strength >= 0, "Jump strength cannot be less than zero");
-        getHandle().getEntityAttribute(EntityHorse.JUMP_STRENGTH).setBaseValue(strength);
+        getHandle().func_110148_a(EntityHorse.field_110271_bv).func_111128_a(strength);
     }
 
     @Override
     public boolean isTamed() {
-        return getHandle().isTame();
+        return getHandle().func_110248_bS();
     }
 
     @Override
     public void setTamed(boolean tamed) {
-        getHandle().setHorseTamed(tamed);
+        getHandle().func_110234_j(tamed);
     }
 
     @Override
@@ -86,15 +86,15 @@ public abstract class CraftAbstractHorse extends CraftAnimals implements Abstrac
         return getOwnerUUID();
     }
     public UUID getOwnerUUID() {
-        return getHandle().getOwnerUniqueId();
+        return getHandle().func_184780_dh();
     }
 
     public void setOwnerUUID(UUID uuid) {
-        getHandle().setOwnerUniqueId(uuid);
+        getHandle().func_184779_b(uuid);
     }
 
     @Override
     public AbstractHorseInventory getInventory() {
-        return new CraftSaddledInventory(getHandle().horseChest);
+        return new CraftSaddledInventory(getHandle().field_110296_bG);
     }
 }

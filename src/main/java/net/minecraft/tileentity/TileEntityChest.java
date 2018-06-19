@@ -32,24 +32,24 @@ import org.bukkit.entity.HumanEntity;
 
 public class TileEntityChest extends TileEntityLockableLoot { // Paper - Remove ITickable
 
-    private NonNullList<ItemStack> chestContents;
-    public boolean adjacentChestChecked;
-    public TileEntityChest adjacentChestZNeg; // Paper - Adjacent Chest Z Neg
-    public TileEntityChest adjacentChestXPos; // Paper - Adjacent Chest X Pos
-    public TileEntityChest adjacentChestXNeg; // Paper - Adjacent Chest X Neg
-    public TileEntityChest adjacentChestZPos; // Paper - Adjacent Chest Z Pos
-    public float lidAngle; // Paper - lid angle
-    public float prevLidAngle;
-    public int numPlayersUsing; // Paper - Number of viewers
-    private int ticksSinceSync;
-    private BlockChest.Type cachedChestType;
+    private NonNullList<ItemStack> field_145985_p;
+    public boolean field_145984_a;
+    public TileEntityChest field_145992_i; // Paper - Adjacent Chest Z Neg
+    public TileEntityChest field_145990_j; // Paper - Adjacent Chest X Pos
+    public TileEntityChest field_145991_k; // Paper - Adjacent Chest X Neg
+    public TileEntityChest field_145988_l; // Paper - Adjacent Chest Z Pos
+    public float field_145989_m; // Paper - lid angle
+    public float field_145986_n;
+    public int field_145987_o; // Paper - Number of viewers
+    private int field_145983_q;
+    private BlockChest.Type field_145982_r;
 
     // CraftBukkit start - add fields and methods
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
     private int maxStack = MAX_STACK;
 
     public List<ItemStack> getContents() {
-        return this.chestContents;
+        return this.field_145985_p;
     }
 
     public void onOpen(CraftHumanEntity who) {
@@ -70,20 +70,20 @@ public class TileEntityChest extends TileEntityLockableLoot { // Paper - Remove 
     // CraftBukkit end
 
     public TileEntityChest() {
-        this.chestContents = NonNullList.withSize(27, ItemStack.EMPTY);
+        this.field_145985_p = NonNullList.func_191197_a(27, ItemStack.field_190927_a);
     }
 
     public TileEntityChest(BlockChest.Type blockchest_type) {
-        this.chestContents = NonNullList.withSize(27, ItemStack.EMPTY);
-        this.cachedChestType = blockchest_type;
+        this.field_145985_p = NonNullList.func_191197_a(27, ItemStack.field_190927_a);
+        this.field_145982_r = blockchest_type;
     }
 
-    public int getSizeInventory() {
+    public int func_70302_i_() {
         return 27;
     }
 
-    public boolean isEmpty() {
-        Iterator iterator = this.chestContents.iterator();
+    public boolean func_191420_l() {
+        Iterator iterator = this.field_145985_p.iterator();
 
         ItemStack itemstack;
 
@@ -93,107 +93,107 @@ public class TileEntityChest extends TileEntityLockableLoot { // Paper - Remove 
             }
 
             itemstack = (ItemStack) iterator.next();
-        } while (itemstack.isEmpty());
+        } while (itemstack.func_190926_b());
 
         return false;
     }
 
-    public String getName() {
-        return this.hasCustomName() ? this.customName : "container.chest";
+    public String func_70005_c_() {
+        return this.func_145818_k_() ? this.field_190577_o : "container.chest";
     }
 
-    public static void registerFixesChest(DataFixer dataconvertermanager) {
-        dataconvertermanager.registerWalker(FixTypes.BLOCK_ENTITY, (IDataWalker) (new ItemStackDataLists(TileEntityChest.class, new String[] { "Items"})));
+    public static void func_189677_a(DataFixer dataconvertermanager) {
+        dataconvertermanager.func_188258_a(FixTypes.BLOCK_ENTITY, (IDataWalker) (new ItemStackDataLists(TileEntityChest.class, new String[] { "Items"})));
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        super.readFromNBT(nbttagcompound);
-        this.chestContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-        if (!this.checkLootAndRead(nbttagcompound)) {
-            ItemStackHelper.loadAllItems(nbttagcompound, this.chestContents);
+    public void func_145839_a(NBTTagCompound nbttagcompound) {
+        super.func_145839_a(nbttagcompound);
+        this.field_145985_p = NonNullList.func_191197_a(this.func_70302_i_(), ItemStack.field_190927_a);
+        if (!this.func_184283_b(nbttagcompound)) {
+            ItemStackHelper.func_191283_b(nbttagcompound, this.field_145985_p);
         }
 
-        if (nbttagcompound.hasKey("CustomName", 8)) {
-            this.customName = nbttagcompound.getString("CustomName");
+        if (nbttagcompound.func_150297_b("CustomName", 8)) {
+            this.field_190577_o = nbttagcompound.func_74779_i("CustomName");
         }
 
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        super.writeToNBT(nbttagcompound);
-        if (!this.checkLootAndWrite(nbttagcompound)) {
-            ItemStackHelper.saveAllItems(nbttagcompound, this.chestContents);
+    public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
+        super.func_189515_b(nbttagcompound);
+        if (!this.func_184282_c(nbttagcompound)) {
+            ItemStackHelper.func_191282_a(nbttagcompound, this.field_145985_p);
         }
 
-        if (this.hasCustomName()) {
-            nbttagcompound.setString("CustomName", this.customName);
+        if (this.func_145818_k_()) {
+            nbttagcompound.func_74778_a("CustomName", this.field_190577_o);
         }
 
         return nbttagcompound;
     }
 
-    public int getInventoryStackLimit() {
+    public int func_70297_j_() {
         return maxStack; // CraftBukkit
     }
 
-    public void updateContainingBlockInfo() {
-        super.updateContainingBlockInfo();
-        this.adjacentChestChecked = false;
+    public void func_145836_u() {
+        super.func_145836_u();
+        this.field_145984_a = false;
     }
 
-    private void setNeighbor(TileEntityChest tileentitychest, EnumFacing enumdirection) {
-        if (tileentitychest.isInvalid()) {
-            this.adjacentChestChecked = false;
-        } else if (this.adjacentChestChecked) {
+    private void func_174910_a(TileEntityChest tileentitychest, EnumFacing enumdirection) {
+        if (tileentitychest.func_145837_r()) {
+            this.field_145984_a = false;
+        } else if (this.field_145984_a) {
             switch (enumdirection) {
             case NORTH:
-                if (this.adjacentChestZNeg != tileentitychest) {
-                    this.adjacentChestChecked = false;
+                if (this.field_145992_i != tileentitychest) {
+                    this.field_145984_a = false;
                 }
                 break;
 
             case SOUTH:
-                if (this.adjacentChestZPos != tileentitychest) {
-                    this.adjacentChestChecked = false;
+                if (this.field_145988_l != tileentitychest) {
+                    this.field_145984_a = false;
                 }
                 break;
 
             case EAST:
-                if (this.adjacentChestXPos != tileentitychest) {
-                    this.adjacentChestChecked = false;
+                if (this.field_145990_j != tileentitychest) {
+                    this.field_145984_a = false;
                 }
                 break;
 
             case WEST:
-                if (this.adjacentChestXNeg != tileentitychest) {
-                    this.adjacentChestChecked = false;
+                if (this.field_145991_k != tileentitychest) {
+                    this.field_145984_a = false;
                 }
             }
         }
 
     }
 
-    public void checkForAdjacentChests() {
-        if (!this.adjacentChestChecked) {
-            this.adjacentChestChecked = true;
-            this.adjacentChestXNeg = this.getAdjacentChest(EnumFacing.WEST);
-            this.adjacentChestXPos = this.getAdjacentChest(EnumFacing.EAST);
-            this.adjacentChestZNeg = this.getAdjacentChest(EnumFacing.NORTH);
-            this.adjacentChestZPos = this.getAdjacentChest(EnumFacing.SOUTH);
+    public void func_145979_i() {
+        if (!this.field_145984_a) {
+            this.field_145984_a = true;
+            this.field_145991_k = this.func_174911_a(EnumFacing.WEST);
+            this.field_145990_j = this.func_174911_a(EnumFacing.EAST);
+            this.field_145992_i = this.func_174911_a(EnumFacing.NORTH);
+            this.field_145988_l = this.func_174911_a(EnumFacing.SOUTH);
         }
     }
 
     @Nullable
-    protected TileEntityChest getAdjacentChest(EnumFacing enumdirection) {
-        BlockPos blockposition = this.pos.offset(enumdirection);
+    protected TileEntityChest func_174911_a(EnumFacing enumdirection) {
+        BlockPos blockposition = this.field_174879_c.func_177972_a(enumdirection);
 
-        if (this.isChestAt(blockposition)) {
-            TileEntity tileentity = this.world.getTileEntity(blockposition);
+        if (this.func_174912_b(blockposition)) {
+            TileEntity tileentity = this.field_145850_b.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityChest) {
                 TileEntityChest tileentitychest = (TileEntityChest) tileentity;
 
-                tileentitychest.setNeighbor(this, enumdirection.getOpposite());
+                tileentitychest.func_174910_a(this, enumdirection.func_176734_d());
                 return tileentitychest;
             }
         }
@@ -201,17 +201,17 @@ public class TileEntityChest extends TileEntityLockableLoot { // Paper - Remove 
         return null;
     }
 
-    private boolean isChestAt(BlockPos blockposition) {
-        if (this.world == null) {
+    private boolean func_174912_b(BlockPos blockposition) {
+        if (this.field_145850_b == null) {
             return false;
         } else {
-            Block block = this.world.getBlockState(blockposition).getBlock();
+            Block block = this.field_145850_b.func_180495_p(blockposition).func_177230_c();
 
-            return block instanceof BlockChest && ((BlockChest) block).chestType == this.getChestType();
+            return block instanceof BlockChest && ((BlockChest) block).field_149956_a == this.func_145980_j();
         }
     }
 
-    public void update() {
+    public void func_73660_a() {
         // Paper - Disable all of this, just in case this does get ticked
         /*
         this.o();
@@ -298,148 +298,148 @@ public class TileEntityChest extends TileEntityLockableLoot { // Paper - Remove 
         // Paper end
     }
 
-    public boolean receiveClientEvent(int i, int j) {
+    public boolean func_145842_c(int i, int j) {
         if (i == 1) {
-            this.numPlayersUsing = j;
+            this.field_145987_o = j;
             return true;
         } else {
-            return super.receiveClientEvent(i, j);
+            return super.func_145842_c(i, j);
         }
     }
 
-    public void openInventory(EntityPlayer entityhuman) {
-        if (!entityhuman.isSpectator()) {
-            if (this.numPlayersUsing < 0) {
-                this.numPlayersUsing = 0;
+    public void func_174889_b(EntityPlayer entityhuman) {
+        if (!entityhuman.func_175149_v()) {
+            if (this.field_145987_o < 0) {
+                this.field_145987_o = 0;
             }
-            int oldPower = Math.max(0, Math.min(15, this.numPlayersUsing)); // CraftBukkit - Get power before new viewer is added
+            int oldPower = Math.max(0, Math.min(15, this.field_145987_o)); // CraftBukkit - Get power before new viewer is added
 
-            ++this.numPlayersUsing;
+            ++this.field_145987_o;
 
             // Paper start - Move chest open sound out of the tick loop
-            this.checkForAdjacentChests();
+            this.func_145979_i();
 
-            if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F && this.adjacentChestZNeg == null && this.adjacentChestXNeg == null) {
-                this.lidAngle = 0.7F;
+            if (this.field_145987_o > 0 && this.field_145989_m == 0.0F && this.field_145992_i == null && this.field_145991_k == null) {
+                this.field_145989_m = 0.7F;
 
-                double d0 = (double) this.pos.getZ() + 0.5D;
-                double d1 = (double) this.pos.getX() + 0.5D;
+                double d0 = (double) this.field_174879_c.func_177952_p() + 0.5D;
+                double d1 = (double) this.field_174879_c.func_177958_n() + 0.5D;
 
-                if (this.adjacentChestZPos != null) {
+                if (this.field_145988_l != null) {
                     d0 += 0.5D;
                 }
 
-                if (this.adjacentChestXPos != null) {
+                if (this.field_145990_j != null) {
                     d1 += 0.5D;
                 }
 
-                this.world.playSound((EntityPlayer) null, d1, (double) this.pos.getY() + 0.5D, d0, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+                this.field_145850_b.func_184148_a((EntityPlayer) null, d1, (double) this.field_174879_c.func_177956_o() + 0.5D, d0, SoundEvents.field_187657_V, SoundCategory.BLOCKS, 0.5F, this.field_145850_b.field_73012_v.nextFloat() * 0.1F + 0.9F);
             }
             // Paper end
 
-            if (this.world == null) return; // CraftBukkit
-            this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
+            if (this.field_145850_b == null) return; // CraftBukkit
+            this.field_145850_b.func_175641_c(this.field_174879_c, this.func_145838_q(), 1, this.field_145987_o);
 
             // CraftBukkit start - Call redstone event
-            if (this.getBlockType() == Blocks.TRAPPED_CHEST) {
-                int newPower = Math.max(0, Math.min(15, this.numPlayersUsing));
+            if (this.func_145838_q() == Blocks.field_150447_bR) {
+                int newPower = Math.max(0, Math.min(15, this.field_145987_o));
 
                 if (oldPower != newPower) {
-                    org.bukkit.craftbukkit.event.CraftEventFactory.callRedstoneChange(world, pos.getX(), pos.getY(), pos.getZ(), oldPower, newPower);
+                    org.bukkit.craftbukkit.event.CraftEventFactory.callRedstoneChange(field_145850_b, field_174879_c.func_177958_n(), field_174879_c.func_177956_o(), field_174879_c.func_177952_p(), oldPower, newPower);
                 }
             }
             // CraftBukkit end
-            this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), false);
-            if (this.getChestType() == BlockChest.Type.TRAP) {
-                this.world.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType(), false);
+            this.field_145850_b.func_175685_c(this.field_174879_c, this.func_145838_q(), false);
+            if (this.func_145980_j() == BlockChest.Type.TRAP) {
+                this.field_145850_b.func_175685_c(this.field_174879_c.func_177977_b(), this.func_145838_q(), false);
             }
         }
 
     }
 
-    public void closeInventory(EntityPlayer entityhuman) {
-        if (!entityhuman.isSpectator() && this.getBlockType() instanceof BlockChest) {
-            int oldPower = Math.max(0, Math.min(15, this.numPlayersUsing)); // CraftBukkit - Get power before new viewer is added
-            --this.numPlayersUsing;
+    public void func_174886_c(EntityPlayer entityhuman) {
+        if (!entityhuman.func_175149_v() && this.func_145838_q() instanceof BlockChest) {
+            int oldPower = Math.max(0, Math.min(15, this.field_145987_o)); // CraftBukkit - Get power before new viewer is added
+            --this.field_145987_o;
 
             // Paper start - Move chest close sound out of the tick loop
-            if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
+            if (this.field_145987_o == 0 && this.field_145989_m > 0.0F || this.field_145987_o > 0 && this.field_145989_m < 1.0F) {
                 float f = 0.1F;
 
-                if (this.numPlayersUsing > 0) {
-                    this.lidAngle += f;
+                if (this.field_145987_o > 0) {
+                    this.field_145989_m += f;
                 } else {
-                    this.lidAngle -= f;
+                    this.field_145989_m -= f;
                 }
 
-                double d0 = (double) this.getPos().getX() + 0.5D;
-                double d2 = (double) this.getPos().getZ() + 0.5D;
-                int yLoc = this.pos.getY();
+                double d0 = (double) this.func_174877_v().func_177958_n() + 0.5D;
+                double d2 = (double) this.func_174877_v().func_177952_p() + 0.5D;
+                int yLoc = this.field_174879_c.func_177956_o();
 
-                if (this.adjacentChestZPos != null) {
+                if (this.field_145988_l != null) {
                     d2 += 0.5D;
                 }
 
-                if (this.adjacentChestXPos != null) {
+                if (this.field_145990_j != null) {
                     d0 += 0.5D;
                 }
 
-                this.world.playSound((EntityPlayer) null, d0, (double) yLoc + 0.5D, d2, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
-                this.lidAngle = 0.0F;
+                this.field_145850_b.func_184148_a((EntityPlayer) null, d0, (double) yLoc + 0.5D, d2, SoundEvents.field_187651_T, SoundCategory.BLOCKS, 0.5F, this.field_145850_b.field_73012_v.nextFloat() * 0.1F + 0.9F);
+                this.field_145989_m = 0.0F;
             }
             // Paper end
 
-            this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
-            this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), false);
+            this.field_145850_b.func_175641_c(this.field_174879_c, this.func_145838_q(), 1, this.field_145987_o);
+            this.field_145850_b.func_175685_c(this.field_174879_c, this.func_145838_q(), false);
 
             // CraftBukkit start - Call redstone event
-            if (this.getChestType() == BlockChest.Type.TRAP) {
-                int newPower = Math.max(0, Math.min(15, this.numPlayersUsing));
+            if (this.func_145980_j() == BlockChest.Type.TRAP) {
+                int newPower = Math.max(0, Math.min(15, this.field_145987_o));
 
                 if (oldPower != newPower) {
-                    org.bukkit.craftbukkit.event.CraftEventFactory.callRedstoneChange(world, pos.getX(), pos.getY(), pos.getZ(), oldPower, newPower);
+                    org.bukkit.craftbukkit.event.CraftEventFactory.callRedstoneChange(field_145850_b, field_174879_c.func_177958_n(), field_174879_c.func_177956_o(), field_174879_c.func_177952_p(), oldPower, newPower);
                 }
-                this.world.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType(), false);
+                this.field_145850_b.func_175685_c(this.field_174879_c.func_177977_b(), this.func_145838_q(), false);
             }
             // CraftBukkit end
         }
 
     }
 
-    public void invalidate() {
-        super.invalidate();
-        this.updateContainingBlockInfo();
-        this.checkForAdjacentChests();
+    public void func_145843_s() {
+        super.func_145843_s();
+        this.func_145836_u();
+        this.func_145979_i();
     }
 
-    public BlockChest.Type getChestType() {
-        if (this.cachedChestType == null) {
-            if (this.world == null || !(this.getBlockType() instanceof BlockChest)) {
+    public BlockChest.Type func_145980_j() {
+        if (this.field_145982_r == null) {
+            if (this.field_145850_b == null || !(this.func_145838_q() instanceof BlockChest)) {
                 return BlockChest.Type.BASIC;
             }
 
-            this.cachedChestType = ((BlockChest) this.getBlockType()).chestType;
+            this.field_145982_r = ((BlockChest) this.func_145838_q()).field_149956_a;
         }
 
-        return this.cachedChestType;
+        return this.field_145982_r;
     }
 
-    public String getGuiID() {
+    public String func_174875_k() {
         return "minecraft:chest";
     }
 
-    public Container createContainer(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
-        this.fillWithLoot(entityhuman);
+    public Container func_174876_a(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
+        this.func_184281_d(entityhuman);
         return new ContainerChest(playerinventory, this, entityhuman);
     }
 
-    protected NonNullList<ItemStack> getItems() {
-        return this.chestContents;
+    protected NonNullList<ItemStack> func_190576_q() {
+        return this.field_145985_p;
     }
 
     // CraftBukkit start
     @Override
-    public boolean onlyOpsCanSetNbt() {
+    public boolean func_183000_F() {
         return true;
     }
     // CraftBukkit end

@@ -21,51 +21,51 @@ import net.minecraft.util.ResourceLocation;
 
 public class EnchantedItemTrigger implements ICriterionTrigger<CriterionTriggerEnchantedItem.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("enchanted_item");
-    private final Map<PlayerAdvancements, CriterionTriggerEnchantedItem.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_192191_a = new ResourceLocation("enchanted_item");
+    private final Map<PlayerAdvancements, CriterionTriggerEnchantedItem.a> field_192192_b = Maps.newHashMap();
 
     public EnchantedItemTrigger() {}
 
-    public ResourceLocation getId() {
-        return EnchantedItemTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return EnchantedItemTrigger.field_192191_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerEnchantedItem.b> criteriontrigger_a) {
-        CriterionTriggerEnchantedItem.a criteriontriggerenchanteditem_a = (CriterionTriggerEnchantedItem.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerEnchantedItem.a criteriontriggerenchanteditem_a = (CriterionTriggerEnchantedItem.a) this.field_192192_b.get(advancementdataplayer);
 
         if (criteriontriggerenchanteditem_a == null) {
             criteriontriggerenchanteditem_a = new CriterionTriggerEnchantedItem.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerenchanteditem_a);
+            this.field_192192_b.put(advancementdataplayer, criteriontriggerenchanteditem_a);
         }
 
         criteriontriggerenchanteditem_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerEnchantedItem.b> criteriontrigger_a) {
-        CriterionTriggerEnchantedItem.a criteriontriggerenchanteditem_a = (CriterionTriggerEnchantedItem.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerEnchantedItem.a criteriontriggerenchanteditem_a = (CriterionTriggerEnchantedItem.a) this.field_192192_b.get(advancementdataplayer);
 
         if (criteriontriggerenchanteditem_a != null) {
             criteriontriggerenchanteditem_a.b(criteriontrigger_a);
             if (criteriontriggerenchanteditem_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192192_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192192_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerEnchantedItem.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        ItemPredicate criterionconditionitem = ItemPredicate.deserialize(jsonobject.get("item"));
-        MinMaxBounds criterionconditionvalue = MinMaxBounds.deserialize(jsonobject.get("levels"));
+        ItemPredicate criterionconditionitem = ItemPredicate.func_192492_a(jsonobject.get("item"));
+        MinMaxBounds criterionconditionvalue = MinMaxBounds.func_192515_a(jsonobject.get("levels"));
 
         return new CriterionTriggerEnchantedItem.b(criterionconditionitem, criterionconditionvalue);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, ItemStack itemstack, int i) {
-        CriterionTriggerEnchantedItem.a criteriontriggerenchanteditem_a = (CriterionTriggerEnchantedItem.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_192190_a(EntityPlayerMP entityplayer, ItemStack itemstack, int i) {
+        CriterionTriggerEnchantedItem.a criteriontriggerenchanteditem_a = (CriterionTriggerEnchantedItem.a) this.field_192192_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerenchanteditem_a != null) {
             criteriontriggerenchanteditem_a.a(itemstack, i);
@@ -73,7 +73,7 @@ public class EnchantedItemTrigger implements ICriterionTrigger<CriterionTriggerE
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -133,13 +133,13 @@ public class EnchantedItemTrigger implements ICriterionTrigger<CriterionTriggerE
         private final MinMaxBounds b;
 
         public b(ItemPredicate criterionconditionitem, MinMaxBounds criterionconditionvalue) {
-            super(EnchantedItemTrigger.ID);
+            super(EnchantedItemTrigger.field_192191_a);
             this.a = criterionconditionitem;
             this.b = criterionconditionvalue;
         }
 
         public boolean a(ItemStack itemstack, int i) {
-            return !this.a.test(itemstack) ? false : this.b.test((float) i);
+            return !this.a.func_192493_a(itemstack) ? false : this.b.func_192514_a((float) i);
         }
     }
 }

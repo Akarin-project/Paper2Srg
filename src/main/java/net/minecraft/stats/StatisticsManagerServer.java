@@ -28,63 +28,63 @@ import net.minecraft.util.TupleIntJsonSerializable;
 
 public class StatisticsManagerServer extends StatisticsManager {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final MinecraftServer mcServer;
-    private final File statsFile;
-    private final Set<StatBase> dirty = Sets.newHashSet();
-    private int lastStatRequest = -300;
+    private static final Logger field_150889_b = LogManager.getLogger();
+    private final MinecraftServer field_150890_c;
+    private final File field_150887_d;
+    private final Set<StatBase> field_150888_e = Sets.newHashSet();
+    private int field_150885_f = -300;
 
     public StatisticsManagerServer(MinecraftServer minecraftserver, File file) {
-        this.mcServer = minecraftserver;
-        this.statsFile = file;
+        this.field_150890_c = minecraftserver;
+        this.field_150887_d = file;
         // Spigot start
         for ( String name : org.spigotmc.SpigotConfig.forcedStats.keySet() )
         {
             TupleIntJsonSerializable wrapper = new TupleIntJsonSerializable();
-            wrapper.setJsonSerializableValue( org.spigotmc.SpigotConfig.forcedStats.get( name ) );
-            statsData.put( StatList.getOneShotStat( name ), wrapper );
+            wrapper.func_151190_a( org.spigotmc.SpigotConfig.forcedStats.get( name ) );
+            field_150875_a.put( StatList.func_151177_a( name ), wrapper );
         }
         // Spigot end
     }
 
-    public void readStatFile() {
-        if (this.statsFile.isFile()) {
+    public void func_150882_a() {
+        if (this.field_150887_d.isFile()) {
             try {
-                this.statsData.clear();
-                this.statsData.putAll(this.parseJson(FileUtils.readFileToString(this.statsFile)));
+                this.field_150875_a.clear();
+                this.field_150875_a.putAll(this.func_150881_a(FileUtils.readFileToString(this.field_150887_d)));
             } catch (IOException ioexception) {
-                StatisticsManagerServer.LOGGER.error("Couldn\'t read statistics file {}", this.statsFile, ioexception);
+                StatisticsManagerServer.field_150889_b.error("Couldn\'t read statistics file {}", this.field_150887_d, ioexception);
             } catch (JsonParseException jsonparseexception) {
-                StatisticsManagerServer.LOGGER.error("Couldn\'t parse statistics file {}", this.statsFile, jsonparseexception);
+                StatisticsManagerServer.field_150889_b.error("Couldn\'t parse statistics file {}", this.field_150887_d, jsonparseexception);
             }
         }
 
     }
 
-    public void saveStatFile() {
+    public void func_150883_b() {
         if ( org.spigotmc.SpigotConfig.disableStatSaving ) return; // Spigot
         try {
-            FileUtils.writeStringToFile(this.statsFile, dumpJson(this.statsData));
+            FileUtils.writeStringToFile(this.field_150887_d, func_150880_a(this.field_150875_a));
         } catch (IOException ioexception) {
-            StatisticsManagerServer.LOGGER.error("Couldn\'t save stats", ioexception);
+            StatisticsManagerServer.field_150889_b.error("Couldn\'t save stats", ioexception);
         }
 
     }
 
-    public void unlockAchievement(EntityPlayer entityhuman, StatBase statistic, int i) {
+    public void func_150873_a(EntityPlayer entityhuman, StatBase statistic, int i) {
         if ( org.spigotmc.SpigotConfig.disableStatSaving ) return; // Spigot
-        super.unlockAchievement(entityhuman, statistic, i);
-        this.dirty.add(statistic);
+        super.func_150873_a(entityhuman, statistic, i);
+        this.field_150888_e.add(statistic);
     }
 
-    private Set<StatBase> getDirty() {
-        HashSet hashset = Sets.newHashSet(this.dirty);
+    private Set<StatBase> func_150878_c() {
+        HashSet hashset = Sets.newHashSet(this.field_150888_e);
 
-        this.dirty.clear();
+        this.field_150888_e.clear();
         return hashset;
     }
 
-    public Map<StatBase, TupleIntJsonSerializable> parseJson(String s) {
+    public Map<StatBase, TupleIntJsonSerializable> func_150881_a(String s) {
         JsonElement jsonelement = (new JsonParser()).parse(s);
 
         if (!jsonelement.isJsonObject()) {
@@ -97,36 +97,36 @@ public class StatisticsManagerServer extends StatisticsManager {
 
             while (iterator.hasNext()) {
                 Entry entry = (Entry) iterator.next();
-                StatBase statistic = StatList.getOneShotStat((String) entry.getKey());
+                StatBase statistic = StatList.func_151177_a((String) entry.getKey());
 
                 if (statistic != null) {
                     TupleIntJsonSerializable statisticwrapper = new TupleIntJsonSerializable();
 
                     if (((JsonElement) entry.getValue()).isJsonPrimitive() && ((JsonElement) entry.getValue()).getAsJsonPrimitive().isNumber()) {
-                        statisticwrapper.setIntegerValue(((JsonElement) entry.getValue()).getAsInt());
+                        statisticwrapper.func_151188_a(((JsonElement) entry.getValue()).getAsInt());
                     } else if (((JsonElement) entry.getValue()).isJsonObject()) {
                         JsonObject jsonobject1 = ((JsonElement) entry.getValue()).getAsJsonObject();
 
                         if (jsonobject1.has("value") && jsonobject1.get("value").isJsonPrimitive() && jsonobject1.get("value").getAsJsonPrimitive().isNumber()) {
-                            statisticwrapper.setIntegerValue(jsonobject1.getAsJsonPrimitive("value").getAsInt());
+                            statisticwrapper.func_151188_a(jsonobject1.getAsJsonPrimitive("value").getAsInt());
                         }
 
-                        if (jsonobject1.has("progress") && statistic.getSerializableClazz() != null) {
+                        if (jsonobject1.has("progress") && statistic.func_150954_l() != null) {
                             try {
-                                Constructor constructor = statistic.getSerializableClazz().getConstructor(new Class[0]);
+                                Constructor constructor = statistic.func_150954_l().getConstructor(new Class[0]);
                                 IJsonSerializable ijsonstatistic = (IJsonSerializable) constructor.newInstance(new Object[0]);
 
-                                ijsonstatistic.fromJson(jsonobject1.get("progress"));
-                                statisticwrapper.setJsonSerializableValue(ijsonstatistic);
+                                ijsonstatistic.func_152753_a(jsonobject1.get("progress"));
+                                statisticwrapper.func_151190_a(ijsonstatistic);
                             } catch (Throwable throwable) {
-                                StatisticsManagerServer.LOGGER.warn("Invalid statistic progress in {}", this.statsFile, throwable);
+                                StatisticsManagerServer.field_150889_b.warn("Invalid statistic progress in {}", this.field_150887_d, throwable);
                             }
                         }
                     }
 
                     hashmap.put(statistic, statisticwrapper);
                 } else {
-                    StatisticsManagerServer.LOGGER.warn("Invalid statistic in {}: Don\'t know what {} is", this.statsFile, entry.getKey());
+                    StatisticsManagerServer.field_150889_b.warn("Invalid statistic in {}: Don\'t know what {} is", this.field_150887_d, entry.getKey());
                     if (com.destroystokyo.paper.PaperConfig.removeInvalidStatistics) invalidStats.add((String) entry.getKey()); // Paper
                 }
             }
@@ -134,7 +134,7 @@ public class StatisticsManagerServer extends StatisticsManager {
             // Paper start - Remove invalid statistics
             for (String invalid : invalidStats) {
                 jsonobject.remove(invalid);
-                StatisticsManagerServer.LOGGER.info("Removing invalid statistic: " + invalid);
+                StatisticsManagerServer.field_150889_b.info("Removing invalid statistic: " + invalid);
             }
             // Paper end
 
@@ -142,52 +142,52 @@ public class StatisticsManagerServer extends StatisticsManager {
         }
     }
 
-    public static String dumpJson(Map<StatBase, TupleIntJsonSerializable> map) {
+    public static String func_150880_a(Map<StatBase, TupleIntJsonSerializable> map) {
         JsonObject jsonobject = new JsonObject();
         Iterator iterator = map.entrySet().iterator();
 
         while (iterator.hasNext()) {
             Entry entry = (Entry) iterator.next();
 
-            if (((TupleIntJsonSerializable) entry.getValue()).getJsonSerializableValue() != null) {
+            if (((TupleIntJsonSerializable) entry.getValue()).func_151187_b() != null) {
                 JsonObject jsonobject1 = new JsonObject();
 
-                jsonobject1.addProperty("value", Integer.valueOf(((TupleIntJsonSerializable) entry.getValue()).getIntegerValue()));
+                jsonobject1.addProperty("value", Integer.valueOf(((TupleIntJsonSerializable) entry.getValue()).func_151189_a()));
 
                 try {
-                    jsonobject1.add("progress", ((TupleIntJsonSerializable) entry.getValue()).getJsonSerializableValue().getSerializableElement());
+                    jsonobject1.add("progress", ((TupleIntJsonSerializable) entry.getValue()).func_151187_b().func_151003_a());
                 } catch (Throwable throwable) {
-                    StatisticsManagerServer.LOGGER.warn("Couldn\'t save statistic {}: error serializing progress", ((StatBase) entry.getKey()).getStatName(), throwable);
+                    StatisticsManagerServer.field_150889_b.warn("Couldn\'t save statistic {}: error serializing progress", ((StatBase) entry.getKey()).func_150951_e(), throwable);
                 }
 
-                jsonobject.add(((StatBase) entry.getKey()).statId, jsonobject1);
+                jsonobject.add(((StatBase) entry.getKey()).field_75975_e, jsonobject1);
             } else {
-                jsonobject.addProperty(((StatBase) entry.getKey()).statId, Integer.valueOf(((TupleIntJsonSerializable) entry.getValue()).getIntegerValue()));
+                jsonobject.addProperty(((StatBase) entry.getKey()).field_75975_e, Integer.valueOf(((TupleIntJsonSerializable) entry.getValue()).func_151189_a()));
             }
         }
 
         return jsonobject.toString();
     }
 
-    public void markAllDirty() {
-        this.dirty.addAll(this.statsData.keySet());
+    public void func_150877_d() {
+        this.field_150888_e.addAll(this.field_150875_a.keySet());
     }
 
-    public void sendStats(EntityPlayerMP entityplayer) {
-        int i = this.mcServer.getTickCounter();
+    public void func_150876_a(EntityPlayerMP entityplayer) {
+        int i = this.field_150890_c.func_71259_af();
         HashMap hashmap = Maps.newHashMap();
 
-        if (i - this.lastStatRequest > 300) {
-            this.lastStatRequest = i;
-            Iterator iterator = this.getDirty().iterator();
+        if (i - this.field_150885_f > 300) {
+            this.field_150885_f = i;
+            Iterator iterator = this.func_150878_c().iterator();
 
             while (iterator.hasNext()) {
                 StatBase statistic = (StatBase) iterator.next();
 
-                hashmap.put(statistic, Integer.valueOf(this.readStat(statistic)));
+                hashmap.put(statistic, Integer.valueOf(this.func_77444_a(statistic)));
             }
         }
 
-        entityplayer.connection.sendPacket(new SPacketStatistics(hashmap));
+        entityplayer.field_71135_a.func_147359_a(new SPacketStatistics(hashmap));
     }
 }

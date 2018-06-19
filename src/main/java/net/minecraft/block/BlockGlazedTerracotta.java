@@ -18,48 +18,48 @@ import net.minecraft.world.World;
 public class BlockGlazedTerracotta extends BlockHorizontal {
 
     public BlockGlazedTerracotta(EnumDyeColor enumcolor) {
-        super(Material.ROCK, MapColor.getBlockColor(enumcolor));
-        this.setHardness(1.4F);
-        this.setSoundType(SoundType.STONE);
-        String s = enumcolor.getUnlocalizedName();
+        super(Material.field_151576_e, MapColor.func_193558_a(enumcolor));
+        this.func_149711_c(1.4F);
+        this.func_149672_a(SoundType.field_185851_d);
+        String s = enumcolor.func_176762_d();
 
         if (s.length() > 1) {
             String s1 = s.substring(0, 1).toUpperCase() + s.substring(1, s.length());
 
-            this.setUnlocalizedName("glazedTerracotta" + s1);
+            this.func_149663_c("glazedTerracotta" + s1);
         }
 
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        this.func_149647_a(CreativeTabs.field_78031_c);
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockGlazedTerracotta.FACING});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockGlazedTerracotta.field_185512_D});
     }
 
-    public IBlockState withRotation(IBlockState iblockdata, Rotation enumblockrotation) {
-        return iblockdata.withProperty(BlockGlazedTerracotta.FACING, enumblockrotation.rotate((EnumFacing) iblockdata.getValue(BlockGlazedTerracotta.FACING)));
+    public IBlockState func_185499_a(IBlockState iblockdata, Rotation enumblockrotation) {
+        return iblockdata.func_177226_a(BlockGlazedTerracotta.field_185512_D, enumblockrotation.func_185831_a((EnumFacing) iblockdata.func_177229_b(BlockGlazedTerracotta.field_185512_D)));
     }
 
-    public IBlockState withMirror(IBlockState iblockdata, Mirror enumblockmirror) {
-        return iblockdata.withRotation(enumblockmirror.toRotation((EnumFacing) iblockdata.getValue(BlockGlazedTerracotta.FACING)));
+    public IBlockState func_185471_a(IBlockState iblockdata, Mirror enumblockmirror) {
+        return iblockdata.func_185907_a(enumblockmirror.func_185800_a((EnumFacing) iblockdata.func_177229_b(BlockGlazedTerracotta.field_185512_D)));
     }
 
-    public IBlockState getStateForPlacement(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
-        return this.getDefaultState().withProperty(BlockGlazedTerracotta.FACING, entityliving.getHorizontalFacing().getOpposite());
+    public IBlockState func_180642_a(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
+        return this.func_176223_P().func_177226_a(BlockGlazedTerracotta.field_185512_D, entityliving.func_174811_aO().func_176734_d());
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         byte b0 = 0;
-        int i = b0 | ((EnumFacing) iblockdata.getValue(BlockGlazedTerracotta.FACING)).getHorizontalIndex();
+        int i = b0 | ((EnumFacing) iblockdata.func_177229_b(BlockGlazedTerracotta.field_185512_D)).func_176736_b();
 
         return i;
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockGlazedTerracotta.FACING, EnumFacing.getHorizontal(i));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockGlazedTerracotta.field_185512_D, EnumFacing.func_176731_b(i));
     }
 
-    public EnumPushReaction getMobilityFlag(IBlockState iblockdata) {
+    public EnumPushReaction func_149656_h(IBlockState iblockdata) {
         return EnumPushReaction.PUSH_ONLY;
     }
 }

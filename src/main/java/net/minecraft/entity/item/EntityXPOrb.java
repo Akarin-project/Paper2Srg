@@ -24,35 +24,35 @@ import net.minecraft.world.World;
 
 public class EntityXPOrb extends Entity {
 
-    public int xpColor;
-    public int xpOrbAge;
-    public int delayBeforeCanPickup;
-    private int xpOrbHealth = 5;
-    public int xpValue;
-    private EntityPlayer closestPlayer;
-    private int xpTargetColor;
+    public int field_70533_a;
+    public int field_70531_b;
+    public int field_70532_c;
+    private int field_70529_d = 5;
+    public int field_70530_e;
+    private EntityPlayer field_80001_f;
+    private int field_80002_g;
     // Paper start
     public java.util.UUID sourceEntityId;
     public java.util.UUID triggerEntityId;
     public org.bukkit.entity.ExperienceOrb.SpawnReason spawnReason = org.bukkit.entity.ExperienceOrb.SpawnReason.UNKNOWN;
 
     private void loadPaperNBT(NBTTagCompound nbttagcompound) {
-        if (!nbttagcompound.hasKey("Paper.ExpData", 10)) { // 10 = compound
+        if (!nbttagcompound.func_150297_b("Paper.ExpData", 10)) { // 10 = compound
             return;
         }
-        NBTTagCompound comp = nbttagcompound.getCompoundTag("Paper.ExpData");
+        NBTTagCompound comp = nbttagcompound.func_74775_l("Paper.ExpData");
         if (comp.hasUUID("source")) {
             this.sourceEntityId = comp.getUUID("source");
         }
         if (comp.hasUUID("trigger")) {
             this.triggerEntityId = comp.getUUID("trigger");
         }
-        if (comp.hasKey("reason")) {
-            String reason = comp.getString("reason");
+        if (comp.func_74764_b("reason")) {
+            String reason = comp.func_74779_i("reason");
             try {
                 spawnReason = org.bukkit.entity.ExperienceOrb.SpawnReason.valueOf(reason);
             } catch (Exception e) {
-                this.world.getServer().getLogger().warning("Invalid spawnReason set for experience orb: " + e.getMessage() + " - " + reason);
+                this.field_70170_p.getServer().getLogger().warning("Invalid spawnReason set for experience orb: " + e.getMessage() + " - " + reason);
             }
         }
     }
@@ -65,9 +65,9 @@ public class EntityXPOrb extends Entity {
             comp.setUUID("trigger", triggerEntityId);
         }
         if (spawnReason != null && spawnReason != org.bukkit.entity.ExperienceOrb.SpawnReason.UNKNOWN) {
-            comp.setString("reason", spawnReason.name());
+            comp.func_74778_a("reason", spawnReason.name());
         }
-        nbttagcompound.setTag("Paper.ExpData", comp);
+        nbttagcompound.func_74782_a("Paper.ExpData", comp);
     }
     public EntityXPOrb(World world, double d0, double d1, double d2, int i, org.bukkit.entity.ExperienceOrb.SpawnReason reason, Entity triggerId) {
         this(world, d0, d1, d2, i, reason, triggerId, null);
@@ -75,196 +75,196 @@ public class EntityXPOrb extends Entity {
 
     public EntityXPOrb(World world, double d0, double d1, double d2, int i, org.bukkit.entity.ExperienceOrb.SpawnReason reason, Entity triggerId, Entity sourceId) {
         super(world);
-        this.sourceEntityId = sourceId != null ? sourceId.getUniqueID() : null;
-        this.triggerEntityId = triggerId != null ? triggerId.getUniqueID() : null;
+        this.sourceEntityId = sourceId != null ? sourceId.func_110124_au() : null;
+        this.triggerEntityId = triggerId != null ? triggerId.func_110124_au() : null;
         this.spawnReason = reason != null ? reason : org.bukkit.entity.ExperienceOrb.SpawnReason.UNKNOWN;
         // Paper end
-        this.setSize(0.5F, 0.5F);
-        this.setPosition(d0, d1, d2);
-        this.rotationYaw = (float) (Math.random() * 360.0D);
-        this.motionX = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
-        this.motionY = (double) ((float) (Math.random() * 0.2D) * 2.0F);
-        this.motionZ = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
-        this.xpValue = i;
+        this.func_70105_a(0.5F, 0.5F);
+        this.func_70107_b(d0, d1, d2);
+        this.field_70177_z = (float) (Math.random() * 360.0D);
+        this.field_70159_w = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
+        this.field_70181_x = (double) ((float) (Math.random() * 0.2D) * 2.0F);
+        this.field_70179_y = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
+        this.field_70530_e = i;
     }
 
-    protected boolean canTriggerWalking() {
+    protected boolean func_70041_e_() {
         return false;
     }
 
     public EntityXPOrb(World world) {
         super(world);
-        this.setSize(0.25F, 0.25F);
+        this.func_70105_a(0.25F, 0.25F);
     }
 
-    protected void entityInit() {}
+    protected void func_70088_a() {}
 
-    public void onUpdate() {
-        super.onUpdate();
-        EntityPlayer prevTarget = this.closestPlayer;// CraftBukkit - store old target
-        if (this.delayBeforeCanPickup > 0) {
-            --this.delayBeforeCanPickup;
+    public void func_70071_h_() {
+        super.func_70071_h_();
+        EntityPlayer prevTarget = this.field_80001_f;// CraftBukkit - store old target
+        if (this.field_70532_c > 0) {
+            --this.field_70532_c;
         }
 
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        if (!this.hasNoGravity()) {
-            this.motionY -= 0.029999999329447746D;
+        this.field_70169_q = this.field_70165_t;
+        this.field_70167_r = this.field_70163_u;
+        this.field_70166_s = this.field_70161_v;
+        if (!this.func_189652_ae()) {
+            this.field_70181_x -= 0.029999999329447746D;
         }
 
-        if (this.world.getBlockState(new BlockPos(this)).getMaterial() == Material.LAVA) {
-            this.motionY = 0.20000000298023224D;
-            this.motionX = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-            this.motionZ = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-            this.playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
+        if (this.field_70170_p.func_180495_p(new BlockPos(this)).func_185904_a() == Material.field_151587_i) {
+            this.field_70181_x = 0.20000000298023224D;
+            this.field_70159_w = (double) ((this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F);
+            this.field_70179_y = (double) ((this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F);
+            this.func_184185_a(SoundEvents.field_187658_bx, 0.4F, 2.0F + this.field_70146_Z.nextFloat() * 0.4F);
         }
 
-        this.pushOutOfBlocks(this.posX, (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY) / 2.0D, this.posZ);
+        this.func_145771_j(this.field_70165_t, (this.func_174813_aQ().field_72338_b + this.func_174813_aQ().field_72337_e) / 2.0D, this.field_70161_v);
         double d0 = 8.0D;
 
-        if (this.xpTargetColor < this.xpColor - 20 + this.getEntityId() % 100) {
-            if (this.closestPlayer == null || this.closestPlayer.getDistanceSq(this) > 64.0D) {
-                this.closestPlayer = this.world.getClosestPlayerToEntity(this, 8.0D);
+        if (this.field_80002_g < this.field_70533_a - 20 + this.func_145782_y() % 100) {
+            if (this.field_80001_f == null || this.field_80001_f.func_70068_e(this) > 64.0D) {
+                this.field_80001_f = this.field_70170_p.func_72890_a(this, 8.0D);
             }
 
-            this.xpTargetColor = this.xpColor;
+            this.field_80002_g = this.field_70533_a;
         }
 
-        if (this.closestPlayer != null && this.closestPlayer.isSpectator()) {
-            this.closestPlayer = null;
+        if (this.field_80001_f != null && this.field_80001_f.func_175149_v()) {
+            this.field_80001_f = null;
         }
 
-        if (this.closestPlayer != null) {
+        if (this.field_80001_f != null) {
             // CraftBukkit start
             boolean cancelled = false;
-            if (this.closestPlayer != prevTarget) {
-                EntityTargetLivingEntityEvent event = CraftEventFactory.callEntityTargetLivingEvent(this, closestPlayer, EntityTargetEvent.TargetReason.CLOSEST_PLAYER);
+            if (this.field_80001_f != prevTarget) {
+                EntityTargetLivingEntityEvent event = CraftEventFactory.callEntityTargetLivingEvent(this, field_80001_f, EntityTargetEvent.TargetReason.CLOSEST_PLAYER);
                 EntityLivingBase target = event.getTarget() == null ? null : ((org.bukkit.craftbukkit.entity.CraftLivingEntity) event.getTarget()).getHandle();
-                closestPlayer = target instanceof EntityPlayer ? (EntityPlayer) target : null;
+                field_80001_f = target instanceof EntityPlayer ? (EntityPlayer) target : null;
                 cancelled = event.isCancelled();
             }
 
-            if (!cancelled && closestPlayer != null) {
-            double d1 = (this.closestPlayer.posX - this.posX) / 8.0D;
-            double d2 = (this.closestPlayer.posY + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.posY) / 8.0D;
-            double d3 = (this.closestPlayer.posZ - this.posZ) / 8.0D;
+            if (!cancelled && field_80001_f != null) {
+            double d1 = (this.field_80001_f.field_70165_t - this.field_70165_t) / 8.0D;
+            double d2 = (this.field_80001_f.field_70163_u + (double) this.field_80001_f.func_70047_e() / 2.0D - this.field_70163_u) / 8.0D;
+            double d3 = (this.field_80001_f.field_70161_v - this.field_70161_v) / 8.0D;
             double d4 = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3);
             double d5 = 1.0D - d4;
 
             if (d5 > 0.0D) {
                 d5 *= d5;
-                this.motionX += d1 / d4 * d5 * 0.1D;
-                this.motionY += d2 / d4 * d5 * 0.1D;
-                this.motionZ += d3 / d4 * d5 * 0.1D;
+                this.field_70159_w += d1 / d4 * d5 * 0.1D;
+                this.field_70181_x += d2 / d4 * d5 * 0.1D;
+                this.field_70179_y += d3 / d4 * d5 * 0.1D;
             }
             }
             // CraftBukkit end
         }
 
-        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+        this.func_70091_d(MoverType.SELF, this.field_70159_w, this.field_70181_x, this.field_70179_y);
         float f = 0.98F;
 
-        if (this.onGround) {
-            f = this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ))).getBlock().slipperiness * 0.98F;
+        if (this.field_70122_E) {
+            f = this.field_70170_p.func_180495_p(new BlockPos(MathHelper.func_76128_c(this.field_70165_t), MathHelper.func_76128_c(this.func_174813_aQ().field_72338_b) - 1, MathHelper.func_76128_c(this.field_70161_v))).func_177230_c().field_149765_K * 0.98F;
         }
 
-        this.motionX *= (double) f;
-        this.motionY *= 0.9800000190734863D;
-        this.motionZ *= (double) f;
-        if (this.onGround) {
-            this.motionY *= -0.8999999761581421D;
+        this.field_70159_w *= (double) f;
+        this.field_70181_x *= 0.9800000190734863D;
+        this.field_70179_y *= (double) f;
+        if (this.field_70122_E) {
+            this.field_70181_x *= -0.8999999761581421D;
         }
 
-        ++this.xpColor;
-        ++this.xpOrbAge;
-        if (this.xpOrbAge >= 6000) {
-            this.setDead();
+        ++this.field_70533_a;
+        ++this.field_70531_b;
+        if (this.field_70531_b >= 6000) {
+            this.func_70106_y();
         }
 
     }
 
-    public boolean handleWaterMovement() {
-        return this.world.handleMaterialAcceleration(this.getEntityBoundingBox(), Material.WATER, (Entity) this);
+    public boolean func_70072_I() {
+        return this.field_70170_p.func_72918_a(this.func_174813_aQ(), Material.field_151586_h, (Entity) this);
     }
 
     protected void burn(int i) {
-        this.attackEntityFrom(DamageSource.IN_FIRE, (float) i);
+        this.func_70097_a(DamageSource.field_76372_a, (float) i);
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        if (this.isEntityInvulnerable(damagesource)) {
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        if (this.func_180431_b(damagesource)) {
             return false;
         } else {
-            this.markVelocityChanged();
-            this.xpOrbHealth = (int) ((float) this.xpOrbHealth - f);
-            if (this.xpOrbHealth <= 0) {
-                this.setDead();
+            this.func_70018_K();
+            this.field_70529_d = (int) ((float) this.field_70529_d - f);
+            if (this.field_70529_d <= 0) {
+                this.func_70106_y();
             }
 
             return false;
         }
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setShort("Health", (short) this.xpOrbHealth);
-        nbttagcompound.setShort("Age", (short) this.xpOrbAge);
-        nbttagcompound.setShort("Value", (short) this.xpValue);
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74777_a("Health", (short) this.field_70529_d);
+        nbttagcompound.func_74777_a("Age", (short) this.field_70531_b);
+        nbttagcompound.func_74777_a("Value", (short) this.field_70530_e);
         savePaperNBT(nbttagcompound); // Paper
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        this.xpOrbHealth = nbttagcompound.getShort("Health");
-        this.xpOrbAge = nbttagcompound.getShort("Age");
-        this.xpValue = nbttagcompound.getShort("Value");
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        this.field_70529_d = nbttagcompound.func_74765_d("Health");
+        this.field_70531_b = nbttagcompound.func_74765_d("Age");
+        this.field_70530_e = nbttagcompound.func_74765_d("Value");
         loadPaperNBT(nbttagcompound); // Paper
     }
 
-    public void onCollideWithPlayer(EntityPlayer entityhuman) {
-        if (!this.world.isRemote) {
-            if (this.delayBeforeCanPickup == 0 && entityhuman.xpCooldown == 0 && new com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent(((EntityPlayerMP) entityhuman).getBukkitEntity(), (org.bukkit.entity.ExperienceOrb) this.getBukkitEntity()).callEvent()) { // Paper
-                entityhuman.xpCooldown = 2;
-                entityhuman.onItemPickup(this, 1);
-                ItemStack itemstack = EnchantmentHelper.getEnchantedItem(Enchantments.MENDING, (EntityLivingBase) entityhuman);
+    public void func_70100_b_(EntityPlayer entityhuman) {
+        if (!this.field_70170_p.field_72995_K) {
+            if (this.field_70532_c == 0 && entityhuman.field_71090_bL == 0 && new com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent(((EntityPlayerMP) entityhuman).getBukkitEntity(), (org.bukkit.entity.ExperienceOrb) this.getBukkitEntity()).callEvent()) { // Paper
+                entityhuman.field_71090_bL = 2;
+                entityhuman.func_71001_a(this, 1);
+                ItemStack itemstack = EnchantmentHelper.func_92099_a(Enchantments.field_185296_A, (EntityLivingBase) entityhuman);
 
-                if (!itemstack.isEmpty() && itemstack.isItemDamaged()) {
-                    int i = Math.min(this.xpToDurability(this.xpValue), itemstack.getItemDamage());
+                if (!itemstack.func_190926_b() && itemstack.func_77951_h()) {
+                    int i = Math.min(this.func_184514_c(this.field_70530_e), itemstack.func_77952_i());
 
                     // CraftBukkit start
                     org.bukkit.event.player.PlayerItemMendEvent event = CraftEventFactory.callPlayerItemMendEvent(entityhuman, this, itemstack, i);
                     i = event.getRepairAmount();
                     if (!event.isCancelled()) {
-                        this.xpValue -= this.durabilityToXp(i);
-                        itemstack.setItemDamage(itemstack.getItemDamage() - i);
+                        this.field_70530_e -= this.func_184515_b(i);
+                        itemstack.func_77964_b(itemstack.func_77952_i() - i);
                     }
                     // CraftBukkit end
 				}
 
-                if (this.xpValue > 0) {
-                    entityhuman.addExperience(CraftEventFactory.callPlayerExpChangeEvent(entityhuman, this).getAmount()); // CraftBukkit - this.value -> event.getAmount() // Paper - supply experience orb object
+                if (this.field_70530_e > 0) {
+                    entityhuman.func_71023_q(CraftEventFactory.callPlayerExpChangeEvent(entityhuman, this).getAmount()); // CraftBukkit - this.value -> event.getAmount() // Paper - supply experience orb object
                 }
 
-                this.setDead();
+                this.func_70106_y();
             }
 
         }
     }
 
-    public int durToXp(int i) { return durabilityToXp(i); } // Paper OBFHELPER
-    private int durabilityToXp(int i) {
+    public int durToXp(int i) { return func_184515_b(i); } // Paper OBFHELPER
+    private int func_184515_b(int i) {
         return i / 2;
     }
 
-    public int xpToDur(int i) { return xpToDurability(i); } // Paper OBFHELPER
-    private int xpToDurability(int i) {
+    public int xpToDur(int i) { return func_184514_c(i); } // Paper OBFHELPER
+    private int func_184514_c(int i) {
         return i * 2;
     }
 
-    public int getXpValue() {
-        return this.xpValue;
+    public int func_70526_d() {
+        return this.field_70530_e;
     }
 
-    public static int getXPSplit(int i) {
+    public static int func_70527_a(int i) {
         // CraftBukkit start
         if (i > 162670129) return i - 100000;
         if (i > 81335063) return 81335063;
@@ -286,7 +286,7 @@ public class EntityXPOrb extends Entity {
         return i >= 2477 ? 2477 : (i >= 1237 ? 1237 : (i >= 617 ? 617 : (i >= 307 ? 307 : (i >= 149 ? 149 : (i >= 73 ? 73 : (i >= 37 ? 37 : (i >= 17 ? 17 : (i >= 7 ? 7 : (i >= 3 ? 3 : 1)))))))));
     }
 
-    public boolean canBeAttackedWithItem() {
+    public boolean func_70075_an() {
         return false;
     }
 }

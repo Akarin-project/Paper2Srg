@@ -2,17 +2,16 @@ package net.minecraft.world.biome;
 
 public class BiomeVoid extends Biome {
 
-    public BiomeVoid(Biome.a biomebase_a) {
+    public BiomeVoid(BiomeBase.a biomebase_a) {
         super(biomebase_a);
-        this.spawnableMonsterList.clear();
-        this.spawnableCreatureList.clear();
-        this.spawnableWaterCreatureList.clear();
-        this.spawnableCaveCreatureList.clear();
-        this.decorator = new BiomeVoidDecorator();
+        this.field_76761_J.clear();
+        this.field_76762_K.clear();
+        this.field_76755_L.clear();
+        this.field_82914_M.clear();
+        this.field_76760_I = new BiomeVoidDecorator();
     }
 
-    @Override
-    public boolean ignorePlayerSpawnSuitability() {
+    public boolean func_185352_i() {
         return true;
     }
 }

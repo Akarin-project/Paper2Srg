@@ -76,22 +76,22 @@ public final class CraftScoreboardManager implements ScoreboardManager {
         // Old objective tracking
         HashSet<ScoreObjective> removed = new HashSet<ScoreObjective>();
         for (int i = 0; i < 3; ++i) {
-            ScoreObjective scoreboardobjective = oldboard.getObjectiveInDisplaySlot(i);
+            ScoreObjective scoreboardobjective = oldboard.func_96539_a(i);
             if (scoreboardobjective != null && !removed.contains(scoreboardobjective)) {
-                entityplayer.connection.sendPacket(new SPacketScoreboardObjective(scoreboardobjective, 1));
+                entityplayer.field_71135_a.func_147359_a(new SPacketScoreboardObjective(scoreboardobjective, 1));
                 removed.add(scoreboardobjective);
             }
         }
 
         // Old team tracking
-        Iterator<?> iterator = oldboard.getTeams().iterator();
+        Iterator<?> iterator = oldboard.func_96525_g().iterator();
         while (iterator.hasNext()) {
             ScorePlayerTeam scoreboardteam = (ScorePlayerTeam) iterator.next();
-            entityplayer.connection.sendPacket(new SPacketTeams(scoreboardteam, 1));
+            entityplayer.field_71135_a.func_147359_a(new SPacketTeams(scoreboardteam, 1));
         }
 
         // The above is the reverse of the below method.
-        server.getPlayerList().sendScoreboard((ServerScoreboard) newboard, player.getHandle());
+        server.func_184103_al().func_96456_a((ServerScoreboard) newboard, player.getHandle());
     }
 
     // CraftBukkit method
@@ -103,8 +103,8 @@ public final class CraftScoreboardManager implements ScoreboardManager {
     public Collection<Score> getScoreboardScores(IScoreCriteria criteria, String name, Collection<Score> collection) {
         for (CraftScoreboard scoreboard : scoreboards) {
             Scoreboard board = scoreboard.board;
-            for (ScoreObjective objective : (Iterable<ScoreObjective>) board.getObjectivesFromCriteria(criteria)) {
-                collection.add(board.getOrCreateScore(name, objective));
+            for (ScoreObjective objective : (Iterable<ScoreObjective>) board.func_96520_a(criteria)) {
+                collection.add(board.func_96529_a(name, objective));
             }
         }
         return collection;

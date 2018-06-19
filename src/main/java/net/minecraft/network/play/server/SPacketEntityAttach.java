@@ -10,27 +10,27 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketEntityAttach implements Packet<INetHandlerPlayClient> {
 
-    private int entityId;
-    private int vehicleEntityId;
+    private int field_149406_b;
+    private int field_149407_c;
 
     public SPacketEntityAttach() {}
 
     public SPacketEntityAttach(Entity entity, @Nullable Entity entity1) {
-        this.entityId = entity.getEntityId();
-        this.vehicleEntityId = entity1 != null ? entity1.getEntityId() : -1;
+        this.field_149406_b = entity.func_145782_y();
+        this.field_149407_c = entity1 != null ? entity1.func_145782_y() : -1;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.entityId = packetdataserializer.readInt();
-        this.vehicleEntityId = packetdataserializer.readInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149406_b = packetdataserializer.readInt();
+        this.field_149407_c = packetdataserializer.readInt();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeInt(this.entityId);
-        packetdataserializer.writeInt(this.vehicleEntityId);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeInt(this.field_149406_b);
+        packetdataserializer.writeInt(this.field_149407_c);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleEntityAttach(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147243_a(this);
     }
 }

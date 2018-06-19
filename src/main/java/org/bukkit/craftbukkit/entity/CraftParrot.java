@@ -21,14 +21,14 @@ public class CraftParrot extends CraftTameableAnimal implements Parrot {
 
     @Override
     public Variant getVariant() {
-        return Variant.values()[getHandle().getVariant()];
+        return Variant.values()[getHandle().func_191998_ds()];
     }
 
     @Override
     public void setVariant(Variant variant) {
         Preconditions.checkArgument(variant != null, "variant");
 
-        getHandle().setVariant(variant.ordinal());
+        getHandle().func_191997_m(variant.ordinal());
     }
 
     @Override

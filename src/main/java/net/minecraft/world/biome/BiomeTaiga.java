@@ -21,84 +21,80 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class BiomeTaiga extends Biome {
 
-    private static final WorldGenTaiga1 PINE_GENERATOR = new WorldGenTaiga1();
-    private static final WorldGenTaiga2 SPRUCE_GENERATOR = new WorldGenTaiga2(false);
-    private static final WorldGenMegaPineTree MEGA_PINE_GENERATOR = new WorldGenMegaPineTree(false, false);
-    private static final WorldGenMegaPineTree MEGA_SPRUCE_GENERATOR = new WorldGenMegaPineTree(false, true);
-    private static final WorldGenBlockBlob FOREST_ROCK_GENERATOR = new WorldGenBlockBlob(Blocks.MOSSY_COBBLESTONE, 0);
-    private final BiomeTaiga.Type type;
+    private static final WorldGenTaiga1 field_150639_aC = new WorldGenTaiga1();
+    private static final WorldGenTaiga2 field_150640_aD = new WorldGenTaiga2(false);
+    private static final WorldGenMegaPineTree field_150641_aE = new WorldGenMegaPineTree(false, false);
+    private static final WorldGenMegaPineTree field_150642_aF = new WorldGenMegaPineTree(false, true);
+    private static final WorldGenBlockBlob field_150643_aG = new WorldGenBlockBlob(Blocks.field_150341_Y, 0);
+    private final BiomeTaiga.Type field_150644_aH;
 
-    public BiomeTaiga(BiomeTaiga.Type biometaiga_type, Biome.a biomebase_a) {
+    public BiomeTaiga(BiomeTaiga.Type biometaiga_type, BiomeBase.a biomebase_a) {
         super(biomebase_a);
-        this.type = biometaiga_type;
-        this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityWolf.class, 8, 4, 4));
-        this.spawnableCreatureList.add(new Biome.SpawnListEntry(EntityRabbit.class, 4, 2, 3));
-        this.decorator.treesPerChunk = 10;
+        this.field_150644_aH = biometaiga_type;
+        this.field_76762_K.add(new Biome.SpawnListEntry(EntityWolf.class, 8, 4, 4));
+        this.field_76762_K.add(new Biome.SpawnListEntry(EntityRabbit.class, 4, 2, 3));
+        this.field_76760_I.field_76832_z = 10;
         if (biometaiga_type != BiomeTaiga.Type.MEGA && biometaiga_type != BiomeTaiga.Type.MEGA_SPRUCE) {
-            this.decorator.grassPerChunk = 1;
-            this.decorator.mushroomsPerChunk = 1;
+            this.field_76760_I.field_76803_B = 1;
+            this.field_76760_I.field_76798_D = 1;
         } else {
-            this.decorator.grassPerChunk = 7;
-            this.decorator.deadBushPerChunk = 1;
-            this.decorator.mushroomsPerChunk = 3;
+            this.field_76760_I.field_76803_B = 7;
+            this.field_76760_I.field_76804_C = 1;
+            this.field_76760_I.field_76798_D = 3;
         }
 
     }
 
-    @Override
-    public WorldGenAbstractTree getRandomTreeFeature(Random random) {
-        return (this.type == BiomeTaiga.Type.MEGA || this.type == BiomeTaiga.Type.MEGA_SPRUCE) && random.nextInt(3) == 0 ? (this.type != BiomeTaiga.Type.MEGA_SPRUCE && random.nextInt(13) != 0 ? BiomeTaiga.MEGA_PINE_GENERATOR : BiomeTaiga.MEGA_SPRUCE_GENERATOR) : (random.nextInt(3) == 0 ? BiomeTaiga.PINE_GENERATOR : BiomeTaiga.SPRUCE_GENERATOR);
+    public WorldGenAbstractTree func_150567_a(Random random) {
+        return (WorldGenAbstractTree) ((this.field_150644_aH == BiomeTaiga.Type.MEGA || this.field_150644_aH == BiomeTaiga.Type.MEGA_SPRUCE) && random.nextInt(3) == 0 ? (this.field_150644_aH != BiomeTaiga.Type.MEGA_SPRUCE && random.nextInt(13) != 0 ? BiomeTaiga.field_150641_aE : BiomeTaiga.field_150642_aF) : (random.nextInt(3) == 0 ? BiomeTaiga.field_150639_aC : BiomeTaiga.field_150640_aD));
     }
 
-    @Override
-    public WorldGenerator getRandomWorldGenForGrass(Random random) {
+    public WorldGenerator func_76730_b(Random random) {
         return random.nextInt(5) > 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN) : new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
     }
 
-    @Override
-    public void decorate(World world, Random random, BlockPos blockposition) {
+    public void func_180624_a(World world, Random random, BlockPos blockposition) {
         int i;
         int j;
         int k;
         int l;
 
-        if (this.type == BiomeTaiga.Type.MEGA || this.type == BiomeTaiga.Type.MEGA_SPRUCE) {
+        if (this.field_150644_aH == BiomeTaiga.Type.MEGA || this.field_150644_aH == BiomeTaiga.Type.MEGA_SPRUCE) {
             i = random.nextInt(3);
 
             for (j = 0; j < i; ++j) {
                 k = random.nextInt(16) + 8;
                 l = random.nextInt(16) + 8;
-                BlockPos blockposition1 = world.getHeight(blockposition.add(k, 0, l));
+                BlockPos blockposition1 = world.func_175645_m(blockposition.func_177982_a(k, 0, l));
 
-                BiomeTaiga.FOREST_ROCK_GENERATOR.generate(world, random, blockposition1);
+                BiomeTaiga.field_150643_aG.func_180709_b(world, random, blockposition1);
             }
         }
 
-        BiomeTaiga.DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.FERN);
+        BiomeTaiga.field_180280_ag.func_180710_a(BlockDoublePlant.EnumPlantType.FERN);
 
         for (i = 0; i < 7; ++i) {
             j = random.nextInt(16) + 8;
             k = random.nextInt(16) + 8;
-            l = random.nextInt(world.getHeight(blockposition.add(j, 0, k)).getY() + 32);
-            BiomeTaiga.DOUBLE_PLANT_GENERATOR.generate(world, random, blockposition.add(j, l, k));
+            l = random.nextInt(world.func_175645_m(blockposition.func_177982_a(j, 0, k)).func_177956_o() + 32);
+            BiomeTaiga.field_180280_ag.func_180709_b(world, random, blockposition.func_177982_a(j, l, k));
         }
 
-        super.decorate(world, random, blockposition);
+        super.func_180624_a(world, random, blockposition);
     }
 
-    @Override
-    public void genTerrainBlocks(World world, Random random, ChunkPrimer chunksnapshot, int i, int j, double d0) {
-        if (this.type == BiomeTaiga.Type.MEGA || this.type == BiomeTaiga.Type.MEGA_SPRUCE) {
-            this.topBlock = Blocks.GRASS.getDefaultState();
-            this.fillerBlock = Blocks.DIRT.getDefaultState();
+    public void func_180622_a(World world, Random random, ChunkPrimer chunksnapshot, int i, int j, double d0) {
+        if (this.field_150644_aH == BiomeTaiga.Type.MEGA || this.field_150644_aH == BiomeTaiga.Type.MEGA_SPRUCE) {
+            this.field_76752_A = Blocks.field_150349_c.func_176223_P();
+            this.field_76753_B = Blocks.field_150346_d.func_176223_P();
             if (d0 > 1.75D) {
-                this.topBlock = Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT);
+                this.field_76752_A = Blocks.field_150346_d.func_176223_P().func_177226_a(BlockDirt.field_176386_a, BlockDirt.DirtType.COARSE_DIRT);
             } else if (d0 > -0.95D) {
-                this.topBlock = Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL);
+                this.field_76752_A = Blocks.field_150346_d.func_176223_P().func_177226_a(BlockDirt.field_176386_a, BlockDirt.DirtType.PODZOL);
             }
         }
 
-        this.generateBiomeTerrain(world, random, chunksnapshot, i, j, d0);
+        this.func_180628_b(world, random, chunksnapshot, i, j, d0);
     }
 
     public static enum Type {

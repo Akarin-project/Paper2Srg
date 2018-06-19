@@ -6,42 +6,42 @@ import net.minecraft.entity.passive.EntityVillager;
 
 public class EntityAILookAtVillager extends EntityAIBase {
 
-    private final EntityIronGolem ironGolem;
-    private EntityVillager villager;
-    private int lookTime;
+    private final EntityIronGolem field_75397_a;
+    private EntityVillager field_75395_b;
+    private int field_75396_c;
 
     public EntityAILookAtVillager(EntityIronGolem entityirongolem) {
-        this.ironGolem = entityirongolem;
-        this.setMutexBits(3);
+        this.field_75397_a = entityirongolem;
+        this.func_75248_a(3);
     }
 
-    public boolean shouldExecute() {
-        if (!this.ironGolem.world.isDaytime()) {
+    public boolean func_75250_a() {
+        if (!this.field_75397_a.field_70170_p.func_72935_r()) {
             return false;
-        } else if (this.ironGolem.getRNG().nextInt(8000) != 0) {
+        } else if (this.field_75397_a.func_70681_au().nextInt(8000) != 0) {
             return false;
         } else {
-            this.villager = (EntityVillager) this.ironGolem.world.findNearestEntityWithinAABB(EntityVillager.class, this.ironGolem.getEntityBoundingBox().grow(6.0D, 2.0D, 6.0D), (Entity) this.ironGolem);
-            return this.villager != null;
+            this.field_75395_b = (EntityVillager) this.field_75397_a.field_70170_p.func_72857_a(EntityVillager.class, this.field_75397_a.func_174813_aQ().func_72314_b(6.0D, 2.0D, 6.0D), (Entity) this.field_75397_a);
+            return this.field_75395_b != null;
         }
     }
 
-    public boolean shouldContinueExecuting() {
-        return this.lookTime > 0;
+    public boolean func_75253_b() {
+        return this.field_75396_c > 0;
     }
 
-    public void startExecuting() {
-        this.lookTime = 400;
-        this.ironGolem.setHoldingRose(true);
+    public void func_75249_e() {
+        this.field_75396_c = 400;
+        this.field_75397_a.func_70851_e(true);
     }
 
-    public void resetTask() {
-        this.ironGolem.setHoldingRose(false);
-        this.villager = null;
+    public void func_75251_c() {
+        this.field_75397_a.func_70851_e(false);
+        this.field_75395_b = null;
     }
 
-    public void updateTask() {
-        this.ironGolem.getLookHelper().setLookPositionWithEntity(this.villager, 30.0F, 30.0F);
-        --this.lookTime;
+    public void func_75246_d() {
+        this.field_75397_a.func_70671_ap().func_75651_a(this.field_75395_b, 30.0F, 30.0F);
+        --this.field_75396_c;
     }
 }

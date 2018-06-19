@@ -18,35 +18,35 @@ public class AnvilSaveHandler extends SaveHandler {
         super(file, s, flag, dataconvertermanager);
     }
 
-    public IChunkLoader getChunkLoader(WorldProvider worldprovider) {
-        File file = this.getWorldDirectory();
+    public IChunkLoader func_75763_a(WorldProvider worldprovider) {
+        File file = this.func_75765_b();
         File file1;
 
         if (worldprovider instanceof WorldProviderHell) {
             file1 = new File(file, "DIM-1");
             file1.mkdirs();
-            return new AnvilChunkLoader(file1, this.dataFixer);
+            return new AnvilChunkLoader(file1, this.field_186341_a);
         } else if (worldprovider instanceof WorldProviderEnd) {
             file1 = new File(file, "DIM1");
             file1.mkdirs();
-            return new AnvilChunkLoader(file1, this.dataFixer);
+            return new AnvilChunkLoader(file1, this.field_186341_a);
         } else {
-            return new AnvilChunkLoader(file, this.dataFixer);
+            return new AnvilChunkLoader(file, this.field_186341_a);
         }
     }
 
-    public void saveWorldInfoWithPlayer(WorldInfo worlddata, @Nullable NBTTagCompound nbttagcompound) {
-        worlddata.setSaveVersion(19133);
-        super.saveWorldInfoWithPlayer(worlddata, nbttagcompound);
+    public void func_75755_a(WorldInfo worlddata, @Nullable NBTTagCompound nbttagcompound) {
+        worlddata.func_76078_e(19133);
+        super.func_75755_a(worlddata, nbttagcompound);
     }
 
-    public void flush() {
+    public void func_75759_a() {
         try {
-            ThreadedFileIOBase.getThreadedIOInstance().waitForFinish();
+            ThreadedFileIOBase.func_178779_a().func_75734_a();
         } catch (InterruptedException interruptedexception) {
             interruptedexception.printStackTrace();
         }
 
-        RegionFileCache.clearRegionFileReferences();
+        RegionFileCache.func_76551_a();
     }
 }

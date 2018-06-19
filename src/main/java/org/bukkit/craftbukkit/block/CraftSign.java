@@ -24,8 +24,8 @@ public class CraftSign extends CraftBlockEntityState<TileEntitySign> implements 
     public void load(TileEntitySign sign) {
         super.load(sign);
 
-        lines = new String[sign.signText.length];
-        System.arraycopy(revertComponents(sign.signText), 0, lines, 0, lines.length);
+        lines = new String[sign.field_145915_a.length];
+        System.arraycopy(revertComponents(sign.field_145915_a), 0, lines, 0, lines.length);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class CraftSign extends CraftBlockEntityState<TileEntitySign> implements 
         super.applyTo(sign);
 
         ITextComponent[] newLines = sanitizeLines(lines);
-        System.arraycopy(newLines, 0, sign.signText, 0, 4);
+        System.arraycopy(newLines, 0, sign.field_145915_a, 0, 4);
     }
 
     public static ITextComponent[] sanitizeLines(String[] lines) {

@@ -12,23 +12,23 @@ public class CraftEnchantment extends Enchantment {
     private final net.minecraft.enchantment.Enchantment target;
 
     public CraftEnchantment(net.minecraft.enchantment.Enchantment target) {
-        super(net.minecraft.enchantment.Enchantment.getEnchantmentID(target));
+        super(net.minecraft.enchantment.Enchantment.func_185258_b(target));
         this.target = target;
     }
 
     @Override
     public int getMaxLevel() {
-        return target.getMaxLevel();
+        return target.func_77325_b();
     }
 
     @Override
     public int getStartLevel() {
-        return target.getMinLevel();
+        return target.func_77319_d();
     }
 
     @Override
     public EnchantmentTarget getItemTarget() {
-        switch (target.type) {
+        switch (target.field_77351_y) {
         case ALL:
             return EnchantmentTarget.ALL;
         case ARMOR:
@@ -60,17 +60,17 @@ public class CraftEnchantment extends Enchantment {
 
     @Override
     public boolean isTreasure() {
-        return target.isTreasureEnchantment();
+        return target.func_185261_e();
     }
 
     @Override
     public boolean isCursed() {
-        return target.isCurse();
+        return target.func_190936_d();
     }
 
     @Override
     public boolean canEnchantItem(ItemStack item) {
-        return target.canApply(CraftItemStack.asNMSCopy(item));
+        return target.func_92089_a(CraftItemStack.asNMSCopy(item));
     }
 
     @Override
@@ -162,7 +162,7 @@ public class CraftEnchantment extends Enchantment {
             return false;
         }
         CraftEnchantment ench = (CraftEnchantment) other;
-        return !target.isCompatibleWith(ench.target);
+        return !target.func_191560_c(ench.target);
     }
 
     public net.minecraft.enchantment.Enchantment getHandle() {

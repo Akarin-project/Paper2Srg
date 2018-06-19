@@ -27,15 +27,15 @@ import org.bukkit.entity.HumanEntity;
 
 public class TileEntityDispenser extends TileEntityLockableLoot {
 
-    private static final Random RNG = new Random();
-    private NonNullList<ItemStack> stacks;
+    private static final Random field_174913_f = new Random();
+    private NonNullList<ItemStack> field_146022_i;
 
     // CraftBukkit start - add fields and methods
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
     private int maxStack = MAX_STACK;
 
     public List<ItemStack> getContents() {
-        return this.stacks;
+        return this.field_146022_i;
     }
 
     public void onOpen(CraftHumanEntity who) {
@@ -56,15 +56,15 @@ public class TileEntityDispenser extends TileEntityLockableLoot {
     // CraftBukkit end
 
     public TileEntityDispenser() {
-        this.stacks = NonNullList.withSize(9, ItemStack.EMPTY);
+        this.field_146022_i = NonNullList.func_191197_a(9, ItemStack.field_190927_a);
     }
 
-    public int getSizeInventory() {
+    public int func_70302_i_() {
         return 9;
     }
 
-    public boolean isEmpty() {
-        Iterator iterator = this.stacks.iterator();
+    public boolean func_191420_l() {
+        Iterator iterator = this.field_146022_i.iterator();
 
         ItemStack itemstack;
 
@@ -74,18 +74,18 @@ public class TileEntityDispenser extends TileEntityLockableLoot {
             }
 
             itemstack = (ItemStack) iterator.next();
-        } while (itemstack.isEmpty());
+        } while (itemstack.func_190926_b());
 
         return false;
     }
 
-    public int getDispenseSlot() {
-        this.fillWithLoot((EntityPlayer) null);
+    public int func_146017_i() {
+        this.func_184281_d((EntityPlayer) null);
         int i = -1;
         int j = 1;
 
-        for (int k = 0; k < this.stacks.size(); ++k) {
-            if (!((ItemStack) this.stacks.get(k)).isEmpty() && TileEntityDispenser.RNG.nextInt(j++) == 0) {
+        for (int k = 0; k < this.field_146022_i.size(); ++k) {
+            if (!((ItemStack) this.field_146022_i.get(k)).func_190926_b() && TileEntityDispenser.field_174913_f.nextInt(j++) == 0) {
                 i = k;
             }
         }
@@ -93,10 +93,10 @@ public class TileEntityDispenser extends TileEntityLockableLoot {
         return i;
     }
 
-    public int addItemStack(ItemStack itemstack) {
-        for (int i = 0; i < this.stacks.size(); ++i) {
-            if (((ItemStack) this.stacks.get(i)).isEmpty()) {
-                this.setInventorySlotContents(i, itemstack);
+    public int func_146019_a(ItemStack itemstack) {
+        for (int i = 0; i < this.field_146022_i.size(); ++i) {
+            if (((ItemStack) this.field_146022_i.get(i)).func_190926_b()) {
+                this.func_70299_a(i, itemstack);
                 return i;
             }
         }
@@ -104,54 +104,54 @@ public class TileEntityDispenser extends TileEntityLockableLoot {
         return -1;
     }
 
-    public String getName() {
-        return this.hasCustomName() ? this.customName : "container.dispenser";
+    public String func_70005_c_() {
+        return this.func_145818_k_() ? this.field_190577_o : "container.dispenser";
     }
 
-    public static void registerFixes(DataFixer dataconvertermanager) {
-        dataconvertermanager.registerWalker(FixTypes.BLOCK_ENTITY, (IDataWalker) (new ItemStackDataLists(TileEntityDispenser.class, new String[] { "Items"})));
+    public static void func_189678_a(DataFixer dataconvertermanager) {
+        dataconvertermanager.func_188258_a(FixTypes.BLOCK_ENTITY, (IDataWalker) (new ItemStackDataLists(TileEntityDispenser.class, new String[] { "Items"})));
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        super.readFromNBT(nbttagcompound);
-        this.stacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-        if (!this.checkLootAndRead(nbttagcompound)) {
-            ItemStackHelper.loadAllItems(nbttagcompound, this.stacks);
+    public void func_145839_a(NBTTagCompound nbttagcompound) {
+        super.func_145839_a(nbttagcompound);
+        this.field_146022_i = NonNullList.func_191197_a(this.func_70302_i_(), ItemStack.field_190927_a);
+        if (!this.func_184283_b(nbttagcompound)) {
+            ItemStackHelper.func_191283_b(nbttagcompound, this.field_146022_i);
         }
 
-        if (nbttagcompound.hasKey("CustomName", 8)) {
-            this.customName = nbttagcompound.getString("CustomName");
+        if (nbttagcompound.func_150297_b("CustomName", 8)) {
+            this.field_190577_o = nbttagcompound.func_74779_i("CustomName");
         }
 
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        super.writeToNBT(nbttagcompound);
-        if (!this.checkLootAndWrite(nbttagcompound)) {
-            ItemStackHelper.saveAllItems(nbttagcompound, this.stacks);
+    public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
+        super.func_189515_b(nbttagcompound);
+        if (!this.func_184282_c(nbttagcompound)) {
+            ItemStackHelper.func_191282_a(nbttagcompound, this.field_146022_i);
         }
 
-        if (this.hasCustomName()) {
-            nbttagcompound.setString("CustomName", this.customName);
+        if (this.func_145818_k_()) {
+            nbttagcompound.func_74778_a("CustomName", this.field_190577_o);
         }
 
         return nbttagcompound;
     }
 
-    public int getInventoryStackLimit() {
+    public int func_70297_j_() {
         return maxStack; // CraftBukkit
     }
 
-    public String getGuiID() {
+    public String func_174875_k() {
         return "minecraft:dispenser";
     }
 
-    public Container createContainer(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
-        this.fillWithLoot(entityhuman);
+    public Container func_174876_a(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
+        this.func_184281_d(entityhuman);
         return new ContainerDispenser(playerinventory, this);
     }
 
-    protected NonNullList<ItemStack> getItems() {
-        return this.stacks;
+    protected NonNullList<ItemStack> func_190576_q() {
+        return this.field_146022_i;
     }
 }

@@ -9,23 +9,23 @@ import net.minecraft.util.text.ITextComponent;
 
 public class SPacketDisconnect implements Packet<INetHandlerLoginClient> {
 
-    private ITextComponent reason;
+    private ITextComponent field_149605_a;
 
     public SPacketDisconnect() {}
 
     public SPacketDisconnect(ITextComponent ichatbasecomponent) {
-        this.reason = ichatbasecomponent;
+        this.field_149605_a = ichatbasecomponent;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.reason = ITextComponent.Serializer.fromJsonLenient(packetdataserializer.readString(32767));
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149605_a = ITextComponent.Serializer.func_186877_b(packetdataserializer.func_150789_c(32767));
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeTextComponent(this.reason);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179256_a(this.field_149605_a);
     }
 
-    public void processPacket(INetHandlerLoginClient packetloginoutlistener) {
-        packetloginoutlistener.handleDisconnect(this);
+    public void func_148833_a(INetHandlerLoginClient packetloginoutlistener) {
+        packetloginoutlistener.func_147388_a(this);
     }
 }

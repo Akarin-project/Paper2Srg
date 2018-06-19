@@ -7,28 +7,28 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
 
-    private final AbstractHorse horseHost;
-    private final double speed;
-    private double targetX;
-    private double targetY;
-    private double targetZ;
+    private final AbstractHorse field_111180_a;
+    private final double field_111178_b;
+    private double field_111179_c;
+    private double field_111176_d;
+    private double field_111177_e;
 
     public EntityAIRunAroundLikeCrazy(AbstractHorse entityhorseabstract, double d0) {
-        this.horseHost = entityhorseabstract;
-        this.speed = d0;
-        this.setMutexBits(1);
+        this.field_111180_a = entityhorseabstract;
+        this.field_111178_b = d0;
+        this.func_75248_a(1);
     }
 
-    public boolean shouldExecute() {
-        if (!this.horseHost.isTame() && this.horseHost.isBeingRidden()) {
-            Vec3d vec3d = RandomPositionGenerator.findRandomTarget(this.horseHost, 5, 4);
+    public boolean func_75250_a() {
+        if (!this.field_111180_a.func_110248_bS() && this.field_111180_a.func_184207_aI()) {
+            Vec3d vec3d = RandomPositionGenerator.func_75463_a(this.field_111180_a, 5, 4);
 
             if (vec3d == null) {
                 return false;
             } else {
-                this.targetX = vec3d.x;
-                this.targetY = vec3d.y;
-                this.targetZ = vec3d.z;
+                this.field_111179_c = vec3d.field_72450_a;
+                this.field_111176_d = vec3d.field_72448_b;
+                this.field_111177_e = vec3d.field_72449_c;
                 return true;
             }
         } else {
@@ -36,38 +36,38 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
         }
     }
 
-    public void startExecuting() {
-        this.horseHost.getNavigator().tryMoveToXYZ(this.targetX, this.targetY, this.targetZ, this.speed);
+    public void func_75249_e() {
+        this.field_111180_a.func_70661_as().func_75492_a(this.field_111179_c, this.field_111176_d, this.field_111177_e, this.field_111178_b);
     }
 
-    public boolean shouldContinueExecuting() {
-        return !this.horseHost.isTame() && !this.horseHost.getNavigator().noPath() && this.horseHost.isBeingRidden();
+    public boolean func_75253_b() {
+        return !this.field_111180_a.func_110248_bS() && !this.field_111180_a.func_70661_as().func_75500_f() && this.field_111180_a.func_184207_aI();
     }
 
-    public void updateTask() {
-        if (!this.horseHost.isTame() && this.horseHost.getRNG().nextInt(50) == 0) {
-            Entity entity = (Entity) this.horseHost.getPassengers().get(0);
+    public void func_75246_d() {
+        if (!this.field_111180_a.func_110248_bS() && this.field_111180_a.func_70681_au().nextInt(50) == 0) {
+            Entity entity = (Entity) this.field_111180_a.func_184188_bt().get(0);
 
             if (entity == null) {
                 return;
             }
 
             if (entity instanceof EntityPlayer) {
-                int i = this.horseHost.getTemper();
-                int j = this.horseHost.getMaxTemper();
+                int i = this.field_111180_a.func_110252_cg();
+                int j = this.field_111180_a.func_190676_dC();
 
                 // CraftBukkit - fire EntityTameEvent
-                if (j > 0 && this.horseHost.getRNG().nextInt(j) < i && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTameEvent(this.horseHost, ((org.bukkit.craftbukkit.entity.CraftHumanEntity) this.horseHost.getBukkitEntity().getPassenger()).getHandle()).isCancelled()) {
-                    this.horseHost.setTamedBy((EntityPlayer) entity);
+                if (j > 0 && this.field_111180_a.func_70681_au().nextInt(j) < i && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTameEvent(this.field_111180_a, ((org.bukkit.craftbukkit.entity.CraftHumanEntity) this.field_111180_a.getBukkitEntity().getPassenger()).getHandle()).isCancelled()) {
+                    this.field_111180_a.func_110263_g((EntityPlayer) entity);
                     return;
                 }
 
-                this.horseHost.increaseTemper(5);
+                this.field_111180_a.func_110198_t(5);
             }
 
-            this.horseHost.removePassengers();
-            this.horseHost.makeMad();
-            this.horseHost.world.setEntityState(this.horseHost, (byte) 6);
+            this.field_111180_a.func_184226_ay();
+            this.field_111180_a.func_190687_dF();
+            this.field_111180_a.field_70170_p.func_72960_a(this.field_111180_a, (byte) 6);
         }
 
     }

@@ -36,66 +36,66 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class WorldInfo {
 
-    private String versionName;
-    private int versionId;
-    private boolean versionSnapshot;
-    public static final EnumDifficulty DEFAULT_DIFFICULTY = EnumDifficulty.NORMAL;
-    private long randomSeed;
-    private WorldType terrainType;
-    private String generatorOptions;
-    private int spawnX;
-    private int spawnY;
-    private int spawnZ;
-    private long totalTime;
-    private long worldTime;
-    private long lastTimePlayed;
-    private long sizeOnDisk;
-    private NBTTagCompound playerTag;
-    private int dimension;
-    private String levelName;
-    private int saveVersion;
-    private int cleanWeatherTime;
-    private boolean raining;
-    private int rainTime;
-    private boolean thundering;
-    private int thunderTime;
-    private GameType gameType;
-    private boolean mapFeaturesEnabled;
-    private boolean hardcore;
-    private boolean allowCommands;
-    private boolean initialized;
-    private EnumDifficulty difficulty;
-    private boolean difficultyLocked;
-    private double borderCenterX;
-    private double borderCenterZ;
-    private double borderSize;
-    private long borderSizeLerpTime;
-    private double borderSizeLerpTarget;
-    private double borderSafeZone;
-    private double borderDamagePerBlock;
-    private int borderWarningDistance;
-    private int borderWarningTime;
-    private final Map<DimensionType, NBTTagCompound> dimensionData;
-    private GameRules gameRules;
+    private String field_186349_b;
+    private int field_186350_c;
+    private boolean field_186351_d;
+    public static final EnumDifficulty field_176156_a = EnumDifficulty.NORMAL;
+    private long field_76100_a;
+    private WorldType field_76098_b;
+    private String field_82576_c;
+    private int field_76099_c;
+    private int field_76096_d;
+    private int field_76097_e;
+    private long field_82575_g;
+    private long field_76094_f;
+    private long field_76095_g;
+    private long field_76107_h;
+    private NBTTagCompound field_76108_i;
+    private int field_76105_j;
+    private String field_76106_k;
+    private int field_76103_l;
+    private int field_176157_p;
+    private boolean field_76104_m;
+    private int field_76101_n;
+    private boolean field_76102_o;
+    private int field_76114_p;
+    private GameType field_76113_q;
+    private boolean field_76112_r;
+    private boolean field_76111_s;
+    private boolean field_76110_t;
+    private boolean field_76109_u;
+    private EnumDifficulty field_176158_z;
+    private boolean field_176150_A;
+    private double field_176151_B;
+    private double field_176152_C;
+    private double field_176146_D;
+    private long field_176147_E;
+    private double field_176148_F;
+    private double field_176149_G;
+    private double field_176153_H;
+    private int field_176154_I;
+    private int field_176155_J;
+    private final Map<DimensionType, NBTTagCompound> field_186348_N;
+    private GameRules field_82577_x;
     public WorldServer world; // CraftBukkit
 
     protected WorldInfo() {
-        this.terrainType = WorldType.DEFAULT;
-        this.generatorOptions = "";
-        this.borderSize = 6.0E7D;
-        this.borderSafeZone = 5.0D;
-        this.borderDamagePerBlock = 0.2D;
-        this.borderWarningDistance = 5;
-        this.borderWarningTime = 15;
-        this.dimensionData = Maps.newEnumMap(DimensionType.class);
-        this.gameRules = new GameRules();
+        this.field_76098_b = WorldType.field_77137_b;
+        this.field_82576_c = "";
+        this.field_176146_D = 6.0E7D;
+        this.field_176149_G = 5.0D;
+        this.field_176153_H = 0.2D;
+        this.field_176154_I = 5;
+        this.field_176155_J = 15;
+        this.field_186348_N = Maps.newEnumMap(DimensionType.class);
+        this.field_82577_x = new GameRules();
     }
 
-    public static void registerFixes(DataFixer dataconvertermanager) {
-        dataconvertermanager.registerWalker(FixTypes.LEVEL, new IDataWalker() {
-            public NBTTagCompound process(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
-                if (nbttagcompound.hasKey("Player", 10)) {
-                    nbttagcompound.setTag("Player", dataconverter.process(FixTypes.PLAYER, nbttagcompound.getCompoundTag("Player"), i));
+    public static void func_189967_a(DataFixer dataconvertermanager) {
+        dataconvertermanager.func_188258_a(FixTypes.LEVEL, new IDataWalker() {
+            public NBTTagCompound func_188266_a(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
+                if (nbttagcompound.func_150297_b("Player", 10)) {
+                    nbttagcompound.func_74782_a("Player", dataconverter.func_188251_a(FixTypes.PLAYER, nbttagcompound.func_74775_l("Player"), i));
                 }
 
                 return nbttagcompound;
@@ -104,370 +104,370 @@ public class WorldInfo {
     }
 
     public WorldInfo(NBTTagCompound nbttagcompound) {
-        this.terrainType = WorldType.DEFAULT;
-        this.generatorOptions = "";
-        this.borderSize = 6.0E7D;
-        this.borderSafeZone = 5.0D;
-        this.borderDamagePerBlock = 0.2D;
-        this.borderWarningDistance = 5;
-        this.borderWarningTime = 15;
-        this.dimensionData = Maps.newEnumMap(DimensionType.class);
-        this.gameRules = new GameRules();
+        this.field_76098_b = WorldType.field_77137_b;
+        this.field_82576_c = "";
+        this.field_176146_D = 6.0E7D;
+        this.field_176149_G = 5.0D;
+        this.field_176153_H = 0.2D;
+        this.field_176154_I = 5;
+        this.field_176155_J = 15;
+        this.field_186348_N = Maps.newEnumMap(DimensionType.class);
+        this.field_82577_x = new GameRules();
         NBTTagCompound nbttagcompound1;
 
-        if (nbttagcompound.hasKey("Version", 10)) {
-            nbttagcompound1 = nbttagcompound.getCompoundTag("Version");
-            this.versionName = nbttagcompound1.getString("Name");
-            this.versionId = nbttagcompound1.getInteger("Id");
-            this.versionSnapshot = nbttagcompound1.getBoolean("Snapshot");
+        if (nbttagcompound.func_150297_b("Version", 10)) {
+            nbttagcompound1 = nbttagcompound.func_74775_l("Version");
+            this.field_186349_b = nbttagcompound1.func_74779_i("Name");
+            this.field_186350_c = nbttagcompound1.func_74762_e("Id");
+            this.field_186351_d = nbttagcompound1.func_74767_n("Snapshot");
         }
 
-        this.randomSeed = nbttagcompound.getLong("RandomSeed");
-        if (nbttagcompound.hasKey("generatorName", 8)) {
-            String s = nbttagcompound.getString("generatorName");
+        this.field_76100_a = nbttagcompound.func_74763_f("RandomSeed");
+        if (nbttagcompound.func_150297_b("generatorName", 8)) {
+            String s = nbttagcompound.func_74779_i("generatorName");
 
-            this.terrainType = WorldType.parseWorldType(s);
-            if (this.terrainType == null) {
-                this.terrainType = WorldType.DEFAULT;
-            } else if (this.terrainType.isVersioned()) {
+            this.field_76098_b = WorldType.func_77130_a(s);
+            if (this.field_76098_b == null) {
+                this.field_76098_b = WorldType.field_77137_b;
+            } else if (this.field_76098_b.func_77125_e()) {
                 int i = 0;
 
-                if (nbttagcompound.hasKey("generatorVersion", 99)) {
-                    i = nbttagcompound.getInteger("generatorVersion");
+                if (nbttagcompound.func_150297_b("generatorVersion", 99)) {
+                    i = nbttagcompound.func_74762_e("generatorVersion");
                 }
 
-                this.terrainType = this.terrainType.getWorldTypeForGeneratorVersion(i);
+                this.field_76098_b = this.field_76098_b.func_77132_a(i);
             }
 
-            if (nbttagcompound.hasKey("generatorOptions", 8)) {
-                this.generatorOptions = nbttagcompound.getString("generatorOptions");
+            if (nbttagcompound.func_150297_b("generatorOptions", 8)) {
+                this.field_82576_c = nbttagcompound.func_74779_i("generatorOptions");
             }
         }
 
-        this.gameType = GameType.getByID(nbttagcompound.getInteger("GameType"));
-        if (nbttagcompound.hasKey("MapFeatures", 99)) {
-            this.mapFeaturesEnabled = nbttagcompound.getBoolean("MapFeatures");
+        this.field_76113_q = GameType.func_77146_a(nbttagcompound.func_74762_e("GameType"));
+        if (nbttagcompound.func_150297_b("MapFeatures", 99)) {
+            this.field_76112_r = nbttagcompound.func_74767_n("MapFeatures");
         } else {
-            this.mapFeaturesEnabled = true;
+            this.field_76112_r = true;
         }
 
-        this.spawnX = nbttagcompound.getInteger("SpawnX");
-        this.spawnY = nbttagcompound.getInteger("SpawnY");
-        this.spawnZ = nbttagcompound.getInteger("SpawnZ");
-        this.totalTime = nbttagcompound.getLong("Time");
-        if (nbttagcompound.hasKey("DayTime", 99)) {
-            this.worldTime = nbttagcompound.getLong("DayTime");
+        this.field_76099_c = nbttagcompound.func_74762_e("SpawnX");
+        this.field_76096_d = nbttagcompound.func_74762_e("SpawnY");
+        this.field_76097_e = nbttagcompound.func_74762_e("SpawnZ");
+        this.field_82575_g = nbttagcompound.func_74763_f("Time");
+        if (nbttagcompound.func_150297_b("DayTime", 99)) {
+            this.field_76094_f = nbttagcompound.func_74763_f("DayTime");
         } else {
-            this.worldTime = this.totalTime;
+            this.field_76094_f = this.field_82575_g;
         }
 
-        this.lastTimePlayed = nbttagcompound.getLong("LastPlayed");
-        this.sizeOnDisk = nbttagcompound.getLong("SizeOnDisk");
-        this.levelName = nbttagcompound.getString("LevelName");
-        this.saveVersion = nbttagcompound.getInteger("version");
-        this.cleanWeatherTime = nbttagcompound.getInteger("clearWeatherTime");
-        this.rainTime = nbttagcompound.getInteger("rainTime");
-        this.raining = nbttagcompound.getBoolean("raining");
-        this.thunderTime = nbttagcompound.getInteger("thunderTime");
-        this.thundering = nbttagcompound.getBoolean("thundering");
-        this.hardcore = nbttagcompound.getBoolean("hardcore");
-        if (nbttagcompound.hasKey("initialized", 99)) {
-            this.initialized = nbttagcompound.getBoolean("initialized");
+        this.field_76095_g = nbttagcompound.func_74763_f("LastPlayed");
+        this.field_76107_h = nbttagcompound.func_74763_f("SizeOnDisk");
+        this.field_76106_k = nbttagcompound.func_74779_i("LevelName");
+        this.field_76103_l = nbttagcompound.func_74762_e("version");
+        this.field_176157_p = nbttagcompound.func_74762_e("clearWeatherTime");
+        this.field_76101_n = nbttagcompound.func_74762_e("rainTime");
+        this.field_76104_m = nbttagcompound.func_74767_n("raining");
+        this.field_76114_p = nbttagcompound.func_74762_e("thunderTime");
+        this.field_76102_o = nbttagcompound.func_74767_n("thundering");
+        this.field_76111_s = nbttagcompound.func_74767_n("hardcore");
+        if (nbttagcompound.func_150297_b("initialized", 99)) {
+            this.field_76109_u = nbttagcompound.func_74767_n("initialized");
         } else {
-            this.initialized = true;
+            this.field_76109_u = true;
         }
 
-        if (nbttagcompound.hasKey("allowCommands", 99)) {
-            this.allowCommands = nbttagcompound.getBoolean("allowCommands");
+        if (nbttagcompound.func_150297_b("allowCommands", 99)) {
+            this.field_76110_t = nbttagcompound.func_74767_n("allowCommands");
         } else {
-            this.allowCommands = this.gameType == GameType.CREATIVE;
+            this.field_76110_t = this.field_76113_q == GameType.CREATIVE;
         }
 
-        if (nbttagcompound.hasKey("Player", 10)) {
-            this.playerTag = nbttagcompound.getCompoundTag("Player");
-            this.dimension = this.playerTag.getInteger("Dimension");
+        if (nbttagcompound.func_150297_b("Player", 10)) {
+            this.field_76108_i = nbttagcompound.func_74775_l("Player");
+            this.field_76105_j = this.field_76108_i.func_74762_e("Dimension");
         }
 
-        if (nbttagcompound.hasKey("GameRules", 10)) {
-            this.gameRules.readFromNBT(nbttagcompound.getCompoundTag("GameRules"));
+        if (nbttagcompound.func_150297_b("GameRules", 10)) {
+            this.field_82577_x.func_82768_a(nbttagcompound.func_74775_l("GameRules"));
         }
 
-        if (nbttagcompound.hasKey("Difficulty", 99)) {
-            this.difficulty = EnumDifficulty.getDifficultyEnum(nbttagcompound.getByte("Difficulty"));
+        if (nbttagcompound.func_150297_b("Difficulty", 99)) {
+            this.field_176158_z = EnumDifficulty.func_151523_a(nbttagcompound.func_74771_c("Difficulty"));
         }
 
-        if (nbttagcompound.hasKey("DifficultyLocked", 1)) {
-            this.difficultyLocked = nbttagcompound.getBoolean("DifficultyLocked");
+        if (nbttagcompound.func_150297_b("DifficultyLocked", 1)) {
+            this.field_176150_A = nbttagcompound.func_74767_n("DifficultyLocked");
         }
 
-        if (nbttagcompound.hasKey("BorderCenterX", 99)) {
-            this.borderCenterX = nbttagcompound.getDouble("BorderCenterX");
+        if (nbttagcompound.func_150297_b("BorderCenterX", 99)) {
+            this.field_176151_B = nbttagcompound.func_74769_h("BorderCenterX");
         }
 
-        if (nbttagcompound.hasKey("BorderCenterZ", 99)) {
-            this.borderCenterZ = nbttagcompound.getDouble("BorderCenterZ");
+        if (nbttagcompound.func_150297_b("BorderCenterZ", 99)) {
+            this.field_176152_C = nbttagcompound.func_74769_h("BorderCenterZ");
         }
 
-        if (nbttagcompound.hasKey("BorderSize", 99)) {
-            this.borderSize = nbttagcompound.getDouble("BorderSize");
+        if (nbttagcompound.func_150297_b("BorderSize", 99)) {
+            this.field_176146_D = nbttagcompound.func_74769_h("BorderSize");
         }
 
-        if (nbttagcompound.hasKey("BorderSizeLerpTime", 99)) {
-            this.borderSizeLerpTime = nbttagcompound.getLong("BorderSizeLerpTime");
+        if (nbttagcompound.func_150297_b("BorderSizeLerpTime", 99)) {
+            this.field_176147_E = nbttagcompound.func_74763_f("BorderSizeLerpTime");
         }
 
-        if (nbttagcompound.hasKey("BorderSizeLerpTarget", 99)) {
-            this.borderSizeLerpTarget = nbttagcompound.getDouble("BorderSizeLerpTarget");
+        if (nbttagcompound.func_150297_b("BorderSizeLerpTarget", 99)) {
+            this.field_176148_F = nbttagcompound.func_74769_h("BorderSizeLerpTarget");
         }
 
-        if (nbttagcompound.hasKey("BorderSafeZone", 99)) {
-            this.borderSafeZone = nbttagcompound.getDouble("BorderSafeZone");
+        if (nbttagcompound.func_150297_b("BorderSafeZone", 99)) {
+            this.field_176149_G = nbttagcompound.func_74769_h("BorderSafeZone");
         }
 
-        if (nbttagcompound.hasKey("BorderDamagePerBlock", 99)) {
-            this.borderDamagePerBlock = nbttagcompound.getDouble("BorderDamagePerBlock");
+        if (nbttagcompound.func_150297_b("BorderDamagePerBlock", 99)) {
+            this.field_176153_H = nbttagcompound.func_74769_h("BorderDamagePerBlock");
         }
 
-        if (nbttagcompound.hasKey("BorderWarningBlocks", 99)) {
-            this.borderWarningDistance = nbttagcompound.getInteger("BorderWarningBlocks");
+        if (nbttagcompound.func_150297_b("BorderWarningBlocks", 99)) {
+            this.field_176154_I = nbttagcompound.func_74762_e("BorderWarningBlocks");
         }
 
-        if (nbttagcompound.hasKey("BorderWarningTime", 99)) {
-            this.borderWarningTime = nbttagcompound.getInteger("BorderWarningTime");
+        if (nbttagcompound.func_150297_b("BorderWarningTime", 99)) {
+            this.field_176155_J = nbttagcompound.func_74762_e("BorderWarningTime");
         }
 
-        if (nbttagcompound.hasKey("DimensionData", 10)) {
-            nbttagcompound1 = nbttagcompound.getCompoundTag("DimensionData");
-            Iterator iterator = nbttagcompound1.getKeySet().iterator();
+        if (nbttagcompound.func_150297_b("DimensionData", 10)) {
+            nbttagcompound1 = nbttagcompound.func_74775_l("DimensionData");
+            Iterator iterator = nbttagcompound1.func_150296_c().iterator();
 
             while (iterator.hasNext()) {
                 String s1 = (String) iterator.next();
 
-                this.dimensionData.put(DimensionType.getById(Integer.parseInt(s1)), nbttagcompound1.getCompoundTag(s1));
+                this.field_186348_N.put(DimensionType.func_186069_a(Integer.parseInt(s1)), nbttagcompound1.func_74775_l(s1));
             }
         }
 
     }
 
     public WorldInfo(WorldSettings worldsettings, String s) {
-        this.terrainType = WorldType.DEFAULT;
-        this.generatorOptions = "";
-        this.borderSize = 6.0E7D;
-        this.borderSafeZone = 5.0D;
-        this.borderDamagePerBlock = 0.2D;
-        this.borderWarningDistance = 5;
-        this.borderWarningTime = 15;
-        this.dimensionData = Maps.newEnumMap(DimensionType.class);
-        this.gameRules = new GameRules();
-        this.populateFromWorldSettings(worldsettings);
-        this.levelName = s;
-        this.difficulty = WorldInfo.DEFAULT_DIFFICULTY;
-        this.initialized = false;
+        this.field_76098_b = WorldType.field_77137_b;
+        this.field_82576_c = "";
+        this.field_176146_D = 6.0E7D;
+        this.field_176149_G = 5.0D;
+        this.field_176153_H = 0.2D;
+        this.field_176154_I = 5;
+        this.field_176155_J = 15;
+        this.field_186348_N = Maps.newEnumMap(DimensionType.class);
+        this.field_82577_x = new GameRules();
+        this.func_176127_a(worldsettings);
+        this.field_76106_k = s;
+        this.field_176158_z = WorldInfo.field_176156_a;
+        this.field_76109_u = false;
     }
 
-    public void populateFromWorldSettings(WorldSettings worldsettings) {
-        this.randomSeed = worldsettings.getSeed();
-        this.gameType = worldsettings.getGameType();
-        this.mapFeaturesEnabled = worldsettings.isMapFeaturesEnabled();
-        this.hardcore = worldsettings.getHardcoreEnabled();
-        this.terrainType = worldsettings.getTerrainType();
-        this.generatorOptions = worldsettings.getGeneratorOptions();
-        this.allowCommands = worldsettings.areCommandsAllowed();
+    public void func_176127_a(WorldSettings worldsettings) {
+        this.field_76100_a = worldsettings.func_77160_d();
+        this.field_76113_q = worldsettings.func_77162_e();
+        this.field_76112_r = worldsettings.func_77164_g();
+        this.field_76111_s = worldsettings.func_77158_f();
+        this.field_76098_b = worldsettings.func_77165_h();
+        this.field_82576_c = worldsettings.func_82749_j();
+        this.field_76110_t = worldsettings.func_77163_i();
     }
 
     public WorldInfo(WorldInfo worlddata) {
-        this.terrainType = WorldType.DEFAULT;
-        this.generatorOptions = "";
-        this.borderSize = 6.0E7D;
-        this.borderSafeZone = 5.0D;
-        this.borderDamagePerBlock = 0.2D;
-        this.borderWarningDistance = 5;
-        this.borderWarningTime = 15;
-        this.dimensionData = Maps.newEnumMap(DimensionType.class);
-        this.gameRules = new GameRules();
-        this.randomSeed = worlddata.randomSeed;
-        this.terrainType = worlddata.terrainType;
-        this.generatorOptions = worlddata.generatorOptions;
-        this.gameType = worlddata.gameType;
-        this.mapFeaturesEnabled = worlddata.mapFeaturesEnabled;
-        this.spawnX = worlddata.spawnX;
-        this.spawnY = worlddata.spawnY;
-        this.spawnZ = worlddata.spawnZ;
-        this.totalTime = worlddata.totalTime;
-        this.worldTime = worlddata.worldTime;
-        this.lastTimePlayed = worlddata.lastTimePlayed;
-        this.sizeOnDisk = worlddata.sizeOnDisk;
-        this.playerTag = worlddata.playerTag;
-        this.dimension = worlddata.dimension;
-        this.levelName = worlddata.levelName;
-        this.saveVersion = worlddata.saveVersion;
-        this.rainTime = worlddata.rainTime;
-        this.raining = worlddata.raining;
-        this.thunderTime = worlddata.thunderTime;
-        this.thundering = worlddata.thundering;
-        this.hardcore = worlddata.hardcore;
-        this.allowCommands = worlddata.allowCommands;
-        this.initialized = worlddata.initialized;
-        this.gameRules = worlddata.gameRules;
-        this.difficulty = worlddata.difficulty;
-        this.difficultyLocked = worlddata.difficultyLocked;
-        this.borderCenterX = worlddata.borderCenterX;
-        this.borderCenterZ = worlddata.borderCenterZ;
-        this.borderSize = worlddata.borderSize;
-        this.borderSizeLerpTime = worlddata.borderSizeLerpTime;
-        this.borderSizeLerpTarget = worlddata.borderSizeLerpTarget;
-        this.borderSafeZone = worlddata.borderSafeZone;
-        this.borderDamagePerBlock = worlddata.borderDamagePerBlock;
-        this.borderWarningTime = worlddata.borderWarningTime;
-        this.borderWarningDistance = worlddata.borderWarningDistance;
+        this.field_76098_b = WorldType.field_77137_b;
+        this.field_82576_c = "";
+        this.field_176146_D = 6.0E7D;
+        this.field_176149_G = 5.0D;
+        this.field_176153_H = 0.2D;
+        this.field_176154_I = 5;
+        this.field_176155_J = 15;
+        this.field_186348_N = Maps.newEnumMap(DimensionType.class);
+        this.field_82577_x = new GameRules();
+        this.field_76100_a = worlddata.field_76100_a;
+        this.field_76098_b = worlddata.field_76098_b;
+        this.field_82576_c = worlddata.field_82576_c;
+        this.field_76113_q = worlddata.field_76113_q;
+        this.field_76112_r = worlddata.field_76112_r;
+        this.field_76099_c = worlddata.field_76099_c;
+        this.field_76096_d = worlddata.field_76096_d;
+        this.field_76097_e = worlddata.field_76097_e;
+        this.field_82575_g = worlddata.field_82575_g;
+        this.field_76094_f = worlddata.field_76094_f;
+        this.field_76095_g = worlddata.field_76095_g;
+        this.field_76107_h = worlddata.field_76107_h;
+        this.field_76108_i = worlddata.field_76108_i;
+        this.field_76105_j = worlddata.field_76105_j;
+        this.field_76106_k = worlddata.field_76106_k;
+        this.field_76103_l = worlddata.field_76103_l;
+        this.field_76101_n = worlddata.field_76101_n;
+        this.field_76104_m = worlddata.field_76104_m;
+        this.field_76114_p = worlddata.field_76114_p;
+        this.field_76102_o = worlddata.field_76102_o;
+        this.field_76111_s = worlddata.field_76111_s;
+        this.field_76110_t = worlddata.field_76110_t;
+        this.field_76109_u = worlddata.field_76109_u;
+        this.field_82577_x = worlddata.field_82577_x;
+        this.field_176158_z = worlddata.field_176158_z;
+        this.field_176150_A = worlddata.field_176150_A;
+        this.field_176151_B = worlddata.field_176151_B;
+        this.field_176152_C = worlddata.field_176152_C;
+        this.field_176146_D = worlddata.field_176146_D;
+        this.field_176147_E = worlddata.field_176147_E;
+        this.field_176148_F = worlddata.field_176148_F;
+        this.field_176149_G = worlddata.field_176149_G;
+        this.field_176153_H = worlddata.field_176153_H;
+        this.field_176155_J = worlddata.field_176155_J;
+        this.field_176154_I = worlddata.field_176154_I;
     }
 
-    public NBTTagCompound cloneNBTCompound(@Nullable NBTTagCompound nbttagcompound) {
+    public NBTTagCompound func_76082_a(@Nullable NBTTagCompound nbttagcompound) {
         if (nbttagcompound == null) {
-            nbttagcompound = this.playerTag;
+            nbttagcompound = this.field_76108_i;
         }
 
         NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-        this.updateTagCompound(nbttagcompound1, nbttagcompound);
+        this.func_76064_a(nbttagcompound1, nbttagcompound);
         return nbttagcompound1;
     }
 
-    private void updateTagCompound(NBTTagCompound nbttagcompound, NBTTagCompound nbttagcompound1) {
+    private void func_76064_a(NBTTagCompound nbttagcompound, NBTTagCompound nbttagcompound1) {
         NBTTagCompound nbttagcompound2 = new NBTTagCompound();
 
-        nbttagcompound2.setString("Name", "1.12.2");
-        nbttagcompound2.setInteger("Id", 1343);
-        nbttagcompound2.setBoolean("Snapshot", false);
-        nbttagcompound.setTag("Version", nbttagcompound2);
-        nbttagcompound.setInteger("DataVersion", 1343);
-        nbttagcompound.setLong("RandomSeed", this.randomSeed);
-        nbttagcompound.setString("generatorName", this.terrainType.getName());
-        nbttagcompound.setInteger("generatorVersion", this.terrainType.getVersion());
-        nbttagcompound.setString("generatorOptions", this.generatorOptions);
-        nbttagcompound.setInteger("GameType", this.gameType.getID());
-        nbttagcompound.setBoolean("MapFeatures", this.mapFeaturesEnabled);
-        nbttagcompound.setInteger("SpawnX", this.spawnX);
-        nbttagcompound.setInteger("SpawnY", this.spawnY);
-        nbttagcompound.setInteger("SpawnZ", this.spawnZ);
-        nbttagcompound.setLong("Time", this.totalTime);
-        nbttagcompound.setLong("DayTime", this.worldTime);
-        nbttagcompound.setLong("SizeOnDisk", this.sizeOnDisk);
-        nbttagcompound.setLong("LastPlayed", MinecraftServer.getCurrentTimeMillis());
-        nbttagcompound.setString("LevelName", this.levelName);
-        nbttagcompound.setInteger("version", this.saveVersion);
-        nbttagcompound.setInteger("clearWeatherTime", this.cleanWeatherTime);
-        nbttagcompound.setInteger("rainTime", this.rainTime);
-        nbttagcompound.setBoolean("raining", this.raining);
-        nbttagcompound.setInteger("thunderTime", this.thunderTime);
-        nbttagcompound.setBoolean("thundering", this.thundering);
-        nbttagcompound.setBoolean("hardcore", this.hardcore);
-        nbttagcompound.setBoolean("allowCommands", this.allowCommands);
-        nbttagcompound.setBoolean("initialized", this.initialized);
-        nbttagcompound.setDouble("BorderCenterX", this.borderCenterX);
-        nbttagcompound.setDouble("BorderCenterZ", this.borderCenterZ);
-        nbttagcompound.setDouble("BorderSize", this.borderSize);
-        nbttagcompound.setLong("BorderSizeLerpTime", this.borderSizeLerpTime);
-        nbttagcompound.setDouble("BorderSafeZone", this.borderSafeZone);
-        nbttagcompound.setDouble("BorderDamagePerBlock", this.borderDamagePerBlock);
-        nbttagcompound.setDouble("BorderSizeLerpTarget", this.borderSizeLerpTarget);
-        nbttagcompound.setDouble("BorderWarningBlocks", (double) this.borderWarningDistance);
-        nbttagcompound.setDouble("BorderWarningTime", (double) this.borderWarningTime);
-        if (this.difficulty != null) {
-            nbttagcompound.setByte("Difficulty", (byte) this.difficulty.getDifficultyId());
+        nbttagcompound2.func_74778_a("Name", "1.12.2");
+        nbttagcompound2.func_74768_a("Id", 1343);
+        nbttagcompound2.func_74757_a("Snapshot", false);
+        nbttagcompound.func_74782_a("Version", nbttagcompound2);
+        nbttagcompound.func_74768_a("DataVersion", 1343);
+        nbttagcompound.func_74772_a("RandomSeed", this.field_76100_a);
+        nbttagcompound.func_74778_a("generatorName", this.field_76098_b.func_77127_a());
+        nbttagcompound.func_74768_a("generatorVersion", this.field_76098_b.func_77131_c());
+        nbttagcompound.func_74778_a("generatorOptions", this.field_82576_c);
+        nbttagcompound.func_74768_a("GameType", this.field_76113_q.func_77148_a());
+        nbttagcompound.func_74757_a("MapFeatures", this.field_76112_r);
+        nbttagcompound.func_74768_a("SpawnX", this.field_76099_c);
+        nbttagcompound.func_74768_a("SpawnY", this.field_76096_d);
+        nbttagcompound.func_74768_a("SpawnZ", this.field_76097_e);
+        nbttagcompound.func_74772_a("Time", this.field_82575_g);
+        nbttagcompound.func_74772_a("DayTime", this.field_76094_f);
+        nbttagcompound.func_74772_a("SizeOnDisk", this.field_76107_h);
+        nbttagcompound.func_74772_a("LastPlayed", MinecraftServer.func_130071_aq());
+        nbttagcompound.func_74778_a("LevelName", this.field_76106_k);
+        nbttagcompound.func_74768_a("version", this.field_76103_l);
+        nbttagcompound.func_74768_a("clearWeatherTime", this.field_176157_p);
+        nbttagcompound.func_74768_a("rainTime", this.field_76101_n);
+        nbttagcompound.func_74757_a("raining", this.field_76104_m);
+        nbttagcompound.func_74768_a("thunderTime", this.field_76114_p);
+        nbttagcompound.func_74757_a("thundering", this.field_76102_o);
+        nbttagcompound.func_74757_a("hardcore", this.field_76111_s);
+        nbttagcompound.func_74757_a("allowCommands", this.field_76110_t);
+        nbttagcompound.func_74757_a("initialized", this.field_76109_u);
+        nbttagcompound.func_74780_a("BorderCenterX", this.field_176151_B);
+        nbttagcompound.func_74780_a("BorderCenterZ", this.field_176152_C);
+        nbttagcompound.func_74780_a("BorderSize", this.field_176146_D);
+        nbttagcompound.func_74772_a("BorderSizeLerpTime", this.field_176147_E);
+        nbttagcompound.func_74780_a("BorderSafeZone", this.field_176149_G);
+        nbttagcompound.func_74780_a("BorderDamagePerBlock", this.field_176153_H);
+        nbttagcompound.func_74780_a("BorderSizeLerpTarget", this.field_176148_F);
+        nbttagcompound.func_74780_a("BorderWarningBlocks", (double) this.field_176154_I);
+        nbttagcompound.func_74780_a("BorderWarningTime", (double) this.field_176155_J);
+        if (this.field_176158_z != null) {
+            nbttagcompound.func_74774_a("Difficulty", (byte) this.field_176158_z.func_151525_a());
         }
 
-        nbttagcompound.setBoolean("DifficultyLocked", this.difficultyLocked);
-        nbttagcompound.setTag("GameRules", this.gameRules.writeToNBT());
+        nbttagcompound.func_74757_a("DifficultyLocked", this.field_176150_A);
+        nbttagcompound.func_74782_a("GameRules", this.field_82577_x.func_82770_a());
         NBTTagCompound nbttagcompound3 = new NBTTagCompound();
-        Iterator iterator = this.dimensionData.entrySet().iterator();
+        Iterator iterator = this.field_186348_N.entrySet().iterator();
 
         while (iterator.hasNext()) {
             Entry entry = (Entry) iterator.next();
 
-            nbttagcompound3.setTag(String.valueOf(((DimensionType) entry.getKey()).getId()), (NBTBase) entry.getValue());
+            nbttagcompound3.func_74782_a(String.valueOf(((DimensionType) entry.getKey()).func_186068_a()), (NBTBase) entry.getValue());
         }
 
-        nbttagcompound.setTag("DimensionData", nbttagcompound3);
+        nbttagcompound.func_74782_a("DimensionData", nbttagcompound3);
         if (nbttagcompound1 != null) {
-            nbttagcompound.setTag("Player", nbttagcompound1);
+            nbttagcompound.func_74782_a("Player", nbttagcompound1);
         }
 
     }
 
-    public long getSeed() {
-        return this.randomSeed;
+    public long func_76063_b() {
+        return this.field_76100_a;
     }
 
-    public int getSpawnX() {
-        return this.spawnX;
+    public int func_76079_c() {
+        return this.field_76099_c;
     }
 
-    public int getSpawnY() {
-        return this.spawnY;
+    public int func_76075_d() {
+        return this.field_76096_d;
     }
 
-    public int getSpawnZ() {
-        return this.spawnZ;
+    public int func_76074_e() {
+        return this.field_76097_e;
     }
 
-    public long getWorldTotalTime() {
-        return this.totalTime;
+    public long func_82573_f() {
+        return this.field_82575_g;
     }
 
-    public long getWorldTime() {
-        return this.worldTime;
+    public long func_76073_f() {
+        return this.field_76094_f;
     }
 
-    public NBTTagCompound getPlayerNBTTagCompound() {
-        return this.playerTag;
+    public NBTTagCompound func_76072_h() {
+        return this.field_76108_i;
     }
 
-    public void setWorldTotalTime(long i) {
-        this.totalTime = i;
+    public void func_82572_b(long i) {
+        this.field_82575_g = i;
     }
 
-    public void setWorldTime(long i) {
-        this.worldTime = i;
+    public void func_76068_b(long i) {
+        this.field_76094_f = i;
     }
 
-    public void setSpawn(BlockPos blockposition) {
-        this.spawnX = blockposition.getX();
-        this.spawnY = blockposition.getY();
-        this.spawnZ = blockposition.getZ();
+    public void func_176143_a(BlockPos blockposition) {
+        this.field_76099_c = blockposition.func_177958_n();
+        this.field_76096_d = blockposition.func_177956_o();
+        this.field_76097_e = blockposition.func_177952_p();
     }
 
-    public String getWorldName() {
-        return this.levelName;
+    public String func_76065_j() {
+        return this.field_76106_k;
     }
 
-    public void setWorldName(String s) {
-        this.levelName = s;
+    public void func_76062_a(String s) {
+        this.field_76106_k = s;
     }
 
-    public int getSaveVersion() {
-        return this.saveVersion;
+    public int func_76088_k() {
+        return this.field_76103_l;
     }
 
-    public void setSaveVersion(int i) {
-        this.saveVersion = i;
+    public void func_76078_e(int i) {
+        this.field_76103_l = i;
     }
 
-    public int getCleanWeatherTime() {
-        return this.cleanWeatherTime;
+    public int func_176133_A() {
+        return this.field_176157_p;
     }
 
-    public void setCleanWeatherTime(int i) {
-        this.cleanWeatherTime = i;
+    public void func_176142_i(int i) {
+        this.field_176157_p = i;
     }
 
-    public boolean isThundering() {
-        return this.thundering;
+    public boolean func_76061_m() {
+        return this.field_76102_o;
     }
 
-    public void setThundering(boolean flag) {
+    public void func_76069_a(boolean flag) {
         // CraftBukkit start
-        org.bukkit.World world = Bukkit.getWorld(getWorldName());
+        org.bukkit.World world = Bukkit.getWorld(func_76065_j());
         if (world != null) {
             ThunderChangeEvent thunder = new ThunderChangeEvent(world, flag);
             Bukkit.getServer().getPluginManager().callEvent(thunder);
@@ -476,24 +476,24 @@ public class WorldInfo {
             }
         }
         // CraftBukkit end
-        this.thundering = flag;
+        this.field_76102_o = flag;
     }
 
-    public int getThunderTime() {
-        return this.thunderTime;
+    public int func_76071_n() {
+        return this.field_76114_p;
     }
 
-    public void setThunderTime(int i) {
-        this.thunderTime = i;
+    public void func_76090_f(int i) {
+        this.field_76114_p = i;
     }
 
-    public boolean isRaining() {
-        return this.raining;
+    public boolean func_76059_o() {
+        return this.field_76104_m;
     }
 
-    public void setRaining(boolean flag) {
+    public void func_76084_b(boolean flag) {
         // CraftBukkit start
-        org.bukkit.World world = Bukkit.getWorld(getWorldName());
+        org.bukkit.World world = Bukkit.getWorld(func_76065_j());
         if (world != null) {
             WeatherChangeEvent weather = new WeatherChangeEvent(world, flag);
             Bukkit.getServer().getPluginManager().callEvent(weather);
@@ -502,228 +502,228 @@ public class WorldInfo {
             }
         }
         // CraftBukkit end
-        this.raining = flag;
+        this.field_76104_m = flag;
     }
 
-    public int getRainTime() {
-        return this.rainTime;
+    public int func_76083_p() {
+        return this.field_76101_n;
     }
 
-    public void setRainTime(int i) {
-        this.rainTime = i;
+    public void func_76080_g(int i) {
+        this.field_76101_n = i;
     }
 
-    public GameType getGameType() {
-        return this.gameType;
+    public GameType func_76077_q() {
+        return this.field_76113_q;
     }
 
-    public boolean isMapFeaturesEnabled() {
-        return this.mapFeaturesEnabled;
+    public boolean func_76089_r() {
+        return this.field_76112_r;
     }
 
-    public void setMapFeaturesEnabled(boolean flag) {
-        this.mapFeaturesEnabled = flag;
+    public void func_176128_f(boolean flag) {
+        this.field_76112_r = flag;
     }
 
-    public void setGameType(GameType enumgamemode) {
-        this.gameType = enumgamemode;
+    public void func_76060_a(GameType enumgamemode) {
+        this.field_76113_q = enumgamemode;
     }
 
-    public boolean isHardcoreModeEnabled() {
-        return this.hardcore;
+    public boolean func_76093_s() {
+        return this.field_76111_s;
     }
 
-    public void setHardcore(boolean flag) {
-        this.hardcore = flag;
+    public void func_176119_g(boolean flag) {
+        this.field_76111_s = flag;
     }
 
-    public WorldType getTerrainType() {
-        return this.terrainType;
+    public WorldType func_76067_t() {
+        return this.field_76098_b;
     }
 
-    public void setTerrainType(WorldType worldtype) {
-        this.terrainType = worldtype;
+    public void func_76085_a(WorldType worldtype) {
+        this.field_76098_b = worldtype;
     }
 
-    public String getGeneratorOptions() {
-        return this.generatorOptions == null ? "" : this.generatorOptions;
+    public String func_82571_y() {
+        return this.field_82576_c == null ? "" : this.field_82576_c;
     }
 
-    public boolean areCommandsAllowed() {
-        return this.allowCommands;
+    public boolean func_76086_u() {
+        return this.field_76110_t;
     }
 
-    public void setAllowCommands(boolean flag) {
-        this.allowCommands = flag;
+    public void func_176121_c(boolean flag) {
+        this.field_76110_t = flag;
     }
 
-    public boolean isInitialized() {
-        return this.initialized;
+    public boolean func_76070_v() {
+        return this.field_76109_u;
     }
 
-    public void setServerInitialized(boolean flag) {
-        this.initialized = flag;
+    public void func_76091_d(boolean flag) {
+        this.field_76109_u = flag;
     }
 
-    public GameRules getGameRulesInstance() {
-        return this.gameRules;
+    public GameRules func_82574_x() {
+        return this.field_82577_x;
     }
 
-    public double getBorderCenterX() {
-        return this.borderCenterX;
+    public double func_176120_C() {
+        return this.field_176151_B;
     }
 
-    public double getBorderCenterZ() {
-        return this.borderCenterZ;
+    public double func_176126_D() {
+        return this.field_176152_C;
     }
 
-    public double getBorderSize() {
-        return this.borderSize;
+    public double func_176137_E() {
+        return this.field_176146_D;
     }
 
-    public void setBorderSize(double d0) {
-        this.borderSize = d0;
+    public void func_176145_a(double d0) {
+        this.field_176146_D = d0;
     }
 
-    public long getBorderLerpTime() {
-        return this.borderSizeLerpTime;
+    public long func_176134_F() {
+        return this.field_176147_E;
     }
 
-    public void setBorderLerpTime(long i) {
-        this.borderSizeLerpTime = i;
+    public void func_176135_e(long i) {
+        this.field_176147_E = i;
     }
 
-    public double getBorderLerpTarget() {
-        return this.borderSizeLerpTarget;
+    public double func_176132_G() {
+        return this.field_176148_F;
     }
 
-    public void setBorderLerpTarget(double d0) {
-        this.borderSizeLerpTarget = d0;
+    public void func_176118_b(double d0) {
+        this.field_176148_F = d0;
     }
 
-    public void getBorderCenterZ(double d0) {
-        this.borderCenterZ = d0;
+    public void func_176141_c(double d0) {
+        this.field_176152_C = d0;
     }
 
-    public void getBorderCenterX(double d0) {
-        this.borderCenterX = d0;
+    public void func_176124_d(double d0) {
+        this.field_176151_B = d0;
     }
 
-    public double getBorderSafeZone() {
-        return this.borderSafeZone;
+    public double func_176138_H() {
+        return this.field_176149_G;
     }
 
-    public void setBorderSafeZone(double d0) {
-        this.borderSafeZone = d0;
+    public void func_176129_e(double d0) {
+        this.field_176149_G = d0;
     }
 
-    public double getBorderDamagePerBlock() {
-        return this.borderDamagePerBlock;
+    public double func_176140_I() {
+        return this.field_176153_H;
     }
 
-    public void setBorderDamagePerBlock(double d0) {
-        this.borderDamagePerBlock = d0;
+    public void func_176125_f(double d0) {
+        this.field_176153_H = d0;
     }
 
-    public int getBorderWarningDistance() {
-        return this.borderWarningDistance;
+    public int func_176131_J() {
+        return this.field_176154_I;
     }
 
-    public int getBorderWarningTime() {
-        return this.borderWarningTime;
+    public int func_176139_K() {
+        return this.field_176155_J;
     }
 
-    public void setBorderWarningDistance(int i) {
-        this.borderWarningDistance = i;
+    public void func_176122_j(int i) {
+        this.field_176154_I = i;
     }
 
-    public void setBorderWarningTime(int i) {
-        this.borderWarningTime = i;
+    public void func_176136_k(int i) {
+        this.field_176155_J = i;
     }
 
-    public EnumDifficulty getDifficulty() {
-        return this.difficulty;
+    public EnumDifficulty func_176130_y() {
+        return this.field_176158_z;
     }
 
-    public void setDifficulty(EnumDifficulty enumdifficulty) {
-        this.difficulty = enumdifficulty;
+    public void func_176144_a(EnumDifficulty enumdifficulty) {
+        this.field_176158_z = enumdifficulty;
         // CraftBukkit start
-        SPacketServerDifficulty packet = new SPacketServerDifficulty(this.getDifficulty(), this.isDifficultyLocked());
-        for (EntityPlayerMP player : (java.util.List<EntityPlayerMP>) (java.util.List) world.playerEntities) {
-            player.connection.sendPacket(packet);
+        SPacketServerDifficulty packet = new SPacketServerDifficulty(this.func_176130_y(), this.func_176123_z());
+        for (EntityPlayerMP player : (java.util.List<EntityPlayerMP>) (java.util.List) world.field_73010_i) {
+            player.field_71135_a.func_147359_a(packet);
         }
         // CraftBukkit end
     }
 
-    public boolean isDifficultyLocked() {
-        return this.difficultyLocked;
+    public boolean func_176123_z() {
+        return this.field_176150_A;
     }
 
-    public void setDifficultyLocked(boolean flag) {
-        this.difficultyLocked = flag;
+    public void func_180783_e(boolean flag) {
+        this.field_176150_A = flag;
     }
 
-    public void addToCrashReport(CrashReportCategory crashreportsystemdetails) {
-        crashreportsystemdetails.addDetail("Level seed", new ICrashReportDetail() {
+    public void func_85118_a(CrashReportCategory crashreportsystemdetails) {
+        crashreportsystemdetails.func_189529_a("Level seed", new ICrashReportDetail() {
             public String a() throws Exception {
-                return String.valueOf(WorldInfo.this.getSeed());
+                return String.valueOf(WorldInfo.this.func_76063_b());
             }
 
             public Object call() throws Exception {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Level generator", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Level generator", new ICrashReportDetail() {
             public String a() throws Exception {
-                return String.format("ID %02d - %s, ver %d. Features enabled: %b", new Object[] { Integer.valueOf(WorldInfo.this.terrainType.getId()), WorldInfo.this.terrainType.getName(), Integer.valueOf(WorldInfo.this.terrainType.getVersion()), Boolean.valueOf(WorldInfo.this.mapFeaturesEnabled)});
+                return String.format("ID %02d - %s, ver %d. Features enabled: %b", new Object[] { Integer.valueOf(WorldInfo.this.field_76098_b.func_82747_f()), WorldInfo.this.field_76098_b.func_77127_a(), Integer.valueOf(WorldInfo.this.field_76098_b.func_77131_c()), Boolean.valueOf(WorldInfo.this.field_76112_r)});
             }
 
             public Object call() throws Exception {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Level generator options", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Level generator options", new ICrashReportDetail() {
             public String a() throws Exception {
-                return WorldInfo.this.generatorOptions;
+                return WorldInfo.this.field_82576_c;
             }
 
             public Object call() throws Exception {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Level spawn location", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Level spawn location", new ICrashReportDetail() {
             public String a() throws Exception {
-                return CrashReportCategory.getCoordinateInfo(WorldInfo.this.spawnX, WorldInfo.this.spawnY, WorldInfo.this.spawnZ);
+                return CrashReportCategory.func_184876_a(WorldInfo.this.field_76099_c, WorldInfo.this.field_76096_d, WorldInfo.this.field_76097_e);
             }
 
             public Object call() throws Exception {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Level time", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Level time", new ICrashReportDetail() {
             public String a() throws Exception {
-                return String.format("%d game time, %d day time", new Object[] { Long.valueOf(WorldInfo.this.totalTime), Long.valueOf(WorldInfo.this.worldTime)});
+                return String.format("%d game time, %d day time", new Object[] { Long.valueOf(WorldInfo.this.field_82575_g), Long.valueOf(WorldInfo.this.field_76094_f)});
             }
 
             public Object call() throws Exception {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Level dimension", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Level dimension", new ICrashReportDetail() {
             public String a() throws Exception {
-                return String.valueOf(WorldInfo.this.dimension);
+                return String.valueOf(WorldInfo.this.field_76105_j);
             }
 
             public Object call() throws Exception {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Level storage version", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Level storage version", new ICrashReportDetail() {
             public String a() throws Exception {
                 String s = "Unknown?";
 
                 try {
-                    switch (WorldInfo.this.saveVersion) {
+                    switch (WorldInfo.this.field_76103_l) {
                     case 19132:
                         s = "McRegion";
                         break;
@@ -735,25 +735,25 @@ public class WorldInfo {
                     ;
                 }
 
-                return String.format("0x%05X - %s", new Object[] { Integer.valueOf(WorldInfo.this.saveVersion), s});
+                return String.format("0x%05X - %s", new Object[] { Integer.valueOf(WorldInfo.this.field_76103_l), s});
             }
 
             public Object call() throws Exception {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Level weather", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Level weather", new ICrashReportDetail() {
             public String a() throws Exception {
-                return String.format("Rain time: %d (now: %b), thunder time: %d (now: %b)", new Object[] { Integer.valueOf(WorldInfo.this.rainTime), Boolean.valueOf(WorldInfo.this.raining), Integer.valueOf(WorldInfo.this.thunderTime), Boolean.valueOf(WorldInfo.this.thundering)});
+                return String.format("Rain time: %d (now: %b), thunder time: %d (now: %b)", new Object[] { Integer.valueOf(WorldInfo.this.field_76101_n), Boolean.valueOf(WorldInfo.this.field_76104_m), Integer.valueOf(WorldInfo.this.field_76114_p), Boolean.valueOf(WorldInfo.this.field_76102_o)});
             }
 
             public Object call() throws Exception {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Level game mode", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Level game mode", new ICrashReportDetail() {
             public String a() throws Exception {
-                return String.format("Game mode: %s (ID %d). Hardcore: %b. Cheats: %b", new Object[] { WorldInfo.this.gameType.getName(), Integer.valueOf(WorldInfo.this.gameType.getID()), Boolean.valueOf(WorldInfo.this.hardcore), Boolean.valueOf(WorldInfo.this.allowCommands)});
+                return String.format("Game mode: %s (ID %d). Hardcore: %b. Cheats: %b", new Object[] { WorldInfo.this.field_76113_q.func_77149_b(), Integer.valueOf(WorldInfo.this.field_76113_q.func_77148_a()), Boolean.valueOf(WorldInfo.this.field_76111_s), Boolean.valueOf(WorldInfo.this.field_76110_t)});
             }
 
             public Object call() throws Exception {
@@ -762,20 +762,20 @@ public class WorldInfo {
         });
     }
 
-    public NBTTagCompound getDimensionData(DimensionType dimensionmanager) {
-        NBTTagCompound nbttagcompound = (NBTTagCompound) this.dimensionData.get(dimensionmanager);
+    public NBTTagCompound func_186347_a(DimensionType dimensionmanager) {
+        NBTTagCompound nbttagcompound = (NBTTagCompound) this.field_186348_N.get(dimensionmanager);
 
         return nbttagcompound == null ? new NBTTagCompound() : nbttagcompound;
     }
 
-    public void setDimensionData(DimensionType dimensionmanager, NBTTagCompound nbttagcompound) {
-        this.dimensionData.put(dimensionmanager, nbttagcompound);
+    public void func_186345_a(DimensionType dimensionmanager, NBTTagCompound nbttagcompound) {
+        this.field_186348_N.put(dimensionmanager, nbttagcompound);
     }
 
     // CraftBukkit start - Check if the name stored in NBT is the correct one
     public void checkName( String name ) {
-        if ( !this.levelName.equals( name ) ) {
-            this.levelName = name;
+        if ( !this.field_76106_k.equals( name ) ) {
+            this.field_76106_k = name;
         }
     }
     // CraftBukkit end

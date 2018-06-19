@@ -26,7 +26,7 @@ public class NettyVarint21FrameDecoder extends ByteToMessageDecoder {
                 PacketBuffer packetdataserializer = new PacketBuffer(Unpooled.wrappedBuffer(abyte));
 
                 try {
-                    int j = packetdataserializer.readVarInt();
+                    int j = packetdataserializer.func_150792_a();
 
                     if (bytebuf.readableBytes() >= j) {
                         list.add(bytebuf.readBytes(j));

@@ -21,14 +21,14 @@ public abstract class CraftThrownPotion extends CraftProjectile implements Throw
 
     public Collection<PotionEffect> getEffects() {
         ImmutableList.Builder<PotionEffect> builder = ImmutableList.builder();
-        for (PotionEffect effect : PotionUtils.getEffectsFromStack(getHandle().getPotion())) {
+        for (PotionEffect effect : PotionUtils.func_185189_a(getHandle().func_184543_l())) {
             builder.add(CraftPotionUtil.toBukkit(effect));
         }
         return builder.build();
     }
 
     public ItemStack getItem() {
-        return CraftItemStack.asBukkitCopy(getHandle().getPotion());
+        return CraftItemStack.asBukkitCopy(getHandle().func_184543_l());
     }
 
     @Override

@@ -11,33 +11,33 @@ public class UserListBans extends UserList<GameProfile, UserListBansEntry> {
         super(file);
     }
 
-    protected UserListEntry<GameProfile> createEntry(JsonObject jsonobject) {
+    protected UserListEntry<GameProfile> func_152682_a(JsonObject jsonobject) {
         return new UserListBansEntry(jsonobject);
     }
 
-    public boolean isBanned(GameProfile gameprofile) {
-        return this.hasEntry(gameprofile);
+    public boolean func_152702_a(GameProfile gameprofile) {
+        return this.func_152692_d(gameprofile);
     }
 
-    public String[] getKeys() {
-        String[] astring = new String[this.getValues().size()];
+    public String[] func_152685_a() {
+        String[] astring = new String[this.func_152688_e().size()];
         int i = 0;
 
         UserListBansEntry gameprofilebanentry;
 
-        for (Iterator iterator = this.getValues().values().iterator(); iterator.hasNext(); astring[i++] = ((GameProfile) gameprofilebanentry.getValue()).getName()) {
+        for (Iterator iterator = this.func_152688_e().values().iterator(); iterator.hasNext(); astring[i++] = ((GameProfile) gameprofilebanentry.func_152640_f()).getName()) {
             gameprofilebanentry = (UserListBansEntry) iterator.next();
         }
 
         return astring;
     }
 
-    protected String getObjectKey(GameProfile gameprofile) {
+    protected String func_152681_a(GameProfile gameprofile) {
         return gameprofile.getId().toString();
     }
 
-    public GameProfile getBannedProfile(String s) {
-        Iterator iterator = this.getValues().values().iterator();
+    public GameProfile func_152703_a(String s) {
+        Iterator iterator = this.func_152688_e().values().iterator();
 
         UserListBansEntry gameprofilebanentry;
 
@@ -47,12 +47,12 @@ public class UserListBans extends UserList<GameProfile, UserListBansEntry> {
             }
 
             gameprofilebanentry = (UserListBansEntry) iterator.next();
-        } while (!s.equalsIgnoreCase(((GameProfile) gameprofilebanentry.getValue()).getName()));
+        } while (!s.equalsIgnoreCase(((GameProfile) gameprofilebanentry.func_152640_f()).getName()));
 
-        return (GameProfile) gameprofilebanentry.getValue();
+        return (GameProfile) gameprofilebanentry.func_152640_f();
     }
 
-    protected String getObjectKey(Object object) {
-        return this.getObjectKey((GameProfile) object);
+    protected String func_152681_a(Object object) {
+        return this.func_152681_a((GameProfile) object);
     }
 }

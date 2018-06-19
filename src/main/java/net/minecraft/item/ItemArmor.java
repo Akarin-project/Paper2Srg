@@ -38,35 +38,35 @@ import org.bukkit.event.block.BlockDispenseEvent;
 
 public class ItemArmor extends Item {
 
-    private static final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11};
-    private static final UUID[] ARMOR_MODIFIERS = new UUID[] { UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
-    public static final String[] EMPTY_SLOT_NAMES = new String[] { "minecraft:items/empty_armor_slot_boots", "minecraft:items/empty_armor_slot_leggings", "minecraft:items/empty_armor_slot_chestplate", "minecraft:items/empty_armor_slot_helmet"};
-    public static final IBehaviorDispenseItem DISPENSER_BEHAVIOR = new BehaviorDefaultDispenseItem() {
-        protected ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
-            ItemStack itemstack1 = ItemArmor.dispenseArmor(isourceblock, itemstack);
+    private static final int[] field_77882_bY = new int[] { 13, 15, 16, 11};
+    private static final UUID[] field_185084_n = new UUID[] { UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
+    public static final String[] field_94603_a = new String[] { "minecraft:items/empty_armor_slot_boots", "minecraft:items/empty_armor_slot_leggings", "minecraft:items/empty_armor_slot_chestplate", "minecraft:items/empty_armor_slot_helmet"};
+    public static final IBehaviorDispenseItem field_96605_cw = new BehaviorDefaultDispenseItem() {
+        protected ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
+            ItemStack itemstack1 = ItemArmor.func_185082_a(isourceblock, itemstack);
 
-            return itemstack1.isEmpty() ? super.dispenseStack(isourceblock, itemstack) : itemstack1;
+            return itemstack1.func_190926_b() ? super.func_82487_b(isourceblock, itemstack) : itemstack1;
         }
     };
-    public final EntityEquipmentSlot armorType;
-    public final int damageReduceAmount;
-    public final float toughness;
-    public final int renderIndex;
-    private final ItemArmor.ArmorMaterial material;
+    public final EntityEquipmentSlot field_77881_a;
+    public final int field_77879_b;
+    public final float field_189415_e;
+    public final int field_77880_c;
+    private final ItemArmor.ArmorMaterial field_77878_bZ;
 
-    public static ItemStack dispenseArmor(IBlockSource isourceblock, ItemStack itemstack) {
-        BlockPos blockposition = isourceblock.getBlockPos().offset((EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING));
-        List list = isourceblock.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(blockposition), Predicates.and(EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(itemstack)));
+    public static ItemStack func_185082_a(IBlockSource isourceblock, ItemStack itemstack) {
+        BlockPos blockposition = isourceblock.func_180699_d().func_177972_a((EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
+        List list = isourceblock.func_82618_k().func_175647_a(EntityLivingBase.class, new AxisAlignedBB(blockposition), Predicates.and(EntitySelectors.field_180132_d, new EntitySelectors.ArmoredMob(itemstack)));
 
         if (list.isEmpty()) {
-            return ItemStack.EMPTY;
+            return ItemStack.field_190927_a;
         } else {
             EntityLivingBase entityliving = (EntityLivingBase) list.get(0);
-            EntityEquipmentSlot enumitemslot = EntityLiving.getSlotForItemStack(itemstack);
-            ItemStack itemstack1 = itemstack.splitStack(1);
+            EntityEquipmentSlot enumitemslot = EntityLiving.func_184640_d(itemstack);
+            ItemStack itemstack1 = itemstack.func_77979_a(1);
             // CraftBukkit start
-            World world = isourceblock.getWorld();
-            org.bukkit.block.Block block = world.getWorld().getBlockAt(isourceblock.getBlockPos().getX(), isourceblock.getBlockPos().getY(), isourceblock.getBlockPos().getZ());
+            World world = isourceblock.func_82618_k();
+            org.bukkit.block.Block block = world.getWorld().getBlockAt(isourceblock.func_180699_d().func_177958_n(), isourceblock.func_180699_d().func_177956_o(), isourceblock.func_180699_d().func_177952_p());
             CraftItemStack craftItem = CraftItemStack.asCraftMirror(itemstack1);
 
             BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(), new org.bukkit.util.Vector(0, 0, 0));
@@ -75,25 +75,25 @@ public class ItemArmor extends Item {
             }
 
             if (event.isCancelled()) {
-                itemstack.grow(1);
+                itemstack.func_190917_f(1);
                 return itemstack;
             }
 
             if (!event.getItem().equals(craftItem)) {
-                itemstack.grow(1);
+                itemstack.func_190917_f(1);
                 // Chain to handler for new item
                 ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
-                if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior != ItemArmor.DISPENSER_BEHAVIOR) {
-                    idispensebehavior.dispense(isourceblock, eventStack);
+                IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != ItemArmor.field_96605_cw) {
+                    idispensebehavior.func_82482_a(isourceblock, eventStack);
                     return itemstack;
                 }
             }
             // CraftBukkit end
 
-            entityliving.setItemStackToSlot(enumitemslot, itemstack1);
+            entityliving.func_184201_a(enumitemslot, itemstack1);
             if (entityliving instanceof EntityLiving) {
-                ((EntityLiving) entityliving).setDropChance(enumitemslot, 2.0F);
+                ((EntityLiving) entityliving).func_184642_a(enumitemslot, 2.0F);
             }
 
             return itemstack;
@@ -101,46 +101,46 @@ public class ItemArmor extends Item {
     }
 
     public ItemArmor(ItemArmor.ArmorMaterial itemarmor_enumarmormaterial, int i, EntityEquipmentSlot enumitemslot) {
-        this.material = itemarmor_enumarmormaterial;
-        this.armorType = enumitemslot;
-        this.renderIndex = i;
-        this.damageReduceAmount = itemarmor_enumarmormaterial.getDamageReductionAmount(enumitemslot);
-        this.setMaxDamage(itemarmor_enumarmormaterial.getDurability(enumitemslot));
-        this.toughness = itemarmor_enumarmormaterial.getToughness();
-        this.maxStackSize = 1;
-        this.setCreativeTab(CreativeTabs.COMBAT);
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, ItemArmor.DISPENSER_BEHAVIOR);
+        this.field_77878_bZ = itemarmor_enumarmormaterial;
+        this.field_77881_a = enumitemslot;
+        this.field_77880_c = i;
+        this.field_77879_b = itemarmor_enumarmormaterial.func_78044_b(enumitemslot);
+        this.func_77656_e(itemarmor_enumarmormaterial.func_78046_a(enumitemslot));
+        this.field_189415_e = itemarmor_enumarmormaterial.func_189416_e();
+        this.field_77777_bU = 1;
+        this.func_77637_a(CreativeTabs.field_78037_j);
+        BlockDispenser.field_149943_a.func_82595_a(this, ItemArmor.field_96605_cw);
     }
 
-    public int getItemEnchantability() {
-        return this.material.getEnchantability();
+    public int func_77619_b() {
+        return this.field_77878_bZ.func_78045_a();
     }
 
-    public ItemArmor.ArmorMaterial getArmorMaterial() {
-        return this.material;
+    public ItemArmor.ArmorMaterial func_82812_d() {
+        return this.field_77878_bZ;
     }
 
-    public boolean hasColor(ItemStack itemstack) {
-        if (this.material != ItemArmor.ArmorMaterial.LEATHER) {
+    public boolean func_82816_b_(ItemStack itemstack) {
+        if (this.field_77878_bZ != ItemArmor.ArmorMaterial.LEATHER) {
             return false;
         } else {
-            NBTTagCompound nbttagcompound = itemstack.getTagCompound();
+            NBTTagCompound nbttagcompound = itemstack.func_77978_p();
 
-            return nbttagcompound != null && nbttagcompound.hasKey("display", 10) ? nbttagcompound.getCompoundTag("display").hasKey("color", 3) : false;
+            return nbttagcompound != null && nbttagcompound.func_150297_b("display", 10) ? nbttagcompound.func_74775_l("display").func_150297_b("color", 3) : false;
         }
     }
 
-    public int getColor(ItemStack itemstack) {
-        if (this.material != ItemArmor.ArmorMaterial.LEATHER) {
+    public int func_82814_b(ItemStack itemstack) {
+        if (this.field_77878_bZ != ItemArmor.ArmorMaterial.LEATHER) {
             return 16777215;
         } else {
-            NBTTagCompound nbttagcompound = itemstack.getTagCompound();
+            NBTTagCompound nbttagcompound = itemstack.func_77978_p();
 
             if (nbttagcompound != null) {
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+                NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("display");
 
-                if (nbttagcompound1 != null && nbttagcompound1.hasKey("color", 3)) {
-                    return nbttagcompound1.getInteger("color");
+                if (nbttagcompound1 != null && nbttagcompound1.func_150297_b("color", 3)) {
+                    return nbttagcompound1.func_74762_e("color");
                 }
             }
 
@@ -148,66 +148,66 @@ public class ItemArmor extends Item {
         }
     }
 
-    public void removeColor(ItemStack itemstack) {
-        if (this.material == ItemArmor.ArmorMaterial.LEATHER) {
-            NBTTagCompound nbttagcompound = itemstack.getTagCompound();
+    public void func_82815_c(ItemStack itemstack) {
+        if (this.field_77878_bZ == ItemArmor.ArmorMaterial.LEATHER) {
+            NBTTagCompound nbttagcompound = itemstack.func_77978_p();
 
             if (nbttagcompound != null) {
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+                NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("display");
 
-                if (nbttagcompound1.hasKey("color")) {
-                    nbttagcompound1.removeTag("color");
+                if (nbttagcompound1.func_74764_b("color")) {
+                    nbttagcompound1.func_82580_o("color");
                 }
 
             }
         }
     }
 
-    public void setColor(ItemStack itemstack, int i) {
-        if (this.material != ItemArmor.ArmorMaterial.LEATHER) {
+    public void func_82813_b(ItemStack itemstack, int i) {
+        if (this.field_77878_bZ != ItemArmor.ArmorMaterial.LEATHER) {
             throw new UnsupportedOperationException("Can\'t dye non-leather!");
         } else {
-            NBTTagCompound nbttagcompound = itemstack.getTagCompound();
+            NBTTagCompound nbttagcompound = itemstack.func_77978_p();
 
             if (nbttagcompound == null) {
                 nbttagcompound = new NBTTagCompound();
-                itemstack.setTagCompound(nbttagcompound);
+                itemstack.func_77982_d(nbttagcompound);
             }
 
-            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+            NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("display");
 
-            if (!nbttagcompound.hasKey("display", 10)) {
-                nbttagcompound.setTag("display", nbttagcompound1);
+            if (!nbttagcompound.func_150297_b("display", 10)) {
+                nbttagcompound.func_74782_a("display", nbttagcompound1);
             }
 
-            nbttagcompound1.setInteger("color", i);
+            nbttagcompound1.func_74768_a("color", i);
         }
     }
 
-    public boolean getIsRepairable(ItemStack itemstack, ItemStack itemstack1) {
-        return this.material.getRepairItem() == itemstack1.getItem() ? true : super.getIsRepairable(itemstack, itemstack1);
+    public boolean func_82789_a(ItemStack itemstack, ItemStack itemstack1) {
+        return this.field_77878_bZ.func_151685_b() == itemstack1.func_77973_b() ? true : super.func_82789_a(itemstack, itemstack1);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
-        EntityEquipmentSlot enumitemslot = EntityLiving.getSlotForItemStack(itemstack);
-        ItemStack itemstack1 = entityhuman.getItemStackFromSlot(enumitemslot);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
+        EntityEquipmentSlot enumitemslot = EntityLiving.func_184640_d(itemstack);
+        ItemStack itemstack1 = entityhuman.func_184582_a(enumitemslot);
 
-        if (itemstack1.isEmpty()) {
-            entityhuman.setItemStackToSlot(enumitemslot, itemstack.copy());
-            itemstack.setCount(0);
+        if (itemstack1.func_190926_b()) {
+            entityhuman.func_184201_a(enumitemslot, itemstack.func_77946_l());
+            itemstack.func_190920_e(0);
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         } else {
             return new ActionResult(EnumActionResult.FAIL, itemstack);
         }
     }
 
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot enumitemslot) {
-        Multimap multimap = super.getItemAttributeModifiers(enumitemslot);
+    public Multimap<String, AttributeModifier> func_111205_h(EntityEquipmentSlot enumitemslot) {
+        Multimap multimap = super.func_111205_h(enumitemslot);
 
-        if (enumitemslot == this.armorType) {
-            multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ItemArmor.ARMOR_MODIFIERS[enumitemslot.getIndex()], "Armor modifier", (double) this.damageReduceAmount, 0));
-            multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(ItemArmor.ARMOR_MODIFIERS[enumitemslot.getIndex()], "Armor toughness", (double) this.toughness, 0));
+        if (enumitemslot == this.field_77881_a) {
+            multimap.put(SharedMonsterAttributes.field_188791_g.func_111108_a(), new AttributeModifier(ItemArmor.field_185084_n[enumitemslot.func_188454_b()], "Armor modifier", (double) this.field_77879_b, 0));
+            multimap.put(SharedMonsterAttributes.field_189429_h.func_111108_a(), new AttributeModifier(ItemArmor.field_185084_n[enumitemslot.func_188454_b()], "Armor toughness", (double) this.field_189415_e, 0));
         }
 
         return multimap;
@@ -215,46 +215,46 @@ public class ItemArmor extends Item {
 
     public static enum ArmorMaterial {
 
-        LEATHER("leather", 5, new int[] { 1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F), CHAIN("chainmail", 15, new int[] { 1, 4, 5, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0.0F), IRON("iron", 15, new int[] { 2, 5, 6, 2}, 9, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F), GOLD("gold", 7, new int[] { 1, 3, 5, 2}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F), DIAMOND("diamond", 33, new int[] { 3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F);
+        LEATHER("leather", 5, new int[] { 1, 2, 3, 1}, 15, SoundEvents.field_187728_s, 0.0F), CHAIN("chainmail", 15, new int[] { 1, 4, 5, 2}, 12, SoundEvents.field_187713_n, 0.0F), IRON("iron", 15, new int[] { 2, 5, 6, 2}, 9, SoundEvents.field_187725_r, 0.0F), GOLD("gold", 7, new int[] { 1, 3, 5, 2}, 25, SoundEvents.field_187722_q, 0.0F), DIAMOND("diamond", 33, new int[] { 3, 6, 8, 3}, 10, SoundEvents.field_187716_o, 2.0F);
 
-        private final String name;
-        private final int maxDamageFactor;
-        private final int[] damageReductionAmountArray;
-        private final int enchantability;
-        private final SoundEvent soundEvent;
-        private final float toughness;
+        private final String field_179243_f;
+        private final int field_78048_f;
+        private final int[] field_78049_g;
+        private final int field_78055_h;
+        private final SoundEvent field_185020_j;
+        private final float field_189417_k;
 
         private ArmorMaterial(String s, int i, int[] aint, int j, SoundEvent soundeffect, float f) {
-            this.name = s;
-            this.maxDamageFactor = i;
-            this.damageReductionAmountArray = aint;
-            this.enchantability = j;
-            this.soundEvent = soundeffect;
-            this.toughness = f;
+            this.field_179243_f = s;
+            this.field_78048_f = i;
+            this.field_78049_g = aint;
+            this.field_78055_h = j;
+            this.field_185020_j = soundeffect;
+            this.field_189417_k = f;
         }
 
-        public int getDurability(EntityEquipmentSlot enumitemslot) {
-            return ItemArmor.MAX_DAMAGE_ARRAY[enumitemslot.getIndex()] * this.maxDamageFactor;
+        public int func_78046_a(EntityEquipmentSlot enumitemslot) {
+            return ItemArmor.field_77882_bY[enumitemslot.func_188454_b()] * this.field_78048_f;
         }
 
-        public int getDamageReductionAmount(EntityEquipmentSlot enumitemslot) {
-            return this.damageReductionAmountArray[enumitemslot.getIndex()];
+        public int func_78044_b(EntityEquipmentSlot enumitemslot) {
+            return this.field_78049_g[enumitemslot.func_188454_b()];
         }
 
-        public int getEnchantability() {
-            return this.enchantability;
+        public int func_78045_a() {
+            return this.field_78055_h;
         }
 
-        public SoundEvent getSoundEvent() {
-            return this.soundEvent;
+        public SoundEvent func_185017_b() {
+            return this.field_185020_j;
         }
 
-        public Item getRepairItem() {
-            return this == ItemArmor.ArmorMaterial.LEATHER ? Items.LEATHER : (this == ItemArmor.ArmorMaterial.CHAIN ? Items.IRON_INGOT : (this == ItemArmor.ArmorMaterial.GOLD ? Items.GOLD_INGOT : (this == ItemArmor.ArmorMaterial.IRON ? Items.IRON_INGOT : (this == ItemArmor.ArmorMaterial.DIAMOND ? Items.DIAMOND : null))));
+        public Item func_151685_b() {
+            return this == ItemArmor.ArmorMaterial.LEATHER ? Items.field_151116_aA : (this == ItemArmor.ArmorMaterial.CHAIN ? Items.field_151042_j : (this == ItemArmor.ArmorMaterial.GOLD ? Items.field_151043_k : (this == ItemArmor.ArmorMaterial.IRON ? Items.field_151042_j : (this == ItemArmor.ArmorMaterial.DIAMOND ? Items.field_151045_i : null))));
         }
 
-        public float getToughness() {
-            return this.toughness;
+        public float func_189416_e() {
+            return this.field_189417_k;
         }
     }
 }

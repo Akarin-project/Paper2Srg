@@ -21,61 +21,61 @@ import net.minecraft.util.math.BlockPos;
 
 public class UsedEnderEyeTrigger implements ICriterionTrigger<CriterionTriggerUsedEnderEye.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("used_ender_eye");
-    private final Map<PlayerAdvancements, CriterionTriggerUsedEnderEye.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_192242_a = new ResourceLocation("used_ender_eye");
+    private final Map<PlayerAdvancements, CriterionTriggerUsedEnderEye.a> field_192243_b = Maps.newHashMap();
 
     public UsedEnderEyeTrigger() {}
 
-    public ResourceLocation getId() {
-        return UsedEnderEyeTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return UsedEnderEyeTrigger.field_192242_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerUsedEnderEye.b> criteriontrigger_a) {
-        CriterionTriggerUsedEnderEye.a criteriontriggerusedendereye_a = (CriterionTriggerUsedEnderEye.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerUsedEnderEye.a criteriontriggerusedendereye_a = (CriterionTriggerUsedEnderEye.a) this.field_192243_b.get(advancementdataplayer);
 
         if (criteriontriggerusedendereye_a == null) {
             criteriontriggerusedendereye_a = new CriterionTriggerUsedEnderEye.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerusedendereye_a);
+            this.field_192243_b.put(advancementdataplayer, criteriontriggerusedendereye_a);
         }
 
         criteriontriggerusedendereye_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerUsedEnderEye.b> criteriontrigger_a) {
-        CriterionTriggerUsedEnderEye.a criteriontriggerusedendereye_a = (CriterionTriggerUsedEnderEye.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerUsedEnderEye.a criteriontriggerusedendereye_a = (CriterionTriggerUsedEnderEye.a) this.field_192243_b.get(advancementdataplayer);
 
         if (criteriontriggerusedendereye_a != null) {
             criteriontriggerusedendereye_a.b(criteriontrigger_a);
             if (criteriontriggerusedendereye_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192243_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192243_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerUsedEnderEye.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        MinMaxBounds criterionconditionvalue = MinMaxBounds.deserialize(jsonobject.get("distance"));
+        MinMaxBounds criterionconditionvalue = MinMaxBounds.func_192515_a(jsonobject.get("distance"));
 
         return new CriterionTriggerUsedEnderEye.b(criterionconditionvalue);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, BlockPos blockposition) {
-        CriterionTriggerUsedEnderEye.a criteriontriggerusedendereye_a = (CriterionTriggerUsedEnderEye.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_192239_a(EntityPlayerMP entityplayer, BlockPos blockposition) {
+        CriterionTriggerUsedEnderEye.a criteriontriggerusedendereye_a = (CriterionTriggerUsedEnderEye.a) this.field_192243_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerusedendereye_a != null) {
-            double d0 = entityplayer.posX - (double) blockposition.getX();
-            double d1 = entityplayer.posZ - (double) blockposition.getZ();
+            double d0 = entityplayer.field_70165_t - (double) blockposition.func_177958_n();
+            double d1 = entityplayer.field_70161_v - (double) blockposition.func_177952_p();
 
             criteriontriggerusedendereye_a.a(d0 * d0 + d1 * d1);
         }
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -134,12 +134,12 @@ public class UsedEnderEyeTrigger implements ICriterionTrigger<CriterionTriggerUs
         private final MinMaxBounds a;
 
         public b(MinMaxBounds criterionconditionvalue) {
-            super(UsedEnderEyeTrigger.ID);
+            super(UsedEnderEyeTrigger.field_192242_a);
             this.a = criterionconditionvalue;
         }
 
         public boolean a(double d0) {
-            return this.a.testSquare(d0);
+            return this.a.func_192513_a(d0);
         }
     }
 }

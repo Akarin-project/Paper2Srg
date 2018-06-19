@@ -8,19 +8,19 @@ import net.minecraft.world.World;
 
 public abstract class AbstractIllager extends EntityMob {
 
-    protected static final DataParameter<Byte> AGGRESSIVE = EntityDataManager.createKey(AbstractIllager.class, DataSerializers.BYTE);
+    protected static final DataParameter<Byte> field_193080_a = EntityDataManager.func_187226_a(AbstractIllager.class, DataSerializers.field_187191_a);
 
     public AbstractIllager(World world) {
         super(world);
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(AbstractIllager.AGGRESSIVE, Byte.valueOf((byte) 0));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(AbstractIllager.field_193080_a, Byte.valueOf((byte) 0));
     }
 
-    protected void setAggressive(int i, boolean flag) {
-        byte b0 = ((Byte) this.dataManager.get(AbstractIllager.AGGRESSIVE)).byteValue();
+    protected void func_193079_a(int i, boolean flag) {
+        byte b0 = ((Byte) this.field_70180_af.func_187225_a(AbstractIllager.field_193080_a)).byteValue();
         int j;
 
         if (flag) {
@@ -29,10 +29,10 @@ public abstract class AbstractIllager extends EntityMob {
             j = b0 & ~i;
         }
 
-        this.dataManager.set(AbstractIllager.AGGRESSIVE, Byte.valueOf((byte) (j & 255)));
+        this.field_70180_af.func_187227_b(AbstractIllager.field_193080_a, Byte.valueOf((byte) (j & 255)));
     }
 
-    public EnumCreatureAttribute getCreatureAttribute() {
+    public EnumCreatureAttribute func_70668_bt() {
         return EnumCreatureAttribute.ILLAGER;
     }
 }

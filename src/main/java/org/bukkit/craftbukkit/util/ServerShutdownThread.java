@@ -15,7 +15,7 @@ public class ServerShutdownThread extends Thread {
         try {
             org.spigotmc.AsyncCatcher.enabled = false; // Spigot
             org.spigotmc.AsyncCatcher.shuttingDown = true; // Paper
-            server.stopServer();
+            server.func_71260_j();
         } catch (MinecraftException ex) {
             ex.printStackTrace();
         } finally {

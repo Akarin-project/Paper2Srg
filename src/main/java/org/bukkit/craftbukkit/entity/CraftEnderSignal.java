@@ -30,32 +30,32 @@ public class CraftEnderSignal extends CraftEntity implements EnderSignal {
 
     @Override
     public Location getTargetLocation() {
-        return new Location(getWorld(), getHandle().targetX, getHandle().targetY, getHandle().targetZ, getHandle().rotationYaw, getHandle().rotationPitch); // PAIL rename targetX, targetY, targetZ
+        return new Location(getWorld(), getHandle().field_70224_b, getHandle().field_70225_c, getHandle().field_70222_d, getHandle().field_70177_z, getHandle().field_70125_A); // PAIL rename targetX, targetY, targetZ
     }
 
     @Override
     public void setTargetLocation(Location location) {
         Preconditions.checkArgument(getWorld().equals(location.getWorld()), "Cannot target EnderSignal across worlds");
-        getHandle().moveTowards(new BlockPos(location.getX(), location.getY(), location.getZ()));
+        getHandle().func_180465_a(new BlockPos(location.getX(), location.getY(), location.getZ()));
     }
 
     @Override
     public boolean getDropItem() {
-        return getHandle().shatterOrDrop; // PAIL rename getDropItem
+        return getHandle().field_70221_f; // PAIL rename getDropItem
     }
 
     @Override
     public void setDropItem(boolean shouldDropItem) {
-        getHandle().shatterOrDrop = shouldDropItem; // PAIL rename getDropItem
+        getHandle().field_70221_f = shouldDropItem; // PAIL rename getDropItem
     }
 
     @Override
     public int getDespawnTimer() {
-        return getHandle().despawnTimer; // PAIL rename despawnTimer
+        return getHandle().field_70223_e; // PAIL rename despawnTimer
     }
 
     @Override
     public void setDespawnTimer(int time) {
-        getHandle().despawnTimer = time; // PAIL rename despawnTimer
+        getHandle().field_70223_e = time; // PAIL rename despawnTimer
     }
 }

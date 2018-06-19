@@ -7,40 +7,40 @@ import net.minecraft.util.ResourceLocation;
 
 public class Enchantments {
 
-    public static final Enchantment PROTECTION = getRegisteredEnchantment("protection");
-    public static final Enchantment FIRE_PROTECTION = getRegisteredEnchantment("fire_protection");
-    public static final Enchantment FEATHER_FALLING = getRegisteredEnchantment("feather_falling");
-    public static final Enchantment BLAST_PROTECTION = getRegisteredEnchantment("blast_protection");
-    public static final Enchantment PROJECTILE_PROTECTION = getRegisteredEnchantment("projectile_protection");
-    public static final Enchantment RESPIRATION = getRegisteredEnchantment("respiration");
-    public static final Enchantment AQUA_AFFINITY = getRegisteredEnchantment("aqua_affinity");
-    public static final Enchantment THORNS = getRegisteredEnchantment("thorns");
-    public static final Enchantment DEPTH_STRIDER = getRegisteredEnchantment("depth_strider");
-    public static final Enchantment FROST_WALKER = getRegisteredEnchantment("frost_walker");
-    public static final Enchantment BINDING_CURSE = getRegisteredEnchantment("binding_curse");
-    public static final Enchantment SHARPNESS = getRegisteredEnchantment("sharpness");
-    public static final Enchantment SMITE = getRegisteredEnchantment("smite");
-    public static final Enchantment BANE_OF_ARTHROPODS = getRegisteredEnchantment("bane_of_arthropods");
-    public static final Enchantment KNOCKBACK = getRegisteredEnchantment("knockback");
-    public static final Enchantment FIRE_ASPECT = getRegisteredEnchantment("fire_aspect");
-    public static final Enchantment LOOTING = getRegisteredEnchantment("looting");
-    public static final Enchantment SWEEPING = getRegisteredEnchantment("sweeping");
-    public static final Enchantment EFFICIENCY = getRegisteredEnchantment("efficiency");
-    public static final Enchantment SILK_TOUCH = getRegisteredEnchantment("silk_touch");
-    public static final Enchantment UNBREAKING = getRegisteredEnchantment("unbreaking");
-    public static final Enchantment FORTUNE = getRegisteredEnchantment("fortune");
-    public static final Enchantment POWER = getRegisteredEnchantment("power");
-    public static final Enchantment PUNCH = getRegisteredEnchantment("punch");
-    public static final Enchantment FLAME = getRegisteredEnchantment("flame");
-    public static final Enchantment INFINITY = getRegisteredEnchantment("infinity");
-    public static final Enchantment LUCK_OF_THE_SEA = getRegisteredEnchantment("luck_of_the_sea");
-    public static final Enchantment LURE = getRegisteredEnchantment("lure");
-    public static final Enchantment MENDING = getRegisteredEnchantment("mending");
-    public static final Enchantment VANISHING_CURSE = getRegisteredEnchantment("vanishing_curse");
+    public static final Enchantment field_180310_c = func_185295_a("protection");
+    public static final Enchantment field_77329_d = func_185295_a("fire_protection");
+    public static final Enchantment field_180309_e = func_185295_a("feather_falling");
+    public static final Enchantment field_185297_d = func_185295_a("blast_protection");
+    public static final Enchantment field_180308_g = func_185295_a("projectile_protection");
+    public static final Enchantment field_185298_f = func_185295_a("respiration");
+    public static final Enchantment field_185299_g = func_185295_a("aqua_affinity");
+    public static final Enchantment field_92091_k = func_185295_a("thorns");
+    public static final Enchantment field_185300_i = func_185295_a("depth_strider");
+    public static final Enchantment field_185301_j = func_185295_a("frost_walker");
+    public static final Enchantment field_190941_k = func_185295_a("binding_curse");
+    public static final Enchantment field_185302_k = func_185295_a("sharpness");
+    public static final Enchantment field_185303_l = func_185295_a("smite");
+    public static final Enchantment field_180312_n = func_185295_a("bane_of_arthropods");
+    public static final Enchantment field_180313_o = func_185295_a("knockback");
+    public static final Enchantment field_77334_n = func_185295_a("fire_aspect");
+    public static final Enchantment field_185304_p = func_185295_a("looting");
+    public static final Enchantment field_191530_r = func_185295_a("sweeping");
+    public static final Enchantment field_185305_q = func_185295_a("efficiency");
+    public static final Enchantment field_185306_r = func_185295_a("silk_touch");
+    public static final Enchantment field_185307_s = func_185295_a("unbreaking");
+    public static final Enchantment field_185308_t = func_185295_a("fortune");
+    public static final Enchantment field_185309_u = func_185295_a("power");
+    public static final Enchantment field_185310_v = func_185295_a("punch");
+    public static final Enchantment field_185311_w = func_185295_a("flame");
+    public static final Enchantment field_185312_x = func_185295_a("infinity");
+    public static final Enchantment field_151370_z = func_185295_a("luck_of_the_sea");
+    public static final Enchantment field_151369_A = func_185295_a("lure");
+    public static final Enchantment field_185296_A = func_185295_a("mending"); public static final Enchantment MENDING = field_185296_A; // Paper - OBFHELPER
+    public static final Enchantment field_190940_C = func_185295_a("vanishing_curse");
 
     @Nullable
-    private static Enchantment getRegisteredEnchantment(String s) {
-        Enchantment enchantment = Enchantment.REGISTRY.getObject(new ResourceLocation(s));
+    private static Enchantment func_185295_a(String s) {
+        Enchantment enchantment = (Enchantment) Enchantment.field_185264_b.func_82594_a(new ResourceLocation(s));
 
         if (enchantment == null) {
             throw new IllegalStateException("Invalid Enchantment requested: " + s);
@@ -50,7 +50,7 @@ public class Enchantments {
     }
 
     static {
-        if (!Bootstrap.isRegistered()) {
+        if (!Bootstrap.func_179869_a()) {
             throw new RuntimeException("Accessed Enchantments before Bootstrap!");
         }
     }

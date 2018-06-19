@@ -6,18 +6,18 @@ public class EnchantmentOxygen extends Enchantment {
 
     public EnchantmentOxygen(Enchantment.Rarity enchantment_rarity, EntityEquipmentSlot... aenumitemslot) {
         super(enchantment_rarity, EnumEnchantmentType.ARMOR_HEAD, aenumitemslot);
-        this.setName("oxygen");
+        this.func_77322_b("oxygen");
     }
 
-    public int getMinEnchantability(int i) {
+    public int func_77321_a(int i) {
         return 10 * i;
     }
 
-    public int getMaxEnchantability(int i) {
-        return this.getMinEnchantability(i) + 30;
+    public int func_77317_b(int i) {
+        return this.func_77321_a(i) + 30;
     }
 
-    public int getMaxLevel() {
+    public int func_77325_b() {
         return 3;
     }
 }

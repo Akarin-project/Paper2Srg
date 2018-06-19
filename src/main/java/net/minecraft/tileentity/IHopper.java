@@ -5,11 +5,11 @@ import net.minecraft.world.World;
 
 public interface IHopper extends IInventory {
 
-    World getWorld();
+    World func_145831_w();
 
-    double getXPos(); default double getX() { return getXPos(); } // Paper - OBFHELPER
+    double func_96107_aA(); default double getX() { return func_96107_aA(); } // Paper - OBFHELPER
 
-    double getYPos(); default double getY() { return getYPos(); } // Paper - OBFHELPER
+    double func_96109_aB(); default double getY() { return func_96109_aB(); } // Paper - OBFHELPER
 
-    double getZPos(); default double getZ() { return getZPos(); } // Paper - OBFHELPER
+    double func_96108_aC(); default double getZ() { return func_96108_aC(); } // Paper - OBFHELPER
 }

@@ -8,99 +8,99 @@ import net.minecraft.util.datafix.IFixableData;
 
 public class EntityId implements IFixableData {
 
-    private static final Map<String, String> OLD_TO_NEW_ID_MAP = Maps.newHashMap();
+    private static final Map<String, String> field_191276_a = Maps.newHashMap();
 
     public EntityId() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 704;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        String s = (String) EntityId.OLD_TO_NEW_ID_MAP.get(nbttagcompound.getString("id"));
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        String s = (String) EntityId.field_191276_a.get(nbttagcompound.func_74779_i("id"));
 
         if (s != null) {
-            nbttagcompound.setString("id", s);
+            nbttagcompound.func_74778_a("id", s);
         }
 
         return nbttagcompound;
     }
 
     static {
-        EntityId.OLD_TO_NEW_ID_MAP.put("AreaEffectCloud", "minecraft:area_effect_cloud");
-        EntityId.OLD_TO_NEW_ID_MAP.put("ArmorStand", "minecraft:armor_stand");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Arrow", "minecraft:arrow");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Bat", "minecraft:bat");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Blaze", "minecraft:blaze");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Boat", "minecraft:boat");
-        EntityId.OLD_TO_NEW_ID_MAP.put("CaveSpider", "minecraft:cave_spider");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Chicken", "minecraft:chicken");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Cow", "minecraft:cow");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Creeper", "minecraft:creeper");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Donkey", "minecraft:donkey");
-        EntityId.OLD_TO_NEW_ID_MAP.put("DragonFireball", "minecraft:dragon_fireball");
-        EntityId.OLD_TO_NEW_ID_MAP.put("ElderGuardian", "minecraft:elder_guardian");
-        EntityId.OLD_TO_NEW_ID_MAP.put("EnderCrystal", "minecraft:ender_crystal");
-        EntityId.OLD_TO_NEW_ID_MAP.put("EnderDragon", "minecraft:ender_dragon");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Enderman", "minecraft:enderman");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Endermite", "minecraft:endermite");
-        EntityId.OLD_TO_NEW_ID_MAP.put("EyeOfEnderSignal", "minecraft:eye_of_ender_signal");
-        EntityId.OLD_TO_NEW_ID_MAP.put("FallingSand", "minecraft:falling_block");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Fireball", "minecraft:fireball");
-        EntityId.OLD_TO_NEW_ID_MAP.put("FireworksRocketEntity", "minecraft:fireworks_rocket");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Ghast", "minecraft:ghast");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Giant", "minecraft:giant");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Guardian", "minecraft:guardian");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Horse", "minecraft:horse");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Husk", "minecraft:husk");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Item", "minecraft:item");
-        EntityId.OLD_TO_NEW_ID_MAP.put("ItemFrame", "minecraft:item_frame");
-        EntityId.OLD_TO_NEW_ID_MAP.put("LavaSlime", "minecraft:magma_cube");
-        EntityId.OLD_TO_NEW_ID_MAP.put("LeashKnot", "minecraft:leash_knot");
-        EntityId.OLD_TO_NEW_ID_MAP.put("MinecartChest", "minecraft:chest_minecart");
-        EntityId.OLD_TO_NEW_ID_MAP.put("MinecartCommandBlock", "minecraft:commandblock_minecart");
-        EntityId.OLD_TO_NEW_ID_MAP.put("MinecartFurnace", "minecraft:furnace_minecart");
-        EntityId.OLD_TO_NEW_ID_MAP.put("MinecartHopper", "minecraft:hopper_minecart");
-        EntityId.OLD_TO_NEW_ID_MAP.put("MinecartRideable", "minecraft:minecart");
-        EntityId.OLD_TO_NEW_ID_MAP.put("MinecartSpawner", "minecraft:spawner_minecart");
-        EntityId.OLD_TO_NEW_ID_MAP.put("MinecartTNT", "minecraft:tnt_minecart");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Mule", "minecraft:mule");
-        EntityId.OLD_TO_NEW_ID_MAP.put("MushroomCow", "minecraft:mooshroom");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Ozelot", "minecraft:ocelot");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Painting", "minecraft:painting");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Pig", "minecraft:pig");
-        EntityId.OLD_TO_NEW_ID_MAP.put("PigZombie", "minecraft:zombie_pigman");
-        EntityId.OLD_TO_NEW_ID_MAP.put("PolarBear", "minecraft:polar_bear");
-        EntityId.OLD_TO_NEW_ID_MAP.put("PrimedTnt", "minecraft:tnt");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Rabbit", "minecraft:rabbit");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Sheep", "minecraft:sheep");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Shulker", "minecraft:shulker");
-        EntityId.OLD_TO_NEW_ID_MAP.put("ShulkerBullet", "minecraft:shulker_bullet");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Silverfish", "minecraft:silverfish");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Skeleton", "minecraft:skeleton");
-        EntityId.OLD_TO_NEW_ID_MAP.put("SkeletonHorse", "minecraft:skeleton_horse");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Slime", "minecraft:slime");
-        EntityId.OLD_TO_NEW_ID_MAP.put("SmallFireball", "minecraft:small_fireball");
-        EntityId.OLD_TO_NEW_ID_MAP.put("SnowMan", "minecraft:snowman");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Snowball", "minecraft:snowball");
-        EntityId.OLD_TO_NEW_ID_MAP.put("SpectralArrow", "minecraft:spectral_arrow");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Spider", "minecraft:spider");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Squid", "minecraft:squid");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Stray", "minecraft:stray");
-        EntityId.OLD_TO_NEW_ID_MAP.put("ThrownEgg", "minecraft:egg");
-        EntityId.OLD_TO_NEW_ID_MAP.put("ThrownEnderpearl", "minecraft:ender_pearl");
-        EntityId.OLD_TO_NEW_ID_MAP.put("ThrownExpBottle", "minecraft:xp_bottle");
-        EntityId.OLD_TO_NEW_ID_MAP.put("ThrownPotion", "minecraft:potion");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Villager", "minecraft:villager");
-        EntityId.OLD_TO_NEW_ID_MAP.put("VillagerGolem", "minecraft:villager_golem");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Witch", "minecraft:witch");
-        EntityId.OLD_TO_NEW_ID_MAP.put("WitherBoss", "minecraft:wither");
-        EntityId.OLD_TO_NEW_ID_MAP.put("WitherSkeleton", "minecraft:wither_skeleton");
-        EntityId.OLD_TO_NEW_ID_MAP.put("WitherSkull", "minecraft:wither_skull");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Wolf", "minecraft:wolf");
-        EntityId.OLD_TO_NEW_ID_MAP.put("XPOrb", "minecraft:xp_orb");
-        EntityId.OLD_TO_NEW_ID_MAP.put("Zombie", "minecraft:zombie");
-        EntityId.OLD_TO_NEW_ID_MAP.put("ZombieHorse", "minecraft:zombie_horse");
-        EntityId.OLD_TO_NEW_ID_MAP.put("ZombieVillager", "minecraft:zombie_villager");
+        EntityId.field_191276_a.put("AreaEffectCloud", "minecraft:area_effect_cloud");
+        EntityId.field_191276_a.put("ArmorStand", "minecraft:armor_stand");
+        EntityId.field_191276_a.put("Arrow", "minecraft:arrow");
+        EntityId.field_191276_a.put("Bat", "minecraft:bat");
+        EntityId.field_191276_a.put("Blaze", "minecraft:blaze");
+        EntityId.field_191276_a.put("Boat", "minecraft:boat");
+        EntityId.field_191276_a.put("CaveSpider", "minecraft:cave_spider");
+        EntityId.field_191276_a.put("Chicken", "minecraft:chicken");
+        EntityId.field_191276_a.put("Cow", "minecraft:cow");
+        EntityId.field_191276_a.put("Creeper", "minecraft:creeper");
+        EntityId.field_191276_a.put("Donkey", "minecraft:donkey");
+        EntityId.field_191276_a.put("DragonFireball", "minecraft:dragon_fireball");
+        EntityId.field_191276_a.put("ElderGuardian", "minecraft:elder_guardian");
+        EntityId.field_191276_a.put("EnderCrystal", "minecraft:ender_crystal");
+        EntityId.field_191276_a.put("EnderDragon", "minecraft:ender_dragon");
+        EntityId.field_191276_a.put("Enderman", "minecraft:enderman");
+        EntityId.field_191276_a.put("Endermite", "minecraft:endermite");
+        EntityId.field_191276_a.put("EyeOfEnderSignal", "minecraft:eye_of_ender_signal");
+        EntityId.field_191276_a.put("FallingSand", "minecraft:falling_block");
+        EntityId.field_191276_a.put("Fireball", "minecraft:fireball");
+        EntityId.field_191276_a.put("FireworksRocketEntity", "minecraft:fireworks_rocket");
+        EntityId.field_191276_a.put("Ghast", "minecraft:ghast");
+        EntityId.field_191276_a.put("Giant", "minecraft:giant");
+        EntityId.field_191276_a.put("Guardian", "minecraft:guardian");
+        EntityId.field_191276_a.put("Horse", "minecraft:horse");
+        EntityId.field_191276_a.put("Husk", "minecraft:husk");
+        EntityId.field_191276_a.put("Item", "minecraft:item");
+        EntityId.field_191276_a.put("ItemFrame", "minecraft:item_frame");
+        EntityId.field_191276_a.put("LavaSlime", "minecraft:magma_cube");
+        EntityId.field_191276_a.put("LeashKnot", "minecraft:leash_knot");
+        EntityId.field_191276_a.put("MinecartChest", "minecraft:chest_minecart");
+        EntityId.field_191276_a.put("MinecartCommandBlock", "minecraft:commandblock_minecart");
+        EntityId.field_191276_a.put("MinecartFurnace", "minecraft:furnace_minecart");
+        EntityId.field_191276_a.put("MinecartHopper", "minecraft:hopper_minecart");
+        EntityId.field_191276_a.put("MinecartRideable", "minecraft:minecart");
+        EntityId.field_191276_a.put("MinecartSpawner", "minecraft:spawner_minecart");
+        EntityId.field_191276_a.put("MinecartTNT", "minecraft:tnt_minecart");
+        EntityId.field_191276_a.put("Mule", "minecraft:mule");
+        EntityId.field_191276_a.put("MushroomCow", "minecraft:mooshroom");
+        EntityId.field_191276_a.put("Ozelot", "minecraft:ocelot");
+        EntityId.field_191276_a.put("Painting", "minecraft:painting");
+        EntityId.field_191276_a.put("Pig", "minecraft:pig");
+        EntityId.field_191276_a.put("PigZombie", "minecraft:zombie_pigman");
+        EntityId.field_191276_a.put("PolarBear", "minecraft:polar_bear");
+        EntityId.field_191276_a.put("PrimedTnt", "minecraft:tnt");
+        EntityId.field_191276_a.put("Rabbit", "minecraft:rabbit");
+        EntityId.field_191276_a.put("Sheep", "minecraft:sheep");
+        EntityId.field_191276_a.put("Shulker", "minecraft:shulker");
+        EntityId.field_191276_a.put("ShulkerBullet", "minecraft:shulker_bullet");
+        EntityId.field_191276_a.put("Silverfish", "minecraft:silverfish");
+        EntityId.field_191276_a.put("Skeleton", "minecraft:skeleton");
+        EntityId.field_191276_a.put("SkeletonHorse", "minecraft:skeleton_horse");
+        EntityId.field_191276_a.put("Slime", "minecraft:slime");
+        EntityId.field_191276_a.put("SmallFireball", "minecraft:small_fireball");
+        EntityId.field_191276_a.put("SnowMan", "minecraft:snowman");
+        EntityId.field_191276_a.put("Snowball", "minecraft:snowball");
+        EntityId.field_191276_a.put("SpectralArrow", "minecraft:spectral_arrow");
+        EntityId.field_191276_a.put("Spider", "minecraft:spider");
+        EntityId.field_191276_a.put("Squid", "minecraft:squid");
+        EntityId.field_191276_a.put("Stray", "minecraft:stray");
+        EntityId.field_191276_a.put("ThrownEgg", "minecraft:egg");
+        EntityId.field_191276_a.put("ThrownEnderpearl", "minecraft:ender_pearl");
+        EntityId.field_191276_a.put("ThrownExpBottle", "minecraft:xp_bottle");
+        EntityId.field_191276_a.put("ThrownPotion", "minecraft:potion");
+        EntityId.field_191276_a.put("Villager", "minecraft:villager");
+        EntityId.field_191276_a.put("VillagerGolem", "minecraft:villager_golem");
+        EntityId.field_191276_a.put("Witch", "minecraft:witch");
+        EntityId.field_191276_a.put("WitherBoss", "minecraft:wither");
+        EntityId.field_191276_a.put("WitherSkeleton", "minecraft:wither_skeleton");
+        EntityId.field_191276_a.put("WitherSkull", "minecraft:wither_skull");
+        EntityId.field_191276_a.put("Wolf", "minecraft:wolf");
+        EntityId.field_191276_a.put("XPOrb", "minecraft:xp_orb");
+        EntityId.field_191276_a.put("Zombie", "minecraft:zombie");
+        EntityId.field_191276_a.put("ZombieHorse", "minecraft:zombie_horse");
+        EntityId.field_191276_a.put("ZombieVillager", "minecraft:zombie_villager");
     }
 }

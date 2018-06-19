@@ -33,87 +33,87 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityZombieVillager extends EntityZombie {
 
-    private static final DataParameter<Boolean> CONVERTING = EntityDataManager.createKey(EntityZombieVillager.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Integer> PROFESSION = EntityDataManager.createKey(EntityZombieVillager.class, DataSerializers.VARINT);
-    private int conversionTime;
-    private UUID converstionStarter;
+    private static final DataParameter<Boolean> field_184739_bx = EntityDataManager.func_187226_a(EntityZombieVillager.class, DataSerializers.field_187198_h);
+    private static final DataParameter<Integer> field_190739_c = EntityDataManager.func_187226_a(EntityZombieVillager.class, DataSerializers.field_187192_b);
+    private int field_82234_d;
+    private UUID field_191992_by;
     private int lastTick = MinecraftServer.currentTick; // CraftBukkit - add field
 
     public EntityZombieVillager(World world) {
         super(world);
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(EntityZombieVillager.CONVERTING, Boolean.valueOf(false));
-        this.dataManager.register(EntityZombieVillager.PROFESSION, Integer.valueOf(0));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(EntityZombieVillager.field_184739_bx, Boolean.valueOf(false));
+        this.field_70180_af.func_187214_a(EntityZombieVillager.field_190739_c, Integer.valueOf(0));
     }
 
-    public void setProfession(int i) {
-        this.dataManager.set(EntityZombieVillager.PROFESSION, Integer.valueOf(i));
+    public void func_190733_a(int i) {
+        this.field_70180_af.func_187227_b(EntityZombieVillager.field_190739_c, Integer.valueOf(i));
     }
 
-    public int getProfession() {
-        return Math.max(((Integer) this.dataManager.get(EntityZombieVillager.PROFESSION)).intValue() % 6, 0);
+    public int func_190736_dl() {
+        return Math.max(((Integer) this.field_70180_af.func_187225_a(EntityZombieVillager.field_190739_c)).intValue() % 6, 0);
     }
 
-    public static void registerFixesZombieVillager(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityZombieVillager.class);
+    public static void func_190737_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityZombieVillager.class);
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setInteger("Profession", this.getProfession());
-        nbttagcompound.setInteger("ConversionTime", this.isConverting() ? this.conversionTime : -1);
-        if (this.converstionStarter != null) {
-            nbttagcompound.setUniqueId("ConversionPlayer", this.converstionStarter);
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74768_a("Profession", this.func_190736_dl());
+        nbttagcompound.func_74768_a("ConversionTime", this.func_82230_o() ? this.field_82234_d : -1);
+        if (this.field_191992_by != null) {
+            nbttagcompound.func_186854_a("ConversionPlayer", this.field_191992_by);
         }
 
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.setProfession(nbttagcompound.getInteger("Profession"));
-        if (nbttagcompound.hasKey("ConversionTime", 99) && nbttagcompound.getInteger("ConversionTime") > -1) {
-            this.startConverting(nbttagcompound.hasUniqueId("ConversionPlayer") ? nbttagcompound.getUniqueId("ConversionPlayer") : null, nbttagcompound.getInteger("ConversionTime"));
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.func_190733_a(nbttagcompound.func_74762_e("Profession"));
+        if (nbttagcompound.func_150297_b("ConversionTime", 99) && nbttagcompound.func_74762_e("ConversionTime") > -1) {
+            this.func_191991_a(nbttagcompound.func_186855_b("ConversionPlayer") ? nbttagcompound.func_186857_a("ConversionPlayer") : null, nbttagcompound.func_74762_e("ConversionTime"));
         }
 
     }
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
-        this.setProfession(this.world.rand.nextInt(6));
-        return super.onInitialSpawn(difficultydamagescaler, groupdataentity);
+    public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
+        this.func_190733_a(this.field_70170_p.field_73012_v.nextInt(6));
+        return super.func_180482_a(difficultydamagescaler, groupdataentity);
     }
 
-    public void onUpdate() {
-        if (!this.world.isRemote && this.isConverting()) {
-            int i = this.getConversionProgress();
+    public void func_70071_h_() {
+        if (!this.field_70170_p.field_72995_K && this.func_82230_o()) {
+            int i = this.func_190735_dq();
             // CraftBukkit start - Use wall time instead of ticks for villager conversion
             int elapsedTicks = MinecraftServer.currentTick - this.lastTick;
             this.lastTick = MinecraftServer.currentTick;
             i *= elapsedTicks;
             // CraftBukkit end
 
-            this.conversionTime -= i;
-            if (this.conversionTime <= 0) {
-                this.finishConversion();
+            this.field_82234_d -= i;
+            if (this.field_82234_d <= 0) {
+                this.func_190738_dp();
             }
         }
 
-        super.onUpdate();
+        super.func_70071_h_();
     }
 
-    public boolean processInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (itemstack.getItem() == Items.GOLDEN_APPLE && itemstack.getMetadata() == 0 && this.isPotionActive(MobEffects.WEAKNESS)) {
-            if (!entityhuman.capabilities.isCreativeMode) {
-                itemstack.shrink(1);
+        if (itemstack.func_77973_b() == Items.field_151153_ao && itemstack.func_77960_j() == 0 && this.func_70644_a(MobEffects.field_76437_t)) {
+            if (!entityhuman.field_71075_bZ.field_75098_d) {
+                itemstack.func_190918_g(1);
             }
 
-            if (!this.world.isRemote) {
-                this.startConverting(entityhuman.getUniqueID(), this.rand.nextInt(2401) + 3600);
+            if (!this.field_70170_p.field_72995_K) {
+                this.func_191991_a(entityhuman.func_110124_au(), this.field_70146_Z.nextInt(2401) + 3600);
             }
 
             return true;
@@ -122,68 +122,68 @@ public class EntityZombieVillager extends EntityZombie {
         }
     }
 
-    protected boolean canDespawn() {
-        return !this.isConverting();
+    protected boolean func_70692_ba() {
+        return !this.func_82230_o();
     }
 
-    public boolean isConverting() {
-        return ((Boolean) this.getDataManager().get(EntityZombieVillager.CONVERTING)).booleanValue();
+    public boolean func_82230_o() {
+        return ((Boolean) this.func_184212_Q().func_187225_a(EntityZombieVillager.field_184739_bx)).booleanValue();
     }
 
-    protected void startConverting(@Nullable UUID uuid, int i) {
-        this.converstionStarter = uuid;
-        this.conversionTime = i;
-        this.getDataManager().set(EntityZombieVillager.CONVERTING, Boolean.valueOf(true));
-        this.removePotionEffect(MobEffects.WEAKNESS);
-        this.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, i, Math.min(this.world.getDifficulty().getDifficultyId() - 1, 0)));
-        this.world.setEntityState(this, (byte) 16);
+    protected void func_191991_a(@Nullable UUID uuid, int i) {
+        this.field_191992_by = uuid;
+        this.field_82234_d = i;
+        this.func_184212_Q().func_187227_b(EntityZombieVillager.field_184739_bx, Boolean.valueOf(true));
+        this.func_184589_d(MobEffects.field_76437_t);
+        this.func_70690_d(new PotionEffect(MobEffects.field_76420_g, i, Math.min(this.field_70170_p.func_175659_aa().func_151525_a() - 1, 0)));
+        this.field_70170_p.func_72960_a(this, (byte) 16);
     }
 
-    protected void finishConversion() {
-        EntityVillager entityvillager = new EntityVillager(this.world);
+    protected void func_190738_dp() {
+        EntityVillager entityvillager = new EntityVillager(this.field_70170_p);
 
-        entityvillager.copyLocationAndAnglesFrom(this);
-        entityvillager.setProfession(this.getProfession());
-        entityvillager.finalizeMobSpawn(this.world.getDifficultyForLocation(new BlockPos(entityvillager)), (IEntityLivingData) null, false);
-        entityvillager.setLookingForHome();
-        if (this.isChild()) {
-            entityvillager.setGrowingAge(-24000);
+        entityvillager.func_82149_j(this);
+        entityvillager.func_70938_b(this.func_190736_dl());
+        entityvillager.func_190672_a(this.field_70170_p.func_175649_E(new BlockPos(entityvillager)), (IEntityLivingData) null, false);
+        entityvillager.func_82187_q();
+        if (this.func_70631_g_()) {
+            entityvillager.func_70873_a(-24000);
         }
 
-        this.world.removeEntity(this);
-        entityvillager.setNoAI(this.isAIDisabled());
-        if (this.hasCustomName()) {
-            entityvillager.setCustomNameTag(this.getCustomNameTag());
-            entityvillager.setAlwaysRenderNameTag(this.getAlwaysRenderNameTag());
+        this.field_70170_p.func_72900_e(this);
+        entityvillager.func_94061_f(this.func_175446_cd());
+        if (this.func_145818_k_()) {
+            entityvillager.func_96094_a(this.func_95999_t());
+            entityvillager.func_174805_g(this.func_174833_aM());
         }
 
-        this.world.addEntity(entityvillager, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.CURED); // CraftBukkit - add SpawnReason
-        if (this.converstionStarter != null) {
-            EntityPlayer entityhuman = this.world.getPlayerEntityByUUID(this.converstionStarter);
+        this.field_70170_p.addEntity(entityvillager, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.CURED); // CraftBukkit - add SpawnReason
+        if (this.field_191992_by != null) {
+            EntityPlayer entityhuman = this.field_70170_p.func_152378_a(this.field_191992_by);
 
             if (entityhuman instanceof EntityPlayerMP) {
-                CriteriaTriggers.CURED_ZOMBIE_VILLAGER.trigger((EntityPlayerMP) entityhuman, this, entityvillager);
+                CriteriaTriggers.field_192137_q.func_192183_a((EntityPlayerMP) entityhuman, this, entityvillager);
             }
         }
 
-        entityvillager.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 200, 0));
-        this.world.playEvent((EntityPlayer) null, 1027, new BlockPos((int) this.posX, (int) this.posY, (int) this.posZ), 0);
+        entityvillager.func_70690_d(new PotionEffect(MobEffects.field_76431_k, 200, 0));
+        this.field_70170_p.func_180498_a((EntityPlayer) null, 1027, new BlockPos((int) this.field_70165_t, (int) this.field_70163_u, (int) this.field_70161_v), 0);
     }
 
-    protected int getConversionProgress() {
+    protected int func_190735_dq() {
         int i = 1;
 
-        if (this.rand.nextFloat() < 0.01F) {
+        if (this.field_70146_Z.nextFloat() < 0.01F) {
             int j = 0;
             BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos();
 
-            for (int k = (int) this.posX - 4; k < (int) this.posX + 4 && j < 14; ++k) {
-                for (int l = (int) this.posY - 4; l < (int) this.posY + 4 && j < 14; ++l) {
-                    for (int i1 = (int) this.posZ - 4; i1 < (int) this.posZ + 4 && j < 14; ++i1) {
-                        Block block = this.world.getBlockState(blockposition_mutableblockposition.setPos(k, l, i1)).getBlock();
+            for (int k = (int) this.field_70165_t - 4; k < (int) this.field_70165_t + 4 && j < 14; ++k) {
+                for (int l = (int) this.field_70163_u - 4; l < (int) this.field_70163_u + 4 && j < 14; ++l) {
+                    for (int i1 = (int) this.field_70161_v - 4; i1 < (int) this.field_70161_v + 4 && j < 14; ++i1) {
+                        Block block = this.field_70170_p.func_180495_p(blockposition_mutableblockposition.func_181079_c(k, l, i1)).func_177230_c();
 
-                        if (block == Blocks.IRON_BARS || block == Blocks.BED) {
-                            if (this.rand.nextFloat() < 0.3F) {
+                        if (block == Blocks.field_150411_aY || block == Blocks.field_150324_C) {
+                            if (this.field_70146_Z.nextFloat() < 0.3F) {
                                 ++i;
                             }
 
@@ -197,32 +197,32 @@ public class EntityZombieVillager extends EntityZombie {
         return i;
     }
 
-    protected float getSoundPitch() {
-        return this.isChild() ? (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 2.0F : (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F;
+    protected float func_70647_i() {
+        return this.func_70631_g_() ? (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F + 2.0F : (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F + 1.0F;
     }
 
-    public SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_ZOMBIE_VILLAGER_AMBIENT;
+    public SoundEvent func_184639_G() {
+        return SoundEvents.field_187940_hn;
     }
 
-    public SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_ZOMBIE_VILLAGER_HURT;
+    public SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187944_hr;
     }
 
-    public SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_ZOMBIE_VILLAGER_DEATH;
+    public SoundEvent func_184615_bR() {
+        return SoundEvents.field_187943_hq;
     }
 
-    public SoundEvent getStepSound() {
-        return SoundEvents.ENTITY_ZOMBIE_VILLAGER_STEP;
+    public SoundEvent func_190731_di() {
+        return SoundEvents.field_187946_ht;
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_ZOMBIE_VILLAGER;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_191183_as;
     }
 
-    protected ItemStack getSkullDrop() {
-        return ItemStack.EMPTY;
+    protected ItemStack func_190732_dj() {
+        return ItemStack.field_190927_a;
     }
 }

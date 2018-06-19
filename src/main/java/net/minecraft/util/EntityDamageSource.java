@@ -14,42 +14,42 @@ import net.minecraft.util.text.translation.I18n;
 public class EntityDamageSource extends DamageSource {
 
     @Nullable
-    protected Entity damageSourceEntity;
-    private boolean isThornsDamage;
+    protected Entity field_76386_o;
+    private boolean field_180140_r;
 
     public EntityDamageSource(String s, @Nullable Entity entity) {
         super(s);
-        this.damageSourceEntity = entity;
+        this.field_76386_o = entity;
     }
 
-    public EntityDamageSource setIsThornsDamage() {
-        this.isThornsDamage = true;
+    public EntityDamageSource func_180138_v() {
+        this.field_180140_r = true;
         return this;
     }
 
-    public boolean getIsThornsDamage() {
-        return this.isThornsDamage;
+    public boolean func_180139_w() {
+        return this.field_180140_r;
     }
 
     @Nullable
-    public Entity getTrueSource() {
-        return this.damageSourceEntity;
+    public Entity func_76346_g() {
+        return this.field_76386_o;
     }
 
-    public ITextComponent getDeathMessage(EntityLivingBase entityliving) {
-        ItemStack itemstack = this.damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase) this.damageSourceEntity).getHeldItemMainhand() : ItemStack.EMPTY;
-        String s = "death.attack." + this.damageType;
+    public ITextComponent func_151519_b(EntityLivingBase entityliving) {
+        ItemStack itemstack = this.field_76386_o instanceof EntityLivingBase ? ((EntityLivingBase) this.field_76386_o).func_184614_ca() : ItemStack.field_190927_a;
+        String s = "death.attack." + this.field_76373_n;
         String s1 = s + ".item";
 
-        return !itemstack.isEmpty() && itemstack.hasDisplayName() && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, new Object[] { entityliving.getDisplayName(), this.damageSourceEntity.getDisplayName(), itemstack.getTextComponent()}) : new TextComponentTranslation(s, new Object[] { entityliving.getDisplayName(), this.damageSourceEntity.getDisplayName()});
+        return !itemstack.func_190926_b() && itemstack.func_82837_s() && I18n.func_94522_b(s1) ? new TextComponentTranslation(s1, new Object[] { entityliving.func_145748_c_(), this.field_76386_o.func_145748_c_(), itemstack.func_151000_E()}) : new TextComponentTranslation(s, new Object[] { entityliving.func_145748_c_(), this.field_76386_o.func_145748_c_()});
     }
 
-    public boolean isDifficultyScaled() {
-        return this.damageSourceEntity != null && this.damageSourceEntity instanceof EntityLivingBase && !(this.damageSourceEntity instanceof EntityPlayer);
+    public boolean func_76350_n() {
+        return this.field_76386_o != null && this.field_76386_o instanceof EntityLivingBase && !(this.field_76386_o instanceof EntityPlayer);
     }
 
     @Nullable
-    public Vec3d getDamageLocation() {
-        return new Vec3d(this.damageSourceEntity.posX, this.damageSourceEntity.posY, this.damageSourceEntity.posZ);
+    public Vec3d func_188404_v() {
+        return new Vec3d(this.field_76386_o.field_70165_t, this.field_76386_o.field_70163_u, this.field_76386_o.field_70161_v);
     }
 }

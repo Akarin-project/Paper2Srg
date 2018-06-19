@@ -15,37 +15,37 @@ import net.minecraft.world.World;
 public class BlockAir extends Block {
 
     protected BlockAir() {
-        super(Material.AIR);
+        super(Material.field_151579_a);
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.INVISIBLE;
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockAir.NULL_AABB;
+    public AxisAlignedBB func_180646_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockAir.field_185506_k;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean canCollideCheck(IBlockState iblockdata, boolean flag) {
+    public boolean func_176209_a(IBlockState iblockdata, boolean flag) {
         return false;
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {}
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {}
 
-    public boolean isReplaceable(IBlockAccess iblockaccess, BlockPos blockposition) {
+    public boolean func_176200_f(IBlockAccess iblockaccess, BlockPos blockposition) {
         return true;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.UNDEFINED;
     }
 }

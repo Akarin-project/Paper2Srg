@@ -16,105 +16,105 @@ import org.bukkit.event.entity.EntityUnleashEvent;
 
 public abstract class EntityCreature extends EntityLiving {
 
-    public static final UUID FLEEING_SPEED_MODIFIER_UUID = UUID.fromString("E199AD21-BA8A-4C53-8D13-6182D5C69D3A");
-    public static final AttributeModifier FLEEING_SPEED_MODIFIER = (new AttributeModifier(EntityCreature.FLEEING_SPEED_MODIFIER_UUID, "Fleeing speed bonus", 2.0D, 2)).setSaved(false);
+    public static final UUID field_110179_h = UUID.fromString("E199AD21-BA8A-4C53-8D13-6182D5C69D3A");
+    public static final AttributeModifier field_110181_i = (new AttributeModifier(EntityCreature.field_110179_h, "Fleeing speed bonus", 2.0D, 2)).func_111168_a(false);
     public BlockPos movingTarget = null; public BlockPos getMovingTarget() { return movingTarget; } // Paper
-    private BlockPos homePosition;
-    private float maximumHomeDistance;
-    private final float restoreWaterCost;
+    private BlockPos field_70775_bC;
+    private float field_70772_bD;
+    private final float field_184661_bw;
 
     public EntityCreature(World world) {
         super(world);
-        this.homePosition = BlockPos.ORIGIN;
-        this.maximumHomeDistance = -1.0F;
-        this.restoreWaterCost = PathNodeType.WATER.getPriority();
+        this.field_70775_bC = BlockPos.field_177992_a;
+        this.field_70772_bD = -1.0F;
+        this.field_184661_bw = PathNodeType.WATER.func_186289_a();
     }
 
-    public float getBlockPathWeight(BlockPos blockposition) {
+    public float func_180484_a(BlockPos blockposition) {
         return 0.0F;
     }
 
-    public boolean getCanSpawnHere() {
-        return super.getCanSpawnHere() && this.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F;
+    public boolean func_70601_bi() {
+        return super.func_70601_bi() && this.func_180484_a(new BlockPos(this.field_70165_t, this.func_174813_aQ().field_72338_b, this.field_70161_v)) >= 0.0F;
     }
 
-    public boolean hasPath() {
-        return !this.navigator.noPath();
+    public boolean func_70781_l() {
+        return !this.field_70699_by.func_75500_f();
     }
 
-    public boolean isWithinHomeDistanceCurrentPosition() {
-        return this.isWithinHomeDistanceFromPosition(new BlockPos(this));
+    public boolean func_110173_bK() {
+        return this.func_180485_d(new BlockPos(this));
     }
 
-    public boolean isWithinHomeDistanceFromPosition(BlockPos blockposition) {
-        return this.maximumHomeDistance == -1.0F ? true : this.homePosition.distanceSq(blockposition) < (double) (this.maximumHomeDistance * this.maximumHomeDistance);
+    public boolean func_180485_d(BlockPos blockposition) {
+        return this.field_70772_bD == -1.0F ? true : this.field_70775_bC.func_177951_i(blockposition) < (double) (this.field_70772_bD * this.field_70772_bD);
     }
 
-    public void setHomePosAndDistance(BlockPos blockposition, int i) {
-        this.homePosition = blockposition;
-        this.maximumHomeDistance = (float) i;
+    public void func_175449_a(BlockPos blockposition, int i) {
+        this.field_70775_bC = blockposition;
+        this.field_70772_bD = (float) i;
     }
 
-    public BlockPos getHomePosition() {
-        return this.homePosition;
+    public BlockPos func_180486_cf() {
+        return this.field_70775_bC;
     }
 
-    public float getMaximumHomeDistance() {
-        return this.maximumHomeDistance;
+    public float func_110174_bM() {
+        return this.field_70772_bD;
     }
 
-    public void detachHome() {
-        this.maximumHomeDistance = -1.0F;
+    public void func_110177_bN() {
+        this.field_70772_bD = -1.0F;
     }
 
-    public boolean hasHome() {
-        return this.maximumHomeDistance != -1.0F;
+    public boolean func_110175_bO() {
+        return this.field_70772_bD != -1.0F;
     }
 
-    protected void updateLeashedState() {
-        super.updateLeashedState();
-        if (this.getLeashed() && this.getLeashHolder() != null && this.getLeashHolder().world == this.world) {
-            Entity entity = this.getLeashHolder();
+    protected void func_110159_bB() {
+        super.func_110159_bB();
+        if (this.func_110167_bD() && this.func_110166_bE() != null && this.func_110166_bE().field_70170_p == this.field_70170_p) {
+            Entity entity = this.func_110166_bE();
 
-            this.setHomePosAndDistance(new BlockPos((int) entity.posX, (int) entity.posY, (int) entity.posZ), 5);
-            float f = this.getDistance(entity);
+            this.func_175449_a(new BlockPos((int) entity.field_70165_t, (int) entity.field_70163_u, (int) entity.field_70161_v), 5);
+            float f = this.func_70032_d(entity);
 
-            if (this instanceof EntityTameable && ((EntityTameable) this).isSitting()) {
+            if (this instanceof EntityTameable && ((EntityTameable) this).func_70906_o()) {
                 if (f > 10.0F) {
-                    this.world.getServer().getPluginManager().callEvent(new EntityUnleashEvent(this.getBukkitEntity(), EntityUnleashEvent.UnleashReason.DISTANCE)); // CraftBukkit
-                    this.clearLeashed(true, true);
+                    this.field_70170_p.getServer().getPluginManager().callEvent(new EntityUnleashEvent(this.getBukkitEntity(), EntityUnleashEvent.UnleashReason.DISTANCE)); // CraftBukkit
+                    this.func_110160_i(true, true);
                 }
 
                 return;
             }
 
-            this.onLeashDistance(f);
+            this.func_142017_o(f);
             if (f > 10.0F) {
-                this.world.getServer().getPluginManager().callEvent(new EntityUnleashEvent(this.getBukkitEntity(), EntityUnleashEvent.UnleashReason.DISTANCE)); // CraftBukkit
-                this.clearLeashed(true, true);
-                this.tasks.disableControlFlag(1);
+                this.field_70170_p.getServer().getPluginManager().callEvent(new EntityUnleashEvent(this.getBukkitEntity(), EntityUnleashEvent.UnleashReason.DISTANCE)); // CraftBukkit
+                this.func_110160_i(true, true);
+                this.field_70714_bg.func_188526_c(1);
             } else if (f > 6.0F) {
-                double d0 = (entity.posX - this.posX) / (double) f;
-                double d1 = (entity.posY - this.posY) / (double) f;
-                double d2 = (entity.posZ - this.posZ) / (double) f;
+                double d0 = (entity.field_70165_t - this.field_70165_t) / (double) f;
+                double d1 = (entity.field_70163_u - this.field_70163_u) / (double) f;
+                double d2 = (entity.field_70161_v - this.field_70161_v) / (double) f;
 
-                this.motionX += d0 * Math.abs(d0) * 0.4D;
-                this.motionY += d1 * Math.abs(d1) * 0.4D;
-                this.motionZ += d2 * Math.abs(d2) * 0.4D;
+                this.field_70159_w += d0 * Math.abs(d0) * 0.4D;
+                this.field_70181_x += d1 * Math.abs(d1) * 0.4D;
+                this.field_70179_y += d2 * Math.abs(d2) * 0.4D;
             } else {
-                this.tasks.enableControlFlag(1);
+                this.field_70714_bg.func_188525_d(1);
                 float f1 = 2.0F;
-                Vec3d vec3d = (new Vec3d(entity.posX - this.posX, entity.posY - this.posY, entity.posZ - this.posZ)).normalize().scale((double) Math.max(f - 2.0F, 0.0F));
+                Vec3d vec3d = (new Vec3d(entity.field_70165_t - this.field_70165_t, entity.field_70163_u - this.field_70163_u, entity.field_70161_v - this.field_70161_v)).func_72432_b().func_186678_a((double) Math.max(f - 2.0F, 0.0F));
 
-                this.getNavigator().tryMoveToXYZ(this.posX + vec3d.x, this.posY + vec3d.y, this.posZ + vec3d.z, this.followLeashSpeed());
+                this.func_70661_as().func_75492_a(this.field_70165_t + vec3d.field_72450_a, this.field_70163_u + vec3d.field_72448_b, this.field_70161_v + vec3d.field_72449_c, this.func_190634_dg());
             }
         }
 
     }
 
-    protected double followLeashSpeed() {
+    protected double func_190634_dg() {
         return 1.0D;
     }
 
-    protected void onLeashDistance(float f) {}
+    protected void func_142017_o(float f) {}
 }

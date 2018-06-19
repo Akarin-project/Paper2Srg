@@ -16,68 +16,68 @@ import net.minecraft.world.World;
 
 public class ItemSword extends Item {
 
-    private final float attackDamage;
-    private final Item.ToolMaterial material;
+    private final float field_150934_a;
+    private final Item.ToolMaterial field_150933_b;
 
     public ItemSword(Item.ToolMaterial item_enumtoolmaterial) {
-        this.material = item_enumtoolmaterial;
-        this.maxStackSize = 1;
-        this.setMaxDamage(item_enumtoolmaterial.getMaxUses());
-        this.setCreativeTab(CreativeTabs.COMBAT);
-        this.attackDamage = 3.0F + item_enumtoolmaterial.getAttackDamage();
+        this.field_150933_b = item_enumtoolmaterial;
+        this.field_77777_bU = 1;
+        this.func_77656_e(item_enumtoolmaterial.func_77997_a());
+        this.func_77637_a(CreativeTabs.field_78037_j);
+        this.field_150934_a = 3.0F + item_enumtoolmaterial.func_78000_c();
     }
 
-    public float getAttackDamage() {
-        return this.material.getAttackDamage();
+    public float func_150931_i() {
+        return this.field_150933_b.func_78000_c();
     }
 
-    public float getDestroySpeed(ItemStack itemstack, IBlockState iblockdata) {
-        Block block = iblockdata.getBlock();
+    public float func_150893_a(ItemStack itemstack, IBlockState iblockdata) {
+        Block block = iblockdata.func_177230_c();
 
-        if (block == Blocks.WEB) {
+        if (block == Blocks.field_150321_G) {
             return 15.0F;
         } else {
-            Material material = iblockdata.getMaterial();
+            Material material = iblockdata.func_185904_a();
 
-            return material != Material.PLANTS && material != Material.VINE && material != Material.CORAL && material != Material.LEAVES && material != Material.GOURD ? 1.0F : 1.5F;
+            return material != Material.field_151585_k && material != Material.field_151582_l && material != Material.field_151589_v && material != Material.field_151584_j && material != Material.field_151572_C ? 1.0F : 1.5F;
         }
     }
 
-    public boolean hitEntity(ItemStack itemstack, EntityLivingBase entityliving, EntityLivingBase entityliving1) {
-        itemstack.damageItem(1, entityliving1);
+    public boolean func_77644_a(ItemStack itemstack, EntityLivingBase entityliving, EntityLivingBase entityliving1) {
+        itemstack.func_77972_a(1, entityliving1);
         return true;
     }
 
-    public boolean onBlockDestroyed(ItemStack itemstack, World world, IBlockState iblockdata, BlockPos blockposition, EntityLivingBase entityliving) {
-        if ((double) iblockdata.getBlockHardness(world, blockposition) != 0.0D) {
-            itemstack.damageItem(2, entityliving);
+    public boolean func_179218_a(ItemStack itemstack, World world, IBlockState iblockdata, BlockPos blockposition, EntityLivingBase entityliving) {
+        if ((double) iblockdata.func_185887_b(world, blockposition) != 0.0D) {
+            itemstack.func_77972_a(2, entityliving);
         }
 
         return true;
     }
 
-    public boolean canHarvestBlock(IBlockState iblockdata) {
-        return iblockdata.getBlock() == Blocks.WEB;
+    public boolean func_150897_b(IBlockState iblockdata) {
+        return iblockdata.func_177230_c() == Blocks.field_150321_G;
     }
 
-    public int getItemEnchantability() {
-        return this.material.getEnchantability();
+    public int func_77619_b() {
+        return this.field_150933_b.func_77995_e();
     }
 
-    public String getToolMaterialName() {
-        return this.material.toString();
+    public String func_150932_j() {
+        return this.field_150933_b.toString();
     }
 
-    public boolean getIsRepairable(ItemStack itemstack, ItemStack itemstack1) {
-        return this.material.getRepairItem() == itemstack1.getItem() ? true : super.getIsRepairable(itemstack, itemstack1);
+    public boolean func_82789_a(ItemStack itemstack, ItemStack itemstack1) {
+        return this.field_150933_b.func_150995_f() == itemstack1.func_77973_b() ? true : super.func_82789_a(itemstack, itemstack1);
     }
 
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot enumitemslot) {
-        Multimap multimap = super.getItemAttributeModifiers(enumitemslot);
+    public Multimap<String, AttributeModifier> func_111205_h(EntityEquipmentSlot enumitemslot) {
+        Multimap multimap = super.func_111205_h(enumitemslot);
 
         if (enumitemslot == EntityEquipmentSlot.MAINHAND) {
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ItemSword.ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.attackDamage, 0));
-            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ItemSword.ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
+            multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(ItemSword.field_111210_e, "Weapon modifier", (double) this.field_150934_a, 0));
+            multimap.put(SharedMonsterAttributes.field_188790_f.func_111108_a(), new AttributeModifier(ItemSword.field_185050_h, "Weapon modifier", -2.4000000953674316D, 0));
         }
 
         return multimap;

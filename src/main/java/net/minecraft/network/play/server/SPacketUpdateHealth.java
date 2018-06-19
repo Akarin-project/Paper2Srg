@@ -8,31 +8,31 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketUpdateHealth implements Packet<INetHandlerPlayClient> {
 
-    private float health;
-    private int foodLevel;
-    private float saturationLevel;
+    private float field_149336_a;
+    private int field_149334_b;
+    private float field_149335_c;
 
     public SPacketUpdateHealth() {}
 
     public SPacketUpdateHealth(float f, int i, float f1) {
-        this.health = f;
-        this.foodLevel = i;
-        this.saturationLevel = f1;
+        this.field_149336_a = f;
+        this.field_149334_b = i;
+        this.field_149335_c = f1;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.health = packetdataserializer.readFloat();
-        this.foodLevel = packetdataserializer.readVarInt();
-        this.saturationLevel = packetdataserializer.readFloat();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149336_a = packetdataserializer.readFloat();
+        this.field_149334_b = packetdataserializer.func_150792_a();
+        this.field_149335_c = packetdataserializer.readFloat();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeFloat(this.health);
-        packetdataserializer.writeVarInt(this.foodLevel);
-        packetdataserializer.writeFloat(this.saturationLevel);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeFloat(this.field_149336_a);
+        packetdataserializer.func_150787_b(this.field_149334_b);
+        packetdataserializer.writeFloat(this.field_149335_c);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleUpdateHealth(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147249_a(this);
     }
 }

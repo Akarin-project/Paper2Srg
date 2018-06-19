@@ -7,7 +7,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntityAIWanderAvoidWater extends EntityAIWander {
 
-    protected final float probability;
+    protected final float field_190865_h;
 
     public EntityAIWanderAvoidWater(EntityCreature entitycreature, double d0) {
         this(entitycreature, d0, 0.001F);
@@ -15,17 +15,17 @@ public class EntityAIWanderAvoidWater extends EntityAIWander {
 
     public EntityAIWanderAvoidWater(EntityCreature entitycreature, double d0, float f) {
         super(entitycreature, d0);
-        this.probability = f;
+        this.field_190865_h = f;
     }
 
     @Nullable
-    protected Vec3d getPosition() {
-        if (this.entity.isInWater()) {
-            Vec3d vec3d = RandomPositionGenerator.getLandPos(this.entity, 15, 7);
+    protected Vec3d func_190864_f() {
+        if (this.field_75457_a.func_70090_H()) {
+            Vec3d vec3d = RandomPositionGenerator.func_191377_b(this.field_75457_a, 15, 7);
 
-            return vec3d == null ? super.getPosition() : vec3d;
+            return vec3d == null ? super.func_190864_f() : vec3d;
         } else {
-            return this.entity.getRNG().nextFloat() >= this.probability ? RandomPositionGenerator.getLandPos(this.entity, 10, 7) : super.getPosition();
+            return this.field_75457_a.func_70681_au().nextFloat() >= this.field_190865_h ? RandomPositionGenerator.func_191377_b(this.field_75457_a, 10, 7) : super.func_190864_f();
         }
     }
 }

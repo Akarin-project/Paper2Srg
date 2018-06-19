@@ -9,23 +9,23 @@ import net.minecraft.util.math.BlockPos;
 
 public class SPacketSignEditorOpen implements Packet<INetHandlerPlayClient> {
 
-    private BlockPos signPosition;
+    private BlockPos field_179778_a;
 
     public SPacketSignEditorOpen() {}
 
     public SPacketSignEditorOpen(BlockPos blockposition) {
-        this.signPosition = blockposition;
+        this.field_179778_a = blockposition;
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleSignEditorOpen(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147268_a(this);
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.signPosition = packetdataserializer.readBlockPos();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_179778_a = packetdataserializer.func_179259_c();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeBlockPos(this.signPosition);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179255_a(this.field_179778_a);
     }
 }

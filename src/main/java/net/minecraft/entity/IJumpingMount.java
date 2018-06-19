@@ -2,9 +2,9 @@ package net.minecraft.entity;
 
 public interface IJumpingMount {
 
-    boolean canJump();
+    boolean func_184776_b();
 
-    void handleStartJump(int i);
+    void func_184775_b(int i);
 
-    void handleStopJump();
+    void func_184777_r_();
 }

@@ -21,71 +21,71 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 
 public class EntityWitherSkull extends EntityFireball {
 
-    private static final DataParameter<Boolean> INVULNERABLE = EntityDataManager.createKey(EntityWitherSkull.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> field_184565_e = EntityDataManager.func_187226_a(EntityWitherSkull.class, DataSerializers.field_187198_h);
 
     public EntityWitherSkull(World world) {
         super(world);
-        this.setSize(0.3125F, 0.3125F);
+        this.func_70105_a(0.3125F, 0.3125F);
     }
 
     public EntityWitherSkull(World world, EntityLivingBase entityliving, double d0, double d1, double d2) {
         super(world, entityliving, d0, d1, d2);
-        this.setSize(0.3125F, 0.3125F);
+        this.func_70105_a(0.3125F, 0.3125F);
     }
 
-    public static void registerFixesWitherSkull(DataFixer dataconvertermanager) {
-        EntityFireball.registerFixesFireball(dataconvertermanager, "WitherSkull");
+    public static void func_189746_a(DataFixer dataconvertermanager) {
+        EntityFireball.func_189743_a(dataconvertermanager, "WitherSkull");
     }
 
-    protected float getMotionFactor() {
-        return this.isInvulnerable() ? 0.73F : super.getMotionFactor();
+    protected float func_82341_c() {
+        return this.func_82342_d() ? 0.73F : super.func_82341_c();
     }
 
-    public boolean isBurning() {
+    public boolean func_70027_ad() {
         return false;
     }
 
-    public float getExplosionResistance(Explosion explosion, World world, BlockPos blockposition, IBlockState iblockdata) {
-        float f = super.getExplosionResistance(explosion, world, blockposition, iblockdata);
-        Block block = iblockdata.getBlock();
+    public float func_180428_a(Explosion explosion, World world, BlockPos blockposition, IBlockState iblockdata) {
+        float f = super.func_180428_a(explosion, world, blockposition, iblockdata);
+        Block block = iblockdata.func_177230_c();
 
-        if (this.isInvulnerable() && EntityWither.canDestroyBlock(block)) {
+        if (this.func_82342_d() && EntityWither.func_181033_a(block)) {
             f = Math.min(0.8F, f);
         }
 
         return f;
     }
 
-    protected void onImpact(RayTraceResult movingobjectposition) {
-        if (!this.world.isRemote) {
-            if (movingobjectposition.entityHit != null) {
+    protected void func_70227_a(RayTraceResult movingobjectposition) {
+        if (!this.field_70170_p.field_72995_K) {
+            if (movingobjectposition.field_72308_g != null) {
                 // Spigot start
                 boolean didDamage = false;
-                if (this.shootingEntity != null) {
-                    didDamage = movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, shootingEntity), 8.0F);
+                if (this.field_70235_a != null) {
+                    didDamage = movingobjectposition.field_72308_g.func_70097_a(DamageSource.func_76356_a(this, field_70235_a), 8.0F);
                     if (didDamage) { // CraftBukkit
-                        if (movingobjectposition.entityHit.isEntityAlive()) {
-                            this.applyEnchantments(this.shootingEntity, movingobjectposition.entityHit);
+                        if (movingobjectposition.field_72308_g.func_70089_S()) {
+                            this.func_174815_a(this.field_70235_a, movingobjectposition.field_72308_g);
                         } else {
-                            this.shootingEntity.heal(5.0F, org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason.WITHER); // CraftBukkit
+                            this.field_70235_a.heal(5.0F, org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason.WITHER); // CraftBukkit
                         }
                     }
                 } else {
-                    didDamage = movingobjectposition.entityHit.attackEntityFrom(DamageSource.MAGIC, 5.0F);
+                    didDamage = movingobjectposition.field_72308_g.func_70097_a(DamageSource.field_76376_m, 5.0F);
                 }
 
-                if (didDamage && movingobjectposition.entityHit instanceof EntityLivingBase) {
+                if (didDamage && movingobjectposition.field_72308_g instanceof EntityLivingBase) {
                 // Spigot end
                     byte b0 = 0;
 
-                    if (this.world.getDifficulty() == EnumDifficulty.NORMAL) {
+                    if (this.field_70170_p.func_175659_aa() == EnumDifficulty.NORMAL) {
                         b0 = 10;
-                    } else if (this.world.getDifficulty() == EnumDifficulty.HARD) {
+                    } else if (this.field_70170_p.func_175659_aa() == EnumDifficulty.HARD) {
                         b0 = 40;
                     }
 
                     if (b0 > 0) {
-                        ((EntityLivingBase) movingobjectposition.entityHit).addPotionEffect(new PotionEffect(MobEffects.WITHER, 20 * b0, 1));
+                        ((EntityLivingBase) movingobjectposition.field_72308_g).func_70690_d(new PotionEffect(MobEffects.field_82731_v, 20 * b0, 1));
                     }
                 }
             }
@@ -93,38 +93,38 @@ public class EntityWitherSkull extends EntityFireball {
             // CraftBukkit start
             // this.world.createExplosion(this, this.locX, this.locY, this.locZ, 1.0F, false, this.world.getGameRules().getBoolean("mobGriefing"));
             ExplosionPrimeEvent event = new ExplosionPrimeEvent(this.getBukkitEntity(), 1.0F, false);
-            this.world.getServer().getPluginManager().callEvent(event);
+            this.field_70170_p.getServer().getPluginManager().callEvent(event);
 
             if (!event.isCancelled()) {
-                this.world.newExplosion(this, this.posX, this.posY, this.posZ, event.getRadius(), event.getFire(), this.world.getGameRules().getBoolean("mobGriefing"));
+                this.field_70170_p.func_72885_a(this, this.field_70165_t, this.field_70163_u, this.field_70161_v, event.getRadius(), event.getFire(), this.field_70170_p.func_82736_K().func_82766_b("mobGriefing"));
             }
             // CraftBukkit end
-            this.setDead();
+            this.func_70106_y();
         }
 
     }
 
-    public boolean canBeCollidedWith() {
+    public boolean func_70067_L() {
         return false;
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
+    public boolean func_70097_a(DamageSource damagesource, float f) {
         return false;
     }
 
-    protected void entityInit() {
-        this.dataManager.register(EntityWitherSkull.INVULNERABLE, Boolean.valueOf(false));
+    protected void func_70088_a() {
+        this.field_70180_af.func_187214_a(EntityWitherSkull.field_184565_e, Boolean.valueOf(false));
     }
 
-    public boolean isInvulnerable() {
-        return ((Boolean) this.dataManager.get(EntityWitherSkull.INVULNERABLE)).booleanValue();
+    public boolean func_82342_d() {
+        return ((Boolean) this.field_70180_af.func_187225_a(EntityWitherSkull.field_184565_e)).booleanValue();
     }
 
-    public void setInvulnerable(boolean flag) {
-        this.dataManager.set(EntityWitherSkull.INVULNERABLE, Boolean.valueOf(flag));
+    public void func_82343_e(boolean flag) {
+        this.field_70180_af.func_187227_b(EntityWitherSkull.field_184565_e, Boolean.valueOf(flag));
     }
 
-    protected boolean isFireballFiery() {
+    protected boolean func_184564_k() {
         return false;
     }
 }

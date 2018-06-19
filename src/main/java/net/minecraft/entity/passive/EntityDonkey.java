@@ -17,38 +17,38 @@ public class EntityDonkey extends AbstractChestHorse {
         super(world);
     }
 
-    public static void registerFixesDonkey(DataFixer dataconvertermanager) {
-        AbstractChestHorse.registerFixesAbstractChestHorse(dataconvertermanager, EntityDonkey.class);
+    public static void func_190699_b(DataFixer dataconvertermanager) {
+        AbstractChestHorse.func_190694_b(dataconvertermanager, EntityDonkey.class);
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_DONKEY;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_191190_H;
     }
 
-    protected SoundEvent getAmbientSound() {
-        super.getAmbientSound();
-        return SoundEvents.ENTITY_DONKEY_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        super.func_184639_G();
+        return SoundEvents.field_187580_av;
     }
 
-    protected SoundEvent getDeathSound() {
-        super.getDeathSound();
-        return SoundEvents.ENTITY_DONKEY_DEATH;
+    protected SoundEvent func_184615_bR() {
+        super.func_184615_bR();
+        return SoundEvents.field_187586_ay;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        super.getHurtSound(damagesource);
-        return SoundEvents.ENTITY_DONKEY_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        super.func_184601_bQ(damagesource);
+        return SoundEvents.field_187588_az;
     }
 
-    public boolean canMateWith(EntityAnimal entityanimal) {
-        return entityanimal == this ? false : (!(entityanimal instanceof EntityDonkey) && !(entityanimal instanceof EntityHorse) ? false : this.canMate() && ((AbstractHorse) entityanimal).canMate());
+    public boolean func_70878_b(EntityAnimal entityanimal) {
+        return entityanimal == this ? false : (!(entityanimal instanceof EntityDonkey) && !(entityanimal instanceof EntityHorse) ? false : this.func_110200_cJ() && ((AbstractHorse) entityanimal).func_110200_cJ());
     }
 
-    public EntityAgeable createChild(EntityAgeable entityageable) {
-        Object object = entityageable instanceof EntityHorse ? new EntityMule(this.world) : new EntityDonkey(this.world);
+    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
+        Object object = entityageable instanceof EntityHorse ? new EntityMule(this.field_70170_p) : new EntityDonkey(this.field_70170_p);
 
-        this.setOffspringAttributes(entityageable, (AbstractHorse) object);
+        this.func_190681_a(entityageable, (AbstractHorse) object);
         return (EntityAgeable) object;
     }
 }

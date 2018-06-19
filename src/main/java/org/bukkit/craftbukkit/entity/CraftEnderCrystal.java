@@ -14,28 +14,28 @@ public class CraftEnderCrystal extends CraftEntity implements EnderCrystal {
 
     @Override
     public boolean isShowingBottom() {
-        return getHandle().shouldShowBottom();
+        return getHandle().func_184520_k();
     }
 
     @Override
     public void setShowingBottom(boolean showing) {
-        getHandle().setShowBottom(showing);
+        getHandle().func_184517_a(showing);
     }
 
     @Override
     public Location getBeamTarget() {
-        BlockPos pos = getHandle().getBeamTarget();
-        return pos == null ? null : new Location(getWorld(), pos.getX(), pos.getY(), pos.getZ());
+        BlockPos pos = getHandle().func_184518_j();
+        return pos == null ? null : new Location(getWorld(), pos.func_177958_n(), pos.func_177956_o(), pos.func_177952_p());
     }
 
     @Override
     public void setBeamTarget(Location location) {
         if (location == null) {
-            getHandle().setBeamTarget((BlockPos) null);
+            getHandle().func_184516_a((BlockPos) null);
         } else if (location.getWorld() != getWorld()) {
             throw new IllegalArgumentException("Cannot set beam target location to different world");
         } else {
-            getHandle().setBeamTarget(new BlockPos(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+            getHandle().func_184516_a(new BlockPos(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
         }
     }
 

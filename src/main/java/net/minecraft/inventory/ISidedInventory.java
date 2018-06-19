@@ -5,9 +5,9 @@ import net.minecraft.util.EnumFacing;
 
 public interface ISidedInventory extends IInventory {
 
-    int[] getSlotsForFace(EnumFacing enumdirection);
+    int[] func_180463_a(EnumFacing enumdirection);
 
-    boolean canInsertItem(int i, ItemStack itemstack, EnumFacing enumdirection);
+    boolean func_180462_a(int i, ItemStack itemstack, EnumFacing enumdirection);
 
-    boolean canExtractItem(int i, ItemStack itemstack, EnumFacing enumdirection);
+    boolean func_180461_b(int i, ItemStack itemstack, EnumFacing enumdirection);
 }

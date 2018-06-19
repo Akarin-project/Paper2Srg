@@ -9,13 +9,13 @@ public class PotionAbsorption extends Potion {
         super(flag, i);
     }
 
-    public void removeAttributesModifiersFromEntity(EntityLivingBase entityliving, AbstractAttributeMap attributemapbase, int i) {
-        entityliving.setAbsorptionAmount(entityliving.getAbsorptionAmount() - (float) (4 * (i + 1)));
-        super.removeAttributesModifiersFromEntity(entityliving, attributemapbase, i);
+    public void func_111187_a(EntityLivingBase entityliving, AbstractAttributeMap attributemapbase, int i) {
+        entityliving.func_110149_m(entityliving.func_110139_bj() - (float) (4 * (i + 1)));
+        super.func_111187_a(entityliving, attributemapbase, i);
     }
 
-    public void applyAttributesModifiersToEntity(EntityLivingBase entityliving, AbstractAttributeMap attributemapbase, int i) {
-        entityliving.setAbsorptionAmount(entityliving.getAbsorptionAmount() + (float) (4 * (i + 1)));
-        super.applyAttributesModifiersToEntity(entityliving, attributemapbase, i);
+    public void func_111185_a(EntityLivingBase entityliving, AbstractAttributeMap attributemapbase, int i) {
+        entityliving.func_110149_m(entityliving.func_110139_bj() + (float) (4 * (i + 1)));
+        super.func_111185_a(entityliving, attributemapbase, i);
     }
 }

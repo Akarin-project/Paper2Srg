@@ -13,37 +13,37 @@ public class CommandKill extends CommandBase {
 
     public CommandKill() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "kill";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 2;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.kill.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length == 0) {
-            EntityPlayerMP entityplayer = getCommandSenderAsPlayer(icommandlistener);
+            EntityPlayerMP entityplayer = func_71521_c(icommandlistener);
 
-            entityplayer.onKillCommand();
-            notifyCommandListener(icommandlistener, (ICommand) this, "commands.kill.successful", new Object[] { entityplayer.getDisplayName()});
+            entityplayer.func_174812_G();
+            func_152373_a(icommandlistener, (ICommand) this, "commands.kill.successful", new Object[] { entityplayer.func_145748_c_()});
         } else {
-            Entity entity = getEntity(minecraftserver, icommandlistener, astring[0]);
+            Entity entity = func_184885_b(minecraftserver, icommandlistener, astring[0]);
 
-            entity.onKillCommand();
-            notifyCommandListener(icommandlistener, (ICommand) this, "commands.kill.successful", new Object[] { entity.getDisplayName()});
+            entity.func_174812_G();
+            func_152373_a(icommandlistener, (ICommand) this, "commands.kill.successful", new Object[] { entity.func_145748_c_()});
         }
     }
 
-    public boolean isUsernameIndex(String[] astring, int i) {
+    public boolean func_82358_a(String[] astring, int i) {
         return i == 0;
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, minecraftserver.getOnlinePlayerNames()) : Collections.emptyList();
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length == 1 ? func_71530_a(astring, minecraftserver.func_71213_z()) : Collections.emptyList();
     }
 }

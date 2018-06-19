@@ -15,12 +15,12 @@ import net.minecraft.item.crafting.Ingredient;
 
 public class PotionHelper {
 
-    private static final List<PotionHelper.MixPredicate<PotionType>> POTION_TYPE_CONVERSIONS = Lists.newArrayList();
-    private static final List<PotionHelper.MixPredicate<Item>> POTION_ITEM_CONVERSIONS = Lists.newArrayList();
-    private static final List<Ingredient> POTION_ITEMS = Lists.newArrayList();
-    private static final Predicate<ItemStack> IS_POTION_ITEM = new Predicate() {
+    private static final List<PotionHelper.MixPredicate<PotionType>> field_185213_a = Lists.newArrayList();
+    private static final List<PotionHelper.MixPredicate<Item>> field_185214_b = Lists.newArrayList();
+    private static final List<Ingredient> field_185215_c = Lists.newArrayList();
+    private static final Predicate<ItemStack> field_185216_d = new Predicate() {
         public boolean a(ItemStack itemstack) {
-            Iterator iterator = PotionHelper.POTION_ITEMS.iterator();
+            Iterator iterator = PotionHelper.field_185215_c.iterator();
 
             Ingredient recipeitemstack;
 
@@ -40,15 +40,15 @@ public class PotionHelper {
         }
     };
 
-    public static boolean isReagent(ItemStack itemstack) {
-        return isItemConversionReagent(itemstack) || isTypeConversionReagent(itemstack);
+    public static boolean func_185205_a(ItemStack itemstack) {
+        return func_185203_b(itemstack) || func_185211_c(itemstack);
     }
 
-    protected static boolean isItemConversionReagent(ItemStack itemstack) {
+    protected static boolean func_185203_b(ItemStack itemstack) {
         int i = 0;
 
-        for (int j = PotionHelper.POTION_ITEM_CONVERSIONS.size(); i < j; ++i) {
-            if (((PotionHelper.MixPredicate) PotionHelper.POTION_ITEM_CONVERSIONS.get(i)).reagent.apply(itemstack)) {
+        for (int j = PotionHelper.field_185214_b.size(); i < j; ++i) {
+            if (((PotionHelper.MixPredicate) PotionHelper.field_185214_b.get(i)).field_185199_b.apply(itemstack)) {
                 return true;
             }
         }
@@ -56,11 +56,11 @@ public class PotionHelper {
         return false;
     }
 
-    protected static boolean isTypeConversionReagent(ItemStack itemstack) {
+    protected static boolean func_185211_c(ItemStack itemstack) {
         int i = 0;
 
-        for (int j = PotionHelper.POTION_TYPE_CONVERSIONS.size(); i < j; ++i) {
-            if (((PotionHelper.MixPredicate) PotionHelper.POTION_TYPE_CONVERSIONS.get(i)).reagent.apply(itemstack)) {
+        for (int j = PotionHelper.field_185213_a.size(); i < j; ++i) {
+            if (((PotionHelper.MixPredicate) PotionHelper.field_185213_a.get(i)).field_185199_b.apply(itemstack)) {
                 return true;
             }
         }
@@ -68,18 +68,18 @@ public class PotionHelper {
         return false;
     }
 
-    public static boolean hasConversions(ItemStack itemstack, ItemStack itemstack1) {
-        return !PotionHelper.IS_POTION_ITEM.apply(itemstack) ? false : hasItemConversions(itemstack, itemstack1) || hasTypeConversions(itemstack, itemstack1);
+    public static boolean func_185208_a(ItemStack itemstack, ItemStack itemstack1) {
+        return !PotionHelper.field_185216_d.apply(itemstack) ? false : func_185206_b(itemstack, itemstack1) || func_185209_c(itemstack, itemstack1);
     }
 
-    protected static boolean hasItemConversions(ItemStack itemstack, ItemStack itemstack1) {
-        Item item = itemstack.getItem();
+    protected static boolean func_185206_b(ItemStack itemstack, ItemStack itemstack1) {
+        Item item = itemstack.func_77973_b();
         int i = 0;
 
-        for (int j = PotionHelper.POTION_ITEM_CONVERSIONS.size(); i < j; ++i) {
-            PotionHelper.MixPredicate potionbrewer_predicatedcombination = (PotionHelper.MixPredicate) PotionHelper.POTION_ITEM_CONVERSIONS.get(i);
+        for (int j = PotionHelper.field_185214_b.size(); i < j; ++i) {
+            PotionHelper.MixPredicate potionbrewer_predicatedcombination = (PotionHelper.MixPredicate) PotionHelper.field_185214_b.get(i);
 
-            if (potionbrewer_predicatedcombination.input == item && potionbrewer_predicatedcombination.reagent.apply(itemstack1)) {
+            if (potionbrewer_predicatedcombination.field_185198_a == item && potionbrewer_predicatedcombination.field_185199_b.apply(itemstack1)) {
                 return true;
             }
         }
@@ -87,14 +87,14 @@ public class PotionHelper {
         return false;
     }
 
-    protected static boolean hasTypeConversions(ItemStack itemstack, ItemStack itemstack1) {
-        PotionType potionregistry = PotionUtils.getPotionFromItem(itemstack);
+    protected static boolean func_185209_c(ItemStack itemstack, ItemStack itemstack1) {
+        PotionType potionregistry = PotionUtils.func_185191_c(itemstack);
         int i = 0;
 
-        for (int j = PotionHelper.POTION_TYPE_CONVERSIONS.size(); i < j; ++i) {
-            PotionHelper.MixPredicate potionbrewer_predicatedcombination = (PotionHelper.MixPredicate) PotionHelper.POTION_TYPE_CONVERSIONS.get(i);
+        for (int j = PotionHelper.field_185213_a.size(); i < j; ++i) {
+            PotionHelper.MixPredicate potionbrewer_predicatedcombination = (PotionHelper.MixPredicate) PotionHelper.field_185213_a.get(i);
 
-            if (potionbrewer_predicatedcombination.input == potionregistry && potionbrewer_predicatedcombination.reagent.apply(itemstack1)) {
+            if (potionbrewer_predicatedcombination.field_185198_a == potionregistry && potionbrewer_predicatedcombination.field_185199_b.apply(itemstack1)) {
                 return true;
             }
         }
@@ -102,28 +102,28 @@ public class PotionHelper {
         return false;
     }
 
-    public static ItemStack doReaction(ItemStack itemstack, ItemStack itemstack1) {
-        if (!itemstack1.isEmpty()) {
-            PotionType potionregistry = PotionUtils.getPotionFromItem(itemstack1);
-            Item item = itemstack1.getItem();
+    public static ItemStack func_185212_d(ItemStack itemstack, ItemStack itemstack1) {
+        if (!itemstack1.func_190926_b()) {
+            PotionType potionregistry = PotionUtils.func_185191_c(itemstack1);
+            Item item = itemstack1.func_77973_b();
             int i = 0;
 
             int j;
             PotionHelper.MixPredicate potionbrewer_predicatedcombination;
 
-            for (j = PotionHelper.POTION_ITEM_CONVERSIONS.size(); i < j; ++i) {
-                potionbrewer_predicatedcombination = (PotionHelper.MixPredicate) PotionHelper.POTION_ITEM_CONVERSIONS.get(i);
-                if (potionbrewer_predicatedcombination.input == item && potionbrewer_predicatedcombination.reagent.apply(itemstack)) {
-                    return PotionUtils.addPotionToItemStack(new ItemStack((Item) potionbrewer_predicatedcombination.output), potionregistry);
+            for (j = PotionHelper.field_185214_b.size(); i < j; ++i) {
+                potionbrewer_predicatedcombination = (PotionHelper.MixPredicate) PotionHelper.field_185214_b.get(i);
+                if (potionbrewer_predicatedcombination.field_185198_a == item && potionbrewer_predicatedcombination.field_185199_b.apply(itemstack)) {
+                    return PotionUtils.func_185188_a(new ItemStack((Item) potionbrewer_predicatedcombination.field_185200_c), potionregistry);
                 }
             }
 
             i = 0;
 
-            for (j = PotionHelper.POTION_TYPE_CONVERSIONS.size(); i < j; ++i) {
-                potionbrewer_predicatedcombination = (PotionHelper.MixPredicate) PotionHelper.POTION_TYPE_CONVERSIONS.get(i);
-                if (potionbrewer_predicatedcombination.input == potionregistry && potionbrewer_predicatedcombination.reagent.apply(itemstack)) {
-                    return PotionUtils.addPotionToItemStack(new ItemStack(item), (PotionType) potionbrewer_predicatedcombination.output);
+            for (j = PotionHelper.field_185213_a.size(); i < j; ++i) {
+                potionbrewer_predicatedcombination = (PotionHelper.MixPredicate) PotionHelper.field_185213_a.get(i);
+                if (potionbrewer_predicatedcombination.field_185198_a == potionregistry && potionbrewer_predicatedcombination.field_185199_b.apply(itemstack)) {
+                    return PotionUtils.func_185188_a(new ItemStack(item), (PotionType) potionbrewer_predicatedcombination.field_185200_c);
                 }
             }
         }
@@ -131,89 +131,89 @@ public class PotionHelper {
         return itemstack1;
     }
 
-    public static void init() {
-        addContainer(Items.POTIONITEM);
-        addContainer(Items.SPLASH_POTION);
-        addContainer(Items.LINGERING_POTION);
-        addContainerRecipe(Items.POTIONITEM, Items.GUNPOWDER, Items.SPLASH_POTION);
-        addContainerRecipe(Items.SPLASH_POTION, Items.DRAGON_BREATH, Items.LINGERING_POTION);
-        addMix(PotionTypes.WATER, Items.SPECKLED_MELON, PotionTypes.MUNDANE);
-        addMix(PotionTypes.WATER, Items.GHAST_TEAR, PotionTypes.MUNDANE);
-        addMix(PotionTypes.WATER, Items.RABBIT_FOOT, PotionTypes.MUNDANE);
-        addMix(PotionTypes.WATER, Items.BLAZE_POWDER, PotionTypes.MUNDANE);
-        addMix(PotionTypes.WATER, Items.SPIDER_EYE, PotionTypes.MUNDANE);
-        addMix(PotionTypes.WATER, Items.SUGAR, PotionTypes.MUNDANE);
-        addMix(PotionTypes.WATER, Items.MAGMA_CREAM, PotionTypes.MUNDANE);
-        addMix(PotionTypes.WATER, Items.GLOWSTONE_DUST, PotionTypes.THICK);
-        addMix(PotionTypes.WATER, Items.REDSTONE, PotionTypes.MUNDANE);
-        addMix(PotionTypes.WATER, Items.NETHER_WART, PotionTypes.AWKWARD);
-        addMix(PotionTypes.AWKWARD, Items.GOLDEN_CARROT, PotionTypes.NIGHT_VISION);
-        addMix(PotionTypes.NIGHT_VISION, Items.REDSTONE, PotionTypes.LONG_NIGHT_VISION);
-        addMix(PotionTypes.NIGHT_VISION, Items.FERMENTED_SPIDER_EYE, PotionTypes.INVISIBILITY);
-        addMix(PotionTypes.LONG_NIGHT_VISION, Items.FERMENTED_SPIDER_EYE, PotionTypes.LONG_INVISIBILITY);
-        addMix(PotionTypes.INVISIBILITY, Items.REDSTONE, PotionTypes.LONG_INVISIBILITY);
-        addMix(PotionTypes.AWKWARD, Items.MAGMA_CREAM, PotionTypes.FIRE_RESISTANCE);
-        addMix(PotionTypes.FIRE_RESISTANCE, Items.REDSTONE, PotionTypes.LONG_FIRE_RESISTANCE);
-        addMix(PotionTypes.AWKWARD, Items.RABBIT_FOOT, PotionTypes.LEAPING);
-        addMix(PotionTypes.LEAPING, Items.REDSTONE, PotionTypes.LONG_LEAPING);
-        addMix(PotionTypes.LEAPING, Items.GLOWSTONE_DUST, PotionTypes.STRONG_LEAPING);
-        addMix(PotionTypes.LEAPING, Items.FERMENTED_SPIDER_EYE, PotionTypes.SLOWNESS);
-        addMix(PotionTypes.LONG_LEAPING, Items.FERMENTED_SPIDER_EYE, PotionTypes.LONG_SLOWNESS);
-        addMix(PotionTypes.SLOWNESS, Items.REDSTONE, PotionTypes.LONG_SLOWNESS);
-        addMix(PotionTypes.SWIFTNESS, Items.FERMENTED_SPIDER_EYE, PotionTypes.SLOWNESS);
-        addMix(PotionTypes.LONG_SWIFTNESS, Items.FERMENTED_SPIDER_EYE, PotionTypes.LONG_SLOWNESS);
-        addMix(PotionTypes.AWKWARD, Items.SUGAR, PotionTypes.SWIFTNESS);
-        addMix(PotionTypes.SWIFTNESS, Items.REDSTONE, PotionTypes.LONG_SWIFTNESS);
-        addMix(PotionTypes.SWIFTNESS, Items.GLOWSTONE_DUST, PotionTypes.STRONG_SWIFTNESS);
-        addMix(PotionTypes.AWKWARD, Ingredient.fromStacks(new ItemStack[] { new ItemStack(Items.FISH, 1, ItemFishFood.FishType.PUFFERFISH.getMetadata())}), PotionTypes.WATER_BREATHING);
-        addMix(PotionTypes.WATER_BREATHING, Items.REDSTONE, PotionTypes.LONG_WATER_BREATHING);
-        addMix(PotionTypes.AWKWARD, Items.SPECKLED_MELON, PotionTypes.HEALING);
-        addMix(PotionTypes.HEALING, Items.GLOWSTONE_DUST, PotionTypes.STRONG_HEALING);
-        addMix(PotionTypes.HEALING, Items.FERMENTED_SPIDER_EYE, PotionTypes.HARMING);
-        addMix(PotionTypes.STRONG_HEALING, Items.FERMENTED_SPIDER_EYE, PotionTypes.STRONG_HARMING);
-        addMix(PotionTypes.HARMING, Items.GLOWSTONE_DUST, PotionTypes.STRONG_HARMING);
-        addMix(PotionTypes.POISON, Items.FERMENTED_SPIDER_EYE, PotionTypes.HARMING);
-        addMix(PotionTypes.LONG_POISON, Items.FERMENTED_SPIDER_EYE, PotionTypes.HARMING);
-        addMix(PotionTypes.STRONG_POISON, Items.FERMENTED_SPIDER_EYE, PotionTypes.STRONG_HARMING);
-        addMix(PotionTypes.AWKWARD, Items.SPIDER_EYE, PotionTypes.POISON);
-        addMix(PotionTypes.POISON, Items.REDSTONE, PotionTypes.LONG_POISON);
-        addMix(PotionTypes.POISON, Items.GLOWSTONE_DUST, PotionTypes.STRONG_POISON);
-        addMix(PotionTypes.AWKWARD, Items.GHAST_TEAR, PotionTypes.REGENERATION);
-        addMix(PotionTypes.REGENERATION, Items.REDSTONE, PotionTypes.LONG_REGENERATION);
-        addMix(PotionTypes.REGENERATION, Items.GLOWSTONE_DUST, PotionTypes.STRONG_REGENERATION);
-        addMix(PotionTypes.AWKWARD, Items.BLAZE_POWDER, PotionTypes.STRENGTH);
-        addMix(PotionTypes.STRENGTH, Items.REDSTONE, PotionTypes.LONG_STRENGTH);
-        addMix(PotionTypes.STRENGTH, Items.GLOWSTONE_DUST, PotionTypes.STRONG_STRENGTH);
-        addMix(PotionTypes.WATER, Items.FERMENTED_SPIDER_EYE, PotionTypes.WEAKNESS);
-        addMix(PotionTypes.WEAKNESS, Items.REDSTONE, PotionTypes.LONG_WEAKNESS);
+    public static void func_185207_a() {
+        func_193354_a(Items.field_151068_bn);
+        func_193354_a(Items.field_185155_bH);
+        func_193354_a(Items.field_185156_bI);
+        func_193355_a(Items.field_151068_bn, Items.field_151016_H, Items.field_185155_bH);
+        func_193355_a(Items.field_185155_bH, Items.field_185157_bK, Items.field_185156_bI);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_151060_bw, PotionTypes.field_185231_c);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_151073_bk, PotionTypes.field_185231_c);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_179556_br, PotionTypes.field_185231_c);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_151065_br, PotionTypes.field_185231_c);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_151070_bp, PotionTypes.field_185231_c);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_151102_aT, PotionTypes.field_185231_c);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_151064_bs, PotionTypes.field_185231_c);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_151114_aO, PotionTypes.field_185232_d);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_151137_ax, PotionTypes.field_185231_c);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_151075_bm, PotionTypes.field_185233_e);
+        func_193357_a(PotionTypes.field_185233_e, Items.field_151150_bK, PotionTypes.field_185234_f);
+        func_193357_a(PotionTypes.field_185234_f, Items.field_151137_ax, PotionTypes.field_185235_g);
+        func_193357_a(PotionTypes.field_185234_f, Items.field_151071_bq, PotionTypes.field_185236_h);
+        func_193357_a(PotionTypes.field_185235_g, Items.field_151071_bq, PotionTypes.field_185237_i);
+        func_193357_a(PotionTypes.field_185236_h, Items.field_151137_ax, PotionTypes.field_185237_i);
+        func_193357_a(PotionTypes.field_185233_e, Items.field_151064_bs, PotionTypes.field_185241_m);
+        func_193357_a(PotionTypes.field_185241_m, Items.field_151137_ax, PotionTypes.field_185242_n);
+        func_193357_a(PotionTypes.field_185233_e, Items.field_179556_br, PotionTypes.field_185238_j);
+        func_193357_a(PotionTypes.field_185238_j, Items.field_151137_ax, PotionTypes.field_185239_k);
+        func_193357_a(PotionTypes.field_185238_j, Items.field_151114_aO, PotionTypes.field_185240_l);
+        func_193357_a(PotionTypes.field_185238_j, Items.field_151071_bq, PotionTypes.field_185246_r);
+        func_193357_a(PotionTypes.field_185239_k, Items.field_151071_bq, PotionTypes.field_185247_s);
+        func_193357_a(PotionTypes.field_185246_r, Items.field_151137_ax, PotionTypes.field_185247_s);
+        func_193357_a(PotionTypes.field_185243_o, Items.field_151071_bq, PotionTypes.field_185246_r);
+        func_193357_a(PotionTypes.field_185244_p, Items.field_151071_bq, PotionTypes.field_185247_s);
+        func_193357_a(PotionTypes.field_185233_e, Items.field_151102_aT, PotionTypes.field_185243_o);
+        func_193357_a(PotionTypes.field_185243_o, Items.field_151137_ax, PotionTypes.field_185244_p);
+        func_193357_a(PotionTypes.field_185243_o, Items.field_151114_aO, PotionTypes.field_185245_q);
+        func_193356_a(PotionTypes.field_185233_e, Ingredient.func_193369_a(new ItemStack[] { new ItemStack(Items.field_151115_aP, 1, ItemFishFood.FishType.PUFFERFISH.func_150976_a())}), PotionTypes.field_185248_t);
+        func_193357_a(PotionTypes.field_185248_t, Items.field_151137_ax, PotionTypes.field_185249_u);
+        func_193357_a(PotionTypes.field_185233_e, Items.field_151060_bw, PotionTypes.field_185250_v);
+        func_193357_a(PotionTypes.field_185250_v, Items.field_151114_aO, PotionTypes.field_185251_w);
+        func_193357_a(PotionTypes.field_185250_v, Items.field_151071_bq, PotionTypes.field_185252_x);
+        func_193357_a(PotionTypes.field_185251_w, Items.field_151071_bq, PotionTypes.field_185253_y);
+        func_193357_a(PotionTypes.field_185252_x, Items.field_151114_aO, PotionTypes.field_185253_y);
+        func_193357_a(PotionTypes.field_185254_z, Items.field_151071_bq, PotionTypes.field_185252_x);
+        func_193357_a(PotionTypes.field_185218_A, Items.field_151071_bq, PotionTypes.field_185252_x);
+        func_193357_a(PotionTypes.field_185219_B, Items.field_151071_bq, PotionTypes.field_185253_y);
+        func_193357_a(PotionTypes.field_185233_e, Items.field_151070_bp, PotionTypes.field_185254_z);
+        func_193357_a(PotionTypes.field_185254_z, Items.field_151137_ax, PotionTypes.field_185218_A);
+        func_193357_a(PotionTypes.field_185254_z, Items.field_151114_aO, PotionTypes.field_185219_B);
+        func_193357_a(PotionTypes.field_185233_e, Items.field_151073_bk, PotionTypes.field_185220_C);
+        func_193357_a(PotionTypes.field_185220_C, Items.field_151137_ax, PotionTypes.field_185221_D);
+        func_193357_a(PotionTypes.field_185220_C, Items.field_151114_aO, PotionTypes.field_185222_E);
+        func_193357_a(PotionTypes.field_185233_e, Items.field_151065_br, PotionTypes.field_185223_F);
+        func_193357_a(PotionTypes.field_185223_F, Items.field_151137_ax, PotionTypes.field_185224_G);
+        func_193357_a(PotionTypes.field_185223_F, Items.field_151114_aO, PotionTypes.field_185225_H);
+        func_193357_a(PotionTypes.field_185230_b, Items.field_151071_bq, PotionTypes.field_185226_I);
+        func_193357_a(PotionTypes.field_185226_I, Items.field_151137_ax, PotionTypes.field_185227_J);
     }
 
-    private static void addContainerRecipe(ItemPotion itempotion, Item item, ItemPotion itempotion1) {
-        PotionHelper.POTION_ITEM_CONVERSIONS.add(new PotionHelper.MixPredicate(itempotion, Ingredient.fromItems(new Item[] { item}), itempotion1));
+    private static void func_193355_a(ItemPotion itempotion, Item item, ItemPotion itempotion1) {
+        PotionHelper.field_185214_b.add(new PotionHelper.MixPredicate(itempotion, Ingredient.func_193368_a(new Item[] { item}), itempotion1));
     }
 
-    private static void addContainer(ItemPotion itempotion) {
-        PotionHelper.POTION_ITEMS.add(Ingredient.fromItems(new Item[] { itempotion}));
+    private static void func_193354_a(ItemPotion itempotion) {
+        PotionHelper.field_185215_c.add(Ingredient.func_193368_a(new Item[] { itempotion}));
     }
 
-    private static void addMix(PotionType potionregistry, Item item, PotionType potionregistry1) {
-        addMix(potionregistry, Ingredient.fromItems(new Item[] { item}), potionregistry1);
+    private static void func_193357_a(PotionType potionregistry, Item item, PotionType potionregistry1) {
+        func_193356_a(potionregistry, Ingredient.func_193368_a(new Item[] { item}), potionregistry1);
     }
 
-    private static void addMix(PotionType potionregistry, Ingredient recipeitemstack, PotionType potionregistry1) {
-        PotionHelper.POTION_TYPE_CONVERSIONS.add(new PotionHelper.MixPredicate(potionregistry, recipeitemstack, potionregistry1));
+    private static void func_193356_a(PotionType potionregistry, Ingredient recipeitemstack, PotionType potionregistry1) {
+        PotionHelper.field_185213_a.add(new PotionHelper.MixPredicate(potionregistry, recipeitemstack, potionregistry1));
     }
 
     static class MixPredicate<T> {
 
-        final T input;
-        final Ingredient reagent;
-        final T output;
+        final T field_185198_a;
+        final Ingredient field_185199_b;
+        final T field_185200_c;
 
         public MixPredicate(T t0, Ingredient recipeitemstack, T t1) {
-            this.input = t0;
-            this.reagent = recipeitemstack;
-            this.output = t1;
+            this.field_185198_a = t0;
+            this.field_185199_b = recipeitemstack;
+            this.field_185200_c = t1;
         }
     }
 }

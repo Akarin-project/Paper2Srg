@@ -8,13 +8,13 @@ public class NBTTagEnd extends NBTBase {
 
     NBTTagEnd() {}
 
-    void read(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
-        nbtreadlimiter.read(64L);
+    void func_152446_a(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
+        nbtreadlimiter.func_152450_a(64L);
     }
 
-    void write(DataOutput dataoutput) throws IOException {}
+    void func_74734_a(DataOutput dataoutput) throws IOException {}
 
-    public byte getId() {
+    public byte func_74732_a() {
         return (byte) 0;
     }
 
@@ -22,11 +22,11 @@ public class NBTTagEnd extends NBTBase {
         return "END";
     }
 
-    public NBTTagEnd copy() {
+    public NBTTagEnd func_74737_b() {
         return new NBTTagEnd();
     }
 
     public NBTBase clone() {
-        return this.copy();
+        return this.func_74737_b();
     }
 }

@@ -9,13 +9,13 @@ public class CraftPotionEffectType extends PotionEffectType {
     private final Potion handle;
 
     public CraftPotionEffectType(Potion handle) {
-        super(Potion.getIdFromPotion(handle));
+        super(Potion.func_188409_a(handle));
         this.handle = handle;
     }
 
     @Override
     public double getDurationModifier() {
-        return handle.effectiveness;
+        return handle.field_76412_L;
     }
 
     public Potion getHandle() {
@@ -86,11 +86,11 @@ public class CraftPotionEffectType extends PotionEffectType {
 
     @Override
     public boolean isInstant() {
-        return handle.isInstant();
+        return handle.func_76403_b();
     }
 
     @Override
     public Color getColor() {
-        return Color.fromRGB(handle.getLiquidColor());
+        return Color.fromRGB(handle.func_76401_j());
     }
 }

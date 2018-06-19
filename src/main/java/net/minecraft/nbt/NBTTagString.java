@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class NBTTagString extends NBTBase {
 
-    private String data;
+    private String field_74751_a;
 
     public NBTTagString() {
         this("");
@@ -15,33 +15,33 @@ public class NBTTagString extends NBTBase {
 
     public NBTTagString(String s) {
         Objects.requireNonNull(s, "Null string not allowed");
-        this.data = s;
+        this.field_74751_a = s;
     }
 
-    void write(DataOutput dataoutput) throws IOException {
-        dataoutput.writeUTF(this.data);
+    void func_74734_a(DataOutput dataoutput) throws IOException {
+        dataoutput.writeUTF(this.field_74751_a);
     }
 
-    void read(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
-        nbtreadlimiter.read(288L);
-        this.data = datainput.readUTF();
-        nbtreadlimiter.read((long) (16 * this.data.length()));
+    void func_152446_a(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
+        nbtreadlimiter.func_152450_a(288L);
+        this.field_74751_a = datainput.readUTF();
+        nbtreadlimiter.func_152450_a((long) (16 * this.field_74751_a.length()));
     }
 
-    public byte getId() {
+    public byte func_74732_a() {
         return (byte) 8;
     }
 
     public String toString() {
-        return quoteAndEscape(this.data);
+        return func_193588_a(this.field_74751_a);
     }
 
-    public NBTTagString copy() {
-        return new NBTTagString(this.data);
+    public NBTTagString func_74737_b() {
+        return new NBTTagString(this.field_74751_a);
     }
 
-    public boolean hasNoTags() {
-        return this.data.isEmpty();
+    public boolean func_82582_d() {
+        return this.field_74751_a.isEmpty();
     }
 
     public boolean equals(Object object) {
@@ -50,19 +50,19 @@ public class NBTTagString extends NBTBase {
         } else {
             NBTTagString nbttagstring = (NBTTagString) object;
 
-            return this.data == null && nbttagstring.data == null || Objects.equals(this.data, nbttagstring.data);
+            return this.field_74751_a == null && nbttagstring.field_74751_a == null || Objects.equals(this.field_74751_a, nbttagstring.field_74751_a);
         }
     }
 
     public int hashCode() {
-        return super.hashCode() ^ this.data.hashCode();
+        return super.hashCode() ^ this.field_74751_a.hashCode();
     }
 
-    public String getString() {
-        return this.data;
+    public String func_150285_a_() {
+        return this.field_74751_a;
     }
 
-    public static String quoteAndEscape(String s) {
+    public static String func_193588_a(String s) {
         StringBuilder stringbuilder = new StringBuilder("\"");
 
         for (int i = 0; i < s.length(); ++i) {
@@ -79,6 +79,6 @@ public class NBTTagString extends NBTBase {
     }
 
     public NBTBase clone() {
-        return this.copy();
+        return this.func_74737_b();
     }
 }

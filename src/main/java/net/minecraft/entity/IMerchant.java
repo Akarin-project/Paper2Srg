@@ -12,21 +12,21 @@ import net.minecraft.world.World;
 
 public interface IMerchant {
 
-    void setCustomer(@Nullable EntityPlayer entityhuman);
+    void func_70932_a_(@Nullable EntityPlayer entityhuman);
 
     @Nullable
-    EntityPlayer getCustomer();
+    EntityPlayer func_70931_l_();
 
     @Nullable
-    MerchantRecipeList getRecipes(EntityPlayer entityhuman);
+    MerchantRecipeList func_70934_b(EntityPlayer entityhuman);
 
-    void useRecipe(MerchantRecipe merchantrecipe);
+    void func_70933_a(MerchantRecipe merchantrecipe);
 
-    void verifySellingItem(ItemStack itemstack);
+    void func_110297_a_(ItemStack itemstack);
 
-    ITextComponent getDisplayName();
+    ITextComponent func_145748_c_();
 
-    World getWorld();
+    World func_190670_t_();
 
-    BlockPos getPos();
+    BlockPos func_190671_u_();
 }

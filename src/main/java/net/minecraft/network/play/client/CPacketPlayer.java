@@ -8,125 +8,116 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
 
-    public double x;
-    public double y;
-    public double z;
-    public float yaw;
-    public float pitch;
-    protected boolean onGround;
-    public boolean moving;
-    public boolean rotating;
+    protected double field_149479_a;
+    protected double field_149477_b;
+    protected double field_149478_c;
+    protected float field_149476_e;
+    protected float field_149473_f;
+    protected boolean field_149474_g;
+    protected boolean field_149480_h;
+    protected boolean field_149481_i;
 
     public CPacketPlayer() {}
 
-    @Override
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.processPlayer(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_147347_a(this);
     }
 
-    @Override
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.onGround = packetdataserializer.readUnsignedByte() != 0;
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149474_g = packetdataserializer.readUnsignedByte() != 0;
     }
 
-    @Override
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeByte(this.onGround ? 1 : 0);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeByte(this.field_149474_g ? 1 : 0);
     }
 
-    public double getX(double d0) {
-        return this.moving ? this.x : d0;
+    public double func_186997_a(double d0) {
+        return this.field_149480_h ? this.field_149479_a : d0;
     }
 
-    public double getY(double d0) {
-        return this.moving ? this.y : d0;
+    public double func_186996_b(double d0) {
+        return this.field_149480_h ? this.field_149477_b : d0;
     }
 
-    public double getZ(double d0) {
-        return this.moving ? this.z : d0;
+    public double func_187000_c(double d0) {
+        return this.field_149480_h ? this.field_149478_c : d0;
     }
 
-    public float getYaw(float f) {
-        return this.rotating ? this.yaw : f;
+    public float func_186999_a(float f) {
+        return this.field_149481_i ? this.field_149476_e : f;
     }
 
-    public float getPitch(float f) {
-        return this.rotating ? this.pitch : f;
+    public float func_186998_b(float f) {
+        return this.field_149481_i ? this.field_149473_f : f;
     }
 
-    public boolean isOnGround() {
-        return this.onGround;
+    public boolean func_149465_i() {
+        return this.field_149474_g;
     }
 
     public static class Rotation extends CPacketPlayer {
 
         public Rotation() {
-            this.rotating = true;
+            this.field_149481_i = true;
         }
 
-        @Override
-        public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-            this.yaw = packetdataserializer.readFloat();
-            this.pitch = packetdataserializer.readFloat();
-            super.readPacketData(packetdataserializer);
+        public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+            this.field_149476_e = packetdataserializer.readFloat();
+            this.field_149473_f = packetdataserializer.readFloat();
+            super.func_148837_a(packetdataserializer);
         }
 
-        @Override
-        public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-            packetdataserializer.writeFloat(this.yaw);
-            packetdataserializer.writeFloat(this.pitch);
-            super.writePacketData(packetdataserializer);
+        public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+            packetdataserializer.writeFloat(this.field_149476_e);
+            packetdataserializer.writeFloat(this.field_149473_f);
+            super.func_148840_b(packetdataserializer);
         }
     }
 
     public static class Position extends CPacketPlayer {
 
         public Position() {
-            this.moving = true;
+            this.field_149480_h = true;
         }
 
-        @Override
-        public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-            this.x = packetdataserializer.readDouble();
-            this.y = packetdataserializer.readDouble();
-            this.z = packetdataserializer.readDouble();
-            super.readPacketData(packetdataserializer);
+        public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+            this.field_149479_a = packetdataserializer.readDouble();
+            this.field_149477_b = packetdataserializer.readDouble();
+            this.field_149478_c = packetdataserializer.readDouble();
+            super.func_148837_a(packetdataserializer);
         }
 
-        @Override
-        public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-            packetdataserializer.writeDouble(this.x);
-            packetdataserializer.writeDouble(this.y);
-            packetdataserializer.writeDouble(this.z);
-            super.writePacketData(packetdataserializer);
+        public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+            packetdataserializer.writeDouble(this.field_149479_a);
+            packetdataserializer.writeDouble(this.field_149477_b);
+            packetdataserializer.writeDouble(this.field_149478_c);
+            super.func_148840_b(packetdataserializer);
         }
     }
 
     public static class PositionRotation extends CPacketPlayer {
 
         public PositionRotation() {
-            this.moving = true;
-            this.rotating = true;
+            this.field_149480_h = true;
+            this.field_149481_i = true;
         }
 
-        @Override
-        public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-            this.x = packetdataserializer.readDouble();
-            this.y = packetdataserializer.readDouble();
-            this.z = packetdataserializer.readDouble();
-            this.yaw = packetdataserializer.readFloat();
-            this.pitch = packetdataserializer.readFloat();
-            super.readPacketData(packetdataserializer);
+        public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+            this.field_149479_a = packetdataserializer.readDouble();
+            this.field_149477_b = packetdataserializer.readDouble();
+            this.field_149478_c = packetdataserializer.readDouble();
+            this.field_149476_e = packetdataserializer.readFloat();
+            this.field_149473_f = packetdataserializer.readFloat();
+            super.func_148837_a(packetdataserializer);
         }
 
-        @Override
-        public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-            packetdataserializer.writeDouble(this.x);
-            packetdataserializer.writeDouble(this.y);
-            packetdataserializer.writeDouble(this.z);
-            packetdataserializer.writeFloat(this.yaw);
-            packetdataserializer.writeFloat(this.pitch);
-            super.writePacketData(packetdataserializer);
+        public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+            packetdataserializer.writeDouble(this.field_149479_a);
+            packetdataserializer.writeDouble(this.field_149477_b);
+            packetdataserializer.writeDouble(this.field_149478_c);
+            packetdataserializer.writeFloat(this.field_149476_e);
+            packetdataserializer.writeFloat(this.field_149473_f);
+            super.func_148840_b(packetdataserializer);
         }
     }
 }

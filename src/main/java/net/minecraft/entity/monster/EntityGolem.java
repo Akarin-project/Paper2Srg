@@ -14,28 +14,28 @@ public abstract class EntityGolem extends EntityCreature implements IAnimals {
         super(world);
     }
 
-    public void fall(float f, float f1) {}
+    public void func_180430_e(float f, float f1) {}
 
     @Nullable
-    protected SoundEvent getAmbientSound() {
+    protected SoundEvent func_184639_G() {
         return null;
     }
 
     @Nullable
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return null;
     }
 
     @Nullable
-    protected SoundEvent getDeathSound() {
+    protected SoundEvent func_184615_bR() {
         return null;
     }
 
-    public int getTalkInterval() {
+    public int func_70627_aG() {
         return 120;
     }
 
-    protected boolean canDespawn() {
+    protected boolean func_70692_ba() {
         return false;
     }
 }

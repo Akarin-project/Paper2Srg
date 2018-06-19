@@ -13,113 +13,113 @@ import net.minecraft.world.World;
 
 public class WorldGenSpikes extends WorldGenerator {
 
-    private boolean crystalInvulnerable;
-    private WorldGenSpikes.EndSpike spike;
-    private BlockPos beamTarget;
+    private boolean field_186145_a;
+    private WorldGenSpikes.EndSpike field_186146_b;
+    private BlockPos field_186147_c;
 
     public WorldGenSpikes() {}
 
-    public void setSpike(WorldGenSpikes.EndSpike worldgenender_spike) {
-        this.spike = worldgenender_spike;
+    public void func_186143_a(WorldGenSpikes.EndSpike worldgenender_spike) {
+        this.field_186146_b = worldgenender_spike;
     }
 
-    public void setCrystalInvulnerable(boolean flag) {
-        this.crystalInvulnerable = flag;
+    public void func_186144_a(boolean flag) {
+        this.field_186145_a = flag;
     }
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
-        if (this.spike == null) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
+        if (this.field_186146_b == null) {
             throw new IllegalStateException("Decoration requires priming with a spike");
         } else {
-            int i = this.spike.getRadius();
-            Iterator iterator = BlockPos.getAllInBoxMutable(new BlockPos(blockposition.getX() - i, 0, blockposition.getZ() - i), new BlockPos(blockposition.getX() + i, this.spike.getHeight() + 10, blockposition.getZ() + i)).iterator();
+            int i = this.field_186146_b.func_186148_c();
+            Iterator iterator = BlockPos.func_177975_b(new BlockPos(blockposition.func_177958_n() - i, 0, blockposition.func_177952_p() - i), new BlockPos(blockposition.func_177958_n() + i, this.field_186146_b.func_186149_d() + 10, blockposition.func_177952_p() + i)).iterator();
 
             while (iterator.hasNext()) {
                 BlockPos.MutableBlockPos blockposition_mutableblockposition = (BlockPos.MutableBlockPos) iterator.next();
 
-                if (blockposition_mutableblockposition.distanceSq((double) blockposition.getX(), (double) blockposition_mutableblockposition.getY(), (double) blockposition.getZ()) <= (double) (i * i + 1) && blockposition_mutableblockposition.getY() < this.spike.getHeight()) {
-                    this.setBlockAndNotifyAdequately(world, blockposition_mutableblockposition, Blocks.OBSIDIAN.getDefaultState());
-                } else if (blockposition_mutableblockposition.getY() > 65) {
-                    this.setBlockAndNotifyAdequately(world, blockposition_mutableblockposition, Blocks.AIR.getDefaultState());
+                if (blockposition_mutableblockposition.func_177954_c((double) blockposition.func_177958_n(), (double) blockposition_mutableblockposition.func_177956_o(), (double) blockposition.func_177952_p()) <= (double) (i * i + 1) && blockposition_mutableblockposition.func_177956_o() < this.field_186146_b.func_186149_d()) {
+                    this.func_175903_a(world, blockposition_mutableblockposition, Blocks.field_150343_Z.func_176223_P());
+                } else if (blockposition_mutableblockposition.func_177956_o() > 65) {
+                    this.func_175903_a(world, blockposition_mutableblockposition, Blocks.field_150350_a.func_176223_P());
                 }
             }
 
-            if (this.spike.isGuarded()) {
+            if (this.field_186146_b.func_186150_e()) {
                 for (int j = -2; j <= 2; ++j) {
                     for (int k = -2; k <= 2; ++k) {
-                        if (MathHelper.abs(j) == 2 || MathHelper.abs(k) == 2) {
-                            this.setBlockAndNotifyAdequately(world, new BlockPos(blockposition.getX() + j, this.spike.getHeight(), blockposition.getZ() + k), Blocks.IRON_BARS.getDefaultState());
-                            this.setBlockAndNotifyAdequately(world, new BlockPos(blockposition.getX() + j, this.spike.getHeight() + 1, blockposition.getZ() + k), Blocks.IRON_BARS.getDefaultState());
-                            this.setBlockAndNotifyAdequately(world, new BlockPos(blockposition.getX() + j, this.spike.getHeight() + 2, blockposition.getZ() + k), Blocks.IRON_BARS.getDefaultState());
+                        if (MathHelper.func_76130_a(j) == 2 || MathHelper.func_76130_a(k) == 2) {
+                            this.func_175903_a(world, new BlockPos(blockposition.func_177958_n() + j, this.field_186146_b.func_186149_d(), blockposition.func_177952_p() + k), Blocks.field_150411_aY.func_176223_P());
+                            this.func_175903_a(world, new BlockPos(blockposition.func_177958_n() + j, this.field_186146_b.func_186149_d() + 1, blockposition.func_177952_p() + k), Blocks.field_150411_aY.func_176223_P());
+                            this.func_175903_a(world, new BlockPos(blockposition.func_177958_n() + j, this.field_186146_b.func_186149_d() + 2, blockposition.func_177952_p() + k), Blocks.field_150411_aY.func_176223_P());
                         }
 
-                        this.setBlockAndNotifyAdequately(world, new BlockPos(blockposition.getX() + j, this.spike.getHeight() + 3, blockposition.getZ() + k), Blocks.IRON_BARS.getDefaultState());
+                        this.func_175903_a(world, new BlockPos(blockposition.func_177958_n() + j, this.field_186146_b.func_186149_d() + 3, blockposition.func_177952_p() + k), Blocks.field_150411_aY.func_176223_P());
                     }
                 }
             }
 
             EntityEnderCrystal entityendercrystal = new EntityEnderCrystal(world);
 
-            entityendercrystal.setBeamTarget(this.beamTarget);
-            entityendercrystal.setEntityInvulnerable(this.crystalInvulnerable);
-            entityendercrystal.setLocationAndAngles((double) ((float) blockposition.getX() + 0.5F), (double) (this.spike.getHeight() + 1), (double) ((float) blockposition.getZ() + 0.5F), random.nextFloat() * 360.0F, 0.0F);
-            world.spawnEntity(entityendercrystal);
-            this.setBlockAndNotifyAdequately(world, new BlockPos(blockposition.getX(), this.spike.getHeight(), blockposition.getZ()), Blocks.BEDROCK.getDefaultState());
+            entityendercrystal.func_184516_a(this.field_186147_c);
+            entityendercrystal.func_184224_h(this.field_186145_a);
+            entityendercrystal.func_70012_b((double) ((float) blockposition.func_177958_n() + 0.5F), (double) (this.field_186146_b.func_186149_d() + 1), (double) ((float) blockposition.func_177952_p() + 0.5F), random.nextFloat() * 360.0F, 0.0F);
+            world.func_72838_d(entityendercrystal);
+            this.func_175903_a(world, new BlockPos(blockposition.func_177958_n(), this.field_186146_b.func_186149_d(), blockposition.func_177952_p()), Blocks.field_150357_h.func_176223_P());
             return true;
         }
     }
 
-    public void setBeamTarget(@Nullable BlockPos blockposition) {
-        this.beamTarget = blockposition;
+    public void func_186142_a(@Nullable BlockPos blockposition) {
+        this.field_186147_c = blockposition;
     }
 
     public static class EndSpike {
 
-        private final int centerX;
-        private final int centerZ;
-        private final int radius;
-        private final int height;
-        private final boolean guarded;
-        private final AxisAlignedBB topBoundingBox;
+        private final int field_186155_a;
+        private final int field_186156_b;
+        private final int field_186157_c;
+        private final int field_186158_d;
+        private final boolean field_186159_e;
+        private final AxisAlignedBB field_186160_f;
 
         public EndSpike(int i, int j, int k, int l, boolean flag) {
-            this.centerX = i;
-            this.centerZ = j;
-            this.radius = k;
-            this.height = l;
-            this.guarded = flag;
-            this.topBoundingBox = new AxisAlignedBB((double) (i - k), 0.0D, (double) (j - k), (double) (i + k), 256.0D, (double) (j + k));
+            this.field_186155_a = i;
+            this.field_186156_b = j;
+            this.field_186157_c = k;
+            this.field_186158_d = l;
+            this.field_186159_e = flag;
+            this.field_186160_f = new AxisAlignedBB((double) (i - k), 0.0D, (double) (j - k), (double) (i + k), 256.0D, (double) (j + k));
         }
 
-        public boolean doesStartInChunk(BlockPos blockposition) {
-            int i = this.centerX - this.radius;
-            int j = this.centerZ - this.radius;
+        public boolean func_186154_a(BlockPos blockposition) {
+            int i = this.field_186155_a - this.field_186157_c;
+            int j = this.field_186156_b - this.field_186157_c;
 
-            return blockposition.getX() == (i & -16) && blockposition.getZ() == (j & -16);
+            return blockposition.func_177958_n() == (i & -16) && blockposition.func_177952_p() == (j & -16);
         }
 
-        public int getCenterX() {
-            return this.centerX;
+        public int func_186151_a() {
+            return this.field_186155_a;
         }
 
-        public int getCenterZ() {
-            return this.centerZ;
+        public int func_186152_b() {
+            return this.field_186156_b;
         }
 
-        public int getRadius() {
-            return this.radius;
+        public int func_186148_c() {
+            return this.field_186157_c;
         }
 
-        public int getHeight() {
-            return this.height;
+        public int func_186149_d() {
+            return this.field_186158_d;
         }
 
-        public boolean isGuarded() {
-            return this.guarded;
+        public boolean func_186150_e() {
+            return this.field_186159_e;
         }
 
-        public AxisAlignedBB getTopBoundingBox() {
-            return this.topBoundingBox;
+        public AxisAlignedBB func_186153_f() {
+            return this.field_186160_f;
         }
     }
 }

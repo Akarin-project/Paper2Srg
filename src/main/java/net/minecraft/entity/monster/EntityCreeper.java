@@ -45,165 +45,165 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 
 public class EntityCreeper extends EntityMob {
 
-    private static final DataParameter<Integer> STATE = EntityDataManager.createKey(EntityCreeper.class, DataSerializers.VARINT);
-    private static final DataParameter<Boolean> POWERED = EntityDataManager.createKey(EntityCreeper.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Boolean> IGNITED = EntityDataManager.createKey(EntityCreeper.class, DataSerializers.BOOLEAN); private static final DataParameter<Boolean> isIgnitedDW = IGNITED; // Paper OBFHELPER
-    private int lastActiveTime;
-    private int timeSinceIgnited;
-    public int fuseTime = 30; // PAIL private -> public
-    public int explosionRadius = 3; // PAIL private -> public
-    private int droppedSkulls;
+    private static final DataParameter<Integer> field_184713_a = EntityDataManager.func_187226_a(EntityCreeper.class, DataSerializers.field_187192_b);
+    private static final DataParameter<Boolean> field_184714_b = EntityDataManager.func_187226_a(EntityCreeper.class, DataSerializers.field_187198_h);
+    private static final DataParameter<Boolean> field_184715_c = EntityDataManager.func_187226_a(EntityCreeper.class, DataSerializers.field_187198_h); private static final DataParameter<Boolean> isIgnitedDW = field_184715_c; // Paper OBFHELPER
+    private int field_70834_e;
+    private int field_70833_d;
+    public int field_82225_f = 30; // PAIL private -> public
+    public int field_82226_g = 3; // PAIL private -> public
+    private int field_175494_bm;
 
     public EntityCreeper(World world) {
         super(world);
-        this.setSize(0.6F, 1.7F);
+        this.func_70105_a(0.6F, 1.7F);
     }
 
-    protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAICreeperSwell(this));
-        this.tasks.addTask(3, new EntityAIAvoidEntity(this, EntityOcelot.class, 6.0F, 1.0D, 1.2D));
-        this.tasks.addTask(4, new EntityAIAttackMelee(this, 1.0D, false));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(1, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(2, new EntityAICreeperSwell(this));
+        this.field_70714_bg.func_75776_a(3, new EntityAIAvoidEntity(this, EntityOcelot.class, 6.0F, 1.0D, 1.2D));
+        this.field_70714_bg.func_75776_a(4, new EntityAIAttackMelee(this, 1.0D, false));
+        this.field_70714_bg.func_75776_a(5, new EntityAIWanderAvoidWater(this, 0.8D));
+        this.field_70714_bg.func_75776_a(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.field_70714_bg.func_75776_a(6, new EntityAILookIdle(this));
+        this.field_70715_bh.func_75776_a(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+        this.field_70715_bh.func_75776_a(2, new EntityAIHurtByTarget(this, false, new Class[0]));
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
     }
 
-    public int getMaxFallHeight() {
-        return this.getAttackTarget() == null ? 3 : 3 + (int) (this.getHealth() - 1.0F);
+    public int func_82143_as() {
+        return this.func_70638_az() == null ? 3 : 3 + (int) (this.func_110143_aJ() - 1.0F);
     }
 
-    public void fall(float f, float f1) {
-        super.fall(f, f1);
-        this.timeSinceIgnited = (int) ((float) this.timeSinceIgnited + f * 1.5F);
-        if (this.timeSinceIgnited > this.fuseTime - 5) {
-            this.timeSinceIgnited = this.fuseTime - 5;
+    public void func_180430_e(float f, float f1) {
+        super.func_180430_e(f, f1);
+        this.field_70833_d = (int) ((float) this.field_70833_d + f * 1.5F);
+        if (this.field_70833_d > this.field_82225_f - 5) {
+            this.field_70833_d = this.field_82225_f - 5;
         }
 
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(EntityCreeper.STATE, Integer.valueOf(-1));
-        this.dataManager.register(EntityCreeper.POWERED, Boolean.valueOf(false));
-        this.dataManager.register(EntityCreeper.IGNITED, Boolean.valueOf(false));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(EntityCreeper.field_184713_a, Integer.valueOf(-1));
+        this.field_70180_af.func_187214_a(EntityCreeper.field_184714_b, Boolean.valueOf(false));
+        this.field_70180_af.func_187214_a(EntityCreeper.field_184715_c, Boolean.valueOf(false));
     }
 
-    public static void registerFixesCreeper(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityCreeper.class);
+    public static void func_189762_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityCreeper.class);
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        if (((Boolean) this.dataManager.get(EntityCreeper.POWERED)).booleanValue()) {
-            nbttagcompound.setBoolean("powered", true);
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        if (((Boolean) this.field_70180_af.func_187225_a(EntityCreeper.field_184714_b)).booleanValue()) {
+            nbttagcompound.func_74757_a("powered", true);
         }
 
-        nbttagcompound.setShort("Fuse", (short) this.fuseTime);
-        nbttagcompound.setByte("ExplosionRadius", (byte) this.explosionRadius);
-        nbttagcompound.setBoolean("ignited", this.hasIgnited());
+        nbttagcompound.func_74777_a("Fuse", (short) this.field_82225_f);
+        nbttagcompound.func_74774_a("ExplosionRadius", (byte) this.field_82226_g);
+        nbttagcompound.func_74757_a("ignited", this.func_146078_ca());
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.dataManager.set(EntityCreeper.POWERED, Boolean.valueOf(nbttagcompound.getBoolean("powered")));
-        if (nbttagcompound.hasKey("Fuse", 99)) {
-            this.fuseTime = nbttagcompound.getShort("Fuse");
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.field_70180_af.func_187227_b(EntityCreeper.field_184714_b, Boolean.valueOf(nbttagcompound.func_74767_n("powered")));
+        if (nbttagcompound.func_150297_b("Fuse", 99)) {
+            this.field_82225_f = nbttagcompound.func_74765_d("Fuse");
         }
 
-        if (nbttagcompound.hasKey("ExplosionRadius", 99)) {
-            this.explosionRadius = nbttagcompound.getByte("ExplosionRadius");
+        if (nbttagcompound.func_150297_b("ExplosionRadius", 99)) {
+            this.field_82226_g = nbttagcompound.func_74771_c("ExplosionRadius");
         }
 
-        if (nbttagcompound.getBoolean("ignited")) {
-            this.ignite();
+        if (nbttagcompound.func_74767_n("ignited")) {
+            this.func_146079_cb();
         }
 
     }
 
-    public void onUpdate() {
-        if (this.isEntityAlive()) {
-            this.lastActiveTime = this.timeSinceIgnited;
-            if (this.hasIgnited()) {
-                this.setCreeperState(1);
+    public void func_70071_h_() {
+        if (this.func_70089_S()) {
+            this.field_70834_e = this.field_70833_d;
+            if (this.func_146078_ca()) {
+                this.func_70829_a(1);
             }
 
-            int i = this.getCreeperState();
+            int i = this.func_70832_p();
 
-            if (i > 0 && this.timeSinceIgnited == 0) {
-                this.playSound(SoundEvents.ENTITY_CREEPER_PRIMED, 1.0F, 0.5F);
+            if (i > 0 && this.field_70833_d == 0) {
+                this.func_184185_a(SoundEvents.field_187572_ar, 1.0F, 0.5F);
             }
 
-            this.timeSinceIgnited += i;
-            if (this.timeSinceIgnited < 0) {
-                this.timeSinceIgnited = 0;
+            this.field_70833_d += i;
+            if (this.field_70833_d < 0) {
+                this.field_70833_d = 0;
             }
 
-            if (this.timeSinceIgnited >= this.fuseTime) {
-                this.timeSinceIgnited = this.fuseTime;
-                this.explode();
+            if (this.field_70833_d >= this.field_82225_f) {
+                this.field_70833_d = this.field_82225_f;
+                this.func_146077_cc();
             }
         }
 
-        super.onUpdate();
+        super.func_70071_h_();
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_CREEPER_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187570_aq;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_CREEPER_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187568_ap;
     }
 
-    public void onDeath(DamageSource damagesource) {
+    public void func_70645_a(DamageSource damagesource) {
         // super.die(damagesource); // CraftBukkit - Moved to end
-        if (this.world.getGameRules().getBoolean("doMobLoot")) {
-            if (damagesource.getTrueSource() instanceof EntitySkeleton) {
-                int i = Item.getIdFromItem(Items.RECORD_13);
-                int j = Item.getIdFromItem(Items.RECORD_WAIT);
-                int k = i + this.rand.nextInt(j - i + 1);
+        if (this.field_70170_p.func_82736_K().func_82766_b("doMobLoot")) {
+            if (damagesource.func_76346_g() instanceof EntitySkeleton) {
+                int i = Item.func_150891_b(Items.field_151096_cd);
+                int j = Item.func_150891_b(Items.field_151084_co);
+                int k = i + this.field_70146_Z.nextInt(j - i + 1);
 
-                this.dropItem(Item.getItemById(k), 1);
-            } else if (damagesource.getTrueSource() instanceof EntityCreeper && damagesource.getTrueSource() != this && ((EntityCreeper) damagesource.getTrueSource()).getPowered() && ((EntityCreeper) damagesource.getTrueSource()).ableToCauseSkullDrop()) {
-                ((EntityCreeper) damagesource.getTrueSource()).incrementDroppedSkulls();
-                this.entityDropItem(new ItemStack(Items.SKULL, 1, 4), 0.0F);
+                this.func_145779_a(Item.func_150899_d(k), 1);
+            } else if (damagesource.func_76346_g() instanceof EntityCreeper && damagesource.func_76346_g() != this && ((EntityCreeper) damagesource.func_76346_g()).func_70830_n() && ((EntityCreeper) damagesource.func_76346_g()).func_70650_aV()) {
+                ((EntityCreeper) damagesource.func_76346_g()).func_175493_co();
+                this.func_70099_a(new ItemStack(Items.field_151144_bL, 1, 4), 0.0F);
             }
         }
-        super.onDeath(damagesource); // CraftBukkit - Moved from above
+        super.func_70645_a(damagesource); // CraftBukkit - Moved from above
 
     }
 
-    public boolean attackEntityAsMob(Entity entity) {
+    public boolean func_70652_k(Entity entity) {
         return true;
     }
 
-    public boolean getPowered() {
-        return ((Boolean) this.dataManager.get(EntityCreeper.POWERED)).booleanValue();
+    public boolean func_70830_n() {
+        return ((Boolean) this.field_70180_af.func_187225_a(EntityCreeper.field_184714_b)).booleanValue();
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_CREEPER;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186434_p;
     }
 
-    public int getCreeperState() {
-        return ((Integer) this.dataManager.get(EntityCreeper.STATE)).intValue();
+    public int func_70832_p() {
+        return ((Integer) this.field_70180_af.func_187225_a(EntityCreeper.field_184713_a)).intValue();
     }
 
-    public void setCreeperState(int i) {
-        this.dataManager.set(EntityCreeper.STATE, Integer.valueOf(i));
+    public void func_70829_a(int i) {
+        this.field_70180_af.func_187227_b(EntityCreeper.field_184713_a, Integer.valueOf(i));
     }
 
-    public void onStruckByLightning(EntityLightningBolt entitylightning) {
-        super.onStruckByLightning(entitylightning);
+    public void func_70077_a(EntityLightningBolt entitylightning) {
+        super.func_70077_a(entitylightning);
         // CraftBukkit start
         if (CraftEventFactory.callCreeperPowerEvent(this, entitylightning, org.bukkit.event.entity.CreeperPowerEvent.PowerCause.LIGHTNING).isCancelled()) {
             return;
@@ -213,86 +213,86 @@ public class EntityCreeper extends EntityMob {
     }
 
     public void setPowered(boolean powered) {
-        this.dataManager.set(EntityCreeper.POWERED, powered);
+        this.field_70180_af.func_187227_b(EntityCreeper.field_184714_b, powered);
     }
     // CraftBukkit end
 
-    protected boolean processInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    protected boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (itemstack.getItem() == Items.FLINT_AND_STEEL) {
-            this.world.playSound(entityhuman, this.posX, this.posY, this.posZ, SoundEvents.ITEM_FLINTANDSTEEL_USE, this.getSoundCategory(), 1.0F, this.rand.nextFloat() * 0.4F + 0.8F);
-            entityhuman.swingArm(enumhand);
-            if (!this.world.isRemote) {
-                this.ignite();
-                itemstack.damageItem(1, entityhuman);
+        if (itemstack.func_77973_b() == Items.field_151033_d) {
+            this.field_70170_p.func_184148_a(entityhuman, this.field_70165_t, this.field_70163_u, this.field_70161_v, SoundEvents.field_187649_bu, this.func_184176_by(), 1.0F, this.field_70146_Z.nextFloat() * 0.4F + 0.8F);
+            entityhuman.func_184609_a(enumhand);
+            if (!this.field_70170_p.field_72995_K) {
+                this.func_146079_cb();
+                itemstack.func_77972_a(1, entityhuman);
                 return true;
             }
         }
 
-        return super.processInteract(entityhuman, enumhand);
+        return super.func_184645_a(entityhuman, enumhand);
     }
 
-    private void explode() {
-        if (!this.world.isRemote) {
-            boolean flag = this.world.getGameRules().getBoolean("mobGriefing");
-            float f = this.getPowered() ? 2.0F : 1.0F;
+    private void func_146077_cc() {
+        if (!this.field_70170_p.field_72995_K) {
+            boolean flag = this.field_70170_p.func_82736_K().func_82766_b("mobGriefing");
+            float f = this.func_70830_n() ? 2.0F : 1.0F;
 
             // CraftBukkit start
-            ExplosionPrimeEvent event = new ExplosionPrimeEvent(this.getBukkitEntity(), this.explosionRadius * f, false);
-            this.world.getServer().getPluginManager().callEvent(event);
+            ExplosionPrimeEvent event = new ExplosionPrimeEvent(this.getBukkitEntity(), this.field_82226_g * f, false);
+            this.field_70170_p.getServer().getPluginManager().callEvent(event);
             if (!event.isCancelled()) {
-                this.dead = true;
-                this.world.newExplosion(this, this.posX, this.posY, this.posZ, event.getRadius(), event.getFire(), flag);
-                this.setDead();
-                this.spawnLingeringCloud();
+                this.field_70729_aU = true;
+                this.field_70170_p.func_72885_a(this, this.field_70165_t, this.field_70163_u, this.field_70161_v, event.getRadius(), event.getFire(), flag);
+                this.func_70106_y();
+                this.func_190741_do();
             } else {
-                timeSinceIgnited = 0;
-                this.dataManager.set(isIgnitedDW, Boolean.valueOf(false)); // Paper
+                field_70833_d = 0;
+                this.field_70180_af.func_187227_b(isIgnitedDW, Boolean.valueOf(false)); // Paper
             }
             // CraftBukkit end
         }
 
     }
 
-    private void spawnLingeringCloud() {
-        Collection collection = this.getActivePotionEffects();
+    private void func_190741_do() {
+        Collection collection = this.func_70651_bq();
 
-        if (!collection.isEmpty() && !world.paperConfig.disableCreeperLingeringEffect) { // Paper
-            EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(this.world, this.posX, this.posY, this.posZ);
+        if (!collection.isEmpty() && !field_70170_p.paperConfig.disableCreeperLingeringEffect) { // Paper
+            EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(this.field_70170_p, this.field_70165_t, this.field_70163_u, this.field_70161_v);
 
-            entityareaeffectcloud.setOwner(this); // CraftBukkit
-            entityareaeffectcloud.setRadius(2.5F);
-            entityareaeffectcloud.setRadiusOnUse(-0.5F);
-            entityareaeffectcloud.setWaitTime(10);
-            entityareaeffectcloud.setDuration(entityareaeffectcloud.getDuration() / 2);
-            entityareaeffectcloud.setRadiusPerTick(-entityareaeffectcloud.getRadius() / (float) entityareaeffectcloud.getDuration());
+            entityareaeffectcloud.func_184481_a(this); // CraftBukkit
+            entityareaeffectcloud.func_184483_a(2.5F);
+            entityareaeffectcloud.func_184495_b(-0.5F);
+            entityareaeffectcloud.func_184485_d(10);
+            entityareaeffectcloud.func_184486_b(entityareaeffectcloud.func_184489_o() / 2);
+            entityareaeffectcloud.func_184487_c(-entityareaeffectcloud.func_184490_j() / (float) entityareaeffectcloud.func_184489_o());
             Iterator iterator = collection.iterator();
 
             while (iterator.hasNext()) {
                 PotionEffect mobeffect = (PotionEffect) iterator.next();
 
-                entityareaeffectcloud.addEffect(new PotionEffect(mobeffect));
+                entityareaeffectcloud.func_184496_a(new PotionEffect(mobeffect));
             }
 
-            this.world.spawnEntity(entityareaeffectcloud);
+            this.field_70170_p.func_72838_d(entityareaeffectcloud);
         }
 
     }
 
-    public boolean hasIgnited() {
-        return ((Boolean) this.dataManager.get(EntityCreeper.IGNITED)).booleanValue();
+    public boolean func_146078_ca() {
+        return ((Boolean) this.field_70180_af.func_187225_a(EntityCreeper.field_184715_c)).booleanValue();
     }
 
-    public void ignite() {
-        this.dataManager.set(EntityCreeper.IGNITED, Boolean.valueOf(true));
+    public void func_146079_cb() {
+        this.field_70180_af.func_187227_b(EntityCreeper.field_184715_c, Boolean.valueOf(true));
     }
 
-    public boolean ableToCauseSkullDrop() {
-        return this.droppedSkulls < 1 && this.world.getGameRules().getBoolean("doMobLoot");
+    public boolean func_70650_aV() {
+        return this.field_175494_bm < 1 && this.field_70170_p.func_82736_K().func_82766_b("doMobLoot");
     }
 
-    public void incrementDroppedSkulls() {
-        ++this.droppedSkulls;
+    public void func_175493_co() {
+        ++this.field_175494_bm;
     }
 }

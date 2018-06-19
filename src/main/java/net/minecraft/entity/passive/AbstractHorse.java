@@ -62,257 +62,257 @@ import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 
 public abstract class AbstractHorse extends EntityAnimal implements IInventoryChangedListener, IJumpingMount {
 
-    private static final Predicate<Entity> IS_HORSE_BREEDING = new Predicate() {
+    private static final Predicate<Entity> field_110276_bu = new Predicate() {
         public boolean a(@Nullable Entity entity) {
-            return entity instanceof AbstractHorse && ((AbstractHorse) entity).isBreeding();
+            return entity instanceof AbstractHorse && ((AbstractHorse) entity).func_110205_ce();
         }
 
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
     };
-    public static final IAttribute JUMP_STRENGTH = (new RangedAttribute((IAttribute) null, "horse.jumpStrength", 0.7D, 0.0D, 2.0D)).setDescription("Jump Strength").setShouldWatch(true);
-    private static final DataParameter<Byte> STATUS = EntityDataManager.createKey(AbstractHorse.class, DataSerializers.BYTE);
-    private static final DataParameter<Optional<UUID>> OWNER_UNIQUE_ID = EntityDataManager.createKey(AbstractHorse.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-    private int eatingCounter;
-    private int openMouthCounter;
-    private int jumpRearingCounter;
-    public int tailCounter;
-    public int sprintCounter;
-    protected boolean horseJumping;
-    public ContainerHorseChest horseChest;
-    protected int temper;
-    protected float jumpPower;
-    private boolean allowStandSliding;
-    private float headLean;
-    private float prevHeadLean;
-    private float rearingAmount;
-    private float prevRearingAmount;
-    private float mouthOpenness;
-    private float prevMouthOpenness;
-    protected boolean canGallop = true;
-    protected int gallopTime;
+    public static final IAttribute field_110271_bv = (new RangedAttribute((IAttribute) null, "horse.jumpStrength", 0.7D, 0.0D, 2.0D)).func_111117_a("Jump Strength").func_111112_a(true);
+    private static final DataParameter<Byte> field_184787_bE = EntityDataManager.func_187226_a(AbstractHorse.class, DataSerializers.field_187191_a);
+    private static final DataParameter<Optional<UUID>> field_184790_bH = EntityDataManager.func_187226_a(AbstractHorse.class, DataSerializers.field_187203_m);
+    private int field_190689_bJ;
+    private int field_110290_bE;
+    private int field_110295_bF;
+    public int field_110278_bp;
+    public int field_110279_bq;
+    protected boolean field_110275_br;
+    public ContainerHorseChest field_110296_bG;
+    protected int field_110274_bs;
+    protected float field_110277_bt;
+    private boolean field_110294_bI;
+    private float field_110283_bJ;
+    private float field_110284_bK;
+    private float field_110281_bL;
+    private float field_110282_bM;
+    private float field_110287_bN;
+    private float field_110288_bO;
+    protected boolean field_190688_bE = true;
+    protected int field_110285_bP;
     public int maxDomestication = 100; // CraftBukkit - store max domestication value
 
     public AbstractHorse(World world) {
         super(world);
-        this.setSize(1.3964844F, 1.6F);
-        this.stepHeight = 1.0F;
-        this.initHorseChest();
+        this.func_70105_a(1.3964844F, 1.6F);
+        this.field_70138_W = 1.0F;
+        this.func_110226_cD();
     }
 
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 1.2D));
-        this.tasks.addTask(1, new EntityAIRunAroundLikeCrazy(this, 1.2D));
-        this.tasks.addTask(2, new EntityAIMate(this, 1.0D, AbstractHorse.class));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.7D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(1, new EntityAIPanic(this, 1.2D));
+        this.field_70714_bg.func_75776_a(1, new EntityAIRunAroundLikeCrazy(this, 1.2D));
+        this.field_70714_bg.func_75776_a(2, new EntityAIMate(this, 1.0D, AbstractHorse.class));
+        this.field_70714_bg.func_75776_a(4, new EntityAIFollowParent(this, 1.0D));
+        this.field_70714_bg.func_75776_a(6, new EntityAIWanderAvoidWater(this, 0.7D));
+        this.field_70714_bg.func_75776_a(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.field_70714_bg.func_75776_a(8, new EntityAILookIdle(this));
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(AbstractHorse.STATUS, Byte.valueOf((byte) 0));
-        this.dataManager.register(AbstractHorse.OWNER_UNIQUE_ID, Optional.absent());
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(AbstractHorse.field_184787_bE, Byte.valueOf((byte) 0));
+        this.field_70180_af.func_187214_a(AbstractHorse.field_184790_bH, Optional.absent());
     }
 
-    protected boolean getHorseWatchableBoolean(int i) {
-        return (((Byte) this.dataManager.get(AbstractHorse.STATUS)).byteValue() & i) != 0;
+    protected boolean func_110233_w(int i) {
+        return (((Byte) this.field_70180_af.func_187225_a(AbstractHorse.field_184787_bE)).byteValue() & i) != 0;
     }
 
-    protected void setHorseWatchableBoolean(int i, boolean flag) {
-        byte b0 = ((Byte) this.dataManager.get(AbstractHorse.STATUS)).byteValue();
+    protected void func_110208_b(int i, boolean flag) {
+        byte b0 = ((Byte) this.field_70180_af.func_187225_a(AbstractHorse.field_184787_bE)).byteValue();
 
         if (flag) {
-            this.dataManager.set(AbstractHorse.STATUS, Byte.valueOf((byte) (b0 | i)));
+            this.field_70180_af.func_187227_b(AbstractHorse.field_184787_bE, Byte.valueOf((byte) (b0 | i)));
         } else {
-            this.dataManager.set(AbstractHorse.STATUS, Byte.valueOf((byte) (b0 & ~i)));
+            this.field_70180_af.func_187227_b(AbstractHorse.field_184787_bE, Byte.valueOf((byte) (b0 & ~i)));
         }
 
     }
 
-    public boolean isTame() {
-        return this.getHorseWatchableBoolean(2);
+    public boolean func_110248_bS() {
+        return this.func_110233_w(2);
     }
 
     @Nullable
-    public UUID getOwnerUniqueId() {
-        return (UUID) ((Optional) this.dataManager.get(AbstractHorse.OWNER_UNIQUE_ID)).orNull();
+    public UUID func_184780_dh() {
+        return (UUID) ((Optional) this.field_70180_af.func_187225_a(AbstractHorse.field_184790_bH)).orNull();
     }
 
-    public void setOwnerUniqueId(@Nullable UUID uuid) {
-        this.dataManager.set(AbstractHorse.OWNER_UNIQUE_ID, Optional.fromNullable(uuid));
+    public void func_184779_b(@Nullable UUID uuid) {
+        this.field_70180_af.func_187227_b(AbstractHorse.field_184790_bH, Optional.fromNullable(uuid));
     }
 
-    public float getHorseSize() {
+    public float func_110254_bY() {
         return 0.5F;
     }
 
-    public void setScaleForAge(boolean flag) {
-        this.setScale(flag ? this.getHorseSize() : 1.0F);
+    public void func_98054_a(boolean flag) {
+        this.func_98055_j(flag ? this.func_110254_bY() : 1.0F);
     }
 
-    public boolean isHorseJumping() {
-        return this.horseJumping;
+    public boolean func_110246_bZ() {
+        return this.field_110275_br;
     }
 
-    public void setHorseTamed(boolean flag) {
-        this.setHorseWatchableBoolean(2, flag);
+    public void func_110234_j(boolean flag) {
+        this.func_110208_b(2, flag);
     }
 
-    public void setHorseJumping(boolean flag) {
-        this.horseJumping = flag;
+    public void func_110255_k(boolean flag) {
+        this.field_110275_br = flag;
     }
 
-    public boolean canBeLeashedTo(EntityPlayer entityhuman) {
-        return world.paperConfig.allowLeashingUndeadHorse ? super.canBeLeashedTo(entityhuman) : super.canBeLeashedTo(entityhuman) && this.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD; // Paper
+    public boolean func_184652_a(EntityPlayer entityhuman) {
+        return field_70170_p.paperConfig.allowLeashingUndeadHorse ? super.func_184652_a(entityhuman) : super.func_184652_a(entityhuman) && this.func_70668_bt() != EnumCreatureAttribute.UNDEAD; // Paper
     }
 
-    protected void onLeashDistance(float f) {
-        if (f > 6.0F && this.isEatingHaystack()) {
-            this.setEatingHaystack(false);
+    protected void func_142017_o(float f) {
+        if (f > 6.0F && this.func_110204_cc()) {
+            this.func_110227_p(false);
         }
 
     }
 
-    public boolean isEatingHaystack() {
-        return this.getHorseWatchableBoolean(16);
+    public boolean func_110204_cc() {
+        return this.func_110233_w(16);
     }
 
-    public boolean isRearing() {
-        return this.getHorseWatchableBoolean(32);
+    public boolean func_110209_cd() {
+        return this.func_110233_w(32);
     }
 
-    public boolean isBreeding() {
-        return this.getHorseWatchableBoolean(8);
+    public boolean func_110205_ce() {
+        return this.func_110233_w(8);
     }
 
-    public void setBreeding(boolean flag) {
-        this.setHorseWatchableBoolean(8, flag);
+    public void func_110242_l(boolean flag) {
+        this.func_110208_b(8, flag);
     }
 
-    public void setHorseSaddled(boolean flag) {
-        this.setHorseWatchableBoolean(4, flag);
+    public void func_110251_o(boolean flag) {
+        this.func_110208_b(4, flag);
     }
 
-    public int getTemper() {
-        return this.temper;
+    public int func_110252_cg() {
+        return this.field_110274_bs;
     }
 
-    public void setTemper(int i) {
-        this.temper = i;
+    public void func_110238_s(int i) {
+        this.field_110274_bs = i;
     }
 
-    public int increaseTemper(int i) {
-        int j = MathHelper.clamp(this.getTemper() + i, 0, this.getMaxTemper());
+    public int func_110198_t(int i) {
+        int j = MathHelper.func_76125_a(this.func_110252_cg() + i, 0, this.func_190676_dC());
 
-        this.setTemper(j);
+        this.func_110238_s(j);
         return j;
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        Entity entity = damagesource.getTrueSource();
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        Entity entity = damagesource.func_76346_g();
 
-        return this.isBeingRidden() && entity != null && this.isRidingOrBeingRiddenBy(entity) ? false : super.attackEntityFrom(damagesource, f);
+        return this.func_184207_aI() && entity != null && this.func_184215_y(entity) ? false : super.func_70097_a(damagesource, f);
     }
 
-    public boolean canBePushed() {
-        return !this.isBeingRidden();
+    public boolean func_70104_M() {
+        return !this.func_184207_aI();
     }
 
-    private void eatingHorse() {
-        this.openHorseMouth();
-        if (!this.isSilent()) {
-            this.world.playSound((EntityPlayer) null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_HORSE_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+    private void func_110266_cB() {
+        this.func_110249_cI();
+        if (!this.func_174814_R()) {
+            this.field_70170_p.func_184148_a((EntityPlayer) null, this.field_70165_t, this.field_70163_u, this.field_70161_v, SoundEvents.field_187711_cp, this.func_184176_by(), 1.0F, 1.0F + (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F);
         }
 
     }
 
-    public void fall(float f, float f1) {
+    public void func_180430_e(float f, float f1) {
         if (f > 1.0F) {
-            this.playSound(SoundEvents.ENTITY_HORSE_LAND, 0.4F, 1.0F);
+            this.func_184185_a(SoundEvents.field_187723_ct, 0.4F, 1.0F);
         }
 
-        int i = MathHelper.ceil((f * 0.5F - 3.0F) * f1);
+        int i = MathHelper.func_76123_f((f * 0.5F - 3.0F) * f1);
 
         if (i > 0) {
-            this.attackEntityFrom(DamageSource.FALL, (float) i);
-            if (this.isBeingRidden()) {
-                Iterator iterator = this.getRecursivePassengers().iterator();
+            this.func_70097_a(DamageSource.field_76379_h, (float) i);
+            if (this.func_184207_aI()) {
+                Iterator iterator = this.func_184182_bu().iterator();
 
                 while (iterator.hasNext()) {
                     Entity entity = (Entity) iterator.next();
 
-                    entity.attackEntityFrom(DamageSource.FALL, (float) i);
+                    entity.func_70097_a(DamageSource.field_76379_h, (float) i);
                 }
             }
 
-            IBlockState iblockdata = this.world.getBlockState(new BlockPos(this.posX, this.posY - 0.2D - (double) this.prevRotationYaw, this.posZ));
-            Block block = iblockdata.getBlock();
+            IBlockState iblockdata = this.field_70170_p.func_180495_p(new BlockPos(this.field_70165_t, this.field_70163_u - 0.2D - (double) this.field_70126_B, this.field_70161_v));
+            Block block = iblockdata.func_177230_c();
 
-            if (iblockdata.getMaterial() != Material.AIR && !this.isSilent()) {
-                SoundType soundeffecttype = block.getSoundType();
+            if (iblockdata.func_185904_a() != Material.field_151579_a && !this.func_174814_R()) {
+                SoundType soundeffecttype = block.func_185467_w();
 
-                this.world.playSound((EntityPlayer) null, this.posX, this.posY, this.posZ, soundeffecttype.getStepSound(), this.getSoundCategory(), soundeffecttype.getVolume() * 0.5F, soundeffecttype.getPitch() * 0.75F);
+                this.field_70170_p.func_184148_a((EntityPlayer) null, this.field_70165_t, this.field_70163_u, this.field_70161_v, soundeffecttype.func_185844_d(), this.func_184176_by(), soundeffecttype.func_185843_a() * 0.5F, soundeffecttype.func_185847_b() * 0.75F);
             }
 
         }
     }
 
-    protected int getInventorySize() {
+    protected int func_190686_di() {
         return 2;
     }
 
-    public void initHorseChest() {
-        ContainerHorseChest inventoryhorsechest = this.horseChest;
+    public void func_110226_cD() {
+        ContainerHorseChest inventoryhorsechest = this.field_110296_bG;
 
-        this.horseChest = new ContainerHorseChest("HorseChest", this.getInventorySize(), this); // CraftBukkit
-        this.horseChest.setCustomName(this.getName());
+        this.field_110296_bG = new ContainerHorseChest("HorseChest", this.func_190686_di(), this); // CraftBukkit
+        this.field_110296_bG.func_110133_a(this.func_70005_c_());
         if (inventoryhorsechest != null) {
-            inventoryhorsechest.removeInventoryChangeListener(this);
-            int i = Math.min(inventoryhorsechest.getSizeInventory(), this.horseChest.getSizeInventory());
+            inventoryhorsechest.func_110132_b(this);
+            int i = Math.min(inventoryhorsechest.func_70302_i_(), this.field_110296_bG.func_70302_i_());
 
             for (int j = 0; j < i; ++j) {
-                ItemStack itemstack = inventoryhorsechest.getStackInSlot(j);
+                ItemStack itemstack = inventoryhorsechest.func_70301_a(j);
 
-                if (!itemstack.isEmpty()) {
-                    this.horseChest.setInventorySlotContents(j, itemstack.copy());
+                if (!itemstack.func_190926_b()) {
+                    this.field_110296_bG.func_70299_a(j, itemstack.func_77946_l());
                 }
             }
         }
 
-        this.horseChest.addInventoryChangeListener((IInventoryChangedListener) this);
-        this.updateHorseSlots();
+        this.field_110296_bG.func_110134_a((IInventoryChangedListener) this);
+        this.func_110232_cE();
     }
 
-    protected void updateHorseSlots() {
-        if (!this.world.isRemote) {
-            this.setHorseSaddled(!this.horseChest.getStackInSlot(0).isEmpty() && this.canBeSaddled());
+    protected void func_110232_cE() {
+        if (!this.field_70170_p.field_72995_K) {
+            this.func_110251_o(!this.field_110296_bG.func_70301_a(0).func_190926_b() && this.func_190685_dA());
         }
     }
 
-    public void onInventoryChanged(IInventory iinventory) {
-        boolean flag = this.isHorseSaddled();
+    public void func_76316_a(IInventory iinventory) {
+        boolean flag = this.func_110257_ck();
 
-        this.updateHorseSlots();
-        if (this.ticksExisted > 20 && !flag && this.isHorseSaddled()) {
-            this.playSound(SoundEvents.ENTITY_HORSE_SADDLE, 0.5F, 1.0F);
+        this.func_110232_cE();
+        if (this.field_70173_aa > 20 && !flag && this.func_110257_ck()) {
+            this.func_184185_a(SoundEvents.field_187726_cu, 0.5F, 1.0F);
         }
 
     }
 
     @Nullable
-    protected AbstractHorse getClosestHorse(Entity entity, double d0) {
+    protected AbstractHorse func_110250_a(Entity entity, double d0) {
         double d1 = Double.MAX_VALUE;
         Entity entity1 = null;
-        List list = this.world.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().expand(d0, d0, d0), AbstractHorse.IS_HORSE_BREEDING);
+        List list = this.field_70170_p.func_175674_a(entity, entity.func_174813_aQ().func_72321_a(d0, d0, d0), AbstractHorse.field_110276_bu);
         Iterator iterator = list.iterator();
 
         while (iterator.hasNext()) {
             Entity entity2 = (Entity) iterator.next();
-            double d2 = entity2.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+            double d2 = entity2.func_70092_e(entity.field_70165_t, entity.field_70163_u, entity.field_70161_v);
 
             if (d2 < d1) {
                 entity1 = entity2;
@@ -323,545 +323,545 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
         return (AbstractHorse) entity1;
     }
 
-    public double getHorseJumpStrength() {
-        return this.getEntityAttribute(AbstractHorse.JUMP_STRENGTH).getAttributeValue();
+    public double func_110215_cj() {
+        return this.func_110148_a(AbstractHorse.field_110271_bv).func_111126_e();
     }
 
     @Nullable
-    protected SoundEvent getDeathSound() {
-        this.openHorseMouth();
+    protected SoundEvent func_184615_bR() {
+        this.func_110249_cI();
         return null;
     }
 
     @Nullable
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        this.openHorseMouth();
-        if (this.rand.nextInt(3) == 0) {
-            this.makeHorseRear();
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        this.func_110249_cI();
+        if (this.field_70146_Z.nextInt(3) == 0) {
+            this.func_110220_cK();
         }
 
         return null;
     }
 
     @Nullable
-    protected SoundEvent getAmbientSound() {
-        this.openHorseMouth();
-        if (this.rand.nextInt(10) == 0 && !this.isMovementBlocked()) {
-            this.makeHorseRear();
+    protected SoundEvent func_184639_G() {
+        this.func_110249_cI();
+        if (this.field_70146_Z.nextInt(10) == 0 && !this.func_70610_aX()) {
+            this.func_110220_cK();
         }
 
         return null;
     }
 
-    public boolean canBeSaddled() {
+    public boolean func_190685_dA() {
         return true;
     }
 
-    public boolean isHorseSaddled() {
-        return this.getHorseWatchableBoolean(4);
+    public boolean func_110257_ck() {
+        return this.func_110233_w(4);
     }
 
     @Nullable
-    protected SoundEvent getAngrySound() {
-        this.openHorseMouth();
-        this.makeHorseRear();
+    protected SoundEvent func_184785_dv() {
+        this.func_110249_cI();
+        this.func_110220_cK();
         return null;
     }
 
-    protected void playStepSound(BlockPos blockposition, Block block) {
-        if (!block.getDefaultState().getMaterial().isLiquid()) {
-            SoundType soundeffecttype = block.getSoundType();
+    protected void func_180429_a(BlockPos blockposition, Block block) {
+        if (!block.func_176223_P().func_185904_a().func_76224_d()) {
+            SoundType soundeffecttype = block.func_185467_w();
 
-            if (this.world.getBlockState(blockposition.up()).getBlock() == Blocks.SNOW_LAYER) {
-                soundeffecttype = Blocks.SNOW_LAYER.getSoundType();
+            if (this.field_70170_p.func_180495_p(blockposition.func_177984_a()).func_177230_c() == Blocks.field_150431_aC) {
+                soundeffecttype = Blocks.field_150431_aC.func_185467_w();
             }
 
-            if (this.isBeingRidden() && this.canGallop) {
-                ++this.gallopTime;
-                if (this.gallopTime > 5 && this.gallopTime % 3 == 0) {
-                    this.playGallopSound(soundeffecttype);
-                } else if (this.gallopTime <= 5) {
-                    this.playSound(SoundEvents.ENTITY_HORSE_STEP_WOOD, soundeffecttype.getVolume() * 0.15F, soundeffecttype.getPitch());
+            if (this.func_184207_aI() && this.field_190688_bE) {
+                ++this.field_110285_bP;
+                if (this.field_110285_bP > 5 && this.field_110285_bP % 3 == 0) {
+                    this.func_190680_a(soundeffecttype);
+                } else if (this.field_110285_bP <= 5) {
+                    this.func_184185_a(SoundEvents.field_187732_cw, soundeffecttype.func_185843_a() * 0.15F, soundeffecttype.func_185847_b());
                 }
-            } else if (soundeffecttype == SoundType.WOOD) {
-                this.playSound(SoundEvents.ENTITY_HORSE_STEP_WOOD, soundeffecttype.getVolume() * 0.15F, soundeffecttype.getPitch());
+            } else if (soundeffecttype == SoundType.field_185848_a) {
+                this.func_184185_a(SoundEvents.field_187732_cw, soundeffecttype.func_185843_a() * 0.15F, soundeffecttype.func_185847_b());
             } else {
-                this.playSound(SoundEvents.ENTITY_HORSE_STEP, soundeffecttype.getVolume() * 0.15F, soundeffecttype.getPitch());
+                this.func_184185_a(SoundEvents.field_187729_cv, soundeffecttype.func_185843_a() * 0.15F, soundeffecttype.func_185847_b());
             }
 
         }
     }
 
-    protected void playGallopSound(SoundType soundeffecttype) {
-        this.playSound(SoundEvents.ENTITY_HORSE_GALLOP, soundeffecttype.getVolume() * 0.15F, soundeffecttype.getPitch());
+    protected void func_190680_a(SoundType soundeffecttype) {
+        this.func_184185_a(SoundEvents.field_187714_cq, soundeffecttype.func_185843_a() * 0.15F, soundeffecttype.func_185847_b());
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getAttributeMap().registerAttribute(AbstractHorse.JUMP_STRENGTH);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(53.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.22499999403953552D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110140_aT().func_111150_b(AbstractHorse.field_110271_bv);
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(53.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.22499999403953552D);
     }
 
-    public int getMaxSpawnedInChunk() {
+    public int func_70641_bl() {
         return 6;
     }
 
-    public int getMaxTemper() {
+    public int func_190676_dC() {
         return this.maxDomestication; // CraftBukkit - return stored max domestication instead of 100
     }
 
-    protected float getSoundVolume() {
+    protected float func_70599_aP() {
         return 0.8F;
     }
 
-    public int getTalkInterval() {
+    public int func_70627_aG() {
         return 400;
     }
 
-    public void openGUI(EntityPlayer entityhuman) {
-        if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(entityhuman)) && this.isTame()) {
-            this.horseChest.setCustomName(this.getName());
-            entityhuman.openGuiHorseInventory(this, this.horseChest);
+    public void func_110199_f(EntityPlayer entityhuman) {
+        if (!this.field_70170_p.field_72995_K && (!this.func_184207_aI() || this.func_184196_w(entityhuman)) && this.func_110248_bS()) {
+            this.field_110296_bG.func_110133_a(this.func_70005_c_());
+            entityhuman.func_184826_a(this, this.field_110296_bG);
         }
 
     }
 
-    protected boolean handleEating(EntityPlayer entityhuman, ItemStack itemstack) {
+    protected boolean func_190678_b(EntityPlayer entityhuman, ItemStack itemstack) {
         boolean flag = false;
         float f = 0.0F;
         short short0 = 0;
         byte b0 = 0;
-        Item item = itemstack.getItem();
+        Item item = itemstack.func_77973_b();
 
-        if (item == Items.WHEAT) {
+        if (item == Items.field_151015_O) {
             f = 2.0F;
             short0 = 20;
             b0 = 3;
-        } else if (item == Items.SUGAR) {
+        } else if (item == Items.field_151102_aT) {
             f = 1.0F;
             short0 = 30;
             b0 = 3;
-        } else if (item == Item.getItemFromBlock(Blocks.HAY_BLOCK)) {
+        } else if (item == Item.func_150898_a(Blocks.field_150407_cf)) {
             f = 20.0F;
             short0 = 180;
-        } else if (item == Items.APPLE) {
+        } else if (item == Items.field_151034_e) {
             f = 3.0F;
             short0 = 60;
             b0 = 3;
-        } else if (item == Items.GOLDEN_CARROT) {
+        } else if (item == Items.field_151150_bK) {
             f = 4.0F;
             short0 = 60;
             b0 = 5;
-            if (this.isTame() && this.getGrowingAge() == 0 && !this.isInLove()) {
+            if (this.func_110248_bS() && this.func_70874_b() == 0 && !this.func_70880_s()) {
                 flag = true;
-                this.setInLove(entityhuman);
+                this.func_146082_f(entityhuman);
             }
-        } else if (item == Items.GOLDEN_APPLE) {
+        } else if (item == Items.field_151153_ao) {
             f = 10.0F;
             short0 = 240;
             b0 = 10;
-            if (this.isTame() && this.getGrowingAge() == 0 && !this.isInLove()) {
+            if (this.func_110248_bS() && this.func_70874_b() == 0 && !this.func_70880_s()) {
                 flag = true;
-                this.setInLove(entityhuman);
+                this.func_146082_f(entityhuman);
             }
         }
 
-        if (this.getHealth() < this.getMaxHealth() && f > 0.0F) {
+        if (this.func_110143_aJ() < this.func_110138_aP() && f > 0.0F) {
             this.heal(f, RegainReason.EATING); // CraftBukkit
             flag = true;
         }
 
-        if (this.isChild() && short0 > 0) {
-            this.world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, 0.0D, 0.0D, 0.0D, new int[0]);
-            if (!this.world.isRemote) {
-                this.addGrowth(short0);
+        if (this.func_70631_g_() && short0 > 0) {
+            this.field_70170_p.func_175688_a(EnumParticleTypes.VILLAGER_HAPPY, this.field_70165_t + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, this.field_70163_u + 0.5D + (double) (this.field_70146_Z.nextFloat() * this.field_70131_O), this.field_70161_v + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, 0.0D, 0.0D, 0.0D, new int[0]);
+            if (!this.field_70170_p.field_72995_K) {
+                this.func_110195_a(short0);
             }
 
             flag = true;
         }
 
-        if (b0 > 0 && (flag || !this.isTame()) && this.getTemper() < this.getMaxTemper()) {
+        if (b0 > 0 && (flag || !this.func_110248_bS()) && this.func_110252_cg() < this.func_190676_dC()) {
             flag = true;
-            if (!this.world.isRemote) {
-                this.increaseTemper(b0);
+            if (!this.field_70170_p.field_72995_K) {
+                this.func_110198_t(b0);
             }
         }
 
         if (flag) {
-            this.eatingHorse();
+            this.func_110266_cB();
         }
 
         return flag;
     }
 
-    protected void mountTo(EntityPlayer entityhuman) {
-        entityhuman.rotationYaw = this.rotationYaw;
-        entityhuman.rotationPitch = this.rotationPitch;
-        this.setEatingHaystack(false);
-        this.setRearing(false);
-        if (!this.world.isRemote) {
-            entityhuman.startRiding(this);
+    protected void func_110237_h(EntityPlayer entityhuman) {
+        entityhuman.field_70177_z = this.field_70177_z;
+        entityhuman.field_70125_A = this.field_70125_A;
+        this.func_110227_p(false);
+        this.func_110219_q(false);
+        if (!this.field_70170_p.field_72995_K) {
+            entityhuman.func_184220_m(this);
         }
 
     }
 
-    protected boolean isMovementBlocked() {
-        return super.isMovementBlocked() && this.isBeingRidden() && this.isHorseSaddled() || this.isEatingHaystack() || this.isRearing();
+    protected boolean func_70610_aX() {
+        return super.func_70610_aX() && this.func_184207_aI() && this.func_110257_ck() || this.func_110204_cc() || this.func_110209_cd();
     }
 
-    public boolean isBreedingItem(ItemStack itemstack) {
+    public boolean func_70877_b(ItemStack itemstack) {
         return false;
     }
 
-    private void moveTail() {
-        this.tailCounter = 1;
+    private void func_110210_cH() {
+        this.field_110278_bp = 1;
     }
 
-    public void onDeath(DamageSource damagesource) {
+    public void func_70645_a(DamageSource damagesource) {
         // super.die(damagesource); // Moved down
-        if (!this.world.isRemote && this.horseChest != null) {
-            for (int i = 0; i < this.horseChest.getSizeInventory(); ++i) {
-                ItemStack itemstack = this.horseChest.getStackInSlot(i);
+        if (!this.field_70170_p.field_72995_K && this.field_110296_bG != null) {
+            for (int i = 0; i < this.field_110296_bG.func_70302_i_(); ++i) {
+                ItemStack itemstack = this.field_110296_bG.func_70301_a(i);
 
-                if (!itemstack.isEmpty()) {
-                    this.entityDropItem(itemstack, 0.0F);
+                if (!itemstack.func_190926_b()) {
+                    this.func_70099_a(itemstack, 0.0F);
                 }
             }
 
         }
-        super.onDeath(damagesource); // CraftBukkit
+        super.func_70645_a(damagesource); // CraftBukkit
     }
 
-    public void onLivingUpdate() {
-        if (this.rand.nextInt(200) == 0) {
-            this.moveTail();
+    public void func_70636_d() {
+        if (this.field_70146_Z.nextInt(200) == 0) {
+            this.func_110210_cH();
         }
 
-        super.onLivingUpdate();
-        if (!this.world.isRemote) {
-            if (this.rand.nextInt(900) == 0 && this.deathTime == 0) {
+        super.func_70636_d();
+        if (!this.field_70170_p.field_72995_K) {
+            if (this.field_70146_Z.nextInt(900) == 0 && this.field_70725_aQ == 0) {
                 this.heal(1.0F, RegainReason.REGEN); // CraftBukkit
             }
 
-            if (this.canEatGrass()) {
-                if (!this.isEatingHaystack() && !this.isBeingRidden() && this.rand.nextInt(300) == 0 && this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.posY) - 1, MathHelper.floor(this.posZ))).getBlock() == Blocks.GRASS) {
-                    this.setEatingHaystack(true);
+            if (this.func_190684_dE()) {
+                if (!this.func_110204_cc() && !this.func_184207_aI() && this.field_70146_Z.nextInt(300) == 0 && this.field_70170_p.func_180495_p(new BlockPos(MathHelper.func_76128_c(this.field_70165_t), MathHelper.func_76128_c(this.field_70163_u) - 1, MathHelper.func_76128_c(this.field_70161_v))).func_177230_c() == Blocks.field_150349_c) {
+                    this.func_110227_p(true);
                 }
 
-                if (this.isEatingHaystack() && ++this.eatingCounter > 50) {
-                    this.eatingCounter = 0;
-                    this.setEatingHaystack(false);
+                if (this.func_110204_cc() && ++this.field_190689_bJ > 50) {
+                    this.field_190689_bJ = 0;
+                    this.func_110227_p(false);
                 }
             }
 
-            this.followMother();
+            this.func_190679_dD();
         }
     }
 
-    protected void followMother() {
-        if (this.isBreeding() && this.isChild() && !this.isEatingHaystack()) {
-            AbstractHorse entityhorseabstract = this.getClosestHorse(this, 16.0D);
+    protected void func_190679_dD() {
+        if (this.func_110205_ce() && this.func_70631_g_() && !this.func_110204_cc()) {
+            AbstractHorse entityhorseabstract = this.func_110250_a(this, 16.0D);
 
-            if (entityhorseabstract != null && this.getDistanceSq((Entity) entityhorseabstract) > 4.0D) {
-                this.navigator.getPathToEntityLiving((Entity) entityhorseabstract);
+            if (entityhorseabstract != null && this.func_70068_e((Entity) entityhorseabstract) > 4.0D) {
+                this.field_70699_by.func_75494_a((Entity) entityhorseabstract);
             }
         }
 
     }
 
-    public boolean canEatGrass() {
+    public boolean func_190684_dE() {
         return true;
     }
 
-    public void onUpdate() {
-        super.onUpdate();
-        if (this.openMouthCounter > 0 && ++this.openMouthCounter > 30) {
-            this.openMouthCounter = 0;
-            this.setHorseWatchableBoolean(64, false);
+    public void func_70071_h_() {
+        super.func_70071_h_();
+        if (this.field_110290_bE > 0 && ++this.field_110290_bE > 30) {
+            this.field_110290_bE = 0;
+            this.func_110208_b(64, false);
         }
 
-        if (this.canPassengerSteer() && this.jumpRearingCounter > 0 && ++this.jumpRearingCounter > 20) {
-            this.jumpRearingCounter = 0;
-            this.setRearing(false);
+        if (this.func_184186_bw() && this.field_110295_bF > 0 && ++this.field_110295_bF > 20) {
+            this.field_110295_bF = 0;
+            this.func_110219_q(false);
         }
 
-        if (this.tailCounter > 0 && ++this.tailCounter > 8) {
-            this.tailCounter = 0;
+        if (this.field_110278_bp > 0 && ++this.field_110278_bp > 8) {
+            this.field_110278_bp = 0;
         }
 
-        if (this.sprintCounter > 0) {
-            ++this.sprintCounter;
-            if (this.sprintCounter > 300) {
-                this.sprintCounter = 0;
+        if (this.field_110279_bq > 0) {
+            ++this.field_110279_bq;
+            if (this.field_110279_bq > 300) {
+                this.field_110279_bq = 0;
             }
         }
 
-        this.prevHeadLean = this.headLean;
-        if (this.isEatingHaystack()) {
-            this.headLean += (1.0F - this.headLean) * 0.4F + 0.05F;
-            if (this.headLean > 1.0F) {
-                this.headLean = 1.0F;
-            }
-        } else {
-            this.headLean += (0.0F - this.headLean) * 0.4F - 0.05F;
-            if (this.headLean < 0.0F) {
-                this.headLean = 0.0F;
-            }
-        }
-
-        this.prevRearingAmount = this.rearingAmount;
-        if (this.isRearing()) {
-            this.headLean = 0.0F;
-            this.prevHeadLean = this.headLean;
-            this.rearingAmount += (1.0F - this.rearingAmount) * 0.4F + 0.05F;
-            if (this.rearingAmount > 1.0F) {
-                this.rearingAmount = 1.0F;
+        this.field_110284_bK = this.field_110283_bJ;
+        if (this.func_110204_cc()) {
+            this.field_110283_bJ += (1.0F - this.field_110283_bJ) * 0.4F + 0.05F;
+            if (this.field_110283_bJ > 1.0F) {
+                this.field_110283_bJ = 1.0F;
             }
         } else {
-            this.allowStandSliding = false;
-            this.rearingAmount += (0.8F * this.rearingAmount * this.rearingAmount * this.rearingAmount - this.rearingAmount) * 0.6F - 0.05F;
-            if (this.rearingAmount < 0.0F) {
-                this.rearingAmount = 0.0F;
+            this.field_110283_bJ += (0.0F - this.field_110283_bJ) * 0.4F - 0.05F;
+            if (this.field_110283_bJ < 0.0F) {
+                this.field_110283_bJ = 0.0F;
             }
         }
 
-        this.prevMouthOpenness = this.mouthOpenness;
-        if (this.getHorseWatchableBoolean(64)) {
-            this.mouthOpenness += (1.0F - this.mouthOpenness) * 0.7F + 0.05F;
-            if (this.mouthOpenness > 1.0F) {
-                this.mouthOpenness = 1.0F;
+        this.field_110282_bM = this.field_110281_bL;
+        if (this.func_110209_cd()) {
+            this.field_110283_bJ = 0.0F;
+            this.field_110284_bK = this.field_110283_bJ;
+            this.field_110281_bL += (1.0F - this.field_110281_bL) * 0.4F + 0.05F;
+            if (this.field_110281_bL > 1.0F) {
+                this.field_110281_bL = 1.0F;
             }
         } else {
-            this.mouthOpenness += (0.0F - this.mouthOpenness) * 0.7F - 0.05F;
-            if (this.mouthOpenness < 0.0F) {
-                this.mouthOpenness = 0.0F;
+            this.field_110294_bI = false;
+            this.field_110281_bL += (0.8F * this.field_110281_bL * this.field_110281_bL * this.field_110281_bL - this.field_110281_bL) * 0.6F - 0.05F;
+            if (this.field_110281_bL < 0.0F) {
+                this.field_110281_bL = 0.0F;
+            }
+        }
+
+        this.field_110288_bO = this.field_110287_bN;
+        if (this.func_110233_w(64)) {
+            this.field_110287_bN += (1.0F - this.field_110287_bN) * 0.7F + 0.05F;
+            if (this.field_110287_bN > 1.0F) {
+                this.field_110287_bN = 1.0F;
+            }
+        } else {
+            this.field_110287_bN += (0.0F - this.field_110287_bN) * 0.7F - 0.05F;
+            if (this.field_110287_bN < 0.0F) {
+                this.field_110287_bN = 0.0F;
             }
         }
 
     }
 
-    private void openHorseMouth() {
-        if (!this.world.isRemote) {
-            this.openMouthCounter = 1;
-            this.setHorseWatchableBoolean(64, true);
+    private void func_110249_cI() {
+        if (!this.field_70170_p.field_72995_K) {
+            this.field_110290_bE = 1;
+            this.func_110208_b(64, true);
         }
 
     }
 
-    public void setEatingHaystack(boolean flag) {
-        this.setHorseWatchableBoolean(16, flag);
+    public void func_110227_p(boolean flag) {
+        this.func_110208_b(16, flag);
     }
 
-    public void setRearing(boolean flag) {
+    public void func_110219_q(boolean flag) {
         if (flag) {
-            this.setEatingHaystack(false);
+            this.func_110227_p(false);
         }
 
-        this.setHorseWatchableBoolean(32, flag);
+        this.func_110208_b(32, flag);
     }
 
-    private void makeHorseRear() {
-        if (this.canPassengerSteer()) {
-            this.jumpRearingCounter = 1;
-            this.setRearing(true);
+    private void func_110220_cK() {
+        if (this.func_184186_bw()) {
+            this.field_110295_bF = 1;
+            this.func_110219_q(true);
         }
 
     }
 
-    public void makeMad() {
-        this.makeHorseRear();
-        SoundEvent soundeffect = this.getAngrySound();
+    public void func_190687_dF() {
+        this.func_110220_cK();
+        SoundEvent soundeffect = this.func_184785_dv();
 
         if (soundeffect != null) {
-            this.playSound(soundeffect, this.getSoundVolume(), this.getSoundPitch());
+            this.func_184185_a(soundeffect, this.func_70599_aP(), this.func_70647_i());
         }
 
     }
 
-    public boolean setTamedBy(EntityPlayer entityhuman) {
-        this.setOwnerUniqueId(entityhuman.getUniqueID());
-        this.setHorseTamed(true);
+    public boolean func_110263_g(EntityPlayer entityhuman) {
+        this.func_184779_b(entityhuman.func_110124_au());
+        this.func_110234_j(true);
         if (entityhuman instanceof EntityPlayerMP) {
-            CriteriaTriggers.TAME_ANIMAL.trigger((EntityPlayerMP) entityhuman, (EntityAnimal) this);
+            CriteriaTriggers.field_193136_w.func_193178_a((EntityPlayerMP) entityhuman, (EntityAnimal) this);
         }
 
-        this.world.setEntityState(this, (byte) 7);
+        this.field_70170_p.func_72960_a(this, (byte) 7);
         return true;
     }
 
-    public void travel(float f, float f1, float f2) {
-        if (this.isBeingRidden() && this.canBeSteered() && this.isHorseSaddled()) {
-            EntityLivingBase entityliving = (EntityLivingBase) this.getControllingPassenger();
+    public void func_191986_a(float f, float f1, float f2) {
+        if (this.func_184207_aI() && this.func_82171_bF() && this.func_110257_ck()) {
+            EntityLivingBase entityliving = (EntityLivingBase) this.func_184179_bs();
 
-            this.rotationYaw = entityliving.rotationYaw;
-            this.prevRotationYaw = this.rotationYaw;
-            this.rotationPitch = entityliving.rotationPitch * 0.5F;
-            this.setRotation(this.rotationYaw, this.rotationPitch);
-            this.renderYawOffset = this.rotationYaw;
-            this.rotationYawHead = this.renderYawOffset;
-            f = entityliving.moveStrafing * 0.5F;
-            f2 = entityliving.moveForward;
+            this.field_70177_z = entityliving.field_70177_z;
+            this.field_70126_B = this.field_70177_z;
+            this.field_70125_A = entityliving.field_70125_A * 0.5F;
+            this.func_70101_b(this.field_70177_z, this.field_70125_A);
+            this.field_70761_aq = this.field_70177_z;
+            this.field_70759_as = this.field_70761_aq;
+            f = entityliving.field_70702_br * 0.5F;
+            f2 = entityliving.field_191988_bg;
             if (f2 <= 0.0F) {
                 f2 *= 0.25F;
-                this.gallopTime = 0;
+                this.field_110285_bP = 0;
             }
 
-            if (this.onGround && this.jumpPower == 0.0F && this.isRearing() && !this.allowStandSliding) {
+            if (this.field_70122_E && this.field_110277_bt == 0.0F && this.func_110209_cd() && !this.field_110294_bI) {
                 f = 0.0F;
                 f2 = 0.0F;
             }
 
-            if (this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround) {
-                this.motionY = this.getHorseJumpStrength() * (double) this.jumpPower;
-                if (this.isPotionActive(MobEffects.JUMP_BOOST)) {
-                    this.motionY += (double) ((float) (this.getActivePotionEffect(MobEffects.JUMP_BOOST).getAmplifier() + 1) * 0.1F);
+            if (this.field_110277_bt > 0.0F && !this.func_110246_bZ() && this.field_70122_E) {
+                this.field_70181_x = this.func_110215_cj() * (double) this.field_110277_bt;
+                if (this.func_70644_a(MobEffects.field_76430_j)) {
+                    this.field_70181_x += (double) ((float) (this.func_70660_b(MobEffects.field_76430_j).func_76458_c() + 1) * 0.1F);
                 }
 
-                this.setHorseJumping(true);
-                this.isAirBorne = true;
+                this.func_110255_k(true);
+                this.field_70160_al = true;
                 if (f2 > 0.0F) {
-                    float f3 = MathHelper.sin(this.rotationYaw * 0.017453292F);
-                    float f4 = MathHelper.cos(this.rotationYaw * 0.017453292F);
+                    float f3 = MathHelper.func_76126_a(this.field_70177_z * 0.017453292F);
+                    float f4 = MathHelper.func_76134_b(this.field_70177_z * 0.017453292F);
 
-                    this.motionX += (double) (-0.4F * f3 * this.jumpPower);
-                    this.motionZ += (double) (0.4F * f4 * this.jumpPower);
-                    this.playSound(SoundEvents.ENTITY_HORSE_JUMP, 0.4F, 1.0F);
+                    this.field_70159_w += (double) (-0.4F * f3 * this.field_110277_bt);
+                    this.field_70179_y += (double) (0.4F * f4 * this.field_110277_bt);
+                    this.func_184185_a(SoundEvents.field_187720_cs, 0.4F, 1.0F);
                 }
 
-                this.jumpPower = 0.0F;
+                this.field_110277_bt = 0.0F;
             }
 
-            this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
-            if (this.canPassengerSteer()) {
-                this.setAIMoveSpeed((float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
-                super.travel(f, f1, f2);
+            this.field_70747_aH = this.func_70689_ay() * 0.1F;
+            if (this.func_184186_bw()) {
+                this.func_70659_e((float) this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111126_e());
+                super.func_191986_a(f, f1, f2);
             } else if (entityliving instanceof EntityPlayer) {
-                this.motionX = 0.0D;
-                this.motionY = 0.0D;
-                this.motionZ = 0.0D;
+                this.field_70159_w = 0.0D;
+                this.field_70181_x = 0.0D;
+                this.field_70179_y = 0.0D;
             }
 
-            if (this.onGround) {
-                this.jumpPower = 0.0F;
-                this.setHorseJumping(false);
+            if (this.field_70122_E) {
+                this.field_110277_bt = 0.0F;
+                this.func_110255_k(false);
             }
 
-            this.prevLimbSwingAmount = this.limbSwingAmount;
-            double d0 = this.posX - this.prevPosX;
-            double d1 = this.posZ - this.prevPosZ;
-            float f5 = MathHelper.sqrt(d0 * d0 + d1 * d1) * 4.0F;
+            this.field_184618_aE = this.field_70721_aZ;
+            double d0 = this.field_70165_t - this.field_70169_q;
+            double d1 = this.field_70161_v - this.field_70166_s;
+            float f5 = MathHelper.func_76133_a(d0 * d0 + d1 * d1) * 4.0F;
 
             if (f5 > 1.0F) {
                 f5 = 1.0F;
             }
 
-            this.limbSwingAmount += (f5 - this.limbSwingAmount) * 0.4F;
-            this.limbSwing += this.limbSwingAmount;
+            this.field_70721_aZ += (f5 - this.field_70721_aZ) * 0.4F;
+            this.field_184619_aG += this.field_70721_aZ;
         } else {
-            this.jumpMovementFactor = 0.02F;
-            super.travel(f, f1, f2);
+            this.field_70747_aH = 0.02F;
+            super.func_191986_a(f, f1, f2);
         }
     }
 
-    public static void registerFixesAbstractHorse(DataFixer dataconvertermanager, Class<?> oclass) {
-        EntityLiving.registerFixesMob(dataconvertermanager, oclass);
-        dataconvertermanager.registerWalker(FixTypes.ENTITY, (IDataWalker) (new ItemStackData(oclass, new String[] { "SaddleItem"})));
+    public static void func_190683_c(DataFixer dataconvertermanager, Class<?> oclass) {
+        EntityLiving.func_189752_a(dataconvertermanager, oclass);
+        dataconvertermanager.func_188258_a(FixTypes.ENTITY, (IDataWalker) (new ItemStackData(oclass, new String[] { "SaddleItem"})));
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setBoolean("EatingHaystack", this.isEatingHaystack());
-        nbttagcompound.setBoolean("Bred", this.isBreeding());
-        nbttagcompound.setInteger("Temper", this.getTemper());
-        nbttagcompound.setBoolean("Tame", this.isTame());
-        if (this.getOwnerUniqueId() != null) {
-            nbttagcompound.setString("OwnerUUID", this.getOwnerUniqueId().toString());
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74757_a("EatingHaystack", this.func_110204_cc());
+        nbttagcompound.func_74757_a("Bred", this.func_110205_ce());
+        nbttagcompound.func_74768_a("Temper", this.func_110252_cg());
+        nbttagcompound.func_74757_a("Tame", this.func_110248_bS());
+        if (this.func_184780_dh() != null) {
+            nbttagcompound.func_74778_a("OwnerUUID", this.func_184780_dh().toString());
         }
-        nbttagcompound.setInteger("Bukkit.MaxDomestication", this.maxDomestication); // CraftBukkit
+        nbttagcompound.func_74768_a("Bukkit.MaxDomestication", this.maxDomestication); // CraftBukkit
 
-        if (!this.horseChest.getStackInSlot(0).isEmpty()) {
-            nbttagcompound.setTag("SaddleItem", this.horseChest.getStackInSlot(0).writeToNBT(new NBTTagCompound()));
+        if (!this.field_110296_bG.func_70301_a(0).func_190926_b()) {
+            nbttagcompound.func_74782_a("SaddleItem", this.field_110296_bG.func_70301_a(0).func_77955_b(new NBTTagCompound()));
         }
 
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.setEatingHaystack(nbttagcompound.getBoolean("EatingHaystack"));
-        this.setBreeding(nbttagcompound.getBoolean("Bred"));
-        this.setTemper(nbttagcompound.getInteger("Temper"));
-        this.setHorseTamed(nbttagcompound.getBoolean("Tame"));
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.func_110227_p(nbttagcompound.func_74767_n("EatingHaystack"));
+        this.func_110242_l(nbttagcompound.func_74767_n("Bred"));
+        this.func_110238_s(nbttagcompound.func_74762_e("Temper"));
+        this.func_110234_j(nbttagcompound.func_74767_n("Tame"));
         String s;
 
-        if (nbttagcompound.hasKey("OwnerUUID", 8)) {
-            s = nbttagcompound.getString("OwnerUUID");
+        if (nbttagcompound.func_150297_b("OwnerUUID", 8)) {
+            s = nbttagcompound.func_74779_i("OwnerUUID");
         } else {
-            String s1 = nbttagcompound.getString("Owner");
+            String s1 = nbttagcompound.func_74779_i("Owner");
 
-            s = PreYggdrasilConverter.convertMobOwnerIfNeeded(this.getServer(), s1);
+            s = PreYggdrasilConverter.func_187473_a(this.func_184102_h(), s1);
         }
 
         if (!s.isEmpty()) {
-            this.setOwnerUniqueId(UUID.fromString(s));
+            this.func_184779_b(UUID.fromString(s));
         }
         // CraftBukkit start
-        if (nbttagcompound.hasKey("Bukkit.MaxDomestication")) {
-            this.maxDomestication = nbttagcompound.getInteger("Bukkit.MaxDomestication");
+        if (nbttagcompound.func_74764_b("Bukkit.MaxDomestication")) {
+            this.maxDomestication = nbttagcompound.func_74762_e("Bukkit.MaxDomestication");
         }
         // CraftBukkit end
 
-        IAttributeInstance attributeinstance = this.getAttributeMap().getAttributeInstanceByName("Speed");
+        IAttributeInstance attributeinstance = this.func_110140_aT().func_111152_a("Speed");
 
         if (attributeinstance != null) {
-            this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(attributeinstance.getBaseValue() * 0.25D);
+            this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(attributeinstance.func_111125_b() * 0.25D);
         }
 
-        if (nbttagcompound.hasKey("SaddleItem", 10)) {
-            ItemStack itemstack = new ItemStack(nbttagcompound.getCompoundTag("SaddleItem"));
+        if (nbttagcompound.func_150297_b("SaddleItem", 10)) {
+            ItemStack itemstack = new ItemStack(nbttagcompound.func_74775_l("SaddleItem"));
 
-            if (itemstack.getItem() == Items.SADDLE) {
-                this.horseChest.setInventorySlotContents(0, itemstack);
+            if (itemstack.func_77973_b() == Items.field_151141_av) {
+                this.field_110296_bG.func_70299_a(0, itemstack);
             }
         }
 
-        this.updateHorseSlots();
+        this.func_110232_cE();
     }
 
-    public boolean canMateWith(EntityAnimal entityanimal) {
+    public boolean func_70878_b(EntityAnimal entityanimal) {
         return false;
     }
 
-    protected boolean canMate() {
-        return !this.isBeingRidden() && !this.isRiding() && this.isTame() && !this.isChild() && this.getHealth() >= this.getMaxHealth() && this.isInLove();
+    protected boolean func_110200_cJ() {
+        return !this.func_184207_aI() && !this.func_184218_aH() && this.func_110248_bS() && !this.func_70631_g_() && this.func_110143_aJ() >= this.func_110138_aP() && this.func_70880_s();
     }
 
     @Nullable
-    public EntityAgeable createChild(EntityAgeable entityageable) {
+    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
         return null;
     }
 
-    protected void setOffspringAttributes(EntityAgeable entityageable, AbstractHorse entityhorseabstract) {
-        double d0 = this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + entityageable.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + (double) this.getModifiedMaxHealth();
+    protected void func_190681_a(EntityAgeable entityageable, AbstractHorse entityhorseabstract) {
+        double d0 = this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111125_b() + entityageable.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111125_b() + (double) this.func_110267_cL();
 
-        entityhorseabstract.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(d0 / 3.0D);
-        double d1 = this.getEntityAttribute(AbstractHorse.JUMP_STRENGTH).getBaseValue() + entityageable.getEntityAttribute(AbstractHorse.JUMP_STRENGTH).getBaseValue() + this.getModifiedJumpStrength();
+        entityhorseabstract.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(d0 / 3.0D);
+        double d1 = this.func_110148_a(AbstractHorse.field_110271_bv).func_111125_b() + entityageable.func_110148_a(AbstractHorse.field_110271_bv).func_111125_b() + this.func_110245_cM();
 
-        entityhorseabstract.getEntityAttribute(AbstractHorse.JUMP_STRENGTH).setBaseValue(d1 / 3.0D);
-        double d2 = this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + entityageable.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + this.getModifiedMovementSpeed();
+        entityhorseabstract.func_110148_a(AbstractHorse.field_110271_bv).func_111128_a(d1 / 3.0D);
+        double d2 = this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111125_b() + entityageable.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111125_b() + this.func_110203_cN();
 
-        entityhorseabstract.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(d2 / 3.0D);
+        entityhorseabstract.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(d2 / 3.0D);
     }
 
-    public boolean canBeSteered() {
-        return this.getControllingPassenger() instanceof EntityLivingBase;
+    public boolean func_82171_bF() {
+        return this.func_184179_bs() instanceof EntityLivingBase;
     }
 
-    public boolean canJump() {
-        return this.isHorseSaddled();
+    public boolean func_184776_b() {
+        return this.func_110257_ck();
     }
 
-    public void handleStartJump(int i) {
+    public void func_184775_b(int i) {
         // CraftBukkit start
         float power;
         if (i >= 90) {
@@ -874,80 +874,80 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
             return;
         }
         // CraftBukkit end
-        this.allowStandSliding = true;
-        this.makeHorseRear();
+        this.field_110294_bI = true;
+        this.func_110220_cK();
     }
 
-    public void handleStopJump() {}
+    public void func_184777_r_() {}
 
-    public void updatePassenger(Entity entity) {
-        super.updatePassenger(entity);
+    public void func_184232_k(Entity entity) {
+        super.func_184232_k(entity);
         if (entity instanceof EntityLiving) {
             EntityLiving entityinsentient = (EntityLiving) entity;
 
-            this.renderYawOffset = entityinsentient.renderYawOffset;
+            this.field_70761_aq = entityinsentient.field_70761_aq;
         }
 
-        if (this.prevRearingAmount > 0.0F) {
-            float f = MathHelper.sin(this.renderYawOffset * 0.017453292F);
-            float f1 = MathHelper.cos(this.renderYawOffset * 0.017453292F);
-            float f2 = 0.7F * this.prevRearingAmount;
-            float f3 = 0.15F * this.prevRearingAmount;
+        if (this.field_110282_bM > 0.0F) {
+            float f = MathHelper.func_76126_a(this.field_70761_aq * 0.017453292F);
+            float f1 = MathHelper.func_76134_b(this.field_70761_aq * 0.017453292F);
+            float f2 = 0.7F * this.field_110282_bM;
+            float f3 = 0.15F * this.field_110282_bM;
 
-            entity.setPosition(this.posX + (double) (f2 * f), this.posY + this.getMountedYOffset() + entity.getYOffset() + (double) f3, this.posZ - (double) (f2 * f1));
+            entity.func_70107_b(this.field_70165_t + (double) (f2 * f), this.field_70163_u + this.func_70042_X() + entity.func_70033_W() + (double) f3, this.field_70161_v - (double) (f2 * f1));
             if (entity instanceof EntityLivingBase) {
-                ((EntityLivingBase) entity).renderYawOffset = this.renderYawOffset;
+                ((EntityLivingBase) entity).field_70761_aq = this.field_70761_aq;
             }
         }
 
     }
 
-    protected float getModifiedMaxHealth() {
-        return 15.0F + (float) this.rand.nextInt(8) + (float) this.rand.nextInt(9);
+    protected float func_110267_cL() {
+        return 15.0F + (float) this.field_70146_Z.nextInt(8) + (float) this.field_70146_Z.nextInt(9);
     }
 
-    protected double getModifiedJumpStrength() {
-        return 0.4000000059604645D + this.rand.nextDouble() * 0.2D + this.rand.nextDouble() * 0.2D + this.rand.nextDouble() * 0.2D;
+    protected double func_110245_cM() {
+        return 0.4000000059604645D + this.field_70146_Z.nextDouble() * 0.2D + this.field_70146_Z.nextDouble() * 0.2D + this.field_70146_Z.nextDouble() * 0.2D;
     }
 
-    protected double getModifiedMovementSpeed() {
-        return (0.44999998807907104D + this.rand.nextDouble() * 0.3D + this.rand.nextDouble() * 0.3D + this.rand.nextDouble() * 0.3D) * 0.25D;
+    protected double func_110203_cN() {
+        return (0.44999998807907104D + this.field_70146_Z.nextDouble() * 0.3D + this.field_70146_Z.nextDouble() * 0.3D + this.field_70146_Z.nextDouble() * 0.3D) * 0.25D;
     }
 
-    public boolean isOnLadder() {
+    public boolean func_70617_f_() {
         return false;
     }
 
-    public float getEyeHeight() {
-        return this.height;
+    public float func_70047_e() {
+        return this.field_70131_O;
     }
 
-    public boolean wearsArmor() {
+    public boolean func_190677_dK() {
         return false;
     }
 
-    public boolean isArmor(ItemStack itemstack) {
+    public boolean func_190682_f(ItemStack itemstack) {
         return false;
     }
 
-    public boolean replaceItemInInventory(int i, ItemStack itemstack) {
+    public boolean func_174820_d(int i, ItemStack itemstack) {
         int j = i - 400;
 
-        if (j >= 0 && j < 2 && j < this.horseChest.getSizeInventory()) {
-            if (j == 0 && itemstack.getItem() != Items.SADDLE) {
+        if (j >= 0 && j < 2 && j < this.field_110296_bG.func_70302_i_()) {
+            if (j == 0 && itemstack.func_77973_b() != Items.field_151141_av) {
                 return false;
-            } else if (j == 1 && (!this.wearsArmor() || !this.isArmor(itemstack))) {
+            } else if (j == 1 && (!this.func_190677_dK() || !this.func_190682_f(itemstack))) {
                 return false;
             } else {
-                this.horseChest.setInventorySlotContents(j, itemstack);
-                this.updateHorseSlots();
+                this.field_110296_bG.func_70299_a(j, itemstack);
+                this.func_110232_cE();
                 return true;
             }
         } else {
             int k = i - 500 + 2;
 
-            if (k >= 2 && k < this.horseChest.getSizeInventory()) {
-                this.horseChest.setInventorySlotContents(k, itemstack);
+            if (k >= 2 && k < this.field_110296_bG.func_70302_i_()) {
+                this.field_110296_bG.func_70299_a(k, itemstack);
                 return true;
             } else {
                 return false;
@@ -956,15 +956,15 @@ public abstract class AbstractHorse extends EntityAnimal implements IInventoryCh
     }
 
     @Nullable
-    public Entity getControllingPassenger() {
-        return this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
+    public Entity func_184179_bs() {
+        return this.func_184188_bt().isEmpty() ? null : (Entity) this.func_184188_bt().get(0);
     }
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
-        groupdataentity = super.onInitialSpawn(difficultydamagescaler, groupdataentity);
-        if (this.rand.nextInt(5) == 0) {
-            this.setGrowingAge(-24000);
+    public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
+        groupdataentity = super.func_180482_a(difficultydamagescaler, groupdataentity);
+        if (this.field_70146_Z.nextInt(5) == 0) {
+            this.func_70873_a(-24000);
         }
 
         return groupdataentity;

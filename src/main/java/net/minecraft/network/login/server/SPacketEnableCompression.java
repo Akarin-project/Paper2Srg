@@ -8,23 +8,23 @@ import net.minecraft.network.login.INetHandlerLoginClient;
 
 public class SPacketEnableCompression implements Packet<INetHandlerLoginClient> {
 
-    private int compressionThreshold;
+    private int field_179733_a;
 
     public SPacketEnableCompression() {}
 
     public SPacketEnableCompression(int i) {
-        this.compressionThreshold = i;
+        this.field_179733_a = i;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.compressionThreshold = packetdataserializer.readVarInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_179733_a = packetdataserializer.func_150792_a();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.compressionThreshold);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_179733_a);
     }
 
-    public void processPacket(INetHandlerLoginClient packetloginoutlistener) {
-        packetloginoutlistener.handleEnableCompression(this);
+    public void func_148833_a(INetHandlerLoginClient packetloginoutlistener) {
+        packetloginoutlistener.func_180464_a(this);
     }
 }

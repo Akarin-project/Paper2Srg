@@ -18,35 +18,35 @@ public class CommandStopSound extends CommandBase {
 
     public CommandStopSound() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "stopsound";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 2;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.stopsound.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length >= 1 && astring.length <= 3) {
             byte b0 = 0;
             int i = b0 + 1;
-            EntityPlayerMP entityplayer = getPlayer(minecraftserver, icommandlistener, astring[b0]);
+            EntityPlayerMP entityplayer = func_184888_a(minecraftserver, icommandlistener, astring[b0]);
             String s = "";
             String s1 = "";
 
             if (astring.length >= 2) {
                 String s2 = astring[i++];
-                SoundCategory soundcategory = SoundCategory.getByName(s2);
+                SoundCategory soundcategory = SoundCategory.func_187950_a(s2);
 
                 if (soundcategory == null) {
                     throw new CommandException("commands.stopsound.unknownSoundSource", new Object[] { s2});
                 }
 
-                s = soundcategory.getName();
+                s = soundcategory.func_187948_a();
             }
 
             if (astring.length == 3) {
@@ -55,27 +55,27 @@ public class CommandStopSound extends CommandBase {
 
             PacketBuffer packetdataserializer = new PacketBuffer(Unpooled.buffer());
 
-            packetdataserializer.writeString(s);
-            packetdataserializer.writeString(s1);
-            entityplayer.connection.sendPacket(new SPacketCustomPayload("MC|StopSound", packetdataserializer));
+            packetdataserializer.func_180714_a(s);
+            packetdataserializer.func_180714_a(s1);
+            entityplayer.field_71135_a.func_147359_a(new SPacketCustomPayload("MC|StopSound", packetdataserializer));
             if (s.isEmpty() && s1.isEmpty()) {
-                notifyCommandListener(icommandlistener, (ICommand) this, "commands.stopsound.success.all", new Object[] { entityplayer.getName()});
+                func_152373_a(icommandlistener, (ICommand) this, "commands.stopsound.success.all", new Object[] { entityplayer.func_70005_c_()});
             } else if (s1.isEmpty()) {
-                notifyCommandListener(icommandlistener, (ICommand) this, "commands.stopsound.success.soundSource", new Object[] { s, entityplayer.getName()});
+                func_152373_a(icommandlistener, (ICommand) this, "commands.stopsound.success.soundSource", new Object[] { s, entityplayer.func_70005_c_()});
             } else {
-                notifyCommandListener(icommandlistener, (ICommand) this, "commands.stopsound.success.individualSound", new Object[] { s1, s, entityplayer.getName()});
+                func_152373_a(icommandlistener, (ICommand) this, "commands.stopsound.success.individualSound", new Object[] { s1, s, entityplayer.func_70005_c_()});
             }
 
         } else {
-            throw new WrongUsageException(this.getUsage(icommandlistener), new Object[0]);
+            throw new WrongUsageException(this.func_71518_a(icommandlistener), new Object[0]);
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, minecraftserver.getOnlinePlayerNames()) : (astring.length == 2 ? getListOfStringsMatchingLastWord(astring, (Collection) SoundCategory.getSoundCategoryNames()) : (astring.length == 3 ? getListOfStringsMatchingLastWord(astring, (Collection) SoundEvent.REGISTRY.getKeys()) : Collections.emptyList()));
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length == 1 ? func_71530_a(astring, minecraftserver.func_71213_z()) : (astring.length == 2 ? func_175762_a(astring, (Collection) SoundCategory.func_187949_b()) : (astring.length == 3 ? func_175762_a(astring, (Collection) SoundEvent.field_187505_a.func_148742_b()) : Collections.emptyList()));
     }
 
-    public boolean isUsernameIndex(String[] astring, int i) {
+    public boolean func_82358_a(String[] astring, int i) {
         return i == 0;
     }
 }

@@ -22,29 +22,28 @@ import net.minecraft.util.JsonUtils;
 
 public interface ITextComponent extends Iterable<ITextComponent> {
 
-    ITextComponent setStyle(Style chatmodifier);
+    ITextComponent func_150255_a(Style chatmodifier);
 
-    Style getStyle();
+    Style func_150256_b();
 
-    ITextComponent appendText(String s);
+    ITextComponent func_150258_a(String s);
 
-    ITextComponent appendSibling(ITextComponent ichatbasecomponent);
+    ITextComponent func_150257_a(ITextComponent ichatbasecomponent);
 
-    String getUnformattedComponentText();
+    String func_150261_e();
 
-    String getUnformattedText();
+    String func_150260_c();
 
-    List<ITextComponent> getSiblings();
+    List<ITextComponent> func_150253_a();
 
-    ITextComponent createCopy();
+    ITextComponent func_150259_f();
 
     public static class Serializer implements JsonDeserializer<ITextComponent>, JsonSerializer<ITextComponent> {
 
-        private static final Gson GSON;
+        private static final Gson field_150700_a;
 
         public Serializer() {}
 
-        @Override
         public ITextComponent deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             if (jsonelement.isJsonPrimitive()) {
                 return new TextComponentString(jsonelement.getAsString());
@@ -56,12 +55,12 @@ public interface ITextComponent extends Iterable<ITextComponent> {
 
                     while (iterator.hasNext()) {
                         JsonElement jsonelement1 = (JsonElement) iterator.next();
-                        ITextComponent ichatbasecomponent1 = this.deserialize(jsonelement1, jsonelement1.getClass(), jsondeserializationcontext);
+                        ITextComponent ichatbasecomponent1 = this.deserialize(jsonelement1, (Type) jsonelement1.getClass(), jsondeserializationcontext);
 
                         if (ichatbasecomponent == null) {
                             ichatbasecomponent = ichatbasecomponent1;
                         } else {
-                            ichatbasecomponent.appendSibling(ichatbasecomponent1);
+                            ichatbasecomponent.func_150257_a(ichatbasecomponent1);
                         }
                     }
 
@@ -87,8 +86,8 @@ public interface ITextComponent extends Iterable<ITextComponent> {
                             if (aobject[i] instanceof TextComponentString) {
                                 TextComponentString chatcomponenttext = (TextComponentString) aobject[i];
 
-                                if (chatcomponenttext.getStyle().isEmpty() && chatcomponenttext.getSiblings().isEmpty()) {
-                                    aobject[i] = chatcomponenttext.getText();
+                                if (chatcomponenttext.func_150256_b().func_150229_g() && chatcomponenttext.func_150253_a().isEmpty()) {
+                                    aobject[i] = chatcomponenttext.func_150265_g();
                                 }
                             }
                         }
@@ -104,18 +103,18 @@ public interface ITextComponent extends Iterable<ITextComponent> {
                         throw new JsonParseException("A score component needs a least a name and an objective");
                     }
 
-                    object = new TextComponentScore(JsonUtils.getString(jsonobject1, "name"), JsonUtils.getString(jsonobject1, "objective"));
+                    object = new TextComponentScore(JsonUtils.func_151200_h(jsonobject1, "name"), JsonUtils.func_151200_h(jsonobject1, "objective"));
                     if (jsonobject1.has("value")) {
-                        ((TextComponentScore) object).setValue(JsonUtils.getString(jsonobject1, "value"));
+                        ((TextComponentScore) object).func_179997_b(JsonUtils.func_151200_h(jsonobject1, "value"));
                     }
                 } else if (jsonobject.has("selector")) {
-                    object = new TextComponentSelector(JsonUtils.getString(jsonobject, "selector"));
+                    object = new TextComponentSelector(JsonUtils.func_151200_h(jsonobject, "selector"));
                 } else {
                     if (!jsonobject.has("keybind")) {
                         throw new JsonParseException("Don\'t know how to turn " + jsonelement + " into a Component");
                     }
 
-                    object = new TextComponentKeybind(JsonUtils.getString(jsonobject, "keybind"));
+                    object = new TextComponentKeybind(JsonUtils.func_151200_h(jsonobject, "keybind"));
                 }
 
                 if (jsonobject.has("extra")) {
@@ -126,16 +125,16 @@ public interface ITextComponent extends Iterable<ITextComponent> {
                     }
 
                     for (int j = 0; j < jsonarray2.size(); ++j) {
-                        ((ITextComponent) object).appendSibling(this.deserialize(jsonarray2.get(j), type, jsondeserializationcontext));
+                        ((ITextComponent) object).func_150257_a(this.deserialize(jsonarray2.get(j), type, jsondeserializationcontext));
                     }
                 }
 
-                ((ITextComponent) object).setStyle((Style) jsondeserializationcontext.deserialize(jsonelement, Style.class));
+                ((ITextComponent) object).func_150255_a((Style) jsondeserializationcontext.deserialize(jsonelement, Style.class));
                 return (ITextComponent) object;
             }
         }
 
-        private void serializeChatStyle(Style chatmodifier, JsonObject jsonobject, JsonSerializationContext jsonserializationcontext) {
+        private void func_150695_a(Style chatmodifier, JsonObject jsonobject, JsonSerializationContext jsonserializationcontext) {
             JsonElement jsonelement = jsonserializationcontext.serialize(chatmodifier);
 
             if (jsonelement.isJsonObject()) {
@@ -151,36 +150,35 @@ public interface ITextComponent extends Iterable<ITextComponent> {
 
         }
 
-        @Override
         public JsonElement serialize(ITextComponent ichatbasecomponent, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
-            if (!ichatbasecomponent.getStyle().isEmpty()) {
-                this.serializeChatStyle(ichatbasecomponent.getStyle(), jsonobject, jsonserializationcontext);
+            if (!ichatbasecomponent.func_150256_b().func_150229_g()) {
+                this.func_150695_a(ichatbasecomponent.func_150256_b(), jsonobject, jsonserializationcontext);
             }
 
-            if (!ichatbasecomponent.getSiblings().isEmpty()) {
+            if (!ichatbasecomponent.func_150253_a().isEmpty()) {
                 JsonArray jsonarray = new JsonArray();
-                Iterator iterator = ichatbasecomponent.getSiblings().iterator();
+                Iterator iterator = ichatbasecomponent.func_150253_a().iterator();
 
                 while (iterator.hasNext()) {
                     ITextComponent ichatbasecomponent1 = (ITextComponent) iterator.next();
 
-                    jsonarray.add(this.serialize(ichatbasecomponent1, ichatbasecomponent1.getClass(), jsonserializationcontext));
+                    jsonarray.add(this.serialize(ichatbasecomponent1, (Type) ichatbasecomponent1.getClass(), jsonserializationcontext));
                 }
 
                 jsonobject.add("extra", jsonarray);
             }
 
             if (ichatbasecomponent instanceof TextComponentString) {
-                jsonobject.addProperty("text", ((TextComponentString) ichatbasecomponent).getText());
+                jsonobject.addProperty("text", ((TextComponentString) ichatbasecomponent).func_150265_g());
             } else if (ichatbasecomponent instanceof TextComponentTranslation) {
                 TextComponentTranslation chatmessage = (TextComponentTranslation) ichatbasecomponent;
 
-                jsonobject.addProperty("translate", chatmessage.getKey());
-                if (chatmessage.getFormatArgs() != null && chatmessage.getFormatArgs().length > 0) {
+                jsonobject.addProperty("translate", chatmessage.func_150268_i());
+                if (chatmessage.func_150271_j() != null && chatmessage.func_150271_j().length > 0) {
                     JsonArray jsonarray1 = new JsonArray();
-                    Object[] aobject = chatmessage.getFormatArgs();
+                    Object[] aobject = chatmessage.func_150271_j();
                     int i = aobject.length;
 
                     for (int j = 0; j < i; ++j) {
@@ -199,14 +197,14 @@ public interface ITextComponent extends Iterable<ITextComponent> {
                 TextComponentScore chatcomponentscore = (TextComponentScore) ichatbasecomponent;
                 JsonObject jsonobject1 = new JsonObject();
 
-                jsonobject1.addProperty("name", chatcomponentscore.getName());
-                jsonobject1.addProperty("objective", chatcomponentscore.getObjective());
-                jsonobject1.addProperty("value", chatcomponentscore.getUnformattedComponentText());
+                jsonobject1.addProperty("name", chatcomponentscore.func_179995_g());
+                jsonobject1.addProperty("objective", chatcomponentscore.func_179994_h());
+                jsonobject1.addProperty("value", chatcomponentscore.func_150261_e());
                 jsonobject.add("score", jsonobject1);
             } else if (ichatbasecomponent instanceof TextComponentSelector) {
                 TextComponentSelector chatcomponentselector = (TextComponentSelector) ichatbasecomponent;
 
-                jsonobject.addProperty("selector", chatcomponentselector.getSelector());
+                jsonobject.addProperty("selector", chatcomponentselector.func_179992_g());
             } else {
                 if (!(ichatbasecomponent instanceof TextComponentKeybind)) {
                     throw new IllegalArgumentException("Don\'t know how to serialize " + ichatbasecomponent + " as a Component");
@@ -214,24 +212,32 @@ public interface ITextComponent extends Iterable<ITextComponent> {
 
                 TextComponentKeybind chatcomponentkeybind = (TextComponentKeybind) ichatbasecomponent;
 
-                jsonobject.addProperty("keybind", chatcomponentkeybind.getKeybind());
+                jsonobject.addProperty("keybind", chatcomponentkeybind.func_193633_h());
             }
 
             return jsonobject;
         }
 
-        public static String componentToJson(ITextComponent ichatbasecomponent) {
-            return ITextComponent.Serializer.GSON.toJson(ichatbasecomponent);
+        public static String func_150696_a(ITextComponent ichatbasecomponent) {
+            return ITextComponent.Serializer.field_150700_a.toJson(ichatbasecomponent);
         }
 
         @Nullable
-        public static ITextComponent jsonToComponent(String s) {
-            return JsonUtils.gsonDeserialize(ITextComponent.Serializer.GSON, s, ITextComponent.class, false);
+        public static ITextComponent func_150699_a(String s) {
+            return (ITextComponent) JsonUtils.func_188176_a(ITextComponent.Serializer.field_150700_a, s, ITextComponent.class, false);
         }
 
         @Nullable
-        public static ITextComponent fromJsonLenient(String s) {
-            return JsonUtils.gsonDeserialize(ITextComponent.Serializer.GSON, s, ITextComponent.class, true);
+        public static ITextComponent func_186877_b(String s) {
+            return (ITextComponent) JsonUtils.func_188176_a(ITextComponent.Serializer.field_150700_a, s, ITextComponent.class, true);
+        }
+
+        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
+            return this.serialize((ITextComponent) object, type, jsonserializationcontext);
+        }
+
+        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+            return this.deserialize(jsonelement, type, jsondeserializationcontext);
         }
 
         static {
@@ -240,7 +246,7 @@ public interface ITextComponent extends Iterable<ITextComponent> {
             gsonbuilder.registerTypeHierarchyAdapter(ITextComponent.class, new ITextComponent.Serializer());
             gsonbuilder.registerTypeHierarchyAdapter(Style.class, new Style.Serializer());
             gsonbuilder.registerTypeAdapterFactory(new EnumTypeAdapterFactory());
-            GSON = gsonbuilder.create();
+            field_150700_a = gsonbuilder.create();
         }
     }
 }

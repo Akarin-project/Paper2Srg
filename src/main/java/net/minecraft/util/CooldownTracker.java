@@ -10,62 +10,62 @@ import net.minecraft.util.math.MathHelper;
 
 public class CooldownTracker {
 
-    public final Map<Item, CooldownTracker.Cooldown> cooldowns = Maps.newHashMap();
-    public int ticks;
+    public final Map<Item, CooldownTracker.Cooldown> field_185147_a = Maps.newHashMap();
+    public int field_185148_b;
 
     public CooldownTracker() {}
 
-    public boolean hasCooldown(Item item) {
-        return this.getCooldown(item, 0.0F) > 0.0F;
+    public boolean func_185141_a(Item item) {
+        return this.func_185143_a(item, 0.0F) > 0.0F;
     }
 
-    public float getCooldown(Item item, float f) {
-        CooldownTracker.Cooldown itemcooldown_info = (CooldownTracker.Cooldown) this.cooldowns.get(item);
+    public float func_185143_a(Item item, float f) {
+        CooldownTracker.Cooldown itemcooldown_info = (CooldownTracker.Cooldown) this.field_185147_a.get(item);
 
         if (itemcooldown_info != null) {
-            float f1 = (float) (itemcooldown_info.expireTicks - itemcooldown_info.createTicks);
-            float f2 = (float) itemcooldown_info.expireTicks - ((float) this.ticks + f);
+            float f1 = (float) (itemcooldown_info.field_185138_b - itemcooldown_info.field_185137_a);
+            float f2 = (float) itemcooldown_info.field_185138_b - ((float) this.field_185148_b + f);
 
-            return MathHelper.clamp(f2 / f1, 0.0F, 1.0F);
+            return MathHelper.func_76131_a(f2 / f1, 0.0F, 1.0F);
         } else {
             return 0.0F;
         }
     }
 
-    public void tick() {
-        ++this.ticks;
-        if (!this.cooldowns.isEmpty()) {
-            Iterator iterator = this.cooldowns.entrySet().iterator();
+    public void func_185144_a() {
+        ++this.field_185148_b;
+        if (!this.field_185147_a.isEmpty()) {
+            Iterator iterator = this.field_185147_a.entrySet().iterator();
 
             while (iterator.hasNext()) {
                 Entry entry = (Entry) iterator.next();
 
-                if (((CooldownTracker.Cooldown) entry.getValue()).expireTicks <= this.ticks) {
+                if (((CooldownTracker.Cooldown) entry.getValue()).field_185138_b <= this.field_185148_b) {
                     iterator.remove();
-                    this.notifyOnRemove((Item) entry.getKey());
+                    this.func_185146_c((Item) entry.getKey());
                 }
             }
         }
 
     }
 
-    public void setCooldown(Item item, int i) {
-        this.cooldowns.put(item, new CooldownTracker.Cooldown(this.ticks, this.ticks + i, null));
-        this.notifyOnSet(item, i);
+    public void func_185145_a(Item item, int i) {
+        this.field_185147_a.put(item, new CooldownTracker.Cooldown(this.field_185148_b, this.field_185148_b + i, null));
+        this.func_185140_b(item, i);
     }
 
-    protected void notifyOnSet(Item item, int i) {}
+    protected void func_185140_b(Item item, int i) {}
 
-    protected void notifyOnRemove(Item item) {}
+    protected void func_185146_c(Item item) {}
 
     public class Cooldown {
 
-        final int createTicks;
-        public final int expireTicks;
+        final int field_185137_a;
+        public final int field_185138_b;
 
         private Cooldown(int i, int j) {
-            this.createTicks = i;
-            this.expireTicks = j;
+            this.field_185137_a = i;
+            this.field_185138_b = j;
         }
 
         Cooldown(int i, int j, Object object) {

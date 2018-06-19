@@ -9,7 +9,7 @@ public class ItemSpectralArrow extends ItemArrow {
 
     public ItemSpectralArrow() {}
 
-    public EntityArrow createArrow(World world, ItemStack itemstack, EntityLivingBase entityliving) {
+    public EntityArrow func_185052_a(World world, ItemStack itemstack, EntityLivingBase entityliving) {
         return new EntitySpectralArrow(world, entityliving);
     }
 }

@@ -4,14 +4,14 @@ import javax.annotation.Nullable;
 
 public interface IAttribute {
 
-    String getName();
+    String func_111108_a();
 
-    double clampValue(double d0);
+    double func_111109_a(double d0);
 
-    double getDefaultValue();
+    double func_111110_b();
 
-    boolean getShouldWatch();
+    boolean func_111111_c();
 
     @Nullable
-    IAttribute getParent();
+    IAttribute func_180372_d();
 }

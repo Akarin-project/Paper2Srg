@@ -39,97 +39,97 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntitySpider extends EntityMob {
 
-    private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntitySpider.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> field_184729_a = EntityDataManager.func_187226_a(EntitySpider.class, DataSerializers.field_187191_a);
 
     public EntitySpider(World world) {
         super(world);
-        this.setSize(1.4F, 0.9F);
+        this.func_70105_a(1.4F, 0.9F);
     }
 
-    public static void registerFixesSpider(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntitySpider.class);
+    public static void func_189774_d(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntitySpider.class);
     }
 
-    protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(4, new EntitySpider.AISpiderAttack(this));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-        this.targetTasks.addTask(2, new EntitySpider.AISpiderTarget(this, EntityPlayer.class));
-        this.targetTasks.addTask(3, new EntitySpider.AISpiderTarget(this, EntityIronGolem.class));
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(1, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(3, new EntityAILeapAtTarget(this, 0.4F));
+        this.field_70714_bg.func_75776_a(4, new EntitySpider.AISpiderAttack(this));
+        this.field_70714_bg.func_75776_a(5, new EntityAIWanderAvoidWater(this, 0.8D));
+        this.field_70714_bg.func_75776_a(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.field_70714_bg.func_75776_a(6, new EntityAILookIdle(this));
+        this.field_70715_bh.func_75776_a(1, new EntityAIHurtByTarget(this, false, new Class[0]));
+        this.field_70715_bh.func_75776_a(2, new EntitySpider.AISpiderTarget(this, EntityPlayer.class));
+        this.field_70715_bh.func_75776_a(3, new EntitySpider.AISpiderTarget(this, EntityIronGolem.class));
     }
 
-    public double getMountedYOffset() {
-        return (double) (this.height * 0.5F);
+    public double func_70042_X() {
+        return (double) (this.field_70131_O * 0.5F);
     }
 
-    protected PathNavigate createNavigator(World world) {
+    protected PathNavigate func_175447_b(World world) {
         return new PathNavigateClimber(this, world);
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(EntitySpider.CLIMBING, Byte.valueOf((byte) 0));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(EntitySpider.field_184729_a, Byte.valueOf((byte) 0));
     }
 
-    public void onUpdate() {
-        super.onUpdate();
-        if (!this.world.isRemote) {
-            this.setBesideClimbableBlock(this.collidedHorizontally);
+    public void func_70071_h_() {
+        super.func_70071_h_();
+        if (!this.field_70170_p.field_72995_K) {
+            this.func_70839_e(this.field_70123_F);
         }
 
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(16.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(16.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.30000001192092896D);
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_SPIDER_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_187817_fK;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_SPIDER_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187821_fM;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SPIDER_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187819_fL;
     }
 
-    protected void playStepSound(BlockPos blockposition, Block block) {
-        this.playSound(SoundEvents.ENTITY_SPIDER_STEP, 0.15F, 1.0F);
+    protected void func_180429_a(BlockPos blockposition, Block block) {
+        this.func_184185_a(SoundEvents.field_187823_fN, 0.15F, 1.0F);
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_SPIDER;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186435_q;
     }
 
-    public boolean isOnLadder() {
-        return this.isBesideClimbableBlock();
+    public boolean func_70617_f_() {
+        return this.func_70841_p();
     }
 
-    public void setInWeb() {}
+    public void func_70110_aj() {}
 
-    public EnumCreatureAttribute getCreatureAttribute() {
+    public EnumCreatureAttribute func_70668_bt() {
         return EnumCreatureAttribute.ARTHROPOD;
     }
 
-    public boolean isPotionApplicable(PotionEffect mobeffect) {
-        return mobeffect.getPotion() == MobEffects.POISON ? false : super.isPotionApplicable(mobeffect);
+    public boolean func_70687_e(PotionEffect mobeffect) {
+        return mobeffect.func_188419_a() == MobEffects.field_76436_u ? false : super.func_70687_e(mobeffect);
     }
 
-    public boolean isBesideClimbableBlock() {
-        return (((Byte) this.dataManager.get(EntitySpider.CLIMBING)).byteValue() & 1) != 0;
+    public boolean func_70841_p() {
+        return (((Byte) this.field_70180_af.func_187225_a(EntitySpider.field_184729_a)).byteValue() & 1) != 0;
     }
 
-    public void setBesideClimbableBlock(boolean flag) {
-        byte b0 = ((Byte) this.dataManager.get(EntitySpider.CLIMBING)).byteValue();
+    public void func_70839_e(boolean flag) {
+        byte b0 = ((Byte) this.field_70180_af.func_187225_a(EntitySpider.field_184729_a)).byteValue();
 
         if (flag) {
             b0 = (byte) (b0 | 1);
@@ -137,41 +137,41 @@ public class EntitySpider extends EntityMob {
             b0 &= -2;
         }
 
-        this.dataManager.set(EntitySpider.CLIMBING, Byte.valueOf(b0));
+        this.field_70180_af.func_187227_b(EntitySpider.field_184729_a, Byte.valueOf(b0));
     }
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
-        Object object = super.onInitialSpawn(difficultydamagescaler, groupdataentity);
+    public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
+        Object object = super.func_180482_a(difficultydamagescaler, groupdataentity);
 
-        if (this.world.rand.nextInt(100) == 0) {
-            EntitySkeleton entityskeleton = new EntitySkeleton(this.world);
+        if (this.field_70170_p.field_73012_v.nextInt(100) == 0) {
+            EntitySkeleton entityskeleton = new EntitySkeleton(this.field_70170_p);
 
-            entityskeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-            entityskeleton.onInitialSpawn(difficultydamagescaler, (IEntityLivingData) null);
-            this.world.addEntity(entityskeleton, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.JOCKEY); // CraftBukkit - add SpawnReason
-            entityskeleton.startRiding(this);
+            entityskeleton.func_70012_b(this.field_70165_t, this.field_70163_u, this.field_70161_v, this.field_70177_z, 0.0F);
+            entityskeleton.func_180482_a(difficultydamagescaler, (IEntityLivingData) null);
+            this.field_70170_p.addEntity(entityskeleton, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.JOCKEY); // CraftBukkit - add SpawnReason
+            entityskeleton.func_184220_m(this);
         }
 
         if (object == null) {
             object = new EntitySpider.GroupData();
-            if (this.world.getDifficulty() == EnumDifficulty.HARD && this.world.rand.nextFloat() < 0.1F * difficultydamagescaler.getClampedAdditionalDifficulty()) {
-                ((EntitySpider.GroupData) object).setRandomEffect(this.world.rand);
+            if (this.field_70170_p.func_175659_aa() == EnumDifficulty.HARD && this.field_70170_p.field_73012_v.nextFloat() < 0.1F * difficultydamagescaler.func_180170_c()) {
+                ((EntitySpider.GroupData) object).func_111104_a(this.field_70170_p.field_73012_v);
             }
         }
 
         if (object instanceof EntitySpider.GroupData) {
-            Potion mobeffectlist = ((EntitySpider.GroupData) object).effect;
+            Potion mobeffectlist = ((EntitySpider.GroupData) object).field_188478_a;
 
             if (mobeffectlist != null) {
-                this.addPotionEffect(new PotionEffect(mobeffectlist, Integer.MAX_VALUE));
+                this.func_70690_d(new PotionEffect(mobeffectlist, Integer.MAX_VALUE));
             }
         }
 
         return (IEntityLivingData) object;
     }
 
-    public float getEyeHeight() {
+    public float func_70047_e() {
         return 0.65F;
     }
 
@@ -181,10 +181,10 @@ public class EntitySpider extends EntityMob {
             super(entityspider, oclass, true);
         }
 
-        public boolean shouldExecute() {
-            float f = this.taskOwner.getBrightness();
+        public boolean func_75250_a() {
+            float f = this.field_75299_d.func_70013_c();
 
-            return f >= 0.5F ? false : super.shouldExecute();
+            return f >= 0.5F ? false : super.func_75250_a();
         }
     }
 
@@ -194,39 +194,39 @@ public class EntitySpider extends EntityMob {
             super(entityspider, 1.0D, true);
         }
 
-        public boolean shouldContinueExecuting() {
-            float f = this.attacker.getBrightness();
+        public boolean func_75253_b() {
+            float f = this.field_75441_b.func_70013_c();
 
-            if (f >= 0.5F && this.attacker.getRNG().nextInt(100) == 0) {
-                this.attacker.setAttackTarget((EntityLivingBase) null);
+            if (f >= 0.5F && this.field_75441_b.func_70681_au().nextInt(100) == 0) {
+                this.field_75441_b.func_70624_b((EntityLivingBase) null);
                 return false;
             } else {
-                return super.shouldContinueExecuting();
+                return super.func_75253_b();
             }
         }
 
-        protected double getAttackReachSqr(EntityLivingBase entityliving) {
-            return (double) (4.0F + entityliving.width);
+        protected double func_179512_a(EntityLivingBase entityliving) {
+            return (double) (4.0F + entityliving.field_70130_N);
         }
     }
 
     public static class GroupData implements IEntityLivingData {
 
-        public Potion effect;
+        public Potion field_188478_a;
 
         public GroupData() {}
 
-        public void setRandomEffect(Random random) {
+        public void func_111104_a(Random random) {
             int i = random.nextInt(5);
 
             if (i <= 1) {
-                this.effect = MobEffects.SPEED;
+                this.field_188478_a = MobEffects.field_76424_c;
             } else if (i <= 2) {
-                this.effect = MobEffects.STRENGTH;
+                this.field_188478_a = MobEffects.field_76420_g;
             } else if (i <= 3) {
-                this.effect = MobEffects.REGENERATION;
+                this.field_188478_a = MobEffects.field_76428_l;
             } else if (i <= 4) {
-                this.effect = MobEffects.INVISIBILITY;
+                this.field_188478_a = MobEffects.field_76441_p;
             }
 
         }

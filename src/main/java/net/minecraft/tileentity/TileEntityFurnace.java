@@ -50,15 +50,15 @@ import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 
 public class TileEntityFurnace extends TileEntityLockable implements ITickable, ISidedInventory {
 
-    private static final int[] SLOTS_TOP = new int[] { 0};
-    private static final int[] SLOTS_BOTTOM = new int[] { 2, 1};
-    private static final int[] SLOTS_SIDES = new int[] { 1};
-    private NonNullList<ItemStack> furnaceItemStacks;
-    private int furnaceBurnTime;
-    private int currentItemBurnTime;
-    private int cookTime;
-    private int totalCookTime;
-    private String furnaceCustomName;
+    private static final int[] field_145962_k = new int[] { 0};
+    private static final int[] field_145959_l = new int[] { 2, 1};
+    private static final int[] field_145960_m = new int[] { 1};
+    private NonNullList<ItemStack> field_145957_n;
+    private int field_145956_a;
+    private int field_145963_i;
+    private int field_174906_k;
+    private int field_174905_l;
+    private String field_145958_o;
 
     // CraftBukkit start - add fields and methods
     private int lastTick = MinecraftServer.currentTick;
@@ -66,7 +66,7 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
 
     public List<ItemStack> getContents() {
-        return this.furnaceItemStacks;
+        return this.field_145957_n;
     }
 
     public void onOpen(CraftHumanEntity who) {
@@ -87,15 +87,15 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
     // CraftBukkit end
 
     public TileEntityFurnace() {
-        this.furnaceItemStacks = NonNullList.withSize(3, ItemStack.EMPTY);
+        this.field_145957_n = NonNullList.func_191197_a(3, ItemStack.field_190927_a);
     }
 
-    public int getSizeInventory() {
-        return this.furnaceItemStacks.size();
+    public int func_70302_i_() {
+        return this.field_145957_n.size();
     }
 
-    public boolean isEmpty() {
-        Iterator iterator = this.furnaceItemStacks.iterator();
+    public boolean func_191420_l() {
+        Iterator iterator = this.field_145957_n.iterator();
 
         ItemStack itemstack;
 
@@ -105,93 +105,93 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
             }
 
             itemstack = (ItemStack) iterator.next();
-        } while (itemstack.isEmpty());
+        } while (itemstack.func_190926_b());
 
         return false;
     }
 
-    public ItemStack getStackInSlot(int i) {
-        return (ItemStack) this.furnaceItemStacks.get(i);
+    public ItemStack func_70301_a(int i) {
+        return (ItemStack) this.field_145957_n.get(i);
     }
 
-    public ItemStack decrStackSize(int i, int j) {
-        return ItemStackHelper.getAndSplit(this.furnaceItemStacks, i, j);
+    public ItemStack func_70298_a(int i, int j) {
+        return ItemStackHelper.func_188382_a(this.field_145957_n, i, j);
     }
 
-    public ItemStack removeStackFromSlot(int i) {
-        return ItemStackHelper.getAndRemove(this.furnaceItemStacks, i);
+    public ItemStack func_70304_b(int i) {
+        return ItemStackHelper.func_188383_a(this.field_145957_n, i);
     }
 
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
-        ItemStack itemstack1 = (ItemStack) this.furnaceItemStacks.get(i);
-        boolean flag = !itemstack.isEmpty() && itemstack.isItemEqual(itemstack1) && ItemStack.areItemStackTagsEqual(itemstack, itemstack1);
+    public void func_70299_a(int i, ItemStack itemstack) {
+        ItemStack itemstack1 = (ItemStack) this.field_145957_n.get(i);
+        boolean flag = !itemstack.func_190926_b() && itemstack.func_77969_a(itemstack1) && ItemStack.func_77970_a(itemstack, itemstack1);
 
-        this.furnaceItemStacks.set(i, itemstack);
-        if (itemstack.getCount() > this.getInventoryStackLimit()) {
-            itemstack.setCount(this.getInventoryStackLimit());
+        this.field_145957_n.set(i, itemstack);
+        if (itemstack.func_190916_E() > this.func_70297_j_()) {
+            itemstack.func_190920_e(this.func_70297_j_());
         }
 
         if (i == 0 && !flag) {
-            this.totalCookTime = this.getCookTime(itemstack);
-            this.cookTime = 0;
-            this.markDirty();
+            this.field_174905_l = this.func_174904_a(itemstack);
+            this.field_174906_k = 0;
+            this.func_70296_d();
         }
 
     }
 
-    public String getName() {
-        return this.hasCustomName() ? this.furnaceCustomName : "container.furnace";
+    public String func_70005_c_() {
+        return this.func_145818_k_() ? this.field_145958_o : "container.furnace";
     }
 
-    public boolean hasCustomName() {
-        return this.furnaceCustomName != null && !this.furnaceCustomName.isEmpty();
+    public boolean func_145818_k_() {
+        return this.field_145958_o != null && !this.field_145958_o.isEmpty();
     }
 
-    public void setCustomInventoryName(String s) {
-        this.furnaceCustomName = s;
+    public void func_145951_a(String s) {
+        this.field_145958_o = s;
     }
 
-    public static void registerFixesFurnace(DataFixer dataconvertermanager) {
-        dataconvertermanager.registerWalker(FixTypes.BLOCK_ENTITY, (IDataWalker) (new ItemStackDataLists(TileEntityFurnace.class, new String[] { "Items"})));
+    public static void func_189676_a(DataFixer dataconvertermanager) {
+        dataconvertermanager.func_188258_a(FixTypes.BLOCK_ENTITY, (IDataWalker) (new ItemStackDataLists(TileEntityFurnace.class, new String[] { "Items"})));
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        super.readFromNBT(nbttagcompound);
-        this.furnaceItemStacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-        ItemStackHelper.loadAllItems(nbttagcompound, this.furnaceItemStacks);
-        this.furnaceBurnTime = nbttagcompound.getShort("BurnTime");
-        this.cookTime = nbttagcompound.getShort("CookTime");
-        this.totalCookTime = nbttagcompound.getShort("CookTimeTotal");
-        this.currentItemBurnTime = getItemBurnTime((ItemStack) this.furnaceItemStacks.get(1));
-        if (nbttagcompound.hasKey("CustomName", 8)) {
-            this.furnaceCustomName = nbttagcompound.getString("CustomName");
+    public void func_145839_a(NBTTagCompound nbttagcompound) {
+        super.func_145839_a(nbttagcompound);
+        this.field_145957_n = NonNullList.func_191197_a(this.func_70302_i_(), ItemStack.field_190927_a);
+        ItemStackHelper.func_191283_b(nbttagcompound, this.field_145957_n);
+        this.field_145956_a = nbttagcompound.func_74765_d("BurnTime");
+        this.field_174906_k = nbttagcompound.func_74765_d("CookTime");
+        this.field_174905_l = nbttagcompound.func_74765_d("CookTimeTotal");
+        this.field_145963_i = func_145952_a((ItemStack) this.field_145957_n.get(1));
+        if (nbttagcompound.func_150297_b("CustomName", 8)) {
+            this.field_145958_o = nbttagcompound.func_74779_i("CustomName");
         }
 
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        super.writeToNBT(nbttagcompound);
-        nbttagcompound.setShort("BurnTime", (short) this.furnaceBurnTime);
-        nbttagcompound.setShort("CookTime", (short) this.cookTime);
-        nbttagcompound.setShort("CookTimeTotal", (short) this.totalCookTime);
-        ItemStackHelper.saveAllItems(nbttagcompound, this.furnaceItemStacks);
-        if (this.hasCustomName()) {
-            nbttagcompound.setString("CustomName", this.furnaceCustomName);
+    public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
+        super.func_189515_b(nbttagcompound);
+        nbttagcompound.func_74777_a("BurnTime", (short) this.field_145956_a);
+        nbttagcompound.func_74777_a("CookTime", (short) this.field_174906_k);
+        nbttagcompound.func_74777_a("CookTimeTotal", (short) this.field_174905_l);
+        ItemStackHelper.func_191282_a(nbttagcompound, this.field_145957_n);
+        if (this.func_145818_k_()) {
+            nbttagcompound.func_74778_a("CustomName", this.field_145958_o);
         }
 
         return nbttagcompound;
     }
 
-    public int getInventoryStackLimit() {
+    public int func_70297_j_() {
         return 64;
     }
 
-    public boolean isBurning() {
-        return this.furnaceBurnTime > 0;
+    public boolean func_145950_i() {
+        return this.field_145956_a > 0;
     }
 
-    public void update() {
-        boolean flag = (this.getBlockType() == Blocks.LIT_FURNACE); // CraftBukkit - SPIGOT-844 - Check if furnace block is lit using the block instead of burn time
+    public void func_73660_a() {
+        boolean flag = (this.func_145838_q() == Blocks.field_150470_am); // CraftBukkit - SPIGOT-844 - Check if furnace block is lit using the block instead of burn time
         boolean flag1 = false;
 
         // CraftBukkit start - Use wall time instead of ticks for cooking
@@ -199,55 +199,55 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
         this.lastTick = MinecraftServer.currentTick;
 
         // CraftBukkit - moved from below - edited for wall time
-        if (this.isBurning() && this.canSmelt()) {
-            this.cookTime += elapsedTicks;
-            if (this.cookTime >= this.totalCookTime) {
-                this.cookTime -= this.totalCookTime; // Paper
-                this.totalCookTime = this.getCookTime((ItemStack) this.furnaceItemStacks.get(0));
-                this.smeltItem();
+        if (this.func_145950_i() && this.func_145948_k()) {
+            this.field_174906_k += elapsedTicks;
+            if (this.field_174906_k >= this.field_174905_l) {
+                this.field_174906_k -= this.field_174905_l; // Paper
+                this.field_174905_l = this.func_174904_a((ItemStack) this.field_145957_n.get(0));
+                this.func_145949_j();
                 flag1 = true;
             }
         } else {
-            this.cookTime = 0;
+            this.field_174906_k = 0;
         }
         // CraftBukkit end
 
-        if (this.isBurning()) {
-            this.furnaceBurnTime -= elapsedTicks; // CraftBukkit - use elapsedTicks in place of constant
+        if (this.func_145950_i()) {
+            this.field_145956_a -= elapsedTicks; // CraftBukkit - use elapsedTicks in place of constant
         }
 
-        if (!this.world.isRemote) {
-            ItemStack itemstack = (ItemStack) this.furnaceItemStacks.get(1);
+        if (!this.field_145850_b.field_72995_K) {
+            ItemStack itemstack = (ItemStack) this.field_145957_n.get(1);
 
-            if (!this.isBurning() && (itemstack.isEmpty() || ((ItemStack) this.furnaceItemStacks.get(0)).isEmpty())) {
-                if (!this.isBurning() && this.cookTime > 0) {
-                    this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.totalCookTime);
+            if (!this.func_145950_i() && (itemstack.func_190926_b() || ((ItemStack) this.field_145957_n.get(0)).func_190926_b())) {
+                if (!this.func_145950_i() && this.field_174906_k > 0) {
+                    this.field_174906_k = MathHelper.func_76125_a(this.field_174906_k - 2, 0, this.field_174905_l);
                 }
             } else {
                 // CraftBukkit start - Handle multiple elapsed ticks
-                if (this.furnaceBurnTime <= 0 && this.canSmelt()) { // CraftBukkit - == to <=
+                if (this.field_145956_a <= 0 && this.func_145948_k()) { // CraftBukkit - == to <=
                     CraftItemStack fuel = CraftItemStack.asCraftMirror(itemstack);
 
-                    FurnaceBurnEvent furnaceBurnEvent = new FurnaceBurnEvent(this.world.getWorld().getBlockAt(pos.getX(), pos.getY(), pos.getZ()), fuel, getItemBurnTime(itemstack));
-                    this.world.getServer().getPluginManager().callEvent(furnaceBurnEvent);
+                    FurnaceBurnEvent furnaceBurnEvent = new FurnaceBurnEvent(this.field_145850_b.getWorld().getBlockAt(field_174879_c.func_177958_n(), field_174879_c.func_177956_o(), field_174879_c.func_177952_p()), fuel, func_145952_a(itemstack));
+                    this.field_145850_b.getServer().getPluginManager().callEvent(furnaceBurnEvent);
 
                     if (furnaceBurnEvent.isCancelled()) {
                         return;
                     }
 
-                    this.currentItemBurnTime = furnaceBurnEvent.getBurnTime();
-                    this.furnaceBurnTime += this.currentItemBurnTime;
-                    if (this.furnaceBurnTime > 0 && furnaceBurnEvent.isBurning()) {
+                    this.field_145963_i = furnaceBurnEvent.getBurnTime();
+                    this.field_145956_a += this.field_145963_i;
+                    if (this.field_145956_a > 0 && furnaceBurnEvent.isBurning()) {
                         // CraftBukkit end
                         flag1 = true;
-                        if (!itemstack.isEmpty()) {
-                            Item item = itemstack.getItem();
+                        if (!itemstack.func_190926_b()) {
+                            Item item = itemstack.func_77973_b();
 
-                            itemstack.shrink(1);
-                            if (itemstack.isEmpty()) {
-                                Item item1 = item.getContainerItem();
+                            itemstack.func_190918_g(1);
+                            if (itemstack.func_190926_b()) {
+                                Item item1 = item.func_77668_q();
 
-                                this.furnaceItemStacks.set(1, item1 == null ? ItemStack.EMPTY : new ItemStack(item1));
+                                this.field_145957_n.set(1, item1 == null ? ItemStack.field_190927_a : new ItemStack(item1));
                             }
                         }
                     }
@@ -268,52 +268,52 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
                 */
             }
 
-            if (flag != this.isBurning()) {
+            if (flag != this.func_145950_i()) {
                 flag1 = true;
-                BlockFurnace.setState(this.isBurning(), this.world, this.pos);
-                this.updateContainingBlockInfo(); // CraftBukkit - Invalidate tile entity's cached block type 
+                BlockFurnace.func_176446_a(this.func_145950_i(), this.field_145850_b, this.field_174879_c);
+                this.func_145836_u(); // CraftBukkit - Invalidate tile entity's cached block type 
             }
         }
 
         if (flag1) {
-            this.markDirty();
+            this.func_70296_d();
         }
 
     }
 
-    public int getCookTime(ItemStack itemstack) {
+    public int func_174904_a(ItemStack itemstack) {
         return 200;
     }
 
-    private boolean canSmelt() {
-        if (((ItemStack) this.furnaceItemStacks.get(0)).isEmpty()) {
+    private boolean func_145948_k() {
+        if (((ItemStack) this.field_145957_n.get(0)).func_190926_b()) {
             return false;
         } else {
-            ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult((ItemStack) this.furnaceItemStacks.get(0));
+            ItemStack itemstack = FurnaceRecipes.func_77602_a().func_151395_a((ItemStack) this.field_145957_n.get(0));
 
-            if (itemstack.isEmpty()) {
+            if (itemstack.func_190926_b()) {
                 return false;
             } else {
-                ItemStack itemstack1 = (ItemStack) this.furnaceItemStacks.get(2);
+                ItemStack itemstack1 = (ItemStack) this.field_145957_n.get(2);
 
                 // CraftBukkit - consider resultant count instead of current count
-                return itemstack1.isEmpty() ? true : (!itemstack1.isItemEqual(itemstack) ? false : (itemstack1.getCount() + itemstack.getCount() <= this.getInventoryStackLimit() && itemstack1.getCount() + itemstack.getCount() < itemstack1.getMaxStackSize() ? true : itemstack1.getCount() + itemstack.getCount() <= itemstack.getMaxStackSize()));
+                return itemstack1.func_190926_b() ? true : (!itemstack1.func_77969_a(itemstack) ? false : (itemstack1.func_190916_E() + itemstack.func_190916_E() <= this.func_70297_j_() && itemstack1.func_190916_E() + itemstack.func_190916_E() < itemstack1.func_77976_d() ? true : itemstack1.func_190916_E() + itemstack.func_190916_E() <= itemstack.func_77976_d()));
             }
         }
     }
 
-    public void smeltItem() {
-        if (this.canSmelt()) {
-            ItemStack itemstack = (ItemStack) this.furnaceItemStacks.get(0);
-            ItemStack itemstack1 = FurnaceRecipes.instance().getSmeltingResult(itemstack);
-            ItemStack itemstack2 = (ItemStack) this.furnaceItemStacks.get(2);
+    public void func_145949_j() {
+        if (this.func_145948_k()) {
+            ItemStack itemstack = (ItemStack) this.field_145957_n.get(0);
+            ItemStack itemstack1 = FurnaceRecipes.func_77602_a().func_151395_a(itemstack);
+            ItemStack itemstack2 = (ItemStack) this.field_145957_n.get(2);
 
             // CraftBukkit start - fire FurnaceSmeltEvent
             CraftItemStack source = CraftItemStack.asCraftMirror(itemstack);
             org.bukkit.inventory.ItemStack result = CraftItemStack.asBukkitCopy(itemstack1);
 
-            FurnaceSmeltEvent furnaceSmeltEvent = new FurnaceSmeltEvent(this.world.getWorld().getBlockAt(pos.getX(), pos.getY(), pos.getZ()), source, result);
-            this.world.getServer().getPluginManager().callEvent(furnaceSmeltEvent);
+            FurnaceSmeltEvent furnaceSmeltEvent = new FurnaceSmeltEvent(this.field_145850_b.getWorld().getBlockAt(field_174879_c.func_177958_n(), field_174879_c.func_177956_o(), field_174879_c.func_177952_p()), source, result);
+            this.field_145850_b.getServer().getPluginManager().callEvent(furnaceSmeltEvent);
 
             if (furnaceSmeltEvent.isCancelled()) {
                 return;
@@ -322,11 +322,11 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
             result = furnaceSmeltEvent.getResult();
             itemstack1 = CraftItemStack.asNMSCopy(result);
 
-            if (!itemstack1.isEmpty()) {
-                if (itemstack2.isEmpty()) {
-                    this.furnaceItemStacks.set(2, itemstack1.copy());
+            if (!itemstack1.func_190926_b()) {
+                if (itemstack2.func_190926_b()) {
+                    this.field_145957_n.set(2, itemstack1.func_77946_l());
                 } else if (CraftItemStack.asCraftMirror(itemstack2).isSimilar(result)) {
-                    itemstack2.grow(itemstack1.getCount());
+                    itemstack2.func_190917_f(itemstack1.func_190916_E());
                 } else {
                     return;
                 }
@@ -341,61 +341,61 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
             */
             // CraftBukkit end
 
-            if (itemstack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && itemstack.getMetadata() == 1 && !((ItemStack) this.furnaceItemStacks.get(1)).isEmpty() && ((ItemStack) this.furnaceItemStacks.get(1)).getItem() == Items.BUCKET) {
-                this.furnaceItemStacks.set(1, new ItemStack(Items.WATER_BUCKET));
+            if (itemstack.func_77973_b() == Item.func_150898_a(Blocks.field_150360_v) && itemstack.func_77960_j() == 1 && !((ItemStack) this.field_145957_n.get(1)).func_190926_b() && ((ItemStack) this.field_145957_n.get(1)).func_77973_b() == Items.field_151133_ar) {
+                this.field_145957_n.set(1, new ItemStack(Items.field_151131_as));
             }
 
-            itemstack.shrink(1);
+            itemstack.func_190918_g(1);
         }
     }
 
-    public static int getItemBurnTime(ItemStack itemstack) {
-        if (itemstack.isEmpty()) {
+    public static int func_145952_a(ItemStack itemstack) {
+        if (itemstack.func_190926_b()) {
             return 0;
         } else {
-            Item item = itemstack.getItem();
+            Item item = itemstack.func_77973_b();
 
-            return item == Item.getItemFromBlock(Blocks.WOODEN_SLAB) ? 150 : (item == Item.getItemFromBlock(Blocks.WOOL) ? 100 : (item == Item.getItemFromBlock(Blocks.CARPET) ? 67 : (item == Item.getItemFromBlock(Blocks.LADDER) ? 300 : (item == Item.getItemFromBlock(Blocks.WOODEN_BUTTON) ? 100 : (Block.getBlockFromItem(item).getDefaultState().getMaterial() == Material.WOOD ? 300 : (item == Item.getItemFromBlock(Blocks.COAL_BLOCK) ? 16000 : (item instanceof ItemTool && "WOOD".equals(((ItemTool) item).getToolMaterialName()) ? 200 : (item instanceof ItemSword && "WOOD".equals(((ItemSword) item).getToolMaterialName()) ? 200 : (item instanceof ItemHoe && "WOOD".equals(((ItemHoe) item).getMaterialName()) ? 200 : (item == Items.STICK ? 100 : (item != Items.BOW && item != Items.FISHING_ROD ? (item == Items.SIGN ? 200 : (item == Items.COAL ? 1600 : (item == Items.LAVA_BUCKET ? 20000 : (item != Item.getItemFromBlock(Blocks.SAPLING) && item != Items.BOWL ? (item == Items.BLAZE_ROD ? 2400 : (item instanceof ItemDoor && item != Items.IRON_DOOR ? 200 : (item instanceof ItemBoat ? 400 : 0))) : 100)))) : 300)))))))))));
+            return item == Item.func_150898_a(Blocks.field_150376_bx) ? 150 : (item == Item.func_150898_a(Blocks.field_150325_L) ? 100 : (item == Item.func_150898_a(Blocks.field_150404_cg) ? 67 : (item == Item.func_150898_a(Blocks.field_150468_ap) ? 300 : (item == Item.func_150898_a(Blocks.field_150471_bO) ? 100 : (Block.func_149634_a(item).func_176223_P().func_185904_a() == Material.field_151575_d ? 300 : (item == Item.func_150898_a(Blocks.field_150402_ci) ? 16000 : (item instanceof ItemTool && "WOOD".equals(((ItemTool) item).func_77861_e()) ? 200 : (item instanceof ItemSword && "WOOD".equals(((ItemSword) item).func_150932_j()) ? 200 : (item instanceof ItemHoe && "WOOD".equals(((ItemHoe) item).func_77842_f()) ? 200 : (item == Items.field_151055_y ? 100 : (item != Items.field_151031_f && item != Items.field_151112_aM ? (item == Items.field_151155_ap ? 200 : (item == Items.field_151044_h ? 1600 : (item == Items.field_151129_at ? 20000 : (item != Item.func_150898_a(Blocks.field_150345_g) && item != Items.field_151054_z ? (item == Items.field_151072_bj ? 2400 : (item instanceof ItemDoor && item != Items.field_151139_aw ? 200 : (item instanceof ItemBoat ? 400 : 0))) : 100)))) : 300)))))))))));
         }
     }
 
-    public static boolean isItemFuel(ItemStack itemstack) {
-        return getItemBurnTime(itemstack) > 0;
+    public static boolean func_145954_b(ItemStack itemstack) {
+        return func_145952_a(itemstack) > 0;
     }
 
-    public boolean isUsableByPlayer(EntityPlayer entityhuman) {
-        return this.world.getTileEntity(this.pos) != this ? false : entityhuman.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+    public boolean func_70300_a(EntityPlayer entityhuman) {
+        return this.field_145850_b.func_175625_s(this.field_174879_c) != this ? false : entityhuman.func_70092_e((double) this.field_174879_c.func_177958_n() + 0.5D, (double) this.field_174879_c.func_177956_o() + 0.5D, (double) this.field_174879_c.func_177952_p() + 0.5D) <= 64.0D;
     }
 
-    public void openInventory(EntityPlayer entityhuman) {}
+    public void func_174889_b(EntityPlayer entityhuman) {}
 
-    public void closeInventory(EntityPlayer entityhuman) {}
+    public void func_174886_c(EntityPlayer entityhuman) {}
 
-    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+    public boolean func_94041_b(int i, ItemStack itemstack) {
         if (i == 2) {
             return false;
         } else if (i != 1) {
             return true;
         } else {
-            ItemStack itemstack1 = (ItemStack) this.furnaceItemStacks.get(1);
+            ItemStack itemstack1 = (ItemStack) this.field_145957_n.get(1);
 
-            return isItemFuel(itemstack) || SlotFurnaceFuel.isBucket(itemstack) && itemstack1.getItem() != Items.BUCKET;
+            return func_145954_b(itemstack) || SlotFurnaceFuel.func_178173_c_(itemstack) && itemstack1.func_77973_b() != Items.field_151133_ar;
         }
     }
 
-    public int[] getSlotsForFace(EnumFacing enumdirection) {
-        return enumdirection == EnumFacing.DOWN ? TileEntityFurnace.SLOTS_BOTTOM : (enumdirection == EnumFacing.UP ? TileEntityFurnace.SLOTS_TOP : TileEntityFurnace.SLOTS_SIDES);
+    public int[] func_180463_a(EnumFacing enumdirection) {
+        return enumdirection == EnumFacing.DOWN ? TileEntityFurnace.field_145959_l : (enumdirection == EnumFacing.UP ? TileEntityFurnace.field_145962_k : TileEntityFurnace.field_145960_m);
     }
 
-    public boolean canInsertItem(int i, ItemStack itemstack, EnumFacing enumdirection) {
-        return this.isItemValidForSlot(i, itemstack);
+    public boolean func_180462_a(int i, ItemStack itemstack, EnumFacing enumdirection) {
+        return this.func_94041_b(i, itemstack);
     }
 
-    public boolean canExtractItem(int i, ItemStack itemstack, EnumFacing enumdirection) {
+    public boolean func_180461_b(int i, ItemStack itemstack, EnumFacing enumdirection) {
         if (enumdirection == EnumFacing.DOWN && i == 1) {
-            Item item = itemstack.getItem();
+            Item item = itemstack.func_77973_b();
 
-            if (item != Items.WATER_BUCKET && item != Items.BUCKET) {
+            if (item != Items.field_151131_as && item != Items.field_151133_ar) {
                 return false;
             }
         }
@@ -403,58 +403,58 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
         return true;
     }
 
-    public String getGuiID() {
+    public String func_174875_k() {
         return "minecraft:furnace";
     }
 
-    public Container createContainer(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
+    public Container func_174876_a(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
         return new ContainerFurnace(playerinventory, this);
     }
 
-    public int getField(int i) {
+    public int func_174887_a_(int i) {
         switch (i) {
         case 0:
-            return this.furnaceBurnTime;
+            return this.field_145956_a;
 
         case 1:
-            return this.currentItemBurnTime;
+            return this.field_145963_i;
 
         case 2:
-            return this.cookTime;
+            return this.field_174906_k;
 
         case 3:
-            return this.totalCookTime;
+            return this.field_174905_l;
 
         default:
             return 0;
         }
     }
 
-    public void setField(int i, int j) {
+    public void func_174885_b(int i, int j) {
         switch (i) {
         case 0:
-            this.furnaceBurnTime = j;
+            this.field_145956_a = j;
             break;
 
         case 1:
-            this.currentItemBurnTime = j;
+            this.field_145963_i = j;
             break;
 
         case 2:
-            this.cookTime = j;
+            this.field_174906_k = j;
             break;
 
         case 3:
-            this.totalCookTime = j;
+            this.field_174905_l = j;
         }
 
     }
 
-    public int getFieldCount() {
+    public int func_174890_g() {
         return 4;
     }
 
-    public void clear() {
-        this.furnaceItemStacks.clear();
+    public void func_174888_l() {
+        this.field_145957_n.clear();
     }
 }

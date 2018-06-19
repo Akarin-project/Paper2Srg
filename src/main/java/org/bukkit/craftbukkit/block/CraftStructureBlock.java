@@ -30,35 +30,35 @@ public class CraftStructureBlock extends CraftBlockEntityState<TileEntityStructu
 
     @Override
     public String getStructureName() {
-        return getSnapshot().getName(); // PAIL: rename getStructureName
+        return getSnapshot().func_189715_d(); // PAIL: rename getStructureName
     }
 
     @Override
     public void setStructureName(String name) {
         Preconditions.checkArgument(name != null, "Structure Name cannot be null");
-        getSnapshot().setName(name); // PAIL: rename setStructureName
+        getSnapshot().func_184404_a(name); // PAIL: rename setStructureName
     }
 
     @Override
     public String getAuthor() {
-        return getSnapshot().author;
+        return getSnapshot().field_184421_f;
     }
 
     @Override
     public void setAuthor(String author) {
         Preconditions.checkArgument(author != null && !author.isEmpty(), "Author name cannot be null nor empty");
-        getSnapshot().author = author; // PAIL: rename author
+        getSnapshot().field_184421_f = author; // PAIL: rename author
     }
 
     @Override
     public void setAuthor(LivingEntity entity) {
         Preconditions.checkArgument(entity != null, "Structure Block author entity cannot be null");
-        getSnapshot().createdBy(((CraftLivingEntity) entity).getHandle()); // PAIL: rename setAuthor
+        getSnapshot().func_189720_a(((CraftLivingEntity) entity).getHandle()); // PAIL: rename setAuthor
     }
 
     @Override
     public BlockVector getRelativePosition() {
-        return new BlockVector(getSnapshot().position.getX(), getSnapshot().position.getY(), getSnapshot().position.getZ()); // PAIL: rename relativePosition
+        return new BlockVector(getSnapshot().field_184423_h.func_177958_n(), getSnapshot().field_184423_h.func_177956_o(), getSnapshot().field_184423_h.func_177952_p()); // PAIL: rename relativePosition
     }
 
     @Override
@@ -66,12 +66,12 @@ public class CraftStructureBlock extends CraftBlockEntityState<TileEntityStructu
         Validate.isTrue(isBetween(vector.getBlockX(), -MAX_SIZE, MAX_SIZE), "Structure Size (X) must be between -" + MAX_SIZE + " and " + MAX_SIZE);
         Validate.isTrue(isBetween(vector.getBlockY(), -MAX_SIZE, MAX_SIZE), "Structure Size (Y) must be between -" + MAX_SIZE + " and " + MAX_SIZE);
         Validate.isTrue(isBetween(vector.getBlockZ(), -MAX_SIZE, MAX_SIZE), "Structure Size (Z) must be between -" + MAX_SIZE + " and " + MAX_SIZE);
-        getSnapshot().position = new BlockPos(vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()); // PAIL: rename relativePosition
+        getSnapshot().field_184423_h = new BlockPos(vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()); // PAIL: rename relativePosition
     }
 
     @Override
     public BlockVector getStructureSize() {
-        return new BlockVector(getSnapshot().size.getX(), getSnapshot().size.getY(), getSnapshot().size.getZ()); // PAIL: rename size
+        return new BlockVector(getSnapshot().field_184424_i.func_177958_n(), getSnapshot().field_184424_i.func_177956_o(), getSnapshot().field_184424_i.func_177952_p()); // PAIL: rename size
     }
 
     @Override
@@ -79,101 +79,101 @@ public class CraftStructureBlock extends CraftBlockEntityState<TileEntityStructu
         Validate.isTrue(isBetween(vector.getBlockX(), 0, MAX_SIZE), "Structure Size (X) must be between 0 and " + MAX_SIZE);
         Validate.isTrue(isBetween(vector.getBlockY(), 0, MAX_SIZE), "Structure Size (Y) must be between 0 and " + MAX_SIZE);
         Validate.isTrue(isBetween(vector.getBlockZ(), 0, MAX_SIZE), "Structure Size (Z) must be between 0 and " + MAX_SIZE);
-        getSnapshot().size = new BlockPos(vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()); // PAIL: rename size
+        getSnapshot().field_184424_i = new BlockPos(vector.getBlockX(), vector.getBlockY(), vector.getBlockZ()); // PAIL: rename size
     }
 
     @Override
     public void setMirror(Mirror mirror) {
-        getSnapshot().mirror = Mirror.valueOf(mirror.name()); // PAIL: rename mirror
+        getSnapshot().field_184425_j = Mirror.valueOf(mirror.name()); // PAIL: rename mirror
     }
 
     @Override
     public Mirror getMirror() {
-        return Mirror.valueOf(getSnapshot().mirror.name()); // PAIL: rename mirror
+        return Mirror.valueOf(getSnapshot().field_184425_j.name()); // PAIL: rename mirror
     }
 
     @Override
     public void setRotation(StructureRotation rotation) {
-        getSnapshot().rotation = Rotation.valueOf(rotation.name()); // PAIL: rename rotation
+        getSnapshot().field_184426_k = Rotation.valueOf(rotation.name()); // PAIL: rename rotation
     }
 
     @Override
     public StructureRotation getRotation() {
-        return StructureRotation.valueOf(getSnapshot().rotation.name()); // PAIL: rename rotation
+        return StructureRotation.valueOf(getSnapshot().field_184426_k.name()); // PAIL: rename rotation
     }
 
     @Override
     public void setUsageMode(UsageMode mode) {
-        getSnapshot().setMode(TileEntityStructure.Mode.valueOf(mode.name())); // PAIL: rename setUsageMode
+        getSnapshot().func_184405_a(TileEntityStructure.Mode.valueOf(mode.name())); // PAIL: rename setUsageMode
     }
 
     @Override
     public UsageMode getUsageMode() {
-        return UsageMode.valueOf(getSnapshot().getMode().name()); // PAIL rename getUsageMode
+        return UsageMode.valueOf(getSnapshot().func_189700_k().name()); // PAIL rename getUsageMode
     }
 
     @Override
     public void setIgnoreEntities(boolean flag) {
-        getSnapshot().ignoreEntities = flag; // PAIL: rename ignoreEntities
+        getSnapshot().field_184428_m = flag; // PAIL: rename ignoreEntities
     }
 
     @Override
     public boolean isIgnoreEntities() {
-        return getSnapshot().ignoreEntities; // PAIL: rename ignoreEntities
+        return getSnapshot().field_184428_m; // PAIL: rename ignoreEntities
     }
 
     @Override
     public void setShowAir(boolean showAir) {
-        getSnapshot().showAir = showAir; // PAIL rename showAir
+        getSnapshot().field_189728_o = showAir; // PAIL rename showAir
     }
 
     @Override
     public boolean isShowAir() {
-        return getSnapshot().showAir; // PAIL: rename showAir
+        return getSnapshot().field_189728_o; // PAIL: rename showAir
     }
 
     @Override
     public void setBoundingBoxVisible(boolean showBoundingBox) {
-        getSnapshot().showBoundingBox = showBoundingBox; // PAIL: rename boundingBoxVisible
+        getSnapshot().field_189729_p = showBoundingBox; // PAIL: rename boundingBoxVisible
     }
 
     @Override
     public boolean isBoundingBoxVisible() {
-        return getSnapshot().showBoundingBox; // PAIL: rename boundingBoxVisible
+        return getSnapshot().field_189729_p; // PAIL: rename boundingBoxVisible
     }
 
     @Override
     public void setIntegrity(float integrity) {
         Validate.isTrue(isBetween(integrity, 0.0f, 1.0f), "Integrity must be between 0.0f and 1.0f");
-        getSnapshot().integrity = integrity; // PAIL: rename integrity
+        getSnapshot().field_189730_q = integrity; // PAIL: rename integrity
     }
 
     @Override
     public float getIntegrity() {
-        return getSnapshot().integrity; // PAIL: rename integrity
+        return getSnapshot().field_189730_q; // PAIL: rename integrity
     }
 
     @Override
     public void setSeed(long seed) {
-        getSnapshot().seed = seed; // PAIL: rename seed
+        getSnapshot().field_189731_r = seed; // PAIL: rename seed
     }
 
     @Override
     public long getSeed() {
-        return getSnapshot().seed; // PAIL: rename seed
+        return getSnapshot().field_189731_r; // PAIL: rename seed
     }
 
     @Override
     public void setMetadata(String metadata) {
         Validate.notNull(metadata, "Structure metadata cannot be null");
         if (getUsageMode() == UsageMode.DATA) {
-            getSnapshot().metadata = metadata; // PAIL: rename metadata
+            getSnapshot().field_184422_g = metadata; // PAIL: rename metadata
         }
     }
 
     @Override
     public String getMetadata() {
-        return getSnapshot().metadata; // PAIL: rename metadata
+        return getSnapshot().field_184422_g; // PAIL: rename metadata
     }
 
     private static boolean isBetween(int num, int min, int max) {

@@ -8,7 +8,7 @@ import net.minecraft.entity.passive.IAnimals;
 
 public interface IMob extends IAnimals {
 
-    Predicate<Entity> MOB_SELECTOR = new Predicate() {
+    Predicate<Entity> field_82192_a = new Predicate() {
         public boolean a(@Nullable Entity entity) {
             return entity instanceof IMob;
         }
@@ -17,9 +17,9 @@ public interface IMob extends IAnimals {
             return this.a((Entity) object);
         }
     };
-    Predicate<Entity> VISIBLE_MOB_SELECTOR = new Predicate() {
+    Predicate<Entity> field_175450_e = new Predicate() {
         public boolean a(@Nullable Entity entity) {
-            return entity instanceof IMob && !entity.isInvisible();
+            return entity instanceof IMob && !entity.func_82150_aj();
         }
 
         public boolean apply(@Nullable Object object) {

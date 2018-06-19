@@ -16,29 +16,29 @@ public class ItemTippedArrow extends ItemArrow {
 
     public ItemTippedArrow() {}
 
-    public EntityArrow createArrow(World world, ItemStack itemstack, EntityLivingBase entityliving) {
+    public EntityArrow func_185052_a(World world, ItemStack itemstack, EntityLivingBase entityliving) {
         EntityTippedArrow entitytippedarrow = new EntityTippedArrow(world, entityliving);
 
-        entitytippedarrow.setPotionEffect(itemstack);
+        entitytippedarrow.func_184555_a(itemstack);
         return entitytippedarrow;
     }
 
-    public void getSubItems(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
-        if (this.isInCreativeTab(creativemodetab)) {
-            Iterator iterator = PotionType.REGISTRY.iterator();
+    public void func_150895_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+        if (this.func_194125_a(creativemodetab)) {
+            Iterator iterator = PotionType.field_185176_a.iterator();
 
             while (iterator.hasNext()) {
                 PotionType potionregistry = (PotionType) iterator.next();
 
-                if (!potionregistry.getEffects().isEmpty()) {
-                    nonnulllist.add(PotionUtils.addPotionToItemStack(new ItemStack(this), potionregistry));
+                if (!potionregistry.func_185170_a().isEmpty()) {
+                    nonnulllist.add(PotionUtils.func_185188_a(new ItemStack(this), potionregistry));
                 }
             }
         }
 
     }
 
-    public String getItemStackDisplayName(ItemStack itemstack) {
-        return I18n.translateToLocal(PotionUtils.getPotionFromItem(itemstack).getNamePrefixed("tipped_arrow.effect."));
+    public String func_77653_i(ItemStack itemstack) {
+        return I18n.func_74838_a(PotionUtils.func_185191_c(itemstack).func_185174_b("tipped_arrow.effect."));
     }
 }

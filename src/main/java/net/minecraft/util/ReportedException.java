@@ -4,21 +4,21 @@ import net.minecraft.crash.CrashReport;
 
 public class ReportedException extends RuntimeException {
 
-    private final CrashReport crashReport;
+    private final CrashReport field_71576_a;
 
     public ReportedException(CrashReport crashreport) {
-        this.crashReport = crashreport;
+        this.field_71576_a = crashreport;
     }
 
-    public CrashReport getCrashReport() {
-        return this.crashReport;
+    public CrashReport func_71575_a() {
+        return this.field_71576_a;
     }
 
     public Throwable getCause() {
-        return this.crashReport.getCrashCause();
+        return this.field_71576_a.func_71505_b();
     }
 
     public String getMessage() {
-        return this.crashReport.getDescription();
+        return this.field_71576_a.func_71501_a();
     }
 }

@@ -4,32 +4,32 @@ import net.minecraft.util.math.BlockPos;
 
 public class BlockEventData {
 
-    private final BlockPos position;
-    private final Block blockType;
-    private final int eventID;
-    private final int eventParameter;
+    private final BlockPos field_180329_a;
+    private final Block field_151344_d;
+    private final int field_151345_e;
+    private final int field_151343_f;
 
     public BlockEventData(BlockPos blockposition, Block block, int i, int j) {
-        this.position = blockposition;
-        this.eventID = i;
-        this.eventParameter = j;
-        this.blockType = block;
+        this.field_180329_a = blockposition;
+        this.field_151345_e = i;
+        this.field_151343_f = j;
+        this.field_151344_d = block;
     }
 
-    public BlockPos getPosition() {
-        return this.position;
+    public BlockPos func_180328_a() {
+        return this.field_180329_a;
     }
 
-    public int getEventID() {
-        return this.eventID;
+    public int func_151339_d() {
+        return this.field_151345_e;
     }
 
-    public int getEventParameter() {
-        return this.eventParameter;
+    public int func_151338_e() {
+        return this.field_151343_f;
     }
 
-    public Block getBlock() {
-        return this.blockType;
+    public Block func_151337_f() {
+        return this.field_151344_d;
     }
 
     public boolean equals(Object object) {
@@ -38,11 +38,11 @@ public class BlockEventData {
         } else {
             BlockEventData blockactiondata = (BlockEventData) object;
 
-            return this.position.equals(blockactiondata.position) && this.eventID == blockactiondata.eventID && this.eventParameter == blockactiondata.eventParameter && this.blockType == blockactiondata.blockType;
+            return this.field_180329_a.equals(blockactiondata.field_180329_a) && this.field_151345_e == blockactiondata.field_151345_e && this.field_151343_f == blockactiondata.field_151343_f && this.field_151344_d == blockactiondata.field_151344_d;
         }
     }
 
     public String toString() {
-        return "TE(" + this.position + ")," + this.eventID + "," + this.eventParameter + "," + this.blockType;
+        return "TE(" + this.field_180329_a + ")," + this.field_151345_e + "," + this.field_151343_f + "," + this.field_151344_d;
     }
 }

@@ -66,12 +66,12 @@ public class RestartCommand extends Command
     // Paper start - sync copied from above with minor changes, async added
     private static void shutdownServer(boolean isRestarting)
     {
-        if (MinecraftServer.getServer().isCallingFromMinecraftThread())
+        if (MinecraftServer.getServer().func_152345_ab())
         {
             // Kick all players
-            for ( EntityPlayerMP p : com.google.common.collect.ImmutableList.copyOf( MinecraftServer.getServer().getPlayerList().playerEntityList ) )
+            for ( EntityPlayerMP p : com.google.common.collect.ImmutableList.copyOf( MinecraftServer.getServer().func_184103_al().field_72404_b ) )
             {
-                p.connection.disconnect(SpigotConfig.restartMessage);
+                p.field_71135_a.disconnect(SpigotConfig.restartMessage);
             }
             // Give the socket a chance to send the packets
             try
@@ -86,7 +86,7 @@ public class RestartCommand extends Command
             // Actually shutdown
             try
             {
-                MinecraftServer.getServer().stopServer();
+                MinecraftServer.getServer().func_71260_j();
             } catch ( Throwable t )
             {
             }
@@ -111,7 +111,7 @@ public class RestartCommand extends Command
 
             // Check if we've actually hit a state where the server is going to safely shutdown
             // if we have, let the server stop as usual
-            if (MinecraftServer.getServer().isServerStopped()) return;
+            if (MinecraftServer.getServer().func_71241_aa()) return;
 
             // If the server hasn't stopped by now, assume worse case and kill
             closeSocket();
@@ -122,7 +122,7 @@ public class RestartCommand extends Command
     // Paper - Split from moved code
     private static void closeSocket() {
         // Close the socket so we can rebind with the new process
-        MinecraftServer.getServer().getServerConnection().terminateEndpoints();
+        MinecraftServer.getServer().getServerConnection().func_151268_b();
 
         // Give time for it to kick in
         try

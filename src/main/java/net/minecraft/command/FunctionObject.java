@@ -8,22 +8,26 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.advancements.FunctionManager;
+import net.minecraft.server.CustomFunction.a;
+import net.minecraft.server.CustomFunction.b;
+import net.minecraft.server.CustomFunction.c;
+import net.minecraft.server.CustomFunction.d;
 import net.minecraft.tileentity.CommandBlockBaseLogic;
 import net.minecraft.util.ResourceLocation;
 
 public class FunctionObject {
 
-    private final FunctionObject.c[] entries;
+    private final CustomFunction.c[] field_193530_b;
 
-    public FunctionObject(FunctionObject.c[] acustomfunction_c) {
-        this.entries = acustomfunction_c;
+    public FunctionObject(CustomFunction.c[] acustomfunction_c) {
+        this.field_193530_b = acustomfunction_c;
     }
 
-    public FunctionObject.c[] a() {
-        return this.entries;
+    public CustomFunction.c[] a() {
+        return this.field_193530_b;
     }
 
-    public static FunctionObject create(FunctionManager customfunctiondata, List<String> list) {
+    public static FunctionObject func_193527_a(FunctionManager customfunctiondata, List<String> list) {
         ArrayList arraylist = Lists.newArrayListWithCapacity(list.size());
         Iterator iterator = list.iterator();
 
@@ -35,7 +39,7 @@ public class FunctionObject {
                 String[] astring = s.split(" ", 2);
                 String s1 = astring[0];
 
-                if (!customfunctiondata.getCommandManager().getCommands().containsKey(s1)) {
+                if (!customfunctiondata.func_193062_a().func_71555_a().containsKey(s1)) {
                     if (s1.startsWith("//")) {
                         throw new IllegalArgumentException("Unknown or invalid command \'" + s1 + "\' (if you intended to make a comment, use \'#\' not \'//\')");
                     }
@@ -47,16 +51,16 @@ public class FunctionObject {
                     throw new IllegalArgumentException("Unknown or invalid command \'" + s1 + "\'");
                 }
 
-                arraylist.add(new FunctionObject.b(s));
+                arraylist.add(new CustomFunction.b(s));
             }
         }
 
-        return new FunctionObject((FunctionObject.c[]) arraylist.toArray(new FunctionObject.c[arraylist.size()]));
+        return new FunctionObject((CustomFunction.c[]) arraylist.toArray(new CustomFunction.c[arraylist.size()]));
     }
 
     public static class a {
 
-        public static final FunctionObject.a a = new FunctionObject.a((ResourceLocation) null);
+        public static final CustomFunction.a a = new CustomFunction.a((ResourceLocation) null);
         @Nullable
         private final ResourceLocation b;
         private boolean c;
@@ -75,7 +79,7 @@ public class FunctionObject {
         public FunctionObject a(FunctionManager customfunctiondata) {
             if (!this.c) {
                 if (this.b != null) {
-                    this.d = customfunctiondata.getFunction(this.b);
+                    this.d = customfunctiondata.func_193058_a(this.b);
                 }
 
                 this.c = true;
@@ -84,43 +88,40 @@ public class FunctionObject {
             return this.d;
         }
 
-        @Override
         public String toString() {
             return String.valueOf(this.b);
         }
     }
 
-    public static class d implements FunctionObject.c {
+    public static class d implements CustomFunction.c {
 
-        private final FunctionObject.a a;
+        private final CustomFunction.a a;
 
         public d(FunctionObject customfunction) {
-            this.a = new FunctionObject.a(customfunction);
+            this.a = new CustomFunction.a(customfunction);
         }
 
-        @Override
-        public void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<FunctionManager.a> arraydeque, int i) {
+        public void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<CustomFunctionData.a> arraydeque, int i) {
             FunctionObject customfunction = this.a.a(customfunctiondata);
 
             if (customfunction != null) {
-                FunctionObject.c[] acustomfunction_c = customfunction.a();
+                CustomFunction.c[] acustomfunction_c = customfunction.a();
                 int j = i - arraydeque.size();
                 int k = Math.min(acustomfunction_c.length, j);
 
                 for (int l = k - 1; l >= 0; --l) {
-                    arraydeque.addFirst(new FunctionManager.a(customfunctiondata, icommandlistener, acustomfunction_c[l]));
+                    arraydeque.addFirst(new CustomFunctionData.a(customfunctiondata, icommandlistener, acustomfunction_c[l]));
                 }
             }
 
         }
 
-        @Override
         public String toString() {
             return "/function " + this.a;
         }
     }
 
-    public static class b implements FunctionObject.c {
+    public static class b implements CustomFunction.c {
 
         private final String a;
 
@@ -128,12 +129,11 @@ public class FunctionObject {
             this.a = s;
         }
 
-        @Override
-        public void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<FunctionManager.a> arraydeque, int i) {
+        public void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<CustomFunctionData.a> arraydeque, int i) {
             // CraftBukkit start
             org.bukkit.command.CommandSender sender;
-            if (icommandlistener instanceof FunctionManager.CustomFunctionListener) {
-                sender = ((FunctionManager.CustomFunctionListener) icommandlistener).sender;
+            if (icommandlistener instanceof CustomFunctionData.CustomFunctionListener) {
+                sender = ((CustomFunctionData.CustomFunctionListener) icommandlistener).sender;
             } else {
                 sender = CommandBlockBaseLogic.unwrapSender(icommandlistener);
             }
@@ -141,7 +141,6 @@ public class FunctionObject {
             // CraftBukkit end
         }
 
-        @Override
         public String toString() {
             return "/" + this.a;
         }
@@ -149,6 +148,6 @@ public class FunctionObject {
 
     public interface c {
 
-        void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<FunctionManager.a> arraydeque, int i);
+        void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<CustomFunctionData.a> arraydeque, int i);
     }
 }

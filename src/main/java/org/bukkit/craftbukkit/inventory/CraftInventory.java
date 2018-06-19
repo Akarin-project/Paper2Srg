@@ -40,16 +40,16 @@ public class CraftInventory implements Inventory {
     }
 
     public int getSize() {
-        return getInventory().getSizeInventory();
+        return getInventory().func_70302_i_();
     }
 
     public String getName() {
-        return getInventory().getName();
+        return getInventory().func_70005_c_();
     }
 
     public ItemStack getItem(int index) {
-        net.minecraft.item.ItemStack item = getInventory().getStackInSlot(index);
-        return item.isEmpty() ? null : CraftItemStack.asCraftMirror(item);
+        net.minecraft.item.ItemStack item = getInventory().func_70301_a(index);
+        return item.func_190926_b() ? null : CraftItemStack.asCraftMirror(item);
     }
 
     protected ItemStack[] asCraftMirror(List<net.minecraft.item.ItemStack> mcItems) {
@@ -58,7 +58,7 @@ public class CraftInventory implements Inventory {
 
         for (int i = 0; i < size; i++) {
             net.minecraft.item.ItemStack mcItem = mcItems.get(i);
-            items[i] = (mcItem.isEmpty()) ? null : CraftItemStack.asCraftMirror(mcItem);
+            items[i] = (mcItem.func_190926_b()) ? null : CraftItemStack.asCraftMirror(mcItem);
         }
 
         return items;
@@ -95,7 +95,7 @@ public class CraftInventory implements Inventory {
     }
 
     public void setItem(int index, ItemStack item) {
-        getInventory().setInventorySlotContents(index, CraftItemStack.asNMSCopy(item));
+        getInventory().func_70299_a(index, CraftItemStack.asNMSCopy(item));
     }
 
     public boolean contains(int materialId) {
@@ -389,7 +389,7 @@ public class CraftInventory implements Inventory {
     }
 
     private int getMaxItemStack() {
-        return getInventory().getInventoryStackLimit();
+        return getInventory().func_70297_j_();
     }
 
     public void remove(int materialId) {
@@ -441,13 +441,13 @@ public class CraftInventory implements Inventory {
     }
 
     public String getTitle() {
-        return inventory.getName();
+        return inventory.func_70005_c_();
     }
 
     public InventoryType getType() {
         // Thanks to Droppers extending Dispensers, order is important.
         if (inventory instanceof InventoryCrafting) {
-            return inventory.getSizeInventory() >= 9 ? InventoryType.WORKBENCH : InventoryType.CRAFTING;
+            return inventory.func_70302_i_() >= 9 ? InventoryType.WORKBENCH : InventoryType.CRAFTING;
         } else if (inventory instanceof InventoryPlayer) {
             return InventoryType.PLAYER;
         } else if (inventory instanceof TileEntityDropper) {
@@ -484,7 +484,7 @@ public class CraftInventory implements Inventory {
     }
 
     public int getMaxStackSize() {
-        return inventory.getInventoryStackLimit();
+        return inventory.func_70297_j_();
     }
 
     public void setMaxStackSize(int size) {

@@ -18,124 +18,124 @@ import net.minecraft.server.MinecraftServer;
 
 public class ServerScoreboard extends Scoreboard {
 
-    private final MinecraftServer scoreboardMCServer;
-    private final Set<ScoreObjective> addedObjectives = Sets.newHashSet();
-    private Runnable[] dirtyRunnables = new Runnable[0];
+    private final MinecraftServer field_96555_a;
+    private final Set<ScoreObjective> field_96553_b = Sets.newHashSet();
+    private Runnable[] field_186685_c = new Runnable[0];
 
     public ServerScoreboard(MinecraftServer minecraftserver) {
-        this.scoreboardMCServer = minecraftserver;
+        this.field_96555_a = minecraftserver;
     }
 
-    public void onScoreUpdated(Score scoreboardscore) {
-        super.onScoreUpdated(scoreboardscore);
-        if (this.addedObjectives.contains(scoreboardscore.getObjective())) {
+    public void func_96536_a(Score scoreboardscore) {
+        super.func_96536_a(scoreboardscore);
+        if (this.field_96553_b.contains(scoreboardscore.func_96645_d())) {
             this.sendAll(new SPacketUpdateScore(scoreboardscore));
         }
 
-        this.markSaveDataDirty();
+        this.func_96551_b();
     }
 
-    public void broadcastScoreUpdate(String s) {
-        super.broadcastScoreUpdate(s);
+    public void func_96516_a(String s) {
+        super.func_96516_a(s);
         this.sendAll(new SPacketUpdateScore(s));
-        this.markSaveDataDirty();
+        this.func_96551_b();
     }
 
-    public void broadcastScoreUpdate(String s, ScoreObjective scoreboardobjective) {
-        super.broadcastScoreUpdate(s, scoreboardobjective);
+    public void func_178820_a(String s, ScoreObjective scoreboardobjective) {
+        super.func_178820_a(s, scoreboardobjective);
         this.sendAll(new SPacketUpdateScore(s, scoreboardobjective));
-        this.markSaveDataDirty();
+        this.func_96551_b();
     }
 
-    public void setObjectiveInDisplaySlot(int i, ScoreObjective scoreboardobjective) {
-        ScoreObjective scoreboardobjective1 = this.getObjectiveInDisplaySlot(i);
+    public void func_96530_a(int i, ScoreObjective scoreboardobjective) {
+        ScoreObjective scoreboardobjective1 = this.func_96539_a(i);
 
-        super.setObjectiveInDisplaySlot(i, scoreboardobjective);
+        super.func_96530_a(i, scoreboardobjective);
         if (scoreboardobjective1 != scoreboardobjective && scoreboardobjective1 != null) {
-            if (this.getObjectiveDisplaySlotCount(scoreboardobjective1) > 0) {
+            if (this.func_96552_h(scoreboardobjective1) > 0) {
                 this.sendAll(new SPacketDisplayObjective(i, scoreboardobjective));
             } else {
-                this.sendDisplaySlotRemovalPackets(scoreboardobjective1);
+                this.func_96546_g(scoreboardobjective1);
             }
         }
 
         if (scoreboardobjective != null) {
-            if (this.addedObjectives.contains(scoreboardobjective)) {
+            if (this.field_96553_b.contains(scoreboardobjective)) {
                 this.sendAll(new SPacketDisplayObjective(i, scoreboardobjective));
             } else {
-                this.addObjective(scoreboardobjective);
+                this.func_96549_e(scoreboardobjective);
             }
         }
 
-        this.markSaveDataDirty();
+        this.func_96551_b();
     }
 
-    public boolean addPlayerToTeam(String s, String s1) {
-        if (super.addPlayerToTeam(s, s1)) {
-            ScorePlayerTeam scoreboardteam = this.getTeam(s1);
+    public boolean func_151392_a(String s, String s1) {
+        if (super.func_151392_a(s, s1)) {
+            ScorePlayerTeam scoreboardteam = this.func_96508_e(s1);
 
             this.sendAll(new SPacketTeams(scoreboardteam, Arrays.asList(new String[] { s}), 3));
-            this.markSaveDataDirty();
+            this.func_96551_b();
             return true;
         } else {
             return false;
         }
     }
 
-    public void removePlayerFromTeam(String s, ScorePlayerTeam scoreboardteam) {
-        super.removePlayerFromTeam(s, scoreboardteam);
+    public void func_96512_b(String s, ScorePlayerTeam scoreboardteam) {
+        super.func_96512_b(s, scoreboardteam);
         this.sendAll(new SPacketTeams(scoreboardteam, Arrays.asList(new String[] { s}), 4));
-        this.markSaveDataDirty();
+        this.func_96551_b();
     }
 
-    public void onScoreObjectiveAdded(ScoreObjective scoreboardobjective) {
-        super.onScoreObjectiveAdded(scoreboardobjective);
-        this.markSaveDataDirty();
+    public void func_96522_a(ScoreObjective scoreboardobjective) {
+        super.func_96522_a(scoreboardobjective);
+        this.func_96551_b();
     }
 
-    public void onObjectiveDisplayNameChanged(ScoreObjective scoreboardobjective) {
-        super.onObjectiveDisplayNameChanged(scoreboardobjective);
-        if (this.addedObjectives.contains(scoreboardobjective)) {
+    public void func_96532_b(ScoreObjective scoreboardobjective) {
+        super.func_96532_b(scoreboardobjective);
+        if (this.field_96553_b.contains(scoreboardobjective)) {
             this.sendAll(new SPacketScoreboardObjective(scoreboardobjective, 2));
         }
 
-        this.markSaveDataDirty();
+        this.func_96551_b();
     }
 
-    public void onScoreObjectiveRemoved(ScoreObjective scoreboardobjective) {
-        super.onScoreObjectiveRemoved(scoreboardobjective);
-        if (this.addedObjectives.contains(scoreboardobjective)) {
-            this.sendDisplaySlotRemovalPackets(scoreboardobjective);
+    public void func_96533_c(ScoreObjective scoreboardobjective) {
+        super.func_96533_c(scoreboardobjective);
+        if (this.field_96553_b.contains(scoreboardobjective)) {
+            this.func_96546_g(scoreboardobjective);
         }
 
-        this.markSaveDataDirty();
+        this.func_96551_b();
     }
 
-    public void broadcastTeamCreated(ScorePlayerTeam scoreboardteam) {
-        super.broadcastTeamCreated(scoreboardteam);
+    public void func_96523_a(ScorePlayerTeam scoreboardteam) {
+        super.func_96523_a(scoreboardteam);
         this.sendAll(new SPacketTeams(scoreboardteam, 0));
-        this.markSaveDataDirty();
+        this.func_96551_b();
     }
 
-    public void broadcastTeamInfoUpdate(ScorePlayerTeam scoreboardteam) {
-        super.broadcastTeamInfoUpdate(scoreboardteam);
+    public void func_96538_b(ScorePlayerTeam scoreboardteam) {
+        super.func_96538_b(scoreboardteam);
         this.sendAll(new SPacketTeams(scoreboardteam, 2));
-        this.markSaveDataDirty();
+        this.func_96551_b();
     }
 
-    public void broadcastTeamRemove(ScorePlayerTeam scoreboardteam) {
-        super.broadcastTeamRemove(scoreboardteam);
+    public void func_96513_c(ScorePlayerTeam scoreboardteam) {
+        super.func_96513_c(scoreboardteam);
         this.sendAll(new SPacketTeams(scoreboardteam, 1));
-        this.markSaveDataDirty();
+        this.func_96551_b();
     }
 
-    public void addDirtyRunnable(Runnable runnable) {
-        this.dirtyRunnables = (Runnable[]) Arrays.copyOf(this.dirtyRunnables, this.dirtyRunnables.length + 1);
-        this.dirtyRunnables[this.dirtyRunnables.length - 1] = runnable;
+    public void func_186684_a(Runnable runnable) {
+        this.field_186685_c = (Runnable[]) Arrays.copyOf(this.field_186685_c, this.field_186685_c.length + 1);
+        this.field_186685_c[this.field_186685_c.length - 1] = runnable;
     }
 
-    protected void markSaveDataDirty() {
-        Runnable[] arunnable = this.dirtyRunnables;
+    protected void func_96551_b() {
+        Runnable[] arunnable = this.field_186685_c;
         int i = arunnable.length;
 
         for (int j = 0; j < i; ++j) {
@@ -146,18 +146,18 @@ public class ServerScoreboard extends Scoreboard {
 
     }
 
-    public List<Packet<?>> getCreatePackets(ScoreObjective scoreboardobjective) {
+    public List<Packet<?>> func_96550_d(ScoreObjective scoreboardobjective) {
         ArrayList arraylist = Lists.newArrayList();
 
         arraylist.add(new SPacketScoreboardObjective(scoreboardobjective, 0));
 
         for (int i = 0; i < 19; ++i) {
-            if (this.getObjectiveInDisplaySlot(i) == scoreboardobjective) {
+            if (this.func_96539_a(i) == scoreboardobjective) {
                 arraylist.add(new SPacketDisplayObjective(i, scoreboardobjective));
             }
         }
 
-        Iterator iterator = this.getSortedScores(scoreboardobjective).iterator();
+        Iterator iterator = this.func_96534_i(scoreboardobjective).iterator();
 
         while (iterator.hasNext()) {
             Score scoreboardscore = (Score) iterator.next();
@@ -168,9 +168,9 @@ public class ServerScoreboard extends Scoreboard {
         return arraylist;
     }
 
-    public void addObjective(ScoreObjective scoreboardobjective) {
-        List list = this.getCreatePackets(scoreboardobjective);
-        Iterator iterator = this.scoreboardMCServer.getPlayerList().getPlayers().iterator();
+    public void func_96549_e(ScoreObjective scoreboardobjective) {
+        List list = this.func_96550_d(scoreboardobjective);
+        Iterator iterator = this.field_96555_a.func_184103_al().func_181057_v().iterator();
 
         while (iterator.hasNext()) {
             EntityPlayerMP entityplayer = (EntityPlayerMP) iterator.next();
@@ -180,20 +180,20 @@ public class ServerScoreboard extends Scoreboard {
             while (iterator1.hasNext()) {
                 Packet packet = (Packet) iterator1.next();
 
-                entityplayer.connection.sendPacket(packet);
+                entityplayer.field_71135_a.func_147359_a(packet);
             }
         }
 
-        this.addedObjectives.add(scoreboardobjective);
+        this.field_96553_b.add(scoreboardobjective);
     }
 
-    public List<Packet<?>> getDestroyPackets(ScoreObjective scoreboardobjective) {
+    public List<Packet<?>> func_96548_f(ScoreObjective scoreboardobjective) {
         ArrayList arraylist = Lists.newArrayList();
 
         arraylist.add(new SPacketScoreboardObjective(scoreboardobjective, 1));
 
         for (int i = 0; i < 19; ++i) {
-            if (this.getObjectiveInDisplaySlot(i) == scoreboardobjective) {
+            if (this.func_96539_a(i) == scoreboardobjective) {
                 arraylist.add(new SPacketDisplayObjective(i, scoreboardobjective));
             }
         }
@@ -201,9 +201,9 @@ public class ServerScoreboard extends Scoreboard {
         return arraylist;
     }
 
-    public void sendDisplaySlotRemovalPackets(ScoreObjective scoreboardobjective) {
-        List list = this.getDestroyPackets(scoreboardobjective);
-        Iterator iterator = this.scoreboardMCServer.getPlayerList().getPlayers().iterator();
+    public void func_96546_g(ScoreObjective scoreboardobjective) {
+        List list = this.func_96548_f(scoreboardobjective);
+        Iterator iterator = this.field_96555_a.func_184103_al().func_181057_v().iterator();
 
         while (iterator.hasNext()) {
             EntityPlayerMP entityplayer = (EntityPlayerMP) iterator.next();
@@ -213,18 +213,18 @@ public class ServerScoreboard extends Scoreboard {
             while (iterator1.hasNext()) {
                 Packet packet = (Packet) iterator1.next();
 
-                entityplayer.connection.sendPacket(packet);
+                entityplayer.field_71135_a.func_147359_a(packet);
             }
         }
 
-        this.addedObjectives.remove(scoreboardobjective);
+        this.field_96553_b.remove(scoreboardobjective);
     }
 
-    public int getObjectiveDisplaySlotCount(ScoreObjective scoreboardobjective) {
+    public int func_96552_h(ScoreObjective scoreboardobjective) {
         int i = 0;
 
         for (int j = 0; j < 19; ++j) {
-            if (this.getObjectiveInDisplaySlot(j) == scoreboardobjective) {
+            if (this.func_96539_a(j) == scoreboardobjective) {
                 ++i;
             }
         }
@@ -234,9 +234,9 @@ public class ServerScoreboard extends Scoreboard {
 
     // CraftBukkit start - Send to players
     private void sendAll(Packet packet) {
-        for (EntityPlayerMP entityplayer : (List<EntityPlayerMP>) this.scoreboardMCServer.getPlayerList().playerEntityList) {
+        for (EntityPlayerMP entityplayer : (List<EntityPlayerMP>) this.field_96555_a.func_184103_al().field_72404_b) {
             if (entityplayer.getBukkitEntity().getScoreboard().getHandle() == this) {
-                entityplayer.connection.sendPacket(packet);
+                entityplayer.field_71135_a.func_147359_a(packet);
             }
         }
     }

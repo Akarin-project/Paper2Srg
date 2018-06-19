@@ -31,27 +31,27 @@ public class CraftInventoryAnvil extends CraftInventory implements AnvilInventor
 
     @Override
     public ItemStack getItem(int slot) {
-        if (slot < getIngredientsInventory().getSizeInventory()) {
-            net.minecraft.item.ItemStack item = getIngredientsInventory().getStackInSlot(slot);
-            return item.isEmpty() ? null : CraftItemStack.asCraftMirror(item);
+        if (slot < getIngredientsInventory().func_70302_i_()) {
+            net.minecraft.item.ItemStack item = getIngredientsInventory().func_70301_a(slot);
+            return item.func_190926_b() ? null : CraftItemStack.asCraftMirror(item);
         } else {
-            net.minecraft.item.ItemStack item = getResultInventory().getStackInSlot(slot - getIngredientsInventory().getSizeInventory());
-            return item.isEmpty() ? null : CraftItemStack.asCraftMirror(item);
+            net.minecraft.item.ItemStack item = getResultInventory().func_70301_a(slot - getIngredientsInventory().func_70302_i_());
+            return item.func_190926_b() ? null : CraftItemStack.asCraftMirror(item);
         }
     }
 
     @Override
     public void setItem(int index, ItemStack item) {
-        if (index < getIngredientsInventory().getSizeInventory()) {
-            getIngredientsInventory().setInventorySlotContents(index, CraftItemStack.asNMSCopy(item));
+        if (index < getIngredientsInventory().func_70302_i_()) {
+            getIngredientsInventory().func_70299_a(index, CraftItemStack.asNMSCopy(item));
         } else {
-            getResultInventory().setInventorySlotContents((index - getIngredientsInventory().getSizeInventory()), CraftItemStack.asNMSCopy(item));
+            getResultInventory().func_70299_a((index - getIngredientsInventory().func_70302_i_()), CraftItemStack.asNMSCopy(item));
         }
     }
 
     @Override
     public int getSize() {
-        return getResultInventory().getSizeInventory() + getIngredientsInventory().getSizeInventory();
+        return getResultInventory().func_70302_i_() + getIngredientsInventory().func_70302_i_();
     }
 
     @Override
@@ -61,16 +61,16 @@ public class CraftInventoryAnvil extends CraftInventory implements AnvilInventor
 
     @Override
     public String getRenameText() {
-        return container.repairedItemName;
+        return container.field_82857_m;
     }
 
     @Override
     public int getRepairCost() {
-        return container.maximumCost;
+        return container.field_82854_e;
     }
 
     @Override
     public void setRepairCost(int i) {
-        container.maximumCost = i;
+        container.field_82854_e = i;
     }
 }

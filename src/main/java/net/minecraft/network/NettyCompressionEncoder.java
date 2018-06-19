@@ -7,43 +7,46 @@ import java.util.zip.Deflater;
 
 public class NettyCompressionEncoder extends MessageToByteEncoder<ByteBuf> {
 
-    private final byte[] buffer = new byte[8192];
-    private final Deflater deflater;
-    private int threshold;
+    private final byte[] field_179302_a = new byte[8192];
+    private final Deflater field_179300_b;
+    private int field_179301_c;
 
     public NettyCompressionEncoder(int i) {
-        this.threshold = i;
-        this.deflater = new Deflater();
+        this.field_179301_c = i;
+        this.field_179300_b = new Deflater();
     }
 
-    @Override
     protected void encode(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf, ByteBuf bytebuf1) throws Exception {
         int i = bytebuf.readableBytes();
         PacketBuffer packetdataserializer = new PacketBuffer(bytebuf1);
 
-        if (i < this.threshold) {
-            packetdataserializer.writeVarInt(0);
+        if (i < this.field_179301_c) {
+            packetdataserializer.func_150787_b(0);
             packetdataserializer.writeBytes(bytebuf);
         } else {
             byte[] abyte = new byte[i];
 
             bytebuf.readBytes(abyte);
-            packetdataserializer.writeVarInt(abyte.length);
-            this.deflater.setInput(abyte, 0, i);
-            this.deflater.finish();
+            packetdataserializer.func_150787_b(abyte.length);
+            this.field_179300_b.setInput(abyte, 0, i);
+            this.field_179300_b.finish();
 
-            while (!this.deflater.finished()) {
-                int j = this.deflater.deflate(this.buffer);
+            while (!this.field_179300_b.finished()) {
+                int j = this.field_179300_b.deflate(this.field_179302_a);
 
-                packetdataserializer.writeBytes(this.buffer, 0, j);
+                packetdataserializer.writeBytes(this.field_179302_a, 0, j);
             }
 
-            this.deflater.reset();
+            this.field_179300_b.reset();
         }
 
     }
 
-    public void setCompressionThreshold(int i) {
-        this.threshold = i;
+    public void func_179299_a(int i) {
+        this.field_179301_c = i;
+    }
+
+    protected void encode(ChannelHandlerContext channelhandlercontext, Object object, ByteBuf bytebuf) throws Exception {
+        this.encode(channelhandlercontext, (ByteBuf) object, bytebuf);
     }
 }

@@ -22,50 +22,50 @@ import net.minecraft.util.ResourceLocation;
 
 public class KilledTrigger implements ICriterionTrigger<CriterionTriggerKilled.b> {
 
-    private final Map<PlayerAdvancements, CriterionTriggerKilled.a> listeners = Maps.newHashMap();
-    private final ResourceLocation id;
+    private final Map<PlayerAdvancements, CriterionTriggerKilled.a> field_192213_a = Maps.newHashMap();
+    private final ResourceLocation field_192214_b;
 
     public KilledTrigger(ResourceLocation minecraftkey) {
-        this.id = minecraftkey;
+        this.field_192214_b = minecraftkey;
     }
 
-    public ResourceLocation getId() {
-        return this.id;
+    public ResourceLocation func_192163_a() {
+        return this.field_192214_b;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerKilled.b> criteriontrigger_a) {
-        CriterionTriggerKilled.a criteriontriggerkilled_a = (CriterionTriggerKilled.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerKilled.a criteriontriggerkilled_a = (CriterionTriggerKilled.a) this.field_192213_a.get(advancementdataplayer);
 
         if (criteriontriggerkilled_a == null) {
             criteriontriggerkilled_a = new CriterionTriggerKilled.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerkilled_a);
+            this.field_192213_a.put(advancementdataplayer, criteriontriggerkilled_a);
         }
 
         criteriontriggerkilled_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerKilled.b> criteriontrigger_a) {
-        CriterionTriggerKilled.a criteriontriggerkilled_a = (CriterionTriggerKilled.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerKilled.a criteriontriggerkilled_a = (CriterionTriggerKilled.a) this.field_192213_a.get(advancementdataplayer);
 
         if (criteriontriggerkilled_a != null) {
             criteriontriggerkilled_a.b(criteriontrigger_a);
             if (criteriontriggerkilled_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192213_a.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192213_a.remove(advancementdataplayer);
     }
 
     public CriterionTriggerKilled.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        return new CriterionTriggerKilled.b(this.id, EntityPredicate.deserialize(jsonobject.get("entity")), DamageSourcePredicate.deserialize(jsonobject.get("killing_blow")));
+        return new CriterionTriggerKilled.b(this.field_192214_b, EntityPredicate.func_192481_a(jsonobject.get("entity")), DamageSourcePredicate.func_192447_a(jsonobject.get("killing_blow")));
     }
 
-    public void trigger(EntityPlayerMP entityplayer, Entity entity, DamageSource damagesource) {
-        CriterionTriggerKilled.a criteriontriggerkilled_a = (CriterionTriggerKilled.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_192211_a(EntityPlayerMP entityplayer, Entity entity, DamageSource damagesource) {
+        CriterionTriggerKilled.a criteriontriggerkilled_a = (CriterionTriggerKilled.a) this.field_192213_a.get(entityplayer.func_192039_O());
 
         if (criteriontriggerkilled_a != null) {
             criteriontriggerkilled_a.a(entityplayer, entity, damagesource);
@@ -73,7 +73,7 @@ public class KilledTrigger implements ICriterionTrigger<CriterionTriggerKilled.b
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -139,7 +139,7 @@ public class KilledTrigger implements ICriterionTrigger<CriterionTriggerKilled.b
         }
 
         public boolean a(EntityPlayerMP entityplayer, Entity entity, DamageSource damagesource) {
-            return !this.b.test(entityplayer, damagesource) ? false : this.a.test(entityplayer, entity);
+            return !this.b.func_193418_a(entityplayer, damagesource) ? false : this.a.func_192482_a(entityplayer, entity);
         }
     }
 }

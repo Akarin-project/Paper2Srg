@@ -17,74 +17,74 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 
 public abstract class EntityFireball extends Entity {
 
-    public EntityLivingBase shootingEntity;
-    private int ticksAlive;
-    private int ticksInAir;
-    public double accelerationX;
-    public double accelerationY;
-    public double accelerationZ;
+    public EntityLivingBase field_70235_a;
+    private int field_70236_j;
+    private int field_70234_an;
+    public double field_70232_b;
+    public double field_70233_c;
+    public double field_70230_d;
     public float bukkitYield = 1; // CraftBukkit
     public boolean isIncendiary = true; // CraftBukkit
 
     public EntityFireball(World world) {
         super(world);
-        this.setSize(1.0F, 1.0F);
+        this.func_70105_a(1.0F, 1.0F);
     }
 
-    protected void entityInit() {}
+    protected void func_70088_a() {}
 
     public EntityFireball(World world, double d0, double d1, double d2, double d3, double d4, double d5) {
         super(world);
-        this.setSize(1.0F, 1.0F);
-        this.setLocationAndAngles(d0, d1, d2, this.rotationYaw, this.rotationPitch);
-        this.setPosition(d0, d1, d2);
-        double d6 = (double) MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
+        this.func_70105_a(1.0F, 1.0F);
+        this.func_70012_b(d0, d1, d2, this.field_70177_z, this.field_70125_A);
+        this.func_70107_b(d0, d1, d2);
+        double d6 = (double) MathHelper.func_76133_a(d3 * d3 + d4 * d4 + d5 * d5);
 
-        this.accelerationX = d3 / d6 * 0.1D;
-        this.accelerationY = d4 / d6 * 0.1D;
-        this.accelerationZ = d5 / d6 * 0.1D;
+        this.field_70232_b = d3 / d6 * 0.1D;
+        this.field_70233_c = d4 / d6 * 0.1D;
+        this.field_70230_d = d5 / d6 * 0.1D;
     }
 
     public EntityFireball(World world, EntityLivingBase entityliving, double d0, double d1, double d2) {
         super(world);
-        this.shootingEntity = entityliving;
+        this.field_70235_a = entityliving;
         this.projectileSource = (org.bukkit.entity.LivingEntity) entityliving.getBukkitEntity(); // CraftBukkit
-        this.setSize(1.0F, 1.0F);
-        this.setLocationAndAngles(entityliving.posX, entityliving.posY, entityliving.posZ, entityliving.rotationYaw, entityliving.rotationPitch);
-        this.setPosition(this.posX, this.posY, this.posZ);
-        this.motionX = 0.0D;
-        this.motionY = 0.0D;
-        this.motionZ = 0.0D;
+        this.func_70105_a(1.0F, 1.0F);
+        this.func_70012_b(entityliving.field_70165_t, entityliving.field_70163_u, entityliving.field_70161_v, entityliving.field_70177_z, entityliving.field_70125_A);
+        this.func_70107_b(this.field_70165_t, this.field_70163_u, this.field_70161_v);
+        this.field_70159_w = 0.0D;
+        this.field_70181_x = 0.0D;
+        this.field_70179_y = 0.0D;
         // CraftBukkit start - Added setDirection method
         this.setDirection(d0, d1, d2);
     }
 
     public void setDirection(double d0, double d1, double d2) {
         // CraftBukkit end
-        d0 += this.rand.nextGaussian() * 0.4D;
-        d1 += this.rand.nextGaussian() * 0.4D;
-        d2 += this.rand.nextGaussian() * 0.4D;
-        double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+        d0 += this.field_70146_Z.nextGaussian() * 0.4D;
+        d1 += this.field_70146_Z.nextGaussian() * 0.4D;
+        d2 += this.field_70146_Z.nextGaussian() * 0.4D;
+        double d3 = (double) MathHelper.func_76133_a(d0 * d0 + d1 * d1 + d2 * d2);
 
-        this.accelerationX = d0 / d3 * 0.1D;
-        this.accelerationY = d1 / d3 * 0.1D;
-        this.accelerationZ = d2 / d3 * 0.1D;
+        this.field_70232_b = d0 / d3 * 0.1D;
+        this.field_70233_c = d1 / d3 * 0.1D;
+        this.field_70230_d = d2 / d3 * 0.1D;
     }
 
-    public void onUpdate() {
-        if (!this.world.isRemote && (this.shootingEntity != null && this.shootingEntity.isDead || !this.world.isBlockLoaded(new BlockPos(this)))) {
-            this.setDead();
+    public void func_70071_h_() {
+        if (!this.field_70170_p.field_72995_K && (this.field_70235_a != null && this.field_70235_a.field_70128_L || !this.field_70170_p.func_175667_e(new BlockPos(this)))) {
+            this.func_70106_y();
         } else {
-            super.onUpdate();
-            if (this.isFireballFiery()) {
-                this.setFire(1);
+            super.func_70071_h_();
+            if (this.func_184564_k()) {
+                this.func_70015_d(1);
             }
 
-            ++this.ticksInAir;
-            RayTraceResult movingobjectposition = ProjectileHelper.forwardsRaycast(this, true, this.ticksInAir >= 25, this.shootingEntity);
+            ++this.field_70234_an;
+            RayTraceResult movingobjectposition = ProjectileHelper.func_188802_a(this, true, this.field_70234_an >= 25, this.field_70235_a);
 
             // Paper start - Call ProjectileCollideEvent
-            if (movingobjectposition != null && movingobjectposition.entityHit != null) {
+            if (movingobjectposition != null && movingobjectposition.field_72308_g != null) {
                 com.destroystokyo.paper.event.entity.ProjectileCollideEvent event = CraftEventFactory.callProjectileCollideEvent(this, movingobjectposition);
                 if (event.isCancelled()) {
                     movingobjectposition = null;
@@ -93,121 +93,121 @@ public abstract class EntityFireball extends Entity {
             // Paper end
 
             if (movingobjectposition != null) {
-                this.onImpact(movingobjectposition);
+                this.func_70227_a(movingobjectposition);
 
                 // CraftBukkit start - Fire ProjectileHitEvent
-                if (this.isDead) {
+                if (this.field_70128_L) {
                     CraftEventFactory.callProjectileHitEvent(this, movingobjectposition);
                 }
                 // CraftBukkit end
             }
 
-            this.posX += this.motionX;
-            this.posY += this.motionY;
-            this.posZ += this.motionZ;
-            ProjectileHelper.rotateTowardsMovement(this, 0.2F);
-            float f = this.getMotionFactor();
+            this.field_70165_t += this.field_70159_w;
+            this.field_70163_u += this.field_70181_x;
+            this.field_70161_v += this.field_70179_y;
+            ProjectileHelper.func_188803_a(this, 0.2F);
+            float f = this.func_82341_c();
 
-            if (this.isInWater()) {
+            if (this.func_70090_H()) {
                 for (int i = 0; i < 4; ++i) {
                     float f1 = 0.25F;
 
-                    this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * 0.25D, this.posY - this.motionY * 0.25D, this.posZ - this.motionZ * 0.25D, this.motionX, this.motionY, this.motionZ, new int[0]);
+                    this.field_70170_p.func_175688_a(EnumParticleTypes.WATER_BUBBLE, this.field_70165_t - this.field_70159_w * 0.25D, this.field_70163_u - this.field_70181_x * 0.25D, this.field_70161_v - this.field_70179_y * 0.25D, this.field_70159_w, this.field_70181_x, this.field_70179_y, new int[0]);
                 }
 
                 f = 0.8F;
             }
 
-            this.motionX += this.accelerationX;
-            this.motionY += this.accelerationY;
-            this.motionZ += this.accelerationZ;
-            this.motionX *= (double) f;
-            this.motionY *= (double) f;
-            this.motionZ *= (double) f;
-            this.world.spawnParticle(this.getParticleType(), this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
-            this.setPosition(this.posX, this.posY, this.posZ);
+            this.field_70159_w += this.field_70232_b;
+            this.field_70181_x += this.field_70233_c;
+            this.field_70179_y += this.field_70230_d;
+            this.field_70159_w *= (double) f;
+            this.field_70181_x *= (double) f;
+            this.field_70179_y *= (double) f;
+            this.field_70170_p.func_175688_a(this.func_184563_j(), this.field_70165_t, this.field_70163_u + 0.5D, this.field_70161_v, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.func_70107_b(this.field_70165_t, this.field_70163_u, this.field_70161_v);
         }
     }
 
-    protected boolean isFireballFiery() {
+    protected boolean func_184564_k() {
         return true;
     }
 
-    protected EnumParticleTypes getParticleType() {
+    protected EnumParticleTypes func_184563_j() {
         return EnumParticleTypes.SMOKE_NORMAL;
     }
 
-    protected float getMotionFactor() {
+    protected float func_82341_c() {
         return 0.95F;
     }
 
-    protected abstract void onImpact(RayTraceResult movingobjectposition);
+    protected abstract void func_70227_a(RayTraceResult movingobjectposition);
 
-    public static void registerFixesFireball(DataFixer dataconvertermanager, String s) {}
+    public static void func_189743_a(DataFixer dataconvertermanager, String s) {}
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setTag("direction", this.newDoubleNBTList(new double[] { this.motionX, this.motionY, this.motionZ}));
-        nbttagcompound.setTag("power", this.newDoubleNBTList(new double[] { this.accelerationX, this.accelerationY, this.accelerationZ}));
-        nbttagcompound.setInteger("life", this.ticksAlive);
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74782_a("direction", this.func_70087_a(new double[] { this.field_70159_w, this.field_70181_x, this.field_70179_y}));
+        nbttagcompound.func_74782_a("power", this.func_70087_a(new double[] { this.field_70232_b, this.field_70233_c, this.field_70230_d}));
+        nbttagcompound.func_74768_a("life", this.field_70236_j);
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
         NBTTagList nbttaglist;
 
-        if (nbttagcompound.hasKey("power", 9)) {
-            nbttaglist = nbttagcompound.getTagList("power", 6);
-            if (nbttaglist.tagCount() == 3) {
-                this.accelerationX = nbttaglist.getDoubleAt(0);
-                this.accelerationY = nbttaglist.getDoubleAt(1);
-                this.accelerationZ = nbttaglist.getDoubleAt(2);
+        if (nbttagcompound.func_150297_b("power", 9)) {
+            nbttaglist = nbttagcompound.func_150295_c("power", 6);
+            if (nbttaglist.func_74745_c() == 3) {
+                this.field_70232_b = nbttaglist.func_150309_d(0);
+                this.field_70233_c = nbttaglist.func_150309_d(1);
+                this.field_70230_d = nbttaglist.func_150309_d(2);
             }
         }
 
-        this.ticksAlive = nbttagcompound.getInteger("life");
-        if (nbttagcompound.hasKey("direction", 9) && nbttagcompound.getTagList("direction", 6).tagCount() == 3) {
-            nbttaglist = nbttagcompound.getTagList("direction", 6);
-            this.motionX = nbttaglist.getDoubleAt(0);
-            this.motionY = nbttaglist.getDoubleAt(1);
-            this.motionZ = nbttaglist.getDoubleAt(2);
+        this.field_70236_j = nbttagcompound.func_74762_e("life");
+        if (nbttagcompound.func_150297_b("direction", 9) && nbttagcompound.func_150295_c("direction", 6).func_74745_c() == 3) {
+            nbttaglist = nbttagcompound.func_150295_c("direction", 6);
+            this.field_70159_w = nbttaglist.func_150309_d(0);
+            this.field_70181_x = nbttaglist.func_150309_d(1);
+            this.field_70179_y = nbttaglist.func_150309_d(2);
         } else {
-            this.setDead();
+            this.func_70106_y();
         }
 
     }
 
-    public boolean canBeCollidedWith() {
+    public boolean func_70067_L() {
         return true;
     }
 
-    public float getCollisionBorderSize() {
+    public float func_70111_Y() {
         return 1.0F;
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        if (this.isEntityInvulnerable(damagesource)) {
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        if (this.func_180431_b(damagesource)) {
             return false;
         } else {
-            this.markVelocityChanged();
-            if (damagesource.getTrueSource() != null) {
+            this.func_70018_K();
+            if (damagesource.func_76346_g() != null) {
                 // CraftBukkit start
                 if (CraftEventFactory.handleNonLivingEntityDamageEvent(this, damagesource, f)) {
                     return false;
                 }
                 // CraftBukkit end
-                Vec3d vec3d = damagesource.getTrueSource().getLookVec();
+                Vec3d vec3d = damagesource.func_76346_g().func_70040_Z();
 
                 if (vec3d != null) {
-                    this.motionX = vec3d.x;
-                    this.motionY = vec3d.y;
-                    this.motionZ = vec3d.z;
-                    this.accelerationX = this.motionX * 0.1D;
-                    this.accelerationY = this.motionY * 0.1D;
-                    this.accelerationZ = this.motionZ * 0.1D;
+                    this.field_70159_w = vec3d.field_72450_a;
+                    this.field_70181_x = vec3d.field_72448_b;
+                    this.field_70179_y = vec3d.field_72449_c;
+                    this.field_70232_b = this.field_70159_w * 0.1D;
+                    this.field_70233_c = this.field_70181_x * 0.1D;
+                    this.field_70230_d = this.field_70179_y * 0.1D;
                 }
 
-                if (damagesource.getTrueSource() instanceof EntityLivingBase) {
-                    this.shootingEntity = (EntityLivingBase) damagesource.getTrueSource();
-                    this.projectileSource = (org.bukkit.projectiles.ProjectileSource) this.shootingEntity.getBukkitEntity();
+                if (damagesource.func_76346_g() instanceof EntityLivingBase) {
+                    this.field_70235_a = (EntityLivingBase) damagesource.func_76346_g();
+                    this.projectileSource = (org.bukkit.projectiles.ProjectileSource) this.field_70235_a.getBukkitEntity();
                 }
 
                 return true;
@@ -217,7 +217,7 @@ public abstract class EntityFireball extends Entity {
         }
     }
 
-    public float getBrightness() {
+    public float func_70013_c() {
         return 1.0F;
     }
 }

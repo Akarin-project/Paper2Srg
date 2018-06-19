@@ -20,30 +20,30 @@ import net.minecraft.world.LockCode;
 
 public class InventoryLargeChest implements ILockableContainer {
 
-    private final String name;
-    public final ILockableContainer upperChest;
-    public final ILockableContainer lowerChest;
+    private final String field_70479_a;
+    public final ILockableContainer field_70477_b;
+    public final ILockableContainer field_70478_c;
 
     // CraftBukkit start - add fields and methods
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
 
     public List<ItemStack> getContents() {
-        List<ItemStack> result = new ArrayList<ItemStack>(this.getSizeInventory());
-        for (int i = 0; i < this.getSizeInventory(); i++) {
-            result.add(this.getStackInSlot(i));
+        List<ItemStack> result = new ArrayList<ItemStack>(this.func_70302_i_());
+        for (int i = 0; i < this.func_70302_i_(); i++) {
+            result.add(this.func_70301_a(i));
         }
         return result;
     }
 
     public void onOpen(CraftHumanEntity who) {
-        this.upperChest.onOpen(who);
-        this.lowerChest.onOpen(who);
+        this.field_70477_b.onOpen(who);
+        this.field_70478_c.onOpen(who);
         transaction.add(who);
     }
 
     public void onClose(CraftHumanEntity who) {
-        this.upperChest.onClose(who);
-        this.lowerChest.onClose(who);
+        this.field_70477_b.onClose(who);
+        this.field_70478_c.onClose(who);
         transaction.remove(who);
     }
 
@@ -56,18 +56,18 @@ public class InventoryLargeChest implements ILockableContainer {
     }
 
     public void setMaxStackSize(int size) {
-        this.upperChest.setMaxStackSize(size);
-        this.lowerChest.setMaxStackSize(size);
+        this.field_70477_b.setMaxStackSize(size);
+        this.field_70478_c.setMaxStackSize(size);
     }
 
     @Override
     public Location getLocation() {
-        return upperChest.getLocation(); // TODO: right?
+        return field_70477_b.getLocation(); // TODO: right?
     }
     // CraftBukkit end
 
     public InventoryLargeChest(String s, ILockableContainer itileinventory, ILockableContainer itileinventory1) {
-        this.name = s;
+        this.field_70479_a = s;
         if (itileinventory == null) {
             itileinventory = itileinventory1;
         }
@@ -76,121 +76,121 @@ public class InventoryLargeChest implements ILockableContainer {
             itileinventory1 = itileinventory;
         }
 
-        this.upperChest = itileinventory;
-        this.lowerChest = itileinventory1;
-        if (itileinventory.isLocked()) {
-            itileinventory1.setLockCode(itileinventory.getLockCode());
-        } else if (itileinventory1.isLocked()) {
-            itileinventory.setLockCode(itileinventory1.getLockCode());
+        this.field_70477_b = itileinventory;
+        this.field_70478_c = itileinventory1;
+        if (itileinventory.func_174893_q_()) {
+            itileinventory1.func_174892_a(itileinventory.func_174891_i());
+        } else if (itileinventory1.func_174893_q_()) {
+            itileinventory.func_174892_a(itileinventory1.func_174891_i());
         }
 
     }
 
-    public int getSizeInventory() {
-        return this.upperChest.getSizeInventory() + this.lowerChest.getSizeInventory();
+    public int func_70302_i_() {
+        return this.field_70477_b.func_70302_i_() + this.field_70478_c.func_70302_i_();
     }
 
-    public boolean isEmpty() {
-        return this.upperChest.isEmpty() && this.lowerChest.isEmpty();
+    public boolean func_191420_l() {
+        return this.field_70477_b.func_191420_l() && this.field_70478_c.func_191420_l();
     }
 
-    public boolean isPartOfLargeChest(IInventory iinventory) {
-        return this.upperChest == iinventory || this.lowerChest == iinventory;
+    public boolean func_90010_a(IInventory iinventory) {
+        return this.field_70477_b == iinventory || this.field_70478_c == iinventory;
     }
 
-    public String getName() {
-        return this.upperChest.hasCustomName() ? this.upperChest.getName() : (this.lowerChest.hasCustomName() ? this.lowerChest.getName() : this.name);
+    public String func_70005_c_() {
+        return this.field_70477_b.func_145818_k_() ? this.field_70477_b.func_70005_c_() : (this.field_70478_c.func_145818_k_() ? this.field_70478_c.func_70005_c_() : this.field_70479_a);
     }
 
-    public boolean hasCustomName() {
-        return this.upperChest.hasCustomName() || this.lowerChest.hasCustomName();
+    public boolean func_145818_k_() {
+        return this.field_70477_b.func_145818_k_() || this.field_70478_c.func_145818_k_();
     }
 
-    public ITextComponent getDisplayName() {
-        return (ITextComponent) (this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
+    public ITextComponent func_145748_c_() {
+        return (ITextComponent) (this.func_145818_k_() ? new TextComponentString(this.func_70005_c_()) : new TextComponentTranslation(this.func_70005_c_(), new Object[0]));
     }
 
-    public ItemStack getStackInSlot(int i) {
-        return i >= this.upperChest.getSizeInventory() ? this.lowerChest.getStackInSlot(i - this.upperChest.getSizeInventory()) : this.upperChest.getStackInSlot(i);
+    public ItemStack func_70301_a(int i) {
+        return i >= this.field_70477_b.func_70302_i_() ? this.field_70478_c.func_70301_a(i - this.field_70477_b.func_70302_i_()) : this.field_70477_b.func_70301_a(i);
     }
 
-    public ItemStack decrStackSize(int i, int j) {
-        return i >= this.upperChest.getSizeInventory() ? this.lowerChest.decrStackSize(i - this.upperChest.getSizeInventory(), j) : this.upperChest.decrStackSize(i, j);
+    public ItemStack func_70298_a(int i, int j) {
+        return i >= this.field_70477_b.func_70302_i_() ? this.field_70478_c.func_70298_a(i - this.field_70477_b.func_70302_i_(), j) : this.field_70477_b.func_70298_a(i, j);
     }
 
-    public ItemStack removeStackFromSlot(int i) {
-        return i >= this.upperChest.getSizeInventory() ? this.lowerChest.removeStackFromSlot(i - this.upperChest.getSizeInventory()) : this.upperChest.removeStackFromSlot(i);
+    public ItemStack func_70304_b(int i) {
+        return i >= this.field_70477_b.func_70302_i_() ? this.field_70478_c.func_70304_b(i - this.field_70477_b.func_70302_i_()) : this.field_70477_b.func_70304_b(i);
     }
 
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
-        if (i >= this.upperChest.getSizeInventory()) {
-            this.lowerChest.setInventorySlotContents(i - this.upperChest.getSizeInventory(), itemstack);
+    public void func_70299_a(int i, ItemStack itemstack) {
+        if (i >= this.field_70477_b.func_70302_i_()) {
+            this.field_70478_c.func_70299_a(i - this.field_70477_b.func_70302_i_(), itemstack);
         } else {
-            this.upperChest.setInventorySlotContents(i, itemstack);
+            this.field_70477_b.func_70299_a(i, itemstack);
         }
 
     }
 
-    public int getInventoryStackLimit() {
-        return Math.min(this.upperChest.getInventoryStackLimit(), this.lowerChest.getInventoryStackLimit()); // CraftBukkit - check both sides
+    public int func_70297_j_() {
+        return Math.min(this.field_70477_b.func_70297_j_(), this.field_70478_c.func_70297_j_()); // CraftBukkit - check both sides
     }
 
-    public void markDirty() {
-        this.upperChest.markDirty();
-        this.lowerChest.markDirty();
+    public void func_70296_d() {
+        this.field_70477_b.func_70296_d();
+        this.field_70478_c.func_70296_d();
     }
 
-    public boolean isUsableByPlayer(EntityPlayer entityhuman) {
-        return this.upperChest.isUsableByPlayer(entityhuman) && this.lowerChest.isUsableByPlayer(entityhuman);
+    public boolean func_70300_a(EntityPlayer entityhuman) {
+        return this.field_70477_b.func_70300_a(entityhuman) && this.field_70478_c.func_70300_a(entityhuman);
     }
 
-    public void openInventory(EntityPlayer entityhuman) {
-        this.upperChest.openInventory(entityhuman);
-        this.lowerChest.openInventory(entityhuman);
+    public void func_174889_b(EntityPlayer entityhuman) {
+        this.field_70477_b.func_174889_b(entityhuman);
+        this.field_70478_c.func_174889_b(entityhuman);
     }
 
-    public void closeInventory(EntityPlayer entityhuman) {
-        this.upperChest.closeInventory(entityhuman);
-        this.lowerChest.closeInventory(entityhuman);
+    public void func_174886_c(EntityPlayer entityhuman) {
+        this.field_70477_b.func_174886_c(entityhuman);
+        this.field_70478_c.func_174886_c(entityhuman);
     }
 
-    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+    public boolean func_94041_b(int i, ItemStack itemstack) {
         return true;
     }
 
-    public int getField(int i) {
+    public int func_174887_a_(int i) {
         return 0;
     }
 
-    public void setField(int i, int j) {}
+    public void func_174885_b(int i, int j) {}
 
-    public int getFieldCount() {
+    public int func_174890_g() {
         return 0;
     }
 
-    public boolean isLocked() {
-        return this.upperChest.isLocked() || this.lowerChest.isLocked();
+    public boolean func_174893_q_() {
+        return this.field_70477_b.func_174893_q_() || this.field_70478_c.func_174893_q_();
     }
 
-    public void setLockCode(LockCode chestlock) {
-        this.upperChest.setLockCode(chestlock);
-        this.lowerChest.setLockCode(chestlock);
+    public void func_174892_a(LockCode chestlock) {
+        this.field_70477_b.func_174892_a(chestlock);
+        this.field_70478_c.func_174892_a(chestlock);
     }
 
-    public LockCode getLockCode() {
-        return this.upperChest.getLockCode();
+    public LockCode func_174891_i() {
+        return this.field_70477_b.func_174891_i();
     }
 
-    public String getGuiID() {
-        return this.upperChest.getGuiID();
+    public String func_174875_k() {
+        return this.field_70477_b.func_174875_k();
     }
 
-    public Container createContainer(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
+    public Container func_174876_a(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
         return new ContainerChest(playerinventory, this, entityhuman);
     }
 
-    public void clear() {
-        this.upperChest.clear();
-        this.lowerChest.clear();
+    public void func_174888_l() {
+        this.field_70477_b.func_174888_l();
+        this.field_70478_c.func_174888_l();
     }
 }

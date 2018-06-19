@@ -17,29 +17,29 @@ public class CommandEmote extends CommandBase {
 
     public CommandEmote() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "me";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 0;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.me.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length <= 0) {
             throw new WrongUsageException("commands.me.usage", new Object[0]);
         } else {
-            ITextComponent ichatbasecomponent = getChatComponentFromNthArg(icommandlistener, astring, 0, !(icommandlistener instanceof EntityPlayer));
+            ITextComponent ichatbasecomponent = func_147176_a(icommandlistener, astring, 0, !(icommandlistener instanceof EntityPlayer));
 
-            minecraftserver.getPlayerList().sendMessage(new TextComponentTranslation("chat.type.emote", new Object[] { icommandlistener.getDisplayName(), ichatbasecomponent}));
+            minecraftserver.func_184103_al().func_148539_a(new TextComponentTranslation("chat.type.emote", new Object[] { icommandlistener.func_145748_c_(), ichatbasecomponent}));
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return getListOfStringsMatchingLastWord(astring, minecraftserver.getOnlinePlayerNames());
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return func_71530_a(astring, minecraftserver.func_71213_z());
     }
 }

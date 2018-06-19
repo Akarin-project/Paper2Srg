@@ -7,6 +7,6 @@ public class EntityAIWatchClosest2 extends EntityAIWatchClosest {
 
     public EntityAIWatchClosest2(EntityLiving entityinsentient, Class<? extends Entity> oclass, float f, float f1) {
         super(entityinsentient, oclass, f, f1);
-        this.setMutexBits(3);
+        this.func_75248_a(3);
     }
 }

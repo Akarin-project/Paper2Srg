@@ -125,150 +125,150 @@ import net.minecraft.world.storage.WorldInfo;
 
 public class DataFixesManager {
 
-    private static void registerFixes(DataFixer dataconvertermanager) {
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new EntityArmorAndHeld()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.BLOCK_ENTITY, (IFixableData) (new SignStrictJSON()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new ItemIntIDToString()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new PotionItems()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new SpawnEggNames()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new MinecartEntityTypes()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.BLOCK_ENTITY, (IFixableData) (new SpawnerEntityTypes()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new StringToUUID()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new EntityHealth()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new HorseSaddle()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new PaintingDirection()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new RedundantChanceTags()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new RidingToPassengers()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new ArmorStandSilent()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new BookPagesStrictJSON()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new CookedFishIDTypo()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new ZombieProfToType()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.OPTIONS, (IFixableData) (new ForceVBOOn()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new ElderGuardianSplit()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new SkeletonSplit()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new ZombieSplit()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new HorseSplit()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.BLOCK_ENTITY, (IFixableData) (new TileEntityId()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new EntityId()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new BannerItemColor()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new PotionWater()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ENTITY, (IFixableData) (new ShulkerBoxEntityColor()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new ShulkerBoxItemColor()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.BLOCK_ENTITY, (IFixableData) (new ShulkerBoxTileColor()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.OPTIONS, (IFixableData) (new OptionsLowerCaseLanguage()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new TotemItemRename()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.CHUNK, (IFixableData) (new AddBedTileEntity()));
-        dataconvertermanager.registerFix((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new BedItemColor()));
+    private static void func_188276_a(DataFixer dataconvertermanager) {
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new EntityArmorAndHeld()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.BLOCK_ENTITY, (IFixableData) (new SignStrictJSON()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new ItemIntIDToString()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new PotionItems()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new SpawnEggNames()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new MinecartEntityTypes()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.BLOCK_ENTITY, (IFixableData) (new SpawnerEntityTypes()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new StringToUUID()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new EntityHealth()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new HorseSaddle()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new PaintingDirection()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new RedundantChanceTags()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new RidingToPassengers()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new ArmorStandSilent()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new BookPagesStrictJSON()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new CookedFishIDTypo()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new ZombieProfToType()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.OPTIONS, (IFixableData) (new ForceVBOOn()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new ElderGuardianSplit()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new SkeletonSplit()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new ZombieSplit()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new HorseSplit()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.BLOCK_ENTITY, (IFixableData) (new TileEntityId()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new EntityId()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new BannerItemColor()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new PotionWater()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ENTITY, (IFixableData) (new ShulkerBoxEntityColor()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new ShulkerBoxItemColor()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.BLOCK_ENTITY, (IFixableData) (new ShulkerBoxTileColor()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.OPTIONS, (IFixableData) (new OptionsLowerCaseLanguage()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new TotemItemRename()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.CHUNK, (IFixableData) (new AddBedTileEntity()));
+        dataconvertermanager.func_188256_a((IFixType) FixTypes.ITEM_INSTANCE, (IFixableData) (new BedItemColor()));
     }
 
-    public static DataFixer createFixer() {
+    public static DataFixer func_188279_a() {
         DataFixer dataconvertermanager = new DataFixer(1343);
 
-        WorldInfo.registerFixes(dataconvertermanager);
-        EntityPlayerMP.registerFixesPlayerMP(dataconvertermanager);
-        EntityPlayer.registerFixesPlayer(dataconvertermanager);
-        AnvilChunkLoader.registerFixes(dataconvertermanager);
-        ItemStack.registerFixes(dataconvertermanager);
-        Template.registerFixes(dataconvertermanager);
-        Entity.registerFixes(dataconvertermanager);
-        EntityArmorStand.registerFixesArmorStand(dataconvertermanager);
-        EntityArrow.registerFixesArrow(dataconvertermanager);
-        EntityBat.registerFixesBat(dataconvertermanager);
-        EntityBlaze.registerFixesBlaze(dataconvertermanager);
-        EntityCaveSpider.registerFixesCaveSpider(dataconvertermanager);
-        EntityChicken.registerFixesChicken(dataconvertermanager);
-        EntityCow.registerFixesCow(dataconvertermanager);
-        EntityCreeper.registerFixesCreeper(dataconvertermanager);
-        EntityDonkey.registerFixesDonkey(dataconvertermanager);
-        EntityDragonFireball.registerFixesDragonFireball(dataconvertermanager);
-        EntityElderGuardian.registerFixesElderGuardian(dataconvertermanager);
-        EntityDragon.registerFixesDragon(dataconvertermanager);
-        EntityEnderman.registerFixesEnderman(dataconvertermanager);
-        EntityEndermite.registerFixesEndermite(dataconvertermanager);
-        EntityEvoker.registerFixesEvoker(dataconvertermanager);
-        EntityFallingBlock.registerFixesFallingBlock(dataconvertermanager);
-        EntityFireworkRocket.registerFixesFireworkRocket(dataconvertermanager);
-        EntityGhast.registerFixesGhast(dataconvertermanager);
-        EntityGiantZombie.registerFixesGiantZombie(dataconvertermanager);
-        EntityGuardian.registerFixesGuardian(dataconvertermanager);
-        EntityHorse.registerFixesHorse(dataconvertermanager);
-        EntityHusk.registerFixesHusk(dataconvertermanager);
-        EntityItem.registerFixesItem(dataconvertermanager);
-        EntityItemFrame.registerFixesItemFrame(dataconvertermanager);
-        EntityLargeFireball.registerFixesLargeFireball(dataconvertermanager);
-        EntityMagmaCube.registerFixesMagmaCube(dataconvertermanager);
-        EntityMinecartChest.registerFixesMinecartChest(dataconvertermanager);
-        EntityMinecartCommandBlock.registerFixesMinecartCommand(dataconvertermanager);
-        EntityMinecartFurnace.registerFixesMinecartFurnace(dataconvertermanager);
-        EntityMinecartHopper.registerFixesMinecartHopper(dataconvertermanager);
-        EntityMinecartEmpty.registerFixesMinecartEmpty(dataconvertermanager);
-        EntityMinecartMobSpawner.registerFixesMinecartMobSpawner(dataconvertermanager);
-        EntityMinecartTNT.registerFixesMinecartTNT(dataconvertermanager);
-        EntityMule.registerFixesMule(dataconvertermanager);
-        EntityMooshroom.registerFixesMooshroom(dataconvertermanager);
-        EntityOcelot.registerFixesOcelot(dataconvertermanager);
-        EntityPig.registerFixesPig(dataconvertermanager);
-        EntityPigZombie.registerFixesPigZombie(dataconvertermanager);
-        EntityRabbit.registerFixesRabbit(dataconvertermanager);
-        EntitySheep.registerFixesSheep(dataconvertermanager);
-        EntityShulker.registerFixesShulker(dataconvertermanager);
-        EntitySilverfish.registerFixesSilverfish(dataconvertermanager);
-        EntitySkeleton.registerFixesSkeleton(dataconvertermanager);
-        EntitySkeletonHorse.registerFixesSkeletonHorse(dataconvertermanager);
-        EntitySlime.registerFixesSlime(dataconvertermanager);
-        EntitySmallFireball.registerFixesSmallFireball(dataconvertermanager);
-        EntitySnowman.registerFixesSnowman(dataconvertermanager);
-        EntitySnowball.registerFixesSnowball(dataconvertermanager);
-        EntitySpectralArrow.registerFixesSpectralArrow(dataconvertermanager);
-        EntitySpider.registerFixesSpider(dataconvertermanager);
-        EntitySquid.registerFixesSquid(dataconvertermanager);
-        EntityStray.registerFixesStray(dataconvertermanager);
-        EntityEgg.registerFixesEgg(dataconvertermanager);
-        EntityEnderPearl.registerFixesEnderPearl(dataconvertermanager);
-        EntityExpBottle.registerFixesExpBottle(dataconvertermanager);
-        EntityPotion.registerFixesPotion(dataconvertermanager);
-        EntityTippedArrow.registerFixesTippedArrow(dataconvertermanager);
-        EntityVex.registerFixesVex(dataconvertermanager);
-        EntityVillager.registerFixesVillager(dataconvertermanager);
-        EntityIronGolem.registerFixesIronGolem(dataconvertermanager);
-        EntityVindicator.registerFixesVindicator(dataconvertermanager);
-        EntityWitch.registerFixesWitch(dataconvertermanager);
-        EntityWither.registerFixesWither(dataconvertermanager);
-        EntityWitherSkeleton.registerFixesWitherSkeleton(dataconvertermanager);
-        EntityWitherSkull.registerFixesWitherSkull(dataconvertermanager);
-        EntityWolf.registerFixesWolf(dataconvertermanager);
-        EntityZombie.registerFixesZombie(dataconvertermanager);
-        EntityZombieHorse.registerFixesZombieHorse(dataconvertermanager);
-        EntityZombieVillager.registerFixesZombieVillager(dataconvertermanager);
-        TileEntityPiston.registerFixesPiston(dataconvertermanager);
-        TileEntityFlowerPot.registerFixesFlowerPot(dataconvertermanager);
-        TileEntityFurnace.registerFixesFurnace(dataconvertermanager);
-        TileEntityChest.registerFixesChest(dataconvertermanager);
-        TileEntityDispenser.registerFixes(dataconvertermanager);
-        TileEntityDropper.registerFixesDropper(dataconvertermanager);
-        TileEntityBrewingStand.registerFixesBrewingStand(dataconvertermanager);
-        TileEntityHopper.registerFixesHopper(dataconvertermanager);
-        BlockJukebox.registerFixesJukebox(dataconvertermanager);
-        TileEntityMobSpawner.registerFixesMobSpawner(dataconvertermanager);
-        TileEntityShulkerBox.registerFixesShulkerBox(dataconvertermanager);
-        registerFixes(dataconvertermanager);
+        WorldInfo.func_189967_a(dataconvertermanager);
+        EntityPlayerMP.func_191522_a(dataconvertermanager);
+        EntityPlayer.func_189806_a(dataconvertermanager);
+        AnvilChunkLoader.func_189889_a(dataconvertermanager);
+        ItemStack.func_189868_a(dataconvertermanager);
+        Template.func_191158_a(dataconvertermanager);
+        Entity.func_190533_a(dataconvertermanager);
+        EntityArmorStand.func_189805_a(dataconvertermanager);
+        EntityArrow.func_189658_a(dataconvertermanager);
+        EntityBat.func_189754_b(dataconvertermanager);
+        EntityBlaze.func_189761_b(dataconvertermanager);
+        EntityCaveSpider.func_189775_b(dataconvertermanager);
+        EntityChicken.func_189789_b(dataconvertermanager);
+        EntityCow.func_189790_b(dataconvertermanager);
+        EntityCreeper.func_189762_b(dataconvertermanager);
+        EntityDonkey.func_190699_b(dataconvertermanager);
+        EntityDragonFireball.func_189747_a(dataconvertermanager);
+        EntityElderGuardian.func_190768_b(dataconvertermanager);
+        EntityDragon.func_189755_b(dataconvertermanager);
+        EntityEnderman.func_189763_b(dataconvertermanager);
+        EntityEndermite.func_189764_b(dataconvertermanager);
+        EntityEvoker.func_190759_b(dataconvertermanager);
+        EntityFallingBlock.func_189741_a(dataconvertermanager);
+        EntityFireworkRocket.func_189656_a(dataconvertermanager);
+        EntityGhast.func_189756_b(dataconvertermanager);
+        EntityGiantZombie.func_189765_b(dataconvertermanager);
+        EntityGuardian.func_189766_b(dataconvertermanager);
+        EntityHorse.func_189803_b(dataconvertermanager);
+        EntityHusk.func_190740_b(dataconvertermanager);
+        EntityItem.func_189742_a(dataconvertermanager);
+        EntityItemFrame.func_189738_a(dataconvertermanager);
+        EntityLargeFireball.func_189744_a(dataconvertermanager);
+        EntityMagmaCube.func_189759_b(dataconvertermanager);
+        EntityMinecartChest.func_189681_a(dataconvertermanager);
+        EntityMinecartCommandBlock.func_189670_a(dataconvertermanager);
+        EntityMinecartFurnace.func_189671_a(dataconvertermanager);
+        EntityMinecartHopper.func_189682_a(dataconvertermanager);
+        EntityMinecartEmpty.func_189673_a(dataconvertermanager);
+        EntityMinecartMobSpawner.func_189672_a(dataconvertermanager);
+        EntityMinecartTNT.func_189674_a(dataconvertermanager);
+        EntityMule.func_190700_b(dataconvertermanager);
+        EntityMooshroom.func_189791_c(dataconvertermanager);
+        EntityOcelot.func_189787_b(dataconvertermanager);
+        EntityPig.func_189792_b(dataconvertermanager);
+        EntityPigZombie.func_189781_b(dataconvertermanager);
+        EntityRabbit.func_189801_b(dataconvertermanager);
+        EntitySheep.func_189802_b(dataconvertermanager);
+        EntityShulker.func_189757_b(dataconvertermanager);
+        EntitySilverfish.func_189767_b(dataconvertermanager);
+        EntitySkeleton.func_189772_b(dataconvertermanager);
+        EntitySkeletonHorse.func_190692_b(dataconvertermanager);
+        EntitySlime.func_189758_c(dataconvertermanager);
+        EntitySmallFireball.func_189745_a(dataconvertermanager);
+        EntitySnowman.func_189783_b(dataconvertermanager);
+        EntitySnowball.func_189662_a(dataconvertermanager);
+        EntitySpectralArrow.func_189659_b(dataconvertermanager);
+        EntitySpider.func_189774_d(dataconvertermanager);
+        EntitySquid.func_189804_b(dataconvertermanager);
+        EntityStray.func_190728_b(dataconvertermanager);
+        EntityEgg.func_189664_a(dataconvertermanager);
+        EntityEnderPearl.func_189663_a(dataconvertermanager);
+        EntityExpBottle.func_189666_a(dataconvertermanager);
+        EntityPotion.func_189665_a(dataconvertermanager);
+        EntityTippedArrow.func_189660_b(dataconvertermanager);
+        EntityVex.func_190663_b(dataconvertermanager);
+        EntityVillager.func_189785_b(dataconvertermanager);
+        EntityIronGolem.func_189784_b(dataconvertermanager);
+        EntityVindicator.func_190641_b(dataconvertermanager);
+        EntityWitch.func_189776_b(dataconvertermanager);
+        EntityWither.func_189782_b(dataconvertermanager);
+        EntityWitherSkeleton.func_190729_b(dataconvertermanager);
+        EntityWitherSkull.func_189746_a(dataconvertermanager);
+        EntityWolf.func_189788_b(dataconvertermanager);
+        EntityZombie.func_189779_d(dataconvertermanager);
+        EntityZombieHorse.func_190693_b(dataconvertermanager);
+        EntityZombieVillager.func_190737_b(dataconvertermanager);
+        TileEntityPiston.func_189685_a(dataconvertermanager);
+        TileEntityFlowerPot.func_189699_a(dataconvertermanager);
+        TileEntityFurnace.func_189676_a(dataconvertermanager);
+        TileEntityChest.func_189677_a(dataconvertermanager);
+        TileEntityDispenser.func_189678_a(dataconvertermanager);
+        TileEntityDropper.func_189679_b(dataconvertermanager);
+        TileEntityBrewingStand.func_189675_a(dataconvertermanager);
+        TileEntityHopper.func_189683_a(dataconvertermanager);
+        BlockJukebox.func_189873_a(dataconvertermanager);
+        TileEntityMobSpawner.func_189684_a(dataconvertermanager);
+        TileEntityShulkerBox.func_190593_a(dataconvertermanager);
+        func_188276_a(dataconvertermanager);
         return dataconvertermanager;
     }
 
-    public static NBTTagCompound processItemStack(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i, String s) {
-        if (nbttagcompound.hasKey(s, 10)) {
-            nbttagcompound.setTag(s, dataconverter.process(FixTypes.ITEM_INSTANCE, nbttagcompound.getCompoundTag(s), i));
+    public static NBTTagCompound func_188277_a(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i, String s) {
+        if (nbttagcompound.func_150297_b(s, 10)) {
+            nbttagcompound.func_74782_a(s, dataconverter.func_188251_a(FixTypes.ITEM_INSTANCE, nbttagcompound.func_74775_l(s), i));
         }
 
         return nbttagcompound;
     }
 
-    public static NBTTagCompound processInventory(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i, String s) {
-        if (nbttagcompound.hasKey(s, 9)) {
-            NBTTagList nbttaglist = nbttagcompound.getTagList(s, 10);
+    public static NBTTagCompound func_188278_b(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i, String s) {
+        if (nbttagcompound.func_150297_b(s, 9)) {
+            NBTTagList nbttaglist = nbttagcompound.func_150295_c(s, 10);
 
-            for (int j = 0; j < nbttaglist.tagCount(); ++j) {
-                nbttaglist.set(j, dataconverter.process(FixTypes.ITEM_INSTANCE, nbttaglist.getCompoundTagAt(j), i));
+            for (int j = 0; j < nbttaglist.func_74745_c(); ++j) {
+                nbttaglist.func_150304_a(j, dataconverter.func_188251_a(FixTypes.ITEM_INSTANCE, nbttaglist.func_150305_b(j), i));
             }
         }
 

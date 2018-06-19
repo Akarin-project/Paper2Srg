@@ -9,23 +9,23 @@ import net.minecraft.util.math.BlockPos;
 
 public class SPacketSpawnPosition implements Packet<INetHandlerPlayClient> {
 
-    public BlockPos spawnBlockPos;
+    public BlockPos field_179801_a;
 
     public SPacketSpawnPosition() {}
 
     public SPacketSpawnPosition(BlockPos blockposition) {
-        this.spawnBlockPos = blockposition;
+        this.field_179801_a = blockposition;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.spawnBlockPos = packetdataserializer.readBlockPos();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_179801_a = packetdataserializer.func_179259_c();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeBlockPos(this.spawnBlockPos);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179255_a(this.field_179801_a);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleSpawnPosition(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147271_a(this);
     }
 }

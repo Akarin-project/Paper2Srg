@@ -12,18 +12,18 @@ import net.minecraft.util.math.MathHelper;
 
 public class SPacketSpawnObject implements Packet<INetHandlerPlayClient> {
 
-    private int entityId;
-    private UUID uniqueId;
-    private double x;
-    private double y;
-    private double z;
-    private int speedX;
-    private int speedY;
-    private int speedZ;
-    private int pitch;
-    private int yaw;
-    private int type;
-    private int data;
+    private int field_149018_a;
+    private UUID field_186883_b;
+    private double field_149016_b;
+    private double field_149017_c;
+    private double field_149014_d;
+    private int field_149015_e;
+    private int field_149012_f;
+    private int field_149013_g;
+    private int field_149021_h;
+    private int field_149022_i;
+    private int field_149019_j;
+    private int field_149020_k;
 
     public SPacketSpawnObject() {}
 
@@ -32,72 +32,72 @@ public class SPacketSpawnObject implements Packet<INetHandlerPlayClient> {
     }
 
     public SPacketSpawnObject(Entity entity, int i, int j) {
-        this.entityId = entity.getEntityId();
-        this.uniqueId = entity.getUniqueID();
-        this.x = entity.posX;
-        this.y = entity.posY;
-        this.z = entity.posZ;
-        this.pitch = MathHelper.floor(entity.rotationPitch * 256.0F / 360.0F);
-        this.yaw = MathHelper.floor(entity.rotationYaw * 256.0F / 360.0F);
-        this.type = i;
-        this.data = j;
+        this.field_149018_a = entity.func_145782_y();
+        this.field_186883_b = entity.func_110124_au();
+        this.field_149016_b = entity.field_70165_t;
+        this.field_149017_c = entity.field_70163_u;
+        this.field_149014_d = entity.field_70161_v;
+        this.field_149021_h = MathHelper.func_76141_d(entity.field_70125_A * 256.0F / 360.0F);
+        this.field_149022_i = MathHelper.func_76141_d(entity.field_70177_z * 256.0F / 360.0F);
+        this.field_149019_j = i;
+        this.field_149020_k = j;
         double d0 = 3.9D;
 
-        this.speedX = (int) (MathHelper.clamp(entity.motionX, -3.9D, 3.9D) * 8000.0D);
-        this.speedY = (int) (MathHelper.clamp(entity.motionY, -3.9D, 3.9D) * 8000.0D);
-        this.speedZ = (int) (MathHelper.clamp(entity.motionZ, -3.9D, 3.9D) * 8000.0D);
+        this.field_149015_e = (int) (MathHelper.func_151237_a(entity.field_70159_w, -3.9D, 3.9D) * 8000.0D);
+        this.field_149012_f = (int) (MathHelper.func_151237_a(entity.field_70181_x, -3.9D, 3.9D) * 8000.0D);
+        this.field_149013_g = (int) (MathHelper.func_151237_a(entity.field_70179_y, -3.9D, 3.9D) * 8000.0D);
     }
 
     public SPacketSpawnObject(Entity entity, int i, int j, BlockPos blockposition) {
         this(entity, i, j);
-        this.x = (double) blockposition.getX();
-        this.y = (double) blockposition.getY();
-        this.z = (double) blockposition.getZ();
+        this.field_149016_b = (double) blockposition.func_177958_n();
+        this.field_149017_c = (double) blockposition.func_177956_o();
+        this.field_149014_d = (double) blockposition.func_177952_p();
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.entityId = packetdataserializer.readVarInt();
-        this.uniqueId = packetdataserializer.readUniqueId();
-        this.type = packetdataserializer.readByte();
-        this.x = packetdataserializer.readDouble();
-        this.y = packetdataserializer.readDouble();
-        this.z = packetdataserializer.readDouble();
-        this.pitch = packetdataserializer.readByte();
-        this.yaw = packetdataserializer.readByte();
-        this.data = packetdataserializer.readInt();
-        this.speedX = packetdataserializer.readShort();
-        this.speedY = packetdataserializer.readShort();
-        this.speedZ = packetdataserializer.readShort();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149018_a = packetdataserializer.func_150792_a();
+        this.field_186883_b = packetdataserializer.func_179253_g();
+        this.field_149019_j = packetdataserializer.readByte();
+        this.field_149016_b = packetdataserializer.readDouble();
+        this.field_149017_c = packetdataserializer.readDouble();
+        this.field_149014_d = packetdataserializer.readDouble();
+        this.field_149021_h = packetdataserializer.readByte();
+        this.field_149022_i = packetdataserializer.readByte();
+        this.field_149020_k = packetdataserializer.readInt();
+        this.field_149015_e = packetdataserializer.readShort();
+        this.field_149012_f = packetdataserializer.readShort();
+        this.field_149013_g = packetdataserializer.readShort();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.entityId);
-        packetdataserializer.writeUniqueId(this.uniqueId);
-        packetdataserializer.writeByte(this.type);
-        packetdataserializer.writeDouble(this.x);
-        packetdataserializer.writeDouble(this.y);
-        packetdataserializer.writeDouble(this.z);
-        packetdataserializer.writeByte(this.pitch);
-        packetdataserializer.writeByte(this.yaw);
-        packetdataserializer.writeInt(this.data);
-        packetdataserializer.writeShort(this.speedX);
-        packetdataserializer.writeShort(this.speedY);
-        packetdataserializer.writeShort(this.speedZ);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_149018_a);
+        packetdataserializer.func_179252_a(this.field_186883_b);
+        packetdataserializer.writeByte(this.field_149019_j);
+        packetdataserializer.writeDouble(this.field_149016_b);
+        packetdataserializer.writeDouble(this.field_149017_c);
+        packetdataserializer.writeDouble(this.field_149014_d);
+        packetdataserializer.writeByte(this.field_149021_h);
+        packetdataserializer.writeByte(this.field_149022_i);
+        packetdataserializer.writeInt(this.field_149020_k);
+        packetdataserializer.writeShort(this.field_149015_e);
+        packetdataserializer.writeShort(this.field_149012_f);
+        packetdataserializer.writeShort(this.field_149013_g);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleSpawnObject(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147235_a(this);
     }
 
-    public void setSpeedX(int i) {
-        this.speedX = i;
+    public void func_149003_d(int i) {
+        this.field_149015_e = i;
     }
 
-    public void setSpeedY(int i) {
-        this.speedY = i;
+    public void func_149000_e(int i) {
+        this.field_149012_f = i;
     }
 
-    public void setSpeedZ(int i) {
-        this.speedZ = i;
+    public void func_149007_f(int i) {
+        this.field_149013_g = i;
     }
 }

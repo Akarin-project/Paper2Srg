@@ -13,15 +13,15 @@ public class BlockGravel extends BlockFalling {
 
     public BlockGravel() {}
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
         if (i > 3) {
             i = 3;
         }
 
-        return random.nextInt(10 - i * 3) == 0 ? Items.FLINT : super.getItemDropped(iblockdata, random, i);
+        return random.nextInt(10 - i * 3) == 0 ? Items.field_151145_ak : super.func_180660_a(iblockdata, random, i);
     }
 
-    public MapColor getMapColor(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return MapColor.STONE;
+    public MapColor func_180659_g(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return MapColor.field_151665_m;
     }
 }

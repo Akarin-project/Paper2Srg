@@ -13,36 +13,36 @@ import net.minecraft.server.MinecraftServer;
 
 public class StatsComponent extends JComponent {
 
-    private static final DecimalFormat FORMATTER = new DecimalFormat("########0.000");
-    private final int[] values = new int[256];
-    private int vp;
-    private final String[] msgs = new String[11];
-    private final MinecraftServer server;
+    private static final DecimalFormat field_120040_a = new DecimalFormat("########0.000");
+    private final int[] field_120038_b = new int[256];
+    private int field_120039_c;
+    private final String[] field_120036_d = new String[11];
+    private final MinecraftServer field_120037_e;
 
     public StatsComponent(MinecraftServer minecraftserver) {
-        this.server = minecraftserver;
+        this.field_120037_e = minecraftserver;
         this.setPreferredSize(new Dimension(456, 246));
         this.setMinimumSize(new Dimension(456, 246));
         this.setMaximumSize(new Dimension(456, 246));
         (new Timer(500, new ActionListener() {
             public void actionPerformed(ActionEvent actionevent) {
-                StatsComponent.this.tick();
+                StatsComponent.this.func_120034_a();
             }
         })).start();
         this.setBackground(Color.BLACK);
     }
 
-    private void tick() {
+    private void func_120034_a() {
         long i = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 
         System.gc();
-        this.msgs[0] = "Memory use: " + i / 1024L / 1024L + " mb (" + Runtime.getRuntime().freeMemory() * 100L / Runtime.getRuntime().maxMemory() + "% free)";
-        this.msgs[1] = "Avg tick: " + StatsComponent.FORMATTER.format(this.mean(this.server.tickTimeArray) * 1.0E-6D) + " ms";
-        this.values[this.vp++ & 255] = (int) (i * 100L / Runtime.getRuntime().maxMemory());
+        this.field_120036_d[0] = "Memory use: " + i / 1024L / 1024L + " mb (" + Runtime.getRuntime().freeMemory() * 100L / Runtime.getRuntime().maxMemory() + "% free)";
+        this.field_120036_d[1] = "Avg tick: " + StatsComponent.field_120040_a.format(this.func_120035_a(this.field_120037_e.field_71311_j) * 1.0E-6D) + " ms";
+        this.field_120038_b[this.field_120039_c++ & 255] = (int) (i * 100L / Runtime.getRuntime().maxMemory());
         this.repaint();
     }
 
-    private double mean(long[] along) {
+    private double func_120035_a(long[] along) {
         long i = 0L;
         long[] along1 = along;
         int j = along.length;
@@ -63,7 +63,7 @@ public class StatsComponent extends JComponent {
         int i;
 
         for (i = 0; i < 256; ++i) {
-            int j = this.values[i + this.vp & 255];
+            int j = this.field_120038_b[i + this.field_120039_c & 255];
 
             graphics.setColor(new Color(j + 28 << 16));
             graphics.fillRect(i, 100 - j, 1, j);
@@ -71,8 +71,8 @@ public class StatsComponent extends JComponent {
 
         graphics.setColor(Color.BLACK);
 
-        for (i = 0; i < this.msgs.length; ++i) {
-            String s = this.msgs[i];
+        for (i = 0; i < this.field_120036_d.length; ++i) {
+            String s = this.field_120036_d[i];
 
             if (s != null) {
                 graphics.drawString(s, 32, 116 + i * 16);

@@ -26,12 +26,12 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
 
     @Override
     public ItemStack[] getStorageContents() {
-        return asCraftMirror(getInventory().mainInventory);
+        return asCraftMirror(getInventory().field_70462_a);
     }
 
     @Override
     public ItemStack getItemInMainHand() {
-        return CraftItemStack.asCraftMirror(getInventory().getCurrentItem());
+        return CraftItemStack.asCraftMirror(getInventory().func_70448_g());
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
 
     @Override
     public ItemStack getItemInOffHand() {
-        return CraftItemStack.asCraftMirror(getInventory().offHandInventory.get(0));
+        return CraftItemStack.asCraftMirror(getInventory().field_184439_c.get(0));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
         super.setItem(index, item);
         if (this.getHolder() == null) return;
         EntityPlayerMP player = ((CraftPlayer) this.getHolder()).getHandle();
-        if (player.connection == null) return;
+        if (player.field_71135_a == null) return;
         // PacketPlayOutSetSlot places the items differently than setItem()
         //
         // Between, and including, index 9 (the first index outside of the hotbar) and index 35 (the last index before
@@ -95,24 +95,24 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
         // to reverse the order of the index from 8. That means we need 0 to correspond to 8, 1 to correspond to 7,
         // 2 to correspond to 6, and 3 to correspond to 5. We do this simply by taking the result of (index - 36) and
         // subtracting that value from 8.
-        if (index < InventoryPlayer.getHotbarSize()) {
+        if (index < InventoryPlayer.func_70451_h()) {
             index += 36;
         } else if (index > 39) {
             index += 5; // Off hand
         } else if (index > 35) {
             index = 8 - (index - 36);
         }
-        player.connection.sendPacket(new SPacketSetSlot(player.inventoryContainer.windowId, index, CraftItemStack.asNMSCopy(item)));
+        player.field_71135_a.func_147359_a(new SPacketSetSlot(player.field_71069_bz.field_75152_c, index, CraftItemStack.asNMSCopy(item)));
     }
 
     public int getHeldItemSlot() {
-        return getInventory().currentItem;
+        return getInventory().field_70461_c;
     }
 
     public void setHeldItemSlot(int slot) {
-        Validate.isTrue(slot >= 0 && slot < InventoryPlayer.getHotbarSize(), "Slot is not between 0 and 8 inclusive");
-        this.getInventory().currentItem = slot;
-        ((CraftPlayer) this.getHolder()).getHandle().connection.sendPacket(new SPacketHeldItemChange(slot));
+        Validate.isTrue(slot >= 0 && slot < InventoryPlayer.func_70451_h(), "Slot is not between 0 and 8 inclusive");
+        this.getInventory().field_70461_c = slot;
+        ((CraftPlayer) this.getHolder()).getHandle().field_71135_a.func_147359_a(new SPacketHeldItemChange(slot));
     }
 
     public ItemStack getHelmet() {
@@ -148,7 +148,7 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
     }
 
     public ItemStack[] getArmorContents() {
-        return asCraftMirror(getInventory().armorInventory);
+        return asCraftMirror(getInventory().field_70460_b);
     }
 
     private void setSlots(ItemStack[] items, int baseSlot, int length) {
@@ -168,22 +168,22 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
 
     @Override
     public void setStorageContents(ItemStack[] items) throws IllegalArgumentException {
-        setSlots(items, 0, getInventory().mainInventory.size());
+        setSlots(items, 0, getInventory().field_70462_a.size());
     }
 
     @Override
     public void setArmorContents(ItemStack[] items) {
-        setSlots(items, getInventory().mainInventory.size(), getInventory().armorInventory.size());
+        setSlots(items, getInventory().field_70462_a.size(), getInventory().field_70460_b.size());
     }
 
     @Override
     public ItemStack[] getExtraContents() {
-        return asCraftMirror(getInventory().offHandInventory);
+        return asCraftMirror(getInventory().field_184439_c);
     }
 
     @Override
     public void setExtraContents(ItemStack[] items) {
-        setSlots(items, getInventory().mainInventory.size() + getInventory().armorInventory.size(), getInventory().offHandInventory.size());
+        setSlots(items, getInventory().field_70462_a.size() + getInventory().field_70460_b.size(), getInventory().field_184439_c.size());
     }
 
     public int clear(int id, int data) {

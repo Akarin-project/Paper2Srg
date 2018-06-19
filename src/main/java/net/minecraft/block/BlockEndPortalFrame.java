@@ -32,89 +32,89 @@ import net.minecraft.world.World;
 
 public class BlockEndPortalFrame extends Block {
 
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    public static final PropertyBool EYE = PropertyBool.create("eye");
-    protected static final AxisAlignedBB AABB_BLOCK = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.8125D, 1.0D);
-    protected static final AxisAlignedBB AABB_EYE = new AxisAlignedBB(0.3125D, 0.8125D, 0.3125D, 0.6875D, 1.0D, 0.6875D);
-    private static BlockPattern portalShape;
+    public static final PropertyDirection field_176508_a = BlockHorizontal.field_185512_D;
+    public static final PropertyBool field_176507_b = PropertyBool.func_177716_a("eye");
+    protected static final AxisAlignedBB field_185662_c = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.8125D, 1.0D);
+    protected static final AxisAlignedBB field_185663_d = new AxisAlignedBB(0.3125D, 0.8125D, 0.3125D, 0.6875D, 1.0D, 0.6875D);
+    private static BlockPattern field_185664_e;
 
     public BlockEndPortalFrame() {
-        super(Material.ROCK, MapColor.GREEN);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockEndPortalFrame.FACING, EnumFacing.NORTH).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(false)));
+        super(Material.field_151576_e, MapColor.field_151651_C);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockEndPortalFrame.field_176508_a, EnumFacing.NORTH).func_177226_a(BlockEndPortalFrame.field_176507_b, Boolean.valueOf(false)));
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockEndPortalFrame.AABB_BLOCK;
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockEndPortalFrame.field_185662_c;
     }
 
-    public void addCollisionBoxToList(IBlockState iblockdata, World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity, boolean flag) {
-        addCollisionBoxToList(blockposition, axisalignedbb, list, BlockEndPortalFrame.AABB_BLOCK);
-        if (((Boolean) world.getBlockState(blockposition).getValue(BlockEndPortalFrame.EYE)).booleanValue()) {
-            addCollisionBoxToList(blockposition, axisalignedbb, list, BlockEndPortalFrame.AABB_EYE);
+    public void func_185477_a(IBlockState iblockdata, World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity, boolean flag) {
+        func_185492_a(blockposition, axisalignedbb, list, BlockEndPortalFrame.field_185662_c);
+        if (((Boolean) world.func_180495_p(blockposition).func_177229_b(BlockEndPortalFrame.field_176507_b)).booleanValue()) {
+            func_185492_a(blockposition, axisalignedbb, list, BlockEndPortalFrame.field_185663_d);
         }
 
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.AIR;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_190931_a;
     }
 
-    public IBlockState getStateForPlacement(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
-        return this.getDefaultState().withProperty(BlockEndPortalFrame.FACING, entityliving.getHorizontalFacing().getOpposite()).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(false));
+    public IBlockState func_180642_a(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
+        return this.func_176223_P().func_177226_a(BlockEndPortalFrame.field_176508_a, entityliving.func_174811_aO().func_176734_d()).func_177226_a(BlockEndPortalFrame.field_176507_b, Boolean.valueOf(false));
     }
 
-    public boolean hasComparatorInputOverride(IBlockState iblockdata) {
+    public boolean func_149740_M(IBlockState iblockdata) {
         return true;
     }
 
-    public int getComparatorInputOverride(IBlockState iblockdata, World world, BlockPos blockposition) {
-        return ((Boolean) iblockdata.getValue(BlockEndPortalFrame.EYE)).booleanValue() ? 15 : 0;
+    public int func_180641_l(IBlockState iblockdata, World world, BlockPos blockposition) {
+        return ((Boolean) iblockdata.func_177229_b(BlockEndPortalFrame.field_176507_b)).booleanValue() ? 15 : 0;
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf((i & 4) != 0)).withProperty(BlockEndPortalFrame.FACING, EnumFacing.getHorizontal(i & 3));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockEndPortalFrame.field_176507_b, Boolean.valueOf((i & 4) != 0)).func_177226_a(BlockEndPortalFrame.field_176508_a, EnumFacing.func_176731_b(i & 3));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         byte b0 = 0;
-        int i = b0 | ((EnumFacing) iblockdata.getValue(BlockEndPortalFrame.FACING)).getHorizontalIndex();
+        int i = b0 | ((EnumFacing) iblockdata.func_177229_b(BlockEndPortalFrame.field_176508_a)).func_176736_b();
 
-        if (((Boolean) iblockdata.getValue(BlockEndPortalFrame.EYE)).booleanValue()) {
+        if (((Boolean) iblockdata.func_177229_b(BlockEndPortalFrame.field_176507_b)).booleanValue()) {
             i |= 4;
         }
 
         return i;
     }
 
-    public IBlockState withRotation(IBlockState iblockdata, Rotation enumblockrotation) {
-        return iblockdata.withProperty(BlockEndPortalFrame.FACING, enumblockrotation.rotate((EnumFacing) iblockdata.getValue(BlockEndPortalFrame.FACING)));
+    public IBlockState func_185499_a(IBlockState iblockdata, Rotation enumblockrotation) {
+        return iblockdata.func_177226_a(BlockEndPortalFrame.field_176508_a, enumblockrotation.func_185831_a((EnumFacing) iblockdata.func_177229_b(BlockEndPortalFrame.field_176508_a)));
     }
 
-    public IBlockState withMirror(IBlockState iblockdata, Mirror enumblockmirror) {
-        return iblockdata.withRotation(enumblockmirror.toRotation((EnumFacing) iblockdata.getValue(BlockEndPortalFrame.FACING)));
+    public IBlockState func_185471_a(IBlockState iblockdata, Mirror enumblockmirror) {
+        return iblockdata.func_185907_a(enumblockmirror.func_185800_a((EnumFacing) iblockdata.func_177229_b(BlockEndPortalFrame.field_176508_a)));
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockEndPortalFrame.FACING, BlockEndPortalFrame.EYE});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockEndPortalFrame.field_176508_a, BlockEndPortalFrame.field_176507_b});
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public static BlockPattern getOrCreatePortalShape() {
-        if (BlockEndPortalFrame.portalShape == null) {
-            BlockEndPortalFrame.portalShape = FactoryBlockPattern.start().aisle(new String[] { "?vvv?", ">???<", ">???<", ">???<", "?^^^?"}).where('?', BlockWorldState.hasState(BlockStateMatcher.ANY)).where('^', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.END_PORTAL_FRAME).where(BlockEndPortalFrame.EYE, Predicates.equalTo(Boolean.valueOf(true))).where(BlockEndPortalFrame.FACING, Predicates.equalTo(EnumFacing.SOUTH)))).where('>', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.END_PORTAL_FRAME).where(BlockEndPortalFrame.EYE, Predicates.equalTo(Boolean.valueOf(true))).where(BlockEndPortalFrame.FACING, Predicates.equalTo(EnumFacing.WEST)))).where('v', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.END_PORTAL_FRAME).where(BlockEndPortalFrame.EYE, Predicates.equalTo(Boolean.valueOf(true))).where(BlockEndPortalFrame.FACING, Predicates.equalTo(EnumFacing.NORTH)))).where('<', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.END_PORTAL_FRAME).where(BlockEndPortalFrame.EYE, Predicates.equalTo(Boolean.valueOf(true))).where(BlockEndPortalFrame.FACING, Predicates.equalTo(EnumFacing.EAST)))).build();
+    public static BlockPattern func_185661_e() {
+        if (BlockEndPortalFrame.field_185664_e == null) {
+            BlockEndPortalFrame.field_185664_e = FactoryBlockPattern.func_177660_a().func_177659_a(new String[] { "?vvv?", ">???<", ">???<", ">???<", "?^^^?"}).func_177662_a('?', BlockWorldState.func_177510_a(BlockStateMatcher.field_185928_a)).func_177662_a('^', BlockWorldState.func_177510_a(BlockStateMatcher.func_177638_a(Blocks.field_150378_br).func_177637_a(BlockEndPortalFrame.field_176507_b, Predicates.equalTo(Boolean.valueOf(true))).func_177637_a(BlockEndPortalFrame.field_176508_a, Predicates.equalTo(EnumFacing.SOUTH)))).func_177662_a('>', BlockWorldState.func_177510_a(BlockStateMatcher.func_177638_a(Blocks.field_150378_br).func_177637_a(BlockEndPortalFrame.field_176507_b, Predicates.equalTo(Boolean.valueOf(true))).func_177637_a(BlockEndPortalFrame.field_176508_a, Predicates.equalTo(EnumFacing.WEST)))).func_177662_a('v', BlockWorldState.func_177510_a(BlockStateMatcher.func_177638_a(Blocks.field_150378_br).func_177637_a(BlockEndPortalFrame.field_176507_b, Predicates.equalTo(Boolean.valueOf(true))).func_177637_a(BlockEndPortalFrame.field_176508_a, Predicates.equalTo(EnumFacing.NORTH)))).func_177662_a('<', BlockWorldState.func_177510_a(BlockStateMatcher.func_177638_a(Blocks.field_150378_br).func_177637_a(BlockEndPortalFrame.field_176507_b, Predicates.equalTo(Boolean.valueOf(true))).func_177637_a(BlockEndPortalFrame.field_176508_a, Predicates.equalTo(EnumFacing.EAST)))).func_177661_b();
         }
 
-        return BlockEndPortalFrame.portalShape;
+        return BlockEndPortalFrame.field_185664_e;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return enumdirection == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
 }

@@ -8,32 +8,32 @@ public class RidingToPassengers implements IFixableData {
 
     public RidingToPassengers() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 135;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        while (nbttagcompound.hasKey("Riding", 10)) {
-            NBTTagCompound nbttagcompound1 = this.extractVehicle(nbttagcompound);
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        while (nbttagcompound.func_150297_b("Riding", 10)) {
+            NBTTagCompound nbttagcompound1 = this.func_188220_b(nbttagcompound);
 
-            this.addPassengerToVehicle(nbttagcompound, nbttagcompound1);
+            this.func_188219_a(nbttagcompound, nbttagcompound1);
             nbttagcompound = nbttagcompound1;
         }
 
         return nbttagcompound;
     }
 
-    protected void addPassengerToVehicle(NBTTagCompound nbttagcompound, NBTTagCompound nbttagcompound1) {
+    protected void func_188219_a(NBTTagCompound nbttagcompound, NBTTagCompound nbttagcompound1) {
         NBTTagList nbttaglist = new NBTTagList();
 
-        nbttaglist.appendTag(nbttagcompound);
-        nbttagcompound1.setTag("Passengers", nbttaglist);
+        nbttaglist.func_74742_a(nbttagcompound);
+        nbttagcompound1.func_74782_a("Passengers", nbttaglist);
     }
 
-    protected NBTTagCompound extractVehicle(NBTTagCompound nbttagcompound) {
-        NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Riding");
+    protected NBTTagCompound func_188220_b(NBTTagCompound nbttagcompound) {
+        NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("Riding");
 
-        nbttagcompound.removeTag("Riding");
+        nbttagcompound.func_82580_o("Riding");
         return nbttagcompound1;
     }
 }

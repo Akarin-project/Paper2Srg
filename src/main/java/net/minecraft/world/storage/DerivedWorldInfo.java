@@ -12,137 +12,137 @@ import net.minecraft.world.WorldType;
 
 public class DerivedWorldInfo extends WorldInfo {
 
-    private final WorldInfo delegate;
+    private final WorldInfo field_76115_a;
 
     public DerivedWorldInfo(WorldInfo worlddata) {
-        this.delegate = worlddata;
+        this.field_76115_a = worlddata;
     }
 
-    public NBTTagCompound cloneNBTCompound(@Nullable NBTTagCompound nbttagcompound) {
-        return this.delegate.cloneNBTCompound(nbttagcompound);
+    public NBTTagCompound func_76082_a(@Nullable NBTTagCompound nbttagcompound) {
+        return this.field_76115_a.func_76082_a(nbttagcompound);
     }
 
-    public long getSeed() {
-        return this.delegate.getSeed();
+    public long func_76063_b() {
+        return this.field_76115_a.func_76063_b();
     }
 
-    public int getSpawnX() {
-        return this.delegate.getSpawnX();
+    public int func_76079_c() {
+        return this.field_76115_a.func_76079_c();
     }
 
-    public int getSpawnY() {
-        return this.delegate.getSpawnY();
+    public int func_76075_d() {
+        return this.field_76115_a.func_76075_d();
     }
 
-    public int getSpawnZ() {
-        return this.delegate.getSpawnZ();
+    public int func_76074_e() {
+        return this.field_76115_a.func_76074_e();
     }
 
-    public long getWorldTotalTime() {
-        return this.delegate.getWorldTotalTime();
+    public long func_82573_f() {
+        return this.field_76115_a.func_82573_f();
     }
 
-    public long getWorldTime() {
-        return this.delegate.getWorldTime();
+    public long func_76073_f() {
+        return this.field_76115_a.func_76073_f();
     }
 
-    public NBTTagCompound getPlayerNBTTagCompound() {
-        return this.delegate.getPlayerNBTTagCompound();
+    public NBTTagCompound func_76072_h() {
+        return this.field_76115_a.func_76072_h();
     }
 
-    public String getWorldName() {
-        return this.delegate.getWorldName();
+    public String func_76065_j() {
+        return this.field_76115_a.func_76065_j();
     }
 
-    public int getSaveVersion() {
-        return this.delegate.getSaveVersion();
+    public int func_76088_k() {
+        return this.field_76115_a.func_76088_k();
     }
 
-    public boolean isThundering() {
-        return this.delegate.isThundering();
+    public boolean func_76061_m() {
+        return this.field_76115_a.func_76061_m();
     }
 
-    public int getThunderTime() {
-        return this.delegate.getThunderTime();
+    public int func_76071_n() {
+        return this.field_76115_a.func_76071_n();
     }
 
-    public boolean isRaining() {
-        return this.delegate.isRaining();
+    public boolean func_76059_o() {
+        return this.field_76115_a.func_76059_o();
     }
 
-    public int getRainTime() {
-        return this.delegate.getRainTime();
+    public int func_76083_p() {
+        return this.field_76115_a.func_76083_p();
     }
 
-    public GameType getGameType() {
-        return this.delegate.getGameType();
+    public GameType func_76077_q() {
+        return this.field_76115_a.func_76077_q();
     }
 
-    public void setWorldTotalTime(long i) {}
+    public void func_82572_b(long i) {}
 
-    public void setWorldTime(long i) {}
+    public void func_76068_b(long i) {}
 
-    public void setSpawn(BlockPos blockposition) {}
+    public void func_176143_a(BlockPos blockposition) {}
 
-    public void setWorldName(String s) {}
+    public void func_76062_a(String s) {}
 
-    public void setSaveVersion(int i) {}
+    public void func_76078_e(int i) {}
 
-    public void setThundering(boolean flag) {}
+    public void func_76069_a(boolean flag) {}
 
-    public void setThunderTime(int i) {}
+    public void func_76090_f(int i) {}
 
-    public void setRaining(boolean flag) {}
+    public void func_76084_b(boolean flag) {}
 
-    public void setRainTime(int i) {}
+    public void func_76080_g(int i) {}
 
-    public boolean isMapFeaturesEnabled() {
-        return this.delegate.isMapFeaturesEnabled();
+    public boolean func_76089_r() {
+        return this.field_76115_a.func_76089_r();
     }
 
-    public boolean isHardcoreModeEnabled() {
-        return this.delegate.isHardcoreModeEnabled();
+    public boolean func_76093_s() {
+        return this.field_76115_a.func_76093_s();
     }
 
-    public WorldType getTerrainType() {
-        return this.delegate.getTerrainType();
+    public WorldType func_76067_t() {
+        return this.field_76115_a.func_76067_t();
     }
 
-    public void setTerrainType(WorldType worldtype) {}
+    public void func_76085_a(WorldType worldtype) {}
 
-    public boolean areCommandsAllowed() {
-        return this.delegate.areCommandsAllowed();
+    public boolean func_76086_u() {
+        return this.field_76115_a.func_76086_u();
     }
 
-    public void setAllowCommands(boolean flag) {}
+    public void func_176121_c(boolean flag) {}
 
-    public boolean isInitialized() {
-        return this.delegate.isInitialized();
+    public boolean func_76070_v() {
+        return this.field_76115_a.func_76070_v();
     }
 
-    public void setServerInitialized(boolean flag) {}
+    public void func_76091_d(boolean flag) {}
 
-    public GameRules getGameRulesInstance() {
-        return this.delegate.getGameRulesInstance();
+    public GameRules func_82574_x() {
+        return this.field_76115_a.func_82574_x();
     }
 
-    public EnumDifficulty getDifficulty() {
-        return this.delegate.getDifficulty();
+    public EnumDifficulty func_176130_y() {
+        return this.field_76115_a.func_176130_y();
     }
 
-    public void setDifficulty(EnumDifficulty enumdifficulty) {}
+    public void func_176144_a(EnumDifficulty enumdifficulty) {}
 
-    public boolean isDifficultyLocked() {
-        return this.delegate.isDifficultyLocked();
+    public boolean func_176123_z() {
+        return this.field_76115_a.func_176123_z();
     }
 
-    public void setDifficultyLocked(boolean flag) {}
+    public void func_180783_e(boolean flag) {}
 
-    public void setDimensionData(DimensionType dimensionmanager, NBTTagCompound nbttagcompound) {
-        this.delegate.setDimensionData(dimensionmanager, nbttagcompound);
+    public void func_186345_a(DimensionType dimensionmanager, NBTTagCompound nbttagcompound) {
+        this.field_76115_a.func_186345_a(dimensionmanager, nbttagcompound);
     }
 
-    public NBTTagCompound getDimensionData(DimensionType dimensionmanager) {
-        return this.delegate.getDimensionData(dimensionmanager);
+    public NBTTagCompound func_186347_a(DimensionType dimensionmanager) {
+        return this.field_76115_a.func_186347_a(dimensionmanager);
     }
 }

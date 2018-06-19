@@ -34,12 +34,12 @@ import net.minecraft.util.JsonUtils;
 
 public class UserList<K, V extends UserListEntry<K>> {
 
-    protected static final Logger LOGGER = LogManager.getLogger();
-    protected final Gson gson;
-    private final File saveFile;
-    private final Map<String, V> values = Maps.newHashMap();
-    private boolean lanServer = true;
-    private static final ParameterizedType USER_LIST_ENTRY_TYPE = new ParameterizedType() {
+    protected static final Logger field_152693_a = LogManager.getLogger();
+    protected final Gson field_152694_b;
+    private final File field_152695_c;
+    private final Map<String, V> field_152696_d = Maps.newHashMap();
+    private boolean field_152697_e = true;
+    private static final ParameterizedType field_152698_f = new ParameterizedType() {
         public Type[] getActualTypeArguments() {
             return new Type[] { UserListEntry.class};
         }
@@ -54,83 +54,83 @@ public class UserList<K, V extends UserListEntry<K>> {
     };
 
     public UserList(File file) {
-        this.saveFile = file;
+        this.field_152695_c = file;
         GsonBuilder gsonbuilder = (new GsonBuilder()).setPrettyPrinting();
 
         gsonbuilder.registerTypeHierarchyAdapter(UserListEntry.class, new UserList.Serializer(null));
-        this.gson = gsonbuilder.create();
+        this.field_152694_b = gsonbuilder.create();
     }
 
-    public boolean isLanServer() {
-        return this.lanServer;
+    public boolean func_152689_b() {
+        return this.field_152697_e;
     }
 
-    public void setLanServer(boolean flag) {
-        this.lanServer = flag;
+    public void func_152686_a(boolean flag) {
+        this.field_152697_e = flag;
     }
 
-    public File getSaveFile() {
-        return this.saveFile;
+    public File func_152691_c() {
+        return this.field_152695_c;
     }
 
-    public void addEntry(V v0) {
-        this.values.put(this.getObjectKey(v0.getValue()), v0);
+    public void func_152687_a(V v0) {
+        this.field_152696_d.put(this.func_152681_a(v0.func_152640_f()), v0);
 
         try {
-            this.writeChanges();
+            this.func_152678_f();
         } catch (IOException ioexception) {
-            UserList.LOGGER.warn("Could not save the list after adding a user.", ioexception);
+            UserList.field_152693_a.warn("Could not save the list after adding a user.", ioexception);
         }
 
     }
 
-    public V getEntry(K k0) {
-        this.removeExpired();
-        return (V) this.values.get(this.getObjectKey(k0)); // CraftBukkit - fix decompile error
+    public V func_152683_b(K k0) {
+        this.func_152680_h();
+        return (V) this.field_152696_d.get(this.func_152681_a(k0)); // CraftBukkit - fix decompile error
     }
 
-    public void removeEntry(K k0) {
-        this.values.remove(this.getObjectKey(k0));
+    public void func_152684_c(K k0) {
+        this.field_152696_d.remove(this.func_152681_a(k0));
 
         try {
-            this.writeChanges();
+            this.func_152678_f();
         } catch (IOException ioexception) {
-            UserList.LOGGER.warn("Could not save the list after removing a user.", ioexception);
+            UserList.field_152693_a.warn("Could not save the list after removing a user.", ioexception);
         }
 
     }
 
-    public String[] getKeys() {
-        return (String[]) this.values.keySet().toArray(new String[this.values.size()]);
+    public String[] func_152685_a() {
+        return (String[]) this.field_152696_d.keySet().toArray(new String[this.field_152696_d.size()]);
     }
 
     // CraftBukkit start
     public Collection<V> getValues() {
-        return this.values.values();
+        return this.field_152696_d.values();
     }
     // CraftBukkit end
 
-    public boolean isEmpty() {
-        return this.values.size() < 1;
+    public boolean func_152690_d() {
+        return this.field_152696_d.size() < 1;
     }
 
-    protected String getObjectKey(K k0) {
+    protected String func_152681_a(K k0) {
         return k0.toString();
     }
 
-    protected boolean hasEntry(K k0) {
-        return this.values.containsKey(this.getObjectKey(k0));
+    protected boolean func_152692_d(K k0) {
+        return this.field_152696_d.containsKey(this.func_152681_a(k0));
     }
 
-    private void removeExpired() {
+    private void func_152680_h() {
         ArrayList arraylist = Lists.newArrayList();
-        Iterator iterator = this.values.values().iterator();
+        Iterator iterator = this.field_152696_d.values().iterator();
 
         while (iterator.hasNext()) {
             UserListEntry jsonlistentry = (UserListEntry) iterator.next();
 
-            if (jsonlistentry.hasBanExpired()) {
-                arraylist.add(jsonlistentry.getValue());
+            if (jsonlistentry.func_73682_e()) {
+                arraylist.add(jsonlistentry.func_152640_f());
             }
         }
 
@@ -139,26 +139,26 @@ public class UserList<K, V extends UserListEntry<K>> {
         while (iterator.hasNext()) {
             Object object = iterator.next();
 
-            this.values.remove(object);
+            this.field_152696_d.remove(object);
         }
 
     }
 
-    protected UserListEntry<K> createEntry(JsonObject jsonobject) {
+    protected UserListEntry<K> func_152682_a(JsonObject jsonobject) {
         return new UserListEntry((Object) null, jsonobject);
     }
 
-    protected Map<String, V> getValues() {
-        return this.values;
+    protected Map<String, V> func_152688_e() {
+        return this.field_152696_d;
     }
 
-    public void writeChanges() throws IOException {
-        Collection collection = this.values.values();
-        String s = this.gson.toJson(collection);
+    public void func_152678_f() throws IOException {
+        Collection collection = this.field_152696_d.values();
+        String s = this.field_152694_b.toJson(collection);
         BufferedWriter bufferedwriter = null;
 
         try {
-            bufferedwriter = Files.newWriter(this.saveFile, StandardCharsets.UTF_8);
+            bufferedwriter = Files.newWriter(this.field_152695_c, StandardCharsets.UTF_8);
             bufferedwriter.write(s);
         } finally {
             IOUtils.closeQuietly(bufferedwriter);
@@ -166,35 +166,35 @@ public class UserList<K, V extends UserListEntry<K>> {
 
     }
 
-    public void readSavedFile() throws FileNotFoundException {
-        if (this.saveFile.exists()) {
+    public void func_152679_g() throws FileNotFoundException {
+        if (this.field_152695_c.exists()) {
             Collection collection = null;
             BufferedReader bufferedreader = null;
 
             try {
-                bufferedreader = Files.newReader(this.saveFile, StandardCharsets.UTF_8);
-                collection = (Collection) JsonUtils.fromJson(this.gson, (Reader) bufferedreader, (Type) UserList.USER_LIST_ENTRY_TYPE);
+                bufferedreader = Files.newReader(this.field_152695_c, StandardCharsets.UTF_8);
+                collection = (Collection) JsonUtils.func_193841_a(this.field_152694_b, (Reader) bufferedreader, (Type) UserList.field_152698_f);
             // Spigot Start
             } catch ( com.google.gson.JsonParseException ex )
             {
-                org.bukkit.Bukkit.getLogger().log( java.util.logging.Level.WARNING, "Unable to read file " + this.saveFile + ", backing it up to {0}.backup and creating new copy.", ex );
-                File backup = new File( this.saveFile + ".backup" );
-                this.saveFile.renameTo( backup );
-                this.saveFile.delete();
+                org.bukkit.Bukkit.getLogger().log( java.util.logging.Level.WARNING, "Unable to read file " + this.field_152695_c + ", backing it up to {0}.backup and creating new copy.", ex );
+                File backup = new File( this.field_152695_c + ".backup" );
+                this.field_152695_c.renameTo( backup );
+                this.field_152695_c.delete();
             // Spigot End
             } finally {
                 IOUtils.closeQuietly(bufferedreader);
             }
 
             if (collection != null) {
-                this.values.clear();
+                this.field_152696_d.clear();
                 Iterator iterator = collection.iterator();
 
                 while (iterator.hasNext()) {
                     UserListEntry jsonlistentry = (UserListEntry) iterator.next();
 
-                    if (jsonlistentry.getValue() != null) {
-                        this.values.put(this.getObjectKey((K) jsonlistentry.getValue()), (V) jsonlistentry); // CraftBukkit - fix decompile error
+                    if (jsonlistentry.func_152640_f() != null) {
+                        this.field_152696_d.put(this.func_152681_a((K) jsonlistentry.func_152640_f()), (V) jsonlistentry); // CraftBukkit - fix decompile error
                     }
                 }
             }
@@ -209,7 +209,7 @@ public class UserList<K, V extends UserListEntry<K>> {
         public JsonElement serialize(UserListEntry<K> jsonlistentry, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
-            jsonlistentry.onSerialization(jsonobject);
+            jsonlistentry.func_152641_a(jsonobject);
             return jsonobject;
         }
 
@@ -217,7 +217,7 @@ public class UserList<K, V extends UserListEntry<K>> {
             if (jsonelement.isJsonObject()) {
                 JsonObject jsonobject = jsonelement.getAsJsonObject();
 
-                return UserList.this.createEntry(jsonobject);
+                return UserList.this.func_152682_a(jsonobject);
             } else {
                 return null;
             }

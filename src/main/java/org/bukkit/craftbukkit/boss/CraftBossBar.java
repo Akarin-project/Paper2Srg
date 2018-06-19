@@ -61,20 +61,20 @@ public class CraftBossBar implements BossBar {
     }
 
     private void updateFlags() {
-        handle.setDarkenSky(hasFlag(BarFlag.DARKEN_SKY));
-        handle.setPlayEndBossMusic(hasFlag(BarFlag.PLAY_BOSS_MUSIC));
-        handle.setCreateFog(hasFlag(BarFlag.CREATE_FOG));
+        handle.func_186741_a(hasFlag(BarFlag.DARKEN_SKY));
+        handle.func_186742_b(hasFlag(BarFlag.PLAY_BOSS_MUSIC));
+        handle.func_186743_c(hasFlag(BarFlag.CREATE_FOG));
     }
 
     @Override
     public String getTitle() {
-        return CraftChatMessage.fromComponent(handle.getName());
+        return CraftChatMessage.fromComponent(handle.func_186744_e());
     }
 
     @Override
     public void setTitle(String title) {
-        handle.name = CraftChatMessage.fromString(title, true)[0];
-        handle.sendUpdate(SPacketUpdateBossInfo.Operation.UPDATE_NAME);
+        handle.field_186749_a = CraftChatMessage.fromString(title, true)[0];
+        handle.func_186759_a(SPacketUpdateBossInfo.Operation.UPDATE_NAME);
     }
 
     @Override
@@ -85,8 +85,8 @@ public class CraftBossBar implements BossBar {
     @Override
     public void setColor(BarColor color) {
         this.color = color;
-        handle.color = convertColor(color);
-        handle.sendUpdate(SPacketUpdateBossInfo.Operation.UPDATE_STYLE);
+        handle.field_186751_c = convertColor(color);
+        handle.func_186759_a(SPacketUpdateBossInfo.Operation.UPDATE_STYLE);
     }
 
     @Override
@@ -97,8 +97,8 @@ public class CraftBossBar implements BossBar {
     @Override
     public void setStyle(BarStyle style) {
         this.style = style;
-        handle.overlay = convertStyle(style);
-        handle.sendUpdate(SPacketUpdateBossInfo.Operation.UPDATE_STYLE);
+        handle.field_186752_d = convertStyle(style);
+        handle.func_186759_a(SPacketUpdateBossInfo.Operation.UPDATE_STYLE);
     }
 
     @Override
@@ -121,28 +121,28 @@ public class CraftBossBar implements BossBar {
     @Override
     public void setProgress(double progress) {
     	Preconditions.checkArgument(progress >= 0.0 && progress <= 1.0, "Progress must be between 0.0 and 1.0 (%s)", progress);
-        handle.setPercent((float) progress);
+        handle.func_186735_a((float) progress);
     }
 
     @Override
     public double getProgress() {
-        return handle.getPercent();
+        return handle.func_186738_f();
     }
 
     @Override
     public void addPlayer(Player player) {
-        handle.addPlayer(((CraftPlayer) player).getHandle());
+        handle.func_186760_a(((CraftPlayer) player).getHandle());
     }
 
     @Override
     public void removePlayer(Player player) {
-        handle.removePlayer(((CraftPlayer) player).getHandle());
+        handle.func_186761_b(((CraftPlayer) player).getHandle());
     }
 
     @Override
     public List<Player> getPlayers() {
         ImmutableList.Builder<Player> players = ImmutableList.builder();
-        for (EntityPlayerMP p : handle.getPlayers()) {
+        for (EntityPlayerMP p : handle.func_186757_c()) {
             players.add(p.getBukkitEntity());
         }
         return players.build();
@@ -150,22 +150,22 @@ public class CraftBossBar implements BossBar {
 
     @Override
     public void setVisible(boolean visible) {
-        handle.setVisible(visible);
+        handle.func_186758_d(visible);
     }
 
     @Override
     public boolean isVisible() {
-        return handle.visible;
+        return handle.field_186764_j;
     }
 
     @Override
     public void show() {
-        handle.setVisible(true);
+        handle.func_186758_d(true);
     }
 
     @Override
     public void hide() {
-        handle.setVisible(false);
+        handle.func_186758_d(false);
     }
 
     @Override

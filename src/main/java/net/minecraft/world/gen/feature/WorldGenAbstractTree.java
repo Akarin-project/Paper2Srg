@@ -14,17 +14,17 @@ public abstract class WorldGenAbstractTree extends WorldGenerator {
         super(flag);
     }
 
-    protected boolean canGrowInto(Block block) {
-        Material material = block.getDefaultState().getMaterial();
+    protected boolean func_150523_a(Block block) {
+        Material material = block.func_176223_P().func_185904_a();
 
-        return material == Material.AIR || material == Material.LEAVES || block == Blocks.GRASS || block == Blocks.DIRT || block == Blocks.LOG || block == Blocks.LOG2 || block == Blocks.SAPLING || block == Blocks.VINE;
+        return material == Material.field_151579_a || material == Material.field_151584_j || block == Blocks.field_150349_c || block == Blocks.field_150346_d || block == Blocks.field_150364_r || block == Blocks.field_150363_s || block == Blocks.field_150345_g || block == Blocks.field_150395_bd;
     }
 
-    public void generateSaplings(World world, Random random, BlockPos blockposition) {}
+    public void func_180711_a(World world, Random random, BlockPos blockposition) {}
 
-    protected void setDirtAt(World world, BlockPos blockposition) {
-        if (world.getBlockState(blockposition).getBlock() != Blocks.DIRT) {
-            this.setBlockAndNotifyAdequately(world, blockposition, Blocks.DIRT.getDefaultState());
+    protected void func_175921_a(World world, BlockPos blockposition) {
+        if (world.func_180495_p(blockposition).func_177230_c() != Blocks.field_150346_d) {
+            this.func_175903_a(world, blockposition, Blocks.field_150346_d.func_176223_P());
         }
 
     }

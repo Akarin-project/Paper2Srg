@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 public class ItemCompass extends Item {
 
     public ItemCompass() {
-        this.addPropertyOverride(new ResourceLocation("angle"), new IItemPropertyGetter() {
+        this.func_185043_a(new ResourceLocation("angle"), new IItemPropertyGetter() {
         });
     }
 }

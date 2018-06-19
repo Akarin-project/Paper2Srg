@@ -10,23 +10,23 @@ public class UserListIPBans extends UserList<String, UserListIPBansEntry> {
         super(file);
     }
 
-    protected UserListEntry<String> createEntry(JsonObject jsonobject) {
+    protected UserListEntry<String> func_152682_a(JsonObject jsonobject) {
         return new UserListIPBansEntry(jsonobject);
     }
 
-    public boolean isBanned(SocketAddress socketaddress) {
-        String s = this.addressToString(socketaddress);
+    public boolean func_152708_a(SocketAddress socketaddress) {
+        String s = this.func_152707_c(socketaddress);
 
-        return this.hasEntry(s);
+        return this.func_152692_d(s);
     }
 
-    public UserListIPBansEntry getBanEntry(SocketAddress socketaddress) {
-        String s = this.addressToString(socketaddress);
+    public UserListIPBansEntry func_152709_b(SocketAddress socketaddress) {
+        String s = this.func_152707_c(socketaddress);
 
-        return (UserListIPBansEntry) this.getBanEntry((Object) s);
+        return (UserListIPBansEntry) this.func_152709_b((Object) s);
     }
 
-    private String addressToString(SocketAddress socketaddress) {
+    private String func_152707_c(SocketAddress socketaddress) {
         String s = socketaddress.toString();
 
         if (s.contains("/")) {

@@ -17,65 +17,65 @@ public class CommandBlockData extends CommandBase {
 
     public CommandBlockData() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "blockdata";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 2;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.blockdata.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 4) {
             throw new WrongUsageException("commands.blockdata.usage", new Object[0]);
         } else {
-            icommandlistener.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
-            BlockPos blockposition = parseBlockPos(icommandlistener, astring, 0, false);
-            World world = icommandlistener.getEntityWorld();
+            icommandlistener.func_174794_a(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
+            BlockPos blockposition = func_175757_a(icommandlistener, astring, 0, false);
+            World world = icommandlistener.func_130014_f_();
 
-            if (!world.isBlockLoaded(blockposition)) {
+            if (!world.func_175667_e(blockposition)) {
                 throw new CommandException("commands.blockdata.outOfWorld", new Object[0]);
             } else {
-                IBlockState iblockdata = world.getBlockState(blockposition);
-                TileEntity tileentity = world.getTileEntity(blockposition);
+                IBlockState iblockdata = world.func_180495_p(blockposition);
+                TileEntity tileentity = world.func_175625_s(blockposition);
 
                 if (tileentity == null) {
                     throw new CommandException("commands.blockdata.notValid", new Object[0]);
                 } else {
-                    NBTTagCompound nbttagcompound = tileentity.writeToNBT(new NBTTagCompound());
-                    NBTTagCompound nbttagcompound1 = nbttagcompound.copy();
+                    NBTTagCompound nbttagcompound = tileentity.func_189515_b(new NBTTagCompound());
+                    NBTTagCompound nbttagcompound1 = nbttagcompound.func_74737_b();
 
                     NBTTagCompound nbttagcompound2;
 
                     try {
-                        nbttagcompound2 = JsonToNBT.getTagFromJson(buildString(astring, 3));
+                        nbttagcompound2 = JsonToNBT.func_180713_a(func_180529_a(astring, 3));
                     } catch (NBTException mojangsonparseexception) {
                         throw new CommandException("commands.blockdata.tagError", new Object[] { mojangsonparseexception.getMessage()});
                     }
 
-                    nbttagcompound.merge(nbttagcompound2);
-                    nbttagcompound.setInteger("x", blockposition.getX());
-                    nbttagcompound.setInteger("y", blockposition.getY());
-                    nbttagcompound.setInteger("z", blockposition.getZ());
+                    nbttagcompound.func_179237_a(nbttagcompound2);
+                    nbttagcompound.func_74768_a("x", blockposition.func_177958_n());
+                    nbttagcompound.func_74768_a("y", blockposition.func_177956_o());
+                    nbttagcompound.func_74768_a("z", blockposition.func_177952_p());
                     if (nbttagcompound.equals(nbttagcompound1)) {
                         throw new CommandException("commands.blockdata.failed", new Object[] { nbttagcompound.toString()});
                     } else {
-                        tileentity.readFromNBT(nbttagcompound);
-                        tileentity.markDirty();
-                        world.notifyBlockUpdate(blockposition, iblockdata, iblockdata, 3);
-                        icommandlistener.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
-                        notifyCommandListener(icommandlistener, (ICommand) this, "commands.blockdata.success", new Object[] { nbttagcompound.toString()});
+                        tileentity.func_145839_a(nbttagcompound);
+                        tileentity.func_70296_d();
+                        world.func_184138_a(blockposition, iblockdata, iblockdata, 3);
+                        icommandlistener.func_174794_a(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
+                        func_152373_a(icommandlistener, (ICommand) this, "commands.blockdata.success", new Object[] { nbttagcompound.toString()});
                     }
                 }
             }
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length > 0 && astring.length <= 3 ? getTabCompletionCoordinate(astring, 0, blockposition) : Collections.emptyList();
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length > 0 && astring.length <= 3 ? func_175771_a(astring, 0, blockposition) : Collections.emptyList();
     }
 }

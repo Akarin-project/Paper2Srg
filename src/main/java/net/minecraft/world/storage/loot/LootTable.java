@@ -19,74 +19,75 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.LootTable.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.math.MathHelper;
 
 public class LootTable {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    public static final LootTable EMPTY_LOOT_TABLE = new LootTable(new LootPool[0]);
-    private final LootPool[] pools;
+    private static final Logger field_186465_b = LogManager.getLogger();
+    public static final LootTable field_186464_a = new LootTable(new LootPool[0]);
+    private final LootPool[] field_186466_c;
 
     public LootTable(LootPool[] alootselector) {
-        this.pools = alootselector;
+        this.field_186466_c = alootselector;
     }
 
-    public List<ItemStack> generateLootForPools(Random random, LootContext loottableinfo) {
+    public List<ItemStack> func_186462_a(Random random, LootContext loottableinfo) {
         ArrayList arraylist = Lists.newArrayList();
 
-        if (loottableinfo.addLootTable(this)) {
-            LootPool[] alootselector = this.pools;
+        if (loottableinfo.func_186496_a(this)) {
+            LootPool[] alootselector = this.field_186466_c;
             int i = alootselector.length;
 
             for (int j = 0; j < i; ++j) {
                 LootPool lootselector = alootselector[j];
 
-                lootselector.generateLoot(arraylist, random, loottableinfo);
+                lootselector.func_186449_b(arraylist, random, loottableinfo);
             }
 
-            loottableinfo.removeLootTable(this);
+            loottableinfo.func_186490_b(this);
         } else {
-            LootTable.LOGGER.warn("Detected infinite loop in loot tables");
+            LootTable.field_186465_b.warn("Detected infinite loop in loot tables");
         }
 
         return arraylist;
     }
 
-    public void fillInventory(IInventory iinventory, Random random, LootContext loottableinfo) {
-        List list = this.generateLootForPools(random, loottableinfo);
-        List list1 = this.getEmptySlotsRandomized(iinventory, random);
+    public void func_186460_a(IInventory iinventory, Random random, LootContext loottableinfo) {
+        List list = this.func_186462_a(random, loottableinfo);
+        List list1 = this.func_186459_a(iinventory, random);
 
-        this.shuffleItems(list, list1.size(), random);
+        this.func_186463_a(list, list1.size(), random);
         Iterator iterator = list.iterator();
 
         while (iterator.hasNext()) {
             ItemStack itemstack = (ItemStack) iterator.next();
 
             if (list1.isEmpty()) {
-                LootTable.LOGGER.warn("Tried to over-fill a container");
+                LootTable.field_186465_b.warn("Tried to over-fill a container");
                 return;
             }
 
-            if (itemstack.isEmpty()) {
-                iinventory.setInventorySlotContents(((Integer) list1.remove(list1.size() - 1)).intValue(), ItemStack.EMPTY);
+            if (itemstack.func_190926_b()) {
+                iinventory.func_70299_a(((Integer) list1.remove(list1.size() - 1)).intValue(), ItemStack.field_190927_a);
             } else {
-                iinventory.setInventorySlotContents(((Integer) list1.remove(list1.size() - 1)).intValue(), itemstack);
+                iinventory.func_70299_a(((Integer) list1.remove(list1.size() - 1)).intValue(), itemstack);
             }
         }
 
     }
 
-    private void shuffleItems(List<ItemStack> list, int i, Random random) {
+    private void func_186463_a(List<ItemStack> list, int i, Random random) {
         ArrayList arraylist = Lists.newArrayList();
         Iterator iterator = list.iterator();
 
         while (iterator.hasNext()) {
             ItemStack itemstack = (ItemStack) iterator.next();
 
-            if (itemstack.isEmpty()) {
+            if (itemstack.func_190926_b()) {
                 iterator.remove();
-            } else if (itemstack.getCount() > 1) {
+            } else if (itemstack.func_190916_E() > 1) {
                 arraylist.add(itemstack);
                 iterator.remove();
             }
@@ -95,17 +96,17 @@ public class LootTable {
         i -= list.size();
 
         while (i > 0 && !arraylist.isEmpty()) {
-            ItemStack itemstack1 = (ItemStack) arraylist.remove(MathHelper.getInt(random, 0, arraylist.size() - 1));
-            int j = MathHelper.getInt(random, 1, itemstack1.getCount() / 2);
-            ItemStack itemstack2 = itemstack1.splitStack(j);
+            ItemStack itemstack1 = (ItemStack) arraylist.remove(MathHelper.func_76136_a(random, 0, arraylist.size() - 1));
+            int j = MathHelper.func_76136_a(random, 1, itemstack1.func_190916_E() / 2);
+            ItemStack itemstack2 = itemstack1.func_77979_a(j);
 
-            if (itemstack1.getCount() > 1 && random.nextBoolean()) {
+            if (itemstack1.func_190916_E() > 1 && random.nextBoolean()) {
                 arraylist.add(itemstack1);
             } else {
                 list.add(itemstack1);
             }
 
-            if (itemstack2.getCount() > 1 && random.nextBoolean()) {
+            if (itemstack2.func_190916_E() > 1 && random.nextBoolean()) {
                 arraylist.add(itemstack2);
             } else {
                 list.add(itemstack2);
@@ -116,11 +117,11 @@ public class LootTable {
         Collections.shuffle(list, random);
     }
 
-    private List<Integer> getEmptySlotsRandomized(IInventory iinventory, Random random) {
+    private List<Integer> func_186459_a(IInventory iinventory, Random random) {
         ArrayList arraylist = Lists.newArrayList();
 
-        for (int i = 0; i < iinventory.getSizeInventory(); ++i) {
-            if (iinventory.getStackInSlot(i).isEmpty()) {
+        for (int i = 0; i < iinventory.func_70302_i_(); ++i) {
+            if (iinventory.func_70301_a(i).func_190926_b()) {
                 arraylist.add(Integer.valueOf(i));
             }
         }
@@ -134,8 +135,8 @@ public class LootTable {
         public a() {}
 
         public LootTable a(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            JsonObject jsonobject = JsonUtils.getJsonObject(jsonelement, "loot table");
-            LootPool[] alootselector = JsonUtils.deserializeClass(jsonobject, "pools", new LootPool[0], jsondeserializationcontext, LootPool[].class);
+            JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "loot table");
+            LootPool[] alootselector = (LootPool[]) JsonUtils.func_188177_a(jsonobject, "pools", new LootPool[0], jsondeserializationcontext, LootPool[].class);
 
             return new LootTable(alootselector);
         }
@@ -143,17 +144,15 @@ public class LootTable {
         public JsonElement a(LootTable loottable, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
-            jsonobject.add("pools", jsonserializationcontext.serialize(loottable.pools));
+            jsonobject.add("pools", jsonserializationcontext.serialize(loottable.field_186466_c));
             return jsonobject;
         }
 
-        @Override
-        public JsonElement serialize(LootTable object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a(object, type, jsonserializationcontext);
+        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
+            return this.a((LootTable) object, type, jsonserializationcontext);
         }
 
-        @Override
-        public LootTable deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             return this.a(jsonelement, type, jsondeserializationcontext);
         }
     }

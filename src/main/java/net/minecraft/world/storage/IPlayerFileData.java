@@ -7,10 +7,10 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public interface IPlayerFileData {
 
-    void writePlayerData(EntityPlayer entityhuman);
+    void func_75753_a(EntityPlayer entityhuman);
 
     @Nullable
-    NBTTagCompound readPlayerData(EntityPlayer entityhuman);
+    NBTTagCompound func_75752_b(EntityPlayer entityhuman);
 
-    String[] getAvailablePlayerDat();
+    String[] func_75754_f();
 }

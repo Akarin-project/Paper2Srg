@@ -18,61 +18,61 @@ import net.minecraft.world.World;
 
 public abstract class BlockPurpurSlab extends BlockSlab {
 
-    public static final PropertyEnum<BlockPurpurSlab.Variant> VARIANT = PropertyEnum.create("variant", BlockPurpurSlab.Variant.class);
+    public static final PropertyEnum<BlockPurpurSlab.Variant> field_185678_d = PropertyEnum.func_177709_a("variant", BlockPurpurSlab.Variant.class);
 
     public BlockPurpurSlab() {
-        super(Material.ROCK, MapColor.MAGENTA);
-        IBlockState iblockdata = this.blockState.getBaseState();
+        super(Material.field_151576_e, MapColor.field_151675_r);
+        IBlockState iblockdata = this.field_176227_L.func_177621_b();
 
-        if (!this.isDouble()) {
-            iblockdata = iblockdata.withProperty(BlockPurpurSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
+        if (!this.func_176552_j()) {
+            iblockdata = iblockdata.func_177226_a(BlockPurpurSlab.field_176554_a, BlockSlab.EnumBlockHalf.BOTTOM);
         }
 
-        this.setDefaultState(iblockdata.withProperty(BlockPurpurSlab.VARIANT, BlockPurpurSlab.Variant.DEFAULT));
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        this.func_180632_j(iblockdata.func_177226_a(BlockPurpurSlab.field_185678_d, BlockPurpurSlab.Variant.DEFAULT));
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Item.getItemFromBlock(Blocks.PURPUR_SLAB);
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Item.func_150898_a(Blocks.field_185771_cX);
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(Blocks.PURPUR_SLAB);
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(Blocks.field_185771_cX);
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        IBlockState iblockdata = this.getDefaultState().withProperty(BlockPurpurSlab.VARIANT, BlockPurpurSlab.Variant.DEFAULT);
+    public IBlockState func_176203_a(int i) {
+        IBlockState iblockdata = this.func_176223_P().func_177226_a(BlockPurpurSlab.field_185678_d, BlockPurpurSlab.Variant.DEFAULT);
 
-        if (!this.isDouble()) {
-            iblockdata = iblockdata.withProperty(BlockPurpurSlab.HALF, (i & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
+        if (!this.func_176552_j()) {
+            iblockdata = iblockdata.func_177226_a(BlockPurpurSlab.field_176554_a, (i & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
         }
 
         return iblockdata;
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         int i = 0;
 
-        if (!this.isDouble() && iblockdata.getValue(BlockPurpurSlab.HALF) == BlockSlab.EnumBlockHalf.TOP) {
+        if (!this.func_176552_j() && iblockdata.func_177229_b(BlockPurpurSlab.field_176554_a) == BlockSlab.EnumBlockHalf.TOP) {
             i |= 8;
         }
 
         return i;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return this.isDouble() ? new BlockStateContainer(this, new IProperty[] { BlockPurpurSlab.VARIANT}) : new BlockStateContainer(this, new IProperty[] { BlockPurpurSlab.HALF, BlockPurpurSlab.VARIANT});
+    protected BlockStateContainer func_180661_e() {
+        return this.func_176552_j() ? new BlockStateContainer(this, new IProperty[] { BlockPurpurSlab.field_185678_d}) : new BlockStateContainer(this, new IProperty[] { BlockPurpurSlab.field_176554_a, BlockPurpurSlab.field_185678_d});
     }
 
-    public String getUnlocalizedName(int i) {
-        return super.getUnlocalizedName();
+    public String func_150002_b(int i) {
+        return super.func_149739_a();
     }
 
-    public IProperty<?> getVariantProperty() {
-        return BlockPurpurSlab.VARIANT;
+    public IProperty<?> func_176551_l() {
+        return BlockPurpurSlab.field_185678_d;
     }
 
-    public Comparable<?> getTypeForItem(ItemStack itemstack) {
+    public Comparable<?> func_185674_a(ItemStack itemstack) {
         return BlockPurpurSlab.Variant.DEFAULT;
     }
 
@@ -82,7 +82,7 @@ public abstract class BlockPurpurSlab extends BlockSlab {
 
         private Variant() {}
 
-        public String getName() {
+        public String func_176610_l() {
             return "default";
         }
     }
@@ -91,7 +91,7 @@ public abstract class BlockPurpurSlab extends BlockSlab {
 
         public Double() {}
 
-        public boolean isDouble() {
+        public boolean func_176552_j() {
             return true;
         }
     }
@@ -100,7 +100,7 @@ public abstract class BlockPurpurSlab extends BlockSlab {
 
         public Half() {}
 
-        public boolean isDouble() {
+        public boolean func_176552_j() {
             return false;
         }
     }

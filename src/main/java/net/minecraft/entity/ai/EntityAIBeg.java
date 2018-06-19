@@ -9,56 +9,56 @@ import net.minecraft.world.World;
 
 public class EntityAIBeg extends EntityAIBase {
 
-    private final EntityWolf wolf;
-    private EntityPlayer player;
-    private final World world;
-    private final float minPlayerDistance;
-    private int timeoutCounter;
+    private final EntityWolf field_75387_a;
+    private EntityPlayer field_75385_b;
+    private final World field_75386_c;
+    private final float field_75383_d;
+    private int field_75384_e;
 
     public EntityAIBeg(EntityWolf entitywolf, float f) {
-        this.wolf = entitywolf;
-        this.world = entitywolf.world;
-        this.minPlayerDistance = f;
-        this.setMutexBits(2);
+        this.field_75387_a = entitywolf;
+        this.field_75386_c = entitywolf.field_70170_p;
+        this.field_75383_d = f;
+        this.func_75248_a(2);
     }
 
-    public boolean shouldExecute() {
-        this.player = this.world.getClosestPlayerToEntity(this.wolf, (double) this.minPlayerDistance);
-        return this.player == null ? false : this.hasTemptationItemInHand(this.player);
+    public boolean func_75250_a() {
+        this.field_75385_b = this.field_75386_c.func_72890_a(this.field_75387_a, (double) this.field_75383_d);
+        return this.field_75385_b == null ? false : this.func_75382_a(this.field_75385_b);
     }
 
-    public boolean shouldContinueExecuting() {
-        return !this.player.isEntityAlive() ? false : (this.wolf.getDistanceSq(this.player) > (double) (this.minPlayerDistance * this.minPlayerDistance) ? false : this.timeoutCounter > 0 && this.hasTemptationItemInHand(this.player));
+    public boolean func_75253_b() {
+        return !this.field_75385_b.func_70089_S() ? false : (this.field_75387_a.func_70068_e(this.field_75385_b) > (double) (this.field_75383_d * this.field_75383_d) ? false : this.field_75384_e > 0 && this.func_75382_a(this.field_75385_b));
     }
 
-    public void startExecuting() {
-        this.wolf.setBegging(true);
-        this.timeoutCounter = 40 + this.wolf.getRNG().nextInt(40);
+    public void func_75249_e() {
+        this.field_75387_a.func_70918_i(true);
+        this.field_75384_e = 40 + this.field_75387_a.func_70681_au().nextInt(40);
     }
 
-    public void resetTask() {
-        this.wolf.setBegging(false);
-        this.player = null;
+    public void func_75251_c() {
+        this.field_75387_a.func_70918_i(false);
+        this.field_75385_b = null;
     }
 
-    public void updateTask() {
-        this.wolf.getLookHelper().setLookPosition(this.player.posX, this.player.posY + (double) this.player.getEyeHeight(), this.player.posZ, 10.0F, (float) this.wolf.getVerticalFaceSpeed());
-        --this.timeoutCounter;
+    public void func_75246_d() {
+        this.field_75387_a.func_70671_ap().func_75650_a(this.field_75385_b.field_70165_t, this.field_75385_b.field_70163_u + (double) this.field_75385_b.func_70047_e(), this.field_75385_b.field_70161_v, 10.0F, (float) this.field_75387_a.func_70646_bf());
+        --this.field_75384_e;
     }
 
-    private boolean hasTemptationItemInHand(EntityPlayer entityhuman) {
+    private boolean func_75382_a(EntityPlayer entityhuman) {
         EnumHand[] aenumhand = EnumHand.values();
         int i = aenumhand.length;
 
         for (int j = 0; j < i; ++j) {
             EnumHand enumhand = aenumhand[j];
-            ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+            ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-            if (this.wolf.isTamed() && itemstack.getItem() == Items.BONE) {
+            if (this.field_75387_a.func_70909_n() && itemstack.func_77973_b() == Items.field_151103_aS) {
                 return true;
             }
 
-            if (this.wolf.isBreedingItem(itemstack)) {
+            if (this.field_75387_a.func_70877_b(itemstack)) {
                 return true;
             }
         }

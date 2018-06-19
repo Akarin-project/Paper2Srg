@@ -6,19 +6,19 @@ import java.io.IOException;
 
 public abstract class NBTBase {
 
-    public static final String[] NBT_TYPES = new String[] { "END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]", "LONG[]"};
+    public static final String[] field_82578_b = new String[] { "END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]", "LONG[]"};
 
-    abstract void write(DataOutput dataoutput) throws IOException;
+    abstract void func_74734_a(DataOutput dataoutput) throws IOException;
 
-    abstract void read(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException;
+    abstract void func_152446_a(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException;
 
     public abstract String toString();
 
-    public abstract byte getId();
+    public abstract byte func_74732_a();
 
     protected NBTBase() {}
 
-    protected static NBTBase createNewByType(byte b0) {
+    protected static NBTBase func_150284_a(byte b0) {
         switch (b0) {
         case 0:
             return new NBTTagEnd();
@@ -64,7 +64,7 @@ public abstract class NBTBase {
         }
     }
 
-    public static String getTagTypeName(int i) {
+    public static String func_193581_j(int i) {
         switch (i) {
         case 0:
             return "TAG_End";
@@ -113,21 +113,21 @@ public abstract class NBTBase {
         }
     }
 
-    public abstract NBTBase copy();
+    public abstract NBTBase func_74737_b();
 
-    public boolean hasNoTags() {
+    public boolean func_82582_d() {
         return false;
     }
 
     public boolean equals(Object object) {
-        return object instanceof NBTBase && this.getId() == ((NBTBase) object).getId();
+        return object instanceof NBTBase && this.func_74732_a() == ((NBTBase) object).func_74732_a();
     }
 
     public int hashCode() {
-        return this.getId();
+        return this.func_74732_a();
     }
 
-    protected String getString() {
+    protected String func_150285_a_() {
         return this.toString();
     }
 }

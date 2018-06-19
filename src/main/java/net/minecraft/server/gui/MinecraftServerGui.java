@@ -32,11 +32,11 @@ import net.minecraft.server.dedicated.DedicatedServer;
 
 public class MinecraftServerGui extends JComponent {
 
-    private static final Font SERVER_GUI_FONT = new Font("Monospaced", 0, 12);
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final DedicatedServer server;
+    private static final Font field_164249_a = new Font("Monospaced", 0, 12);
+    private static final Logger field_164248_b = LogManager.getLogger();
+    private final DedicatedServer field_120021_b;
 
-    public static void createServerGui(final DedicatedServer dedicatedserver) {
+    public static void func_120016_a(final DedicatedServer dedicatedserver) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception exception) {
@@ -52,9 +52,9 @@ public class MinecraftServerGui extends JComponent {
         jframe.setVisible(true);
         jframe.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowevent) {
-                dedicatedserver.initiateShutdown();
+                dedicatedserver.func_71263_m();
 
-                while (!dedicatedserver.isServerStopped()) {
+                while (!dedicatedserver.func_71241_aa()) {
                     try {
                         Thread.sleep(100L);
                     } catch (InterruptedException interruptedexception) {
@@ -68,43 +68,43 @@ public class MinecraftServerGui extends JComponent {
     }
 
     public MinecraftServerGui(DedicatedServer dedicatedserver) {
-        this.server = dedicatedserver;
+        this.field_120021_b = dedicatedserver;
         this.setPreferredSize(new Dimension(854, 480));
         this.setLayout(new BorderLayout());
 
         try {
-            this.add(this.getLogComponent(), "Center");
-            this.add(this.getStatsComponent(), "West");
+            this.add(this.func_120018_d(), "Center");
+            this.add(this.func_120019_b(), "West");
         } catch (Exception exception) {
-            MinecraftServerGui.LOGGER.error("Couldn\'t build server GUI", exception);
+            MinecraftServerGui.field_164248_b.error("Couldn\'t build server GUI", exception);
         }
 
     }
 
-    private JComponent getStatsComponent() throws Exception {
+    private JComponent func_120019_b() throws Exception {
         JPanel jpanel = new JPanel(new BorderLayout());
 
-        jpanel.add(new StatsComponent(this.server), "North");
-        jpanel.add(this.getPlayerListComponent(), "Center");
+        jpanel.add(new StatsComponent(this.field_120021_b), "North");
+        jpanel.add(this.func_120020_c(), "Center");
         jpanel.setBorder(new TitledBorder(new EtchedBorder(), "Stats"));
         return jpanel;
     }
 
-    private JComponent getPlayerListComponent() throws Exception {
-        PlayerListComponent playerlistbox = new PlayerListComponent(this.server);
+    private JComponent func_120020_c() throws Exception {
+        PlayerListComponent playerlistbox = new PlayerListComponent(this.field_120021_b);
         JScrollPane jscrollpane = new JScrollPane(playerlistbox, 22, 30);
 
         jscrollpane.setBorder(new TitledBorder(new EtchedBorder(), "Players"));
         return jscrollpane;
     }
 
-    private JComponent getLogComponent() throws Exception {
+    private JComponent func_120018_d() throws Exception {
         JPanel jpanel = new JPanel(new BorderLayout());
         final JTextArea jtextarea = new JTextArea();
         final JScrollPane jscrollpane = new JScrollPane(jtextarea, 22, 30);
 
         jtextarea.setEditable(false);
-        jtextarea.setFont(MinecraftServerGui.SERVER_GUI_FONT);
+        jtextarea.setFont(MinecraftServerGui.field_164249_a);
         final JTextField jtextfield = new JTextField();
 
         jtextfield.addActionListener(new ActionListener() {
@@ -112,7 +112,7 @@ public class MinecraftServerGui extends JComponent {
                 String s = jtextfield.getText().trim();
 
                 if (!s.isEmpty()) {
-                    MinecraftServerGui.this.server.addPendingCommand(s, MinecraftServerGui.this.server);
+                    MinecraftServerGui.this.field_120021_b.func_71331_a(s, MinecraftServerGui.this.field_120021_b);
                 }
 
                 jtextfield.setText("");
@@ -129,7 +129,7 @@ public class MinecraftServerGui extends JComponent {
                 String s;
 
                 while ((s = QueueLogAppender.getNextLogEvent("ServerGuiConsole")) != null) {
-                    MinecraftServerGui.this.appendLine(jtextarea, jscrollpane, s);
+                    MinecraftServerGui.this.func_164247_a(jtextarea, jscrollpane, s);
                 }
 
             }
@@ -140,11 +140,11 @@ public class MinecraftServerGui extends JComponent {
         return jpanel;
     }
 
-    public void appendLine(final JTextArea jtextarea, final JScrollPane jscrollpane, final String s) {
+    public void func_164247_a(final JTextArea jtextarea, final JScrollPane jscrollpane, final String s) {
         if (!SwingUtilities.isEventDispatchThread()) {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    MinecraftServerGui.this.appendLine(jtextarea, jscrollpane, s);
+                    MinecraftServerGui.this.func_164247_a(jtextarea, jscrollpane, s);
                 }
             });
         } else {
@@ -153,7 +153,7 @@ public class MinecraftServerGui extends JComponent {
             boolean flag = false;
 
             if (jscrollpane.getViewport().getView() == jtextarea) {
-                flag = (double) jscrollbar.getValue() + jscrollbar.getSize().getHeight() + (double) (MinecraftServerGui.SERVER_GUI_FONT.getSize() * 4) > (double) jscrollbar.getMaximum();
+                flag = (double) jscrollbar.getValue() + jscrollbar.getSize().getHeight() + (double) (MinecraftServerGui.field_164249_a.getSize() * 4) > (double) jscrollbar.getMaximum();
             }
 
             try {

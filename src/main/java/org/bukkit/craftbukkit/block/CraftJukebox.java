@@ -31,13 +31,13 @@ public class CraftJukebox extends CraftBlockEntityState<TileEntityJukebox> imple
             CraftWorld world = (CraftWorld) this.getWorld();
             Material record = this.getPlaying();
             if (record == Material.AIR) {
-                world.getHandle().setBlockState(new BlockPos(this.getX(), this.getY(), this.getZ()),
-                    Blocks.JUKEBOX.getDefaultState()
-                        .withProperty(BlockJukebox.HAS_RECORD, false), 3);
+                world.getHandle().func_180501_a(new BlockPos(this.getX(), this.getY(), this.getZ()),
+                    Blocks.field_150421_aI.func_176223_P()
+                        .func_177226_a(BlockJukebox.field_176432_a, false), 3);
             } else {
-                world.getHandle().setBlockState(new BlockPos(this.getX(), this.getY(), this.getZ()),
-                    Blocks.JUKEBOX.getDefaultState()
-                        .withProperty(BlockJukebox.HAS_RECORD, true), 3);
+                world.getHandle().func_180501_a(new BlockPos(this.getX(), this.getY(), this.getZ()),
+                    Blocks.field_150421_aI.func_176223_P()
+                        .func_177226_a(BlockJukebox.field_176432_a, true), 3);
             }
             world.playEffect(this.getLocation(), Effect.RECORD_PLAY, record.getId());
         }
@@ -47,11 +47,11 @@ public class CraftJukebox extends CraftBlockEntityState<TileEntityJukebox> imple
 
     @Override
     public Material getPlaying() {
-        ItemStack record = this.getSnapshot().getRecord();
-        if (record.isEmpty()) {
+        ItemStack record = this.getSnapshot().func_145856_a();
+        if (record.func_190926_b()) {
             return Material.AIR;
         }
-        return CraftMagicNumbers.getMaterial(record.getItem());
+        return CraftMagicNumbers.getMaterial(record.func_77973_b());
     }
 
     @Override
@@ -60,7 +60,7 @@ public class CraftJukebox extends CraftBlockEntityState<TileEntityJukebox> imple
             record = Material.AIR;
         }
 
-        this.getSnapshot().setRecord(new ItemStack(CraftMagicNumbers.getItem(record), 1));
+        this.getSnapshot().func_145857_a(new ItemStack(CraftMagicNumbers.getItem(record), 1));
         if (record == Material.AIR) {
             setRawData((byte) 0);
         } else {
@@ -80,9 +80,9 @@ public class CraftJukebox extends CraftBlockEntityState<TileEntityJukebox> imple
         if (!(tileEntity instanceof TileEntityJukebox)) return false;
 
         TileEntityJukebox jukebox = (TileEntityJukebox) tileEntity;
-        boolean result = !jukebox.getRecord().isEmpty();
+        boolean result = !jukebox.func_145856_a().func_190926_b();
         CraftWorld world = (CraftWorld) this.getWorld();
-        ((BlockJukebox) Blocks.JUKEBOX).dropRecord(world.getHandle(), new BlockPos(getX(), getY(), getZ()), null);
+        ((BlockJukebox) Blocks.field_150421_aI).func_180678_e(world.getHandle(), new BlockPos(getX(), getY(), getZ()), null);
         return result;
     }
 }

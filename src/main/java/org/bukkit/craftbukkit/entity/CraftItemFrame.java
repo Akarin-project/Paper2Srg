@@ -35,28 +35,28 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame {
         EntityItemFrame old = this.getHandle();
 
         WorldServer world = ((CraftWorld) getWorld()).getHandle();
-        BlockPos position = old.getHangingPosition();
-        EnumFacing direction = old.getHorizontalFacing();
-        ItemStack item = old.getDisplayedItem() != null ? old.getDisplayedItem().copy() : null;
+        BlockPos position = old.func_174857_n();
+        EnumFacing direction = old.func_174811_aO();
+        ItemStack item = old.func_82335_i() != null ? old.func_82335_i().func_77946_l() : null;
 
-        old.setDead();
+        old.func_70106_y();
 
         EntityItemFrame frame = new EntityItemFrame(world,position,direction);
-        frame.setDisplayedItem(item);
-        world.spawnEntity(frame);
+        frame.func_82334_a(item);
+        world.func_72838_d(frame);
         this.entity = frame;
     }
 
     public void setItem(org.bukkit.inventory.ItemStack item) {
-        getHandle().setDisplayedItem(CraftItemStack.asNMSCopy(item));
+        getHandle().func_82334_a(CraftItemStack.asNMSCopy(item));
     }
 
     public org.bukkit.inventory.ItemStack getItem() {
-        return CraftItemStack.asBukkitCopy(getHandle().getDisplayedItem());
+        return CraftItemStack.asBukkitCopy(getHandle().func_82335_i());
     }
 
     public Rotation getRotation() {
-        return toBukkitRotation(getHandle().getRotation());
+        return toBukkitRotation(getHandle().func_82333_j());
     }
 
     Rotation toBukkitRotation(int value) {
@@ -85,7 +85,7 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame {
 
     public void setRotation(Rotation rotation) {
         Validate.notNull(rotation, "Rotation cannot be null");
-        getHandle().setItemRotation(toInteger(rotation));
+        getHandle().func_82336_g(toInteger(rotation));
     }
 
     static int toInteger(Rotation rotation) {

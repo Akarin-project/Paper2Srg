@@ -9,22 +9,22 @@ import net.minecraft.world.World;
 
 public class WorldGenDoublePlant extends WorldGenerator {
 
-    private BlockDoublePlant.EnumPlantType plantType;
+    private BlockDoublePlant.EnumPlantType field_150549_a;
 
     public WorldGenDoublePlant() {}
 
-    public void setPlantType(BlockDoublePlant.EnumPlantType blocktallplant_enumtallflowervariants) {
-        this.plantType = blocktallplant_enumtallflowervariants;
+    public void func_180710_a(BlockDoublePlant.EnumPlantType blocktallplant_enumtallflowervariants) {
+        this.field_150549_a = blocktallplant_enumtallflowervariants;
     }
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
         boolean flag = false;
 
         for (int i = 0; i < 64; ++i) {
-            BlockPos blockposition1 = blockposition.add(random.nextInt(8) - random.nextInt(8), random.nextInt(4) - random.nextInt(4), random.nextInt(8) - random.nextInt(8));
+            BlockPos blockposition1 = blockposition.func_177982_a(random.nextInt(8) - random.nextInt(8), random.nextInt(4) - random.nextInt(4), random.nextInt(8) - random.nextInt(8));
 
-            if (world.isAirBlock(blockposition1) && (!world.provider.isNether() || blockposition1.getY() < 254) && Blocks.DOUBLE_PLANT.canPlaceBlockAt(world, blockposition1)) {
-                Blocks.DOUBLE_PLANT.placeAt(world, blockposition1, this.plantType, 2);
+            if (world.func_175623_d(blockposition1) && (!world.field_73011_w.func_177495_o() || blockposition1.func_177956_o() < 254) && Blocks.field_150398_cm.func_176196_c(world, blockposition1)) {
+                Blocks.field_150398_cm.func_176491_a(world, blockposition1, this.field_150549_a, 2);
                 flag = true;
             }
         }

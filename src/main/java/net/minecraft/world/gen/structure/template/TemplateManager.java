@@ -21,49 +21,49 @@ import net.minecraft.util.datafix.IFixType;
 
 public class TemplateManager {
 
-    private final Map<String, Template> templates = Maps.newHashMap();
-    private final String baseFolder;
-    private final DataFixer fixer;
+    private final Map<String, Template> field_186240_a = Maps.newHashMap();
+    private final String field_186241_b;
+    private final DataFixer field_191154_c;
 
     public TemplateManager(String s, DataFixer dataconvertermanager) {
-        this.baseFolder = s;
-        this.fixer = dataconvertermanager;
+        this.field_186241_b = s;
+        this.field_191154_c = dataconvertermanager;
     }
 
-    public Template getTemplate(@Nullable MinecraftServer minecraftserver, ResourceLocation minecraftkey) {
-        Template definedstructure = this.get(minecraftserver, minecraftkey);
+    public Template func_186237_a(@Nullable MinecraftServer minecraftserver, ResourceLocation minecraftkey) {
+        Template definedstructure = this.func_189942_b(minecraftserver, minecraftkey);
 
         if (definedstructure == null) {
             definedstructure = new Template();
-            this.templates.put(minecraftkey.getResourcePath(), definedstructure);
+            this.field_186240_a.put(minecraftkey.func_110623_a(), definedstructure);
         }
 
         return definedstructure;
     }
 
     @Nullable
-    public Template get(@Nullable MinecraftServer minecraftserver, ResourceLocation minecraftkey) {
-        String s = minecraftkey.getResourcePath();
+    public Template func_189942_b(@Nullable MinecraftServer minecraftserver, ResourceLocation minecraftkey) {
+        String s = minecraftkey.func_110623_a();
 
-        if (this.templates.containsKey(s)) {
-            return (Template) this.templates.get(s);
+        if (this.field_186240_a.containsKey(s)) {
+            return (Template) this.field_186240_a.get(s);
         } else {
             if (minecraftserver == null) {
-                this.readTemplateFromJar(minecraftkey);
+                this.func_186236_a(minecraftkey);
             } else {
-                this.readTemplate(minecraftkey);
+                this.func_186235_b(minecraftkey);
             }
 
-            return this.templates.containsKey(s) ? (Template) this.templates.get(s) : null;
+            return this.field_186240_a.containsKey(s) ? (Template) this.field_186240_a.get(s) : null;
         }
     }
 
-    public boolean readTemplate(ResourceLocation minecraftkey) {
-        String s = minecraftkey.getResourcePath();
-        File file = new File(this.baseFolder, s + ".nbt");
+    public boolean func_186235_b(ResourceLocation minecraftkey) {
+        String s = minecraftkey.func_110623_a();
+        File file = new File(this.field_186241_b, s + ".nbt");
 
         if (!file.exists()) {
-            return this.readTemplateFromJar(minecraftkey);
+            return this.func_186236_a(minecraftkey);
         } else {
             FileInputStream fileinputstream = null;
 
@@ -71,7 +71,7 @@ public class TemplateManager {
 
             try {
                 fileinputstream = new FileInputStream(file);
-                this.readTemplateFromStream(s, (InputStream) fileinputstream);
+                this.func_186239_a(s, (InputStream) fileinputstream);
                 return true;
             } catch (Throwable throwable) {
                 flag = false;
@@ -83,16 +83,16 @@ public class TemplateManager {
         }
     }
 
-    private boolean readTemplateFromJar(ResourceLocation minecraftkey) {
-        String s = minecraftkey.getResourceDomain();
-        String s1 = minecraftkey.getResourcePath();
+    private boolean func_186236_a(ResourceLocation minecraftkey) {
+        String s = minecraftkey.func_110624_b();
+        String s1 = minecraftkey.func_110623_a();
         InputStream inputstream = null;
 
         boolean flag;
 
         try {
             inputstream = MinecraftServer.class.getResourceAsStream("/assets/" + s + "/structures/" + s1 + ".nbt");
-            this.readTemplateFromStream(s1, inputstream);
+            this.func_186239_a(s1, inputstream);
             return true;
         } catch (Throwable throwable) {
             flag = false;
@@ -103,24 +103,24 @@ public class TemplateManager {
         return flag;
     }
 
-    private void readTemplateFromStream(String s, InputStream inputstream) throws IOException {
-        NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(inputstream);
+    private void func_186239_a(String s, InputStream inputstream) throws IOException {
+        NBTTagCompound nbttagcompound = CompressedStreamTools.func_74796_a(inputstream);
 
-        if (!nbttagcompound.hasKey("DataVersion", 99)) {
-            nbttagcompound.setInteger("DataVersion", 500);
+        if (!nbttagcompound.func_150297_b("DataVersion", 99)) {
+            nbttagcompound.func_74768_a("DataVersion", 500);
         }
 
         Template definedstructure = new Template();
 
-        definedstructure.read(this.fixer.process((IFixType) FixTypes.STRUCTURE, nbttagcompound));
-        this.templates.put(s, definedstructure);
+        definedstructure.func_186256_b(this.field_191154_c.func_188257_a((IFixType) FixTypes.STRUCTURE, nbttagcompound));
+        this.field_186240_a.put(s, definedstructure);
     }
 
-    public boolean writeTemplate(@Nullable MinecraftServer minecraftserver, ResourceLocation minecraftkey) {
-        String s = minecraftkey.getResourcePath();
+    public boolean func_186238_c(@Nullable MinecraftServer minecraftserver, ResourceLocation minecraftkey) {
+        String s = minecraftkey.func_110623_a();
 
-        if (minecraftserver != null && this.templates.containsKey(s)) {
-            File file = new File(this.baseFolder);
+        if (minecraftserver != null && this.field_186240_a.containsKey(s)) {
+            File file = new File(this.field_186241_b);
 
             if (!file.exists()) {
                 if (!file.mkdirs()) {
@@ -131,16 +131,16 @@ public class TemplateManager {
             }
 
             File file1 = new File(file, s + ".nbt");
-            Template definedstructure = (Template) this.templates.get(s);
+            Template definedstructure = (Template) this.field_186240_a.get(s);
             FileOutputStream fileoutputstream = null;
 
             boolean flag;
 
             try {
-                NBTTagCompound nbttagcompound = definedstructure.writeToNBT(new NBTTagCompound());
+                NBTTagCompound nbttagcompound = definedstructure.func_189552_a(new NBTTagCompound());
 
                 fileoutputstream = new FileOutputStream(file1);
-                CompressedStreamTools.writeCompressed(nbttagcompound, (OutputStream) fileoutputstream);
+                CompressedStreamTools.func_74799_a(nbttagcompound, (OutputStream) fileoutputstream);
                 return true;
             } catch (Throwable throwable) {
                 flag = false;
@@ -154,7 +154,7 @@ public class TemplateManager {
         }
     }
 
-    public void remove(ResourceLocation minecraftkey) {
-        this.templates.remove(minecraftkey.getResourcePath());
+    public void func_189941_a(ResourceLocation minecraftkey) {
+        this.field_186240_a.remove(minecraftkey.func_110623_a());
     }
 }

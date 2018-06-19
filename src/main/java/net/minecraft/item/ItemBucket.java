@@ -38,76 +38,76 @@ import org.bukkit.event.player.PlayerBucketFillEvent;
 
 public class ItemBucket extends Item {
 
-    private final Block containedBlock;
+    private final Block field_77876_a;
 
     public ItemBucket(Block block) {
-        this.maxStackSize = 1;
-        this.containedBlock = block;
-        this.setCreativeTab(CreativeTabs.MISC);
+        this.field_77777_bU = 1;
+        this.field_77876_a = block;
+        this.func_77637_a(CreativeTabs.field_78026_f);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        boolean flag = this.containedBlock == Blocks.AIR;
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
-        RayTraceResult movingobjectposition = this.rayTrace(world, entityhuman, flag);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        boolean flag = this.field_77876_a == Blocks.field_150350_a;
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
+        RayTraceResult movingobjectposition = this.func_77621_a(world, entityhuman, flag);
 
         if (movingobjectposition == null) {
             return new ActionResult(EnumActionResult.PASS, itemstack);
-        } else if (movingobjectposition.typeOfHit != RayTraceResult.Type.BLOCK) {
+        } else if (movingobjectposition.field_72313_a != RayTraceResult.Type.BLOCK) {
             return new ActionResult(EnumActionResult.PASS, itemstack);
         } else {
-            BlockPos blockposition = movingobjectposition.getBlockPos();
+            BlockPos blockposition = movingobjectposition.func_178782_a();
 
-            if (!world.isBlockModifiable(entityhuman, blockposition)) {
+            if (!world.func_175660_a(entityhuman, blockposition)) {
                 return new ActionResult(EnumActionResult.FAIL, itemstack);
             } else if (flag) {
-                if (!entityhuman.canPlayerEdit(blockposition.offset(movingobjectposition.sideHit), movingobjectposition.sideHit, itemstack)) {
+                if (!entityhuman.func_175151_a(blockposition.func_177972_a(movingobjectposition.field_178784_b), movingobjectposition.field_178784_b, itemstack)) {
                     return new ActionResult(EnumActionResult.FAIL, itemstack);
                 } else {
-                    IBlockState iblockdata = world.getBlockState(blockposition);
-                    Material material = iblockdata.getMaterial();
+                    IBlockState iblockdata = world.func_180495_p(blockposition);
+                    Material material = iblockdata.func_185904_a();
 
-                    if (material == Material.WATER && ((Integer) iblockdata.getValue(BlockLiquid.LEVEL)).intValue() == 0) {
+                    if (material == Material.field_151586_h && ((Integer) iblockdata.func_177229_b(BlockLiquid.field_176367_b)).intValue() == 0) {
                         // CraftBukkit start
-                        PlayerBucketFillEvent event = CraftEventFactory.callPlayerBucketFillEvent(entityhuman, blockposition.getX(), blockposition.getY(), blockposition.getZ(), null, itemstack, Items.WATER_BUCKET);
+                        PlayerBucketFillEvent event = CraftEventFactory.callPlayerBucketFillEvent(entityhuman, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), null, itemstack, Items.field_151131_as);
  
                         if (event.isCancelled()) {
                             return new ActionResult(EnumActionResult.FAIL, itemstack);
                         }
                         // CraftBukkit end
-                        world.setBlockState(blockposition, Blocks.AIR.getDefaultState(), 11);
-                        entityhuman.addStat(StatList.getObjectUseStats((Item) this));
-                        entityhuman.playSound(SoundEvents.ITEM_BUCKET_FILL, 1.0F, 1.0F);
-                        return new ActionResult(EnumActionResult.SUCCESS, this.a(itemstack, entityhuman, Items.WATER_BUCKET, event.getItemStack())); // CraftBukkit
-                    } else if (material == Material.LAVA && ((Integer) iblockdata.getValue(BlockLiquid.LEVEL)).intValue() == 0) {
+                        world.func_180501_a(blockposition, Blocks.field_150350_a.func_176223_P(), 11);
+                        entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
+                        entityhuman.func_184185_a(SoundEvents.field_187630_M, 1.0F, 1.0F);
+                        return new ActionResult(EnumActionResult.SUCCESS, this.a(itemstack, entityhuman, Items.field_151131_as, event.getItemStack())); // CraftBukkit
+                    } else if (material == Material.field_151587_i && ((Integer) iblockdata.func_177229_b(BlockLiquid.field_176367_b)).intValue() == 0) {
                         // CraftBukkit start
-                        PlayerBucketFillEvent event = CraftEventFactory.callPlayerBucketFillEvent(entityhuman, blockposition.getX(), blockposition.getY(), blockposition.getZ(), null, itemstack, Items.LAVA_BUCKET);
+                        PlayerBucketFillEvent event = CraftEventFactory.callPlayerBucketFillEvent(entityhuman, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), null, itemstack, Items.field_151129_at);
 
                         if (event.isCancelled()) {
                             return new ActionResult(EnumActionResult.FAIL, itemstack);
                         }
                         // CraftBukkit end
-                        entityhuman.playSound(SoundEvents.ITEM_BUCKET_FILL_LAVA, 1.0F, 1.0F);
-                        world.setBlockState(blockposition, Blocks.AIR.getDefaultState(), 11);
-                        entityhuman.addStat(StatList.getObjectUseStats((Item) this));
-                        return new ActionResult(EnumActionResult.SUCCESS, this.a(itemstack, entityhuman, Items.LAVA_BUCKET, event.getItemStack())); // CraftBukkit
+                        entityhuman.func_184185_a(SoundEvents.field_187633_N, 1.0F, 1.0F);
+                        world.func_180501_a(blockposition, Blocks.field_150350_a.func_176223_P(), 11);
+                        entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
+                        return new ActionResult(EnumActionResult.SUCCESS, this.a(itemstack, entityhuman, Items.field_151129_at, event.getItemStack())); // CraftBukkit
                     } else {
                         return new ActionResult(EnumActionResult.FAIL, itemstack);
                     }
                 }
             } else {
-                boolean flag1 = world.getBlockState(blockposition).getBlock().isReplaceable((IBlockAccess) world, blockposition);
-                BlockPos blockposition1 = flag1 && movingobjectposition.sideHit == EnumFacing.UP ? blockposition : blockposition.offset(movingobjectposition.sideHit);
+                boolean flag1 = world.func_180495_p(blockposition).func_177230_c().func_176200_f((IBlockAccess) world, blockposition);
+                BlockPos blockposition1 = flag1 && movingobjectposition.field_178784_b == EnumFacing.UP ? blockposition : blockposition.func_177972_a(movingobjectposition.field_178784_b);
 
-                if (!entityhuman.canPlayerEdit(blockposition1, movingobjectposition.sideHit, itemstack)) {
+                if (!entityhuman.func_175151_a(blockposition1, movingobjectposition.field_178784_b, itemstack)) {
                     return new ActionResult(EnumActionResult.FAIL, itemstack);
-                } else if (this.a(entityhuman, world, blockposition1, movingobjectposition.sideHit, blockposition, itemstack)) { // CraftBukkit
+                } else if (this.a(entityhuman, world, blockposition1, movingobjectposition.field_178784_b, blockposition, itemstack)) { // CraftBukkit
                     if (entityhuman instanceof EntityPlayerMP) {
-                        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) entityhuman, blockposition1, itemstack);
+                        CriteriaTriggers.field_193137_x.func_193173_a((EntityPlayerMP) entityhuman, blockposition1, itemstack);
                     }
 
-                    entityhuman.addStat(StatList.getObjectUseStats((Item) this));
-                    return !entityhuman.capabilities.isCreativeMode ? new ActionResult(EnumActionResult.SUCCESS, new ItemStack(Items.BUCKET)) : new ActionResult(EnumActionResult.SUCCESS, itemstack);
+                    entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
+                    return !entityhuman.field_71075_bZ.field_75098_d ? new ActionResult(EnumActionResult.SUCCESS, new ItemStack(Items.field_151133_ar)) : new ActionResult(EnumActionResult.SUCCESS, itemstack);
                 } else {
                     return new ActionResult(EnumActionResult.FAIL, itemstack);
                 }
@@ -117,16 +117,16 @@ public class ItemBucket extends Item {
 
     // CraftBukkit - added ob.ItemStack result - TODO: Is this... the right way to handle this?
     private ItemStack a(ItemStack itemstack, EntityPlayer entityhuman, Item item, org.bukkit.inventory.ItemStack result) {
-        if (entityhuman.capabilities.isCreativeMode) {
+        if (entityhuman.field_71075_bZ.field_75098_d) {
             return itemstack;
         } else {
-            itemstack.shrink(1);
-            if (itemstack.isEmpty()) {
+            itemstack.func_190918_g(1);
+            if (itemstack.func_190926_b()) {
                 // CraftBukkit start
                 return CraftItemStack.asNMSCopy(result);
             } else {
-                if (!entityhuman.inventory.addItemStackToInventory(CraftItemStack.asNMSCopy(result))) {
-                    entityhuman.dropItem(CraftItemStack.asNMSCopy(result), false);
+                if (!entityhuman.field_71071_by.func_70441_a(CraftItemStack.asNMSCopy(result))) {
+                    entityhuman.func_71019_a(CraftItemStack.asNMSCopy(result), false);
                     // CraftBukkit end
                 }
 
@@ -136,51 +136,51 @@ public class ItemBucket extends Item {
     }
 
     // CraftBukkit start
-    public boolean tryPlaceContainedLiquid(@Nullable EntityPlayer entityhuman, World world, BlockPos blockposition) {
+    public boolean func_180616_a(@Nullable EntityPlayer entityhuman, World world, BlockPos blockposition) {
         return a(entityhuman, world, blockposition, null, blockposition, null);
     }
 
     public boolean a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumFacing enumdirection, BlockPos clicked, ItemStack itemstack) {
         // CraftBukkit end
-        if (this.containedBlock == Blocks.AIR) {
+        if (this.field_77876_a == Blocks.field_150350_a) {
             return false;
         } else {
-            IBlockState iblockdata = world.getBlockState(blockposition);
-            Material material = iblockdata.getMaterial();
-            boolean flag = !material.isSolid();
-            boolean flag1 = iblockdata.getBlock().isReplaceable((IBlockAccess) world, blockposition);
+            IBlockState iblockdata = world.func_180495_p(blockposition);
+            Material material = iblockdata.func_185904_a();
+            boolean flag = !material.func_76220_a();
+            boolean flag1 = iblockdata.func_177230_c().func_176200_f((IBlockAccess) world, blockposition);
 
-            if (!world.isAirBlock(blockposition) && !flag && !flag1) {
+            if (!world.func_175623_d(blockposition) && !flag && !flag1) {
                 return false;
             } else {
                 // CraftBukkit start
                 if (entityhuman != null) {
-                    PlayerBucketEmptyEvent event = CraftEventFactory.callPlayerBucketEmptyEvent(entityhuman, clicked.getX(), clicked.getY(), clicked.getZ(), enumdirection, itemstack);
+                    PlayerBucketEmptyEvent event = CraftEventFactory.callPlayerBucketEmptyEvent(entityhuman, clicked.func_177958_n(), clicked.func_177956_o(), clicked.func_177952_p(), enumdirection, itemstack);
                     if (event.isCancelled()) {
                         // TODO: inventory not updated
                         return false;
                     }
                 }
                 // CraftBukkit end
-                if (world.provider.doesWaterVaporize() && this.containedBlock == Blocks.FLOWING_WATER) {
-                    int i = blockposition.getX();
-                    int j = blockposition.getY();
-                    int k = blockposition.getZ();
+                if (world.field_73011_w.func_177500_n() && this.field_77876_a == Blocks.field_150358_i) {
+                    int i = blockposition.func_177958_n();
+                    int j = blockposition.func_177956_o();
+                    int k = blockposition.func_177952_p();
 
-                    world.playSound(entityhuman, blockposition, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+                    world.func_184133_a(entityhuman, blockposition, SoundEvents.field_187646_bt, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.field_73012_v.nextFloat() - world.field_73012_v.nextFloat()) * 0.8F);
 
                     for (int l = 0; l < 8; ++l) {
-                        world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, (double) i + Math.random(), (double) j + Math.random(), (double) k + Math.random(), 0.0D, 0.0D, 0.0D, new int[0]);
+                        world.func_175688_a(EnumParticleTypes.SMOKE_LARGE, (double) i + Math.random(), (double) j + Math.random(), (double) k + Math.random(), 0.0D, 0.0D, 0.0D, new int[0]);
                     }
                 } else {
-                    if (!world.isRemote && (flag || flag1) && !material.isLiquid()) {
-                        world.destroyBlock(blockposition, true);
+                    if (!world.field_72995_K && (flag || flag1) && !material.func_76224_d()) {
+                        world.func_175655_b(blockposition, true);
                     }
 
-                    SoundEvent soundeffect = this.containedBlock == Blocks.FLOWING_LAVA ? SoundEvents.ITEM_BUCKET_EMPTY_LAVA : SoundEvents.ITEM_BUCKET_EMPTY;
+                    SoundEvent soundeffect = this.field_77876_a == Blocks.field_150356_k ? SoundEvents.field_187627_L : SoundEvents.field_187624_K;
 
-                    world.playSound(entityhuman, blockposition, soundeffect, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    world.setBlockState(blockposition, this.containedBlock.getDefaultState(), 11);
+                    world.func_184133_a(entityhuman, blockposition, soundeffect, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    world.func_180501_a(blockposition, this.field_77876_a.func_176223_P(), 11);
                 }
 
                 return true;

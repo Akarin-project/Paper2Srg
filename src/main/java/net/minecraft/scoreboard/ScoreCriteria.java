@@ -2,22 +2,22 @@ package net.minecraft.scoreboard;
 
 public class ScoreCriteria implements IScoreCriteria {
 
-    private final String dummyName;
+    private final String field_96644_g;
 
     public ScoreCriteria(String s) {
-        this.dummyName = s;
-        IScoreCriteria.INSTANCES.put(s, this);
+        this.field_96644_g = s;
+        IScoreCriteria.field_96643_a.put(s, this);
     }
 
-    public String getName() {
-        return this.dummyName;
+    public String func_96636_a() {
+        return this.field_96644_g;
     }
 
-    public boolean isReadOnly() {
+    public boolean func_96637_b() {
         return false;
     }
 
-    public IScoreCriteria.EnumRenderType getRenderType() {
+    public IScoreCriteria.EnumRenderType func_178790_c() {
         return IScoreCriteria.EnumRenderType.INTEGER;
     }
 }

@@ -7,20 +7,20 @@ import net.minecraft.util.text.ITextComponent;
 
 public class HoverEvent {
 
-    private final HoverEvent.Action action;
-    private final ITextComponent value;
+    private final HoverEvent.Action field_150704_a;
+    private final ITextComponent field_150703_b;
 
     public HoverEvent(HoverEvent.Action chathoverable_enumhoveraction, ITextComponent ichatbasecomponent) {
-        this.action = chathoverable_enumhoveraction;
-        this.value = ichatbasecomponent;
+        this.field_150704_a = chathoverable_enumhoveraction;
+        this.field_150703_b = ichatbasecomponent;
     }
 
-    public HoverEvent.Action getAction() {
-        return this.action;
+    public HoverEvent.Action func_150701_a() {
+        return this.field_150704_a;
     }
 
-    public ITextComponent getValue() {
-        return this.value;
+    public ITextComponent func_150702_b() {
+        return this.field_150703_b;
     }
 
     public boolean equals(Object object) {
@@ -29,14 +29,14 @@ public class HoverEvent {
         } else if (object != null && this.getClass() == object.getClass()) {
             HoverEvent chathoverable = (HoverEvent) object;
 
-            if (this.action != chathoverable.action) {
+            if (this.field_150704_a != chathoverable.field_150704_a) {
                 return false;
             } else {
-                if (this.value != null) {
-                    if (!this.value.equals(chathoverable.value)) {
+                if (this.field_150703_b != null) {
+                    if (!this.field_150703_b.equals(chathoverable.field_150703_b)) {
                         return false;
                     }
-                } else if (chathoverable.value != null) {
+                } else if (chathoverable.field_150703_b != null) {
                     return false;
                 }
 
@@ -48,13 +48,13 @@ public class HoverEvent {
     }
 
     public String toString() {
-        return "HoverEvent{action=" + this.action + ", value=\'" + this.value + '\'' + '}';
+        return "HoverEvent{action=" + this.field_150704_a + ", value=\'" + this.field_150703_b + '\'' + '}';
     }
 
     public int hashCode() {
-        int i = this.action.hashCode();
+        int i = this.field_150704_a.hashCode();
 
-        i = 31 * i + (this.value != null ? this.value.hashCode() : 0);
+        i = 31 * i + (this.field_150703_b != null ? this.field_150703_b.hashCode() : 0);
         return i;
     }
 
@@ -62,25 +62,25 @@ public class HoverEvent {
 
         SHOW_TEXT("show_text", true), SHOW_ITEM("show_item", true), SHOW_ENTITY("show_entity", true);
 
-        private static final Map<String, HoverEvent.Action> NAME_MAPPING = Maps.newHashMap();
-        private final boolean allowedInChat;
-        private final String canonicalName;
+        private static final Map<String, HoverEvent.Action> field_150690_d = Maps.newHashMap();
+        private final boolean field_150691_e;
+        private final String field_150688_f;
 
         private Action(String s, boolean flag) {
-            this.canonicalName = s;
-            this.allowedInChat = flag;
+            this.field_150688_f = s;
+            this.field_150691_e = flag;
         }
 
-        public boolean shouldAllowInChat() {
-            return this.allowedInChat;
+        public boolean func_150686_a() {
+            return this.field_150691_e;
         }
 
-        public String getCanonicalName() {
-            return this.canonicalName;
+        public String func_150685_b() {
+            return this.field_150688_f;
         }
 
-        public static HoverEvent.Action getValueByCanonicalName(String s) {
-            return (HoverEvent.Action) HoverEvent.Action.NAME_MAPPING.get(s);
+        public static HoverEvent.Action func_150684_a(String s) {
+            return (HoverEvent.Action) HoverEvent.Action.field_150690_d.get(s);
         }
 
         static {
@@ -90,7 +90,7 @@ public class HoverEvent {
             for (int j = 0; j < i; ++j) {
                 HoverEvent.Action chathoverable_enumhoveraction = achathoverable_enumhoveraction[j];
 
-                HoverEvent.Action.NAME_MAPPING.put(chathoverable_enumhoveraction.getCanonicalName(), chathoverable_enumhoveraction);
+                HoverEvent.Action.field_150690_d.put(chathoverable_enumhoveraction.func_150685_b(), chathoverable_enumhoveraction);
             }
 
         }

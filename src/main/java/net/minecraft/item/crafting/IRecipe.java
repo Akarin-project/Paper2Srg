@@ -8,19 +8,19 @@ import net.minecraft.world.World;
 
 public interface IRecipe {
 
-    boolean matches(InventoryCrafting inventorycrafting, World world);
+    boolean func_77569_a(InventoryCrafting inventorycrafting, World world);
 
-    ItemStack getCraftingResult(InventoryCrafting inventorycrafting);
+    ItemStack func_77572_b(InventoryCrafting inventorycrafting);
 
-    ItemStack getRecipeOutput();
+    ItemStack func_77571_b();
 
-    NonNullList<ItemStack> getRemainingItems(InventoryCrafting inventorycrafting);
+    NonNullList<ItemStack> func_179532_b(InventoryCrafting inventorycrafting);
 
-    default NonNullList<Ingredient> getIngredients() {
-        return NonNullList.create();
+    default NonNullList<Ingredient> func_192400_c() {
+        return NonNullList.func_191196_a();
     }
 
-    default boolean isDynamic() {
+    default boolean func_192399_d() {
         return false;
     }
 

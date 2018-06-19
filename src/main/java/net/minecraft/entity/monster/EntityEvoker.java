@@ -40,100 +40,100 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityEvoker extends EntitySpellcasterIllager {
 
-    private EntitySheep wololoTarget;
+    private EntitySheep field_190763_bw;
 
     public EntityEvoker(World world) {
         super(world);
-        this.setSize(0.6F, 1.95F);
-        this.experienceValue = 10;
+        this.func_70105_a(0.6F, 1.95F);
+        this.field_70728_aV = 10;
     }
 
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityEvoker.b(null));
-        this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityPlayer.class, 8.0F, 0.6D, 1.0D));
-        this.tasks.addTask(4, new EntityEvoker.c(null));
-        this.tasks.addTask(5, new EntityEvoker.a(null));
-        this.tasks.addTask(6, new EntityEvoker.d());
-        this.tasks.addTask(8, new EntityAIWander(this, 0.6D));
-        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 3.0F, 1.0F));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] { EntityEvoker.class}));
-        this.targetTasks.addTask(2, (new EntityAINearestAttackableTarget(this, EntityPlayer.class, true)).setUnseenMemoryTicks(300));
-        this.targetTasks.addTask(3, (new EntityAINearestAttackableTarget(this, EntityVillager.class, false)).setUnseenMemoryTicks(300));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityIronGolem.class, false));
+    protected void func_184651_r() {
+        super.func_184651_r();
+        this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(1, new EntityEvoker.b(null));
+        this.field_70714_bg.func_75776_a(2, new EntityAIAvoidEntity(this, EntityPlayer.class, 8.0F, 0.6D, 1.0D));
+        this.field_70714_bg.func_75776_a(4, new EntityEvoker.c(null));
+        this.field_70714_bg.func_75776_a(5, new EntityEvoker.a(null));
+        this.field_70714_bg.func_75776_a(6, new EntityEvoker.d());
+        this.field_70714_bg.func_75776_a(8, new EntityAIWander(this, 0.6D));
+        this.field_70714_bg.func_75776_a(9, new EntityAIWatchClosest(this, EntityPlayer.class, 3.0F, 1.0F));
+        this.field_70714_bg.func_75776_a(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
+        this.field_70715_bh.func_75776_a(1, new EntityAIHurtByTarget(this, true, new Class[] { EntityEvoker.class}));
+        this.field_70715_bh.func_75776_a(2, (new EntityAINearestAttackableTarget(this, EntityPlayer.class, true)).func_190882_b(300));
+        this.field_70715_bh.func_75776_a(3, (new EntityAINearestAttackableTarget(this, EntityVillager.class, false)).func_190882_b(300));
+        this.field_70715_bh.func_75776_a(3, new EntityAINearestAttackableTarget(this, EntityIronGolem.class, false));
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(12.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(24.0D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.5D);
+        this.func_110148_a(SharedMonsterAttributes.field_111265_b).func_111128_a(12.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(24.0D);
     }
 
-    protected void entityInit() {
-        super.entityInit();
+    protected void func_70088_a() {
+        super.func_70088_a();
     }
 
-    public static void registerFixesEvoker(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityEvoker.class);
+    public static void func_190759_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityEvoker.class);
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
     }
 
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_EVOCATION_ILLAGER;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_191185_au;
     }
 
-    protected void updateAITasks() {
-        super.updateAITasks();
+    protected void func_70619_bc() {
+        super.func_70619_bc();
     }
 
-    public void onUpdate() {
-        super.onUpdate();
+    public void func_70071_h_() {
+        super.func_70071_h_();
     }
 
-    public boolean isOnSameTeam(Entity entity) {
-        return entity == null ? false : (entity == this ? true : (super.isOnSameTeam(entity) ? true : (entity instanceof EntityVex ? this.isOnSameTeam(((EntityVex) entity).getOwner()) : (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getCreatureAttribute() == EnumCreatureAttribute.ILLAGER ? this.getTeam() == null && entity.getTeam() == null : false))));
+    public boolean func_184191_r(Entity entity) {
+        return entity == null ? false : (entity == this ? true : (super.func_184191_r(entity) ? true : (entity instanceof EntityVex ? this.func_184191_r(((EntityVex) entity).func_190645_o()) : (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).func_70668_bt() == EnumCreatureAttribute.ILLAGER ? this.func_96124_cp() == null && entity.func_96124_cp() == null : false))));
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_EVOCATION_ILLAGER_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_191243_bm;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.EVOCATION_ILLAGER_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_191245_bo;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_EVOCATION_ILLAGER_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_191246_bp;
     }
 
-    private void setWololoTarget(@Nullable EntitySheep entitysheep) {
-        this.wololoTarget = entitysheep;
+    private void func_190748_a(@Nullable EntitySheep entitysheep) {
+        this.field_190763_bw = entitysheep;
     }
 
     @Nullable
-    private EntitySheep getWololoTarget() {
-        return this.wololoTarget;
+    private EntitySheep func_190751_dj() {
+        return this.field_190763_bw;
     }
 
-    protected SoundEvent getSpellSound() {
-        return SoundEvents.EVOCATION_ILLAGER_CAST_SPELL;
+    protected SoundEvent func_193086_dk() {
+        return SoundEvents.field_191244_bn;
     }
 
     public class d extends EntityIllagerWizard.c {
 
         final Predicate<EntitySheep> a = new Predicate() {
             public boolean a(EntitySheep entitysheep) {
-                return entitysheep.getFleeceColor() == EnumDyeColor.BLUE;
+                return entitysheep.func_175509_cj() == EnumDyeColor.BLUE;
             }
 
             public boolean apply(Object object) {
@@ -145,41 +145,41 @@ public class EntityEvoker extends EntitySpellcasterIllager {
             super();
         }
 
-        public boolean shouldExecute() {
-            if (EntityEvoker.this.getAttackTarget() != null) {
+        public boolean func_75250_a() {
+            if (EntityEvoker.this.func_70638_az() != null) {
                 return false;
-            } else if (EntityEvoker.this.isSpellcasting()) {
+            } else if (EntityEvoker.this.func_193082_dl()) {
                 return false;
-            } else if (EntityEvoker.this.ticksExisted < this.d) {
+            } else if (EntityEvoker.this.field_70173_aa < this.d) {
                 return false;
-            } else if (!EntityEvoker.this.world.getGameRules().getBoolean("mobGriefing")) {
+            } else if (!EntityEvoker.this.field_70170_p.func_82736_K().func_82766_b("mobGriefing")) {
                 return false;
             } else {
-                List list = EntityEvoker.this.world.getEntitiesWithinAABB(EntitySheep.class, EntityEvoker.this.getEntityBoundingBox().grow(16.0D, 4.0D, 16.0D), this.a);
+                List list = EntityEvoker.this.field_70170_p.func_175647_a(EntitySheep.class, EntityEvoker.this.func_174813_aQ().func_72314_b(16.0D, 4.0D, 16.0D), this.a);
 
                 if (list.isEmpty()) {
                     return false;
                 } else {
-                    EntityEvoker.this.setWololoTarget((EntitySheep) list.get(EntityEvoker.this.rand.nextInt(list.size())));
+                    EntityEvoker.this.func_190748_a((EntitySheep) list.get(EntityEvoker.this.field_70146_Z.nextInt(list.size())));
                     return true;
                 }
             }
         }
 
-        public boolean shouldContinueExecuting() {
-            return EntityEvoker.this.getWololoTarget() != null && this.c > 0;
+        public boolean func_75253_b() {
+            return EntityEvoker.this.func_190751_dj() != null && this.c > 0;
         }
 
-        public void resetTask() {
-            super.resetTask();
-            EntityEvoker.this.setWololoTarget((EntitySheep) null);
+        public void func_75251_c() {
+            super.func_75251_c();
+            EntityEvoker.this.func_190748_a((EntitySheep) null);
         }
 
         protected void j() {
-            EntitySheep entitysheep = EntityEvoker.this.getWololoTarget();
+            EntitySheep entitysheep = EntityEvoker.this.func_190751_dj();
 
-            if (entitysheep != null && entitysheep.isEntityAlive()) {
-                entitysheep.setFleeceColor(EnumDyeColor.RED);
+            if (entitysheep != null && entitysheep.func_70089_S()) {
+                entitysheep.func_175512_b(EnumDyeColor.RED);
             }
 
         }
@@ -197,7 +197,7 @@ public class EntityEvoker extends EntitySpellcasterIllager {
         }
 
         protected SoundEvent k() {
-            return SoundEvents.EVOCATION_ILLAGER_PREPARE_WOLOLO;
+            return SoundEvents.field_191249_bs;
         }
 
         protected EntitySpellcasterIllager.SpellType l() {
@@ -211,13 +211,13 @@ public class EntityEvoker extends EntitySpellcasterIllager {
             super();
         }
 
-        public boolean shouldExecute() {
-            if (!super.shouldExecute()) {
+        public boolean func_75250_a() {
+            if (!super.func_75250_a()) {
                 return false;
             } else {
-                int i = EntityEvoker.this.world.getEntitiesWithinAABB(EntityVex.class, EntityEvoker.this.getEntityBoundingBox().grow(16.0D)).size();
+                int i = EntityEvoker.this.field_70170_p.func_72872_a(EntityVex.class, EntityEvoker.this.func_174813_aQ().func_186662_g(16.0D)).size();
 
-                return EntityEvoker.this.rand.nextInt(8) + 1 > i;
+                return EntityEvoker.this.field_70146_Z.nextInt(8) + 1 > i;
             }
         }
 
@@ -231,21 +231,21 @@ public class EntityEvoker extends EntitySpellcasterIllager {
 
         protected void j() {
             for (int i = 0; i < 3; ++i) {
-                BlockPos blockposition = (new BlockPos(EntityEvoker.this)).add(-2 + EntityEvoker.this.rand.nextInt(5), 1, -2 + EntityEvoker.this.rand.nextInt(5));
-                EntityVex entityvex = new EntityVex(EntityEvoker.this.world);
+                BlockPos blockposition = (new BlockPos(EntityEvoker.this)).func_177982_a(-2 + EntityEvoker.this.field_70146_Z.nextInt(5), 1, -2 + EntityEvoker.this.field_70146_Z.nextInt(5));
+                EntityVex entityvex = new EntityVex(EntityEvoker.this.field_70170_p);
 
-                entityvex.moveToBlockPosAndAngles(blockposition, 0.0F, 0.0F);
-                entityvex.onInitialSpawn(EntityEvoker.this.world.getDifficultyForLocation(blockposition), (IEntityLivingData) null);
-                entityvex.setOwner((EntityLiving) EntityEvoker.this);
-                entityvex.setBoundOrigin(blockposition);
-                entityvex.setLimitedLife(20 * (30 + EntityEvoker.this.rand.nextInt(90)));
-                EntityEvoker.this.world.spawnEntity(entityvex);
+                entityvex.func_174828_a(blockposition, 0.0F, 0.0F);
+                entityvex.func_180482_a(EntityEvoker.this.field_70170_p.func_175649_E(blockposition), (IEntityLivingData) null);
+                entityvex.func_190658_a((EntityLiving) EntityEvoker.this);
+                entityvex.func_190651_g(blockposition);
+                entityvex.func_190653_a(20 * (30 + EntityEvoker.this.field_70146_Z.nextInt(90)));
+                EntityEvoker.this.field_70170_p.func_72838_d(entityvex);
             }
 
         }
 
         protected SoundEvent k() {
-            return SoundEvents.EVOCATION_ILLAGER_PREPARE_SUMMON;
+            return SoundEvents.field_191248_br;
         }
 
         protected EntitySpellcasterIllager.SpellType l() {
@@ -272,30 +272,30 @@ public class EntityEvoker extends EntitySpellcasterIllager {
         }
 
         protected void j() {
-            EntityLivingBase entityliving = EntityEvoker.this.getAttackTarget();
-            double d0 = Math.min(entityliving.posY, EntityEvoker.this.posY);
-            double d1 = Math.max(entityliving.posY, EntityEvoker.this.posY) + 1.0D;
-            float f = (float) MathHelper.atan2(entityliving.posZ - EntityEvoker.this.posZ, entityliving.posX - EntityEvoker.this.posX);
+            EntityLivingBase entityliving = EntityEvoker.this.func_70638_az();
+            double d0 = Math.min(entityliving.field_70163_u, EntityEvoker.this.field_70163_u);
+            double d1 = Math.max(entityliving.field_70163_u, EntityEvoker.this.field_70163_u) + 1.0D;
+            float f = (float) MathHelper.func_181159_b(entityliving.field_70161_v - EntityEvoker.this.field_70161_v, entityliving.field_70165_t - EntityEvoker.this.field_70165_t);
             int i;
 
-            if (EntityEvoker.this.getDistanceSq(entityliving) < 9.0D) {
+            if (EntityEvoker.this.func_70068_e(entityliving) < 9.0D) {
                 float f1;
 
                 for (i = 0; i < 5; ++i) {
                     f1 = f + (float) i * 3.1415927F * 0.4F;
-                    this.a(EntityEvoker.this.posX + (double) MathHelper.cos(f1) * 1.5D, EntityEvoker.this.posZ + (double) MathHelper.sin(f1) * 1.5D, d0, d1, f1, 0);
+                    this.a(EntityEvoker.this.field_70165_t + (double) MathHelper.func_76134_b(f1) * 1.5D, EntityEvoker.this.field_70161_v + (double) MathHelper.func_76126_a(f1) * 1.5D, d0, d1, f1, 0);
                 }
 
                 for (i = 0; i < 8; ++i) {
                     f1 = f + (float) i * 3.1415927F * 2.0F / 8.0F + 1.2566371F;
-                    this.a(EntityEvoker.this.posX + (double) MathHelper.cos(f1) * 2.5D, EntityEvoker.this.posZ + (double) MathHelper.sin(f1) * 2.5D, d0, d1, f1, 3);
+                    this.a(EntityEvoker.this.field_70165_t + (double) MathHelper.func_76134_b(f1) * 2.5D, EntityEvoker.this.field_70161_v + (double) MathHelper.func_76126_a(f1) * 2.5D, d0, d1, f1, 3);
                 }
             } else {
                 for (i = 0; i < 16; ++i) {
                     double d2 = 1.25D * (double) (i + 1);
                     int j = 1 * i;
 
-                    this.a(EntityEvoker.this.posX + (double) MathHelper.cos(f) * d2, EntityEvoker.this.posZ + (double) MathHelper.sin(f) * d2, d0, d1, f, j);
+                    this.a(EntityEvoker.this.field_70165_t + (double) MathHelper.func_76134_b(f) * d2, EntityEvoker.this.field_70161_v + (double) MathHelper.func_76126_a(f) * d2, d0, d1, f, j);
                 }
             }
 
@@ -307,13 +307,13 @@ public class EntityEvoker extends EntitySpellcasterIllager {
             double d4 = 0.0D;
 
             do {
-                if (!EntityEvoker.this.world.isBlockNormalCube(blockposition, true) && EntityEvoker.this.world.isBlockNormalCube(blockposition.down(), true)) {
-                    if (!EntityEvoker.this.world.isAirBlock(blockposition)) {
-                        IBlockState iblockdata = EntityEvoker.this.world.getBlockState(blockposition);
-                        AxisAlignedBB axisalignedbb = iblockdata.getCollisionBoundingBox(EntityEvoker.this.world, blockposition);
+                if (!EntityEvoker.this.field_70170_p.func_175677_d(blockposition, true) && EntityEvoker.this.field_70170_p.func_175677_d(blockposition.func_177977_b(), true)) {
+                    if (!EntityEvoker.this.field_70170_p.func_175623_d(blockposition)) {
+                        IBlockState iblockdata = EntityEvoker.this.field_70170_p.func_180495_p(blockposition);
+                        AxisAlignedBB axisalignedbb = iblockdata.func_185890_d(EntityEvoker.this.field_70170_p, blockposition);
 
                         if (axisalignedbb != null) {
-                            d4 = axisalignedbb.maxY;
+                            d4 = axisalignedbb.field_72337_e;
                         }
                     }
 
@@ -321,19 +321,19 @@ public class EntityEvoker extends EntitySpellcasterIllager {
                     break;
                 }
 
-                blockposition = blockposition.down();
-            } while (blockposition.getY() >= MathHelper.floor(d2) - 1);
+                blockposition = blockposition.func_177977_b();
+            } while (blockposition.func_177956_o() >= MathHelper.func_76128_c(d2) - 1);
 
             if (flag) {
-                EntityEvokerFangs entityevokerfangs = new EntityEvokerFangs(EntityEvoker.this.world, d0, (double) blockposition.getY() + d4, d1, f, i, EntityEvoker.this);
+                EntityEvokerFangs entityevokerfangs = new EntityEvokerFangs(EntityEvoker.this.field_70170_p, d0, (double) blockposition.func_177956_o() + d4, d1, f, i, EntityEvoker.this);
 
-                EntityEvoker.this.world.spawnEntity(entityevokerfangs);
+                EntityEvoker.this.field_70170_p.func_72838_d(entityevokerfangs);
             }
 
         }
 
         protected SoundEvent k() {
-            return SoundEvents.EVOCATION_ILLAGER_PREPARE_ATTACK;
+            return SoundEvents.field_191247_bq;
         }
 
         protected EntitySpellcasterIllager.SpellType l() {
@@ -351,11 +351,11 @@ public class EntityEvoker extends EntitySpellcasterIllager {
             super();
         }
 
-        public void updateTask() {
-            if (EntityEvoker.this.getAttackTarget() != null) {
-                EntityEvoker.this.getLookHelper().setLookPositionWithEntity(EntityEvoker.this.getAttackTarget(), (float) EntityEvoker.this.getHorizontalFaceSpeed(), (float) EntityEvoker.this.getVerticalFaceSpeed());
-            } else if (EntityEvoker.this.getWololoTarget() != null) {
-                EntityEvoker.this.getLookHelper().setLookPositionWithEntity(EntityEvoker.this.getWololoTarget(), (float) EntityEvoker.this.getHorizontalFaceSpeed(), (float) EntityEvoker.this.getVerticalFaceSpeed());
+        public void func_75246_d() {
+            if (EntityEvoker.this.func_70638_az() != null) {
+                EntityEvoker.this.func_70671_ap().func_75651_a(EntityEvoker.this.func_70638_az(), (float) EntityEvoker.this.func_184649_cE(), (float) EntityEvoker.this.func_70646_bf());
+            } else if (EntityEvoker.this.func_190751_dj() != null) {
+                EntityEvoker.this.func_70671_ap().func_75651_a(EntityEvoker.this.func_190751_dj(), (float) EntityEvoker.this.func_184649_cE(), (float) EntityEvoker.this.func_70646_bf());
             }
 
         }

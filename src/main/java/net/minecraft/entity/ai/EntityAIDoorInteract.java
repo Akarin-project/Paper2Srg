@@ -12,75 +12,75 @@ import net.minecraft.util.math.BlockPos;
 
 public abstract class EntityAIDoorInteract extends EntityAIBase {
 
-    protected EntityLiving entity;
-    protected BlockPos doorPosition;
-    protected BlockDoor doorBlock;
-    boolean hasStoppedDoorInteraction;
-    float entityPositionX;
-    float entityPositionZ;
+    protected EntityLiving field_75356_a;
+    protected BlockPos field_179507_b;
+    protected BlockDoor field_151504_e;
+    boolean field_75350_f;
+    float field_75351_g;
+    float field_75357_h;
 
     public EntityAIDoorInteract(EntityLiving entityinsentient) {
-        this.doorPosition = BlockPos.ORIGIN;
-        this.entity = entityinsentient;
-        if (!(entityinsentient.getNavigator() instanceof PathNavigateGround)) {
+        this.field_179507_b = BlockPos.field_177992_a;
+        this.field_75356_a = entityinsentient;
+        if (!(entityinsentient.func_70661_as() instanceof PathNavigateGround)) {
             throw new IllegalArgumentException("Unsupported mob type for DoorInteractGoal");
         }
     }
 
-    public boolean shouldExecute() {
-        if (!this.entity.collidedHorizontally) {
+    public boolean func_75250_a() {
+        if (!this.field_75356_a.field_70123_F) {
             return false;
         } else {
-            PathNavigateGround navigation = (PathNavigateGround) this.entity.getNavigator();
-            Path pathentity = navigation.getPath();
+            PathNavigateGround navigation = (PathNavigateGround) this.field_75356_a.func_70661_as();
+            Path pathentity = navigation.func_75505_d();
 
-            if (pathentity != null && !pathentity.isFinished() && navigation.getEnterDoors()) {
-                for (int i = 0; i < Math.min(pathentity.getCurrentPathIndex() + 2, pathentity.getCurrentPathLength()); ++i) {
-                    PathPoint pathpoint = pathentity.getPathPointFromIndex(i);
+            if (pathentity != null && !pathentity.func_75879_b() && navigation.func_179686_g()) {
+                for (int i = 0; i < Math.min(pathentity.func_75873_e() + 2, pathentity.func_75874_d()); ++i) {
+                    PathPoint pathpoint = pathentity.func_75877_a(i);
 
-                    this.doorPosition = new BlockPos(pathpoint.x, pathpoint.y + 1, pathpoint.z);
-                    if (this.entity.getDistanceSq((double) this.doorPosition.getX(), this.entity.posY, (double) this.doorPosition.getZ()) <= 2.25D) {
-                        this.doorBlock = this.getBlockDoor(this.doorPosition);
-                        if (this.doorBlock != null) {
+                    this.field_179507_b = new BlockPos(pathpoint.field_75839_a, pathpoint.field_75837_b + 1, pathpoint.field_75838_c);
+                    if (this.field_75356_a.func_70092_e((double) this.field_179507_b.func_177958_n(), this.field_75356_a.field_70163_u, (double) this.field_179507_b.func_177952_p()) <= 2.25D) {
+                        this.field_151504_e = this.func_179506_a(this.field_179507_b);
+                        if (this.field_151504_e != null) {
                             return true;
                         }
                     }
                 }
 
-                this.doorPosition = (new BlockPos(this.entity)).up();
-                this.doorBlock = this.getBlockDoor(this.doorPosition);
-                return this.doorBlock != null;
+                this.field_179507_b = (new BlockPos(this.field_75356_a)).func_177984_a();
+                this.field_151504_e = this.func_179506_a(this.field_179507_b);
+                return this.field_151504_e != null;
             } else {
                 return false;
             }
         }
     }
 
-    public boolean shouldContinueExecuting() {
-        return !this.hasStoppedDoorInteraction;
+    public boolean func_75253_b() {
+        return !this.field_75350_f;
     }
 
-    public void startExecuting() {
-        this.hasStoppedDoorInteraction = false;
-        this.entityPositionX = (float) ((double) ((float) this.doorPosition.getX() + 0.5F) - this.entity.posX);
-        this.entityPositionZ = (float) ((double) ((float) this.doorPosition.getZ() + 0.5F) - this.entity.posZ);
+    public void func_75249_e() {
+        this.field_75350_f = false;
+        this.field_75351_g = (float) ((double) ((float) this.field_179507_b.func_177958_n() + 0.5F) - this.field_75356_a.field_70165_t);
+        this.field_75357_h = (float) ((double) ((float) this.field_179507_b.func_177952_p() + 0.5F) - this.field_75356_a.field_70161_v);
     }
 
-    public void updateTask() {
-        float f = (float) ((double) ((float) this.doorPosition.getX() + 0.5F) - this.entity.posX);
-        float f1 = (float) ((double) ((float) this.doorPosition.getZ() + 0.5F) - this.entity.posZ);
-        float f2 = this.entityPositionX * f + this.entityPositionZ * f1;
+    public void func_75246_d() {
+        float f = (float) ((double) ((float) this.field_179507_b.func_177958_n() + 0.5F) - this.field_75356_a.field_70165_t);
+        float f1 = (float) ((double) ((float) this.field_179507_b.func_177952_p() + 0.5F) - this.field_75356_a.field_70161_v);
+        float f2 = this.field_75351_g * f + this.field_75357_h * f1;
 
         if (f2 < 0.0F) {
-            this.hasStoppedDoorInteraction = true;
+            this.field_75350_f = true;
         }
 
     }
 
-    private BlockDoor getBlockDoor(BlockPos blockposition) {
-        IBlockState iblockdata = this.entity.world.getBlockState(blockposition);
-        Block block = iblockdata.getBlock();
+    private BlockDoor func_179506_a(BlockPos blockposition) {
+        IBlockState iblockdata = this.field_75356_a.field_70170_p.func_180495_p(blockposition);
+        Block block = iblockdata.func_177230_c();
 
-        return block instanceof BlockDoor && iblockdata.getMaterial() == Material.WOOD ? (BlockDoor) block : null;
+        return block instanceof BlockDoor && iblockdata.func_185904_a() == Material.field_151575_d ? (BlockDoor) block : null;
     }
 }

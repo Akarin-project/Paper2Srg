@@ -10,47 +10,47 @@ import net.minecraft.util.math.AxisAlignedBB;
 
 public class EntityAIHurtByTarget extends EntityAITarget {
 
-    private final boolean entityCallsForHelp;
-    private int revengeTimerOld;
-    private final Class<?>[] excludedReinforcementTypes;
+    private final boolean field_75312_a;
+    private int field_142052_b;
+    private final Class<?>[] field_179447_c;
 
     public EntityAIHurtByTarget(EntityCreature entitycreature, boolean flag, Class<?>... aclass) {
         super(entitycreature, true);
-        this.entityCallsForHelp = flag;
-        this.excludedReinforcementTypes = aclass;
-        this.setMutexBits(1);
+        this.field_75312_a = flag;
+        this.field_179447_c = aclass;
+        this.func_75248_a(1);
     }
 
-    public boolean shouldExecute() {
-        int i = this.taskOwner.getRevengeTimer();
-        EntityLivingBase entityliving = this.taskOwner.getRevengeTarget();
+    public boolean func_75250_a() {
+        int i = this.field_75299_d.func_142015_aE();
+        EntityLivingBase entityliving = this.field_75299_d.func_70643_av();
 
-        return i != this.revengeTimerOld && entityliving != null && this.isSuitableTarget(entityliving, false);
+        return i != this.field_142052_b && entityliving != null && this.func_75296_a(entityliving, false);
     }
 
-    public void startExecuting() {
-        this.taskOwner.setGoalTarget(this.taskOwner.getRevengeTarget(), org.bukkit.event.entity.EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true); // CraftBukkit - reason
-        this.target = this.taskOwner.getAttackTarget();
-        this.revengeTimerOld = this.taskOwner.getRevengeTimer();
-        this.unseenMemoryTicks = 300;
-        if (this.entityCallsForHelp) {
-            this.alertOthers();
+    public void func_75249_e() {
+        this.field_75299_d.setGoalTarget(this.field_75299_d.func_70643_av(), org.bukkit.event.entity.EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, true); // CraftBukkit - reason
+        this.field_188509_g = this.field_75299_d.func_70638_az();
+        this.field_142052_b = this.field_75299_d.func_142015_aE();
+        this.field_188510_h = 300;
+        if (this.field_75312_a) {
+            this.func_190105_f();
         }
 
-        super.startExecuting();
+        super.func_75249_e();
     }
 
-    protected void alertOthers() {
-        double d0 = this.getTargetDistance();
-        List list = this.taskOwner.world.getEntitiesWithinAABB(this.taskOwner.getClass(), (new AxisAlignedBB(this.taskOwner.posX, this.taskOwner.posY, this.taskOwner.posZ, this.taskOwner.posX + 1.0D, this.taskOwner.posY + 1.0D, this.taskOwner.posZ + 1.0D)).grow(d0, 10.0D, d0));
+    protected void func_190105_f() {
+        double d0 = this.func_111175_f();
+        List list = this.field_75299_d.field_70170_p.func_72872_a(this.field_75299_d.getClass(), (new AxisAlignedBB(this.field_75299_d.field_70165_t, this.field_75299_d.field_70163_u, this.field_75299_d.field_70161_v, this.field_75299_d.field_70165_t + 1.0D, this.field_75299_d.field_70163_u + 1.0D, this.field_75299_d.field_70161_v + 1.0D)).func_72314_b(d0, 10.0D, d0));
         Iterator iterator = list.iterator();
 
         while (iterator.hasNext()) {
             EntityCreature entitycreature = (EntityCreature) iterator.next();
 
-            if (this.taskOwner != entitycreature && entitycreature.getAttackTarget() == null && (!(this.taskOwner instanceof EntityTameable) || ((EntityTameable) this.taskOwner).getOwner() == ((EntityTameable) entitycreature).getOwner()) && !entitycreature.isOnSameTeam(this.taskOwner.getRevengeTarget())) {
+            if (this.field_75299_d != entitycreature && entitycreature.func_70638_az() == null && (!(this.field_75299_d instanceof EntityTameable) || ((EntityTameable) this.field_75299_d).func_70902_q() == ((EntityTameable) entitycreature).func_70902_q()) && !entitycreature.func_184191_r(this.field_75299_d.func_70643_av())) {
                 boolean flag = false;
-                Class[] aclass = this.excludedReinforcementTypes;
+                Class[] aclass = this.field_179447_c;
                 int i = aclass.length;
 
                 for (int j = 0; j < i; ++j) {
@@ -63,14 +63,14 @@ public class EntityAIHurtByTarget extends EntityAITarget {
                 }
 
                 if (!flag) {
-                    this.setEntityAttackTarget(entitycreature, this.taskOwner.getRevengeTarget());
+                    this.func_179446_a(entitycreature, this.field_75299_d.func_70643_av());
                 }
             }
         }
 
     }
 
-    protected void setEntityAttackTarget(EntityCreature entitycreature, EntityLivingBase entityliving) {
+    protected void func_179446_a(EntityCreature entitycreature, EntityLivingBase entityliving) {
         entitycreature.setGoalTarget(entityliving, org.bukkit.event.entity.EntityTargetEvent.TargetReason.TARGET_ATTACKED_NEARBY_ENTITY, true); // CraftBukkit - reason
     }
 }

@@ -8,11 +8,11 @@ import net.minecraft.network.login.server.SPacketLoginSuccess;
 
 public interface INetHandlerLoginClient extends INetHandler {
 
-    void handleEncryptionRequest(SPacketEncryptionRequest packetloginoutencryptionbegin);
+    void func_147389_a(SPacketEncryptionRequest packetloginoutencryptionbegin);
 
-    void handleLoginSuccess(SPacketLoginSuccess packetloginoutsuccess);
+    void func_147390_a(SPacketLoginSuccess packetloginoutsuccess);
 
-    void handleDisconnect(SPacketDisconnect packetloginoutdisconnect);
+    void func_147388_a(SPacketDisconnect packetloginoutdisconnect);
 
-    void handleEnableCompression(SPacketEnableCompression packetloginoutsetcompression);
+    void func_180464_a(SPacketEnableCompression packetloginoutsetcompression);
 }

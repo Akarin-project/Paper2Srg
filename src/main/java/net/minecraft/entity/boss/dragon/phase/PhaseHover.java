@@ -7,37 +7,37 @@ import net.minecraft.util.math.Vec3d;
 
 public class PhaseHover extends PhaseBase {
 
-    private Vec3d targetLocation;
+    private Vec3d field_188680_b;
 
     public PhaseHover(EntityDragon entityenderdragon) {
         super(entityenderdragon);
     }
 
-    public void doLocalUpdate() {
-        if (this.targetLocation == null) {
-            this.targetLocation = new Vec3d(this.dragon.posX, this.dragon.posY, this.dragon.posZ);
+    public void func_188659_c() {
+        if (this.field_188680_b == null) {
+            this.field_188680_b = new Vec3d(this.field_188661_a.field_70165_t, this.field_188661_a.field_70163_u, this.field_188661_a.field_70161_v);
         }
 
     }
 
-    public boolean getIsStationary() {
+    public boolean func_188654_a() {
         return true;
     }
 
-    public void initPhase() {
-        this.targetLocation = null;
+    public void func_188660_d() {
+        this.field_188680_b = null;
     }
 
-    public float getMaxRiseOrFall() {
+    public float func_188651_f() {
         return 1.0F;
     }
 
     @Nullable
-    public Vec3d getTargetLocation() {
-        return this.targetLocation;
+    public Vec3d func_188650_g() {
+        return this.field_188680_b;
     }
 
-    public PhaseList<PhaseHover> getType() {
-        return PhaseList.HOVER;
+    public PhaseList<PhaseHover> func_188652_i() {
+        return PhaseList.field_188751_k;
     }
 }

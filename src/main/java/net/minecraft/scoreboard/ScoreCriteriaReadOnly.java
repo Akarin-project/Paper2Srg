@@ -6,7 +6,7 @@ public class ScoreCriteriaReadOnly extends ScoreCriteria {
         super(s);
     }
 
-    public boolean isReadOnly() {
+    public boolean func_96637_b() {
         return true;
     }
 }

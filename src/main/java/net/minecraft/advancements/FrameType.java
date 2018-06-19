@@ -6,28 +6,28 @@ public enum FrameType {
 
     TASK("task", 0, TextFormatting.GREEN), CHALLENGE("challenge", 26, TextFormatting.DARK_PURPLE), GOAL("goal", 52, TextFormatting.GREEN);
 
-    private final String name;
-    private final int icon;
-    private final TextFormatting format;
+    private final String field_192313_d;
+    private final int field_192314_e;
+    private final TextFormatting field_193230_f;
 
     private FrameType(String s, int i, TextFormatting enumchatformat) {
-        this.name = s;
-        this.icon = i;
-        this.format = enumchatformat;
+        this.field_192313_d = s;
+        this.field_192314_e = i;
+        this.field_193230_f = enumchatformat;
     }
 
-    public String getName() {
-        return this.name;
+    public String func_192307_a() {
+        return this.field_192313_d;
     }
 
-    public static FrameType byName(String s) {
+    public static FrameType func_192308_a(String s) {
         FrameType[] aadvancementframetype = values();
         int i = aadvancementframetype.length;
 
         for (int j = 0; j < i; ++j) {
             FrameType advancementframetype = aadvancementframetype[j];
 
-            if (advancementframetype.name.equals(s)) {
+            if (advancementframetype.field_192313_d.equals(s)) {
                 return advancementframetype;
             }
         }
@@ -35,7 +35,7 @@ public enum FrameType {
         throw new IllegalArgumentException("Unknown frame type \'" + s + "\'");
     }
 
-    public TextFormatting getFormat() {
-        return this.format;
+    public TextFormatting func_193229_c() {
+        return this.field_193230_f;
     }
 }

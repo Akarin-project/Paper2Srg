@@ -5,38 +5,38 @@ import net.minecraft.entity.monster.EntityCreeper;
 
 public class EntityAICreeperSwell extends EntityAIBase {
 
-    EntityCreeper swellingCreeper;
-    EntityLivingBase creeperAttackTarget;
+    EntityCreeper field_75269_a;
+    EntityLivingBase field_75268_b;
 
     public EntityAICreeperSwell(EntityCreeper entitycreeper) {
-        this.swellingCreeper = entitycreeper;
-        this.setMutexBits(1);
+        this.field_75269_a = entitycreeper;
+        this.func_75248_a(1);
     }
 
-    public boolean shouldExecute() {
-        EntityLivingBase entityliving = this.swellingCreeper.getAttackTarget();
+    public boolean func_75250_a() {
+        EntityLivingBase entityliving = this.field_75269_a.func_70638_az();
 
-        return this.swellingCreeper.getCreeperState() > 0 || entityliving != null && this.swellingCreeper.getDistanceSq(entityliving) < 9.0D;
+        return this.field_75269_a.func_70832_p() > 0 || entityliving != null && this.field_75269_a.func_70068_e(entityliving) < 9.0D;
     }
 
-    public void startExecuting() {
-        this.swellingCreeper.getNavigator().clearPath();
-        this.creeperAttackTarget = this.swellingCreeper.getAttackTarget();
+    public void func_75249_e() {
+        this.field_75269_a.func_70661_as().func_75499_g();
+        this.field_75268_b = this.field_75269_a.func_70638_az();
     }
 
-    public void resetTask() {
-        this.creeperAttackTarget = null;
+    public void func_75251_c() {
+        this.field_75268_b = null;
     }
 
-    public void updateTask() {
-        if (this.creeperAttackTarget == null) {
-            this.swellingCreeper.setCreeperState(-1);
-        } else if (this.swellingCreeper.getDistanceSq(this.creeperAttackTarget) > 49.0D) {
-            this.swellingCreeper.setCreeperState(-1);
-        } else if (!this.swellingCreeper.getEntitySenses().canSee(this.creeperAttackTarget)) {
-            this.swellingCreeper.setCreeperState(-1);
+    public void func_75246_d() {
+        if (this.field_75268_b == null) {
+            this.field_75269_a.func_70829_a(-1);
+        } else if (this.field_75269_a.func_70068_e(this.field_75268_b) > 49.0D) {
+            this.field_75269_a.func_70829_a(-1);
+        } else if (!this.field_75269_a.func_70635_at().func_75522_a(this.field_75268_b)) {
+            this.field_75269_a.func_70829_a(-1);
         } else {
-            this.swellingCreeper.setCreeperState(1);
+            this.field_75269_a.func_70829_a(1);
         }
     }
 }

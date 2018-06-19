@@ -11,35 +11,35 @@ import net.minecraft.util.text.translation.I18n;
 
 public class EntityDamageSourceIndirect extends EntityDamageSource {
 
-    private final Entity indirectEntity;
+    private final Entity field_76387_p;
 
     public EntityDamageSourceIndirect(String s, Entity entity, @Nullable Entity entity1) {
         super(s, entity);
-        this.indirectEntity = entity1;
+        this.field_76387_p = entity1;
     }
 
     @Nullable
-    public Entity getImmediateSource() {
-        return this.damageSourceEntity;
+    public Entity func_76364_f() {
+        return this.field_76386_o;
     }
 
     @Nullable
-    public Entity getTrueSource() {
-        return this.indirectEntity;
+    public Entity func_76346_g() {
+        return this.field_76387_p;
     }
 
-    public ITextComponent getDeathMessage(EntityLivingBase entityliving) {
-        ITextComponent ichatbasecomponent = this.indirectEntity == null ? this.damageSourceEntity.getDisplayName() : this.indirectEntity.getDisplayName();
-        ItemStack itemstack = this.indirectEntity instanceof EntityLivingBase ? ((EntityLivingBase) this.indirectEntity).getHeldItemMainhand() : ItemStack.EMPTY;
-        String s = "death.attack." + this.damageType;
+    public ITextComponent func_151519_b(EntityLivingBase entityliving) {
+        ITextComponent ichatbasecomponent = this.field_76387_p == null ? this.field_76386_o.func_145748_c_() : this.field_76387_p.func_145748_c_();
+        ItemStack itemstack = this.field_76387_p instanceof EntityLivingBase ? ((EntityLivingBase) this.field_76387_p).func_184614_ca() : ItemStack.field_190927_a;
+        String s = "death.attack." + this.field_76373_n;
         String s1 = s + ".item";
 
-        return !itemstack.isEmpty() && itemstack.hasDisplayName() && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, new Object[] { entityliving.getDisplayName(), ichatbasecomponent, itemstack.getTextComponent()}) : new TextComponentTranslation(s, new Object[] { entityliving.getDisplayName(), ichatbasecomponent});
+        return !itemstack.func_190926_b() && itemstack.func_82837_s() && I18n.func_94522_b(s1) ? new TextComponentTranslation(s1, new Object[] { entityliving.func_145748_c_(), ichatbasecomponent, itemstack.func_151000_E()}) : new TextComponentTranslation(s, new Object[] { entityliving.func_145748_c_(), ichatbasecomponent});
     }
 
     // CraftBukkit start
     public Entity getProximateDamageSource() {
-        return super.getTrueSource();
+        return super.func_76346_g();
     }
     // CraftBukkit end
 }

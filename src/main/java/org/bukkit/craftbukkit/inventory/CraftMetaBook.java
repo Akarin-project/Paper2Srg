@@ -71,31 +71,31 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
     CraftMetaBook(NBTTagCompound tag, boolean handlePages) {
         super(tag);
 
-        if (tag.hasKey(BOOK_TITLE.NBT)) {
-            this.title = limit( tag.getString(BOOK_TITLE.NBT), 1024 ); // Spigot
+        if (tag.func_74764_b(BOOK_TITLE.NBT)) {
+            this.title = limit( tag.func_74779_i(BOOK_TITLE.NBT), 1024 ); // Spigot
         }
 
-        if (tag.hasKey(BOOK_AUTHOR.NBT)) {
-            this.author = limit( tag.getString(BOOK_AUTHOR.NBT), 1024 ); // Spigot
+        if (tag.func_74764_b(BOOK_AUTHOR.NBT)) {
+            this.author = limit( tag.func_74779_i(BOOK_AUTHOR.NBT), 1024 ); // Spigot
         }
 
         boolean resolved = false;
-        if (tag.hasKey(RESOLVED.NBT)) {
-            resolved = tag.getBoolean(RESOLVED.NBT);
+        if (tag.func_74764_b(RESOLVED.NBT)) {
+            resolved = tag.func_74767_n(RESOLVED.NBT);
         }
 
-        if (tag.hasKey(GENERATION.NBT)) {
-            generation = tag.getInteger(GENERATION.NBT);
+        if (tag.func_74764_b(GENERATION.NBT)) {
+            generation = tag.func_74762_e(GENERATION.NBT);
         }
 
-        if (tag.hasKey(BOOK_PAGES.NBT) && handlePages) {
-            NBTTagList pages = tag.getTagList(BOOK_PAGES.NBT, CraftMagicNumbers.NBT.TAG_STRING);
+        if (tag.func_74764_b(BOOK_PAGES.NBT) && handlePages) {
+            NBTTagList pages = tag.func_150295_c(BOOK_PAGES.NBT, CraftMagicNumbers.NBT.TAG_STRING);
 
-            for (int i = 0; i < Math.min(pages.tagCount(), MAX_PAGES); i++) {
-                String page = pages.getStringTagAt(i);
+            for (int i = 0; i < Math.min(pages.func_74745_c(), MAX_PAGES); i++) {
+                String page = pages.func_150307_f(i);
                 if (resolved) {
                     try {
-                        this.pages.add(Serializer.jsonToComponent(page));
+                        this.pages.add(Serializer.func_150699_a(page));
                         continue;
                     } catch (Exception e) {
                         // Ignore and treat as an old book
@@ -134,27 +134,27 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
         super.applyToItem(itemData);
 
         if (hasTitle()) {
-            itemData.setString(BOOK_TITLE.NBT, this.title);
+            itemData.func_74778_a(BOOK_TITLE.NBT, this.title);
         }
 
         if (hasAuthor()) {
-            itemData.setString(BOOK_AUTHOR.NBT, this.author);
+            itemData.func_74778_a(BOOK_AUTHOR.NBT, this.author);
         }
 
         if (handlePages) {
             if (hasPages()) {
                 NBTTagList list = new NBTTagList();
                 for (ITextComponent page : pages) {
-                    list.appendTag(new NBTTagString(CraftChatMessage.fromComponent(page)));
+                    list.func_74742_a(new NBTTagString(CraftChatMessage.fromComponent(page)));
                 }
-                itemData.setTag(BOOK_PAGES.NBT, list);
+                itemData.func_74782_a(BOOK_PAGES.NBT, list);
             }
 
-            itemData.removeTag(RESOLVED.NBT);
+            itemData.func_82580_o(RESOLVED.NBT);
         }
 
         if (generation != null) {
-            itemData.setInteger(GENERATION.NBT, generation);
+            itemData.func_74768_a(GENERATION.NBT, generation);
         }
     }
 
@@ -375,7 +375,7 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
         @Override
         public BaseComponent[] getPage(final int page) {
             Validate.isTrue(isValidPage(page), "Invalid page number");
-            return ComponentSerializer.parse(ITextComponent.Serializer.componentToJson(pages.get(page - 1)));
+            return ComponentSerializer.parse(ITextComponent.Serializer.func_150696_a(pages.get(page - 1)));
         }
 
         @Override
@@ -385,7 +385,7 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
             }
 
             BaseComponent[] newText = text == null ? new BaseComponent[0] : text;
-            CraftMetaBook.this.pages.set(page - 1, ITextComponent.Serializer.jsonToComponent(ComponentSerializer.toString(newText)));
+            CraftMetaBook.this.pages.set(page - 1, ITextComponent.Serializer.func_150699_a(ComponentSerializer.toString(newText)));
         }
 
         @Override
@@ -406,7 +406,7 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
                     page = new BaseComponent[0];
                 }
 
-                CraftMetaBook.this.pages.add(ITextComponent.Serializer.jsonToComponent(ComponentSerializer.toString(page)));
+                CraftMetaBook.this.pages.add(ITextComponent.Serializer.func_150699_a(ComponentSerializer.toString(page)));
             }
         }
 
@@ -417,7 +417,7 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
 
                 @Override
                 public BaseComponent[] get(int index) {
-                    return ComponentSerializer.parse(ITextComponent.Serializer.componentToJson(copy.get(index)));
+                    return ComponentSerializer.parse(ITextComponent.Serializer.func_150696_a(copy.get(index)));
                 }
 
                 @Override

@@ -2,25 +2,25 @@ package net.minecraft.dispenser;
 
 public class PositionImpl implements IPosition {
 
-    protected final double x;
-    protected final double y;
-    protected final double z;
+    protected final double field_82630_a;
+    protected final double field_82628_b;
+    protected final double field_82629_c;
 
     public PositionImpl(double d0, double d1, double d2) {
-        this.x = d0;
-        this.y = d1;
-        this.z = d2;
+        this.field_82630_a = d0;
+        this.field_82628_b = d1;
+        this.field_82629_c = d2;
     }
 
-    public double getX() {
-        return this.x;
+    public double func_82615_a() {
+        return this.field_82630_a;
     }
 
-    public double getY() {
-        return this.y;
+    public double func_82617_b() {
+        return this.field_82628_b;
     }
 
-    public double getZ() {
-        return this.z;
+    public double func_82616_c() {
+        return this.field_82629_c;
     }
 }

@@ -44,114 +44,114 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 
 public class EntityPig extends EntityAnimal {
 
-    private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(EntityPig.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Integer> BOOST_TIME = EntityDataManager.createKey(EntityPig.class, DataSerializers.VARINT);
-    private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(new Item[] { Items.CARROT, Items.POTATO, Items.BEETROOT});
-    private boolean boosting;
-    private int boostTime;
-    private int totalBoostTime;
+    private static final DataParameter<Boolean> field_184763_bv = EntityDataManager.func_187226_a(EntityPig.class, DataSerializers.field_187198_h);
+    private static final DataParameter<Integer> field_191520_bx = EntityDataManager.func_187226_a(EntityPig.class, DataSerializers.field_187192_b);
+    private static final Set<Item> field_184764_bw = Sets.newHashSet(new Item[] { Items.field_151172_bF, Items.field_151174_bG, Items.field_185164_cV});
+    private boolean field_184765_bx;
+    private int field_184766_bz;
+    private int field_184767_bA;
 
     public EntityPig(World world) {
         super(world);
-        this.setSize(0.9F, 0.9F);
+        this.func_70105_a(0.9F, 0.9F);
     }
 
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
-        this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(4, new EntityAITempt(this, 1.2D, Items.CARROT_ON_A_STICK, false));
-        this.tasks.addTask(4, new EntityAITempt(this, 1.2D, false, EntityPig.TEMPTATION_ITEMS));
-        this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(1, new EntityAIPanic(this, 1.25D));
+        this.field_70714_bg.func_75776_a(3, new EntityAIMate(this, 1.0D));
+        this.field_70714_bg.func_75776_a(4, new EntityAITempt(this, 1.2D, Items.field_151146_bM, false));
+        this.field_70714_bg.func_75776_a(4, new EntityAITempt(this, 1.2D, false, EntityPig.field_184764_bw));
+        this.field_70714_bg.func_75776_a(5, new EntityAIFollowParent(this, 1.1D));
+        this.field_70714_bg.func_75776_a(6, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.field_70714_bg.func_75776_a(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.field_70714_bg.func_75776_a(8, new EntityAILookIdle(this));
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
     }
 
     @Nullable
-    public Entity getControllingPassenger() {
-        return this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
+    public Entity func_184179_bs() {
+        return this.func_184188_bt().isEmpty() ? null : (Entity) this.func_184188_bt().get(0);
     }
 
-    public boolean canBeSteered() {
-        Entity entity = this.getControllingPassenger();
+    public boolean func_82171_bF() {
+        Entity entity = this.func_184179_bs();
 
         if (!(entity instanceof EntityPlayer)) {
             return false;
         } else {
             EntityPlayer entityhuman = (EntityPlayer) entity;
 
-            return entityhuman.getHeldItemMainhand().getItem() == Items.CARROT_ON_A_STICK || entityhuman.getHeldItemOffhand().getItem() == Items.CARROT_ON_A_STICK;
+            return entityhuman.func_184614_ca().func_77973_b() == Items.field_151146_bM || entityhuman.func_184592_cb().func_77973_b() == Items.field_151146_bM;
         }
     }
 
-    public void notifyDataManagerChange(DataParameter<?> datawatcherobject) {
-        if (EntityPig.BOOST_TIME.equals(datawatcherobject) && this.world.isRemote) {
-            this.boosting = true;
-            this.boostTime = 0;
-            this.totalBoostTime = ((Integer) this.dataManager.get(EntityPig.BOOST_TIME)).intValue();
+    public void func_184206_a(DataParameter<?> datawatcherobject) {
+        if (EntityPig.field_191520_bx.equals(datawatcherobject) && this.field_70170_p.field_72995_K) {
+            this.field_184765_bx = true;
+            this.field_184766_bz = 0;
+            this.field_184767_bA = ((Integer) this.field_70180_af.func_187225_a(EntityPig.field_191520_bx)).intValue();
         }
 
-        super.notifyDataManagerChange(datawatcherobject);
+        super.func_184206_a(datawatcherobject);
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(EntityPig.SADDLED, Boolean.valueOf(false));
-        this.dataManager.register(EntityPig.BOOST_TIME, Integer.valueOf(0));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(EntityPig.field_184763_bv, Boolean.valueOf(false));
+        this.field_70180_af.func_187214_a(EntityPig.field_191520_bx, Integer.valueOf(0));
     }
 
-    public static void registerFixesPig(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityPig.class);
+    public static void func_189792_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityPig.class);
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setBoolean("Saddle", this.getSaddled());
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74757_a("Saddle", this.func_70901_n());
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.setSaddled(nbttagcompound.getBoolean("Saddle"));
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.func_70900_e(nbttagcompound.func_74767_n("Saddle"));
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_PIG_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_187697_dL;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_PIG_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187703_dN;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_PIG_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187700_dM;
     }
 
-    protected void playStepSound(BlockPos blockposition, Block block) {
-        this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15F, 1.0F);
+    protected void func_180429_a(BlockPos blockposition, Block block) {
+        this.func_184185_a(SoundEvents.field_187709_dP, 0.15F, 1.0F);
     }
 
-    public boolean processInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        if (!super.processInteract(entityhuman, enumhand)) {
-            ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        if (!super.func_184645_a(entityhuman, enumhand)) {
+            ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-            if (itemstack.getItem() == Items.NAME_TAG) {
-                itemstack.interactWithEntity(entityhuman, (EntityLivingBase) this, enumhand);
+            if (itemstack.func_77973_b() == Items.field_151057_cb) {
+                itemstack.func_111282_a(entityhuman, (EntityLivingBase) this, enumhand);
                 return true;
-            } else if (this.getSaddled() && !this.isBeingRidden()) {
-                if (!this.world.isRemote) {
-                    entityhuman.startRiding(this);
+            } else if (this.func_70901_n() && !this.func_184207_aI()) {
+                if (!this.field_70170_p.field_72995_K) {
+                    entityhuman.func_184220_m(this);
                 }
 
                 return true;
-            } else if (itemstack.getItem() == Items.SADDLE) {
-                itemstack.interactWithEntity(entityhuman, (EntityLivingBase) this, enumhand);
+            } else if (itemstack.func_77973_b() == Items.field_151141_av) {
+                itemstack.func_111282_a(entityhuman, (EntityLivingBase) this, enumhand);
                 return true;
             } else {
                 return false;
@@ -161,38 +161,38 @@ public class EntityPig extends EntityAnimal {
         }
     }
 
-    public void onDeath(DamageSource damagesource) {
+    public void func_70645_a(DamageSource damagesource) {
         // super.die(damagesource); // CraftBukkit - Moved to end
-        if (!this.world.isRemote) {
-            if (this.getSaddled()) {
-                this.dropItem(Items.SADDLE, 1);
+        if (!this.field_70170_p.field_72995_K) {
+            if (this.func_70901_n()) {
+                this.func_145779_a(Items.field_151141_av, 1);
             }
 
         }
-        super.onDeath(damagesource); // CraftBukkit - Moved from above
+        super.func_70645_a(damagesource); // CraftBukkit - Moved from above
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_PIG;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186395_C;
     }
 
-    public boolean getSaddled() {
-        return ((Boolean) this.dataManager.get(EntityPig.SADDLED)).booleanValue();
+    public boolean func_70901_n() {
+        return ((Boolean) this.field_70180_af.func_187225_a(EntityPig.field_184763_bv)).booleanValue();
     }
 
-    public void setSaddled(boolean flag) {
+    public void func_70900_e(boolean flag) {
         if (flag) {
-            this.dataManager.set(EntityPig.SADDLED, Boolean.valueOf(true));
+            this.field_70180_af.func_187227_b(EntityPig.field_184763_bv, Boolean.valueOf(true));
         } else {
-            this.dataManager.set(EntityPig.SADDLED, Boolean.valueOf(false));
+            this.field_70180_af.func_187227_b(EntityPig.field_184763_bv, Boolean.valueOf(false));
         }
 
     }
 
-    public void onStruckByLightning(EntityLightningBolt entitylightning) {
-        if (!this.world.isRemote && !this.isDead) {
-            EntityPigZombie entitypigzombie = new EntityPigZombie(this.world);
+    public void func_70077_a(EntityLightningBolt entitylightning) {
+        if (!this.field_70170_p.field_72995_K && !this.field_70128_L) {
+            EntityPigZombie entitypigzombie = new EntityPigZombie(this.field_70170_p);
 
             // Paper start
             if (CraftEventFactory.callEntityZapEvent(this, entitylightning, entitypigzombie).isCancelled()) {
@@ -206,90 +206,90 @@ public class EntityPig extends EntityAnimal {
             }
             // CraftBukkit end
 
-            entitypigzombie.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
-            entitypigzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
-            entitypigzombie.setNoAI(this.isAIDisabled());
-            if (this.hasCustomName()) {
-                entitypigzombie.setCustomNameTag(this.getCustomNameTag());
-                entitypigzombie.setAlwaysRenderNameTag(this.getAlwaysRenderNameTag());
+            entitypigzombie.func_184201_a(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.field_151010_B));
+            entitypigzombie.func_70012_b(this.field_70165_t, this.field_70163_u, this.field_70161_v, this.field_70177_z, this.field_70125_A);
+            entitypigzombie.func_94061_f(this.func_175446_cd());
+            if (this.func_145818_k_()) {
+                entitypigzombie.func_96094_a(this.func_95999_t());
+                entitypigzombie.func_174805_g(this.func_174833_aM());
             }
 
             // CraftBukkit - added a reason for spawning this creature
-            this.world.addEntity(entitypigzombie, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.LIGHTNING);
-            this.setDead();
+            this.field_70170_p.addEntity(entitypigzombie, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.LIGHTNING);
+            this.func_70106_y();
         }
     }
 
-    public void travel(float f, float f1, float f2) {
-        Entity entity = this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
+    public void func_191986_a(float f, float f1, float f2) {
+        Entity entity = this.func_184188_bt().isEmpty() ? null : (Entity) this.func_184188_bt().get(0);
 
-        if (this.isBeingRidden() && this.canBeSteered()) {
-            this.rotationYaw = entity.rotationYaw;
-            this.prevRotationYaw = this.rotationYaw;
-            this.rotationPitch = entity.rotationPitch * 0.5F;
-            this.setRotation(this.rotationYaw, this.rotationPitch);
-            this.renderYawOffset = this.rotationYaw;
-            this.rotationYawHead = this.rotationYaw;
-            this.stepHeight = 1.0F;
-            this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
-            if (this.boosting && this.boostTime++ > this.totalBoostTime) {
-                this.boosting = false;
+        if (this.func_184207_aI() && this.func_82171_bF()) {
+            this.field_70177_z = entity.field_70177_z;
+            this.field_70126_B = this.field_70177_z;
+            this.field_70125_A = entity.field_70125_A * 0.5F;
+            this.func_70101_b(this.field_70177_z, this.field_70125_A);
+            this.field_70761_aq = this.field_70177_z;
+            this.field_70759_as = this.field_70177_z;
+            this.field_70138_W = 1.0F;
+            this.field_70747_aH = this.func_70689_ay() * 0.1F;
+            if (this.field_184765_bx && this.field_184766_bz++ > this.field_184767_bA) {
+                this.field_184765_bx = false;
             }
 
-            if (this.canPassengerSteer()) {
-                float f3 = (float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue() * 0.225F;
+            if (this.func_184186_bw()) {
+                float f3 = (float) this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111126_e() * 0.225F;
 
-                if (this.boosting) {
-                    f3 += f3 * 1.15F * MathHelper.sin((float) this.boostTime / (float) this.totalBoostTime * 3.1415927F);
+                if (this.field_184765_bx) {
+                    f3 += f3 * 1.15F * MathHelper.func_76126_a((float) this.field_184766_bz / (float) this.field_184767_bA * 3.1415927F);
                 }
 
-                this.setAIMoveSpeed(f3);
-                super.travel(0.0F, 0.0F, 1.0F);
+                this.func_70659_e(f3);
+                super.func_191986_a(0.0F, 0.0F, 1.0F);
             } else {
-                this.motionX = 0.0D;
-                this.motionY = 0.0D;
-                this.motionZ = 0.0D;
+                this.field_70159_w = 0.0D;
+                this.field_70181_x = 0.0D;
+                this.field_70179_y = 0.0D;
             }
 
-            this.prevLimbSwingAmount = this.limbSwingAmount;
-            double d0 = this.posX - this.prevPosX;
-            double d1 = this.posZ - this.prevPosZ;
-            float f4 = MathHelper.sqrt(d0 * d0 + d1 * d1) * 4.0F;
+            this.field_184618_aE = this.field_70721_aZ;
+            double d0 = this.field_70165_t - this.field_70169_q;
+            double d1 = this.field_70161_v - this.field_70166_s;
+            float f4 = MathHelper.func_76133_a(d0 * d0 + d1 * d1) * 4.0F;
 
             if (f4 > 1.0F) {
                 f4 = 1.0F;
             }
 
-            this.limbSwingAmount += (f4 - this.limbSwingAmount) * 0.4F;
-            this.limbSwing += this.limbSwingAmount;
+            this.field_70721_aZ += (f4 - this.field_70721_aZ) * 0.4F;
+            this.field_184619_aG += this.field_70721_aZ;
         } else {
-            this.stepHeight = 0.5F;
-            this.jumpMovementFactor = 0.02F;
-            super.travel(f, f1, f2);
+            this.field_70138_W = 0.5F;
+            this.field_70747_aH = 0.02F;
+            super.func_191986_a(f, f1, f2);
         }
     }
 
-    public boolean boost() {
-        if (this.boosting) {
+    public boolean func_184762_da() {
+        if (this.field_184765_bx) {
             return false;
         } else {
-            this.boosting = true;
-            this.boostTime = 0;
-            this.totalBoostTime = this.getRNG().nextInt(841) + 140;
-            this.getDataManager().set(EntityPig.BOOST_TIME, Integer.valueOf(this.totalBoostTime));
+            this.field_184765_bx = true;
+            this.field_184766_bz = 0;
+            this.field_184767_bA = this.func_70681_au().nextInt(841) + 140;
+            this.func_184212_Q().func_187227_b(EntityPig.field_191520_bx, Integer.valueOf(this.field_184767_bA));
             return true;
         }
     }
 
-    public EntityPig createChild(EntityAgeable entityageable) {
-        return new EntityPig(this.world);
+    public EntityPig func_90011_a(EntityAgeable entityageable) {
+        return new EntityPig(this.field_70170_p);
     }
 
-    public boolean isBreedingItem(ItemStack itemstack) {
-        return EntityPig.TEMPTATION_ITEMS.contains(itemstack.getItem());
+    public boolean func_70877_b(ItemStack itemstack) {
+        return EntityPig.field_184764_bw.contains(itemstack.func_77973_b());
     }
 
-    public EntityAgeable createChild(EntityAgeable entityageable) {
-        return this.createChild(entityageable);
+    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
+        return this.func_90011_a(entityageable);
     }
 }

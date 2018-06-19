@@ -4,22 +4,22 @@ import net.minecraft.util.text.TextFormatting;
 
 public class ScoreCriteriaColored implements IScoreCriteria {
 
-    private final String goalName;
+    private final String field_178794_j;
 
     public ScoreCriteriaColored(String s, TextFormatting enumchatformat) {
-        this.goalName = s + enumchatformat.getFriendlyName();
-        IScoreCriteria.INSTANCES.put(this.goalName, this);
+        this.field_178794_j = s + enumchatformat.func_96297_d();
+        IScoreCriteria.field_96643_a.put(this.field_178794_j, this);
     }
 
-    public String getName() {
-        return this.goalName;
+    public String func_96636_a() {
+        return this.field_178794_j;
     }
 
-    public boolean isReadOnly() {
+    public boolean func_96637_b() {
         return false;
     }
 
-    public IScoreCriteria.EnumRenderType getRenderType() {
+    public IScoreCriteria.EnumRenderType func_178790_c() {
         return IScoreCriteria.EnumRenderType.INTEGER;
     }
 }

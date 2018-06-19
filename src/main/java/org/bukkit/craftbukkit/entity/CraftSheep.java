@@ -14,19 +14,19 @@ public class CraftSheep extends CraftAnimals implements Sheep {
     }
 
     public DyeColor getColor() {
-        return DyeColor.getByWoolData((byte) getHandle().getFleeceColor().getMetadata());
+        return DyeColor.getByWoolData((byte) getHandle().func_175509_cj().func_176765_a());
     }
 
     public void setColor(DyeColor color) {
-        getHandle().setFleeceColor(EnumDyeColor.byMetadata(color.getWoolData()));
+        getHandle().func_175512_b(EnumDyeColor.func_176764_b(color.getWoolData()));
     }
 
     public boolean isSheared() {
-        return getHandle().getSheared();
+        return getHandle().func_70892_o();
     }
 
     public void setSheared(boolean flag) {
-        getHandle().setSheared(flag);
+        getHandle().func_70893_e(flag);
     }
 
     @Override

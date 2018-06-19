@@ -6,11 +6,11 @@ import net.minecraft.util.IProgressUpdate;
 
 public interface ISaveFormat {
 
-    ISaveHandler getSaveLoader(String s, boolean flag);
+    ISaveHandler func_75804_a(String s, boolean flag);
 
-    boolean isOldMapFormat(String s);
+    boolean func_75801_b(String s);
 
-    boolean convertMapFormat(String s, IProgressUpdate iprogressupdate);
+    boolean func_75805_a(String s, IProgressUpdate iprogressupdate);
 
-    File getFile(String s, String s1);
+    File func_186352_b(String s, String s1);
 }

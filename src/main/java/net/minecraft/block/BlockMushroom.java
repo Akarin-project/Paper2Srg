@@ -22,27 +22,27 @@ import org.bukkit.event.block.BlockSpreadEvent;
 
 public class BlockMushroom extends BlockBush implements IGrowable {
 
-    protected static final AxisAlignedBB MUSHROOM_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.4000000059604645D, 0.699999988079071D);
+    protected static final AxisAlignedBB field_185518_a = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.4000000059604645D, 0.699999988079071D);
 
     protected BlockMushroom() {
-        this.setTickRandomly(true);
+        this.func_149675_a(true);
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockMushroom.MUSHROOM_AABB;
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockMushroom.field_185518_a;
     }
 
-    public void updateTick(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        final int sourceX = blockposition.getX(), sourceY = blockposition.getY(), sourceZ = blockposition.getZ(); // CraftBukkit
+    public void func_180650_b(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        final int sourceX = blockposition.func_177958_n(), sourceY = blockposition.func_177956_o(), sourceZ = blockposition.func_177952_p(); // CraftBukkit
         if (random.nextInt(Math.max(1, (int) (100.0F / world.spigotConfig.mushroomModifier) * 25)) == 0) { // Spigot
             int i = 5;
             boolean flag = true;
-            Iterator iterator = BlockPos.getAllInBoxMutable(blockposition.add(-4, -1, -4), blockposition.add(4, 1, 4)).iterator();
+            Iterator iterator = BlockPos.func_177975_b(blockposition.func_177982_a(-4, -1, -4), blockposition.func_177982_a(4, 1, 4)).iterator();
 
             while (iterator.hasNext()) {
                 BlockPos blockposition1 = (BlockPos) iterator.next();
 
-                if (world.getBlockState(blockposition1).getBlock() == this) {
+                if (world.func_180495_p(blockposition1).func_177230_c() == this) {
                     --i;
                     if (i <= 0) {
                         return;
@@ -50,21 +50,21 @@ public class BlockMushroom extends BlockBush implements IGrowable {
                 }
             }
 
-            BlockPos blockposition2 = blockposition.add(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
+            BlockPos blockposition2 = blockposition.func_177982_a(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
 
             for (int j = 0; j < 4; ++j) {
-                if (world.isAirBlock(blockposition2) && this.canBlockStay(world, blockposition2, this.getDefaultState())) {
+                if (world.func_175623_d(blockposition2) && this.func_180671_f(world, blockposition2, this.func_176223_P())) {
                     blockposition = blockposition2;
                 }
 
-                blockposition2 = blockposition.add(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
+                blockposition2 = blockposition.func_177982_a(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
             }
 
-            if (world.isAirBlock(blockposition2) && this.canBlockStay(world, blockposition2, this.getDefaultState())) {
+            if (world.func_175623_d(blockposition2) && this.func_180671_f(world, blockposition2, this.func_176223_P())) {
                 // CraftBukkit start
                 // world.setTypeAndData(blockposition2, this.getBlockData(), 2);
                 org.bukkit.World bworld = world.getWorld();
-                BlockState blockState = bworld.getBlockAt(blockposition2.getX(), blockposition2.getY(), blockposition2.getZ()).getState();
+                BlockState blockState = bworld.getBlockAt(blockposition2.func_177958_n(), blockposition2.func_177956_o(), blockposition2.func_177952_p()).getState();
                 blockState.setType(org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(this)); // nms: this.id, 0, 2
 
                 BlockSpreadEvent event = new BlockSpreadEvent(blockState.getBlock(), bworld.getBlockAt(sourceX, sourceY, sourceZ), blockState);
@@ -79,53 +79,53 @@ public class BlockMushroom extends BlockBush implements IGrowable {
 
     }
 
-    public boolean canPlaceBlockAt(World world, BlockPos blockposition) {
-        return super.canPlaceBlockAt(world, blockposition) && this.canBlockStay(world, blockposition, this.getDefaultState());
+    public boolean func_176196_c(World world, BlockPos blockposition) {
+        return super.func_176196_c(world, blockposition) && this.func_180671_f(world, blockposition, this.func_176223_P());
     }
 
-    protected boolean canSustainBush(IBlockState iblockdata) {
-        return iblockdata.isFullBlock();
+    protected boolean func_185514_i(IBlockState iblockdata) {
+        return iblockdata.func_185913_b();
     }
 
-    public boolean canBlockStay(World world, BlockPos blockposition, IBlockState iblockdata) {
-        if (blockposition.getY() >= 0 && blockposition.getY() < 256) {
-            IBlockState iblockdata1 = world.getBlockState(blockposition.down());
+    public boolean func_180671_f(World world, BlockPos blockposition, IBlockState iblockdata) {
+        if (blockposition.func_177956_o() >= 0 && blockposition.func_177956_o() < 256) {
+            IBlockState iblockdata1 = world.func_180495_p(blockposition.func_177977_b());
 
-            return iblockdata1.getBlock() == Blocks.MYCELIUM ? true : (iblockdata1.getBlock() == Blocks.DIRT && iblockdata1.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.PODZOL ? true : world.getLight(blockposition) < 13 && this.canSustainBush(iblockdata1));
+            return iblockdata1.func_177230_c() == Blocks.field_150391_bh ? true : (iblockdata1.func_177230_c() == Blocks.field_150346_d && iblockdata1.func_177229_b(BlockDirt.field_176386_a) == BlockDirt.DirtType.PODZOL ? true : world.func_175699_k(blockposition) < 13 && this.func_185514_i(iblockdata1));
         } else {
             return false;
         }
     }
 
-    public boolean generateBigMushroom(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        world.setBlockToAir(blockposition);
+    public boolean func_176485_d(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        world.func_175698_g(blockposition);
         WorldGenBigMushroom worldgenhugemushroom = null;
 
-        if (this == Blocks.BROWN_MUSHROOM) {
+        if (this == Blocks.field_150338_P) {
             BlockSapling.treeType = TreeType.BROWN_MUSHROOM; // CraftBukkit
-            worldgenhugemushroom = new WorldGenBigMushroom(Blocks.BROWN_MUSHROOM_BLOCK);
-        } else if (this == Blocks.RED_MUSHROOM) {
+            worldgenhugemushroom = new WorldGenBigMushroom(Blocks.field_150420_aW);
+        } else if (this == Blocks.field_150337_Q) {
             BlockSapling.treeType = TreeType.RED_MUSHROOM; // CraftBukkit
-            worldgenhugemushroom = new WorldGenBigMushroom(Blocks.RED_MUSHROOM_BLOCK);
+            worldgenhugemushroom = new WorldGenBigMushroom(Blocks.field_150419_aX);
         }
 
-        if (worldgenhugemushroom != null && worldgenhugemushroom.generate(world, random, blockposition)) {
+        if (worldgenhugemushroom != null && worldgenhugemushroom.func_180709_b(world, random, blockposition)) {
             return true;
         } else {
-            world.setBlockState(blockposition, iblockdata, 3);
+            world.func_180501_a(blockposition, iblockdata, 3);
             return false;
         }
     }
 
-    public boolean canGrow(World world, BlockPos blockposition, IBlockState iblockdata, boolean flag) {
+    public boolean func_176473_a(World world, BlockPos blockposition, IBlockState iblockdata, boolean flag) {
         return true;
     }
 
-    public boolean canUseBonemeal(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
+    public boolean func_180670_a(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
         return (double) random.nextFloat() < 0.4D;
     }
 
-    public void grow(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
-        this.generateBigMushroom(world, blockposition, iblockdata, random);
+    public void func_176474_b(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
+        this.func_176485_d(world, blockposition, iblockdata, random);
     }
 }

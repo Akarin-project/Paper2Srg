@@ -5,38 +5,38 @@ import net.minecraft.entity.passive.EntityTameable;
 
 public class EntityAISit extends EntityAIBase {
 
-    private final EntityTameable tameable;
-    private boolean isSitting;
+    private final EntityTameable field_75272_a;
+    private boolean field_75271_b;
 
     public EntityAISit(EntityTameable entitytameableanimal) {
-        this.tameable = entitytameableanimal;
-        this.setMutexBits(5);
+        this.field_75272_a = entitytameableanimal;
+        this.func_75248_a(5);
     }
 
-    public boolean shouldExecute() {
-        if (!this.tameable.isTamed()) {
-            return this.isSitting && this.tameable.getAttackTarget() == null; // CraftBukkit - Allow sitting for wild animals
-        } else if (this.tameable.isInWater()) {
+    public boolean func_75250_a() {
+        if (!this.field_75272_a.func_70909_n()) {
+            return this.field_75271_b && this.field_75272_a.func_70638_az() == null; // CraftBukkit - Allow sitting for wild animals
+        } else if (this.field_75272_a.func_70090_H()) {
             return false;
-        } else if (!this.tameable.onGround) {
+        } else if (!this.field_75272_a.field_70122_E) {
             return false;
         } else {
-            EntityLivingBase entityliving = this.tameable.getOwner();
+            EntityLivingBase entityliving = this.field_75272_a.func_70902_q();
 
-            return entityliving == null ? true : (this.tameable.getDistanceSq(entityliving) < 144.0D && entityliving.getRevengeTarget() != null ? false : this.isSitting);
+            return entityliving == null ? true : (this.field_75272_a.func_70068_e(entityliving) < 144.0D && entityliving.func_70643_av() != null ? false : this.field_75271_b);
         }
     }
 
-    public void startExecuting() {
-        this.tameable.getNavigator().clearPath();
-        this.tameable.setSitting(true);
+    public void func_75249_e() {
+        this.field_75272_a.func_70661_as().func_75499_g();
+        this.field_75272_a.func_70904_g(true);
     }
 
-    public void resetTask() {
-        this.tameable.setSitting(false);
+    public void func_75251_c() {
+        this.field_75272_a.func_70904_g(false);
     }
 
-    public void setSitting(boolean flag) {
-        this.isSitting = flag;
+    public void func_75270_a(boolean flag) {
+        this.field_75271_b = flag;
     }
 }

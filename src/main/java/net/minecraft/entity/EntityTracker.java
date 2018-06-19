@@ -51,120 +51,120 @@ import net.minecraft.world.chunk.Chunk;
 
 public class EntityTracker {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final WorldServer world;
-    private final Set<EntityTrackerEntry> entries = Sets.newHashSet();
-    public final IntHashMap<EntityTrackerEntry> trackedEntityHashTable = new IntHashMap();
-    private int maxTrackingDistanceThreshold;
+    private static final Logger field_151249_a = LogManager.getLogger();
+    private final WorldServer field_72795_a;
+    private final Set<EntityTrackerEntry> field_72793_b = Sets.newHashSet();
+    public final IntHashMap<EntityTrackerEntry> field_72794_c = new IntHashMap();
+    private int field_72792_d;
 
     public EntityTracker(WorldServer worldserver) {
-        this.world = worldserver;
-        this.maxTrackingDistanceThreshold = PlayerChunkMap.getFurthestViewableBlock(worldserver.spigotConfig.viewDistance); // Spigot
+        this.field_72795_a = worldserver;
+        this.field_72792_d = PlayerChunkMap.func_72686_a(worldserver.spigotConfig.viewDistance); // Spigot
     }
 
-    public static long getPositionLong(double d0) {
-        return MathHelper.lfloor(d0 * 4096.0D);
+    public static long func_187253_a(double d0) {
+        return MathHelper.func_76124_d(d0 * 4096.0D);
     }
 
-    public void track(Entity entity) {
+    public void func_72786_a(Entity entity) {
         if (entity instanceof EntityPlayerMP) {
-            this.track(entity, 512, 2);
+            this.func_72791_a(entity, 512, 2);
             EntityPlayerMP entityplayer = (EntityPlayerMP) entity;
-            Iterator iterator = this.entries.iterator();
+            Iterator iterator = this.field_72793_b.iterator();
 
             while (iterator.hasNext()) {
                 EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) iterator.next();
 
-                if (entitytrackerentry.getTrackedEntity() != entityplayer) {
-                    entitytrackerentry.updatePlayerEntity(entityplayer);
+                if (entitytrackerentry.func_187260_b() != entityplayer) {
+                    entitytrackerentry.func_73117_b(entityplayer);
                 }
             }
         } else if (entity instanceof EntityFishHook) {
-            this.track(entity, 64, 5, true);
+            this.func_72785_a(entity, 64, 5, true);
         } else if (entity instanceof EntityArrow) {
-            this.track(entity, 64, 20, false);
+            this.func_72785_a(entity, 64, 20, false);
         } else if (entity instanceof EntitySmallFireball) {
-            this.track(entity, 64, 10, false);
+            this.func_72785_a(entity, 64, 10, false);
         } else if (entity instanceof EntityFireball) {
-            this.track(entity, 64, 10, true);
+            this.func_72785_a(entity, 64, 10, true);
         } else if (entity instanceof EntitySnowball) {
-            this.track(entity, 64, 10, true);
+            this.func_72785_a(entity, 64, 10, true);
         } else if (entity instanceof EntityLlamaSpit) {
-            this.track(entity, 64, 10, false);
+            this.func_72785_a(entity, 64, 10, false);
         } else if (entity instanceof EntityEnderPearl) {
-            this.track(entity, 64, 10, true);
+            this.func_72785_a(entity, 64, 10, true);
         } else if (entity instanceof EntityEnderEye) {
-            this.track(entity, 64, 4, true);
+            this.func_72785_a(entity, 64, 4, true);
         } else if (entity instanceof EntityEgg) {
-            this.track(entity, 64, 10, true);
+            this.func_72785_a(entity, 64, 10, true);
         } else if (entity instanceof EntityPotion) {
-            this.track(entity, 64, 10, true);
+            this.func_72785_a(entity, 64, 10, true);
         } else if (entity instanceof EntityExpBottle) {
-            this.track(entity, 64, 10, true);
+            this.func_72785_a(entity, 64, 10, true);
         } else if (entity instanceof EntityFireworkRocket) {
-            this.track(entity, 64, 10, true);
+            this.func_72785_a(entity, 64, 10, true);
         } else if (entity instanceof EntityItem) {
-            this.track(entity, 64, 20, true);
+            this.func_72785_a(entity, 64, 20, true);
         } else if (entity instanceof EntityMinecart) {
-            this.track(entity, 80, 3, true);
+            this.func_72785_a(entity, 80, 3, true);
         } else if (entity instanceof EntityBoat) {
-            this.track(entity, 80, 3, true);
+            this.func_72785_a(entity, 80, 3, true);
         } else if (entity instanceof EntitySquid) {
-            this.track(entity, 64, 3, true);
+            this.func_72785_a(entity, 64, 3, true);
         } else if (entity instanceof EntityWither) {
-            this.track(entity, 80, 3, false);
+            this.func_72785_a(entity, 80, 3, false);
         } else if (entity instanceof EntityShulkerBullet) {
-            this.track(entity, 80, 3, true);
+            this.func_72785_a(entity, 80, 3, true);
         } else if (entity instanceof EntityBat) {
-            this.track(entity, 80, 3, false);
+            this.func_72785_a(entity, 80, 3, false);
         } else if (entity instanceof EntityDragon) {
-            this.track(entity, 160, 3, true);
+            this.func_72785_a(entity, 160, 3, true);
         } else if (entity instanceof IAnimals) {
-            this.track(entity, 80, 3, true);
+            this.func_72785_a(entity, 80, 3, true);
         } else if (entity instanceof EntityTNTPrimed) {
-            this.track(entity, 160, 10, true);
+            this.func_72785_a(entity, 160, 10, true);
         } else if (entity instanceof EntityFallingBlock) {
-            this.track(entity, 160, 20, true);
+            this.func_72785_a(entity, 160, 20, true);
         } else if (entity instanceof EntityHanging) {
-            this.track(entity, 160, Integer.MAX_VALUE, false);
+            this.func_72785_a(entity, 160, Integer.MAX_VALUE, false);
         } else if (entity instanceof EntityArmorStand) {
-            this.track(entity, 160, 3, true);
+            this.func_72785_a(entity, 160, 3, true);
         } else if (entity instanceof EntityXPOrb) {
-            this.track(entity, 160, 20, true);
+            this.func_72785_a(entity, 160, 20, true);
         } else if (entity instanceof EntityAreaEffectCloud) {
-            this.track(entity, 160, 10, true); // CraftBukkit
+            this.func_72785_a(entity, 160, 10, true); // CraftBukkit
         } else if (entity instanceof EntityEnderCrystal) {
-            this.track(entity, 256, Integer.MAX_VALUE, false);
+            this.func_72785_a(entity, 256, Integer.MAX_VALUE, false);
         } else if (entity instanceof EntityEvokerFangs) {
-            this.track(entity, 160, 2, false);
+            this.func_72785_a(entity, 160, 2, false);
         }
 
     }
 
-    public void track(Entity entity, int i, int j) {
-        this.track(entity, i, j, false);
+    public void func_72791_a(Entity entity, int i, int j) {
+        this.func_72785_a(entity, i, j, false);
     }
 
-    public void track(Entity entity, int i, final int j, boolean flag) {
+    public void func_72785_a(Entity entity, int i, final int j, boolean flag) {
         org.spigotmc.AsyncCatcher.catchOp( "entity track"); // Spigot
         i = org.spigotmc.TrackingRange.getEntityTrackingRange(entity, i); // Spigot
         try {
-            if (this.trackedEntityHashTable.containsItem(entity.getEntityId())) {
+            if (this.field_72794_c.func_76037_b(entity.func_145782_y())) {
                 throw new IllegalStateException("Entity is already tracked!");
             }
 
-            EntityTrackerEntry entitytrackerentry = new EntityTrackerEntry(entity, i, this.maxTrackingDistanceThreshold, j, flag);
+            EntityTrackerEntry entitytrackerentry = new EntityTrackerEntry(entity, i, this.field_72792_d, j, flag);
 
-            this.entries.add(entitytrackerentry);
-            this.trackedEntityHashTable.addKey(entity.getEntityId(), entitytrackerentry);
-            entitytrackerentry.updatePlayerEntities(this.world.playerEntities);
+            this.field_72793_b.add(entitytrackerentry);
+            this.field_72794_c.func_76038_a(entity.func_145782_y(), entitytrackerentry);
+            entitytrackerentry.func_73125_b(this.field_72795_a.field_73010_i);
         } catch (Throwable throwable) {
-            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Adding entity to track");
-            CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("Entity To Track");
+            CrashReport crashreport = CrashReport.func_85055_a(throwable, "Adding entity to track");
+            CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Entity To Track");
 
-            crashreportsystemdetails.addCrashSection("Tracking range", (Object) (i + " blocks"));
+            crashreportsystemdetails.func_71507_a("Tracking range", (Object) (i + " blocks"));
             final int finalI = i; // CraftBukkit - fix decompile error
-            crashreportsystemdetails.addDetail("Update interval", new ICrashReportDetail() {
+            crashreportsystemdetails.func_189529_a("Update interval", new ICrashReportDetail() {
                 public String a() throws Exception {
                     String s = "Once per " + finalI + " ticks"; // CraftBukkit
 
@@ -179,135 +179,135 @@ public class EntityTracker {
                     return this.a();
                 }
             });
-            entity.addEntityCrashInfo(crashreportsystemdetails);
-            ((EntityTrackerEntry) this.trackedEntityHashTable.lookup(entity.getEntityId())).getTrackedEntity().addEntityCrashInfo(crashreport.makeCategory("Entity That Is Already Tracked"));
+            entity.func_85029_a(crashreportsystemdetails);
+            ((EntityTrackerEntry) this.field_72794_c.func_76041_a(entity.func_145782_y())).func_187260_b().func_85029_a(crashreport.func_85058_a("Entity That Is Already Tracked"));
 
             try {
                 throw new ReportedException(crashreport);
             } catch (ReportedException reportedexception) {
-                EntityTracker.LOGGER.error("\"Silently\" catching entity tracking error.", reportedexception);
+                EntityTracker.field_151249_a.error("\"Silently\" catching entity tracking error.", reportedexception);
             }
         }
 
     }
 
-    public void untrack(Entity entity) {
+    public void func_72790_b(Entity entity) {
         org.spigotmc.AsyncCatcher.catchOp( "entity untrack"); // Spigot
         if (entity instanceof EntityPlayerMP) {
             EntityPlayerMP entityplayer = (EntityPlayerMP) entity;
-            Iterator iterator = this.entries.iterator();
+            Iterator iterator = this.field_72793_b.iterator();
 
             while (iterator.hasNext()) {
                 EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) iterator.next();
 
-                entitytrackerentry.removeFromTrackedPlayers(entityplayer);
+                entitytrackerentry.func_73118_a(entityplayer);
             }
         }
 
-        EntityTrackerEntry entitytrackerentry1 = (EntityTrackerEntry) this.trackedEntityHashTable.removeObject(entity.getEntityId());
+        EntityTrackerEntry entitytrackerentry1 = (EntityTrackerEntry) this.field_72794_c.func_76049_d(entity.func_145782_y());
 
         if (entitytrackerentry1 != null) {
-            this.entries.remove(entitytrackerentry1);
-            entitytrackerentry1.sendDestroyEntityPacketToTrackedPlayers();
+            this.field_72793_b.remove(entitytrackerentry1);
+            entitytrackerentry1.func_73119_a();
         }
 
     }
 
-    public void tick() {
+    public void func_72788_a() {
         ArrayList arraylist = Lists.newArrayList();
-        Iterator iterator = this.entries.iterator();
-        world.timings.tracker1.startTiming(); // Spigot
+        Iterator iterator = this.field_72793_b.iterator();
+        field_72795_a.timings.tracker1.startTiming(); // Spigot
         while (iterator.hasNext()) {
             EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) iterator.next();
 
-            entitytrackerentry.updatePlayerList(this.world.playerEntities);
-            if (entitytrackerentry.playerEntitiesUpdated) {
-                Entity entity = entitytrackerentry.getTrackedEntity();
+            entitytrackerentry.func_73122_a(this.field_72795_a.field_73010_i);
+            if (entitytrackerentry.field_73133_n) {
+                Entity entity = entitytrackerentry.func_187260_b();
 
                 if (entity instanceof EntityPlayerMP) {
                     arraylist.add((EntityPlayerMP) entity);
                 }
             }
         }
-        world.timings.tracker1.stopTiming(); // Spigot
+        field_72795_a.timings.tracker1.stopTiming(); // Spigot
 
-        world.timings.tracker2.startTiming(); // Spigot
+        field_72795_a.timings.tracker2.startTiming(); // Spigot
         for (int i = 0; i < arraylist.size(); ++i) {
             EntityPlayerMP entityplayer = (EntityPlayerMP) arraylist.get(i);
-            Iterator iterator1 = this.entries.iterator();
+            Iterator iterator1 = this.field_72793_b.iterator();
 
             while (iterator1.hasNext()) {
                 EntityTrackerEntry entitytrackerentry1 = (EntityTrackerEntry) iterator1.next();
 
-                if (entitytrackerentry1.getTrackedEntity() != entityplayer) {
-                    entitytrackerentry1.updatePlayerEntity(entityplayer);
+                if (entitytrackerentry1.func_187260_b() != entityplayer) {
+                    entitytrackerentry1.func_73117_b(entityplayer);
                 }
             }
         }
-        world.timings.tracker2.stopTiming(); // Spigot
+        field_72795_a.timings.tracker2.stopTiming(); // Spigot
 
     }
 
-    public void updateVisibility(EntityPlayerMP entityplayer) {
-        Iterator iterator = this.entries.iterator();
+    public void func_180245_a(EntityPlayerMP entityplayer) {
+        Iterator iterator = this.field_72793_b.iterator();
 
         while (iterator.hasNext()) {
             EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) iterator.next();
 
-            if (entitytrackerentry.getTrackedEntity() == entityplayer) {
-                entitytrackerentry.updatePlayerEntities(this.world.playerEntities);
+            if (entitytrackerentry.func_187260_b() == entityplayer) {
+                entitytrackerentry.func_73125_b(this.field_72795_a.field_73010_i);
             } else {
-                entitytrackerentry.updatePlayerEntity(entityplayer);
+                entitytrackerentry.func_73117_b(entityplayer);
             }
         }
 
     }
 
-    public void sendToTracking(Entity entity, Packet<?> packet) {
-        EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) this.trackedEntityHashTable.lookup(entity.getEntityId());
+    public void func_151247_a(Entity entity, Packet<?> packet) {
+        EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) this.field_72794_c.func_76041_a(entity.func_145782_y());
 
         if (entitytrackerentry != null) {
-            entitytrackerentry.sendPacketToTrackedPlayers(packet);
+            entitytrackerentry.func_151259_a(packet);
         }
 
     }
 
-    public void sendToTrackingAndSelf(Entity entity, Packet<?> packet) {
-        EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) this.trackedEntityHashTable.lookup(entity.getEntityId());
+    public void func_151248_b(Entity entity, Packet<?> packet) {
+        EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) this.field_72794_c.func_76041_a(entity.func_145782_y());
 
         if (entitytrackerentry != null) {
-            entitytrackerentry.sendToTrackingAndSelf(packet);
+            entitytrackerentry.func_151261_b(packet);
         }
 
     }
 
-    public void removePlayerFromTrackers(EntityPlayerMP entityplayer) {
-        Iterator iterator = this.entries.iterator();
+    public void func_72787_a(EntityPlayerMP entityplayer) {
+        Iterator iterator = this.field_72793_b.iterator();
 
         while (iterator.hasNext()) {
             EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) iterator.next();
 
-            entitytrackerentry.removeTrackedPlayerSymmetric(entityplayer);
+            entitytrackerentry.func_73123_c(entityplayer);
         }
 
     }
 
-    public void sendLeashedEntitiesInChunk(EntityPlayerMP entityplayer, Chunk chunk) {
+    public void func_85172_a(EntityPlayerMP entityplayer, Chunk chunk) {
         ArrayList arraylist = Lists.newArrayList();
         ArrayList arraylist1 = Lists.newArrayList();
-        Iterator iterator = this.entries.iterator();
+        Iterator iterator = this.field_72793_b.iterator();
 
         while (iterator.hasNext()) {
             EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) iterator.next();
-            Entity entity = entitytrackerentry.getTrackedEntity();
+            Entity entity = entitytrackerentry.func_187260_b();
 
-            if (entity != entityplayer && entity.chunkCoordX == chunk.x && entity.chunkCoordZ == chunk.z) {
-                entitytrackerentry.updatePlayerEntity(entityplayer);
-                if (entity instanceof EntityLiving && ((EntityLiving) entity).getLeashHolder() != null) {
+            if (entity != entityplayer && entity.field_70176_ah == chunk.field_76635_g && entity.field_70164_aj == chunk.field_76647_h) {
+                entitytrackerentry.func_73117_b(entityplayer);
+                if (entity instanceof EntityLiving && ((EntityLiving) entity).func_110166_bE() != null) {
                     arraylist.add(entity);
                 }
 
-                if (!entity.getPassengers().isEmpty()) {
+                if (!entity.func_184188_bt().isEmpty()) {
                     arraylist1.add(entity);
                 }
             }
@@ -320,7 +320,7 @@ public class EntityTracker {
 
             while (iterator.hasNext()) {
                 entity1 = (Entity) iterator.next();
-                entityplayer.connection.sendPacket(new SPacketEntityAttach(entity1, ((EntityLiving) entity1).getLeashHolder()));
+                entityplayer.field_71135_a.func_147359_a(new SPacketEntityAttach(entity1, ((EntityLiving) entity1).func_110166_bE()));
             }
         }
 
@@ -329,20 +329,20 @@ public class EntityTracker {
 
             while (iterator.hasNext()) {
                 entity1 = (Entity) iterator.next();
-                entityplayer.connection.sendPacket(new SPacketSetPassengers(entity1));
+                entityplayer.field_71135_a.func_147359_a(new SPacketSetPassengers(entity1));
             }
         }
 
     }
 
-    public void setViewDistance(int i) {
-        this.maxTrackingDistanceThreshold = (i - 1) * 16;
-        Iterator iterator = this.entries.iterator();
+    public void func_187252_a(int i) {
+        this.field_72792_d = (i - 1) * 16;
+        Iterator iterator = this.field_72793_b.iterator();
 
         while (iterator.hasNext()) {
             EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry) iterator.next();
 
-            entitytrackerentry.setMaxRange(this.maxTrackingDistanceThreshold);
+            entitytrackerentry.func_187259_a(this.field_72792_d);
         }
 
     }

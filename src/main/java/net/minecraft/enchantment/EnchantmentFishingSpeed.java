@@ -6,18 +6,18 @@ public class EnchantmentFishingSpeed extends Enchantment {
 
     protected EnchantmentFishingSpeed(Enchantment.Rarity enchantment_rarity, EnumEnchantmentType enchantmentslottype, EntityEquipmentSlot... aenumitemslot) {
         super(enchantment_rarity, enchantmentslottype, aenumitemslot);
-        this.setName("fishingSpeed");
+        this.func_77322_b("fishingSpeed");
     }
 
-    public int getMinEnchantability(int i) {
+    public int func_77321_a(int i) {
         return 15 + (i - 1) * 9;
     }
 
-    public int getMaxEnchantability(int i) {
-        return super.getMinEnchantability(i) + 50;
+    public int func_77317_b(int i) {
+        return super.func_77321_a(i) + 50;
     }
 
-    public int getMaxLevel() {
+    public int func_77325_b() {
         return 3;
     }
 }

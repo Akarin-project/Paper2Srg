@@ -11,25 +11,24 @@ import org.apache.logging.log4j.MarkerManager;
 
 public class NettyPacketEncoder extends MessageToByteEncoder<Packet<?>> {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static final Marker RECEIVED_PACKET_MARKER = MarkerManager.getMarker("PACKET_SENT", NetworkManager.NETWORK_PACKETS_MARKER);
-    private final EnumPacketDirection direction;
+    private static final Logger field_150798_a = LogManager.getLogger();
+    private static final Marker field_150797_b = MarkerManager.getMarker("PACKET_SENT", NetworkManager.field_150738_b);
+    private final EnumPacketDirection field_152500_c;
 
     public NettyPacketEncoder(EnumPacketDirection enumprotocoldirection) {
-        this.direction = enumprotocoldirection;
+        this.field_152500_c = enumprotocoldirection;
     }
 
-    @Override
     protected void encode(ChannelHandlerContext channelhandlercontext, Packet<?> packet, ByteBuf bytebuf) throws Exception {
-        EnumConnectionState enumprotocol = channelhandlercontext.channel().attr(NetworkManager.PROTOCOL_ATTRIBUTE_KEY).get();
+        EnumConnectionState enumprotocol = (EnumConnectionState) channelhandlercontext.channel().attr(NetworkManager.field_150739_c).get();
 
         if (enumprotocol == null) {
             throw new RuntimeException("ConnectionProtocol unknown: " + packet.toString());
         } else {
-            Integer integer = enumprotocol.getPacketId(this.direction, packet);
+            Integer integer = enumprotocol.func_179246_a(this.field_152500_c, packet);
 
-            if (NettyPacketEncoder.LOGGER.isDebugEnabled()) {
-                NettyPacketEncoder.LOGGER.debug(NettyPacketEncoder.RECEIVED_PACKET_MARKER, "OUT: [{}:{}] {}", channelhandlercontext.channel().attr(NetworkManager.PROTOCOL_ATTRIBUTE_KEY).get(), integer, packet.getClass().getName());
+            if (NettyPacketEncoder.field_150798_a.isDebugEnabled()) {
+                NettyPacketEncoder.field_150798_a.debug(NettyPacketEncoder.field_150797_b, "OUT: [{}:{}] {}", channelhandlercontext.channel().attr(NetworkManager.field_150739_c).get(), integer, packet.getClass().getName());
             }
 
             if (integer == null) {
@@ -37,15 +36,19 @@ public class NettyPacketEncoder extends MessageToByteEncoder<Packet<?>> {
             } else {
                 PacketBuffer packetdataserializer = new PacketBuffer(bytebuf);
 
-                packetdataserializer.writeVarInt(integer.intValue());
+                packetdataserializer.func_150787_b(integer.intValue());
 
                 try {
-                    packet.writePacketData(packetdataserializer);
+                    packet.func_148840_b(packetdataserializer);
                 } catch (Throwable throwable) {
-                    NettyPacketEncoder.LOGGER.error(throwable);
+                    NettyPacketEncoder.field_150798_a.error(throwable);
                 }
 
             }
         }
+    }
+
+    protected void encode(ChannelHandlerContext channelhandlercontext, Object object, ByteBuf bytebuf) throws Exception {
+        this.encode(channelhandlercontext, (Packet) object, bytebuf);
     }
 }

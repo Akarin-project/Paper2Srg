@@ -4,7 +4,7 @@ public class BlockDoubleStoneSlabNew extends BlockStoneSlabNew {
 
     public BlockDoubleStoneSlabNew() {}
 
-    public boolean isDouble() {
+    public boolean func_176552_j() {
         return true;
     }
 }

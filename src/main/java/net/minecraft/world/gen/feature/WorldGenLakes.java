@@ -12,21 +12,21 @@ import net.minecraft.world.biome.Biome;
 
 public class WorldGenLakes extends WorldGenerator {
 
-    private final Block block;
+    private final Block field_150556_a;
 
     public WorldGenLakes(Block block) {
-        this.block = block;
+        this.field_150556_a = block;
     }
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
-        for (blockposition = blockposition.add(-8, 0, -8); blockposition.getY() > 5 && world.isAirBlock(blockposition); blockposition = blockposition.down()) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
+        for (blockposition = blockposition.func_177982_a(-8, 0, -8); blockposition.func_177956_o() > 5 && world.func_175623_d(blockposition); blockposition = blockposition.func_177977_b()) {
             ;
         }
 
-        if (blockposition.getY() <= 4) {
+        if (blockposition.func_177956_o() <= 4) {
             return false;
         } else {
-            blockposition = blockposition.down(4);
+            blockposition = blockposition.func_177979_c(4);
             boolean[] aboolean = new boolean[2048];
             int i = random.nextInt(4) + 4;
 
@@ -65,13 +65,13 @@ public class WorldGenLakes extends WorldGenerator {
                     for (j1 = 0; j1 < 8; ++j1) {
                         flag = !aboolean[(j * 16 + k1) * 8 + j1] && (j < 15 && aboolean[((j + 1) * 16 + k1) * 8 + j1] || j > 0 && aboolean[((j - 1) * 16 + k1) * 8 + j1] || k1 < 15 && aboolean[(j * 16 + k1 + 1) * 8 + j1] || k1 > 0 && aboolean[(j * 16 + (k1 - 1)) * 8 + j1] || j1 < 7 && aboolean[(j * 16 + k1) * 8 + j1 + 1] || j1 > 0 && aboolean[(j * 16 + k1) * 8 + (j1 - 1)]);
                         if (flag) {
-                            Material material = world.getBlockState(blockposition.add(j, j1, k1)).getMaterial();
+                            Material material = world.func_180495_p(blockposition.func_177982_a(j, j1, k1)).func_185904_a();
 
-                            if (j1 >= 4 && material.isLiquid()) {
+                            if (j1 >= 4 && material.func_76224_d()) {
                                 return false;
                             }
 
-                            if (j1 < 4 && !material.isSolid() && world.getBlockState(blockposition.add(j, j1, k1)).getBlock() != this.block) {
+                            if (j1 < 4 && !material.func_76220_a() && world.func_180495_p(blockposition.func_177982_a(j, j1, k1)).func_177230_c() != this.field_150556_a) {
                                 return false;
                             }
                         }
@@ -83,7 +83,7 @@ public class WorldGenLakes extends WorldGenerator {
                 for (k1 = 0; k1 < 16; ++k1) {
                     for (j1 = 0; j1 < 8; ++j1) {
                         if (aboolean[(j * 16 + k1) * 8 + j1]) {
-                            world.setBlockState(blockposition.add(j, j1, k1), j1 >= 4 ? Blocks.AIR.getDefaultState() : this.block.getDefaultState(), 2);
+                            world.func_180501_a(blockposition.func_177982_a(j, j1, k1), j1 >= 4 ? Blocks.field_150350_a.func_176223_P() : this.field_150556_a.func_176223_P(), 2);
                         }
                     }
                 }
@@ -93,15 +93,15 @@ public class WorldGenLakes extends WorldGenerator {
                 for (k1 = 0; k1 < 16; ++k1) {
                     for (j1 = 4; j1 < 8; ++j1) {
                         if (aboolean[(j * 16 + k1) * 8 + j1]) {
-                            BlockPos blockposition1 = blockposition.add(j, j1 - 1, k1);
+                            BlockPos blockposition1 = blockposition.func_177982_a(j, j1 - 1, k1);
 
-                            if (world.getBlockState(blockposition1).getBlock() == Blocks.DIRT && world.getLightFor(EnumSkyBlock.SKY, blockposition.add(j, j1, k1)) > 0) {
-                                Biome biomebase = world.getBiome(blockposition1);
+                            if (world.func_180495_p(blockposition1).func_177230_c() == Blocks.field_150346_d && world.func_175642_b(EnumSkyBlock.SKY, blockposition.func_177982_a(j, j1, k1)) > 0) {
+                                Biome biomebase = world.func_180494_b(blockposition1);
 
-                                if (biomebase.topBlock.getBlock() == Blocks.MYCELIUM) {
-                                    world.setBlockState(blockposition1, Blocks.MYCELIUM.getDefaultState(), 2);
+                                if (biomebase.field_76752_A.func_177230_c() == Blocks.field_150391_bh) {
+                                    world.func_180501_a(blockposition1, Blocks.field_150391_bh.func_176223_P(), 2);
                                 } else {
-                                    world.setBlockState(blockposition1, Blocks.GRASS.getDefaultState(), 2);
+                                    world.func_180501_a(blockposition1, Blocks.field_150349_c.func_176223_P(), 2);
                                 }
                             }
                         }
@@ -109,26 +109,26 @@ public class WorldGenLakes extends WorldGenerator {
                 }
             }
 
-            if (this.block.getDefaultState().getMaterial() == Material.LAVA) {
+            if (this.field_150556_a.func_176223_P().func_185904_a() == Material.field_151587_i) {
                 for (j = 0; j < 16; ++j) {
                     for (k1 = 0; k1 < 16; ++k1) {
                         for (j1 = 0; j1 < 8; ++j1) {
                             flag = !aboolean[(j * 16 + k1) * 8 + j1] && (j < 15 && aboolean[((j + 1) * 16 + k1) * 8 + j1] || j > 0 && aboolean[((j - 1) * 16 + k1) * 8 + j1] || k1 < 15 && aboolean[(j * 16 + k1 + 1) * 8 + j1] || k1 > 0 && aboolean[(j * 16 + (k1 - 1)) * 8 + j1] || j1 < 7 && aboolean[(j * 16 + k1) * 8 + j1 + 1] || j1 > 0 && aboolean[(j * 16 + k1) * 8 + (j1 - 1)]);
-                            if (flag && (j1 < 4 || random.nextInt(2) != 0) && world.getBlockState(blockposition.add(j, j1, k1)).getMaterial().isSolid()) {
-                                world.setBlockState(blockposition.add(j, j1, k1), Blocks.STONE.getDefaultState(), 2);
+                            if (flag && (j1 < 4 || random.nextInt(2) != 0) && world.func_180495_p(blockposition.func_177982_a(j, j1, k1)).func_185904_a().func_76220_a()) {
+                                world.func_180501_a(blockposition.func_177982_a(j, j1, k1), Blocks.field_150348_b.func_176223_P(), 2);
                             }
                         }
                     }
                 }
             }
 
-            if (this.block.getDefaultState().getMaterial() == Material.WATER) {
+            if (this.field_150556_a.func_176223_P().func_185904_a() == Material.field_151586_h) {
                 for (j = 0; j < 16; ++j) {
                     for (k1 = 0; k1 < 16; ++k1) {
                         boolean flag1 = true;
 
-                        if (world.canBlockFreezeWater(blockposition.add(j, 4, k1))) {
-                            world.setBlockState(blockposition.add(j, 4, k1), Blocks.ICE.getDefaultState(), 2);
+                        if (world.func_175675_v(blockposition.func_177982_a(j, 4, k1))) {
+                            world.func_180501_a(blockposition.func_177982_a(j, 4, k1), Blocks.field_150432_aD.func_176223_P(), 2);
                         }
                     }
                 }

@@ -22,6 +22,7 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.LootItemFunctionEnchant.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -30,67 +31,65 @@ import net.minecraft.world.storage.loot.conditions.LootCondition;
 
 public class EnchantRandomly extends LootFunction {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final List<Enchantment> enchantments;
+    private static final Logger field_186557_a = LogManager.getLogger();
+    private final List<Enchantment> field_186558_b;
 
     public EnchantRandomly(LootCondition[] alootitemcondition, @Nullable List<Enchantment> list) {
         super(alootitemcondition);
-        this.enchantments = list == null ? Collections.emptyList() : list;
+        this.field_186558_b = list == null ? Collections.emptyList() : list;
     }
 
-    @Override
-    public ItemStack apply(ItemStack itemstack, Random random, LootContext loottableinfo) {
+    public ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo) {
         Enchantment enchantment;
 
-        if (this.enchantments.isEmpty()) {
+        if (this.field_186558_b.isEmpty()) {
             ArrayList arraylist = Lists.newArrayList();
-            Iterator iterator = Enchantment.REGISTRY.iterator();
+            Iterator iterator = Enchantment.field_185264_b.iterator();
 
             while (iterator.hasNext()) {
                 Enchantment enchantment1 = (Enchantment) iterator.next();
 
-                if (itemstack.getItem() == Items.BOOK || enchantment1.canApply(itemstack)) {
+                if (itemstack.func_77973_b() == Items.field_151122_aG || enchantment1.func_92089_a(itemstack)) {
                     arraylist.add(enchantment1);
                 }
             }
 
             if (arraylist.isEmpty()) {
-                EnchantRandomly.LOGGER.warn("Couldn\'t find a compatible enchantment for {}", itemstack);
+                EnchantRandomly.field_186557_a.warn("Couldn\'t find a compatible enchantment for {}", itemstack);
                 return itemstack;
             }
 
             enchantment = (Enchantment) arraylist.get(random.nextInt(arraylist.size()));
         } else {
-            enchantment = this.enchantments.get(random.nextInt(this.enchantments.size()));
+            enchantment = (Enchantment) this.field_186558_b.get(random.nextInt(this.field_186558_b.size()));
         }
 
-        int i = MathHelper.getInt(random, enchantment.getMinLevel(), enchantment.getMaxLevel());
+        int i = MathHelper.func_76136_a(random, enchantment.func_77319_d(), enchantment.func_77325_b());
 
-        if (itemstack.getItem() == Items.BOOK) {
-            itemstack = new ItemStack(Items.ENCHANTED_BOOK);
-            ItemEnchantedBook.addEnchantment(itemstack, new EnchantmentData(enchantment, i));
+        if (itemstack.func_77973_b() == Items.field_151122_aG) {
+            itemstack = new ItemStack(Items.field_151134_bR);
+            ItemEnchantedBook.func_92115_a(itemstack, new EnchantmentData(enchantment, i));
         } else {
-            itemstack.addEnchantment(enchantment, i);
+            itemstack.func_77966_a(enchantment, i);
         }
 
         return itemstack;
     }
 
-    public static class a extends LootFunction.a<EnchantRandomly> {
+    public static class a extends LootItemFunction.a<EnchantRandomly> {
 
         public a() {
             super(new ResourceLocation("enchant_randomly"), EnchantRandomly.class);
         }
 
-        @Override
         public void a(JsonObject jsonobject, EnchantRandomly lootitemfunctionenchant, JsonSerializationContext jsonserializationcontext) {
-            if (!lootitemfunctionenchant.enchantments.isEmpty()) {
+            if (!lootitemfunctionenchant.field_186558_b.isEmpty()) {
                 JsonArray jsonarray = new JsonArray();
-                Iterator iterator = lootitemfunctionenchant.enchantments.iterator();
+                Iterator iterator = lootitemfunctionenchant.field_186558_b.iterator();
 
                 while (iterator.hasNext()) {
                     Enchantment enchantment = (Enchantment) iterator.next();
-                    ResourceLocation minecraftkey = Enchantment.REGISTRY.getNameForObject(enchantment);
+                    ResourceLocation minecraftkey = (ResourceLocation) Enchantment.field_185264_b.func_177774_c(enchantment);
 
                     if (minecraftkey == null) {
                         throw new IllegalArgumentException("Don\'t know how to serialize enchantment " + enchantment);
@@ -104,18 +103,17 @@ public class EnchantRandomly extends LootFunction {
 
         }
 
-        @Override
-        public EnchantRandomly b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        public EnchantRandomly a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             ArrayList arraylist = Lists.newArrayList();
 
             if (jsonobject.has("enchantments")) {
-                JsonArray jsonarray = JsonUtils.getJsonArray(jsonobject, "enchantments");
+                JsonArray jsonarray = JsonUtils.func_151214_t(jsonobject, "enchantments");
                 Iterator iterator = jsonarray.iterator();
 
                 while (iterator.hasNext()) {
                     JsonElement jsonelement = (JsonElement) iterator.next();
-                    String s = JsonUtils.getString(jsonelement, "enchantment");
-                    Enchantment enchantment = Enchantment.REGISTRY.getObject(new ResourceLocation(s));
+                    String s = JsonUtils.func_151206_a(jsonelement, "enchantment");
+                    Enchantment enchantment = (Enchantment) Enchantment.field_185264_b.func_82594_a(new ResourceLocation(s));
 
                     if (enchantment == null) {
                         throw new JsonSyntaxException("Unknown enchantment \'" + s + "\'");
@@ -126,6 +124,10 @@ public class EnchantRandomly extends LootFunction {
             }
 
             return new EnchantRandomly(alootitemcondition, arraylist);
+        }
+
+        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+            return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }
 }

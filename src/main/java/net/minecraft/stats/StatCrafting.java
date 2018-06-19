@@ -5,10 +5,10 @@ import net.minecraft.util.text.ITextComponent;
 
 public class StatCrafting extends StatBase {
 
-    private final Item item;
+    private final Item field_150960_a;
 
     public StatCrafting(String s, String s1, ITextComponent ichatbasecomponent, Item item) {
         super(s + s1, ichatbasecomponent);
-        this.item = item;
+        this.field_150960_a = item;
     }
 }

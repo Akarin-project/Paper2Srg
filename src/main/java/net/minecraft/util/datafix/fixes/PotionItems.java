@@ -5,31 +5,31 @@ import net.minecraft.util.datafix.IFixableData;
 
 public class PotionItems implements IFixableData {
 
-    private static final String[] POTION_IDS = new String[128];
+    private static final String[] field_188223_a = new String[128];
 
     public PotionItems() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 102;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        if ("minecraft:potion".equals(nbttagcompound.getString("id"))) {
-            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("tag");
-            short short0 = nbttagcompound.getShort("Damage");
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        if ("minecraft:potion".equals(nbttagcompound.func_74779_i("id"))) {
+            NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("tag");
+            short short0 = nbttagcompound.func_74765_d("Damage");
 
-            if (!nbttagcompound1.hasKey("Potion", 8)) {
-                String s = PotionItems.POTION_IDS[short0 & 127];
+            if (!nbttagcompound1.func_150297_b("Potion", 8)) {
+                String s = PotionItems.field_188223_a[short0 & 127];
 
-                nbttagcompound1.setString("Potion", s == null ? "minecraft:water" : s);
-                nbttagcompound.setTag("tag", nbttagcompound1);
+                nbttagcompound1.func_74778_a("Potion", s == null ? "minecraft:water" : s);
+                nbttagcompound.func_74782_a("tag", nbttagcompound1);
                 if ((short0 & 16384) == 16384) {
-                    nbttagcompound.setString("id", "minecraft:splash_potion");
+                    nbttagcompound.func_74778_a("id", "minecraft:splash_potion");
                 }
             }
 
             if (short0 != 0) {
-                nbttagcompound.setShort("Damage", (short) 0);
+                nbttagcompound.func_74777_a("Damage", (short) 0);
             }
         }
 
@@ -37,133 +37,133 @@ public class PotionItems implements IFixableData {
     }
 
     static {
-        PotionItems.POTION_IDS[0] = "minecraft:water";
-        PotionItems.POTION_IDS[1] = "minecraft:regeneration";
-        PotionItems.POTION_IDS[2] = "minecraft:swiftness";
-        PotionItems.POTION_IDS[3] = "minecraft:fire_resistance";
-        PotionItems.POTION_IDS[4] = "minecraft:poison";
-        PotionItems.POTION_IDS[5] = "minecraft:healing";
-        PotionItems.POTION_IDS[6] = "minecraft:night_vision";
-        PotionItems.POTION_IDS[7] = null;
-        PotionItems.POTION_IDS[8] = "minecraft:weakness";
-        PotionItems.POTION_IDS[9] = "minecraft:strength";
-        PotionItems.POTION_IDS[10] = "minecraft:slowness";
-        PotionItems.POTION_IDS[11] = "minecraft:leaping";
-        PotionItems.POTION_IDS[12] = "minecraft:harming";
-        PotionItems.POTION_IDS[13] = "minecraft:water_breathing";
-        PotionItems.POTION_IDS[14] = "minecraft:invisibility";
-        PotionItems.POTION_IDS[15] = null;
-        PotionItems.POTION_IDS[16] = "minecraft:awkward";
-        PotionItems.POTION_IDS[17] = "minecraft:regeneration";
-        PotionItems.POTION_IDS[18] = "minecraft:swiftness";
-        PotionItems.POTION_IDS[19] = "minecraft:fire_resistance";
-        PotionItems.POTION_IDS[20] = "minecraft:poison";
-        PotionItems.POTION_IDS[21] = "minecraft:healing";
-        PotionItems.POTION_IDS[22] = "minecraft:night_vision";
-        PotionItems.POTION_IDS[23] = null;
-        PotionItems.POTION_IDS[24] = "minecraft:weakness";
-        PotionItems.POTION_IDS[25] = "minecraft:strength";
-        PotionItems.POTION_IDS[26] = "minecraft:slowness";
-        PotionItems.POTION_IDS[27] = "minecraft:leaping";
-        PotionItems.POTION_IDS[28] = "minecraft:harming";
-        PotionItems.POTION_IDS[29] = "minecraft:water_breathing";
-        PotionItems.POTION_IDS[30] = "minecraft:invisibility";
-        PotionItems.POTION_IDS[31] = null;
-        PotionItems.POTION_IDS[32] = "minecraft:thick";
-        PotionItems.POTION_IDS[33] = "minecraft:strong_regeneration";
-        PotionItems.POTION_IDS[34] = "minecraft:strong_swiftness";
-        PotionItems.POTION_IDS[35] = "minecraft:fire_resistance";
-        PotionItems.POTION_IDS[36] = "minecraft:strong_poison";
-        PotionItems.POTION_IDS[37] = "minecraft:strong_healing";
-        PotionItems.POTION_IDS[38] = "minecraft:night_vision";
-        PotionItems.POTION_IDS[39] = null;
-        PotionItems.POTION_IDS[40] = "minecraft:weakness";
-        PotionItems.POTION_IDS[41] = "minecraft:strong_strength";
-        PotionItems.POTION_IDS[42] = "minecraft:slowness";
-        PotionItems.POTION_IDS[43] = "minecraft:strong_leaping";
-        PotionItems.POTION_IDS[44] = "minecraft:strong_harming";
-        PotionItems.POTION_IDS[45] = "minecraft:water_breathing";
-        PotionItems.POTION_IDS[46] = "minecraft:invisibility";
-        PotionItems.POTION_IDS[47] = null;
-        PotionItems.POTION_IDS[48] = null;
-        PotionItems.POTION_IDS[49] = "minecraft:strong_regeneration";
-        PotionItems.POTION_IDS[50] = "minecraft:strong_swiftness";
-        PotionItems.POTION_IDS[51] = "minecraft:fire_resistance";
-        PotionItems.POTION_IDS[52] = "minecraft:strong_poison";
-        PotionItems.POTION_IDS[53] = "minecraft:strong_healing";
-        PotionItems.POTION_IDS[54] = "minecraft:night_vision";
-        PotionItems.POTION_IDS[55] = null;
-        PotionItems.POTION_IDS[56] = "minecraft:weakness";
-        PotionItems.POTION_IDS[57] = "minecraft:strong_strength";
-        PotionItems.POTION_IDS[58] = "minecraft:slowness";
-        PotionItems.POTION_IDS[59] = "minecraft:strong_leaping";
-        PotionItems.POTION_IDS[60] = "minecraft:strong_harming";
-        PotionItems.POTION_IDS[61] = "minecraft:water_breathing";
-        PotionItems.POTION_IDS[62] = "minecraft:invisibility";
-        PotionItems.POTION_IDS[63] = null;
-        PotionItems.POTION_IDS[64] = "minecraft:mundane";
-        PotionItems.POTION_IDS[65] = "minecraft:long_regeneration";
-        PotionItems.POTION_IDS[66] = "minecraft:long_swiftness";
-        PotionItems.POTION_IDS[67] = "minecraft:long_fire_resistance";
-        PotionItems.POTION_IDS[68] = "minecraft:long_poison";
-        PotionItems.POTION_IDS[69] = "minecraft:healing";
-        PotionItems.POTION_IDS[70] = "minecraft:long_night_vision";
-        PotionItems.POTION_IDS[71] = null;
-        PotionItems.POTION_IDS[72] = "minecraft:long_weakness";
-        PotionItems.POTION_IDS[73] = "minecraft:long_strength";
-        PotionItems.POTION_IDS[74] = "minecraft:long_slowness";
-        PotionItems.POTION_IDS[75] = "minecraft:long_leaping";
-        PotionItems.POTION_IDS[76] = "minecraft:harming";
-        PotionItems.POTION_IDS[77] = "minecraft:long_water_breathing";
-        PotionItems.POTION_IDS[78] = "minecraft:long_invisibility";
-        PotionItems.POTION_IDS[79] = null;
-        PotionItems.POTION_IDS[80] = "minecraft:awkward";
-        PotionItems.POTION_IDS[81] = "minecraft:long_regeneration";
-        PotionItems.POTION_IDS[82] = "minecraft:long_swiftness";
-        PotionItems.POTION_IDS[83] = "minecraft:long_fire_resistance";
-        PotionItems.POTION_IDS[84] = "minecraft:long_poison";
-        PotionItems.POTION_IDS[85] = "minecraft:healing";
-        PotionItems.POTION_IDS[86] = "minecraft:long_night_vision";
-        PotionItems.POTION_IDS[87] = null;
-        PotionItems.POTION_IDS[88] = "minecraft:long_weakness";
-        PotionItems.POTION_IDS[89] = "minecraft:long_strength";
-        PotionItems.POTION_IDS[90] = "minecraft:long_slowness";
-        PotionItems.POTION_IDS[91] = "minecraft:long_leaping";
-        PotionItems.POTION_IDS[92] = "minecraft:harming";
-        PotionItems.POTION_IDS[93] = "minecraft:long_water_breathing";
-        PotionItems.POTION_IDS[94] = "minecraft:long_invisibility";
-        PotionItems.POTION_IDS[95] = null;
-        PotionItems.POTION_IDS[96] = "minecraft:thick";
-        PotionItems.POTION_IDS[97] = "minecraft:regeneration";
-        PotionItems.POTION_IDS[98] = "minecraft:swiftness";
-        PotionItems.POTION_IDS[99] = "minecraft:long_fire_resistance";
-        PotionItems.POTION_IDS[100] = "minecraft:poison";
-        PotionItems.POTION_IDS[101] = "minecraft:strong_healing";
-        PotionItems.POTION_IDS[102] = "minecraft:long_night_vision";
-        PotionItems.POTION_IDS[103] = null;
-        PotionItems.POTION_IDS[104] = "minecraft:long_weakness";
-        PotionItems.POTION_IDS[105] = "minecraft:strength";
-        PotionItems.POTION_IDS[106] = "minecraft:long_slowness";
-        PotionItems.POTION_IDS[107] = "minecraft:leaping";
-        PotionItems.POTION_IDS[108] = "minecraft:strong_harming";
-        PotionItems.POTION_IDS[109] = "minecraft:long_water_breathing";
-        PotionItems.POTION_IDS[110] = "minecraft:long_invisibility";
-        PotionItems.POTION_IDS[111] = null;
-        PotionItems.POTION_IDS[112] = null;
-        PotionItems.POTION_IDS[113] = "minecraft:regeneration";
-        PotionItems.POTION_IDS[114] = "minecraft:swiftness";
-        PotionItems.POTION_IDS[115] = "minecraft:long_fire_resistance";
-        PotionItems.POTION_IDS[116] = "minecraft:poison";
-        PotionItems.POTION_IDS[117] = "minecraft:strong_healing";
-        PotionItems.POTION_IDS[118] = "minecraft:long_night_vision";
-        PotionItems.POTION_IDS[119] = null;
-        PotionItems.POTION_IDS[120] = "minecraft:long_weakness";
-        PotionItems.POTION_IDS[121] = "minecraft:strength";
-        PotionItems.POTION_IDS[122] = "minecraft:long_slowness";
-        PotionItems.POTION_IDS[123] = "minecraft:leaping";
-        PotionItems.POTION_IDS[124] = "minecraft:strong_harming";
-        PotionItems.POTION_IDS[125] = "minecraft:long_water_breathing";
-        PotionItems.POTION_IDS[126] = "minecraft:long_invisibility";
-        PotionItems.POTION_IDS[127] = null;
+        PotionItems.field_188223_a[0] = "minecraft:water";
+        PotionItems.field_188223_a[1] = "minecraft:regeneration";
+        PotionItems.field_188223_a[2] = "minecraft:swiftness";
+        PotionItems.field_188223_a[3] = "minecraft:fire_resistance";
+        PotionItems.field_188223_a[4] = "minecraft:poison";
+        PotionItems.field_188223_a[5] = "minecraft:healing";
+        PotionItems.field_188223_a[6] = "minecraft:night_vision";
+        PotionItems.field_188223_a[7] = null;
+        PotionItems.field_188223_a[8] = "minecraft:weakness";
+        PotionItems.field_188223_a[9] = "minecraft:strength";
+        PotionItems.field_188223_a[10] = "minecraft:slowness";
+        PotionItems.field_188223_a[11] = "minecraft:leaping";
+        PotionItems.field_188223_a[12] = "minecraft:harming";
+        PotionItems.field_188223_a[13] = "minecraft:water_breathing";
+        PotionItems.field_188223_a[14] = "minecraft:invisibility";
+        PotionItems.field_188223_a[15] = null;
+        PotionItems.field_188223_a[16] = "minecraft:awkward";
+        PotionItems.field_188223_a[17] = "minecraft:regeneration";
+        PotionItems.field_188223_a[18] = "minecraft:swiftness";
+        PotionItems.field_188223_a[19] = "minecraft:fire_resistance";
+        PotionItems.field_188223_a[20] = "minecraft:poison";
+        PotionItems.field_188223_a[21] = "minecraft:healing";
+        PotionItems.field_188223_a[22] = "minecraft:night_vision";
+        PotionItems.field_188223_a[23] = null;
+        PotionItems.field_188223_a[24] = "minecraft:weakness";
+        PotionItems.field_188223_a[25] = "minecraft:strength";
+        PotionItems.field_188223_a[26] = "minecraft:slowness";
+        PotionItems.field_188223_a[27] = "minecraft:leaping";
+        PotionItems.field_188223_a[28] = "minecraft:harming";
+        PotionItems.field_188223_a[29] = "minecraft:water_breathing";
+        PotionItems.field_188223_a[30] = "minecraft:invisibility";
+        PotionItems.field_188223_a[31] = null;
+        PotionItems.field_188223_a[32] = "minecraft:thick";
+        PotionItems.field_188223_a[33] = "minecraft:strong_regeneration";
+        PotionItems.field_188223_a[34] = "minecraft:strong_swiftness";
+        PotionItems.field_188223_a[35] = "minecraft:fire_resistance";
+        PotionItems.field_188223_a[36] = "minecraft:strong_poison";
+        PotionItems.field_188223_a[37] = "minecraft:strong_healing";
+        PotionItems.field_188223_a[38] = "minecraft:night_vision";
+        PotionItems.field_188223_a[39] = null;
+        PotionItems.field_188223_a[40] = "minecraft:weakness";
+        PotionItems.field_188223_a[41] = "minecraft:strong_strength";
+        PotionItems.field_188223_a[42] = "minecraft:slowness";
+        PotionItems.field_188223_a[43] = "minecraft:strong_leaping";
+        PotionItems.field_188223_a[44] = "minecraft:strong_harming";
+        PotionItems.field_188223_a[45] = "minecraft:water_breathing";
+        PotionItems.field_188223_a[46] = "minecraft:invisibility";
+        PotionItems.field_188223_a[47] = null;
+        PotionItems.field_188223_a[48] = null;
+        PotionItems.field_188223_a[49] = "minecraft:strong_regeneration";
+        PotionItems.field_188223_a[50] = "minecraft:strong_swiftness";
+        PotionItems.field_188223_a[51] = "minecraft:fire_resistance";
+        PotionItems.field_188223_a[52] = "minecraft:strong_poison";
+        PotionItems.field_188223_a[53] = "minecraft:strong_healing";
+        PotionItems.field_188223_a[54] = "minecraft:night_vision";
+        PotionItems.field_188223_a[55] = null;
+        PotionItems.field_188223_a[56] = "minecraft:weakness";
+        PotionItems.field_188223_a[57] = "minecraft:strong_strength";
+        PotionItems.field_188223_a[58] = "minecraft:slowness";
+        PotionItems.field_188223_a[59] = "minecraft:strong_leaping";
+        PotionItems.field_188223_a[60] = "minecraft:strong_harming";
+        PotionItems.field_188223_a[61] = "minecraft:water_breathing";
+        PotionItems.field_188223_a[62] = "minecraft:invisibility";
+        PotionItems.field_188223_a[63] = null;
+        PotionItems.field_188223_a[64] = "minecraft:mundane";
+        PotionItems.field_188223_a[65] = "minecraft:long_regeneration";
+        PotionItems.field_188223_a[66] = "minecraft:long_swiftness";
+        PotionItems.field_188223_a[67] = "minecraft:long_fire_resistance";
+        PotionItems.field_188223_a[68] = "minecraft:long_poison";
+        PotionItems.field_188223_a[69] = "minecraft:healing";
+        PotionItems.field_188223_a[70] = "minecraft:long_night_vision";
+        PotionItems.field_188223_a[71] = null;
+        PotionItems.field_188223_a[72] = "minecraft:long_weakness";
+        PotionItems.field_188223_a[73] = "minecraft:long_strength";
+        PotionItems.field_188223_a[74] = "minecraft:long_slowness";
+        PotionItems.field_188223_a[75] = "minecraft:long_leaping";
+        PotionItems.field_188223_a[76] = "minecraft:harming";
+        PotionItems.field_188223_a[77] = "minecraft:long_water_breathing";
+        PotionItems.field_188223_a[78] = "minecraft:long_invisibility";
+        PotionItems.field_188223_a[79] = null;
+        PotionItems.field_188223_a[80] = "minecraft:awkward";
+        PotionItems.field_188223_a[81] = "minecraft:long_regeneration";
+        PotionItems.field_188223_a[82] = "minecraft:long_swiftness";
+        PotionItems.field_188223_a[83] = "minecraft:long_fire_resistance";
+        PotionItems.field_188223_a[84] = "minecraft:long_poison";
+        PotionItems.field_188223_a[85] = "minecraft:healing";
+        PotionItems.field_188223_a[86] = "minecraft:long_night_vision";
+        PotionItems.field_188223_a[87] = null;
+        PotionItems.field_188223_a[88] = "minecraft:long_weakness";
+        PotionItems.field_188223_a[89] = "minecraft:long_strength";
+        PotionItems.field_188223_a[90] = "minecraft:long_slowness";
+        PotionItems.field_188223_a[91] = "minecraft:long_leaping";
+        PotionItems.field_188223_a[92] = "minecraft:harming";
+        PotionItems.field_188223_a[93] = "minecraft:long_water_breathing";
+        PotionItems.field_188223_a[94] = "minecraft:long_invisibility";
+        PotionItems.field_188223_a[95] = null;
+        PotionItems.field_188223_a[96] = "minecraft:thick";
+        PotionItems.field_188223_a[97] = "minecraft:regeneration";
+        PotionItems.field_188223_a[98] = "minecraft:swiftness";
+        PotionItems.field_188223_a[99] = "minecraft:long_fire_resistance";
+        PotionItems.field_188223_a[100] = "minecraft:poison";
+        PotionItems.field_188223_a[101] = "minecraft:strong_healing";
+        PotionItems.field_188223_a[102] = "minecraft:long_night_vision";
+        PotionItems.field_188223_a[103] = null;
+        PotionItems.field_188223_a[104] = "minecraft:long_weakness";
+        PotionItems.field_188223_a[105] = "minecraft:strength";
+        PotionItems.field_188223_a[106] = "minecraft:long_slowness";
+        PotionItems.field_188223_a[107] = "minecraft:leaping";
+        PotionItems.field_188223_a[108] = "minecraft:strong_harming";
+        PotionItems.field_188223_a[109] = "minecraft:long_water_breathing";
+        PotionItems.field_188223_a[110] = "minecraft:long_invisibility";
+        PotionItems.field_188223_a[111] = null;
+        PotionItems.field_188223_a[112] = null;
+        PotionItems.field_188223_a[113] = "minecraft:regeneration";
+        PotionItems.field_188223_a[114] = "minecraft:swiftness";
+        PotionItems.field_188223_a[115] = "minecraft:long_fire_resistance";
+        PotionItems.field_188223_a[116] = "minecraft:poison";
+        PotionItems.field_188223_a[117] = "minecraft:strong_healing";
+        PotionItems.field_188223_a[118] = "minecraft:long_night_vision";
+        PotionItems.field_188223_a[119] = null;
+        PotionItems.field_188223_a[120] = "minecraft:long_weakness";
+        PotionItems.field_188223_a[121] = "minecraft:strength";
+        PotionItems.field_188223_a[122] = "minecraft:long_slowness";
+        PotionItems.field_188223_a[123] = "minecraft:leaping";
+        PotionItems.field_188223_a[124] = "minecraft:strong_harming";
+        PotionItems.field_188223_a[125] = "minecraft:long_water_breathing";
+        PotionItems.field_188223_a[126] = "minecraft:long_invisibility";
+        PotionItems.field_188223_a[127] = null;
     }
 }

@@ -25,89 +25,89 @@ import net.minecraft.world.World;
 
 public class BlockTallGrass extends BlockBush implements IGrowable {
 
-    public static final PropertyEnum<BlockTallGrass.EnumType> TYPE = PropertyEnum.create("type", BlockTallGrass.EnumType.class);
-    protected static final AxisAlignedBB TALL_GRASS_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
+    public static final PropertyEnum<BlockTallGrass.EnumType> field_176497_a = PropertyEnum.func_177709_a("type", BlockTallGrass.EnumType.class);
+    protected static final AxisAlignedBB field_185522_c = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
 
     protected BlockTallGrass() {
-        super(Material.VINE);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockTallGrass.TYPE, BlockTallGrass.EnumType.DEAD_BUSH));
+        super(Material.field_151582_l);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockTallGrass.field_176497_a, BlockTallGrass.EnumType.DEAD_BUSH));
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockTallGrass.TALL_GRASS_AABB;
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockTallGrass.field_185522_c;
     }
 
-    public boolean canBlockStay(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return this.canSustainBush(world.getBlockState(blockposition.down()));
+    public boolean func_180671_f(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return this.func_185514_i(world.func_180495_p(blockposition.func_177977_b()));
     }
 
-    public boolean isReplaceable(IBlockAccess iblockaccess, BlockPos blockposition) {
+    public boolean func_176200_f(IBlockAccess iblockaccess, BlockPos blockposition) {
         return true;
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return random.nextInt(8) == 0 ? Items.WHEAT_SEEDS : Items.AIR;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return random.nextInt(8) == 0 ? Items.field_151014_N : Items.field_190931_a;
     }
 
-    public int quantityDroppedWithBonus(int i, Random random) {
+    public int func_149679_a(int i, Random random) {
         return 1 + random.nextInt(i * 2 + 1);
     }
 
-    public void harvestBlock(World world, EntityPlayer entityhuman, BlockPos blockposition, IBlockState iblockdata, @Nullable TileEntity tileentity, ItemStack itemstack) {
-        if (!world.isRemote && itemstack.getItem() == Items.SHEARS) {
-            entityhuman.addStat(StatList.getBlockStats((Block) this));
-            spawnAsEntity(world, blockposition, new ItemStack(Blocks.TALLGRASS, 1, ((BlockTallGrass.EnumType) iblockdata.getValue(BlockTallGrass.TYPE)).getMeta()));
+    public void func_180657_a(World world, EntityPlayer entityhuman, BlockPos blockposition, IBlockState iblockdata, @Nullable TileEntity tileentity, ItemStack itemstack) {
+        if (!world.field_72995_K && itemstack.func_77973_b() == Items.field_151097_aZ) {
+            entityhuman.func_71029_a(StatList.func_188055_a((Block) this));
+            func_180635_a(world, blockposition, new ItemStack(Blocks.field_150329_H, 1, ((BlockTallGrass.EnumType) iblockdata.func_177229_b(BlockTallGrass.field_176497_a)).func_177044_a()));
         } else {
-            super.harvestBlock(world, entityhuman, blockposition, iblockdata, tileentity, itemstack);
+            super.func_180657_a(world, entityhuman, blockposition, iblockdata, tileentity, itemstack);
         }
 
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(this, 1, iblockdata.getBlock().getMetaFromState(iblockdata));
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(this, 1, iblockdata.func_177230_c().func_176201_c(iblockdata));
     }
 
-    public void getSubBlocks(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+    public void func_149666_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
         for (int i = 1; i < 3; ++i) {
             nonnulllist.add(new ItemStack(this, 1, i));
         }
 
     }
 
-    public boolean canGrow(World world, BlockPos blockposition, IBlockState iblockdata, boolean flag) {
-        return iblockdata.getValue(BlockTallGrass.TYPE) != BlockTallGrass.EnumType.DEAD_BUSH;
+    public boolean func_176473_a(World world, BlockPos blockposition, IBlockState iblockdata, boolean flag) {
+        return iblockdata.func_177229_b(BlockTallGrass.field_176497_a) != BlockTallGrass.EnumType.DEAD_BUSH;
     }
 
-    public boolean canUseBonemeal(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
+    public boolean func_180670_a(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
         return true;
     }
 
-    public void grow(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
+    public void func_176474_b(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
         BlockDoublePlant.EnumPlantType blocktallplant_enumtallflowervariants = BlockDoublePlant.EnumPlantType.GRASS;
 
-        if (iblockdata.getValue(BlockTallGrass.TYPE) == BlockTallGrass.EnumType.FERN) {
+        if (iblockdata.func_177229_b(BlockTallGrass.field_176497_a) == BlockTallGrass.EnumType.FERN) {
             blocktallplant_enumtallflowervariants = BlockDoublePlant.EnumPlantType.FERN;
         }
 
-        if (Blocks.DOUBLE_PLANT.canPlaceBlockAt(world, blockposition)) {
-            Blocks.DOUBLE_PLANT.placeAt(world, blockposition, blocktallplant_enumtallflowervariants, 2);
+        if (Blocks.field_150398_cm.func_176196_c(world, blockposition)) {
+            Blocks.field_150398_cm.func_176491_a(world, blockposition, blocktallplant_enumtallflowervariants, 2);
         }
 
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockTallGrass.TYPE, BlockTallGrass.EnumType.byMetadata(i));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockTallGrass.field_176497_a, BlockTallGrass.EnumType.func_177045_a(i));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((BlockTallGrass.EnumType) iblockdata.getValue(BlockTallGrass.TYPE)).getMeta();
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((BlockTallGrass.EnumType) iblockdata.func_177229_b(BlockTallGrass.field_176497_a)).func_177044_a();
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockTallGrass.TYPE});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockTallGrass.field_176497_a});
     }
 
-    public Block.EnumOffsetType getOffsetType() {
+    public Block.EnumOffsetType func_176218_Q() {
         return Block.EnumOffsetType.XYZ;
     }
 
@@ -115,33 +115,33 @@ public class BlockTallGrass extends BlockBush implements IGrowable {
 
         DEAD_BUSH(0, "dead_bush"), GRASS(1, "tall_grass"), FERN(2, "fern");
 
-        private static final BlockTallGrass.EnumType[] META_LOOKUP = new BlockTallGrass.EnumType[values().length];
-        private final int meta;
-        private final String name;
+        private static final BlockTallGrass.EnumType[] field_177048_d = new BlockTallGrass.EnumType[values().length];
+        private final int field_177049_e;
+        private final String field_177046_f;
 
         private EnumType(int i, String s) {
-            this.meta = i;
-            this.name = s;
+            this.field_177049_e = i;
+            this.field_177046_f = s;
         }
 
-        public int getMeta() {
-            return this.meta;
+        public int func_177044_a() {
+            return this.field_177049_e;
         }
 
         public String toString() {
-            return this.name;
+            return this.field_177046_f;
         }
 
-        public static BlockTallGrass.EnumType byMetadata(int i) {
-            if (i < 0 || i >= BlockTallGrass.EnumType.META_LOOKUP.length) {
+        public static BlockTallGrass.EnumType func_177045_a(int i) {
+            if (i < 0 || i >= BlockTallGrass.EnumType.field_177048_d.length) {
                 i = 0;
             }
 
-            return BlockTallGrass.EnumType.META_LOOKUP[i];
+            return BlockTallGrass.EnumType.field_177048_d[i];
         }
 
-        public String getName() {
-            return this.name;
+        public String func_176610_l() {
+            return this.field_177046_f;
         }
 
         static {
@@ -151,7 +151,7 @@ public class BlockTallGrass extends BlockBush implements IGrowable {
             for (int j = 0; j < i; ++j) {
                 BlockTallGrass.EnumType blocklonggrass_enumtallgrasstype = ablocklonggrass_enumtallgrasstype[j];
 
-                BlockTallGrass.EnumType.META_LOOKUP[blocklonggrass_enumtallgrasstype.getMeta()] = blocklonggrass_enumtallgrasstype;
+                BlockTallGrass.EnumType.field_177048_d[blocklonggrass_enumtallgrasstype.func_177044_a()] = blocklonggrass_enumtallgrasstype;
             }
 
         }

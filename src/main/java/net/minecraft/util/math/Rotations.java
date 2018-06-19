@@ -5,26 +5,26 @@ import net.minecraft.nbt.NBTTagList;
 
 public class Rotations {
 
-    protected final float x;
-    protected final float y;
-    protected final float z;
+    protected final float field_179419_a;
+    protected final float field_179417_b;
+    protected final float field_179418_c;
 
     public Rotations(float f, float f1, float f2) {
-        this.x = !Float.isInfinite(f) && !Float.isNaN(f) ? f % 360.0F : 0.0F;
-        this.y = !Float.isInfinite(f1) && !Float.isNaN(f1) ? f1 % 360.0F : 0.0F;
-        this.z = !Float.isInfinite(f2) && !Float.isNaN(f2) ? f2 % 360.0F : 0.0F;
+        this.field_179419_a = !Float.isInfinite(f) && !Float.isNaN(f) ? f % 360.0F : 0.0F;
+        this.field_179417_b = !Float.isInfinite(f1) && !Float.isNaN(f1) ? f1 % 360.0F : 0.0F;
+        this.field_179418_c = !Float.isInfinite(f2) && !Float.isNaN(f2) ? f2 % 360.0F : 0.0F;
     }
 
     public Rotations(NBTTagList nbttaglist) {
-        this(nbttaglist.getFloatAt(0), nbttaglist.getFloatAt(1), nbttaglist.getFloatAt(2));
+        this(nbttaglist.func_150308_e(0), nbttaglist.func_150308_e(1), nbttaglist.func_150308_e(2));
     }
 
-    public NBTTagList writeToNBT() {
+    public NBTTagList func_179414_a() {
         NBTTagList nbttaglist = new NBTTagList();
 
-        nbttaglist.appendTag(new NBTTagFloat(this.x));
-        nbttaglist.appendTag(new NBTTagFloat(this.y));
-        nbttaglist.appendTag(new NBTTagFloat(this.z));
+        nbttaglist.func_74742_a(new NBTTagFloat(this.field_179419_a));
+        nbttaglist.func_74742_a(new NBTTagFloat(this.field_179417_b));
+        nbttaglist.func_74742_a(new NBTTagFloat(this.field_179418_c));
         return nbttaglist;
     }
 
@@ -34,19 +34,19 @@ public class Rotations {
         } else {
             Rotations vector3f = (Rotations) object;
 
-            return this.x == vector3f.x && this.y == vector3f.y && this.z == vector3f.z;
+            return this.field_179419_a == vector3f.field_179419_a && this.field_179417_b == vector3f.field_179417_b && this.field_179418_c == vector3f.field_179418_c;
         }
     }
 
-    public float getX() {
-        return this.x;
+    public float func_179415_b() {
+        return this.field_179419_a;
     }
 
-    public float getY() {
-        return this.y;
+    public float func_179416_c() {
+        return this.field_179417_b;
     }
 
-    public float getZ() {
-        return this.z;
+    public float func_179413_d() {
+        return this.field_179418_c;
     }
 }

@@ -10,64 +10,64 @@ import net.minecraft.world.gen.feature.WorldGenEndPodium;
 
 public class PhaseLanding extends PhaseBase {
 
-    private Vec3d targetLocation;
+    private Vec3d field_188685_b;
 
     public PhaseLanding(EntityDragon entityenderdragon) {
         super(entityenderdragon);
     }
 
-    public void doClientRenderEffects() {
-        Vec3d vec3d = this.dragon.getHeadLookVec(1.0F).normalize();
+    public void func_188657_b() {
+        Vec3d vec3d = this.field_188661_a.func_184665_a(1.0F).func_72432_b();
 
-        vec3d.rotateYaw(-0.7853982F);
-        double d0 = this.dragon.dragonPartHead.posX;
-        double d1 = this.dragon.dragonPartHead.posY + (double) (this.dragon.dragonPartHead.height / 2.0F);
-        double d2 = this.dragon.dragonPartHead.posZ;
+        vec3d.func_178785_b(-0.7853982F);
+        double d0 = this.field_188661_a.field_70986_h.field_70165_t;
+        double d1 = this.field_188661_a.field_70986_h.field_70163_u + (double) (this.field_188661_a.field_70986_h.field_70131_O / 2.0F);
+        double d2 = this.field_188661_a.field_70986_h.field_70161_v;
 
         for (int i = 0; i < 8; ++i) {
-            double d3 = d0 + this.dragon.getRNG().nextGaussian() / 2.0D;
-            double d4 = d1 + this.dragon.getRNG().nextGaussian() / 2.0D;
-            double d5 = d2 + this.dragon.getRNG().nextGaussian() / 2.0D;
+            double d3 = d0 + this.field_188661_a.func_70681_au().nextGaussian() / 2.0D;
+            double d4 = d1 + this.field_188661_a.func_70681_au().nextGaussian() / 2.0D;
+            double d5 = d2 + this.field_188661_a.func_70681_au().nextGaussian() / 2.0D;
 
-            this.dragon.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, d3, d4, d5, -vec3d.x * 0.07999999821186066D + this.dragon.motionX, -vec3d.y * 0.30000001192092896D + this.dragon.motionY, -vec3d.z * 0.07999999821186066D + this.dragon.motionZ, new int[0]);
-            vec3d.rotateYaw(0.19634955F);
+            this.field_188661_a.field_70170_p.func_175688_a(EnumParticleTypes.DRAGON_BREATH, d3, d4, d5, -vec3d.field_72450_a * 0.07999999821186066D + this.field_188661_a.field_70159_w, -vec3d.field_72448_b * 0.30000001192092896D + this.field_188661_a.field_70181_x, -vec3d.field_72449_c * 0.07999999821186066D + this.field_188661_a.field_70179_y, new int[0]);
+            vec3d.func_178785_b(0.19634955F);
         }
 
     }
 
-    public void doLocalUpdate() {
-        if (this.targetLocation == null) {
-            this.targetLocation = new Vec3d(this.dragon.world.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION));
+    public void func_188659_c() {
+        if (this.field_188685_b == null) {
+            this.field_188685_b = new Vec3d(this.field_188661_a.field_70170_p.func_175672_r(WorldGenEndPodium.field_186139_a));
         }
 
-        if (this.targetLocation.squareDistanceTo(this.dragon.posX, this.dragon.posY, this.dragon.posZ) < 1.0D) {
-            ((PhaseSittingFlaming) this.dragon.getPhaseManager().getPhase(PhaseList.SITTING_FLAMING)).resetFlameCount();
-            this.dragon.getPhaseManager().setPhase(PhaseList.SITTING_SCANNING);
+        if (this.field_188685_b.func_186679_c(this.field_188661_a.field_70165_t, this.field_188661_a.field_70163_u, this.field_188661_a.field_70161_v) < 1.0D) {
+            ((PhaseSittingFlaming) this.field_188661_a.func_184670_cT().func_188757_b(PhaseList.field_188746_f)).func_188663_j();
+            this.field_188661_a.func_184670_cT().func_188758_a(PhaseList.field_188747_g);
         }
 
     }
 
-    public float getMaxRiseOrFall() {
+    public float func_188651_f() {
         return 1.5F;
     }
 
-    public float getYawFactor() {
-        float f = MathHelper.sqrt(this.dragon.motionX * this.dragon.motionX + this.dragon.motionZ * this.dragon.motionZ) + 1.0F;
+    public float func_188653_h() {
+        float f = MathHelper.func_76133_a(this.field_188661_a.field_70159_w * this.field_188661_a.field_70159_w + this.field_188661_a.field_70179_y * this.field_188661_a.field_70179_y) + 1.0F;
         float f1 = Math.min(f, 40.0F);
 
         return f1 / f;
     }
 
-    public void initPhase() {
-        this.targetLocation = null;
+    public void func_188660_d() {
+        this.field_188685_b = null;
     }
 
     @Nullable
-    public Vec3d getTargetLocation() {
-        return this.targetLocation;
+    public Vec3d func_188650_g() {
+        return this.field_188685_b;
     }
 
-    public PhaseList<PhaseLanding> getType() {
-        return PhaseList.LANDING;
+    public PhaseList<PhaseLanding> func_188652_i() {
+        return PhaseList.field_188744_d;
     }
 }

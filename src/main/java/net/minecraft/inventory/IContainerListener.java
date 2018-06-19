@@ -5,11 +5,11 @@ import net.minecraft.util.NonNullList;
 
 public interface IContainerListener {
 
-    void sendAllContents(Container container, NonNullList<ItemStack> nonnulllist);
+    void func_71110_a(Container container, NonNullList<ItemStack> nonnulllist);
 
-    void sendSlotContents(Container container, int i, ItemStack itemstack);
+    void func_71111_a(Container container, int i, ItemStack itemstack);
 
-    void sendWindowProperty(Container container, int i, int j);
+    void func_71112_a(Container container, int i, int j);
 
-    void sendAllWindowProperties(Container container, IInventory iinventory);
+    void func_175173_a(Container container, IInventory iinventory);
 }

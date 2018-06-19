@@ -15,12 +15,12 @@ import net.minecraft.server.MinecraftServer;
 
 public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final NetworkSystem networkSystem;
+    private static final Logger field_151258_a = LogManager.getLogger();
+    private final NetworkSystem field_151257_b;
     private ByteBuf buf; // Paper
 
     public LegacyPingHandler(NetworkSystem serverconnection) {
-        this.networkSystem = serverconnection;
+        this.field_151257_b = serverconnection;
     }
 
     public void channelRead(ChannelHandlerContext channelhandlercontext, Object object) throws Exception {
@@ -41,14 +41,14 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
         try {
             if (bytebuf.readUnsignedByte() == 254) {
                 InetSocketAddress inetsocketaddress = (InetSocketAddress) channelhandlercontext.channel().remoteAddress();
-                MinecraftServer minecraftserver = this.networkSystem.getServer();
+                MinecraftServer minecraftserver = this.field_151257_b.func_151267_d();
                 int i = bytebuf.readableBytes();
                 String s;
                 com.destroystokyo.paper.event.server.PaperServerListPingEvent event; // Paper
 
                 switch (i) {
                 case 0:
-                    LegacyPingHandler.LOGGER.debug("Ping: (<1.3.x) from {}:{}", inetsocketaddress.getAddress(), Integer.valueOf(inetsocketaddress.getPort()));
+                    LegacyPingHandler.field_151258_a.debug("Ping: (<1.3.x) from {}:{}", inetsocketaddress.getAddress(), Integer.valueOf(inetsocketaddress.getPort()));
                     // Paper start - Call PaperServerListPingEvent and use results
                     event = PaperLegacyStatusClient.processRequest(minecraftserver, inetsocketaddress, 39, null);
                     if (event == null) {
@@ -57,7 +57,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
                     }
                     s = String.format("%s\u00a7%d\u00a7%d", PaperLegacyStatusClient.getUnformattedMotd(event), event.getNumPlayers(), event.getMaxPlayers());
                     // Paper end
-                    this.writeAndFlush(channelhandlercontext, this.getStringBuffer(s));
+                    this.func_151256_a(channelhandlercontext, this.func_151255_a(s));
                     break;
 
                 case 1:
@@ -65,7 +65,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
                         return;
                     }
 
-                    LegacyPingHandler.LOGGER.debug("Ping: (1.4-1.5.x) from {}:{}", inetsocketaddress.getAddress(), Integer.valueOf(inetsocketaddress.getPort()));
+                    LegacyPingHandler.field_151258_a.debug("Ping: (1.4-1.5.x) from {}:{}", inetsocketaddress.getAddress(), Integer.valueOf(inetsocketaddress.getPort()));
                     // Paper start - Call PaperServerListPingEvent and use results
                     event = PaperLegacyStatusClient.processRequest(minecraftserver, inetsocketaddress, 61, null);
                     if (event == null) {
@@ -75,7 +75,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
                     s = String.format("\u00a71\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", event.getProtocolVersion(), event.getVersion(),
                             PaperLegacyStatusClient.getMotd(event), event.getNumPlayers(), event.getMaxPlayers());
                     // Paper end
-                    this.writeAndFlush(channelhandlercontext, this.getStringBuffer(s));
+                    this.func_151256_a(channelhandlercontext, this.func_151255_a(s));
                     break;
 
                 default:
@@ -164,7 +164,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
             return;
         }
 
-        MinecraftServer server = this.networkSystem.getServer();
+        MinecraftServer server = this.field_151257_b.func_151267_d();
         int protocolVersion = buf.readByte();
         length = buf.readShort();
         String host = buf.readBytes(length * 2).toString(StandardCharsets.UTF_16BE);
@@ -178,7 +178,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
         buf.release();
         this.buf = null;
 
-        LOGGER.debug("Ping: (1.6) from {}", ctx.channel().remoteAddress());
+        field_151258_a.debug("Ping: (1.6) from {}", ctx.channel().remoteAddress());
 
         InetSocketAddress virtualHost = com.destroystokyo.paper.network.PaperNetworkClient.prepareVirtualHost(host, port);
         com.destroystokyo.paper.event.server.PaperServerListPingEvent event = PaperLegacyStatusClient.processRequest(
@@ -190,7 +190,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 
         String response = String.format("\u00a71\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", event.getProtocolVersion(), event.getVersion(),
                 PaperLegacyStatusClient.getMotd(event), event.getNumPlayers(), event.getMaxPlayers());
-        this.writeAndFlush(ctx, this.getStringBuffer(response));
+        this.func_151256_a(ctx, this.func_151255_a(response));
     }
 
     private void removeHandler(ChannelHandlerContext ctx) {
@@ -203,11 +203,11 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
     }
     // Paper end
 
-    private void writeAndFlush(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf) {
+    private void func_151256_a(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf) {
         channelhandlercontext.pipeline().firstContext().writeAndFlush(bytebuf).addListener(ChannelFutureListener.CLOSE);
     }
 
-    private ByteBuf getStringBuffer(String s) {
+    private ByteBuf func_151255_a(String s) {
         ByteBuf bytebuf = Unpooled.buffer();
 
         bytebuf.writeByte(255);

@@ -24,7 +24,7 @@ public class CraftPotionBrewer implements PotionBrewer {
         if (cache.containsKey(damage))
             return cache.get(damage);
 
-        List<PotionEffect> mcEffects = PotionType.getPotionTypeForName(CraftPotionUtil.fromBukkit(new PotionData(damage, extended, upgraded))).getEffects();
+        List<PotionEffect> mcEffects = PotionType.func_185168_a(CraftPotionUtil.fromBukkit(new PotionData(damage, extended, upgraded))).func_185170_a();
 
         ImmutableList.Builder<PotionEffect> builder = new ImmutableList.Builder<PotionEffect>();
         for (PotionEffect effect : mcEffects) {

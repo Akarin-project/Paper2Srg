@@ -13,24 +13,23 @@ import net.minecraft.block.properties.IProperty;
 
 public abstract class BlockStateBase implements IBlockState {
 
-    private static final Joiner COMMA_JOINER = Joiner.on(',');
-    private static final Function<Entry<IProperty<?>, Comparable<?>>, String> MAP_ENTRY_TO_STRING = new Function() {
+    private static final Joiner field_177234_a = Joiner.on(',');
+    private static final Function<Entry<IProperty<?>, Comparable<?>>, String> field_177233_b = new Function() {
         @Nullable
         public String a(@Nullable Entry<IProperty<?>, Comparable<?>> entry) {
             if (entry == null) {
                 return "<NULL>";
             } else {
-                IProperty iblockstate = entry.getKey();
+                IProperty iblockstate = (IProperty) entry.getKey();
 
-                return iblockstate.getName() + "=" + this.a(iblockstate, (Comparable) entry.getValue());
+                return iblockstate.func_177701_a() + "=" + this.a(iblockstate, (Comparable) entry.getValue());
             }
         }
 
         private <T extends Comparable<T>> String a(IProperty<T> iblockstate, Comparable<?> comparable) {
-            return iblockstate.getName(comparable);
+            return iblockstate.func_177702_a(comparable);
         }
 
-        @Override
         @Nullable
         public Object apply(@Nullable Object object) {
             return this.a((Entry) object);
@@ -39,13 +38,12 @@ public abstract class BlockStateBase implements IBlockState {
 
     public BlockStateBase() {}
 
-    @Override
-    public <T extends Comparable<T>> IBlockState cycleProperty(IProperty<T> iblockstate) {
-        return this.withProperty(iblockstate, (Comparable) cyclePropertyValue(iblockstate.getAllowedValues(), (Object) this.getValue(iblockstate)));
+    public <T extends Comparable<T>> IBlockState func_177231_a(IProperty<T> iblockstate) {
+        return this.func_177226_a(iblockstate, (Comparable) func_177232_a(iblockstate.func_177700_c(), (Object) this.func_177229_b(iblockstate)));
     }
 
-    protected static <T> T cyclePropertyValue(Collection<T> collection, T t0) {
-        Iterator<T> iterator = collection.iterator();
+    protected static <T> T func_177232_a(Collection<T> collection, T t0) {
+        Iterator iterator = collection.iterator();
 
         do {
             if (!iterator.hasNext()) {
@@ -60,14 +58,13 @@ public abstract class BlockStateBase implements IBlockState {
         }
     }
 
-    @Override
     public String toString() {
         StringBuilder stringbuilder = new StringBuilder();
 
-        stringbuilder.append(Block.REGISTRY.getNameForObject(this.getBlock()));
-        if (!this.getProperties().isEmpty()) {
+        stringbuilder.append(Block.field_149771_c.func_177774_c(this.func_177230_c()));
+        if (!this.func_177228_b().isEmpty()) {
             stringbuilder.append("[");
-            BlockStateBase.COMMA_JOINER.appendTo(stringbuilder, Iterables.transform(this.getProperties().entrySet(), BlockStateBase.MAP_ENTRY_TO_STRING));
+            BlockStateBase.field_177234_a.appendTo(stringbuilder, Iterables.transform(this.func_177228_b().entrySet(), BlockStateBase.field_177233_b));
             stringbuilder.append("]");
         }
 

@@ -10,27 +10,27 @@ import net.minecraft.network.login.INetHandlerLoginServer;
 
 public class CPacketLoginStart implements Packet<INetHandlerLoginServer> {
 
-    private GameProfile profile;
+    private GameProfile field_149305_a;
 
     public CPacketLoginStart() {}
 
     public CPacketLoginStart(GameProfile gameprofile) {
-        this.profile = gameprofile;
+        this.field_149305_a = gameprofile;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.profile = new GameProfile((UUID) null, packetdataserializer.readString(16));
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149305_a = new GameProfile((UUID) null, packetdataserializer.func_150789_c(16));
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeString(this.profile.getName());
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_180714_a(this.field_149305_a.getName());
     }
 
-    public void processPacket(INetHandlerLoginServer packetlogininlistener) {
-        packetlogininlistener.processLoginStart(this);
+    public void func_148833_a(INetHandlerLoginServer packetlogininlistener) {
+        packetlogininlistener.func_147316_a(this);
     }
 
-    public GameProfile getProfile() {
-        return this.profile;
+    public GameProfile func_149304_c() {
+        return this.field_149305_a;
     }
 }

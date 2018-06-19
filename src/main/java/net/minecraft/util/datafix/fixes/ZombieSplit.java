@@ -7,13 +7,13 @@ public class ZombieSplit implements IFixableData {
 
     public ZombieSplit() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 702;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        if ("Zombie".equals(nbttagcompound.getString("id"))) {
-            int i = nbttagcompound.getInteger("ZombieType");
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        if ("Zombie".equals(nbttagcompound.func_74779_i("id"))) {
+            int i = nbttagcompound.func_74762_e("ZombieType");
 
             switch (i) {
             case 0:
@@ -25,15 +25,15 @@ public class ZombieSplit implements IFixableData {
             case 3:
             case 4:
             case 5:
-                nbttagcompound.setString("id", "ZombieVillager");
-                nbttagcompound.setInteger("Profession", i - 1);
+                nbttagcompound.func_74778_a("id", "ZombieVillager");
+                nbttagcompound.func_74768_a("Profession", i - 1);
                 break;
 
             case 6:
-                nbttagcompound.setString("id", "Husk");
+                nbttagcompound.func_74778_a("id", "Husk");
             }
 
-            nbttagcompound.removeTag("ZombieType");
+            nbttagcompound.func_82580_o("ZombieType");
         }
 
         return nbttagcompound;

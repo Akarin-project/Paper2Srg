@@ -4,5 +4,5 @@ import net.minecraft.util.text.ITextComponent;
 
 public interface INetHandler {
 
-    void onDisconnect(ITextComponent ichatbasecomponent);
+    void func_147231_a(ITextComponent ichatbasecomponent);
 }

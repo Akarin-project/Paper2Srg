@@ -4,9 +4,9 @@ public enum EnumSkyBlock {
 
     SKY(15), BLOCK(0);
 
-    public final int defaultLightValue;
+    public final int field_77198_c;
 
     private EnumSkyBlock(int i) {
-        this.defaultLightValue = i;
+        this.field_77198_c = i;
     }
 }

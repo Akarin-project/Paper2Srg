@@ -21,66 +21,66 @@ import net.minecraft.world.World;
 
 public interface IBlockProperties {
 
-    Material getMaterial();
+    Material func_185904_a();
 
-    boolean isFullBlock();
+    boolean func_185913_b();
 
-    boolean canEntitySpawn(Entity entity);
+    boolean func_189884_a(Entity entity);
 
-    int getLightOpacity();
+    int func_185891_c();
 
-    int getLightValue();
+    int func_185906_d();
 
-    boolean useNeighborBrightness();
+    boolean func_185916_f();
 
-    MapColor getMapColor(IBlockAccess iblockaccess, BlockPos blockposition);
+    MapColor func_185909_g(IBlockAccess iblockaccess, BlockPos blockposition);
 
-    IBlockState withRotation(Rotation enumblockrotation);
+    IBlockState func_185907_a(Rotation enumblockrotation);
 
-    IBlockState withMirror(Mirror enumblockmirror);
+    IBlockState func_185902_a(Mirror enumblockmirror);
 
-    boolean isFullCube();
+    boolean func_185917_h();
 
-    EnumBlockRenderType getRenderType();
+    EnumBlockRenderType func_185901_i();
 
-    boolean isBlockNormalCube();
+    boolean func_185898_k();
 
-    boolean isNormalCube();
+    boolean func_185915_l();
 
-    boolean canProvidePower();
+    boolean func_185897_m();
 
-    int getWeakPower(IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection);
+    int func_185911_a(IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection);
 
-    boolean hasComparatorInputOverride();
+    boolean func_185912_n();
 
-    int getComparatorInputOverride(World world, BlockPos blockposition);
+    int func_185888_a(World world, BlockPos blockposition);
 
-    float getBlockHardness(World world, BlockPos blockposition);
+    float func_185887_b(World world, BlockPos blockposition);
 
-    float getPlayerRelativeBlockHardness(EntityPlayer entityhuman, World world, BlockPos blockposition);
+    float func_185903_a(EntityPlayer entityhuman, World world, BlockPos blockposition);
 
-    int getStrongPower(IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection);
+    int func_185893_b(IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection);
 
-    EnumPushReaction getMobilityFlag();
+    EnumPushReaction func_185905_o();
 
-    IBlockState getActualState(IBlockAccess iblockaccess, BlockPos blockposition);
+    IBlockState func_185899_b(IBlockAccess iblockaccess, BlockPos blockposition);
 
-    boolean isOpaqueCube();
+    boolean func_185914_p();
 
     @Nullable
-    AxisAlignedBB getCollisionBoundingBox(IBlockAccess iblockaccess, BlockPos blockposition);
+    AxisAlignedBB func_185890_d(IBlockAccess iblockaccess, BlockPos blockposition);
 
-    void addCollisionBoxToList(World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity, boolean flag);
+    void func_185908_a(World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity, boolean flag);
 
-    AxisAlignedBB getBoundingBox(IBlockAccess iblockaccess, BlockPos blockposition);
+    AxisAlignedBB func_185900_c(IBlockAccess iblockaccess, BlockPos blockposition);
 
-    RayTraceResult collisionRayTrace(World world, BlockPos blockposition, Vec3d vec3d, Vec3d vec3d1);
+    RayTraceResult func_185910_a(World world, BlockPos blockposition, Vec3d vec3d, Vec3d vec3d1);
 
-    boolean isTopSolid();
+    boolean func_185896_q();
 
-    Vec3d getOffset(IBlockAccess iblockaccess, BlockPos blockposition);
+    Vec3d func_191059_e(IBlockAccess iblockaccess, BlockPos blockposition);
 
-    boolean causesSuffocation();
+    boolean func_191058_s();
 
-    BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection);
+    BlockFaceShape func_193401_d(IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection);
 }

@@ -109,45 +109,46 @@ public class EntityList {
     public static Map<Class<? extends Entity>, org.bukkit.entity.EntityType> clsToTypeMap = new java.util.HashMap<>();
     // Paper end
 
-    public static final ResourceLocation LIGHTNING_BOLT = new ResourceLocation("lightning_bolt");
-    private static final ResourceLocation PLAYER = new ResourceLocation("player");
-    private static final Logger LOGGER = LogManager.getLogger();
-    public static final RegistryNamespaced<ResourceLocation, Class<? extends Entity>> REGISTRY = new RegistryNamespaced();
-    public static final Map<ResourceLocation, EntityList.EntityEggInfo> ENTITY_EGGS = Maps.newLinkedHashMap();
-    public static final Set<ResourceLocation> KNOWN_TYPES = Sets.newHashSet();
-    private static final List<String> OLD_NAMES = Lists.newArrayList();
+    public static final ResourceLocation field_191307_a = new ResourceLocation("lightning_bolt");
+    private static final ResourceLocation field_191310_e = new ResourceLocation("player");
+    private static final Logger field_151516_b = LogManager.getLogger();
+    public static final RegistryNamespaced<ResourceLocation, Class<? extends Entity>> field_191308_b = new RegistryNamespaced();
+    public static final Map<ResourceLocation, EntityList.EntityEggInfo> field_75627_a = Maps.newLinkedHashMap();
+    public static final Set<ResourceLocation> field_191309_d = Sets.newHashSet();
+    private static final List<String> field_191311_g = Lists.newArrayList();
 
+    @Nullable public static ResourceLocation getKey(Entity entity) { return func_191301_a(entity); } // Paper - OBFHELPER
     @Nullable
-    public static ResourceLocation getKey(Entity entity) {
-        return getKey(entity.getClass());
+    public static ResourceLocation func_191301_a(Entity entity) {
+        return func_191306_a(entity.getClass());
     }
 
     @Nullable
-    public static ResourceLocation getKey(Class<? extends Entity> oclass) {
-        return EntityList.REGISTRY.getNameForObject(oclass);
+    public static ResourceLocation func_191306_a(Class<? extends Entity> oclass) {
+        return (ResourceLocation) EntityList.field_191308_b.func_177774_c(oclass);
     }
 
     @Nullable
-    public static String getEntityString(Entity entity) {
-        int i = EntityList.REGISTRY.getIDForObject(entity.getClass()); // Paper - Decompile fix
+    public static String func_75621_b(Entity entity) {
+        int i = EntityList.field_191308_b.func_148757_b(entity.getClass()); // Paper - Decompile fix
 
-        return i == -1 ? null : (String) EntityList.OLD_NAMES.get(i);
+        return i == -1 ? null : (String) EntityList.field_191311_g.get(i);
     }
 
     @Nullable
-    public static String getTranslationName(@Nullable ResourceLocation minecraftkey) {
-        int i = EntityList.REGISTRY.getIDForObject(EntityList.REGISTRY.getObject(minecraftkey));
+    public static String func_191302_a(@Nullable ResourceLocation minecraftkey) {
+        int i = EntityList.field_191308_b.func_148757_b(EntityList.field_191308_b.func_82594_a(minecraftkey));
 
-        return i == -1 ? null : (String) EntityList.OLD_NAMES.get(i);
+        return i == -1 ? null : (String) EntityList.field_191311_g.get(i);
     }
 
     @Nullable
-    public static Entity newEntity(@Nullable Class<? extends Entity> oclass, World world) {
+    public static Entity func_191304_a(@Nullable Class<? extends Entity> oclass, World world) {
         if (oclass == null) {
             return null;
         } else {
             try {
-                return oclass.getConstructor(new Class[] { World.class}).newInstance(new Object[] { world});
+                return (Entity) oclass.getConstructor(new Class[] { World.class}).newInstance(new Object[] { world});
             } catch (Exception exception) {
                 exception.printStackTrace();
                 return null;
@@ -156,41 +157,42 @@ public class EntityList {
     }
 
     @Nullable
-    public static Entity createEntityByIDFromName(ResourceLocation minecraftkey, World world) {
-        return newEntity(EntityList.REGISTRY.getObject(minecraftkey), world);
+    public static Entity func_188429_b(ResourceLocation minecraftkey, World world) {
+        return func_191304_a((Class) EntityList.field_191308_b.func_82594_a(minecraftkey), world);
     }
 
     @Nullable
-    public static Entity createEntityFromNBT(NBTTagCompound nbttagcompound, World world) {
-        ResourceLocation minecraftkey = new ResourceLocation(nbttagcompound.getString("id"));
-        Entity entity = createEntityByIDFromName(minecraftkey, world);
+    public static Entity func_75615_a(NBTTagCompound nbttagcompound, World world) {
+        ResourceLocation minecraftkey = new ResourceLocation(nbttagcompound.func_74779_i("id"));
+        Entity entity = func_188429_b(minecraftkey, world);
 
         if (entity == null) {
-            EntityList.LOGGER.warn("Skipping Entity with id {}", minecraftkey);
+            EntityList.field_151516_b.warn("Skipping Entity with id {}", minecraftkey);
         } else {
-            entity.readFromNBT(nbttagcompound);
+            entity.func_70020_e(nbttagcompound);
         }
 
         return entity;
     }
 
-    public static Set<ResourceLocation> getEntityNameList() {
-        return EntityList.KNOWN_TYPES;
+    public static Set<ResourceLocation> getEntityNameList() { return func_180124_b(); } // Paper - OBFHELPER
+    public static Set<ResourceLocation> func_180124_b() {
+        return EntityList.field_191309_d;
     }
 
-    public static boolean isMatchingName(Entity entity, ResourceLocation minecraftkey) {
-        ResourceLocation minecraftkey1 = getKey(entity.getClass());
+    public static boolean func_180123_a(Entity entity, ResourceLocation minecraftkey) {
+        ResourceLocation minecraftkey1 = func_191306_a(entity.getClass());
 
-        return minecraftkey1 != null ? minecraftkey1.equals(minecraftkey) : (entity instanceof EntityPlayer ? EntityList.PLAYER.equals(minecraftkey) : (entity instanceof EntityLightningBolt ? EntityList.LIGHTNING_BOLT.equals(minecraftkey) : false));
+        return minecraftkey1 != null ? minecraftkey1.equals(minecraftkey) : (entity instanceof EntityPlayer ? EntityList.field_191310_e.equals(minecraftkey) : (entity instanceof EntityLightningBolt ? EntityList.field_191307_a.equals(minecraftkey) : false));
     }
 
-    public static boolean isRegistered(ResourceLocation minecraftkey) {
-        return EntityList.PLAYER.equals(minecraftkey) || getEntityNameList().contains(minecraftkey);
+    public static boolean func_180125_b(ResourceLocation minecraftkey) {
+        return EntityList.field_191310_e.equals(minecraftkey) || func_180124_b().contains(minecraftkey);
     }
 
-    public static String getValidTypeNames() {
+    public static String func_192840_b() {
         StringBuilder stringbuilder = new StringBuilder();
-        Iterator iterator = getEntityNameList().iterator();
+        Iterator iterator = func_180124_b().iterator();
 
         while (iterator.hasNext()) {
             ResourceLocation minecraftkey = (ResourceLocation) iterator.next();
@@ -198,141 +200,141 @@ public class EntityList {
             stringbuilder.append(minecraftkey).append(", ");
         }
 
-        stringbuilder.append(EntityList.PLAYER);
+        stringbuilder.append(EntityList.field_191310_e);
         return stringbuilder.toString();
     }
 
-    public static void init() {
-        register(1, "item", EntityItem.class, "Item");
-        register(2, "xp_orb", EntityXPOrb.class, "XPOrb");
-        register(3, "area_effect_cloud", EntityAreaEffectCloud.class, "AreaEffectCloud");
-        register(4, "elder_guardian", EntityElderGuardian.class, "ElderGuardian");
-        register(5, "wither_skeleton", EntityWitherSkeleton.class, "WitherSkeleton");
-        register(6, "stray", EntityStray.class, "Stray");
-        register(7, "egg", EntityEgg.class, "ThrownEgg");
-        register(8, "leash_knot", EntityLeashKnot.class, "LeashKnot");
-        register(9, "painting", EntityPainting.class, "Painting");
-        register(10, "arrow", EntityTippedArrow.class, "Arrow");
-        register(11, "snowball", EntitySnowball.class, "Snowball");
-        register(12, "fireball", EntityLargeFireball.class, "Fireball");
-        register(13, "small_fireball", EntitySmallFireball.class, "SmallFireball");
-        register(14, "ender_pearl", EntityEnderPearl.class, "ThrownEnderpearl");
-        register(15, "eye_of_ender_signal", EntityEnderEye.class, "EyeOfEnderSignal");
-        register(16, "potion", EntityPotion.class, "ThrownPotion");
-        register(17, "xp_bottle", EntityExpBottle.class, "ThrownExpBottle");
-        register(18, "item_frame", EntityItemFrame.class, "ItemFrame");
-        register(19, "wither_skull", EntityWitherSkull.class, "WitherSkull");
-        register(20, "tnt", EntityTNTPrimed.class, "PrimedTnt");
-        register(21, "falling_block", EntityFallingBlock.class, "FallingSand");
-        register(22, "fireworks_rocket", EntityFireworkRocket.class, "FireworksRocketEntity");
-        register(23, "husk", EntityHusk.class, "Husk");
-        register(24, "spectral_arrow", EntitySpectralArrow.class, "SpectralArrow");
-        register(25, "shulker_bullet", EntityShulkerBullet.class, "ShulkerBullet");
-        register(26, "dragon_fireball", EntityDragonFireball.class, "DragonFireball");
-        register(27, "zombie_villager", EntityZombieVillager.class, "ZombieVillager");
-        register(28, "skeleton_horse", EntitySkeletonHorse.class, "SkeletonHorse");
-        register(29, "zombie_horse", EntityZombieHorse.class, "ZombieHorse");
-        register(30, "armor_stand", EntityArmorStand.class, "ArmorStand");
-        register(31, "donkey", EntityDonkey.class, "Donkey");
-        register(32, "mule", EntityMule.class, "Mule");
-        register(33, "evocation_fangs", EntityEvokerFangs.class, "EvocationFangs");
-        register(34, "evocation_illager", EntityEvoker.class, "EvocationIllager");
-        register(35, "vex", EntityVex.class, "Vex");
-        register(36, "vindication_illager", EntityVindicator.class, "VindicationIllager");
-        register(37, "illusion_illager", EntityIllusionIllager.class, "IllusionIllager");
-        register(40, "commandblock_minecart", EntityMinecartCommandBlock.class, EntityMinecart.Type.COMMAND_BLOCK.getName());
-        register(41, "boat", EntityBoat.class, "Boat");
-        register(42, "minecart", EntityMinecartEmpty.class, EntityMinecart.Type.RIDEABLE.getName());
-        register(43, "chest_minecart", EntityMinecartChest.class, EntityMinecart.Type.CHEST.getName());
-        register(44, "furnace_minecart", EntityMinecartFurnace.class, EntityMinecart.Type.FURNACE.getName());
-        register(45, "tnt_minecart", EntityMinecartTNT.class, EntityMinecart.Type.TNT.getName());
-        register(46, "hopper_minecart", EntityMinecartHopper.class, EntityMinecart.Type.HOPPER.getName());
-        register(47, "spawner_minecart", EntityMinecartMobSpawner.class, EntityMinecart.Type.SPAWNER.getName());
-        register(50, "creeper", EntityCreeper.class, "Creeper");
-        register(51, "skeleton", EntitySkeleton.class, "Skeleton");
-        register(52, "spider", EntitySpider.class, "Spider");
-        register(53, "giant", EntityGiantZombie.class, "Giant");
-        register(54, "zombie", EntityZombie.class, "Zombie");
-        register(55, "slime", EntitySlime.class, "Slime");
-        register(56, "ghast", EntityGhast.class, "Ghast");
-        register(57, "zombie_pigman", EntityPigZombie.class, "PigZombie");
-        register(58, "enderman", EntityEnderman.class, "Enderman");
-        register(59, "cave_spider", EntityCaveSpider.class, "CaveSpider");
-        register(60, "silverfish", EntitySilverfish.class, "Silverfish");
-        register(61, "blaze", EntityBlaze.class, "Blaze");
-        register(62, "magma_cube", EntityMagmaCube.class, "LavaSlime");
-        register(63, "ender_dragon", EntityDragon.class, "EnderDragon");
-        register(64, "wither", EntityWither.class, "WitherBoss");
-        register(65, "bat", EntityBat.class, "Bat");
-        register(66, "witch", EntityWitch.class, "Witch");
-        register(67, "endermite", EntityEndermite.class, "Endermite");
-        register(68, "guardian", EntityGuardian.class, "Guardian");
-        register(69, "shulker", EntityShulker.class, "Shulker");
-        register(90, "pig", EntityPig.class, "Pig");
-        register(91, "sheep", EntitySheep.class, "Sheep");
-        register(92, "cow", EntityCow.class, "Cow");
-        register(93, "chicken", EntityChicken.class, "Chicken");
-        register(94, "squid", EntitySquid.class, "Squid");
-        register(95, "wolf", EntityWolf.class, "Wolf");
-        register(96, "mooshroom", EntityMooshroom.class, "MushroomCow");
-        register(97, "snowman", EntitySnowman.class, "SnowMan");
-        register(98, "ocelot", EntityOcelot.class, "Ozelot");
-        register(99, "villager_golem", EntityIronGolem.class, "VillagerGolem");
-        register(100, "horse", EntityHorse.class, "Horse");
-        register(101, "rabbit", EntityRabbit.class, "Rabbit");
-        register(102, "polar_bear", EntityPolarBear.class, "PolarBear");
-        register(103, "llama", EntityLlama.class, "Llama");
-        register(104, "llama_spit", EntityLlamaSpit.class, "LlamaSpit");
-        register(105, "parrot", EntityParrot.class, "Parrot");
-        register(120, "villager", EntityVillager.class, "Villager");
-        register(200, "ender_crystal", EntityEnderCrystal.class, "EnderCrystal");
-        addSpawnInfo("bat", 4996656, 986895);
-        addSpawnInfo("blaze", 16167425, 16775294);
-        addSpawnInfo("cave_spider", 803406, 11013646);
-        addSpawnInfo("chicken", 10592673, 16711680);
-        addSpawnInfo("cow", 4470310, 10592673);
-        addSpawnInfo("creeper", 894731, 0);
-        addSpawnInfo("donkey", 5457209, 8811878);
-        addSpawnInfo("elder_guardian", 13552826, 7632531);
-        addSpawnInfo("enderman", 1447446, 0);
-        addSpawnInfo("endermite", 1447446, 7237230);
-        addSpawnInfo("evocation_illager", 9804699, 1973274);
-        addSpawnInfo("ghast", 16382457, 12369084);
-        addSpawnInfo("guardian", 5931634, 15826224);
-        addSpawnInfo("horse", 12623485, 15656192);
-        addSpawnInfo("husk", 7958625, 15125652);
-        addSpawnInfo("llama", 12623485, 10051392);
-        addSpawnInfo("magma_cube", 3407872, 16579584);
-        addSpawnInfo("mooshroom", 10489616, 12040119);
-        addSpawnInfo("mule", 1769984, 5321501);
-        addSpawnInfo("ocelot", 15720061, 5653556);
-        addSpawnInfo("parrot", 894731, 16711680);
-        addSpawnInfo("pig", 15771042, 14377823);
-        addSpawnInfo("polar_bear", 15921906, 9803152);
-        addSpawnInfo("rabbit", 10051392, 7555121);
-        addSpawnInfo("sheep", 15198183, 16758197);
-        addSpawnInfo("shulker", 9725844, 5060690);
-        addSpawnInfo("silverfish", 7237230, 3158064);
-        addSpawnInfo("skeleton", 12698049, 4802889);
-        addSpawnInfo("skeleton_horse", 6842447, 15066584);
-        addSpawnInfo("slime", 5349438, 8306542);
-        addSpawnInfo("spider", 3419431, 11013646);
-        addSpawnInfo("squid", 2243405, 7375001);
-        addSpawnInfo("stray", 6387319, 14543594);
-        addSpawnInfo("vex", 8032420, 15265265);
-        addSpawnInfo("villager", 5651507, 12422002);
-        addSpawnInfo("vindication_illager", 9804699, 2580065);
-        addSpawnInfo("witch", 3407872, 5349438);
-        addSpawnInfo("wither_skeleton", 1315860, 4672845);
-        addSpawnInfo("wolf", 14144467, 13545366);
-        addSpawnInfo("zombie", '\uafaf', 7969893);
-        addSpawnInfo("zombie_horse", 3232308, 9945732);
-        addSpawnInfo("zombie_pigman", 15373203, 5009705);
-        addSpawnInfo("zombie_villager", 5651507, 7969893);
-        EntityList.KNOWN_TYPES.add(EntityList.LIGHTNING_BOLT);
+    public static void func_151514_a() {
+        func_191303_a(1, "item", EntityItem.class, "Item");
+        func_191303_a(2, "xp_orb", EntityXPOrb.class, "XPOrb");
+        func_191303_a(3, "area_effect_cloud", EntityAreaEffectCloud.class, "AreaEffectCloud");
+        func_191303_a(4, "elder_guardian", EntityElderGuardian.class, "ElderGuardian");
+        func_191303_a(5, "wither_skeleton", EntityWitherSkeleton.class, "WitherSkeleton");
+        func_191303_a(6, "stray", EntityStray.class, "Stray");
+        func_191303_a(7, "egg", EntityEgg.class, "ThrownEgg");
+        func_191303_a(8, "leash_knot", EntityLeashKnot.class, "LeashKnot");
+        func_191303_a(9, "painting", EntityPainting.class, "Painting");
+        func_191303_a(10, "arrow", EntityTippedArrow.class, "Arrow");
+        func_191303_a(11, "snowball", EntitySnowball.class, "Snowball");
+        func_191303_a(12, "fireball", EntityLargeFireball.class, "Fireball");
+        func_191303_a(13, "small_fireball", EntitySmallFireball.class, "SmallFireball");
+        func_191303_a(14, "ender_pearl", EntityEnderPearl.class, "ThrownEnderpearl");
+        func_191303_a(15, "eye_of_ender_signal", EntityEnderEye.class, "EyeOfEnderSignal");
+        func_191303_a(16, "potion", EntityPotion.class, "ThrownPotion");
+        func_191303_a(17, "xp_bottle", EntityExpBottle.class, "ThrownExpBottle");
+        func_191303_a(18, "item_frame", EntityItemFrame.class, "ItemFrame");
+        func_191303_a(19, "wither_skull", EntityWitherSkull.class, "WitherSkull");
+        func_191303_a(20, "tnt", EntityTNTPrimed.class, "PrimedTnt");
+        func_191303_a(21, "falling_block", EntityFallingBlock.class, "FallingSand");
+        func_191303_a(22, "fireworks_rocket", EntityFireworkRocket.class, "FireworksRocketEntity");
+        func_191303_a(23, "husk", EntityHusk.class, "Husk");
+        func_191303_a(24, "spectral_arrow", EntitySpectralArrow.class, "SpectralArrow");
+        func_191303_a(25, "shulker_bullet", EntityShulkerBullet.class, "ShulkerBullet");
+        func_191303_a(26, "dragon_fireball", EntityDragonFireball.class, "DragonFireball");
+        func_191303_a(27, "zombie_villager", EntityZombieVillager.class, "ZombieVillager");
+        func_191303_a(28, "skeleton_horse", EntitySkeletonHorse.class, "SkeletonHorse");
+        func_191303_a(29, "zombie_horse", EntityZombieHorse.class, "ZombieHorse");
+        func_191303_a(30, "armor_stand", EntityArmorStand.class, "ArmorStand");
+        func_191303_a(31, "donkey", EntityDonkey.class, "Donkey");
+        func_191303_a(32, "mule", EntityMule.class, "Mule");
+        func_191303_a(33, "evocation_fangs", EntityEvokerFangs.class, "EvocationFangs");
+        func_191303_a(34, "evocation_illager", EntityEvoker.class, "EvocationIllager");
+        func_191303_a(35, "vex", EntityVex.class, "Vex");
+        func_191303_a(36, "vindication_illager", EntityVindicator.class, "VindicationIllager");
+        func_191303_a(37, "illusion_illager", EntityIllusionIllager.class, "IllusionIllager");
+        func_191303_a(40, "commandblock_minecart", EntityMinecartCommandBlock.class, EntityMinecart.Type.COMMAND_BLOCK.func_184954_b());
+        func_191303_a(41, "boat", EntityBoat.class, "Boat");
+        func_191303_a(42, "minecart", EntityMinecartEmpty.class, EntityMinecart.Type.RIDEABLE.func_184954_b());
+        func_191303_a(43, "chest_minecart", EntityMinecartChest.class, EntityMinecart.Type.CHEST.func_184954_b());
+        func_191303_a(44, "furnace_minecart", EntityMinecartFurnace.class, EntityMinecart.Type.FURNACE.func_184954_b());
+        func_191303_a(45, "tnt_minecart", EntityMinecartTNT.class, EntityMinecart.Type.TNT.func_184954_b());
+        func_191303_a(46, "hopper_minecart", EntityMinecartHopper.class, EntityMinecart.Type.HOPPER.func_184954_b());
+        func_191303_a(47, "spawner_minecart", EntityMinecartMobSpawner.class, EntityMinecart.Type.SPAWNER.func_184954_b());
+        func_191303_a(50, "creeper", EntityCreeper.class, "Creeper");
+        func_191303_a(51, "skeleton", EntitySkeleton.class, "Skeleton");
+        func_191303_a(52, "spider", EntitySpider.class, "Spider");
+        func_191303_a(53, "giant", EntityGiantZombie.class, "Giant");
+        func_191303_a(54, "zombie", EntityZombie.class, "Zombie");
+        func_191303_a(55, "slime", EntitySlime.class, "Slime");
+        func_191303_a(56, "ghast", EntityGhast.class, "Ghast");
+        func_191303_a(57, "zombie_pigman", EntityPigZombie.class, "PigZombie");
+        func_191303_a(58, "enderman", EntityEnderman.class, "Enderman");
+        func_191303_a(59, "cave_spider", EntityCaveSpider.class, "CaveSpider");
+        func_191303_a(60, "silverfish", EntitySilverfish.class, "Silverfish");
+        func_191303_a(61, "blaze", EntityBlaze.class, "Blaze");
+        func_191303_a(62, "magma_cube", EntityMagmaCube.class, "LavaSlime");
+        func_191303_a(63, "ender_dragon", EntityDragon.class, "EnderDragon");
+        func_191303_a(64, "wither", EntityWither.class, "WitherBoss");
+        func_191303_a(65, "bat", EntityBat.class, "Bat");
+        func_191303_a(66, "witch", EntityWitch.class, "Witch");
+        func_191303_a(67, "endermite", EntityEndermite.class, "Endermite");
+        func_191303_a(68, "guardian", EntityGuardian.class, "Guardian");
+        func_191303_a(69, "shulker", EntityShulker.class, "Shulker");
+        func_191303_a(90, "pig", EntityPig.class, "Pig");
+        func_191303_a(91, "sheep", EntitySheep.class, "Sheep");
+        func_191303_a(92, "cow", EntityCow.class, "Cow");
+        func_191303_a(93, "chicken", EntityChicken.class, "Chicken");
+        func_191303_a(94, "squid", EntitySquid.class, "Squid");
+        func_191303_a(95, "wolf", EntityWolf.class, "Wolf");
+        func_191303_a(96, "mooshroom", EntityMooshroom.class, "MushroomCow");
+        func_191303_a(97, "snowman", EntitySnowman.class, "SnowMan");
+        func_191303_a(98, "ocelot", EntityOcelot.class, "Ozelot");
+        func_191303_a(99, "villager_golem", EntityIronGolem.class, "VillagerGolem");
+        func_191303_a(100, "horse", EntityHorse.class, "Horse");
+        func_191303_a(101, "rabbit", EntityRabbit.class, "Rabbit");
+        func_191303_a(102, "polar_bear", EntityPolarBear.class, "PolarBear");
+        func_191303_a(103, "llama", EntityLlama.class, "Llama");
+        func_191303_a(104, "llama_spit", EntityLlamaSpit.class, "LlamaSpit");
+        func_191303_a(105, "parrot", EntityParrot.class, "Parrot");
+        func_191303_a(120, "villager", EntityVillager.class, "Villager");
+        func_191303_a(200, "ender_crystal", EntityEnderCrystal.class, "EnderCrystal");
+        func_191305_a("bat", 4996656, 986895);
+        func_191305_a("blaze", 16167425, 16775294);
+        func_191305_a("cave_spider", 803406, 11013646);
+        func_191305_a("chicken", 10592673, 16711680);
+        func_191305_a("cow", 4470310, 10592673);
+        func_191305_a("creeper", 894731, 0);
+        func_191305_a("donkey", 5457209, 8811878);
+        func_191305_a("elder_guardian", 13552826, 7632531);
+        func_191305_a("enderman", 1447446, 0);
+        func_191305_a("endermite", 1447446, 7237230);
+        func_191305_a("evocation_illager", 9804699, 1973274);
+        func_191305_a("ghast", 16382457, 12369084);
+        func_191305_a("guardian", 5931634, 15826224);
+        func_191305_a("horse", 12623485, 15656192);
+        func_191305_a("husk", 7958625, 15125652);
+        func_191305_a("llama", 12623485, 10051392);
+        func_191305_a("magma_cube", 3407872, 16579584);
+        func_191305_a("mooshroom", 10489616, 12040119);
+        func_191305_a("mule", 1769984, 5321501);
+        func_191305_a("ocelot", 15720061, 5653556);
+        func_191305_a("parrot", 894731, 16711680);
+        func_191305_a("pig", 15771042, 14377823);
+        func_191305_a("polar_bear", 15921906, 9803152);
+        func_191305_a("rabbit", 10051392, 7555121);
+        func_191305_a("sheep", 15198183, 16758197);
+        func_191305_a("shulker", 9725844, 5060690);
+        func_191305_a("silverfish", 7237230, 3158064);
+        func_191305_a("skeleton", 12698049, 4802889);
+        func_191305_a("skeleton_horse", 6842447, 15066584);
+        func_191305_a("slime", 5349438, 8306542);
+        func_191305_a("spider", 3419431, 11013646);
+        func_191305_a("squid", 2243405, 7375001);
+        func_191305_a("stray", 6387319, 14543594);
+        func_191305_a("vex", 8032420, 15265265);
+        func_191305_a("villager", 5651507, 12422002);
+        func_191305_a("vindication_illager", 9804699, 2580065);
+        func_191305_a("witch", 3407872, 5349438);
+        func_191305_a("wither_skeleton", 1315860, 4672845);
+        func_191305_a("wolf", 14144467, 13545366);
+        func_191305_a("zombie", '\uafaf', 7969893);
+        func_191305_a("zombie_horse", 3232308, 9945732);
+        func_191305_a("zombie_pigman", 15373203, 5009705);
+        func_191305_a("zombie_villager", 5651507, 7969893);
+        EntityList.field_191309_d.add(EntityList.field_191307_a);
     }
 
-    private static void register(int i, String s, Class<? extends Entity> oclass, String s1) {
+    private static void func_191303_a(int i, String s, Class<? extends Entity> oclass, String s1) {
         try {
             oclass.getConstructor(new Class[] { World.class});
         } catch (NoSuchMethodException nosuchmethodexception) {
@@ -344,39 +346,39 @@ public class EntityList {
         } else {
             ResourceLocation minecraftkey = new ResourceLocation(s);
 
-            EntityList.REGISTRY.register(i, minecraftkey, oclass);
-            EntityList.KNOWN_TYPES.add(minecraftkey);
+            EntityList.field_191308_b.func_177775_a(i, minecraftkey, oclass);
+            EntityList.field_191309_d.add(minecraftkey);
             clsToKeyMap.put(oclass, minecraftkey); // Paper
             clsToTypeMap.put(oclass, org.bukkit.entity.EntityType.fromName(s)); // Paper
 
-            while (EntityList.OLD_NAMES.size() <= i) {
-                EntityList.OLD_NAMES.add(null); // Paper - Decompile fix
+            while (EntityList.field_191311_g.size() <= i) {
+                EntityList.field_191311_g.add(null); // Paper - Decompile fix
             }
 
-            EntityList.OLD_NAMES.set(i, s1);
+            EntityList.field_191311_g.set(i, s1);
         }
     }
 
-    protected static EntityList.EntityEggInfo addSpawnInfo(String s, int i, int j) {
+    protected static EntityList.EntityEggInfo func_191305_a(String s, int i, int j) {
         ResourceLocation minecraftkey = new ResourceLocation(s);
 
-        return EntityList.ENTITY_EGGS.put(minecraftkey, new EntityList.EntityEggInfo(minecraftkey, i, j));
+        return (EntityList.EntityEggInfo) EntityList.field_75627_a.put(minecraftkey, new EntityList.EntityEggInfo(minecraftkey, i, j));
     }
 
     public static class EntityEggInfo {
 
-        public final ResourceLocation spawnedID;
-        public final int primaryColor;
-        public final int secondaryColor;
-        public final StatBase killEntityStat;
-        public final StatBase entityKilledByStat;
+        public final ResourceLocation field_75613_a;
+        public final int field_75611_b;
+        public final int field_75612_c;
+        public final StatBase field_151512_d;
+        public final StatBase field_151513_e;
 
         public EntityEggInfo(ResourceLocation minecraftkey, int i, int j) {
-            this.spawnedID = minecraftkey;
-            this.primaryColor = i;
-            this.secondaryColor = j;
-            this.killEntityStat = StatList.getStatKillEntity(this);
-            this.entityKilledByStat = StatList.getStatEntityKilledBy(this);
+            this.field_75613_a = minecraftkey;
+            this.field_75611_b = i;
+            this.field_75612_c = j;
+            this.field_151512_d = StatList.func_151182_a(this);
+            this.field_151513_e = StatList.func_151176_b(this);
         }
     }
 }

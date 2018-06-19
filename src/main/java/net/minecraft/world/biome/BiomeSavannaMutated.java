@@ -10,29 +10,27 @@ import net.minecraft.world.chunk.ChunkPrimer;
 
 public class BiomeSavannaMutated extends BiomeSavanna {
 
-    public BiomeSavannaMutated(Biome.a biomebase_a) {
+    public BiomeSavannaMutated(BiomeBase.a biomebase_a) {
         super(biomebase_a);
-        this.decorator.treesPerChunk = 2;
-        this.decorator.flowersPerChunk = 2;
-        this.decorator.grassPerChunk = 5;
+        this.field_76760_I.field_76832_z = 2;
+        this.field_76760_I.field_76802_A = 2;
+        this.field_76760_I.field_76803_B = 5;
     }
 
-    @Override
-    public void genTerrainBlocks(World world, Random random, ChunkPrimer chunksnapshot, int i, int j, double d0) {
-        this.topBlock = Blocks.GRASS.getDefaultState();
-        this.fillerBlock = Blocks.DIRT.getDefaultState();
+    public void func_180622_a(World world, Random random, ChunkPrimer chunksnapshot, int i, int j, double d0) {
+        this.field_76752_A = Blocks.field_150349_c.func_176223_P();
+        this.field_76753_B = Blocks.field_150346_d.func_176223_P();
         if (d0 > 1.75D) {
-            this.topBlock = Blocks.STONE.getDefaultState();
-            this.fillerBlock = Blocks.STONE.getDefaultState();
+            this.field_76752_A = Blocks.field_150348_b.func_176223_P();
+            this.field_76753_B = Blocks.field_150348_b.func_176223_P();
         } else if (d0 > -0.5D) {
-            this.topBlock = Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT);
+            this.field_76752_A = Blocks.field_150346_d.func_176223_P().func_177226_a(BlockDirt.field_176386_a, BlockDirt.DirtType.COARSE_DIRT);
         }
 
-        this.generateBiomeTerrain(world, random, chunksnapshot, i, j, d0);
+        this.func_180628_b(world, random, chunksnapshot, i, j, d0);
     }
 
-    @Override
-    public void decorate(World world, Random random, BlockPos blockposition) {
-        this.decorator.decorate(world, random, this, blockposition);
+    public void func_180624_a(World world, Random random, BlockPos blockposition) {
+        this.field_76760_I.func_180292_a(world, random, this, blockposition);
     }
 }

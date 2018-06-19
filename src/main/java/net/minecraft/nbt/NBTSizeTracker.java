@@ -2,20 +2,20 @@ package net.minecraft.nbt;
 
 public class NBTSizeTracker {
 
-    public static final NBTSizeTracker INFINITE = new NBTSizeTracker(0L) {
-        public void read(long i) {}
+    public static final NBTSizeTracker field_152451_a = new NBTSizeTracker(0L) {
+        public void func_152450_a(long i) {}
     };
-    private final long max;
-    private long read;
+    private final long field_152452_b;
+    private long field_152453_c;
 
     public NBTSizeTracker(long i) {
-        this.max = i;
+        this.field_152452_b = i;
     }
 
-    public void read(long i) {
-        this.read += i / 8L;
-        if (this.read > this.max) {
-            throw new RuntimeException("Tried to read NBT tag that was too big; tried to allocate: " + this.read + "bytes where max allowed: " + this.max);
+    public void func_152450_a(long i) {
+        this.field_152453_c += i / 8L;
+        if (this.field_152453_c > this.field_152452_b) {
+            throw new RuntimeException("Tried to read NBT tag that was too big; tried to allocate: " + this.field_152453_c + "bytes where max allowed: " + this.field_152452_b);
         }
     }
 }

@@ -23,23 +23,23 @@ import net.minecraft.world.gen.layer.IntCache;
 
 public class CrashReport {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final String description;
-    private final Throwable cause;
-    private final CrashReportCategory systemDetailsCategory = new CrashReportCategory(this, "System Details");
-    private final List<CrashReportCategory> crashReportSections = Lists.newArrayList();
-    private File crashReportFile;
-    private boolean firstCategoryInCrashReport = true;
-    private StackTraceElement[] stacktrace = new StackTraceElement[0];
+    private static final Logger field_147150_a = LogManager.getLogger();
+    private final String field_71513_a;
+    private final Throwable field_71511_b;
+    private final CrashReportCategory field_85061_c = new CrashReportCategory(this, "System Details");
+    private final List<CrashReportCategory> field_71512_c = Lists.newArrayList();
+    private File field_71510_d;
+    private boolean field_85059_f = true;
+    private StackTraceElement[] field_85060_g = new StackTraceElement[0];
 
     public CrashReport(String s, Throwable throwable) {
-        this.description = s;
-        this.cause = throwable;
-        this.populateEnvironment();
+        this.field_71513_a = s;
+        this.field_71511_b = throwable;
+        this.func_71504_g();
     }
 
-    private void populateEnvironment() {
-        this.systemDetailsCategory.addDetail("Minecraft Version", new ICrashReportDetail() {
+    private void func_71504_g() {
+        this.field_85061_c.func_189529_a("Minecraft Version", new ICrashReportDetail() {
             public String a() {
                 return "1.12.2";
             }
@@ -48,7 +48,7 @@ public class CrashReport {
                 return this.a();
             }
         });
-        this.systemDetailsCategory.addDetail("Operating System", new ICrashReportDetail() {
+        this.field_85061_c.func_189529_a("Operating System", new ICrashReportDetail() {
             public String a() {
                 return System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version");
             }
@@ -57,7 +57,7 @@ public class CrashReport {
                 return this.a();
             }
         });
-        this.systemDetailsCategory.addDetail("Java Version", new ICrashReportDetail() {
+        this.field_85061_c.func_189529_a("Java Version", new ICrashReportDetail() {
             public String a() {
                 return System.getProperty("java.version") + ", " + System.getProperty("java.vendor");
             }
@@ -66,7 +66,7 @@ public class CrashReport {
                 return this.a();
             }
         });
-        this.systemDetailsCategory.addDetail("Java VM Version", new ICrashReportDetail() {
+        this.field_85061_c.func_189529_a("Java VM Version", new ICrashReportDetail() {
             public String a() {
                 return System.getProperty("java.vm.name") + " (" + System.getProperty("java.vm.info") + "), " + System.getProperty("java.vm.vendor");
             }
@@ -75,7 +75,7 @@ public class CrashReport {
                 return this.a();
             }
         });
-        this.systemDetailsCategory.addDetail("Memory", new ICrashReportDetail() {
+        this.field_85061_c.func_189529_a("Memory", new ICrashReportDetail() {
             public String a() {
                 Runtime runtime = Runtime.getRuntime();
                 long i = runtime.maxMemory();
@@ -92,7 +92,7 @@ public class CrashReport {
                 return this.a();
             }
         });
-        this.systemDetailsCategory.addDetail("JVM Flags", new ICrashReportDetail() {
+        this.field_85061_c.func_189529_a("JVM Flags", new ICrashReportDetail() {
             public String a() {
                 RuntimeMXBean runtimemxbean = ManagementFactory.getRuntimeMXBean();
                 List list = runtimemxbean.getInputArguments();
@@ -119,36 +119,36 @@ public class CrashReport {
                 return this.a();
             }
         });
-        this.systemDetailsCategory.addDetail("IntCache", new ICrashReportDetail() {
+        this.field_85061_c.func_189529_a("IntCache", new ICrashReportDetail() {
             public String a() throws Exception {
-                return IntCache.getCacheSizes();
+                return IntCache.func_85144_b();
             }
 
             public Object call() throws Exception {
                 return this.a();
             }
         });
-        this.systemDetailsCategory.addDetail("CraftBukkit Information", (ICrashReportDetail) new org.bukkit.craftbukkit.CraftCrashReport()); // CraftBukkit
+        this.field_85061_c.func_189529_a("CraftBukkit Information", (ICrashReportDetail) new org.bukkit.craftbukkit.CraftCrashReport()); // CraftBukkit
     }
 
-    public String getDescription() {
-        return this.description;
+    public String func_71501_a() {
+        return this.field_71513_a;
     }
 
-    public Throwable getCrashCause() {
-        return this.cause;
+    public Throwable func_71505_b() {
+        return this.field_71511_b;
     }
 
-    public void getSectionsInStringBuilder(StringBuilder stringbuilder) {
-        if ((this.stacktrace == null || this.stacktrace.length <= 0) && !this.crashReportSections.isEmpty()) {
-            this.stacktrace = (StackTraceElement[]) ArrayUtils.subarray(((CrashReportCategory) this.crashReportSections.get(0)).getStackTrace(), 0, 1);
+    public void func_71506_a(StringBuilder stringbuilder) {
+        if ((this.field_85060_g == null || this.field_85060_g.length <= 0) && !this.field_71512_c.isEmpty()) {
+            this.field_85060_g = (StackTraceElement[]) ArrayUtils.subarray(((CrashReportCategory) this.field_71512_c.get(0)).func_147152_a(), 0, 1);
         }
 
-        if (this.stacktrace != null && this.stacktrace.length > 0) {
+        if (this.field_85060_g != null && this.field_85060_g.length > 0) {
             stringbuilder.append("-- Head --\n");
             stringbuilder.append("Thread: ").append(Thread.currentThread().getName()).append("\n");
             stringbuilder.append("Stacktrace:\n");
-            StackTraceElement[] astacktraceelement = this.stacktrace;
+            StackTraceElement[] astacktraceelement = this.field_85060_g;
             int i = astacktraceelement.length;
 
             for (int j = 0; j < i; ++j) {
@@ -161,33 +161,33 @@ public class CrashReport {
             stringbuilder.append("\n");
         }
 
-        Iterator iterator = this.crashReportSections.iterator();
+        Iterator iterator = this.field_71512_c.iterator();
 
         while (iterator.hasNext()) {
             CrashReportCategory crashreportsystemdetails = (CrashReportCategory) iterator.next();
 
-            crashreportsystemdetails.appendToStringBuilder(stringbuilder);
+            crashreportsystemdetails.func_85072_a(stringbuilder);
             stringbuilder.append("\n\n");
         }
 
-        this.systemDetailsCategory.appendToStringBuilder(stringbuilder);
+        this.field_85061_c.func_85072_a(stringbuilder);
     }
 
-    public String getCauseStackTraceOrString() {
+    public String func_71498_d() {
         StringWriter stringwriter = null;
         PrintWriter printwriter = null;
-        Object object = this.cause;
+        Object object = this.field_71511_b;
 
         if (((Throwable) object).getMessage() == null) {
             if (object instanceof NullPointerException) {
-                object = new NullPointerException(this.description);
+                object = new NullPointerException(this.field_71513_a);
             } else if (object instanceof StackOverflowError) {
-                object = new StackOverflowError(this.description);
+                object = new StackOverflowError(this.field_71513_a);
             } else if (object instanceof OutOfMemoryError) {
-                object = new OutOfMemoryError(this.description);
+                object = new OutOfMemoryError(this.field_71513_a);
             }
 
-            ((Throwable) object).setStackTrace(this.cause.getStackTrace());
+            ((Throwable) object).setStackTrace(this.field_71511_b.getStackTrace());
         }
 
         String s = ((Throwable) object).toString();
@@ -205,20 +205,20 @@ public class CrashReport {
         return s;
     }
 
-    public String getCompleteReport() {
+    public String func_71502_e() {
         StringBuilder stringbuilder = new StringBuilder();
 
         stringbuilder.append("---- Minecraft Crash Report ----\n");
         stringbuilder.append("// ");
-        stringbuilder.append(getWittyComment());
+        stringbuilder.append(func_71503_h());
         stringbuilder.append("\n\n");
         stringbuilder.append("Time: ");
         stringbuilder.append((new SimpleDateFormat()).format(new Date()));
         stringbuilder.append("\n");
         stringbuilder.append("Description: ");
-        stringbuilder.append(this.description);
+        stringbuilder.append(this.field_71513_a);
         stringbuilder.append("\n\n");
-        stringbuilder.append(this.getCauseStackTraceOrString());
+        stringbuilder.append(this.func_71498_d());
         stringbuilder.append("\n\nA detailed walkthrough of the error, its code path and all known details is as follows:\n");
 
         for (int i = 0; i < 87; ++i) {
@@ -226,12 +226,12 @@ public class CrashReport {
         }
 
         stringbuilder.append("\n\n");
-        this.getSectionsInStringBuilder(stringbuilder);
+        this.func_71506_a(stringbuilder);
         return stringbuilder.toString();
     }
 
-    public boolean saveToFile(File file) {
-        if (this.crashReportFile != null) {
+    public boolean func_147149_a(File file) {
+        if (this.field_71510_d != null) {
             return false;
         } else {
             if (file.getParentFile() != null) {
@@ -244,13 +244,13 @@ public class CrashReport {
 
             try {
                 outputstreamwriter = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
-                outputstreamwriter.write(this.getCompleteReport());
-                this.crashReportFile = file;
+                outputstreamwriter.write(this.func_71502_e());
+                this.field_71510_d = file;
                 boolean flag1 = true;
 
                 return flag1;
             } catch (Throwable throwable) {
-                CrashReport.LOGGER.error("Could not save crash report to {}", file, throwable);
+                CrashReport.field_147150_a.error("Could not save crash report to {}", file, throwable);
                 flag = false;
             } finally {
                 IOUtils.closeQuietly(outputstreamwriter);
@@ -260,20 +260,20 @@ public class CrashReport {
         }
     }
 
-    public CrashReportCategory getCategory() {
-        return this.systemDetailsCategory;
+    public CrashReportCategory func_85056_g() {
+        return this.field_85061_c;
     }
 
-    public CrashReportCategory makeCategory(String s) {
-        return this.makeCategoryDepth(s, 1);
+    public CrashReportCategory func_85058_a(String s) {
+        return this.func_85057_a(s, 1);
     }
 
-    public CrashReportCategory makeCategoryDepth(String s, int i) {
+    public CrashReportCategory func_85057_a(String s, int i) {
         CrashReportCategory crashreportsystemdetails = new CrashReportCategory(this, s);
 
-        if (this.firstCategoryInCrashReport) {
-            int j = crashreportsystemdetails.getPrunedStackTrace(i);
-            StackTraceElement[] astacktraceelement = this.cause.getStackTrace();
+        if (this.field_85059_f) {
+            int j = crashreportsystemdetails.func_85073_a(i);
+            StackTraceElement[] astacktraceelement = this.field_71511_b.getStackTrace();
             StackTraceElement stacktraceelement = null;
             StackTraceElement stacktraceelement1 = null;
             int k = astacktraceelement.length - j;
@@ -289,24 +289,24 @@ public class CrashReport {
                 }
             }
 
-            this.firstCategoryInCrashReport = crashreportsystemdetails.firstTwoElementsOfStackTraceMatch(stacktraceelement, stacktraceelement1);
-            if (j > 0 && !this.crashReportSections.isEmpty()) {
-                CrashReportCategory crashreportsystemdetails1 = (CrashReportCategory) this.crashReportSections.get(this.crashReportSections.size() - 1);
+            this.field_85059_f = crashreportsystemdetails.func_85069_a(stacktraceelement, stacktraceelement1);
+            if (j > 0 && !this.field_71512_c.isEmpty()) {
+                CrashReportCategory crashreportsystemdetails1 = (CrashReportCategory) this.field_71512_c.get(this.field_71512_c.size() - 1);
 
-                crashreportsystemdetails1.trimStackTraceEntriesFromBottom(j);
+                crashreportsystemdetails1.func_85070_b(j);
             } else if (astacktraceelement != null && astacktraceelement.length >= j && 0 <= k && k < astacktraceelement.length) {
-                this.stacktrace = new StackTraceElement[k];
-                System.arraycopy(astacktraceelement, 0, this.stacktrace, 0, this.stacktrace.length);
+                this.field_85060_g = new StackTraceElement[k];
+                System.arraycopy(astacktraceelement, 0, this.field_85060_g, 0, this.field_85060_g.length);
             } else {
-                this.firstCategoryInCrashReport = false;
+                this.field_85059_f = false;
             }
         }
 
-        this.crashReportSections.add(crashreportsystemdetails);
+        this.field_71512_c.add(crashreportsystemdetails);
         return crashreportsystemdetails;
     }
 
-    private static String getWittyComment() {
+    private static String func_71503_h() {
         String[] astring = new String[] { "Who set us up the TNT?", "Everything\'s going to plan. No, really, that was supposed to happen.", "Uh... Did I do that?", "Oops.", "Why did you do that?", "I feel sad now :(", "My bad.", "I\'m sorry, Dave.", "I let you down. Sorry :(", "On the bright side, I bought you a teddy bear!", "Daisy, daisy...", "Oh - I know what I did wrong!", "Hey, that tickles! Hehehe!", "I blame Dinnerbone.", "You should try our sister game, Minceraft!", "Don\'t be sad. I\'ll do better next time, I promise!", "Don\'t be sad, have a hug! <3", "I just don\'t know what went wrong :(", "Shall we play a game?", "Quite honestly, I wouldn\'t worry myself about that.", "I bet Cylons wouldn\'t have this problem.", "Sorry :(", "Surprise! Haha. Well, this is awkward.", "Would you like a cupcake?", "Hi. I\'m Minecraft, and I\'m a crashaholic.", "Ooh. Shiny.", "This doesn\'t make any sense!", "Why is it breaking :(", "Don\'t do that.", "Ouch. That hurt :(", "You\'re mean.", "This is a token for 1 free hug. Redeem at your nearest Mojangsta: [~~HUG~~]", "There are four lights!", "But it works on my machine."};
 
         try {
@@ -316,11 +316,11 @@ public class CrashReport {
         }
     }
 
-    public static CrashReport makeCrashReport(Throwable throwable, String s) {
+    public static CrashReport func_85055_a(Throwable throwable, String s) {
         CrashReport crashreport;
 
         if (throwable instanceof ReportedException) {
-            crashreport = ((ReportedException) throwable).getCrashReport();
+            crashreport = ((ReportedException) throwable).func_71575_a();
         } else {
             crashreport = new CrashReport(s, throwable);
         }

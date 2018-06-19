@@ -21,52 +21,52 @@ import net.minecraft.util.ResourceLocation;
 
 public class ItemDurabilityTrigger implements ICriterionTrigger<CriterionTriggerItemDurabilityChanged.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("item_durability_changed");
-    private final Map<PlayerAdvancements, CriterionTriggerItemDurabilityChanged.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_193159_a = new ResourceLocation("item_durability_changed");
+    private final Map<PlayerAdvancements, CriterionTriggerItemDurabilityChanged.a> field_193160_b = Maps.newHashMap();
 
     public ItemDurabilityTrigger() {}
 
-    public ResourceLocation getId() {
-        return ItemDurabilityTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return ItemDurabilityTrigger.field_193159_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerItemDurabilityChanged.b> criteriontrigger_a) {
-        CriterionTriggerItemDurabilityChanged.a criteriontriggeritemdurabilitychanged_a = (CriterionTriggerItemDurabilityChanged.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerItemDurabilityChanged.a criteriontriggeritemdurabilitychanged_a = (CriterionTriggerItemDurabilityChanged.a) this.field_193160_b.get(advancementdataplayer);
 
         if (criteriontriggeritemdurabilitychanged_a == null) {
             criteriontriggeritemdurabilitychanged_a = new CriterionTriggerItemDurabilityChanged.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggeritemdurabilitychanged_a);
+            this.field_193160_b.put(advancementdataplayer, criteriontriggeritemdurabilitychanged_a);
         }
 
         criteriontriggeritemdurabilitychanged_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerItemDurabilityChanged.b> criteriontrigger_a) {
-        CriterionTriggerItemDurabilityChanged.a criteriontriggeritemdurabilitychanged_a = (CriterionTriggerItemDurabilityChanged.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerItemDurabilityChanged.a criteriontriggeritemdurabilitychanged_a = (CriterionTriggerItemDurabilityChanged.a) this.field_193160_b.get(advancementdataplayer);
 
         if (criteriontriggeritemdurabilitychanged_a != null) {
             criteriontriggeritemdurabilitychanged_a.b(criteriontrigger_a);
             if (criteriontriggeritemdurabilitychanged_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_193160_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_193160_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerItemDurabilityChanged.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        ItemPredicate criterionconditionitem = ItemPredicate.deserialize(jsonobject.get("item"));
-        MinMaxBounds criterionconditionvalue = MinMaxBounds.deserialize(jsonobject.get("durability"));
-        MinMaxBounds criterionconditionvalue1 = MinMaxBounds.deserialize(jsonobject.get("delta"));
+        ItemPredicate criterionconditionitem = ItemPredicate.func_192492_a(jsonobject.get("item"));
+        MinMaxBounds criterionconditionvalue = MinMaxBounds.func_192515_a(jsonobject.get("durability"));
+        MinMaxBounds criterionconditionvalue1 = MinMaxBounds.func_192515_a(jsonobject.get("delta"));
 
         return new CriterionTriggerItemDurabilityChanged.b(criterionconditionitem, criterionconditionvalue, criterionconditionvalue1);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, ItemStack itemstack, int i) {
-        CriterionTriggerItemDurabilityChanged.a criteriontriggeritemdurabilitychanged_a = (CriterionTriggerItemDurabilityChanged.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_193158_a(EntityPlayerMP entityplayer, ItemStack itemstack, int i) {
+        CriterionTriggerItemDurabilityChanged.a criteriontriggeritemdurabilitychanged_a = (CriterionTriggerItemDurabilityChanged.a) this.field_193160_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggeritemdurabilitychanged_a != null) {
             criteriontriggeritemdurabilitychanged_a.a(itemstack, i);
@@ -74,7 +74,7 @@ public class ItemDurabilityTrigger implements ICriterionTrigger<CriterionTrigger
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -135,14 +135,14 @@ public class ItemDurabilityTrigger implements ICriterionTrigger<CriterionTrigger
         private final MinMaxBounds c;
 
         public b(ItemPredicate criterionconditionitem, MinMaxBounds criterionconditionvalue, MinMaxBounds criterionconditionvalue1) {
-            super(ItemDurabilityTrigger.ID);
+            super(ItemDurabilityTrigger.field_193159_a);
             this.a = criterionconditionitem;
             this.b = criterionconditionvalue;
             this.c = criterionconditionvalue1;
         }
 
         public boolean a(ItemStack itemstack, int i) {
-            return !this.a.test(itemstack) ? false : (!this.b.test((float) (itemstack.getMaxDamage() - i)) ? false : this.c.test((float) (itemstack.getItemDamage() - i)));
+            return !this.a.func_192493_a(itemstack) ? false : (!this.b.func_192514_a((float) (itemstack.func_77958_k() - i)) ? false : this.c.func_192514_a((float) (itemstack.func_77952_i() - i)));
         }
     }
 }

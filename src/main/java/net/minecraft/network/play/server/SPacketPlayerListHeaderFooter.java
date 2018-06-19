@@ -11,33 +11,33 @@ public class SPacketPlayerListHeaderFooter implements Packet<INetHandlerPlayClie
 
     public net.md_5.bungee.api.chat.BaseComponent[] header, footer; // Paper
 
-    private ITextComponent header;
-    private ITextComponent footer;
+    private ITextComponent field_179703_a;
+    private ITextComponent field_179702_b;
 
     public SPacketPlayerListHeaderFooter() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.header = packetdataserializer.readTextComponent();
-        this.footer = packetdataserializer.readTextComponent();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_179703_a = packetdataserializer.func_179258_d();
+        this.field_179702_b = packetdataserializer.func_179258_d();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
         // Paper start
         if (this.header != null) {
-            packetdataserializer.writeString(net.md_5.bungee.chat.ComponentSerializer.toString(this.header));
+            packetdataserializer.func_180714_a(net.md_5.bungee.chat.ComponentSerializer.toString(this.header));
         } else {
-            packetdataserializer.writeTextComponent(this.header);
+            packetdataserializer.func_179256_a(this.field_179703_a);
         }
 
         if (this.footer != null) {
-            packetdataserializer.writeString(net.md_5.bungee.chat.ComponentSerializer.toString(this.footer));
+            packetdataserializer.func_180714_a(net.md_5.bungee.chat.ComponentSerializer.toString(this.footer));
         } else {
-            packetdataserializer.writeTextComponent(this.footer);
+            packetdataserializer.func_179256_a(this.field_179702_b);
         }
         // Paper end
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handlePlayerListHeaderFooter(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_175096_a(this);
     }
 }

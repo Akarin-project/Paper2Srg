@@ -5,5 +5,5 @@ import net.minecraft.network.handshake.client.C00Handshake;
 
 public interface INetHandlerHandshakeServer extends INetHandler {
 
-    void processHandshake(C00Handshake packethandshakinginsetprotocol);
+    void func_147383_a(C00Handshake packethandshakinginsetprotocol);
 }

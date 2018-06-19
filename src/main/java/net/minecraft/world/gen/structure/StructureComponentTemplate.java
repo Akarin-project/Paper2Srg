@@ -18,77 +18,77 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 
 public abstract class StructureComponentTemplate extends StructureComponent {
 
-    private static final PlacementSettings DEFAULT_PLACE_SETTINGS = new PlacementSettings();
-    protected Template template;
-    protected PlacementSettings placeSettings;
-    protected BlockPos templatePosition;
+    private static final PlacementSettings field_186179_d = new PlacementSettings();
+    protected Template field_186176_a;
+    protected PlacementSettings field_186177_b;
+    protected BlockPos field_186178_c;
 
     public StructureComponentTemplate() {
-        this.placeSettings = StructureComponentTemplate.DEFAULT_PLACE_SETTINGS.setIgnoreEntities(true).setReplacedBlock(Blocks.AIR);
+        this.field_186177_b = StructureComponentTemplate.field_186179_d.func_186222_a(true).func_186225_a(Blocks.field_150350_a);
     }
 
     public StructureComponentTemplate(int i) {
         super(i);
-        this.placeSettings = StructureComponentTemplate.DEFAULT_PLACE_SETTINGS.setIgnoreEntities(true).setReplacedBlock(Blocks.AIR);
+        this.field_186177_b = StructureComponentTemplate.field_186179_d.func_186222_a(true).func_186225_a(Blocks.field_150350_a);
     }
 
-    protected void setup(Template definedstructure, BlockPos blockposition, PlacementSettings definedstructureinfo) {
-        this.template = definedstructure;
-        this.setCoordBaseMode(EnumFacing.NORTH);
-        this.templatePosition = blockposition;
-        this.placeSettings = definedstructureinfo;
-        this.setBoundingBoxFromTemplate();
+    protected void func_186173_a(Template definedstructure, BlockPos blockposition, PlacementSettings definedstructureinfo) {
+        this.field_186176_a = definedstructure;
+        this.func_186164_a(EnumFacing.NORTH);
+        this.field_186178_c = blockposition;
+        this.field_186177_b = definedstructureinfo;
+        this.func_186174_h();
     }
 
-    protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setInteger("TPX", this.templatePosition.getX());
-        nbttagcompound.setInteger("TPY", this.templatePosition.getY());
-        nbttagcompound.setInteger("TPZ", this.templatePosition.getZ());
+    protected void func_143012_a(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74768_a("TPX", this.field_186178_c.func_177958_n());
+        nbttagcompound.func_74768_a("TPY", this.field_186178_c.func_177956_o());
+        nbttagcompound.func_74768_a("TPZ", this.field_186178_c.func_177952_p());
     }
 
-    protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
-        this.templatePosition = new BlockPos(nbttagcompound.getInteger("TPX"), nbttagcompound.getInteger("TPY"), nbttagcompound.getInteger("TPZ"));
+    protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
+        this.field_186178_c = new BlockPos(nbttagcompound.func_74762_e("TPX"), nbttagcompound.func_74762_e("TPY"), nbttagcompound.func_74762_e("TPZ"));
     }
 
-    public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
-        this.placeSettings.setBoundingBox(structureboundingbox);
-        this.template.addBlocksToWorld(world, this.templatePosition, this.placeSettings, 18);
-        Map map = this.template.getDataBlocks(this.templatePosition, this.placeSettings);
+    public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
+        this.field_186177_b.func_186223_a(structureboundingbox);
+        this.field_186176_a.func_189962_a(world, this.field_186178_c, this.field_186177_b, 18);
+        Map map = this.field_186176_a.func_186258_a(this.field_186178_c, this.field_186177_b);
         Iterator iterator = map.entrySet().iterator();
 
         while (iterator.hasNext()) {
             Entry entry = (Entry) iterator.next();
             String s = (String) entry.getValue();
 
-            this.handleDataMarker(s, (BlockPos) entry.getKey(), world, random, structureboundingbox);
+            this.func_186175_a(s, (BlockPos) entry.getKey(), world, random, structureboundingbox);
         }
 
         return true;
     }
 
-    protected abstract void handleDataMarker(String s, BlockPos blockposition, World world, Random random, StructureBoundingBox structureboundingbox);
+    protected abstract void func_186175_a(String s, BlockPos blockposition, World world, Random random, StructureBoundingBox structureboundingbox);
 
-    private void setBoundingBoxFromTemplate() {
-        Rotation enumblockrotation = this.placeSettings.getRotation();
-        BlockPos blockposition = this.template.transformedSize(enumblockrotation);
-        Mirror enumblockmirror = this.placeSettings.getMirror();
+    private void func_186174_h() {
+        Rotation enumblockrotation = this.field_186177_b.func_186215_c();
+        BlockPos blockposition = this.field_186176_a.func_186257_a(enumblockrotation);
+        Mirror enumblockmirror = this.field_186177_b.func_186212_b();
 
-        this.boundingBox = new StructureBoundingBox(0, 0, 0, blockposition.getX(), blockposition.getY() - 1, blockposition.getZ());
+        this.field_74887_e = new StructureBoundingBox(0, 0, 0, blockposition.func_177958_n(), blockposition.func_177956_o() - 1, blockposition.func_177952_p());
         switch (enumblockrotation) {
         case NONE:
         default:
             break;
 
         case CLOCKWISE_90:
-            this.boundingBox.offset(-blockposition.getX(), 0, 0);
+            this.field_74887_e.func_78886_a(-blockposition.func_177958_n(), 0, 0);
             break;
 
         case COUNTERCLOCKWISE_90:
-            this.boundingBox.offset(0, 0, -blockposition.getZ());
+            this.field_74887_e.func_78886_a(0, 0, -blockposition.func_177952_p());
             break;
 
         case CLOCKWISE_180:
-            this.boundingBox.offset(-blockposition.getX(), 0, -blockposition.getZ());
+            this.field_74887_e.func_78886_a(-blockposition.func_177958_n(), 0, -blockposition.func_177952_p());
         }
 
         BlockPos blockposition1;
@@ -99,40 +99,40 @@ public abstract class StructureComponentTemplate extends StructureComponent {
             break;
 
         case FRONT_BACK:
-            blockposition1 = BlockPos.ORIGIN;
+            blockposition1 = BlockPos.field_177992_a;
             if (enumblockrotation != Rotation.CLOCKWISE_90 && enumblockrotation != Rotation.COUNTERCLOCKWISE_90) {
                 if (enumblockrotation == Rotation.CLOCKWISE_180) {
-                    blockposition1 = blockposition1.offset(EnumFacing.EAST, blockposition.getX());
+                    blockposition1 = blockposition1.func_177967_a(EnumFacing.EAST, blockposition.func_177958_n());
                 } else {
-                    blockposition1 = blockposition1.offset(EnumFacing.WEST, blockposition.getX());
+                    blockposition1 = blockposition1.func_177967_a(EnumFacing.WEST, blockposition.func_177958_n());
                 }
             } else {
-                blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.WEST), blockposition.getZ());
+                blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.WEST), blockposition.func_177952_p());
             }
 
-            this.boundingBox.offset(blockposition1.getX(), 0, blockposition1.getZ());
+            this.field_74887_e.func_78886_a(blockposition1.func_177958_n(), 0, blockposition1.func_177952_p());
             break;
 
         case LEFT_RIGHT:
-            blockposition1 = BlockPos.ORIGIN;
+            blockposition1 = BlockPos.field_177992_a;
             if (enumblockrotation != Rotation.CLOCKWISE_90 && enumblockrotation != Rotation.COUNTERCLOCKWISE_90) {
                 if (enumblockrotation == Rotation.CLOCKWISE_180) {
-                    blockposition1 = blockposition1.offset(EnumFacing.SOUTH, blockposition.getZ());
+                    blockposition1 = blockposition1.func_177967_a(EnumFacing.SOUTH, blockposition.func_177952_p());
                 } else {
-                    blockposition1 = blockposition1.offset(EnumFacing.NORTH, blockposition.getZ());
+                    blockposition1 = blockposition1.func_177967_a(EnumFacing.NORTH, blockposition.func_177952_p());
                 }
             } else {
-                blockposition1 = blockposition1.offset(enumblockrotation.rotate(EnumFacing.NORTH), blockposition.getX());
+                blockposition1 = blockposition1.func_177967_a(enumblockrotation.func_185831_a(EnumFacing.NORTH), blockposition.func_177958_n());
             }
 
-            this.boundingBox.offset(blockposition1.getX(), 0, blockposition1.getZ());
+            this.field_74887_e.func_78886_a(blockposition1.func_177958_n(), 0, blockposition1.func_177952_p());
         }
 
-        this.boundingBox.offset(this.templatePosition.getX(), this.templatePosition.getY(), this.templatePosition.getZ());
+        this.field_74887_e.func_78886_a(this.field_186178_c.func_177958_n(), this.field_186178_c.func_177956_o(), this.field_186178_c.func_177952_p());
     }
 
-    public void offset(int i, int j, int k) {
-        super.offset(i, j, k);
-        this.templatePosition = this.templatePosition.add(i, j, k);
+    public void func_181138_a(int i, int j, int k) {
+        super.func_181138_a(i, j, k);
+        this.field_186178_c = this.field_186178_c.func_177982_a(i, j, k);
     }
 }

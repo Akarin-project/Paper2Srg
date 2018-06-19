@@ -11,14 +11,14 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerDispenser extends Container {
 
-    public final IInventory dispenserInventory;
+    public final IInventory field_178146_a;
     // CraftBukkit start
     private CraftInventoryView bukkitEntity = null;
     private InventoryPlayer player;
     // CraftBukkit end
 
     public ContainerDispenser(IInventory iinventory, IInventory iinventory1) {
-        this.dispenserInventory = iinventory1;
+        this.field_178146_a = iinventory1;
         // CraftBukkit start - Save player
         // TODO: Should we check to make sure it really is an InventoryPlayer?
         this.player = (InventoryPlayer)iinventory;
@@ -29,54 +29,54 @@ public class ContainerDispenser extends Container {
 
         for (i = 0; i < 3; ++i) {
             for (j = 0; j < 3; ++j) {
-                this.addSlotToContainer(new Slot(iinventory1, j + i * 3, 62 + j * 18, 17 + i * 18));
+                this.func_75146_a(new Slot(iinventory1, j + i * 3, 62 + j * 18, 17 + i * 18));
             }
         }
 
         for (i = 0; i < 3; ++i) {
             for (j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(iinventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.func_75146_a(new Slot(iinventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
 
         for (i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(iinventory, i, 8 + i * 18, 142));
+            this.func_75146_a(new Slot(iinventory, i, 8 + i * 18, 142));
         }
 
     }
 
-    public boolean canInteractWith(EntityPlayer entityhuman) {
+    public boolean func_75145_c(EntityPlayer entityhuman) {
         if (!this.checkReachable) return true; // CraftBukkit
-        return this.dispenserInventory.isUsableByPlayer(entityhuman);
+        return this.field_178146_a.func_70300_a(entityhuman);
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer entityhuman, int i) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = (Slot) this.inventorySlots.get(i);
+    public ItemStack func_82846_b(EntityPlayer entityhuman, int i) {
+        ItemStack itemstack = ItemStack.field_190927_a;
+        Slot slot = (Slot) this.field_75151_b.get(i);
 
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+        if (slot != null && slot.func_75216_d()) {
+            ItemStack itemstack1 = slot.func_75211_c();
 
-            itemstack = itemstack1.copy();
+            itemstack = itemstack1.func_77946_l();
             if (i < 9) {
-                if (!this.mergeItemStack(itemstack1, 9, 45, true)) {
-                    return ItemStack.EMPTY;
+                if (!this.func_75135_a(itemstack1, 9, 45, true)) {
+                    return ItemStack.field_190927_a;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, 9, false)) {
-                return ItemStack.EMPTY;
+            } else if (!this.func_75135_a(itemstack1, 0, 9, false)) {
+                return ItemStack.field_190927_a;
             }
 
-            if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+            if (itemstack1.func_190926_b()) {
+                slot.func_75215_d(ItemStack.field_190927_a);
             } else {
-                slot.onSlotChanged();
+                slot.func_75218_e();
             }
 
-            if (itemstack1.getCount() == itemstack.getCount()) {
-                return ItemStack.EMPTY;
+            if (itemstack1.func_190916_E() == itemstack.func_190916_E()) {
+                return ItemStack.field_190927_a;
             }
 
-            slot.onTake(entityhuman, itemstack1);
+            slot.func_190901_a(entityhuman, itemstack1);
         }
 
         return itemstack;
@@ -89,8 +89,8 @@ public class ContainerDispenser extends Container {
             return bukkitEntity;
         }
 
-        CraftInventory inventory = new CraftInventory(this.dispenserInventory);
-        bukkitEntity = new CraftInventoryView(this.player.player.getBukkitEntity(), inventory, this);
+        CraftInventory inventory = new CraftInventory(this.field_178146_a);
+        bukkitEntity = new CraftInventoryView(this.player.field_70458_d.getBukkitEntity(), inventory, this);
         return bukkitEntity;
     }
     // CraftBukkit end

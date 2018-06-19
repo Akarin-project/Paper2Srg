@@ -33,41 +33,41 @@ public class CraftBrewingStand extends CraftContainer<TileEntityBrewingStand> im
 
     @Override
     public int getBrewingTime() {
-        return this.getSnapshot().getField(0);
+        return this.getSnapshot().func_174887_a_(0);
     }
 
     @Override
     public void setBrewingTime(int brewTime) {
-        this.getSnapshot().setField(0, brewTime);
+        this.getSnapshot().func_174885_b(0, brewTime);
     }
 
     @Override
     public int getFuelLevel() {
-        return this.getSnapshot().getField(1);
+        return this.getSnapshot().func_174887_a_(1);
     }
 
     @Override
     public void setFuelLevel(int level) {
-        this.getSnapshot().setField(1, level);
+        this.getSnapshot().func_174885_b(1, level);
     }
 
     @Override
     public String getCustomName() {
         TileEntityBrewingStand brewingStand = this.getSnapshot();
-        return brewingStand.hasCustomName() ? brewingStand.getName() : null;
+        return brewingStand.func_145818_k_() ? brewingStand.func_70005_c_() : null;
     }
 
     @Override
     public void setCustomName(String name) {
-        this.getSnapshot().setName(name);
+        this.getSnapshot().func_145937_a(name);
     }
 
     @Override
     public void applyTo(TileEntityBrewingStand brewingStand) {
         super.applyTo(brewingStand);
 
-        if (!this.getSnapshot().hasCustomName()) {
-            brewingStand.setName(null);
+        if (!this.getSnapshot().func_145818_k_()) {
+            brewingStand.func_145937_a(null);
         }
     }
 }

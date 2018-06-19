@@ -15,45 +15,45 @@ import net.minecraft.scoreboard.Team;
 
 public final class EntitySelectors {
 
-    public static final Predicate<Entity> IS_ALIVE = new Predicate() {
+    public static final Predicate<Entity> field_94557_a = new Predicate() {
         public boolean a(@Nullable Entity entity) {
-            return entity.isEntityAlive();
+            return entity.func_70089_S();
         }
 
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
     };
-    public static final Predicate<Entity> IS_STANDALONE = new Predicate() {
+    public static final Predicate<Entity> field_152785_b = new Predicate() {
         public boolean a(@Nullable Entity entity) {
-            return entity.isEntityAlive() && !entity.isBeingRidden() && !entity.isRiding();
+            return entity.func_70089_S() && !entity.func_184207_aI() && !entity.func_184218_aH();
         }
 
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
     };
-    public static final Predicate<Entity> HAS_INVENTORY = new Predicate() {
+    public static final Predicate<Entity> field_96566_b = new Predicate() {
         public boolean a(@Nullable Entity entity) {
-            return entity instanceof IInventory && entity.isEntityAlive();
+            return entity instanceof IInventory && entity.func_70089_S();
         }
 
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
     };
-    public static final Predicate<Entity> CAN_AI_TARGET = new Predicate() {
+    public static final Predicate<Entity> field_188444_d = new Predicate() {
         public boolean a(@Nullable Entity entity) {
-            return !(entity instanceof EntityPlayer) || !((EntityPlayer) entity).isSpectator() && !((EntityPlayer) entity).isCreative();
+            return !(entity instanceof EntityPlayer) || !((EntityPlayer) entity).func_175149_v() && !((EntityPlayer) entity).func_184812_l_();
         }
 
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
     };
-    public static final Predicate<Entity> NOT_SPECTATING = new Predicate() {
+    public static final Predicate<Entity> field_180132_d = new Predicate() {
         public boolean a(@Nullable Entity entity) {
-            return !(entity instanceof EntityPlayer) || !((EntityPlayer) entity).isSpectator();
+            return !(entity instanceof EntityPlayer) || !((EntityPlayer) entity).func_175149_v();
         }
 
         public boolean apply(@Nullable Object object) {
@@ -61,12 +61,12 @@ public final class EntitySelectors {
         }
     };
 
-    public static <T extends Entity> Predicate<T> withinRange(final double d0, final double d1, final double d2, double d3) {
+    public static <T extends Entity> Predicate<T> func_188443_a(final double d0, final double d1, final double d2, double d3) {
         final double d4 = d3 * d3;
 
         return new Predicate() {
             public boolean a(@Nullable T t0) {
-                return t0 != null && t0.getDistanceSq(d0, d1, d2) <= d3;
+                return t0 != null && t0.func_70092_e(d0, d1, d2) <= d3;
             }
 
             public boolean apply(@Nullable Object object) {
@@ -75,19 +75,19 @@ public final class EntitySelectors {
         };
     }
 
-    public static <T extends Entity> Predicate<T> getTeamCollisionPredicate(final Entity entity) {
-        final Team scoreboardteambase = entity.getTeam();
-        final Team.CollisionRule scoreboardteambase_enumteampush = scoreboardteambase == null ? Team.CollisionRule.ALWAYS : scoreboardteambase.getCollisionRule();
+    public static <T extends Entity> Predicate<T> func_188442_a(final Entity entity) {
+        final Team scoreboardteambase = entity.func_96124_cp();
+        final Team.CollisionRule scoreboardteambase_enumteampush = scoreboardteambase == null ? Team.CollisionRule.ALWAYS : scoreboardteambase.func_186681_k();
 
-        return scoreboardteambase_enumteampush == Team.CollisionRule.NEVER ? Predicates.alwaysFalse() : Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate() {
+        return scoreboardteambase_enumteampush == Team.CollisionRule.NEVER ? Predicates.alwaysFalse() : Predicates.and(EntitySelectors.field_180132_d, new Predicate() {
             public boolean a(@Nullable Entity entity) {
-                if (!entity.canBePushed()) {
+                if (!entity.func_70104_M()) {
                     return false;
-                } else if (entity1.world.isClientSide && (!(entity instanceof EntityPlayer) || !((EntityPlayer) entity).isUser())) {
+                } else if (entity1.world.isClientSide && (!(entity instanceof EntityPlayer) || !((EntityPlayer) entity).func_175144_cb())) {
                     return false;
                 } else {
-                    Team scoreboardteambase = entity.getTeam();
-                    Team.CollisionRule scoreboardteambase_enumteampush = scoreboardteambase == null ? Team.CollisionRule.ALWAYS : scoreboardteambase.getCollisionRule();
+                    Team scoreboardteambase = entity.func_96124_cp();
+                    Team.CollisionRule scoreboardteambase_enumteampush = scoreboardteambase == null ? Team.CollisionRule.ALWAYS : scoreboardteambase.func_186681_k();
 
                     if (scoreboardteambase_enumteampush == Team.CollisionRule.NEVER) {
                         return false;
@@ -105,12 +105,12 @@ public final class EntitySelectors {
         });
     }
 
-    public static Predicate<Entity> notRiding(final Entity entity) {
+    public static Predicate<Entity> func_191324_b(final Entity entity) {
         return new Predicate() {
             public boolean a(@Nullable Entity entity) {
                 while (true) {
-                    if (entity.isRiding()) {
-                        entity = entity.getRidingEntity();
+                    if (entity.func_184218_aH()) {
+                        entity = entity.func_184187_bx();
                         if (entity != entity1) {
                             continue;
                         }
@@ -130,21 +130,21 @@ public final class EntitySelectors {
 
     public static class ArmoredMob implements Predicate<Entity> {
 
-        private final ItemStack armor;
+        private final ItemStack field_96567_c;
 
         public ArmoredMob(ItemStack itemstack) {
-            this.armor = itemstack;
+            this.field_96567_c = itemstack;
         }
 
         public boolean apply(@Nullable Entity entity) {
-            if (!entity.isEntityAlive()) {
+            if (!entity.func_70089_S()) {
                 return false;
             } else if (!(entity instanceof EntityLivingBase)) {
                 return false;
             } else {
                 EntityLivingBase entityliving = (EntityLivingBase) entity;
 
-                return !entityliving.getItemStackFromSlot(EntityLiving.getSlotForItemStack(this.armor)).isEmpty() ? false : (entityliving instanceof EntityLiving ? ((EntityLiving) entityliving).canPickUpLoot() : (entityliving instanceof EntityArmorStand ? true : entityliving instanceof EntityPlayer));
+                return !entityliving.func_184582_a(EntityLiving.func_184640_d(this.field_96567_c)).func_190926_b() ? false : (entityliving instanceof EntityLiving ? ((EntityLiving) entityliving).func_98052_bS() : (entityliving instanceof EntityArmorStand ? true : entityliving instanceof EntityPlayer));
             }
         }
 

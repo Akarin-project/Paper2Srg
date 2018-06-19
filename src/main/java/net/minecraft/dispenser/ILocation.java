@@ -4,5 +4,5 @@ import net.minecraft.world.World;
 
 public interface ILocation extends IPosition {
 
-    World getWorld();
+    World func_82618_k();
 }

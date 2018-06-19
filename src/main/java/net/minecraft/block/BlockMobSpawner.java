@@ -16,23 +16,23 @@ import net.minecraft.world.World;
 public class BlockMobSpawner extends BlockContainer {
 
     protected BlockMobSpawner() {
-        super(Material.ROCK);
+        super(Material.field_151576_e);
     }
 
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity func_149915_a(World world, int i) {
         return new TileEntityMobSpawner();
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.AIR;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_190931_a;
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 0;
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
-        super.dropBlockAsItemWithChance(world, blockposition, iblockdata, f, i);
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
+        super.func_180653_a(world, blockposition, iblockdata, f, i);
         /* CraftBukkit start - Delegate to getExpDrop
         int j = 15 + world.random.nextInt(15) + world.random.nextInt(15);
 
@@ -42,21 +42,21 @@ public class BlockMobSpawner extends BlockContainer {
 
     @Override
     public int getExpDrop(World world, IBlockState iblockdata, int enchantmentLevel) {
-        int j = 15 + world.rand.nextInt(15) + world.rand.nextInt(15);
+        int j = 15 + world.field_73012_v.nextInt(15) + world.field_73012_v.nextInt(15);
 
         return j;
         // CraftBukkit end
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.MODEL;
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return ItemStack.EMPTY;
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return ItemStack.field_190927_a;
     }
 }

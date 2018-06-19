@@ -12,18 +12,18 @@ public class WorldGenGlowStone2 extends WorldGenerator {
 
     public WorldGenGlowStone2() {}
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
-        if (!world.isAirBlock(blockposition)) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
+        if (!world.func_175623_d(blockposition)) {
             return false;
-        } else if (world.getBlockState(blockposition.up()).getBlock() != Blocks.NETHERRACK) {
+        } else if (world.func_180495_p(blockposition.func_177984_a()).func_177230_c() != Blocks.field_150424_aL) {
             return false;
         } else {
-            world.setBlockState(blockposition, Blocks.GLOWSTONE.getDefaultState(), 2);
+            world.func_180501_a(blockposition, Blocks.field_150426_aN.func_176223_P(), 2);
 
             for (int i = 0; i < 1500; ++i) {
-                BlockPos blockposition1 = blockposition.add(random.nextInt(8) - random.nextInt(8), -random.nextInt(12), random.nextInt(8) - random.nextInt(8));
+                BlockPos blockposition1 = blockposition.func_177982_a(random.nextInt(8) - random.nextInt(8), -random.nextInt(12), random.nextInt(8) - random.nextInt(8));
 
-                if (world.getBlockState(blockposition1).getMaterial() == Material.AIR) {
+                if (world.func_180495_p(blockposition1).func_185904_a() == Material.field_151579_a) {
                     int j = 0;
                     EnumFacing[] aenumdirection = EnumFacing.values();
                     int k = aenumdirection.length;
@@ -31,7 +31,7 @@ public class WorldGenGlowStone2 extends WorldGenerator {
                     for (int l = 0; l < k; ++l) {
                         EnumFacing enumdirection = aenumdirection[l];
 
-                        if (world.getBlockState(blockposition1.offset(enumdirection)).getBlock() == Blocks.GLOWSTONE) {
+                        if (world.func_180495_p(blockposition1.func_177972_a(enumdirection)).func_177230_c() == Blocks.field_150426_aN) {
                             ++j;
                         }
 
@@ -41,7 +41,7 @@ public class WorldGenGlowStone2 extends WorldGenerator {
                     }
 
                     if (j == 1) {
-                        world.setBlockState(blockposition1, Blocks.GLOWSTONE.getDefaultState(), 2);
+                        world.func_180501_a(blockposition1, Blocks.field_150426_aN.func_176223_P(), 2);
                     }
                 }
             }

@@ -19,19 +19,19 @@ public class RecipeCommand extends CommandBase {
 
     public RecipeCommand() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "recipe";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 2;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.recipe.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 2) {
             throw new WrongUsageException("commands.recipe.usage", new Object[0]);
         } else {
@@ -41,7 +41,7 @@ public class RecipeCommand extends CommandBase {
             if (!flag && !flag1) {
                 throw new WrongUsageException("commands.recipe.usage", new Object[0]);
             } else {
-                List list = getPlayers(minecraftserver, icommandlistener, astring[1]);
+                List list = func_193513_a(minecraftserver, icommandlistener, astring[1]);
                 Iterator iterator = list.iterator();
 
                 while (iterator.hasNext()) {
@@ -49,37 +49,37 @@ public class RecipeCommand extends CommandBase {
 
                     if ("*".equals(astring[2])) {
                         if (flag) {
-                            entityplayer.unlockRecipes(this.getRecipes());
-                            notifyCommandListener(icommandlistener, (ICommand) this, "commands.recipe.give.success.all", new Object[] { entityplayer.getName()});
+                            entityplayer.func_192021_a(this.func_192556_d());
+                            func_152373_a(icommandlistener, (ICommand) this, "commands.recipe.give.success.all", new Object[] { entityplayer.func_70005_c_()});
                         } else {
-                            entityplayer.resetRecipes(this.getRecipes());
-                            notifyCommandListener(icommandlistener, (ICommand) this, "commands.recipe.take.success.all", new Object[] { entityplayer.getName()});
+                            entityplayer.func_192022_b(this.func_192556_d());
+                            func_152373_a(icommandlistener, (ICommand) this, "commands.recipe.take.success.all", new Object[] { entityplayer.func_70005_c_()});
                         }
                     } else {
-                        IRecipe irecipe = CraftingManager.getRecipe(new ResourceLocation(astring[2]));
+                        IRecipe irecipe = CraftingManager.func_193373_a(new ResourceLocation(astring[2]));
 
                         if (irecipe == null) {
                             throw new CommandException("commands.recipe.unknownrecipe", new Object[] { astring[2]});
                         }
 
-                        if (irecipe.isDynamic()) {
+                        if (irecipe.func_192399_d()) {
                             throw new CommandException("commands.recipe.unsupported", new Object[] { astring[2]});
                         }
 
                         ArrayList arraylist = Lists.newArrayList(new IRecipe[] { irecipe});
 
-                        if (flag == entityplayer.getRecipeBook().isUnlocked(irecipe)) {
+                        if (flag == entityplayer.func_192037_E().func_193830_f(irecipe)) {
                             String s = flag ? "commands.recipe.alreadyHave" : "commands.recipe.dontHave";
 
-                            throw new CommandException(s, new Object[] { entityplayer.getName(), irecipe.getRecipeOutput().getDisplayName()});
+                            throw new CommandException(s, new Object[] { entityplayer.func_70005_c_(), irecipe.func_77571_b().func_82833_r()});
                         }
 
                         if (flag) {
-                            entityplayer.unlockRecipes((List) arraylist);
-                            notifyCommandListener(icommandlistener, (ICommand) this, "commands.recipe.give.success.one", new Object[] { entityplayer.getName(), irecipe.getRecipeOutput().getDisplayName()});
+                            entityplayer.func_192021_a((List) arraylist);
+                            func_152373_a(icommandlistener, (ICommand) this, "commands.recipe.give.success.one", new Object[] { entityplayer.func_70005_c_(), irecipe.func_77571_b().func_82833_r()});
                         } else {
-                            entityplayer.resetRecipes((List) arraylist);
-                            notifyCommandListener(icommandlistener, (ICommand) this, "commands.recipe.take.success.one", new Object[] { irecipe.getRecipeOutput().getDisplayName(), entityplayer.getName()});
+                            entityplayer.func_192022_b((List) arraylist);
+                            func_152373_a(icommandlistener, (ICommand) this, "commands.recipe.take.success.one", new Object[] { irecipe.func_77571_b().func_82833_r(), entityplayer.func_70005_c_()});
                         }
                     }
                 }
@@ -88,11 +88,11 @@ public class RecipeCommand extends CommandBase {
         }
     }
 
-    private List<IRecipe> getRecipes() {
-        return Lists.newArrayList(CraftingManager.REGISTRY);
+    private List<IRecipe> func_192556_d() {
+        return Lists.newArrayList(CraftingManager.field_193380_a);
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, new String[] { "give", "take"}) : (astring.length == 2 ? getListOfStringsMatchingLastWord(astring, minecraftserver.getOnlinePlayerNames()) : (astring.length == 3 ? getListOfStringsMatchingLastWord(astring, (Collection) CraftingManager.REGISTRY.getKeys()) : Collections.emptyList()));
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length == 1 ? func_71530_a(astring, new String[] { "give", "take"}) : (astring.length == 2 ? func_71530_a(astring, minecraftserver.func_71213_z()) : (astring.length == 3 ? func_175762_a(astring, (Collection) CraftingManager.field_193380_a.func_148742_b()) : Collections.emptyList()));
     }
 }

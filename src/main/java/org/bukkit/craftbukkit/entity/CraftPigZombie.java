@@ -13,11 +13,11 @@ public class CraftPigZombie extends CraftZombie implements PigZombie {
     }
 
     public int getAnger() {
-        return getHandle().angerLevel;
+        return getHandle().field_70837_d;
     }
 
     public void setAnger(int level) {
-        getHandle().angerLevel = level;
+        getHandle().field_70837_d = level;
     }
 
     public void setAngry(boolean angry) {

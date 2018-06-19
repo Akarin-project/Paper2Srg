@@ -4,15 +4,15 @@ abstract class NBTPrimitive extends NBTBase {
 
     protected NBTPrimitive() {}
 
-    public abstract long getLong();
+    public abstract long func_150291_c();
 
-    public abstract int getInt();
+    public abstract int func_150287_d();
 
-    public abstract short getShort();
+    public abstract short func_150289_e();
 
-    public abstract byte getByte();
+    public abstract byte func_150290_f();
 
-    public abstract double getDouble();
+    public abstract double func_150286_g();
 
-    public abstract float getFloat();
+    public abstract float func_150288_h();
 }

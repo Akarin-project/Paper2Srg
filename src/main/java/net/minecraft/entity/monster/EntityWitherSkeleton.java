@@ -26,84 +26,84 @@ public class EntityWitherSkeleton extends AbstractSkeleton {
 
     public EntityWitherSkeleton(World world) {
         super(world);
-        this.setSize(0.7F, 2.4F);
-        this.isImmuneToFire = true;
+        this.func_70105_a(0.7F, 2.4F);
+        this.field_70178_ae = true;
     }
 
-    public static void registerFixesWitherSkeleton(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityWitherSkeleton.class);
+    public static void func_190729_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityWitherSkeleton.class);
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_WITHER_SKELETON;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186386_ak;
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_WITHER_SKELETON_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_190036_ha;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_WITHER_SKELETON_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_190038_hc;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_WITHER_SKELETON_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_190037_hb;
     }
 
-    SoundEvent getStepSound() {
-        return SoundEvents.ENTITY_WITHER_SKELETON_STEP;
+    SoundEvent func_190727_o() {
+        return SoundEvents.field_190039_hd;
     }
 
-    public void onDeath(DamageSource damagesource) {
+    public void func_70645_a(DamageSource damagesource) {
         // super.die(damagesource); // CraftBukkit
-        if (damagesource.getTrueSource() instanceof EntityCreeper) {
-            EntityCreeper entitycreeper = (EntityCreeper) damagesource.getTrueSource();
+        if (damagesource.func_76346_g() instanceof EntityCreeper) {
+            EntityCreeper entitycreeper = (EntityCreeper) damagesource.func_76346_g();
 
-            if (entitycreeper.getPowered() && entitycreeper.ableToCauseSkullDrop()) {
-                entitycreeper.incrementDroppedSkulls();
-                this.entityDropItem(new ItemStack(Items.SKULL, 1, 1), 0.0F);
+            if (entitycreeper.func_70830_n() && entitycreeper.func_70650_aV()) {
+                entitycreeper.func_175493_co();
+                this.func_70099_a(new ItemStack(Items.field_151144_bL, 1, 1), 0.0F);
             }
         }
-        super.onDeath(damagesource); // CraftBukkit - moved from above
+        super.func_70645_a(damagesource); // CraftBukkit - moved from above
 
     }
 
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficultydamagescaler) {
-        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+    protected void func_180481_a(DifficultyInstance difficultydamagescaler) {
+        this.func_184201_a(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.field_151052_q));
     }
 
-    protected void setEnchantmentBasedOnDifficulty(DifficultyInstance difficultydamagescaler) {}
+    protected void func_180483_b(DifficultyInstance difficultydamagescaler) {}
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
-        IEntityLivingData groupdataentity1 = super.onInitialSpawn(difficultydamagescaler, groupdataentity);
+    public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
+        IEntityLivingData groupdataentity1 = super.func_180482_a(difficultydamagescaler, groupdataentity);
 
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.setCombatTask();
+        this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(4.0D);
+        this.func_85036_m();
         return groupdataentity1;
     }
 
-    public float getEyeHeight() {
+    public float func_70047_e() {
         return 2.1F;
     }
 
-    public boolean attackEntityAsMob(Entity entity) {
-        if (!super.attackEntityAsMob(entity)) {
+    public boolean func_70652_k(Entity entity) {
+        if (!super.func_70652_k(entity)) {
             return false;
         } else {
             if (entity instanceof EntityLivingBase) {
-                ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, 200));
+                ((EntityLivingBase) entity).func_70690_d(new PotionEffect(MobEffects.field_82731_v, 200));
             }
 
             return true;
         }
     }
 
-    protected EntityArrow getArrow(float f) {
-        EntityArrow entityarrow = super.getArrow(f);
+    protected EntityArrow func_190726_a(float f) {
+        EntityArrow entityarrow = super.func_190726_a(f);
 
-        entityarrow.setFire(100);
+        entityarrow.func_70015_d(100);
         return entityarrow;
     }
 }

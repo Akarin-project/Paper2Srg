@@ -22,40 +22,40 @@ import net.minecraft.world.World;
 
 public class ItemBlock extends Item {
 
-    protected final Block block;
+    protected final Block field_150939_a;
 
     public ItemBlock(Block block) {
-        this.block = block;
+        this.field_150939_a = block;
     }
 
-    public EnumActionResult onItemUse(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        IBlockState iblockdata = world.getBlockState(blockposition);
-        Block block = iblockdata.getBlock();
+    public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        IBlockState iblockdata = world.func_180495_p(blockposition);
+        Block block = iblockdata.func_177230_c();
 
-        if (!block.isReplaceable((IBlockAccess) world, blockposition)) {
-            blockposition = blockposition.offset(enumdirection);
+        if (!block.func_176200_f((IBlockAccess) world, blockposition)) {
+            blockposition = blockposition.func_177972_a(enumdirection);
         }
 
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (!itemstack.isEmpty() && entityhuman.canPlayerEdit(blockposition, enumdirection, itemstack) && world.mayPlace(this.block, blockposition, false, enumdirection, entityhuman)) { // Paper - Pass entityhuman instead of null
-            int i = this.getMetadata(itemstack.getMetadata());
-            IBlockState iblockdata1 = this.block.getStateForPlacement(world, blockposition, enumdirection, f, f1, f2, i, entityhuman);
+        if (!itemstack.func_190926_b() && entityhuman.func_175151_a(blockposition, enumdirection, itemstack) && world.func_190527_a(this.field_150939_a, blockposition, false, enumdirection, entityhuman)) { // Paper - Pass entityhuman instead of null
+            int i = this.func_77647_b(itemstack.func_77960_j());
+            IBlockState iblockdata1 = this.field_150939_a.func_180642_a(world, blockposition, enumdirection, f, f1, f2, i, entityhuman);
 
-            if (world.setBlockState(blockposition, iblockdata1, 11)) {
-                iblockdata1 = world.getBlockState(blockposition);
-                if (iblockdata1.getBlock() == this.block) {
-                    setTileEntityNBT(world, entityhuman, blockposition, itemstack);
-                    this.block.onBlockPlacedBy(world, blockposition, iblockdata1, entityhuman, itemstack);
+            if (world.func_180501_a(blockposition, iblockdata1, 11)) {
+                iblockdata1 = world.func_180495_p(blockposition);
+                if (iblockdata1.func_177230_c() == this.field_150939_a) {
+                    func_179224_a(world, entityhuman, blockposition, itemstack);
+                    this.field_150939_a.func_180633_a(world, blockposition, iblockdata1, entityhuman, itemstack);
                     if (entityhuman instanceof EntityPlayerMP) {
-                        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) entityhuman, blockposition, itemstack);
+                        CriteriaTriggers.field_193137_x.func_193173_a((EntityPlayerMP) entityhuman, blockposition, itemstack);
                     }
                 }
 
-                SoundType soundeffecttype = this.block.getSoundType();
+                SoundType soundeffecttype = this.field_150939_a.func_185467_w();
 
                 // world.a(entityhuman, blockposition, soundeffecttype.e(), SoundCategory.BLOCKS, (soundeffecttype.a() + 1.0F) / 2.0F, soundeffecttype.b() * 0.8F); // CraftBukkit - SPIGOT-1288
-                itemstack.shrink(1);
+                itemstack.func_190918_g(1);
             }
 
             return EnumActionResult.SUCCESS;
@@ -64,32 +64,32 @@ public class ItemBlock extends Item {
         }
     }
 
-    public static boolean setTileEntityNBT(World world, @Nullable EntityPlayer entityhuman, BlockPos blockposition, ItemStack itemstack) {
-        MinecraftServer minecraftserver = world.getMinecraftServer();
+    public static boolean func_179224_a(World world, @Nullable EntityPlayer entityhuman, BlockPos blockposition, ItemStack itemstack) {
+        MinecraftServer minecraftserver = world.func_73046_m();
 
         if (minecraftserver == null) {
             return false;
         } else {
-            NBTTagCompound nbttagcompound = itemstack.getSubCompound("BlockEntityTag");
+            NBTTagCompound nbttagcompound = itemstack.func_179543_a("BlockEntityTag");
 
             if (nbttagcompound != null) {
-                TileEntity tileentity = world.getTileEntity(blockposition);
+                TileEntity tileentity = world.func_175625_s(blockposition);
 
                 if (tileentity != null) {
-                    if (!world.isRemote && tileentity.onlyOpsCanSetNbt() && (entityhuman == null || !entityhuman.canUseCommandBlock())) {
+                    if (!world.field_72995_K && tileentity.func_183000_F() && (entityhuman == null || !entityhuman.func_189808_dh())) {
                         return false;
                     }
 
-                    NBTTagCompound nbttagcompound1 = tileentity.writeToNBT(new NBTTagCompound());
-                    NBTTagCompound nbttagcompound2 = nbttagcompound1.copy();
+                    NBTTagCompound nbttagcompound1 = tileentity.func_189515_b(new NBTTagCompound());
+                    NBTTagCompound nbttagcompound2 = nbttagcompound1.func_74737_b();
 
-                    nbttagcompound1.merge(nbttagcompound);
-                    nbttagcompound1.setInteger("x", blockposition.getX());
-                    nbttagcompound1.setInteger("y", blockposition.getY());
-                    nbttagcompound1.setInteger("z", blockposition.getZ());
+                    nbttagcompound1.func_179237_a(nbttagcompound);
+                    nbttagcompound1.func_74768_a("x", blockposition.func_177958_n());
+                    nbttagcompound1.func_74768_a("y", blockposition.func_177956_o());
+                    nbttagcompound1.func_74768_a("z", blockposition.func_177952_p());
                     if (!nbttagcompound1.equals(nbttagcompound2)) {
-                        tileentity.readFromNBT(nbttagcompound1);
-                        tileentity.markDirty();
+                        tileentity.func_145839_a(nbttagcompound1);
+                        tileentity.func_70296_d();
                         return true;
                     }
                 }
@@ -99,26 +99,26 @@ public class ItemBlock extends Item {
         }
     }
 
-    public String getUnlocalizedName(ItemStack itemstack) {
-        return this.block.getUnlocalizedName();
+    public String func_77667_c(ItemStack itemstack) {
+        return this.field_150939_a.func_149739_a();
     }
 
-    public String getUnlocalizedName() {
-        return this.block.getUnlocalizedName();
+    public String func_77658_a() {
+        return this.field_150939_a.func_149739_a();
     }
 
-    public CreativeTabs getCreativeTab() {
-        return this.block.getCreativeTabToDisplayOn();
+    public CreativeTabs func_77640_w() {
+        return this.field_150939_a.func_149708_J();
     }
 
-    public void getSubItems(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
-        if (this.isInCreativeTab(creativemodetab)) {
-            this.block.getSubBlocks(creativemodetab, nonnulllist);
+    public void func_150895_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+        if (this.func_194125_a(creativemodetab)) {
+            this.field_150939_a.func_149666_a(creativemodetab, nonnulllist);
         }
 
     }
 
-    public Block getBlock() {
-        return this.block;
+    public Block func_179223_d() {
+        return this.field_150939_a;
     }
 }

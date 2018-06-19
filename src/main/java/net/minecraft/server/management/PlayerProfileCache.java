@@ -46,15 +46,15 @@ import net.minecraft.util.JsonUtils;
 
 public class PlayerProfileCache {
 
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
-    private static boolean onlineMode;
-    private final Map<String, PlayerProfileCache.ProfileEntry> usernameToProfileEntryMap = Maps.newHashMap();private final Map<String, PlayerProfileCache.ProfileEntry> nameCache = usernameToProfileEntryMap; // Paper - OBFHELPER
-    private final Map<UUID, PlayerProfileCache.ProfileEntry> uuidToProfileEntryMap = Maps.newHashMap();
-    private final Deque<GameProfile> gameProfiles = new java.util.concurrent.LinkedBlockingDeque<GameProfile>(); // CraftBukkit
-    private final GameProfileRepository profileRepo;
-    protected final Gson gson;
-    private final File usercacheFile;
-    private static final ParameterizedType TYPE = new ParameterizedType() {
+    public static final SimpleDateFormat field_152659_a = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
+    private static boolean field_187322_c;
+    private final Map<String, PlayerProfileCache.ProfileEntry> field_152661_c = Maps.newHashMap();private final Map<String, PlayerProfileCache.ProfileEntry> nameCache = field_152661_c; // Paper - OBFHELPER
+    private final Map<UUID, PlayerProfileCache.ProfileEntry> field_152662_d = Maps.newHashMap();
+    private final Deque<GameProfile> field_152663_e = new java.util.concurrent.LinkedBlockingDeque<GameProfile>(); // CraftBukkit
+    private final GameProfileRepository field_187323_g;
+    protected final Gson field_152660_b;
+    private final File field_152665_g;
+    private static final ParameterizedType field_152666_h = new ParameterizedType() {
         public Type[] getActualTypeArguments() {
             return new Type[] { PlayerProfileCache.ProfileEntry.class};
         }
@@ -69,16 +69,16 @@ public class PlayerProfileCache {
     };
 
     public PlayerProfileCache(GameProfileRepository gameprofilerepository, File file) {
-        this.profileRepo = gameprofilerepository;
-        this.usercacheFile = file;
+        this.field_187323_g = gameprofilerepository;
+        this.field_152665_g = file;
         GsonBuilder gsonbuilder = new GsonBuilder();
 
         gsonbuilder.registerTypeHierarchyAdapter(PlayerProfileCache.ProfileEntry.class, new PlayerProfileCache.Serializer(null));
-        this.gson = gsonbuilder.create();
-        this.load();
+        this.field_152660_b = gsonbuilder.create();
+        this.func_152657_b();
     }
 
-    private static GameProfile lookupProfile(GameProfileRepository gameprofilerepository, String s) {
+    private static GameProfile func_187319_a(GameProfileRepository gameprofilerepository, String s) {
         final GameProfile[] agameprofile = new GameProfile[1];
         ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
             public void onProfileLookupSucceeded(GameProfile gameprofile) {
@@ -91,8 +91,8 @@ public class PlayerProfileCache {
         };
 
         gameprofilerepository.findProfilesByNames(new String[] { s}, Agent.MINECRAFT, profilelookupcallback);
-        if (!isOnlineMode() && agameprofile[0] == null && !org.apache.commons.lang3.StringUtils.isBlank(s)) { // Paper - Don't lookup a profile with a blank name
-            UUID uuid = EntityPlayer.getUUID(new GameProfile((UUID) null, s));
+        if (!func_187321_d() && agameprofile[0] == null && !org.apache.commons.lang3.StringUtils.isBlank(s)) { // Paper - Don't lookup a profile with a blank name
+            UUID uuid = EntityPlayer.func_146094_a(new GameProfile((UUID) null, s));
             GameProfile gameprofile = new GameProfile(uuid, s);
 
             profilelookupcallback.onProfileLookupSucceeded(gameprofile);
@@ -101,19 +101,19 @@ public class PlayerProfileCache {
         return agameprofile[0];
     }
 
-    public static void setOnlineMode(boolean flag) {
-        PlayerProfileCache.onlineMode = flag;
+    public static void func_187320_a(boolean flag) {
+        PlayerProfileCache.field_187322_c = flag;
     }
 
-    private static boolean isOnlineMode() {
-        return PlayerProfileCache.onlineMode;
+    private static boolean func_187321_d() {
+        return PlayerProfileCache.field_187322_c;
     }
 
-    public void addEntry(GameProfile gameprofile) {
-        this.addEntry(gameprofile, (Date) null);
+    public void func_152649_a(GameProfile gameprofile) {
+        this.func_152651_a(gameprofile, (Date) null);
     }
 
-    private synchronized void addEntry(GameProfile gameprofile, Date date) { // Paper - synchronize
+    private synchronized void func_152651_a(GameProfile gameprofile, Date date) { // Paper - synchronize
         UUID uuid = gameprofile.getId();
 
         if (date == null) {
@@ -128,51 +128,51 @@ public class PlayerProfileCache {
         PlayerProfileCache.ProfileEntry usercache_usercacheentry = new PlayerProfileCache.ProfileEntry(gameprofile, date, null);
 
         //if (this.e.containsKey(uuid)) { // Paper
-            PlayerProfileCache.ProfileEntry usercache_usercacheentry1 = (PlayerProfileCache.ProfileEntry) this.uuidToProfileEntryMap.get(uuid);
+            PlayerProfileCache.ProfileEntry usercache_usercacheentry1 = (PlayerProfileCache.ProfileEntry) this.field_152662_d.get(uuid);
         if (usercache_usercacheentry1 != null) { // Paper
 
-            this.usernameToProfileEntryMap.remove(usercache_usercacheentry1.getGameProfile().getName().toLowerCase(Locale.ROOT));
-            this.gameProfiles.remove(gameprofile);
+            this.field_152661_c.remove(usercache_usercacheentry1.func_152668_a().getName().toLowerCase(Locale.ROOT));
+            this.field_152663_e.remove(gameprofile);
         }
 
-        this.usernameToProfileEntryMap.put(gameprofile.getName().toLowerCase(Locale.ROOT), usercache_usercacheentry);
-        this.uuidToProfileEntryMap.put(uuid, usercache_usercacheentry);
-        this.gameProfiles.addFirst(gameprofile);
-        if( !org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly ) this.save(); // Spigot - skip saving if disabled
+        this.field_152661_c.put(gameprofile.getName().toLowerCase(Locale.ROOT), usercache_usercacheentry);
+        this.field_152662_d.put(uuid, usercache_usercacheentry);
+        this.field_152663_e.addFirst(gameprofile);
+        if( !org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly ) this.func_152658_c(); // Spigot - skip saving if disabled
     }
 
     @Nullable
-    public synchronized GameProfile getGameProfileForUsername(String s) { // Paper - synchronize
+    public synchronized GameProfile func_152655_a(String s) { // Paper - synchronize
         String s1 = s.toLowerCase(Locale.ROOT);
-        PlayerProfileCache.ProfileEntry usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.usernameToProfileEntryMap.get(s1);
+        PlayerProfileCache.ProfileEntry usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.field_152661_c.get(s1);
 
-        if (usercache_usercacheentry != null && (new Date()).getTime() >= usercache_usercacheentry.expirationDate.getTime()) {
-            this.uuidToProfileEntryMap.remove(usercache_usercacheentry.getGameProfile().getId());
-            this.usernameToProfileEntryMap.remove(usercache_usercacheentry.getGameProfile().getName().toLowerCase(Locale.ROOT));
-            this.gameProfiles.remove(usercache_usercacheentry.getGameProfile());
+        if (usercache_usercacheentry != null && (new Date()).getTime() >= usercache_usercacheentry.field_152673_c.getTime()) {
+            this.field_152662_d.remove(usercache_usercacheentry.func_152668_a().getId());
+            this.field_152661_c.remove(usercache_usercacheentry.func_152668_a().getName().toLowerCase(Locale.ROOT));
+            this.field_152663_e.remove(usercache_usercacheentry.func_152668_a());
             usercache_usercacheentry = null;
         }
 
         GameProfile gameprofile;
 
         if (usercache_usercacheentry != null) {
-            gameprofile = usercache_usercacheentry.getGameProfile();
-            this.gameProfiles.remove(gameprofile);
-            this.gameProfiles.addFirst(gameprofile);
+            gameprofile = usercache_usercacheentry.func_152668_a();
+            this.field_152663_e.remove(gameprofile);
+            this.field_152663_e.addFirst(gameprofile);
         } else {
-            gameprofile = lookupProfile(this.profileRepo, s); // Spigot - use correct case for offline players
+            gameprofile = func_187319_a(this.field_187323_g, s); // Spigot - use correct case for offline players
             if (gameprofile != null) {
-                this.addEntry(gameprofile);
-                usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.usernameToProfileEntryMap.get(s1);
+                this.func_152649_a(gameprofile);
+                usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.field_152661_c.get(s1);
             }
         }
 
-        if( !org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly ) this.save(); // Spigot - skip saving if disabled
-        return usercache_usercacheentry == null ? null : usercache_usercacheentry.getGameProfile();
+        if( !org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly ) this.func_152658_c(); // Spigot - skip saving if disabled
+        return usercache_usercacheentry == null ? null : usercache_usercacheentry.func_152668_a();
     }
 
-    public synchronized String[] getUsernames() { // Paper - synchronize
-        ArrayList arraylist = Lists.newArrayList(this.usernameToProfileEntryMap.keySet());
+    public synchronized String[] func_152654_a() { // Paper - synchronize
+        ArrayList arraylist = Lists.newArrayList(this.field_152661_c.keySet());
 
         return (String[]) arraylist.toArray(new String[arraylist.size()]);
     }
@@ -184,37 +184,37 @@ public class PlayerProfileCache {
     }
     // Paper end
 
-    @Nullable public GameProfile getProfile(UUID uuid) { return getProfileByUUID(uuid);  } // Paper - OBFHELPER
+    @Nullable public GameProfile getProfile(UUID uuid) { return func_152652_a(uuid);  } // Paper - OBFHELPER
     @Nullable
-    public synchronized GameProfile getProfileByUUID(UUID uuid) { // Paper - synchronize
-        PlayerProfileCache.ProfileEntry usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.uuidToProfileEntryMap.get(uuid);
+    public synchronized GameProfile func_152652_a(UUID uuid) { // Paper - synchronize
+        PlayerProfileCache.ProfileEntry usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.field_152662_d.get(uuid);
 
-        return usercache_usercacheentry == null ? null : usercache_usercacheentry.getGameProfile();
+        return usercache_usercacheentry == null ? null : usercache_usercacheentry.func_152668_a();
     }
 
-    private PlayerProfileCache.ProfileEntry getByUUID(UUID uuid) {
-        PlayerProfileCache.ProfileEntry usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.uuidToProfileEntryMap.get(uuid);
+    private PlayerProfileCache.ProfileEntry func_152653_b(UUID uuid) {
+        PlayerProfileCache.ProfileEntry usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.field_152662_d.get(uuid);
 
         if (usercache_usercacheentry != null) {
-            GameProfile gameprofile = usercache_usercacheentry.getGameProfile();
+            GameProfile gameprofile = usercache_usercacheentry.func_152668_a();
 
-            this.gameProfiles.remove(gameprofile);
-            this.gameProfiles.addFirst(gameprofile);
+            this.field_152663_e.remove(gameprofile);
+            this.field_152663_e.addFirst(gameprofile);
         }
 
         return usercache_usercacheentry;
     }
 
-    public void load() {
+    public void func_152657_b() {
         BufferedReader bufferedreader = null;
 
         try {
-            bufferedreader = Files.newReader(this.usercacheFile, StandardCharsets.UTF_8);
-            List list = (List) JsonUtils.fromJson(this.gson, (Reader) bufferedreader, (Type) PlayerProfileCache.TYPE);
+            bufferedreader = Files.newReader(this.field_152665_g, StandardCharsets.UTF_8);
+            List list = (List) JsonUtils.func_193841_a(this.field_152660_b, (Reader) bufferedreader, (Type) PlayerProfileCache.field_152666_h);
 
-            this.usernameToProfileEntryMap.clear();
-            this.uuidToProfileEntryMap.clear();
-            this.gameProfiles.clear();
+            this.field_152661_c.clear();
+            this.field_152662_d.clear();
+            this.field_152663_e.clear();
             if (list != null) {
                 Iterator iterator = Lists.reverse(list).iterator();
 
@@ -222,7 +222,7 @@ public class PlayerProfileCache {
                     PlayerProfileCache.ProfileEntry usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) iterator.next();
 
                     if (usercache_usercacheentry != null) {
-                        this.addEntry(usercache_usercacheentry.getGameProfile(), usercache_usercacheentry.getExpirationDate());
+                        this.func_152651_a(usercache_usercacheentry.func_152668_a(), usercache_usercacheentry.func_152670_b());
                     }
                 }
             }
@@ -230,8 +230,8 @@ public class PlayerProfileCache {
             ;
         // Spigot Start
         } catch (com.google.gson.JsonSyntaxException ex) {
-            UserList.LOGGER.warn( "Usercache.json is corrupted or has bad formatting. Deleting it to prevent further issues." );
-            this.usercacheFile.delete();
+            UserList.field_152693_a.warn( "Usercache.json is corrupted or has bad formatting. Deleting it to prevent further issues." );
+            this.field_152665_g.delete();
         // Spigot End
         } catch (JsonParseException jsonparseexception) {
             ;
@@ -242,18 +242,18 @@ public class PlayerProfileCache {
     }
 
     // Paper start
-    public void save() {
+    public void func_152658_c() {
         c(true);
     }
     public void c(boolean asyncSave) {
         // Paper end
-        String s = this.gson.toJson(this.getEntriesWithLimit(org.spigotmc.SpigotConfig.userCacheCap));
+        String s = this.field_152660_b.toJson(this.func_152656_a(org.spigotmc.SpigotConfig.userCacheCap));
         Runnable save = () -> {
 
         BufferedWriter bufferedwriter = null;
 
         try {
-            bufferedwriter = Files.newWriter(this.usercacheFile, StandardCharsets.UTF_8);
+            bufferedwriter = Files.newWriter(this.field_152665_g, StandardCharsets.UTF_8);
             bufferedwriter.write(s);
             return;
         } catch (FileNotFoundException filenotfoundexception) {
@@ -274,14 +274,14 @@ public class PlayerProfileCache {
 
     }
 
-    private List<PlayerProfileCache.ProfileEntry> getEntriesWithLimit(int i) {
+    private List<PlayerProfileCache.ProfileEntry> func_152656_a(int i) {
         ArrayList arraylist = Lists.newArrayList();
-        ArrayList arraylist1 = Lists.newArrayList(Iterators.limit(this.gameProfiles.iterator(), i));
+        ArrayList arraylist1 = Lists.newArrayList(Iterators.limit(this.field_152663_e.iterator(), i));
         Iterator iterator = arraylist1.iterator();
 
         while (iterator.hasNext()) {
             GameProfile gameprofile = (GameProfile) iterator.next();
-            PlayerProfileCache.ProfileEntry usercache_usercacheentry = this.getByUUID(gameprofile.getId());
+            PlayerProfileCache.ProfileEntry usercache_usercacheentry = this.func_152653_b(gameprofile.getId());
 
             if (usercache_usercacheentry != null) {
                 arraylist.add(usercache_usercacheentry);
@@ -293,20 +293,20 @@ public class PlayerProfileCache {
 
     class ProfileEntry {
 
-        private final GameProfile gameProfile;public GameProfile getProfile() { return gameProfile; } // Paper - OBFHELPER
-        private final Date expirationDate;
+        private final GameProfile field_152672_b;public GameProfile getProfile() { return field_152672_b; } // Paper - OBFHELPER
+        private final Date field_152673_c;
 
         private ProfileEntry(GameProfile gameprofile, Date date) {
-            this.gameProfile = gameprofile;
-            this.expirationDate = date;
+            this.field_152672_b = gameprofile;
+            this.field_152673_c = date;
         }
 
-        public GameProfile getGameProfile() {
-            return this.gameProfile;
+        public GameProfile func_152668_a() {
+            return this.field_152672_b;
         }
 
-        public Date getExpirationDate() {
-            return this.expirationDate;
+        public Date func_152670_b() {
+            return this.field_152673_c;
         }
 
         ProfileEntry(GameProfile gameprofile, Date date, Object object) {
@@ -321,11 +321,11 @@ public class PlayerProfileCache {
         public JsonElement serialize(PlayerProfileCache.ProfileEntry usercache_usercacheentry, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
-            jsonobject.addProperty("name", usercache_usercacheentry.getGameProfile().getName());
-            UUID uuid = usercache_usercacheentry.getGameProfile().getId();
+            jsonobject.addProperty("name", usercache_usercacheentry.func_152668_a().getName());
+            UUID uuid = usercache_usercacheentry.func_152668_a().getId();
 
             jsonobject.addProperty("uuid", uuid == null ? "" : uuid.toString());
-            jsonobject.addProperty("expiresOn", PlayerProfileCache.DATE_FORMAT.format(usercache_usercacheentry.getExpirationDate()));
+            jsonobject.addProperty("expiresOn", PlayerProfileCache.field_152659_a.format(usercache_usercacheentry.func_152670_b()));
             return jsonobject;
         }
 
@@ -343,7 +343,7 @@ public class PlayerProfileCache {
 
                     if (jsonelement3 != null) {
                         try {
-                            date = PlayerProfileCache.DATE_FORMAT.parse(jsonelement3.getAsString());
+                            date = PlayerProfileCache.field_152659_a.parse(jsonelement3.getAsString());
                         } catch (ParseException parseexception) {
                             date = null;
                         }

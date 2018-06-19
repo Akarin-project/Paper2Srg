@@ -40,100 +40,100 @@ public class CraftAreaEffectCloud extends CraftEntity implements AreaEffectCloud
 
     @Override
     public int getDuration() {
-        return getHandle().getDuration();
+        return getHandle().func_184489_o();
     }
 
     @Override
     public void setDuration(int duration) {
-        getHandle().setDuration(duration);
+        getHandle().func_184486_b(duration);
     }
 
     @Override
     public int getWaitTime() {
-        return getHandle().waitTime;
+        return getHandle().field_184506_as;
     }
 
     @Override
     public void setWaitTime(int waitTime) {
-        getHandle().setWaitTime(waitTime);
+        getHandle().func_184485_d(waitTime);
     }
 
     @Override
     public int getReapplicationDelay() {
-        return getHandle().reapplicationDelay;
+        return getHandle().field_184507_at;
     }
 
     @Override
     public void setReapplicationDelay(int delay) {
-        getHandle().reapplicationDelay = delay;
+        getHandle().field_184507_at = delay;
     }
 
     @Override
     public int getDurationOnUse() {
-        return getHandle().durationOnUse;
+        return getHandle().field_184509_av;
     }
 
     @Override
     public void setDurationOnUse(int duration) {
-        getHandle().durationOnUse = duration;
+        getHandle().field_184509_av = duration;
     }
 
     @Override
     public float getRadius() {
-        return getHandle().getRadius();
+        return getHandle().func_184490_j();
     }
 
     @Override
     public void setRadius(float radius) {
-        getHandle().setRadius(radius);
+        getHandle().func_184483_a(radius);
     }
 
     @Override
     public float getRadiusOnUse() {
-        return getHandle().radiusOnUse;
+        return getHandle().field_184510_aw;
     }
 
     @Override
     public void setRadiusOnUse(float radius) {
-        getHandle().setRadiusOnUse(radius);
+        getHandle().func_184495_b(radius);
     }
 
     @Override
     public float getRadiusPerTick() {
-        return getHandle().radiusPerTick;
+        return getHandle().field_184511_ax;
     }
 
     @Override
     public void setRadiusPerTick(float radius) {
-        getHandle().setRadiusPerTick(radius);
+        getHandle().func_184487_c(radius);
     }
 
     @Override
     public Particle getParticle() {
-        return CraftParticle.toBukkit(getHandle().getParticle());
+        return CraftParticle.toBukkit(getHandle().func_184493_l());
     }
 
     @Override
     public void setParticle(Particle particle) {
-        getHandle().setParticle(CraftParticle.toNMS(particle));
+        getHandle().func_184491_a(CraftParticle.toNMS(particle));
     }
 
     @Override
     public Color getColor() {
-        return Color.fromRGB(getHandle().getColor());
+        return Color.fromRGB(getHandle().func_184492_k());
     }
 
     @Override
     public void setColor(Color color) {
-        getHandle().setColor(color.asRGB());
+        getHandle().func_184482_a(color.asRGB());
     }
 
     @Override
     public boolean addCustomEffect(PotionEffect effect, boolean override) {
         int effectId = effect.getType().getId();
         PotionEffect existing = null;
-        for (PotionEffect mobEffect : getHandle().effects) {
-            if (Potion.getIdFromPotion(mobEffect.getPotion()) == effectId) {
+        for (PotionEffect mobEffect : getHandle().field_184503_f) {
+            if (Potion.func_188409_a(mobEffect.func_188419_a()) == effectId) {
                 existing = mobEffect;
             }
         }
@@ -141,23 +141,23 @@ public class CraftAreaEffectCloud extends CraftEntity implements AreaEffectCloud
             if (!override) {
                 return false;
             }
-            getHandle().effects.remove(existing);
+            getHandle().field_184503_f.remove(existing);
         }
-        getHandle().addEffect(CraftPotionUtil.fromBukkit(effect));
+        getHandle().func_184496_a(CraftPotionUtil.fromBukkit(effect));
         getHandle().refreshEffects();
         return true;
     }
 
     @Override
     public void clearCustomEffects() {
-        getHandle().effects.clear();
+        getHandle().field_184503_f.clear();
         getHandle().refreshEffects();
     }
 
     @Override
     public List<PotionEffect> getCustomEffects() {
         ImmutableList.Builder<PotionEffect> builder = ImmutableList.builder();
-        for (PotionEffect effect : getHandle().effects) {
+        for (PotionEffect effect : getHandle().field_184503_f) {
             builder.add(CraftPotionUtil.toBukkit(effect));
         }
         return builder.build();
@@ -165,8 +165,8 @@ public class CraftAreaEffectCloud extends CraftEntity implements AreaEffectCloud
 
     @Override
     public boolean hasCustomEffect(PotionEffectType type) {
-        for (PotionEffect effect : getHandle().effects) {
-            if (CraftPotionUtil.equals(effect.getPotion(), type)) {
+        for (PotionEffect effect : getHandle().field_184503_f) {
+            if (CraftPotionUtil.equals(effect.func_188419_a(), type)) {
                 return true;
             }
         }
@@ -175,22 +175,22 @@ public class CraftAreaEffectCloud extends CraftEntity implements AreaEffectCloud
 
     @Override
     public boolean hasCustomEffects() {
-        return !getHandle().effects.isEmpty();
+        return !getHandle().field_184503_f.isEmpty();
     }
 
     @Override
     public boolean removeCustomEffect(PotionEffectType effect) {
         int effectId = effect.getId();
         PotionEffect existing = null;
-        for (PotionEffect mobEffect : getHandle().effects) {
-            if (Potion.getIdFromPotion(mobEffect.getPotion()) == effectId) {
+        for (PotionEffect mobEffect : getHandle().field_184503_f) {
+            if (Potion.func_188409_a(mobEffect.func_188419_a()) == effectId) {
                 existing = mobEffect;
             }
         }
         if (existing == null) {
             return false;
         }
-        getHandle().effects.remove(existing);
+        getHandle().field_184503_f.remove(existing);
         getHandle().refreshEffects();
         return true;
     }
@@ -207,15 +207,15 @@ public class CraftAreaEffectCloud extends CraftEntity implements AreaEffectCloud
     }
 
     public ProjectileSource getSource() {
-        EntityLivingBase source = getHandle().getOwner();
+        EntityLivingBase source = getHandle().func_184494_w();
         return (source == null) ? null : (LivingEntity) source.getBukkitEntity();
     }
 
     public void setSource(ProjectileSource shooter) {
         if (shooter instanceof CraftLivingEntity) {
-            getHandle().setOwner((EntityLivingBase) ((CraftLivingEntity) shooter).getHandle());
+            getHandle().func_184481_a((EntityLivingBase) ((CraftLivingEntity) shooter).getHandle());
         } else {
-            getHandle().setOwner((EntityLivingBase) null);
+            getHandle().func_184481_a((EntityLivingBase) null);
         }
     }
 }

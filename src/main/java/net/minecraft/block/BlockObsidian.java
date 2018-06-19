@@ -14,15 +14,15 @@ import net.minecraft.world.IBlockAccess;
 public class BlockObsidian extends Block {
 
     public BlockObsidian() {
-        super(Material.ROCK);
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151576_e);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Item.getItemFromBlock(Blocks.OBSIDIAN);
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Item.func_150898_a(Blocks.field_150343_Z);
     }
 
-    public MapColor getMapColor(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return MapColor.BLACK;
+    public MapColor func_180659_g(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return MapColor.field_151646_E;
     }
 }

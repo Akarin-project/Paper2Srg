@@ -17,9 +17,9 @@ public class RecipeIterator implements Iterator<Recipe> {
     private Iterator<?> removeFrom = null;
 
     public RecipeIterator() {
-        this.recipes = CraftingManager.REGISTRY.iterator();
-        this.smeltingCustom = FurnaceRecipes.instance().customRecipes.keySet().iterator();
-        this.smeltingVanilla = FurnaceRecipes.instance().smeltingList.keySet().iterator();
+        this.recipes = CraftingManager.field_193380_a.iterator();
+        this.smeltingCustom = FurnaceRecipes.func_77602_a().customRecipes.keySet().iterator();
+        this.smeltingVanilla = FurnaceRecipes.func_77602_a().field_77604_b.keySet().iterator();
     }
 
     public boolean hasNext() {
@@ -40,7 +40,7 @@ public class RecipeIterator implements Iterator<Recipe> {
                 item = smeltingVanilla.next();
             }
 
-            CraftItemStack stack = CraftItemStack.asCraftMirror(FurnaceRecipes.instance().getSmeltingResult(item));
+            CraftItemStack stack = CraftItemStack.asCraftMirror(FurnaceRecipes.func_77602_a().func_151395_a(item));
 
             return new CraftFurnaceRecipe(stack, CraftItemStack.asCraftMirror(item));
         }

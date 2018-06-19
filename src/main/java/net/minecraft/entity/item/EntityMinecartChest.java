@@ -23,40 +23,40 @@ public class EntityMinecartChest extends EntityMinecartContainer {
         super(world, d0, d1, d2);
     }
 
-    public static void registerFixesMinecartChest(DataFixer dataconvertermanager) {
-        EntityMinecartContainer.addDataFixers(dataconvertermanager, EntityMinecartChest.class);
+    public static void func_189681_a(DataFixer dataconvertermanager) {
+        EntityMinecartContainer.func_190574_b(dataconvertermanager, EntityMinecartChest.class);
     }
 
-    public void killMinecart(DamageSource damagesource) {
-        super.killMinecart(damagesource);
-        if (this.world.getGameRules().getBoolean("doEntityDrops")) {
-            this.dropItemWithOffset(Item.getItemFromBlock(Blocks.CHEST), 1, 0.0F);
+    public void func_94095_a(DamageSource damagesource) {
+        super.func_94095_a(damagesource);
+        if (this.field_70170_p.func_82736_K().func_82766_b("doEntityDrops")) {
+            this.func_145778_a(Item.func_150898_a(Blocks.field_150486_ae), 1, 0.0F);
         }
 
     }
 
-    public int getSizeInventory() {
+    public int func_70302_i_() {
         return 27;
     }
 
-    public EntityMinecart.Type getType() {
+    public EntityMinecart.Type func_184264_v() {
         return EntityMinecart.Type.CHEST;
     }
 
-    public IBlockState getDefaultDisplayTile() {
-        return Blocks.CHEST.getDefaultState().withProperty(BlockChest.FACING, EnumFacing.NORTH);
+    public IBlockState func_180457_u() {
+        return Blocks.field_150486_ae.func_176223_P().func_177226_a(BlockChest.field_176459_a, EnumFacing.NORTH);
     }
 
-    public int getDefaultDisplayTileOffset() {
+    public int func_94085_r() {
         return 8;
     }
 
-    public String getGuiID() {
+    public String func_174875_k() {
         return "minecraft:chest";
     }
 
-    public Container createContainer(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
-        this.addLoot(entityhuman);
+    public Container func_174876_a(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
+        this.func_184288_f(entityhuman);
         return new ContainerChest(playerinventory, this, entityhuman);
     }
 }

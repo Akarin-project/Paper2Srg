@@ -38,71 +38,71 @@ import net.minecraft.util.text.TextComponentString;
 
 public class NetworkSystem {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    public static final LazyLoadBase<NioEventLoopGroup> SERVER_NIO_EVENTLOOP = new LazyLoadBase() {
+    private static final Logger field_151275_b = LogManager.getLogger();
+    public static final LazyLoadBase<NioEventLoopGroup> field_151276_c = new LazyLoadBase() {
         protected NioEventLoopGroup a() {
             return new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Server IO #%d").setDaemon(true).build());
         }
 
-        protected Object load() {
+        protected Object func_179280_b() {
             return this.a();
         }
     };
-    public static final LazyLoadBase<EpollEventLoopGroup> SERVER_EPOLL_EVENTLOOP = new LazyLoadBase() {
+    public static final LazyLoadBase<EpollEventLoopGroup> field_181141_b = new LazyLoadBase() {
         protected EpollEventLoopGroup a() {
             return new EpollEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Epoll Server IO #%d").setDaemon(true).build());
         }
 
-        protected Object load() {
+        protected Object func_179280_b() {
             return this.a();
         }
     };
-    public static final LazyLoadBase<LocalEventLoopGroup> SERVER_LOCAL_EVENTLOOP = new LazyLoadBase() {
+    public static final LazyLoadBase<LocalEventLoopGroup> field_180232_b = new LazyLoadBase() {
         protected LocalEventLoopGroup a() {
             return new LocalEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Local Server IO #%d").setDaemon(true).build());
         }
 
-        protected Object load() {
+        protected Object func_179280_b() {
             return this.a();
         }
     };
-    private final MinecraftServer mcServer;
-    public volatile boolean isAlive;
-    private final List<ChannelFuture> endpoints = Collections.synchronizedList(Lists.newArrayList());
-    private final List<NetworkManager> networkManagers = Collections.synchronizedList(Lists.newArrayList());
+    private final MinecraftServer field_151273_d;
+    public volatile boolean field_151277_a;
+    private final List<ChannelFuture> field_151274_e = Collections.synchronizedList(Lists.newArrayList());
+    private final List<NetworkManager> field_151272_f = Collections.synchronizedList(Lists.newArrayList());
     // Paper start - prevent blocking on adding a new network manager while the server is ticking
     private final List<NetworkManager> pending = Collections.synchronizedList(Lists.<NetworkManager>newArrayList());
     private void addPending() {
         synchronized (pending) {
-            this.networkManagers.addAll(pending); // Paper - OBFHELPER - List of network managers
+            this.field_151272_f.addAll(pending); // Paper - OBFHELPER - List of network managers
             pending.clear();
         }
     }
     // Paper end
 
     public NetworkSystem(MinecraftServer minecraftserver) {
-        this.mcServer = minecraftserver;
-        this.isAlive = true;
+        this.field_151273_d = minecraftserver;
+        this.field_151277_a = true;
     }
 
-    public void addLanEndpoint(InetAddress inetaddress, int i) throws IOException {
-        List list = this.endpoints;
+    public void func_151265_a(InetAddress inetaddress, int i) throws IOException {
+        List list = this.field_151274_e;
 
-        synchronized (this.endpoints) {
+        synchronized (this.field_151274_e) {
             Class oclass;
             LazyLoadBase lazyinitvar;
 
-            if (Epoll.isAvailable() && this.mcServer.shouldUseNativeTransport()) {
+            if (Epoll.isAvailable() && this.field_151273_d.func_181035_ah()) {
                 oclass = EpollServerSocketChannel.class;
-                lazyinitvar = NetworkSystem.SERVER_EPOLL_EVENTLOOP;
-                NetworkSystem.LOGGER.info("Using epoll channel type");
+                lazyinitvar = NetworkSystem.field_181141_b;
+                NetworkSystem.field_151275_b.info("Using epoll channel type");
             } else {
                 oclass = NioServerSocketChannel.class;
-                lazyinitvar = NetworkSystem.SERVER_NIO_EVENTLOOP;
-                NetworkSystem.LOGGER.info("Using default channel type");
+                lazyinitvar = NetworkSystem.field_151276_c;
+                NetworkSystem.field_151275_b.info("Using default channel type");
             }
 
-            this.endpoints.add(((ServerBootstrap) ((ServerBootstrap) (new ServerBootstrap()).channel(oclass)).childHandler(new ChannelInitializer() {
+            this.field_151274_e.add(((ServerBootstrap) ((ServerBootstrap) (new ServerBootstrap()).channel(oclass)).childHandler(new ChannelInitializer() {
                 protected void initChannel(Channel channel) throws Exception {
                     try {
                         channel.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
@@ -115,15 +115,15 @@ public class NetworkSystem {
 
                     pending.add(networkmanager); // Paper
                     channel.pipeline().addLast("packet_handler", networkmanager);
-                    networkmanager.setNetHandler(new NetHandlerHandshakeTCP(NetworkSystem.this.mcServer, networkmanager));
+                    networkmanager.func_150719_a(new NetHandlerHandshakeTCP(NetworkSystem.this.field_151273_d, networkmanager));
                 }
-            }).group((EventLoopGroup) lazyinitvar.getValue()).localAddress(inetaddress, i)).bind().syncUninterruptibly());
+            }).group((EventLoopGroup) lazyinitvar.func_179281_c()).localAddress(inetaddress, i)).bind().syncUninterruptibly());
         }
     }
 
-    public void terminateEndpoints() {
-        this.isAlive = false;
-        Iterator iterator = this.endpoints.iterator();
+    public void func_151268_b() {
+        this.field_151277_a = false;
+        Iterator iterator = this.field_151274_e.iterator();
 
         while (iterator.hasNext()) {
             ChannelFuture channelfuture = (ChannelFuture) iterator.next();
@@ -131,39 +131,39 @@ public class NetworkSystem {
             try {
                 channelfuture.channel().close().sync();
             } catch (InterruptedException interruptedexception) {
-                NetworkSystem.LOGGER.error("Interrupted whilst closing channel");
+                NetworkSystem.field_151275_b.error("Interrupted whilst closing channel");
             }
         }
 
     }
 
-    public void networkTick() {
-        List list = this.networkManagers;
+    public void func_151269_c() {
+        List list = this.field_151272_f;
 
-        synchronized (this.networkManagers) {
+        synchronized (this.field_151272_f) {
             // Spigot Start
             addPending(); // Paper
             // This prevents players from 'gaming' the server, and strategically relogging to increase their position in the tick order
             if ( org.spigotmc.SpigotConfig.playerShuffle > 0 && MinecraftServer.currentTick % org.spigotmc.SpigotConfig.playerShuffle == 0 )
             {
-                Collections.shuffle( this.networkManagers );
+                Collections.shuffle( this.field_151272_f );
             }
             // Spigot End
-            Iterator iterator = this.networkManagers.iterator();
+            Iterator iterator = this.field_151272_f.iterator();
 
             while (iterator.hasNext()) {
                 final NetworkManager networkmanager = (NetworkManager) iterator.next();
 
-                if (!networkmanager.hasNoChannel()) {
-                    if (networkmanager.isChannelOpen()) {
+                if (!networkmanager.func_179291_h()) {
+                    if (networkmanager.func_150724_d()) {
                         try {
-                            networkmanager.processReceivedPackets();
+                            networkmanager.func_74428_b();
                         } catch (Exception exception) {
-                            if (networkmanager.isLocalChannel()) {
-                                CrashReport crashreport = CrashReport.makeCrashReport(exception, "Ticking memory connection");
-                                CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("Ticking connection");
+                            if (networkmanager.func_150731_c()) {
+                                CrashReport crashreport = CrashReport.func_85055_a(exception, "Ticking memory connection");
+                                CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Ticking connection");
 
-                                crashreportsystemdetails.addDetail("Connection", new ICrashReportDetail() {
+                                crashreportsystemdetails.func_189529_a("Connection", new ICrashReportDetail() {
                                     public String a() throws Exception {
                                         return networkmanager.toString();
                                     }
@@ -175,15 +175,15 @@ public class NetworkSystem {
                                 throw new ReportedException(crashreport);
                             }
 
-                            NetworkSystem.LOGGER.warn("Failed to handle packet for {}", networkmanager.getRemoteAddress(), exception);
+                            NetworkSystem.field_151275_b.warn("Failed to handle packet for {}", networkmanager.func_74430_c(), exception);
                             final TextComponentString chatcomponenttext = new TextComponentString("Internal server error");
 
-                            networkmanager.sendPacket(new SPacketDisconnect(chatcomponenttext), new GenericFutureListener() {
+                            networkmanager.func_179288_a(new SPacketDisconnect(chatcomponenttext), new GenericFutureListener() {
                                 public void operationComplete(Future future) throws Exception {
-                                    networkmanager.closeChannel(chatcomponenttext);
+                                    networkmanager.func_150718_a(chatcomponenttext);
                                 }
                             }, new GenericFutureListener[0]);
-                            networkmanager.disableAutoRead();
+                            networkmanager.func_150721_g();
                         }
                     } else {
                         // Spigot Start
@@ -191,7 +191,7 @@ public class NetworkSystem {
                         if (networkmanager.preparing) continue;
                         // Spigot End
                         iterator.remove();
-                        networkmanager.checkDisconnected();
+                        networkmanager.func_179293_l();
                     }
                 }
             }
@@ -199,7 +199,7 @@ public class NetworkSystem {
         }
     }
 
-    public MinecraftServer getServer() {
-        return this.mcServer;
+    public MinecraftServer func_151267_d() {
+        return this.field_151273_d;
     }
 }

@@ -40,11 +40,11 @@ public class CraftMetaSpawnEgg extends CraftMetaItem implements SpawnEggMeta {
     CraftMetaSpawnEgg(NBTTagCompound tag) {
         super(tag);
 
-        if (tag.hasKey(ENTITY_TAG.NBT)) {
-            entityTag = tag.getCompoundTag(ENTITY_TAG.NBT);
+        if (tag.func_74764_b(ENTITY_TAG.NBT)) {
+            entityTag = tag.func_74775_l(ENTITY_TAG.NBT);
 
-            if (entityTag.hasKey(ENTITY_ID.NBT)) {
-                this.spawnedType = EntityType.fromName(new ResourceLocation(entityTag.getString(ENTITY_ID.NBT)).getResourcePath());
+            if (entityTag.func_74764_b(ENTITY_ID.NBT)) {
+                this.spawnedType = EntityType.fromName(new ResourceLocation(entityTag.func_74779_i(ENTITY_ID.NBT)).func_110623_a());
             }
         }
     }
@@ -60,12 +60,12 @@ public class CraftMetaSpawnEgg extends CraftMetaItem implements SpawnEggMeta {
     void deserializeInternal(NBTTagCompound tag) {
         super.deserializeInternal(tag);
 
-        if (tag.hasKey(ENTITY_TAG.NBT)) {
-            entityTag = tag.getCompoundTag(ENTITY_TAG.NBT);
-            MinecraftServer.getServer().dataFixer.process(FixTypes.ENTITY, entityTag); // PAIL: convert
+        if (tag.func_74764_b(ENTITY_TAG.NBT)) {
+            entityTag = tag.func_74775_l(ENTITY_TAG.NBT);
+            MinecraftServer.getServer().field_184112_s.func_188257_a(FixTypes.ENTITY, entityTag); // PAIL: convert
 
-            if (entityTag.hasKey(ENTITY_ID.NBT)) {
-                this.spawnedType = EntityType.fromName(new ResourceLocation(entityTag.getString(ENTITY_ID.NBT)).getResourcePath());
+            if (entityTag.func_74764_b(ENTITY_ID.NBT)) {
+                this.spawnedType = EntityType.fromName(new ResourceLocation(entityTag.func_74779_i(ENTITY_ID.NBT)).func_110623_a());
             }
         }
     }
@@ -86,11 +86,11 @@ public class CraftMetaSpawnEgg extends CraftMetaItem implements SpawnEggMeta {
         }
 
         if (hasSpawnedType()) {
-            entityTag.setString(ENTITY_ID.NBT, new ResourceLocation(spawnedType.getName()).toString());
+            entityTag.func_74778_a(ENTITY_ID.NBT, new ResourceLocation(spawnedType.getName()).toString());
         }
 
         if (entityTag != null) {
-            tag.setTag(ENTITY_TAG.NBT, entityTag);
+            tag.func_74782_a(ENTITY_TAG.NBT, entityTag);
         }
     }
 
@@ -180,7 +180,7 @@ public class CraftMetaSpawnEgg extends CraftMetaItem implements SpawnEggMeta {
 
         clone.spawnedType = spawnedType;
         if (entityTag != null) {
-            clone.entityTag = entityTag.copy();
+            clone.entityTag = entityTag.func_74737_b();
         }
 
         return clone;

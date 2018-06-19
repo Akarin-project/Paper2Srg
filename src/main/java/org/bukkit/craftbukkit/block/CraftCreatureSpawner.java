@@ -21,8 +21,8 @@ public class CraftCreatureSpawner extends CraftBlockEntityState<TileEntityMobSpa
 
     @Override
     public EntityType getSpawnedType() {
-        ResourceLocation key = this.getSnapshot().getSpawnerBaseLogic().getEntityId();
-        return (key == null) ? EntityType.PIG : EntityType.fromName(key.getResourcePath());
+        ResourceLocation key = this.getSnapshot().func_145881_a().func_190895_g();
+        return (key == null) ? EntityType.PIG : EntityType.fromName(key.func_110623_a());
     }
 
     @Override
@@ -31,12 +31,12 @@ public class CraftCreatureSpawner extends CraftBlockEntityState<TileEntityMobSpa
             throw new IllegalArgumentException("Can't spawn EntityType " + entityType + " from mobspawners!");
         }
 
-        this.getSnapshot().getSpawnerBaseLogic().setEntityId(new ResourceLocation(entityType.getName()));
+        this.getSnapshot().func_145881_a().func_190894_a(new ResourceLocation(entityType.getName()));
     }
 
     @Override
     public String getCreatureTypeName() {
-        return this.getSnapshot().getSpawnerBaseLogic().getEntityId().getResourcePath();
+        return this.getSnapshot().func_145881_a().func_190895_g().func_110623_a();
     }
 
     @Override
@@ -51,74 +51,74 @@ public class CraftCreatureSpawner extends CraftBlockEntityState<TileEntityMobSpa
 
     @Override
     public int getDelay() {
-        return this.getSnapshot().getSpawnerBaseLogic().spawnDelay;
+        return this.getSnapshot().func_145881_a().field_98286_b;
     }
 
     @Override
     public void setDelay(int delay) {
-        this.getSnapshot().getSpawnerBaseLogic().spawnDelay = delay;
+        this.getSnapshot().func_145881_a().field_98286_b = delay;
     }
 
     @Override
     public int getMinSpawnDelay() {
-        return this.getSnapshot().getSpawnerBaseLogic().minSpawnDelay;
+        return this.getSnapshot().func_145881_a().field_98283_g;
     }
 
     @Override
     public void setMinSpawnDelay(int spawnDelay) {
         Preconditions.checkArgument(spawnDelay <= getMaxSpawnDelay(), "Minimum Spawn Delay must be less than or equal to Maximum Spawn Delay");
-        this.getSnapshot().getSpawnerBaseLogic().minSpawnDelay = spawnDelay;
+        this.getSnapshot().func_145881_a().field_98283_g = spawnDelay;
     }
 
     @Override
     public int getMaxSpawnDelay() {
-        return this.getSnapshot().getSpawnerBaseLogic().maxSpawnDelay;
+        return this.getSnapshot().func_145881_a().field_98293_h;
     }
 
     @Override
     public void setMaxSpawnDelay(int spawnDelay) {
         Preconditions.checkArgument(spawnDelay > 0, "Maximum Spawn Delay must be greater than 0.");
         Preconditions.checkArgument(spawnDelay >= getMinSpawnDelay(), "Maximum Spawn Delay must be greater than or equal to Minimum Spawn Delay");
-        this.getSnapshot().getSpawnerBaseLogic().maxSpawnDelay = spawnDelay;
+        this.getSnapshot().func_145881_a().field_98293_h = spawnDelay;
     }
 
     @Override
     public int getMaxNearbyEntities() {
-        return this.getSnapshot().getSpawnerBaseLogic().maxNearbyEntities;
+        return this.getSnapshot().func_145881_a().field_98292_k;
     }
 
     @Override
     public void setMaxNearbyEntities(int maxNearbyEntities) {
-        this.getSnapshot().getSpawnerBaseLogic().maxNearbyEntities = maxNearbyEntities;
+        this.getSnapshot().func_145881_a().field_98292_k = maxNearbyEntities;
     }
 
     @Override
     public int getSpawnCount() {
-        return this.getSnapshot().getSpawnerBaseLogic().spawnCount;
+        return this.getSnapshot().func_145881_a().field_98294_i;
     }
 
     @Override
     public void setSpawnCount(int count) {
-        this.getSnapshot().getSpawnerBaseLogic().spawnCount = count;
+        this.getSnapshot().func_145881_a().field_98294_i = count;
     }
 
     @Override
     public int getRequiredPlayerRange() {
-        return this.getSnapshot().getSpawnerBaseLogic().activatingRangeFromPlayer;
+        return this.getSnapshot().func_145881_a().field_98289_l;
     }
 
     @Override
     public void setRequiredPlayerRange(int requiredPlayerRange) {
-        this.getSnapshot().getSpawnerBaseLogic().activatingRangeFromPlayer = requiredPlayerRange;
+        this.getSnapshot().func_145881_a().field_98289_l = requiredPlayerRange;
     }
 
     @Override
     public int getSpawnRange() {
-        return this.getSnapshot().getSpawnerBaseLogic().spawnRange;
+        return this.getSnapshot().func_145881_a().field_98290_m;
     }
 
     @Override
     public void setSpawnRange(int spawnRange) {
-        this.getSnapshot().getSpawnerBaseLogic().spawnRange = spawnRange;
+        this.getSnapshot().func_145881_a().field_98290_m = spawnRange;
     }
 }

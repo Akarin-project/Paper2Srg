@@ -4,20 +4,20 @@ public class GenLayerVoronoiZoom extends GenLayer {
 
     public GenLayerVoronoiZoom(long i, GenLayer genlayer) {
         super(i);
-        super.parent = genlayer;
+        super.field_75909_a = genlayer;
     }
 
-    public int[] getInts(int i, int j, int k, int l) {
+    public int[] func_75904_a(int i, int j, int k, int l) {
         i -= 2;
         j -= 2;
         int i1 = i >> 2;
         int j1 = j >> 2;
         int k1 = (k >> 2) + 2;
         int l1 = (l >> 2) + 2;
-        int[] aint = this.parent.getInts(i1, j1, k1, l1);
+        int[] aint = this.field_75909_a.func_75904_a(i1, j1, k1, l1);
         int i2 = k1 - 1 << 2;
         int j2 = l1 - 1 << 2;
-        int[] aint1 = IntCache.getIntCache(i2 * j2);
+        int[] aint1 = IntCache.func_76445_a(i2 * j2);
 
         int k2;
 
@@ -28,21 +28,21 @@ public class GenLayerVoronoiZoom extends GenLayer {
             for (int j3 = aint[k2 + 0 + (l2 + 1) * k1]; k2 < k1 - 1; ++k2) {
                 double d0 = 3.6D;
 
-                this.initChunkSeed((long) (k2 + i1 << 2), (long) (l2 + j1 << 2));
-                double d1 = ((double) this.nextInt(1024) / 1024.0D - 0.5D) * 3.6D;
-                double d2 = ((double) this.nextInt(1024) / 1024.0D - 0.5D) * 3.6D;
+                this.func_75903_a((long) (k2 + i1 << 2), (long) (l2 + j1 << 2));
+                double d1 = ((double) this.func_75902_a(1024) / 1024.0D - 0.5D) * 3.6D;
+                double d2 = ((double) this.func_75902_a(1024) / 1024.0D - 0.5D) * 3.6D;
 
-                this.initChunkSeed((long) (k2 + i1 + 1 << 2), (long) (l2 + j1 << 2));
-                double d3 = ((double) this.nextInt(1024) / 1024.0D - 0.5D) * 3.6D + 4.0D;
-                double d4 = ((double) this.nextInt(1024) / 1024.0D - 0.5D) * 3.6D;
+                this.func_75903_a((long) (k2 + i1 + 1 << 2), (long) (l2 + j1 << 2));
+                double d3 = ((double) this.func_75902_a(1024) / 1024.0D - 0.5D) * 3.6D + 4.0D;
+                double d4 = ((double) this.func_75902_a(1024) / 1024.0D - 0.5D) * 3.6D;
 
-                this.initChunkSeed((long) (k2 + i1 << 2), (long) (l2 + j1 + 1 << 2));
-                double d5 = ((double) this.nextInt(1024) / 1024.0D - 0.5D) * 3.6D;
-                double d6 = ((double) this.nextInt(1024) / 1024.0D - 0.5D) * 3.6D + 4.0D;
+                this.func_75903_a((long) (k2 + i1 << 2), (long) (l2 + j1 + 1 << 2));
+                double d5 = ((double) this.func_75902_a(1024) / 1024.0D - 0.5D) * 3.6D;
+                double d6 = ((double) this.func_75902_a(1024) / 1024.0D - 0.5D) * 3.6D + 4.0D;
 
-                this.initChunkSeed((long) (k2 + i1 + 1 << 2), (long) (l2 + j1 + 1 << 2));
-                double d7 = ((double) this.nextInt(1024) / 1024.0D - 0.5D) * 3.6D + 4.0D;
-                double d8 = ((double) this.nextInt(1024) / 1024.0D - 0.5D) * 3.6D + 4.0D;
+                this.func_75903_a((long) (k2 + i1 + 1 << 2), (long) (l2 + j1 + 1 << 2));
+                double d7 = ((double) this.func_75902_a(1024) / 1024.0D - 0.5D) * 3.6D + 4.0D;
+                double d8 = ((double) this.func_75902_a(1024) / 1024.0D - 0.5D) * 3.6D + 4.0D;
                 int k3 = aint[k2 + 1 + (l2 + 0) * k1] & 255;
                 int l3 = aint[k2 + 1 + (l2 + 1) * k1] & 255;
 
@@ -72,7 +72,7 @@ public class GenLayerVoronoiZoom extends GenLayer {
             }
         }
 
-        int[] aint2 = IntCache.getIntCache(k * l);
+        int[] aint2 = IntCache.func_76445_a(k * l);
 
         for (k2 = 0; k2 < l; ++k2) {
             System.arraycopy(aint1, (k2 + (j & 3)) * i2 + (i & 3), aint2, k2 * k, k);

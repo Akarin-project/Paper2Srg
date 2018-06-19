@@ -9,13 +9,13 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockStainedHardenedClay extends BlockColored {
 
-    private static final MapColor[] MAP_COLORS = new MapColor[] { MapColor.WHITE_STAINED_HARDENED_CLAY, MapColor.ORANGE_STAINED_HARDENED_CLAY, MapColor.MAGENTA_STAINED_HARDENED_CLAY, MapColor.LIGHT_BLUE_STAINED_HARDENED_CLAY, MapColor.YELLOW_STAINED_HARDENED_CLAY, MapColor.LIME_STAINED_HARDENED_CLAY, MapColor.PINK_STAINED_HARDENED_CLAY, MapColor.GRAY_STAINED_HARDENED_CLAY, MapColor.SILVER_STAINED_HARDENED_CLAY, MapColor.CYAN_STAINED_HARDENED_CLAY, MapColor.PURPLE_STAINED_HARDENED_CLAY, MapColor.BLUE_STAINED_HARDENED_CLAY, MapColor.BROWN_STAINED_HARDENED_CLAY, MapColor.GREEN_STAINED_HARDENED_CLAY, MapColor.RED_STAINED_HARDENED_CLAY, MapColor.BLACK_STAINED_HARDENED_CLAY};
+    private static final MapColor[] field_193389_b = new MapColor[] { MapColor.field_193561_M, MapColor.field_193562_N, MapColor.field_193563_O, MapColor.field_193564_P, MapColor.field_193565_Q, MapColor.field_193566_R, MapColor.field_193567_S, MapColor.field_193568_T, MapColor.field_193569_U, MapColor.field_193570_V, MapColor.field_193571_W, MapColor.field_193572_X, MapColor.field_193573_Y, MapColor.field_193574_Z, MapColor.field_193559_aa, MapColor.field_193560_ab};
 
     public BlockStainedHardenedClay() {
-        super(Material.ROCK);
+        super(Material.field_151576_e);
     }
 
-    public MapColor getMapColor(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockStainedHardenedClay.MAP_COLORS[((EnumDyeColor) iblockdata.getValue(BlockStainedHardenedClay.COLOR)).getMetadata()];
+    public MapColor func_180659_g(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockStainedHardenedClay.field_193389_b[((EnumDyeColor) iblockdata.func_177229_b(BlockStainedHardenedClay.field_176581_a)).func_176765_a()];
     }
 }

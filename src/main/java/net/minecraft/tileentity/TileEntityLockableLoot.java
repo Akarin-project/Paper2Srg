@@ -22,29 +22,29 @@ import net.minecraft.world.storage.loot.LootTable;
 
 public abstract class TileEntityLockableLoot extends TileEntityLockable implements ILootContainer, CraftLootableInventory { // Paper
 
-    protected ResourceLocation lootTable;
-    protected long lootTableSeed; public long getLootTableSeed() { return lootTableSeed; } // Paper - OBFHELPER
-    protected String customName;
+    protected ResourceLocation field_184284_m;
+    protected long field_184285_n; public long getLootTableSeed() { return field_184285_n; } // Paper - OBFHELPER
+    protected String field_190577_o;
 
     public TileEntityLockableLoot() {}
 
-    protected boolean checkLootAndRead(NBTTagCompound nbttagcompound) {
+    protected boolean func_184283_b(NBTTagCompound nbttagcompound) {
         lootableData.loadNbt(nbttagcompound); // Paper
-        if (nbttagcompound.hasKey("LootTable", 8)) {
-            this.lootTable = new ResourceLocation(nbttagcompound.getString("LootTable"));
-            this.lootTableSeed = nbttagcompound.getLong("LootTableSeed");
+        if (nbttagcompound.func_150297_b("LootTable", 8)) {
+            this.field_184284_m = new ResourceLocation(nbttagcompound.func_74779_i("LootTable"));
+            this.field_184285_n = nbttagcompound.func_74763_f("LootTableSeed");
             return false; // Paper - always load the items, table may still remain
         } else {
             return false;
         }
     }
 
-    protected boolean checkLootAndWrite(NBTTagCompound nbttagcompound) {
+    protected boolean func_184282_c(NBTTagCompound nbttagcompound) {
         lootableData.saveNbt(nbttagcompound); // Paper
-        if (this.lootTable != null) {
-            nbttagcompound.setString("LootTable", this.lootTable.toString());
-            if (this.lootTableSeed != 0L) {
-                nbttagcompound.setLong("LootTableSeed", this.lootTableSeed);
+        if (this.field_184284_m != null) {
+            nbttagcompound.func_74778_a("LootTable", this.field_184284_m.toString());
+            if (this.field_184285_n != 0L) {
+                nbttagcompound.func_74772_a("LootTableSeed", this.field_184285_n);
             }
 
             return false; // Paper - always save the items, table may still remain
@@ -53,108 +53,108 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
         }
     }
 
-    public void fillWithLoot(@Nullable EntityPlayer entityhuman) {
+    public void func_184281_d(@Nullable EntityPlayer entityhuman) {
         if (lootableData.shouldReplenish(entityhuman)) { // Paper
-            LootTable loottable = this.world.getLootTableManager().getLootTableFromLocation(this.lootTable);
+            LootTable loottable = this.field_145850_b.func_184146_ak().func_186521_a(this.field_184284_m);
 
             lootableData.processRefill(entityhuman); // Paper
             Random random;
 
-            if (this.lootTableSeed == 0L) {
+            if (this.field_184285_n == 0L) {
                 random = new Random();
             } else {
-                random = new Random(this.lootTableSeed);
+                random = new Random(this.field_184285_n);
             }
 
-            LootTableInfo.a loottableinfo_a = new LootTableInfo.a((WorldServer) this.world);
+            LootTableInfo.a loottableinfo_a = new LootTableInfo.a((WorldServer) this.field_145850_b);
 
             if (entityhuman != null) {
-                loottableinfo_a.a(entityhuman.getLuck());
+                loottableinfo_a.a(entityhuman.func_184817_da());
             }
 
-            loottable.fillInventory(this, random, loottableinfo_a.a());
+            loottable.func_186460_a(this, random, loottableinfo_a.a());
         }
 
     }
 
-    public ResourceLocation getLootTableKey() { return getLootTable(); } // Paper - OBFHELPER
-    public ResourceLocation getLootTable() {
-        return this.lootTable;
+    public ResourceLocation getLootTableKey() { return func_184276_b(); } // Paper - OBFHELPER
+    public ResourceLocation func_184276_b() {
+        return this.field_184284_m;
     }
 
-    public void setLootTable(ResourceLocation key, long seed) { setLootTable(key, seed);} // Paper - OBFHELPER
-    public void setLootTable(ResourceLocation minecraftkey, long i) {
-        this.lootTable = minecraftkey;
-        this.lootTableSeed = i;
+    public void setLootTable(ResourceLocation key, long seed) { func_189404_a(key, seed);} // Paper - OBFHELPER
+    public void func_189404_a(ResourceLocation minecraftkey, long i) {
+        this.field_184284_m = minecraftkey;
+        this.field_184285_n = i;
     }
 
-    public boolean hasCustomName() {
-        return this.customName != null && !this.customName.isEmpty();
+    public boolean func_145818_k_() {
+        return this.field_190577_o != null && !this.field_190577_o.isEmpty();
     }
 
-    public void setCustomName(String s) {
-        this.customName = s;
+    public void func_190575_a(String s) {
+        this.field_190577_o = s;
     }
 
-    public ItemStack getStackInSlot(int i) {
-        this.fillWithLoot((EntityPlayer) null);
-        return (ItemStack) this.getItems().get(i);
+    public ItemStack func_70301_a(int i) {
+        this.func_184281_d((EntityPlayer) null);
+        return (ItemStack) this.func_190576_q().get(i);
     }
 
-    public ItemStack decrStackSize(int i, int j) {
-        this.fillWithLoot((EntityPlayer) null);
-        ItemStack itemstack = ItemStackHelper.getAndSplit(this.getItems(), i, j);
+    public ItemStack func_70298_a(int i, int j) {
+        this.func_184281_d((EntityPlayer) null);
+        ItemStack itemstack = ItemStackHelper.func_188382_a(this.func_190576_q(), i, j);
 
-        if (!itemstack.isEmpty()) {
-            this.markDirty();
+        if (!itemstack.func_190926_b()) {
+            this.func_70296_d();
         }
 
         return itemstack;
     }
 
-    public ItemStack removeStackFromSlot(int i) {
-        this.fillWithLoot((EntityPlayer) null);
-        return ItemStackHelper.getAndRemove(this.getItems(), i);
+    public ItemStack func_70304_b(int i) {
+        this.func_184281_d((EntityPlayer) null);
+        return ItemStackHelper.func_188383_a(this.func_190576_q(), i);
     }
 
-    public void setInventorySlotContents(int i, @Nullable ItemStack itemstack) {
-        this.fillWithLoot((EntityPlayer) null);
-        this.getItems().set(i, itemstack);
-        if (itemstack.getCount() > this.getInventoryStackLimit()) {
-            itemstack.setCount(this.getInventoryStackLimit());
+    public void func_70299_a(int i, @Nullable ItemStack itemstack) {
+        this.func_184281_d((EntityPlayer) null);
+        this.func_190576_q().set(i, itemstack);
+        if (itemstack.func_190916_E() > this.func_70297_j_()) {
+            itemstack.func_190920_e(this.func_70297_j_());
         }
 
-        this.markDirty();
+        this.func_70296_d();
     }
 
-    public boolean isUsableByPlayer(EntityPlayer entityhuman) {
-        return this.world.getTileEntity(this.pos) != this ? false : entityhuman.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+    public boolean func_70300_a(EntityPlayer entityhuman) {
+        return this.field_145850_b.func_175625_s(this.field_174879_c) != this ? false : entityhuman.func_70092_e((double) this.field_174879_c.func_177958_n() + 0.5D, (double) this.field_174879_c.func_177956_o() + 0.5D, (double) this.field_174879_c.func_177952_p() + 0.5D) <= 64.0D;
     }
 
-    public void openInventory(EntityPlayer entityhuman) {}
+    public void func_174889_b(EntityPlayer entityhuman) {}
 
-    public void closeInventory(EntityPlayer entityhuman) {}
+    public void func_174886_c(EntityPlayer entityhuman) {}
 
-    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+    public boolean func_94041_b(int i, ItemStack itemstack) {
         return true;
     }
 
-    public int getField(int i) {
+    public int func_174887_a_(int i) {
         return 0;
     }
 
-    public void setField(int i, int j) {}
+    public void func_174885_b(int i, int j) {}
 
-    public int getFieldCount() {
+    public int func_174890_g() {
         return 0;
     }
 
-    public void clear() {
-        this.fillWithLoot((EntityPlayer) null);
-        this.getItems().clear();
+    public void func_174888_l() {
+        this.func_184281_d((EntityPlayer) null);
+        this.func_190576_q().clear();
     }
 
-    protected abstract NonNullList<ItemStack> getItems();
+    protected abstract NonNullList<ItemStack> func_190576_q();
 
     // Paper start - LootTable API
     private final CraftLootableInventoryData lootableData = new CraftLootableInventoryData(this);
@@ -166,12 +166,12 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
 
     @Override
     public LootableInventory getAPILootableInventory() {
-        return (LootableInventory) getBukkitWorld().getBlockAt(MCUtil.toLocation(world, getPos())).getState();
+        return (LootableInventory) getBukkitWorld().getBlockAt(MCUtil.toLocation(field_145850_b, func_174877_v())).getState();
     }
 
     @Override
     public World getNMSWorld() {
-        return world;
+        return field_145850_b;
     }
 
     public String getLootTableName() {
@@ -189,7 +189,7 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     @Override
     public void clearLootTable() {
         //noinspection RedundantCast
-        this.lootTable = (ResourceLocation) null;
+        this.field_184284_m = (ResourceLocation) null;
     }
     // Paper end
 

@@ -8,24 +8,24 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketResourcePackStatus implements Packet<INetHandlerPlayServer> {
 
-    public CPacketResourcePackStatus.Action action;
+    public CPacketResourcePackStatus.Action field_179719_b;
 
     public CPacketResourcePackStatus() {}
 
     public CPacketResourcePackStatus(CPacketResourcePackStatus.Action packetplayinresourcepackstatus_enumresourcepackstatus) {
-        this.action = packetplayinresourcepackstatus_enumresourcepackstatus;
+        this.field_179719_b = packetplayinresourcepackstatus_enumresourcepackstatus;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.action = (CPacketResourcePackStatus.Action) packetdataserializer.readEnumValue(CPacketResourcePackStatus.Action.class);
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_179719_b = (CPacketResourcePackStatus.Action) packetdataserializer.func_179257_a(CPacketResourcePackStatus.Action.class);
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeEnumValue((Enum) this.action);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179249_a((Enum) this.field_179719_b);
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.handleResourcePackStatus(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_175086_a(this);
     }
 
     public static enum Action {

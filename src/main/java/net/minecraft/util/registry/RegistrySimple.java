@@ -14,56 +14,56 @@ import org.apache.logging.log4j.Logger;
 
 public class RegistrySimple<K, V> implements IRegistry<K, V> {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    protected final Map<K, V> registryObjects = this.createUnderlyingMap();
-    private Object[] values;
+    private static final Logger field_148743_a = LogManager.getLogger();
+    protected final Map<K, V> field_82596_a = this.func_148740_a();
+    private Object[] field_186802_b;
 
     public RegistrySimple() {}
 
-    protected Map<K, V> createUnderlyingMap() {
+    protected Map<K, V> func_148740_a() {
         return Maps.newHashMap();
     }
 
     @Nullable
-    public V getObject(@Nullable K k0) {
-        return this.registryObjects.get(k0);
+    public V func_82594_a(@Nullable K k0) {
+        return this.field_82596_a.get(k0);
     }
 
-    public void putObject(K k0, V v0) {
+    public void func_82595_a(K k0, V v0) {
         Validate.notNull(k0);
         Validate.notNull(v0);
-        this.values = null;
-        if (this.registryObjects.containsKey(k0)) {
-            RegistrySimple.LOGGER.debug("Adding duplicate key \'{}\' to registry", k0);
+        this.field_186802_b = null;
+        if (this.field_82596_a.containsKey(k0)) {
+            RegistrySimple.field_148743_a.debug("Adding duplicate key \'{}\' to registry", k0);
         }
 
-        this.registryObjects.put(k0, v0);
+        this.field_82596_a.put(k0, v0);
     }
 
-    public Set<K> getKeys() {
-        return Collections.unmodifiableSet(this.registryObjects.keySet());
+    public Set<K> func_148742_b() {
+        return Collections.unmodifiableSet(this.field_82596_a.keySet());
     }
 
     @Nullable
-    public V getRandomObject(Random random) {
-        if (this.values == null) {
-            Collection collection = this.registryObjects.values();
+    public V func_186801_a(Random random) {
+        if (this.field_186802_b == null) {
+            Collection collection = this.field_82596_a.values();
 
             if (collection.isEmpty()) {
                 return null;
             }
 
-            this.values = collection.toArray(new Object[collection.size()]);
+            this.field_186802_b = collection.toArray(new Object[collection.size()]);
         }
 
-        return this.values[random.nextInt(this.values.length)];
+        return this.field_186802_b[random.nextInt(this.field_186802_b.length)];
     }
 
-    public boolean containsKey(K k0) {
-        return this.registryObjects.containsKey(k0);
+    public boolean func_148741_d(K k0) {
+        return this.field_82596_a.containsKey(k0);
     }
 
     public Iterator<V> iterator() {
-        return this.registryObjects.values().iterator();
+        return this.field_82596_a.values().iterator();
     }
 }

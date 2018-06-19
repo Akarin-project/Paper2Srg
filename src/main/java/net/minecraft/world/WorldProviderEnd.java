@@ -12,68 +12,68 @@ import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldProviderEnd extends WorldProvider {
 
-    private DragonFightManager dragonFightManager;
+    private DragonFightManager field_186064_g;
 
     public WorldProviderEnd() {}
 
-    public void init() {
-        this.biomeProvider = new BiomeProviderSingle(Biomes.SKY);
-        NBTTagCompound nbttagcompound = this.world.getWorldInfo().getDimensionData(DimensionType.THE_END);
+    public void func_76572_b() {
+        this.field_76578_c = new BiomeProviderSingle(Biomes.field_76779_k);
+        NBTTagCompound nbttagcompound = this.field_76579_a.func_72912_H().func_186347_a(DimensionType.THE_END);
 
-        this.dragonFightManager = this.world instanceof WorldServer ? new DragonFightManager((WorldServer) this.world, nbttagcompound.getCompoundTag("DragonFight")) : null;
+        this.field_186064_g = this.field_76579_a instanceof WorldServer ? new DragonFightManager((WorldServer) this.field_76579_a, nbttagcompound.func_74775_l("DragonFight")) : null;
     }
 
-    public IChunkGenerator createChunkGenerator() {
-        return new ChunkGeneratorEnd(this.world, this.world.getWorldInfo().isMapFeaturesEnabled(), this.world.getSeed(), this.getSpawnCoordinate());
+    public IChunkGenerator func_186060_c() {
+        return new ChunkGeneratorEnd(this.field_76579_a, this.field_76579_a.func_72912_H().func_76089_r(), this.field_76579_a.func_72905_C(), this.func_177496_h());
     }
 
-    public float calculateCelestialAngle(long i, float f) {
+    public float func_76563_a(long i, float f) {
         return 0.0F;
     }
 
-    public boolean canRespawnHere() {
+    public boolean func_76567_e() {
         return false;
     }
 
-    public boolean isSurfaceWorld() {
+    public boolean func_76569_d() {
         return false;
     }
 
-    public boolean canCoordinateBeSpawn(int i, int j) {
-        return this.world.getGroundAboveSeaLevel(new BlockPos(i, 0, j)).getMaterial().blocksMovement();
+    public boolean func_76566_a(int i, int j) {
+        return this.field_76579_a.func_184141_c(new BlockPos(i, 0, j)).func_185904_a().func_76230_c();
     }
 
-    public BlockPos getSpawnCoordinate() {
+    public BlockPos func_177496_h() {
         return new BlockPos(100, 50, 0);
     }
 
-    public int getAverageGroundLevel() {
+    public int func_76557_i() {
         return 50;
     }
 
-    public DimensionType getDimensionType() {
+    public DimensionType func_186058_p() {
         return DimensionType.THE_END;
     }
 
-    public void onWorldSave() {
+    public void func_186057_q() {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-        if (this.dragonFightManager != null) {
-            nbttagcompound.setTag("DragonFight", this.dragonFightManager.getCompound());
+        if (this.field_186064_g != null) {
+            nbttagcompound.func_74782_a("DragonFight", this.field_186064_g.func_186088_a());
         }
 
-        this.world.getWorldInfo().setDimensionData(DimensionType.THE_END, nbttagcompound);
+        this.field_76579_a.func_72912_H().func_186345_a(DimensionType.THE_END, nbttagcompound);
     }
 
-    public void onWorldUpdateEntities() {
-        if (this.dragonFightManager != null) {
-            this.dragonFightManager.tick();
+    public void func_186059_r() {
+        if (this.field_186064_g != null) {
+            this.field_186064_g.func_186105_b();
         }
 
     }
 
     @Nullable
-    public DragonFightManager getDragonFightManager() {
-        return this.dragonFightManager;
+    public DragonFightManager func_186063_s() {
+        return this.field_186064_g;
     }
 }

@@ -9,27 +9,27 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketEntityStatus implements Packet<INetHandlerPlayClient> {
 
-    private int entityId;
-    private byte logicOpcode;
+    private int field_149164_a;
+    private byte field_149163_b;
 
     public SPacketEntityStatus() {}
 
     public SPacketEntityStatus(Entity entity, byte b0) {
-        this.entityId = entity.getEntityId();
-        this.logicOpcode = b0;
+        this.field_149164_a = entity.func_145782_y();
+        this.field_149163_b = b0;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.entityId = packetdataserializer.readInt();
-        this.logicOpcode = packetdataserializer.readByte();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149164_a = packetdataserializer.readInt();
+        this.field_149163_b = packetdataserializer.readByte();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeInt(this.entityId);
-        packetdataserializer.writeByte(this.logicOpcode);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeInt(this.field_149164_a);
+        packetdataserializer.writeByte(this.field_149163_b);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleEntityStatus(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147236_a(this);
     }
 }

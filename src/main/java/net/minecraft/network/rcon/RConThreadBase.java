@@ -10,61 +10,61 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class RConThreadBase implements Runnable {
 
-    private static final AtomicInteger THREAD_ID = new AtomicInteger(0);
-    protected boolean running;
-    protected IServer server;
-    protected final String threadName;
-    protected Thread rconThread;
-    protected int maxStopWait = 5;
-    protected List<DatagramSocket> socketList = Lists.newArrayList();
-    protected List<ServerSocket> serverSocketList = Lists.newArrayList();
+    private static final AtomicInteger field_164004_h = new AtomicInteger(0);
+    protected boolean field_72619_a;
+    protected IServer field_72617_b;
+    protected final String field_164003_c;
+    protected Thread field_72618_c;
+    protected int field_72615_d = 5;
+    protected List<DatagramSocket> field_72616_e = Lists.newArrayList();
+    protected List<ServerSocket> field_72614_f = Lists.newArrayList();
 
     protected RConThreadBase(IServer iminecraftserver, String s) {
-        this.server = iminecraftserver;
-        this.threadName = s;
-        if (this.server.isDebuggingEnabled()) {
-            this.logWarning("Debugging is enabled, performance maybe reduced!");
+        this.field_72617_b = iminecraftserver;
+        this.field_164003_c = s;
+        if (this.field_72617_b.func_71239_B()) {
+            this.func_72606_c("Debugging is enabled, performance maybe reduced!");
         }
 
     }
 
-    public synchronized void startThread() {
-        this.rconThread = new Thread(this, this.threadName + " #" + RConThreadBase.THREAD_ID.incrementAndGet());
-        this.rconThread.start();
-        this.running = true;
+    public synchronized void func_72602_a() {
+        this.field_72618_c = new Thread(this, this.field_164003_c + " #" + RConThreadBase.field_164004_h.incrementAndGet());
+        this.field_72618_c.start();
+        this.field_72619_a = true;
     }
 
-    public boolean isRunning() {
-        return this.running;
+    public boolean func_72613_c() {
+        return this.field_72619_a;
     }
 
-    protected void logDebug(String s) {
-        this.server.logDebug(s);
+    protected void func_72607_a(String s) {
+        this.field_72617_b.func_71198_k(s);
     }
 
-    protected void logInfo(String s) {
-        this.server.logInfo(s);
+    protected void func_72609_b(String s) {
+        this.field_72617_b.func_71244_g(s);
     }
 
-    protected void logWarning(String s) {
-        this.server.logWarning(s);
+    protected void func_72606_c(String s) {
+        this.field_72617_b.func_71236_h(s);
     }
 
-    protected void logSevere(String s) {
-        this.server.logSevere(s);
+    protected void func_72610_d(String s) {
+        this.field_72617_b.func_71201_j(s);
     }
 
-    protected int getNumberOfPlayers() {
-        return this.server.getCurrentPlayerCount();
+    protected int func_72603_d() {
+        return this.field_72617_b.func_71233_x();
     }
 
-    protected void registerSocket(DatagramSocket datagramsocket) {
-        this.logDebug("registerSocket: " + datagramsocket);
-        this.socketList.add(datagramsocket);
+    protected void func_72601_a(DatagramSocket datagramsocket) {
+        this.func_72607_a("registerSocket: " + datagramsocket);
+        this.field_72616_e.add(datagramsocket);
     }
 
-    protected boolean closeSocket(DatagramSocket datagramsocket, boolean flag) {
-        this.logDebug("closeSocket: " + datagramsocket);
+    protected boolean func_72604_a(DatagramSocket datagramsocket, boolean flag) {
+        this.func_72607_a("closeSocket: " + datagramsocket);
         if (null == datagramsocket) {
             return false;
         } else {
@@ -76,19 +76,19 @@ public abstract class RConThreadBase implements Runnable {
             }
 
             if (flag) {
-                this.socketList.remove(datagramsocket);
+                this.field_72616_e.remove(datagramsocket);
             }
 
             return flag1;
         }
     }
 
-    protected boolean closeServerSocket(ServerSocket serversocket) {
-        return this.closeServerSocket_do(serversocket, true);
+    protected boolean func_72608_b(ServerSocket serversocket) {
+        return this.func_72605_a(serversocket, true);
     }
 
-    protected boolean closeServerSocket_do(ServerSocket serversocket, boolean flag) {
-        this.logDebug("closeSocket: " + serversocket);
+    protected boolean func_72605_a(ServerSocket serversocket, boolean flag) {
+        this.func_72607_a("closeSocket: " + serversocket);
         if (null == serversocket) {
             return false;
         } else {
@@ -100,47 +100,47 @@ public abstract class RConThreadBase implements Runnable {
                     flag1 = true;
                 }
             } catch (IOException ioexception) {
-                this.logWarning("IO: " + ioexception.getMessage());
+                this.func_72606_c("IO: " + ioexception.getMessage());
             }
 
             if (flag) {
-                this.serverSocketList.remove(serversocket);
+                this.field_72614_f.remove(serversocket);
             }
 
             return flag1;
         }
     }
 
-    protected void closeAllSockets() {
-        this.closeAllSockets_do(false);
+    protected void func_72611_e() {
+        this.func_72612_a(false);
     }
 
-    protected void closeAllSockets_do(boolean flag) {
+    protected void func_72612_a(boolean flag) {
         int i = 0;
-        Iterator iterator = this.socketList.iterator();
+        Iterator iterator = this.field_72616_e.iterator();
 
         while (iterator.hasNext()) {
             DatagramSocket datagramsocket = (DatagramSocket) iterator.next();
 
-            if (this.closeSocket(datagramsocket, false)) {
+            if (this.func_72604_a(datagramsocket, false)) {
                 ++i;
             }
         }
 
-        this.socketList.clear();
-        iterator = this.serverSocketList.iterator();
+        this.field_72616_e.clear();
+        iterator = this.field_72614_f.iterator();
 
         while (iterator.hasNext()) {
             ServerSocket serversocket = (ServerSocket) iterator.next();
 
-            if (this.closeServerSocket_do(serversocket, false)) {
+            if (this.func_72605_a(serversocket, false)) {
                 ++i;
             }
         }
 
-        this.serverSocketList.clear();
+        this.field_72614_f.clear();
         if (flag && 0 < i) {
-            this.logWarning("Force closed " + i + " sockets");
+            this.func_72606_c("Force closed " + i + " sockets");
         }
 
     }

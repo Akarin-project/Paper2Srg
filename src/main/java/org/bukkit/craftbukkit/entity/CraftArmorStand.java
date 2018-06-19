@@ -81,116 +81,116 @@ public class CraftArmorStand extends CraftLivingEntity implements ArmorStand {
 
     @Override
     public EulerAngle getBodyPose() {
-        return fromNMS(getHandle().bodyRotation);
+        return fromNMS(getHandle().field_175444_bi);
     }
 
     @Override
     public void setBodyPose(EulerAngle pose) {
-        getHandle().setBodyRotation(toNMS(pose));
+        getHandle().func_175424_b(toNMS(pose));
     }
 
     @Override
     public EulerAngle getLeftArmPose() {
-        return fromNMS(getHandle().leftArmRotation);
+        return fromNMS(getHandle().field_175438_bj);
     }
 
     @Override
     public void setLeftArmPose(EulerAngle pose) {
-        getHandle().setLeftArmRotation(toNMS(pose));
+        getHandle().func_175405_c(toNMS(pose));
     }
 
     @Override
     public EulerAngle getRightArmPose() {
-        return fromNMS(getHandle().rightArmRotation);
+        return fromNMS(getHandle().field_175439_bk);
     }
 
     @Override
     public void setRightArmPose(EulerAngle pose) {
-        getHandle().setRightArmRotation(toNMS(pose));
+        getHandle().func_175428_d(toNMS(pose));
     }
 
     @Override
     public EulerAngle getLeftLegPose() {
-        return fromNMS(getHandle().leftLegRotation);
+        return fromNMS(getHandle().field_175440_bl);
     }
 
     @Override
     public void setLeftLegPose(EulerAngle pose) {
-        getHandle().setLeftLegRotation(toNMS(pose));
+        getHandle().func_175417_e(toNMS(pose));
     }
 
     @Override
     public EulerAngle getRightLegPose() {
-        return fromNMS(getHandle().rightLegRotation);
+        return fromNMS(getHandle().field_175441_bm);
     }
 
     @Override
     public void setRightLegPose(EulerAngle pose) {
-        getHandle().setRightLegRotation(toNMS(pose));
+        getHandle().func_175427_f(toNMS(pose));
     }
 
     @Override
     public EulerAngle getHeadPose() {
-        return fromNMS(getHandle().headRotation);
+        return fromNMS(getHandle().field_175443_bh);
     }
 
     @Override
     public void setHeadPose(EulerAngle pose) {
-        getHandle().setHeadRotation(toNMS(pose));
+        getHandle().func_175415_a(toNMS(pose));
     }
 
     @Override
     public boolean hasBasePlate() {
-        return !getHandle().hasNoBasePlate();
+        return !getHandle().func_175414_r();
     }
 
     @Override
     public void setBasePlate(boolean basePlate) {
-        getHandle().setNoBasePlate(!basePlate);
+        getHandle().func_175426_l(!basePlate);
     }
 
     @Override
     public void setGravity(boolean gravity) {
         super.setGravity(gravity);
         // Armor stands are special
-        getHandle().noClip = !gravity;
+        getHandle().field_70145_X = !gravity;
     }
 
     @Override
     public boolean isVisible() {
-        return !getHandle().isInvisible();
+        return !getHandle().func_82150_aj();
     }
 
     @Override
     public void setVisible(boolean visible) {
-        getHandle().setInvisible(!visible);
+        getHandle().func_82142_c(!visible);
     }
 
     @Override
     public boolean hasArms() {
-        return getHandle().getShowArms();
+        return getHandle().func_175402_q();
     }
 
     @Override
     public void setArms(boolean arms) {
-        getHandle().setShowArms(arms);
+        getHandle().func_175413_k(arms);
     }
 
     @Override
     public boolean isSmall() {
-        return getHandle().isSmall();
+        return getHandle().func_175410_n();
     }
 
     @Override
     public void setSmall(boolean small) {
-        getHandle().setSmall(small);
+        getHandle().func_175420_a(small);
     }
 
     private static EulerAngle fromNMS(Rotations old) {
         return new EulerAngle(
-            Math.toRadians(old.getX()),
-            Math.toRadians(old.getY()),
-            Math.toRadians(old.getZ())
+            Math.toRadians(old.func_179415_b()),
+            Math.toRadians(old.func_179416_c()),
+            Math.toRadians(old.func_179413_d())
         );
     }
 
@@ -204,12 +204,12 @@ public class CraftArmorStand extends CraftLivingEntity implements ArmorStand {
 
     @Override
     public boolean isMarker() {
-        return getHandle().hasMarker();
+        return getHandle().func_181026_s();
     }
 
     @Override
     public void setMarker(boolean marker) {
-        getHandle().setMarker(marker);
+        getHandle().func_181027_m(marker);
     }
 
     @Override

@@ -19,84 +19,84 @@ import net.minecraft.world.World;
 
 public class BlockEndRod extends BlockDirectional {
 
-    protected static final AxisAlignedBB END_ROD_VERTICAL_AABB = new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D, 1.0D, 0.625D);
-    protected static final AxisAlignedBB END_ROD_NS_AABB = new AxisAlignedBB(0.375D, 0.375D, 0.0D, 0.625D, 0.625D, 1.0D);
-    protected static final AxisAlignedBB END_ROD_EW_AABB = new AxisAlignedBB(0.0D, 0.375D, 0.375D, 1.0D, 0.625D, 0.625D);
+    protected static final AxisAlignedBB field_185630_a = new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D, 1.0D, 0.625D);
+    protected static final AxisAlignedBB field_185631_b = new AxisAlignedBB(0.375D, 0.375D, 0.0D, 0.625D, 0.625D, 1.0D);
+    protected static final AxisAlignedBB field_185632_c = new AxisAlignedBB(0.0D, 0.375D, 0.375D, 1.0D, 0.625D, 0.625D);
 
     protected BlockEndRod() {
-        super(Material.CIRCUITS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockEndRod.FACING, EnumFacing.UP));
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        super(Material.field_151594_q);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockEndRod.field_176387_N, EnumFacing.UP));
+        this.func_149647_a(CreativeTabs.field_78031_c);
     }
 
-    public IBlockState withRotation(IBlockState iblockdata, Rotation enumblockrotation) {
-        return iblockdata.withProperty(BlockEndRod.FACING, enumblockrotation.rotate((EnumFacing) iblockdata.getValue(BlockEndRod.FACING)));
+    public IBlockState func_185499_a(IBlockState iblockdata, Rotation enumblockrotation) {
+        return iblockdata.func_177226_a(BlockEndRod.field_176387_N, enumblockrotation.func_185831_a((EnumFacing) iblockdata.func_177229_b(BlockEndRod.field_176387_N)));
     }
 
-    public IBlockState withMirror(IBlockState iblockdata, Mirror enumblockmirror) {
-        return iblockdata.withProperty(BlockEndRod.FACING, enumblockmirror.mirror((EnumFacing) iblockdata.getValue(BlockEndRod.FACING)));
+    public IBlockState func_185471_a(IBlockState iblockdata, Mirror enumblockmirror) {
+        return iblockdata.func_177226_a(BlockEndRod.field_176387_N, enumblockmirror.func_185803_b((EnumFacing) iblockdata.func_177229_b(BlockEndRod.field_176387_N)));
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        switch (((EnumFacing) iblockdata.getValue(BlockEndRod.FACING)).getAxis()) {
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        switch (((EnumFacing) iblockdata.func_177229_b(BlockEndRod.field_176387_N)).func_176740_k()) {
         case X:
         default:
-            return BlockEndRod.END_ROD_EW_AABB;
+            return BlockEndRod.field_185632_c;
 
         case Z:
-            return BlockEndRod.END_ROD_NS_AABB;
+            return BlockEndRod.field_185631_b;
 
         case Y:
-            return BlockEndRod.END_ROD_VERTICAL_AABB;
+            return BlockEndRod.field_185630_a;
         }
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean canPlaceBlockAt(World world, BlockPos blockposition) {
+    public boolean func_176196_c(World world, BlockPos blockposition) {
         return true;
     }
 
-    public IBlockState getStateForPlacement(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
-        IBlockState iblockdata = world.getBlockState(blockposition.offset(enumdirection.getOpposite()));
+    public IBlockState func_180642_a(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
+        IBlockState iblockdata = world.func_180495_p(blockposition.func_177972_a(enumdirection.func_176734_d()));
 
-        if (iblockdata.getBlock() == Blocks.END_ROD) {
-            EnumFacing enumdirection1 = (EnumFacing) iblockdata.getValue(BlockEndRod.FACING);
+        if (iblockdata.func_177230_c() == Blocks.field_185764_cQ) {
+            EnumFacing enumdirection1 = (EnumFacing) iblockdata.func_177229_b(BlockEndRod.field_176387_N);
 
             if (enumdirection1 == enumdirection) {
-                return this.getDefaultState().withProperty(BlockEndRod.FACING, enumdirection.getOpposite());
+                return this.func_176223_P().func_177226_a(BlockEndRod.field_176387_N, enumdirection.func_176734_d());
             }
         }
 
-        return this.getDefaultState().withProperty(BlockEndRod.FACING, enumdirection);
+        return this.func_176223_P().func_177226_a(BlockEndRod.field_176387_N, enumdirection);
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        IBlockState iblockdata = this.getDefaultState();
+    public IBlockState func_176203_a(int i) {
+        IBlockState iblockdata = this.func_176223_P();
 
-        iblockdata = iblockdata.withProperty(BlockEndRod.FACING, EnumFacing.getFront(i));
+        iblockdata = iblockdata.func_177226_a(BlockEndRod.field_176387_N, EnumFacing.func_82600_a(i));
         return iblockdata;
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((EnumFacing) iblockdata.getValue(BlockEndRod.FACING)).getIndex();
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((EnumFacing) iblockdata.func_177229_b(BlockEndRod.field_176387_N)).func_176745_a();
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockEndRod.FACING});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockEndRod.field_176387_N});
     }
 
-    public EnumPushReaction getMobilityFlag(IBlockState iblockdata) {
+    public EnumPushReaction func_149656_h(IBlockState iblockdata) {
         return EnumPushReaction.NORMAL;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.UNDEFINED;
     }
 }

@@ -117,7 +117,7 @@ public final class MinecraftTimings {
     }
 
     public static Timing getBlockTiming(Block block) {
-        return Timings.ofSafe("## Scheduled Block: " + block.getLocalizedName(), scheduledBlocksTimer);
+        return Timings.ofSafe("## Scheduled Block: " + block.func_149732_F(), scheduledBlocksTimer);
     }
 
     public static Timing getStructureTiming(MapGenStructure structureGenerator) {

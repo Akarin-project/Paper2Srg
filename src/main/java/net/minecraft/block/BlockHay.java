@@ -11,12 +11,12 @@ import net.minecraft.world.World;
 public class BlockHay extends BlockRotatedPillar {
 
     public BlockHay() {
-        super(Material.GRASS, MapColor.YELLOW);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockHay.AXIS, EnumFacing.Axis.Y));
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151577_b, MapColor.field_151673_t);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockHay.field_176298_M, EnumFacing.Axis.Y));
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public void onFallenUpon(World world, BlockPos blockposition, Entity entity, float f) {
-        entity.fall(f, 0.2F);
+    public void func_180658_a(World world, BlockPos blockposition, Entity entity, float f) {
+        entity.func_180430_e(f, 0.2F);
     }
 }

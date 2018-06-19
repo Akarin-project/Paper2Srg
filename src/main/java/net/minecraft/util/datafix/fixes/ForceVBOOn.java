@@ -7,12 +7,12 @@ public class ForceVBOOn implements IFixableData {
 
     public ForceVBOOn() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 505;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setString("useVbo", "true");
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74778_a("useVbo", "true");
         return nbttagcompound;
     }
 }

@@ -7,14 +7,14 @@ import net.minecraft.entity.passive.EntityTameable;
 
 public class EntityAITargetNonTamed<T extends EntityLivingBase> extends EntityAINearestAttackableTarget<T> {
 
-    private final EntityTameable tameable;
+    private final EntityTameable field_75310_g;
 
     public EntityAITargetNonTamed(EntityTameable entitytameableanimal, Class<T> oclass, boolean flag, Predicate<? super T> predicate) {
         super(entitytameableanimal, oclass, 10, flag, false, predicate);
-        this.tameable = entitytameableanimal;
+        this.field_75310_g = entitytameableanimal;
     }
 
-    public boolean shouldExecute() {
-        return !this.tameable.isTamed() && super.shouldExecute();
+    public boolean func_75250_a() {
+        return !this.field_75310_g.func_70909_n() && super.func_75250_a();
     }
 }

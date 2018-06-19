@@ -14,11 +14,11 @@ import org.apache.commons.io.IOUtils;
 
 public class LanguageMap {
 
-    private static final Pattern NUMERIC_VARIABLE_PATTERN = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
-    private static final Splitter EQUAL_SIGN_SPLITTER = Splitter.on('=').limit(2);
-    private static final LanguageMap instance = new LanguageMap();
-    private final Map<String, String> languageList = Maps.newHashMap();
-    private long lastUpdateTimeInMilliseconds;
+    private static final Pattern field_111053_a = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
+    private static final Splitter field_135065_b = Splitter.on('=').limit(2);
+    private static final LanguageMap field_74817_a = new LanguageMap();
+    private final Map<String, String> field_74816_c = Maps.newHashMap();
+    private long field_150511_e;
 
     public LanguageMap() {
         try {
@@ -29,34 +29,34 @@ public class LanguageMap {
                 String s = (String) iterator.next();
 
                 if (!s.isEmpty() && s.charAt(0) != 35) {
-                    String[] astring = (String[]) Iterables.toArray(LanguageMap.EQUAL_SIGN_SPLITTER.split(s), String.class);
+                    String[] astring = (String[]) Iterables.toArray(LanguageMap.field_135065_b.split(s), String.class);
 
                     if (astring != null && astring.length == 2) {
                         String s1 = astring[0];
-                        String s2 = LanguageMap.NUMERIC_VARIABLE_PATTERN.matcher(astring[1]).replaceAll("%$1s");
+                        String s2 = LanguageMap.field_111053_a.matcher(astring[1]).replaceAll("%$1s");
 
-                        this.languageList.put(s1, s2);
+                        this.field_74816_c.put(s1, s2);
                     }
                 }
             }
 
-            this.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
+            this.field_150511_e = System.currentTimeMillis();
         } catch (IOException ioexception) {
             ;
         }
 
     }
 
-    static LanguageMap getInstance() {
-        return LanguageMap.instance;
+    static LanguageMap func_74808_a() {
+        return LanguageMap.field_74817_a;
     }
 
-    public synchronized String translateKey(String s) {
-        return this.tryTranslateKey(s);
+    public synchronized String func_74805_b(String s) {
+        return this.func_135064_c(s);
     }
 
-    public synchronized String translateKeyFormat(String s, Object... aobject) {
-        String s1 = this.tryTranslateKey(s);
+    public synchronized String func_74803_a(String s, Object... aobject) {
+        String s1 = this.func_135064_c(s);
 
         try {
             return String.format(s1, aobject);
@@ -65,17 +65,17 @@ public class LanguageMap {
         }
     }
 
-    private String tryTranslateKey(String s) {
-        String s1 = (String) this.languageList.get(s);
+    private String func_135064_c(String s) {
+        String s1 = (String) this.field_74816_c.get(s);
 
         return s1 == null ? s : s1;
     }
 
-    public synchronized boolean isKeyTranslated(String s) {
-        return this.languageList.containsKey(s);
+    public synchronized boolean func_94520_b(String s) {
+        return this.field_74816_c.containsKey(s);
     }
 
-    public long getLastUpdateTimeInMilliseconds() {
-        return this.lastUpdateTimeInMilliseconds;
+    public long func_150510_c() {
+        return this.field_150511_e;
     }
 }

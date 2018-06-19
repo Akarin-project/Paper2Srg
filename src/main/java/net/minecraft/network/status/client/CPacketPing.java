@@ -8,23 +8,23 @@ import net.minecraft.network.status.INetHandlerStatusServer;
 
 public class CPacketPing implements Packet<INetHandlerStatusServer> {
 
-    private long clientTime;
+    private long field_149290_a;
 
     public CPacketPing() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.clientTime = packetdataserializer.readLong();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149290_a = packetdataserializer.readLong();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeLong(this.clientTime);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeLong(this.field_149290_a);
     }
 
-    public void processPacket(INetHandlerStatusServer packetstatusinlistener) {
-        packetstatusinlistener.processPing(this);
+    public void func_148833_a(INetHandlerStatusServer packetstatusinlistener) {
+        packetstatusinlistener.func_147311_a(this);
     }
 
-    public long getClientTime() {
-        return this.clientTime;
+    public long func_149289_c() {
+        return this.field_149290_a;
     }
 }

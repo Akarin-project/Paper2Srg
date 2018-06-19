@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class Util {
 
     @Nullable
-    public static <V> V runTask(FutureTask<V> futuretask, Logger logger) {
+    public static <V> V func_181617_a(FutureTask<V> futuretask, Logger logger) {
         try {
             futuretask.run();
             return futuretask.get();
@@ -22,7 +22,7 @@ public class Util {
         return null;
     }
 
-    public static <T> T getLastElement(List<T> list) {
+    public static <T> T func_184878_a(List<T> list) {
         return list.get(list.size() - 1);
     }
 }

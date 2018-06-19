@@ -6,21 +6,21 @@ import net.minecraft.util.datafix.IDataFixer;
 
 public class ItemStackData extends Filtered {
 
-    private final String[] matchingTags;
+    private final String[] field_188274_a;
 
     public ItemStackData(Class<?> oclass, String... astring) {
         super(oclass);
-        this.matchingTags = astring;
+        this.field_188274_a = astring;
     }
 
-    NBTTagCompound filteredProcess(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
-        String[] astring = this.matchingTags;
+    NBTTagCompound func_188271_b(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
+        String[] astring = this.field_188274_a;
         int j = astring.length;
 
         for (int k = 0; k < j; ++k) {
             String s = astring[k];
 
-            nbttagcompound = DataFixesManager.processItemStack(dataconverter, nbttagcompound, i, s);
+            nbttagcompound = DataFixesManager.func_188277_a(dataconverter, nbttagcompound, i, s);
         }
 
         return nbttagcompound;

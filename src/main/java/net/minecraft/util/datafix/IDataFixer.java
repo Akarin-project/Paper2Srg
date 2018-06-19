@@ -4,5 +4,5 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public interface IDataFixer {
 
-    NBTTagCompound process(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i);
+    NBTTagCompound func_188251_a(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i);
 }

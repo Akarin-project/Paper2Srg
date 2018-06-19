@@ -23,36 +23,36 @@ public class EntityExpBottle extends EntityThrowable {
         super(world, d0, d1, d2);
     }
 
-    public static void registerFixesExpBottle(DataFixer dataconvertermanager) {
-        EntityThrowable.registerFixesThrowable(dataconvertermanager, "ThrowableExpBottle");
+    public static void func_189666_a(DataFixer dataconvertermanager) {
+        EntityThrowable.func_189661_a(dataconvertermanager, "ThrowableExpBottle");
     }
 
-    protected float getGravityVelocity() {
+    protected float func_70185_h() {
         return 0.07F;
     }
 
-    protected void onImpact(RayTraceResult movingobjectposition) {
-        if (!this.world.isRemote) {
+    protected void func_70184_a(RayTraceResult movingobjectposition) {
+        if (!this.field_70170_p.field_72995_K) {
             // CraftBukkit - moved to after event
             // this.world.triggerEffect(2002, new BlockPosition(this), PotionUtil.a(Potions.b));
-            int i = 3 + this.world.rand.nextInt(5) + this.world.rand.nextInt(5);
+            int i = 3 + this.field_70170_p.field_73012_v.nextInt(5) + this.field_70170_p.field_73012_v.nextInt(5);
 
             // CraftBukkit start
             org.bukkit.event.entity.ExpBottleEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callExpBottleEvent(this, i);
             i = event.getExperience();
             if (event.getShowEffect()) {
-                this.world.playEvent(2002, new BlockPos(this), PotionUtils.getPotionColor(PotionTypes.WATER));
+                this.field_70170_p.func_175718_b(2002, new BlockPos(this), PotionUtils.func_185183_a(PotionTypes.field_185230_b));
             }
             // CraftBukkit end
 
             while (i > 0) {
-                int j = EntityXPOrb.getXPSplit(i);
+                int j = EntityXPOrb.func_70527_a(i);
 
                 i -= j;
-                this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY, this.posZ, j, org.bukkit.entity.ExperienceOrb.SpawnReason.EXP_BOTTLE, getThrower(), this)); // Paper
+                this.field_70170_p.func_72838_d(new EntityXPOrb(this.field_70170_p, this.field_70165_t, this.field_70163_u, this.field_70161_v, j, org.bukkit.entity.ExperienceOrb.SpawnReason.EXP_BOTTLE, func_85052_h(), this)); // Paper
             }
 
-            this.setDead();
+            this.func_70106_y();
         }
 
     }

@@ -14,11 +14,11 @@ public class BlockButtonWood extends BlockButton {
         super(true);
     }
 
-    protected void playClickSound(@Nullable EntityPlayer entityhuman, World world, BlockPos blockposition) {
-        world.playSound(entityhuman, blockposition, SoundEvents.BLOCK_WOOD_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.3F, 0.6F);
+    protected void func_185615_a(@Nullable EntityPlayer entityhuman, World world, BlockPos blockposition) {
+        world.func_184133_a(entityhuman, blockposition, SoundEvents.field_187885_gS, SoundCategory.BLOCKS, 0.3F, 0.6F);
     }
 
-    protected void playReleaseSound(World world, BlockPos blockposition) {
-        world.playSound((EntityPlayer) null, blockposition, SoundEvents.BLOCK_WOOD_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 0.3F, 0.5F);
+    protected void func_185617_b(World world, BlockPos blockposition) {
+        world.func_184133_a((EntityPlayer) null, blockposition, SoundEvents.field_187883_gR, SoundCategory.BLOCKS, 0.3F, 0.5F);
     }
 }

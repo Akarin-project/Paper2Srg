@@ -6,7 +6,7 @@ public class GenLayerFuzzyZoom extends GenLayerZoom {
         super(i, genlayer);
     }
 
-    protected int selectModeOrRandom(int i, int j, int k, int l) {
-        return this.selectRandom(new int[] { i, j, k, l});
+    protected int func_151617_b(int i, int j, int k, int l) {
+        return this.func_151619_a(new int[] { i, j, k, l});
     }
 }

@@ -53,9 +53,9 @@ public class CraftInventoryView extends InventoryView {
     public void setItem(int slot, ItemStack item) {
         net.minecraft.item.ItemStack stack = CraftItemStack.asNMSCopy(item);
         if (slot != -999) {
-            container.getSlot(slot).putStack(stack);
+            container.func_75139_a(slot).func_75215_d(stack);
         } else {
-            player.getHandle().dropItem(stack, false);
+            player.getHandle().func_71019_a(stack, false);
         }
     }
 
@@ -64,7 +64,7 @@ public class CraftInventoryView extends InventoryView {
         if (slot == -999) {
             return null;
         }
-        return CraftItemStack.asCraftMirror(container.getSlot(slot).getStack());
+        return CraftItemStack.asCraftMirror(container.func_75139_a(slot).func_75211_c());
     }
 
     public boolean isInTop(int rawSlot) {

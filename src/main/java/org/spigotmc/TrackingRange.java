@@ -21,7 +21,7 @@ public class TrackingRange
      */
     public static int getEntityTrackingRange(Entity entity, int defaultRange)
     {
-        SpigotWorldConfig config = entity.world.spigotConfig;
+        SpigotWorldConfig config = entity.field_70170_p.spigotConfig;
         if ( entity instanceof EntityPlayerMP )
         {
             return config.playerTrackingRange;

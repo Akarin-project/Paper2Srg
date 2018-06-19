@@ -15,22 +15,22 @@ public class BehaviorDefaultDispenseItem implements IBehaviorDispenseItem {
 
     public BehaviorDefaultDispenseItem() {}
 
-    public final ItemStack dispense(IBlockSource isourceblock, ItemStack itemstack) {
-        ItemStack itemstack1 = this.dispenseStack(isourceblock, itemstack);
+    public final ItemStack func_82482_a(IBlockSource isourceblock, ItemStack itemstack) {
+        ItemStack itemstack1 = this.func_82487_b(isourceblock, itemstack);
 
-        this.playDispenseSound(isourceblock);
-        this.spawnDispenseParticles(isourceblock, (EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING));
+        this.func_82485_a(isourceblock);
+        this.func_82489_a(isourceblock, (EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
         return itemstack1;
     }
 
-    protected ItemStack dispenseStack(IBlockSource isourceblock, ItemStack itemstack) {
-        EnumFacing enumdirection = (EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING);
-        IPosition iposition = BlockDispenser.getDispensePosition(isourceblock);
-        ItemStack itemstack1 = itemstack.splitStack(1);
+    protected ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
+        EnumFacing enumdirection = (EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
+        IPosition iposition = BlockDispenser.func_149939_a(isourceblock);
+        ItemStack itemstack1 = itemstack.func_77979_a(1);
 
         // CraftBukkit start
-        if (!a(isourceblock.getWorld(), itemstack1, 6, enumdirection, isourceblock)) {
-            itemstack.grow(1);
+        if (!a(isourceblock.func_82618_k(), itemstack1, 6, enumdirection, isourceblock)) {
+            itemstack.func_190917_f(1);
         }
         // CraftBukkit end
         return itemstack;
@@ -38,33 +38,33 @@ public class BehaviorDefaultDispenseItem implements IBehaviorDispenseItem {
 
     // CraftBukkit start - void -> boolean return, IPosition -> ISourceBlock last argument
     public static boolean a(World world, ItemStack itemstack, int i, EnumFacing enumdirection, IBlockSource isourceblock) {
-        IPosition iposition = BlockDispenser.getDispensePosition(isourceblock);
+        IPosition iposition = BlockDispenser.func_149939_a(isourceblock);
         // CraftBukkit end
-        double d0 = iposition.getX();
-        double d1 = iposition.getY();
-        double d2 = iposition.getZ();
+        double d0 = iposition.func_82615_a();
+        double d1 = iposition.func_82617_b();
+        double d2 = iposition.func_82616_c();
 
-        if (enumdirection.getAxis() == EnumFacing.Axis.Y) {
+        if (enumdirection.func_176740_k() == EnumFacing.Axis.Y) {
             d1 -= 0.125D;
         } else {
             d1 -= 0.15625D;
         }
 
         EntityItem entityitem = new EntityItem(world, d0, d1, d2, itemstack);
-        double d3 = world.rand.nextDouble() * 0.1D + 0.2D;
+        double d3 = world.field_73012_v.nextDouble() * 0.1D + 0.2D;
 
-        entityitem.motionX = (double) enumdirection.getFrontOffsetX() * d3;
-        entityitem.motionY = 0.20000000298023224D;
-        entityitem.motionZ = (double) enumdirection.getFrontOffsetZ() * d3;
-        entityitem.motionX += world.rand.nextGaussian() * 0.007499999832361937D * (double) i;
-        entityitem.motionY += world.rand.nextGaussian() * 0.007499999832361937D * (double) i;
-        entityitem.motionZ += world.rand.nextGaussian() * 0.007499999832361937D * (double) i;
+        entityitem.field_70159_w = (double) enumdirection.func_82601_c() * d3;
+        entityitem.field_70181_x = 0.20000000298023224D;
+        entityitem.field_70179_y = (double) enumdirection.func_82599_e() * d3;
+        entityitem.field_70159_w += world.field_73012_v.nextGaussian() * 0.007499999832361937D * (double) i;
+        entityitem.field_70181_x += world.field_73012_v.nextGaussian() * 0.007499999832361937D * (double) i;
+        entityitem.field_70179_y += world.field_73012_v.nextGaussian() * 0.007499999832361937D * (double) i;
 
         // CraftBukkit start
-        org.bukkit.block.Block block = world.getWorld().getBlockAt(isourceblock.getBlockPos().getX(), isourceblock.getBlockPos().getY(), isourceblock.getBlockPos().getZ());
+        org.bukkit.block.Block block = world.getWorld().getBlockAt(isourceblock.func_180699_d().func_177958_n(), isourceblock.func_180699_d().func_177956_o(), isourceblock.func_180699_d().func_177952_p());
         CraftItemStack craftItem = CraftItemStack.asCraftMirror(itemstack);
 
-        BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(), new org.bukkit.util.Vector(entityitem.motionX, entityitem.motionY, entityitem.motionZ));
+        BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(), new org.bukkit.util.Vector(entityitem.field_70159_w, entityitem.field_70181_x, entityitem.field_70179_y));
         if (!BlockDispenser.eventFired) {
             world.getServer().getPluginManager().callEvent(event);
         }
@@ -73,38 +73,38 @@ public class BehaviorDefaultDispenseItem implements IBehaviorDispenseItem {
             return false;
         }
 
-        entityitem.setItem(CraftItemStack.asNMSCopy(event.getItem()));
-        entityitem.motionX = event.getVelocity().getX();
-        entityitem.motionY = event.getVelocity().getY();
-        entityitem.motionZ = event.getVelocity().getZ();
+        entityitem.func_92058_a(CraftItemStack.asNMSCopy(event.getItem()));
+        entityitem.field_70159_w = event.getVelocity().getX();
+        entityitem.field_70181_x = event.getVelocity().getY();
+        entityitem.field_70179_y = event.getVelocity().getZ();
 
         if (!event.getItem().getType().equals(craftItem.getType())) {
             // Chain to handler for new item
             ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-            IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(eventStack.getItem());
-            if (idispensebehavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR && idispensebehavior.getClass() != BehaviorDefaultDispenseItem.class) {
-                idispensebehavior.dispense(isourceblock, eventStack);
+            IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+            if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior.getClass() != BehaviorDefaultDispenseItem.class) {
+                idispensebehavior.func_82482_a(isourceblock, eventStack);
             } else {
-                world.spawnEntity(entityitem);
+                world.func_72838_d(entityitem);
             }
             return false;
         }
 
-        world.spawnEntity(entityitem);
+        world.func_72838_d(entityitem);
 
         return true;
         // CraftBukkit end
     }
 
-    protected void playDispenseSound(IBlockSource isourceblock) {
-        isourceblock.getWorld().playEvent(1000, isourceblock.getBlockPos(), 0);
+    protected void func_82485_a(IBlockSource isourceblock) {
+        isourceblock.func_82618_k().func_175718_b(1000, isourceblock.func_180699_d(), 0);
     }
 
-    protected void spawnDispenseParticles(IBlockSource isourceblock, EnumFacing enumdirection) {
-        isourceblock.getWorld().playEvent(2000, isourceblock.getBlockPos(), this.getWorldEventDataFrom(enumdirection));
+    protected void func_82489_a(IBlockSource isourceblock, EnumFacing enumdirection) {
+        isourceblock.func_82618_k().func_175718_b(2000, isourceblock.func_180699_d(), this.func_82488_a(enumdirection));
     }
 
-    private int getWorldEventDataFrom(EnumFacing enumdirection) {
-        return enumdirection.getFrontOffsetX() + 1 + (enumdirection.getFrontOffsetZ() + 1) * 3;
+    private int func_82488_a(EnumFacing enumdirection) {
+        return enumdirection.func_82601_c() + 1 + (enumdirection.func_82599_e() + 1) * 3;
     }
 }

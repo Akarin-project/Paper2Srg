@@ -32,7 +32,7 @@ public class TerminalHandler {
 
         try {
             String line;
-            while (!server.isServerStopped() && server.isServerRunning()) {
+            while (!server.func_71241_aa() && server.func_71278_l()) {
                 try {
                     line = reader.readLine("> ");
                 } catch (EndOfFileException ignored) {
@@ -46,11 +46,11 @@ public class TerminalHandler {
 
                 line = line.trim();
                 if (!line.isEmpty()) {
-                    server.addPendingCommand(line, server);
+                    server.func_71331_a(line, server);
                 }
             }
         } catch (UserInterruptException e) {
-            server.initiateShutdown();
+            server.func_71263_m();
         } finally {
             TerminalConsoleAppender.setReader(null);
         }

@@ -4,54 +4,54 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class PlayerCapabilities {
 
-    public boolean disableDamage;
-    public boolean isFlying;
-    public boolean allowFlying;
-    public boolean isCreativeMode;
-    public boolean allowEdit = true;
-    public float flySpeed = 0.05F;
-    public float walkSpeed = 0.1F;
+    public boolean field_75102_a;
+    public boolean field_75100_b;
+    public boolean field_75101_c;
+    public boolean field_75098_d;
+    public boolean field_75099_e = true;
+    public float field_75096_f = 0.05F;
+    public float field_75097_g = 0.1F;
 
     public PlayerCapabilities() {}
 
-    public void writeCapabilitiesToNBT(NBTTagCompound nbttagcompound) {
+    public void func_75091_a(NBTTagCompound nbttagcompound) {
         NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-        nbttagcompound1.setBoolean("invulnerable", this.disableDamage);
-        nbttagcompound1.setBoolean("flying", this.isFlying);
-        nbttagcompound1.setBoolean("mayfly", this.allowFlying);
-        nbttagcompound1.setBoolean("instabuild", this.isCreativeMode);
-        nbttagcompound1.setBoolean("mayBuild", this.allowEdit);
-        nbttagcompound1.setFloat("flySpeed", this.flySpeed);
-        nbttagcompound1.setFloat("walkSpeed", this.walkSpeed);
-        nbttagcompound.setTag("abilities", nbttagcompound1);
+        nbttagcompound1.func_74757_a("invulnerable", this.field_75102_a);
+        nbttagcompound1.func_74757_a("flying", this.field_75100_b);
+        nbttagcompound1.func_74757_a("mayfly", this.field_75101_c);
+        nbttagcompound1.func_74757_a("instabuild", this.field_75098_d);
+        nbttagcompound1.func_74757_a("mayBuild", this.field_75099_e);
+        nbttagcompound1.func_74776_a("flySpeed", this.field_75096_f);
+        nbttagcompound1.func_74776_a("walkSpeed", this.field_75097_g);
+        nbttagcompound.func_74782_a("abilities", nbttagcompound1);
     }
 
-    public void readCapabilitiesFromNBT(NBTTagCompound nbttagcompound) {
-        if (nbttagcompound.hasKey("abilities", 10)) {
-            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("abilities");
+    public void func_75095_b(NBTTagCompound nbttagcompound) {
+        if (nbttagcompound.func_150297_b("abilities", 10)) {
+            NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("abilities");
 
-            this.disableDamage = nbttagcompound1.getBoolean("invulnerable");
-            this.isFlying = nbttagcompound1.getBoolean("flying");
-            this.allowFlying = nbttagcompound1.getBoolean("mayfly");
-            this.isCreativeMode = nbttagcompound1.getBoolean("instabuild");
-            if (nbttagcompound1.hasKey("flySpeed", 99)) {
-                this.flySpeed = nbttagcompound1.getFloat("flySpeed");
-                this.walkSpeed = nbttagcompound1.getFloat("walkSpeed");
+            this.field_75102_a = nbttagcompound1.func_74767_n("invulnerable");
+            this.field_75100_b = nbttagcompound1.func_74767_n("flying");
+            this.field_75101_c = nbttagcompound1.func_74767_n("mayfly");
+            this.field_75098_d = nbttagcompound1.func_74767_n("instabuild");
+            if (nbttagcompound1.func_150297_b("flySpeed", 99)) {
+                this.field_75096_f = nbttagcompound1.func_74760_g("flySpeed");
+                this.field_75097_g = nbttagcompound1.func_74760_g("walkSpeed");
             }
 
-            if (nbttagcompound1.hasKey("mayBuild", 1)) {
-                this.allowEdit = nbttagcompound1.getBoolean("mayBuild");
+            if (nbttagcompound1.func_150297_b("mayBuild", 1)) {
+                this.field_75099_e = nbttagcompound1.func_74767_n("mayBuild");
             }
         }
 
     }
 
-    public float getFlySpeed() {
-        return this.flySpeed;
+    public float func_75093_a() {
+        return this.field_75096_f;
     }
 
-    public float getWalkSpeed() {
-        return this.walkSpeed;
+    public float func_75094_b() {
+        return this.field_75097_g;
     }
 }

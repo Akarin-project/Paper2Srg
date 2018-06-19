@@ -30,13 +30,13 @@ public class CraftBanner extends CraftBlockEntityState<TileEntityBanner> impleme
     public void load(TileEntityBanner banner) {
         super.load(banner);
 
-        base = DyeColor.getByDyeData((byte) banner.baseColor.getDyeDamage());
+        base = DyeColor.getByDyeData((byte) banner.field_175120_a.func_176767_b());
         patterns = new ArrayList<Pattern>();
 
-        if (banner.patterns != null) {
-            for (int i = 0; i < banner.patterns.tagCount(); i++) {
-                NBTTagCompound p = (NBTTagCompound) banner.patterns.getCompoundTagAt(i);
-                patterns.add(new Pattern(DyeColor.getByDyeData((byte) p.getInteger("Color")), PatternType.getByIdentifier(p.getString("Pattern"))));
+        if (banner.field_175118_f != null) {
+            for (int i = 0; i < banner.field_175118_f.func_74745_c(); i++) {
+                NBTTagCompound p = (NBTTagCompound) banner.field_175118_f.func_150305_b(i);
+                patterns.add(new Pattern(DyeColor.getByDyeData((byte) p.func_74762_e("Color")), PatternType.getByIdentifier(p.func_74779_i("Pattern"))));
             }
         }
     }
@@ -90,16 +90,16 @@ public class CraftBanner extends CraftBlockEntityState<TileEntityBanner> impleme
     public void applyTo(TileEntityBanner banner) {
         super.applyTo(banner);
 
-        banner.baseColor = EnumDyeColor.byDyeDamage(base.getDyeData());
+        banner.field_175120_a = EnumDyeColor.func_176766_a(base.getDyeData());
 
         NBTTagList newPatterns = new NBTTagList();
 
         for (Pattern p : patterns) {
             NBTTagCompound compound = new NBTTagCompound();
-            compound.setInteger("Color", p.getColor().getDyeData());
-            compound.setString("Pattern", p.getPattern().getIdentifier());
-            newPatterns.appendTag(compound);
+            compound.func_74768_a("Color", p.getColor().getDyeData());
+            compound.func_74778_a("Pattern", p.getPattern().getIdentifier());
+            newPatterns.func_74742_a(compound);
         }
-        banner.patterns = newPatterns;
+        banner.field_175118_f = newPatterns;
     }
 }

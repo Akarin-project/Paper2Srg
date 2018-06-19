@@ -51,27 +51,27 @@ public class CraftMetaArmorStand extends CraftMetaItem implements ArmorStandMeta
     CraftMetaArmorStand(NBTTagCompound tag) {
         super(tag);
 
-        if (tag.hasKey(ENTITY_TAG.NBT)) {
-            entityTag = tag.getCompoundTag(ENTITY_TAG.NBT);
+        if (tag.func_74764_b(ENTITY_TAG.NBT)) {
+            entityTag = tag.func_74775_l(ENTITY_TAG.NBT);
 
-            if (entityTag.hasKey(INVISIBLE.NBT)) {
-                invisible = entityTag.getBoolean(INVISIBLE.NBT);
+            if (entityTag.func_74764_b(INVISIBLE.NBT)) {
+                invisible = entityTag.func_74767_n(INVISIBLE.NBT);
             }
 
-            if (entityTag.hasKey(NO_BASE_PLATE.NBT)) {
-                noBasePlate = entityTag.getBoolean(NO_BASE_PLATE.NBT);
+            if (entityTag.func_74764_b(NO_BASE_PLATE.NBT)) {
+                noBasePlate = entityTag.func_74767_n(NO_BASE_PLATE.NBT);
             }
 
-            if (entityTag.hasKey(SHOW_ARMS.NBT)) {
-                showArms = entityTag.getBoolean(SHOW_ARMS.NBT);
+            if (entityTag.func_74764_b(SHOW_ARMS.NBT)) {
+                showArms = entityTag.func_74767_n(SHOW_ARMS.NBT);
             }
 
-            if (entityTag.hasKey(SMALL.NBT)) {
-                small = entityTag.getBoolean(SMALL.NBT);
+            if (entityTag.func_74764_b(SMALL.NBT)) {
+                small = entityTag.func_74767_n(SMALL.NBT);
             }
 
-            if (entityTag.hasKey(MARKER.NBT)) {
-                marker = entityTag.getBoolean(MARKER.NBT);
+            if (entityTag.func_74764_b(MARKER.NBT)) {
+                marker = entityTag.func_74767_n(MARKER.NBT);
             }
         }
     }
@@ -101,27 +101,27 @@ public class CraftMetaArmorStand extends CraftMetaItem implements ArmorStandMeta
         }
 
         if (isInvisible()) {
-            entityTag.setBoolean(INVISIBLE.NBT, invisible);
+            entityTag.func_74757_a(INVISIBLE.NBT, invisible);
         }
 
         if (hasNoBasePlate()) {
-            entityTag.setBoolean(NO_BASE_PLATE.NBT, noBasePlate);
+            entityTag.func_74757_a(NO_BASE_PLATE.NBT, noBasePlate);
         }
 
         if (shouldShowArms()) {
-            entityTag.setBoolean(SHOW_ARMS.NBT, showArms);
+            entityTag.func_74757_a(SHOW_ARMS.NBT, showArms);
         }
 
         if (isSmall()) {
-            entityTag.setBoolean(SMALL.NBT, small);
+            entityTag.func_74757_a(SMALL.NBT, small);
         }
 
         if (isMarker()) {
-            entityTag.setBoolean(MARKER.NBT, marker);
+            entityTag.func_74757_a(MARKER.NBT, marker);
         }
 
         if (entityTag != null) {
-            tag.setTag(ENTITY_TAG.NBT, entityTag);
+            tag.func_74782_a(ENTITY_TAG.NBT, entityTag);
         }
     }
 
@@ -175,28 +175,28 @@ public class CraftMetaArmorStand extends CraftMetaItem implements ArmorStandMeta
     void deserializeInternal(NBTTagCompound tag) {
         super.deserializeInternal(tag);
 
-        if (tag.hasKey(ENTITY_TAG.NBT)) {
-            entityTag = tag.getCompoundTag(ENTITY_TAG.NBT);
-            MinecraftServer.getServer().dataFixer.process(FixTypes.ENTITY, entityTag); // PAIL: convert
+        if (tag.func_74764_b(ENTITY_TAG.NBT)) {
+            entityTag = tag.func_74775_l(ENTITY_TAG.NBT);
+            MinecraftServer.getServer().field_184112_s.func_188257_a(FixTypes.ENTITY, entityTag); // PAIL: convert
 
-            if (entityTag.hasKey(INVISIBLE.NBT)) {
-                invisible = entityTag.getBoolean(INVISIBLE.NBT);
+            if (entityTag.func_74764_b(INVISIBLE.NBT)) {
+                invisible = entityTag.func_74767_n(INVISIBLE.NBT);
             }
 
-            if (entityTag.hasKey(NO_BASE_PLATE.NBT)) {
-                noBasePlate = entityTag.getBoolean(NO_BASE_PLATE.NBT);
+            if (entityTag.func_74764_b(NO_BASE_PLATE.NBT)) {
+                noBasePlate = entityTag.func_74767_n(NO_BASE_PLATE.NBT);
             }
 
-            if (entityTag.hasKey(SHOW_ARMS.NBT)) {
-                showArms = entityTag.getBoolean(SHOW_ARMS.NBT);
+            if (entityTag.func_74764_b(SHOW_ARMS.NBT)) {
+                showArms = entityTag.func_74767_n(SHOW_ARMS.NBT);
             }
 
-            if (entityTag.hasKey(SMALL.NBT)) {
-                small = entityTag.getBoolean(SMALL.NBT);
+            if (entityTag.func_74764_b(SMALL.NBT)) {
+                small = entityTag.func_74767_n(SMALL.NBT);
             }
 
-            if (entityTag.hasKey(MARKER.NBT)) {
-                marker = entityTag.getBoolean(MARKER.NBT);
+            if (entityTag.func_74764_b(MARKER.NBT)) {
+                marker = entityTag.func_74767_n(MARKER.NBT);
             }
         }
     }
@@ -300,7 +300,7 @@ public class CraftMetaArmorStand extends CraftMetaItem implements ArmorStandMeta
         CraftMetaArmorStand clone = (CraftMetaArmorStand) super.clone();
 
         if (entityTag != null) {
-            clone.entityTag = entityTag.copy();
+            clone.entityTag = entityTag.func_74737_b();
         }
 
         return clone;

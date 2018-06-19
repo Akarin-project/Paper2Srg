@@ -11,21 +11,21 @@ import net.minecraft.util.text.ITextComponent;
 
 public class SPacketTitle implements Packet<INetHandlerPlayClient> {
 
-    private SPacketTitle.Type type;
-    private ITextComponent message;
-    private int fadeInTime;
-    private int displayTime;
-    private int fadeOutTime;
+    private SPacketTitle.Type field_179812_a;
+    private ITextComponent field_179810_b;
+    private int field_179811_c;
+    private int field_179808_d;
+    private int field_179809_e;
 
     // Paper start
     public net.md_5.bungee.api.chat.BaseComponent[] components;
 
     public SPacketTitle(Type action, net.md_5.bungee.api.chat.BaseComponent[] components, int fadeIn, int stay, int fadeOut) {
-        this.type = action;
+        this.field_179812_a = action;
         this.components = components;
-        this.fadeInTime = fadeIn;
-        this.displayTime = stay;
-        this.fadeOutTime = fadeOut;
+        this.field_179811_c = fadeIn;
+        this.field_179808_d = stay;
+        this.field_179809_e = fadeOut;
     }
     // Paper end
 
@@ -40,49 +40,49 @@ public class SPacketTitle implements Packet<INetHandlerPlayClient> {
     }
 
     public SPacketTitle(SPacketTitle.Type packetplayouttitle_enumtitleaction, @Nullable ITextComponent ichatbasecomponent, int i, int j, int k) {
-        this.type = packetplayouttitle_enumtitleaction;
-        this.message = ichatbasecomponent;
-        this.fadeInTime = i;
-        this.displayTime = j;
-        this.fadeOutTime = k;
+        this.field_179812_a = packetplayouttitle_enumtitleaction;
+        this.field_179810_b = ichatbasecomponent;
+        this.field_179811_c = i;
+        this.field_179808_d = j;
+        this.field_179809_e = k;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.type = (SPacketTitle.Type) packetdataserializer.readEnumValue(SPacketTitle.Type.class);
-        if (this.type == SPacketTitle.Type.TITLE || this.type == SPacketTitle.Type.SUBTITLE || this.type == SPacketTitle.Type.ACTIONBAR) {
-            this.message = packetdataserializer.readTextComponent();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_179812_a = (SPacketTitle.Type) packetdataserializer.func_179257_a(SPacketTitle.Type.class);
+        if (this.field_179812_a == SPacketTitle.Type.TITLE || this.field_179812_a == SPacketTitle.Type.SUBTITLE || this.field_179812_a == SPacketTitle.Type.ACTIONBAR) {
+            this.field_179810_b = packetdataserializer.func_179258_d();
         }
 
-        if (this.type == SPacketTitle.Type.TIMES) {
-            this.fadeInTime = packetdataserializer.readInt();
-            this.displayTime = packetdataserializer.readInt();
-            this.fadeOutTime = packetdataserializer.readInt();
+        if (this.field_179812_a == SPacketTitle.Type.TIMES) {
+            this.field_179811_c = packetdataserializer.readInt();
+            this.field_179808_d = packetdataserializer.readInt();
+            this.field_179809_e = packetdataserializer.readInt();
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeEnumValue((Enum) this.type);
-        if (this.type == SPacketTitle.Type.TITLE || this.type == SPacketTitle.Type.SUBTITLE || this.type == SPacketTitle.Type.ACTIONBAR) {
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179249_a((Enum) this.field_179812_a);
+        if (this.field_179812_a == SPacketTitle.Type.TITLE || this.field_179812_a == SPacketTitle.Type.SUBTITLE || this.field_179812_a == SPacketTitle.Type.ACTIONBAR) {
             // Paper start
             if (this.components != null) {
-                packetdataserializer.writeString(net.md_5.bungee.chat.ComponentSerializer.toString(components));
+                packetdataserializer.func_180714_a(net.md_5.bungee.chat.ComponentSerializer.toString(components));
             } else {
-                packetdataserializer.writeTextComponent(this.message);
+                packetdataserializer.func_179256_a(this.field_179810_b);
             }
             // Paper end
         }
 
-        if (this.type == SPacketTitle.Type.TIMES) {
-            packetdataserializer.writeInt(this.fadeInTime);
-            packetdataserializer.writeInt(this.displayTime);
-            packetdataserializer.writeInt(this.fadeOutTime);
+        if (this.field_179812_a == SPacketTitle.Type.TIMES) {
+            packetdataserializer.writeInt(this.field_179811_c);
+            packetdataserializer.writeInt(this.field_179808_d);
+            packetdataserializer.writeInt(this.field_179809_e);
         }
 
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleTitle(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_175099_a(this);
     }
 
     public static enum Type {
@@ -91,7 +91,7 @@ public class SPacketTitle implements Packet<INetHandlerPlayClient> {
 
         private Type() {}
 
-        public static SPacketTitle.Type byName(String s) {
+        public static SPacketTitle.Type func_179969_a(String s) {
             SPacketTitle.Type[] apacketplayouttitle_enumtitleaction = values();
             int i = apacketplayouttitle_enumtitleaction.length;
 
@@ -106,7 +106,7 @@ public class SPacketTitle implements Packet<INetHandlerPlayClient> {
             return SPacketTitle.Type.TITLE;
         }
 
-        public static String[] getNames() {
+        public static String[] func_179971_a() {
             String[] astring = new String[values().length];
             int i = 0;
             SPacketTitle.Type[] apacketplayouttitle_enumtitleaction = values();

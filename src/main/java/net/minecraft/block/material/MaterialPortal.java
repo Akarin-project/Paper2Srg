@@ -6,15 +6,15 @@ public class MaterialPortal extends Material {
         super(materialmapcolor);
     }
 
-    public boolean isSolid() {
+    public boolean func_76220_a() {
         return false;
     }
 
-    public boolean blocksLight() {
+    public boolean func_76228_b() {
         return false;
     }
 
-    public boolean blocksMovement() {
+    public boolean func_76230_c() {
         return false;
     }
 }

@@ -62,20 +62,20 @@ public class CraftBlockEntityState<T extends TileEntity> extends CraftBlockState
             return null;
         }
 
-        NBTTagCompound nbtTagCompound = tileEntity.writeToNBT(new NBTTagCompound());
-        T snapshot = (T) TileEntity.create(null, nbtTagCompound);
+        NBTTagCompound nbtTagCompound = tileEntity.func_189515_b(new NBTTagCompound());
+        T snapshot = (T) TileEntity.func_190200_a(null, nbtTagCompound);
 
         return snapshot;
     }
 
     // copies the TileEntity-specific data, retains the position
     private void copyData(T from, T to) {
-        BlockPos pos = to.getPos();
-        NBTTagCompound nbtTagCompound = from.writeToNBT(new NBTTagCompound());
-        to.readFromNBT(nbtTagCompound);
+        BlockPos pos = to.func_174877_v();
+        NBTTagCompound nbtTagCompound = from.func_189515_b(new NBTTagCompound());
+        to.func_145839_a(nbtTagCompound);
 
         // reset the original position:
-        to.setPos(pos);
+        to.func_174878_a(pos);
     }
 
     // gets the wrapped TileEntity
@@ -100,7 +100,7 @@ public class CraftBlockEntityState<T extends TileEntity> extends CraftBlockState
         // update snapshot
         applyTo(snapshot);
 
-        return snapshot.writeToNBT(new NBTTagCompound());
+        return snapshot.func_189515_b(new NBTTagCompound());
     }
 
     // copies the data of the given tile entity to this block state
@@ -130,7 +130,7 @@ public class CraftBlockEntityState<T extends TileEntity> extends CraftBlockState
 
             if (isApplicable(tile)) {
                 applyTo(tileEntityClass.cast(tile));
-                tile.markDirty();
+                tile.func_70296_d();
             }
         }
 

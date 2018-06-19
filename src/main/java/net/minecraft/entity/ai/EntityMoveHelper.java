@@ -9,62 +9,62 @@ import net.minecraft.util.math.MathHelper;
 
 public class EntityMoveHelper {
 
-    protected final EntityLiving entity;
-    protected double posX;
-    protected double posY;
-    protected double posZ;
-    protected double speed;
-    protected float moveForward;
-    protected float moveStrafe;
-    public EntityMoveHelper.Action action;
+    protected final EntityLiving field_75648_a;
+    protected double field_75646_b;
+    protected double field_75647_c;
+    protected double field_75644_d;
+    protected double field_75645_e;
+    protected float field_188489_f;
+    protected float field_188490_g;
+    public EntityMoveHelper.Action field_188491_h;
 
     public EntityMoveHelper(EntityLiving entityinsentient) {
-        this.action = EntityMoveHelper.Action.WAIT;
-        this.entity = entityinsentient;
+        this.field_188491_h = EntityMoveHelper.Action.WAIT;
+        this.field_75648_a = entityinsentient;
     }
 
-    public boolean isUpdating() {
-        return this.action == EntityMoveHelper.Action.MOVE_TO;
+    public boolean func_75640_a() {
+        return this.field_188491_h == EntityMoveHelper.Action.MOVE_TO;
     }
 
-    public double getSpeed() {
-        return this.speed;
+    public double func_75638_b() {
+        return this.field_75645_e;
     }
 
-    public void setMoveTo(double d0, double d1, double d2, double d3) {
-        this.posX = d0;
-        this.posY = d1;
-        this.posZ = d2;
-        this.speed = d3;
-        this.action = EntityMoveHelper.Action.MOVE_TO;
+    public void func_75642_a(double d0, double d1, double d2, double d3) {
+        this.field_75646_b = d0;
+        this.field_75647_c = d1;
+        this.field_75644_d = d2;
+        this.field_75645_e = d3;
+        this.field_188491_h = EntityMoveHelper.Action.MOVE_TO;
     }
 
-    public void strafe(float f, float f1) {
-        this.action = EntityMoveHelper.Action.STRAFE;
-        this.moveForward = f;
-        this.moveStrafe = f1;
-        this.speed = 0.25D;
+    public void func_188488_a(float f, float f1) {
+        this.field_188491_h = EntityMoveHelper.Action.STRAFE;
+        this.field_188489_f = f;
+        this.field_188490_g = f1;
+        this.field_75645_e = 0.25D;
     }
 
-    public void read(EntityMoveHelper controllermove) {
-        this.action = controllermove.action;
-        this.posX = controllermove.posX;
-        this.posY = controllermove.posY;
-        this.posZ = controllermove.posZ;
-        this.speed = Math.max(controllermove.speed, 1.0D);
-        this.moveForward = controllermove.moveForward;
-        this.moveStrafe = controllermove.moveStrafe;
+    public void func_188487_a(EntityMoveHelper controllermove) {
+        this.field_188491_h = controllermove.field_188491_h;
+        this.field_75646_b = controllermove.field_75646_b;
+        this.field_75647_c = controllermove.field_75647_c;
+        this.field_75644_d = controllermove.field_75644_d;
+        this.field_75645_e = Math.max(controllermove.field_75645_e, 1.0D);
+        this.field_188489_f = controllermove.field_188489_f;
+        this.field_188490_g = controllermove.field_188490_g;
     }
 
-    public void onUpdateMoveHelper() {
+    public void func_75641_c() {
         float f;
 
-        if (this.action == EntityMoveHelper.Action.STRAFE) {
-            float f1 = (float) this.entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue();
-            float f2 = (float) this.speed * f1;
-            float f3 = this.moveForward;
-            float f4 = this.moveStrafe;
-            float f5 = MathHelper.sqrt(f3 * f3 + f4 * f4);
+        if (this.field_188491_h == EntityMoveHelper.Action.STRAFE) {
+            float f1 = (float) this.field_75648_a.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111126_e();
+            float f2 = (float) this.field_75645_e * f1;
+            float f3 = this.field_188489_f;
+            float f4 = this.field_188490_g;
+            float f5 = MathHelper.func_76129_c(f3 * f3 + f4 * f4);
 
             if (f5 < 1.0F) {
                 f5 = 1.0F;
@@ -73,59 +73,59 @@ public class EntityMoveHelper {
             f5 = f2 / f5;
             f3 *= f5;
             f4 *= f5;
-            float f6 = MathHelper.sin(this.entity.rotationYaw * 0.017453292F);
-            float f7 = MathHelper.cos(this.entity.rotationYaw * 0.017453292F);
+            float f6 = MathHelper.func_76126_a(this.field_75648_a.field_70177_z * 0.017453292F);
+            float f7 = MathHelper.func_76134_b(this.field_75648_a.field_70177_z * 0.017453292F);
             float f8 = f3 * f7 - f4 * f6;
 
             f = f4 * f7 + f3 * f6;
-            PathNavigate navigationabstract = this.entity.getNavigator();
+            PathNavigate navigationabstract = this.field_75648_a.func_70661_as();
 
             if (navigationabstract != null) {
-                NodeProcessor pathfinderabstract = navigationabstract.getNodeProcessor();
+                NodeProcessor pathfinderabstract = navigationabstract.func_189566_q();
 
-                if (pathfinderabstract != null && pathfinderabstract.getPathNodeType(this.entity.world, MathHelper.floor(this.entity.posX + (double) f8), MathHelper.floor(this.entity.posY), MathHelper.floor(this.entity.posZ + (double) f)) != PathNodeType.WALKABLE) {
-                    this.moveForward = 1.0F;
-                    this.moveStrafe = 0.0F;
+                if (pathfinderabstract != null && pathfinderabstract.func_186330_a(this.field_75648_a.field_70170_p, MathHelper.func_76128_c(this.field_75648_a.field_70165_t + (double) f8), MathHelper.func_76128_c(this.field_75648_a.field_70163_u), MathHelper.func_76128_c(this.field_75648_a.field_70161_v + (double) f)) != PathNodeType.WALKABLE) {
+                    this.field_188489_f = 1.0F;
+                    this.field_188490_g = 0.0F;
                     f2 = f1;
                 }
             }
 
-            this.entity.setAIMoveSpeed(f2);
-            this.entity.setMoveForward(this.moveForward);
-            this.entity.setMoveStrafing(this.moveStrafe);
-            this.action = EntityMoveHelper.Action.WAIT;
-        } else if (this.action == EntityMoveHelper.Action.MOVE_TO) {
-            this.action = EntityMoveHelper.Action.WAIT;
-            double d0 = this.posX - this.entity.posX;
-            double d1 = this.posZ - this.entity.posZ;
-            double d2 = this.posY - this.entity.posY;
+            this.field_75648_a.func_70659_e(f2);
+            this.field_75648_a.func_191989_p(this.field_188489_f);
+            this.field_75648_a.func_184646_p(this.field_188490_g);
+            this.field_188491_h = EntityMoveHelper.Action.WAIT;
+        } else if (this.field_188491_h == EntityMoveHelper.Action.MOVE_TO) {
+            this.field_188491_h = EntityMoveHelper.Action.WAIT;
+            double d0 = this.field_75646_b - this.field_75648_a.field_70165_t;
+            double d1 = this.field_75644_d - this.field_75648_a.field_70161_v;
+            double d2 = this.field_75647_c - this.field_75648_a.field_70163_u;
             double d3 = d0 * d0 + d2 * d2 + d1 * d1;
 
             if (d3 < 2.500000277905201E-7D) {
-                this.entity.setMoveForward(0.0F);
+                this.field_75648_a.func_191989_p(0.0F);
                 return;
             }
 
-            f = (float) (MathHelper.atan2(d1, d0) * 57.2957763671875D) - 90.0F;
-            this.entity.rotationYaw = this.limitAngle(this.entity.rotationYaw, f, 90.0F);
-            this.entity.setAIMoveSpeed((float) (this.speed * this.entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue()));
-            if (d2 > (double) this.entity.stepHeight && d0 * d0 + d1 * d1 < (double) Math.max(1.0F, this.entity.width)) {
-                this.entity.getJumpHelper().setJumping();
-                this.action = EntityMoveHelper.Action.JUMPING;
+            f = (float) (MathHelper.func_181159_b(d1, d0) * 57.2957763671875D) - 90.0F;
+            this.field_75648_a.field_70177_z = this.func_75639_a(this.field_75648_a.field_70177_z, f, 90.0F);
+            this.field_75648_a.func_70659_e((float) (this.field_75645_e * this.field_75648_a.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111126_e()));
+            if (d2 > (double) this.field_75648_a.field_70138_W && d0 * d0 + d1 * d1 < (double) Math.max(1.0F, this.field_75648_a.field_70130_N)) {
+                this.field_75648_a.func_70683_ar().func_75660_a();
+                this.field_188491_h = EntityMoveHelper.Action.JUMPING;
             }
-        } else if (this.action == EntityMoveHelper.Action.JUMPING) {
-            this.entity.setAIMoveSpeed((float) (this.speed * this.entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue()));
-            if (this.entity.onGround) {
-                this.action = EntityMoveHelper.Action.WAIT;
+        } else if (this.field_188491_h == EntityMoveHelper.Action.JUMPING) {
+            this.field_75648_a.func_70659_e((float) (this.field_75645_e * this.field_75648_a.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111126_e()));
+            if (this.field_75648_a.field_70122_E) {
+                this.field_188491_h = EntityMoveHelper.Action.WAIT;
             }
         } else {
-            this.entity.setMoveForward(0.0F);
+            this.field_75648_a.func_191989_p(0.0F);
         }
 
     }
 
-    protected float limitAngle(float f, float f1, float f2) {
-        float f3 = MathHelper.wrapDegrees(f1 - f);
+    protected float func_75639_a(float f, float f1, float f2) {
+        float f3 = MathHelper.func_76142_g(f1 - f);
 
         if (f3 > f2) {
             f3 = f2;
@@ -146,16 +146,16 @@ public class EntityMoveHelper {
         return f4;
     }
 
-    public double getX() {
-        return this.posX;
+    public double func_179917_d() {
+        return this.field_75646_b;
     }
 
-    public double getY() {
-        return this.posY;
+    public double func_179919_e() {
+        return this.field_75647_c;
     }
 
-    public double getZ() {
-        return this.posZ;
+    public double func_179918_f() {
+        return this.field_75644_d;
     }
 
     public static enum Action {

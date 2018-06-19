@@ -10,12 +10,12 @@ import net.minecraft.world.EnumDifficulty;
 
 public class FoodStats {
 
-    public int foodLevel = 20;
-    public float foodSaturationLevel = 5.0F;
-    public float foodExhaustionLevel;
-    private int foodTimer;
+    public int field_75127_a = 20;
+    public float field_75125_b = 5.0F;
+    public float field_75126_c;
+    private int field_75123_d;
     private EntityPlayer entityhuman; // CraftBukkit
-    private int prevFoodLevel = 20;
+    private int field_75124_e = 20;
 
     public FoodStats() { throw new AssertionError("Whoopsie, we missed the bukkit."); } // CraftBukkit start - throw an error
 
@@ -26,113 +26,113 @@ public class FoodStats {
     }
     // CraftBukkit end
 
-    public void addStats(int i, float f) {
-        this.foodLevel = Math.min(i + this.foodLevel, 20);
-        this.foodSaturationLevel = Math.min(this.foodSaturationLevel + (float) i * f * 2.0F, (float) this.foodLevel);
+    public void func_75122_a(int i, float f) {
+        this.field_75127_a = Math.min(i + this.field_75127_a, 20);
+        this.field_75125_b = Math.min(this.field_75125_b + (float) i * f * 2.0F, (float) this.field_75127_a);
     }
 
-    public void addStats(ItemFood itemfood, ItemStack itemstack) {
+    public void func_151686_a(ItemFood itemfood, ItemStack itemstack) {
         // CraftBukkit start
-        int oldFoodLevel = foodLevel;
+        int oldFoodLevel = field_75127_a;
 
-        org.bukkit.event.entity.FoodLevelChangeEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callFoodLevelChangeEvent(entityhuman, itemfood.getHealAmount(itemstack) + oldFoodLevel);
+        org.bukkit.event.entity.FoodLevelChangeEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callFoodLevelChangeEvent(entityhuman, itemfood.func_150905_g(itemstack) + oldFoodLevel);
 
         if (!event.isCancelled()) {
-            this.addStats(event.getFoodLevel() - oldFoodLevel, itemfood.getSaturationModifier(itemstack));
+            this.func_75122_a(event.getFoodLevel() - oldFoodLevel, itemfood.func_150906_h(itemstack));
         }
 
         ((EntityPlayerMP) entityhuman).getBukkitEntity().sendHealthUpdate();
         // CraftBukkit end
     }
 
-    public void onUpdate(EntityPlayer entityhuman) {
-        EnumDifficulty enumdifficulty = entityhuman.world.getDifficulty();
+    public void func_75118_a(EntityPlayer entityhuman) {
+        EnumDifficulty enumdifficulty = entityhuman.field_70170_p.func_175659_aa();
 
-        this.prevFoodLevel = this.foodLevel;
-        if (this.foodExhaustionLevel > 4.0F) {
-            this.foodExhaustionLevel -= 4.0F;
-            if (this.foodSaturationLevel > 0.0F) {
-                this.foodSaturationLevel = Math.max(this.foodSaturationLevel - 1.0F, 0.0F);
+        this.field_75124_e = this.field_75127_a;
+        if (this.field_75126_c > 4.0F) {
+            this.field_75126_c -= 4.0F;
+            if (this.field_75125_b > 0.0F) {
+                this.field_75125_b = Math.max(this.field_75125_b - 1.0F, 0.0F);
             } else if (enumdifficulty != EnumDifficulty.PEACEFUL) {
                 // CraftBukkit start
-                org.bukkit.event.entity.FoodLevelChangeEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callFoodLevelChangeEvent(entityhuman, Math.max(this.foodLevel - 1, 0));
+                org.bukkit.event.entity.FoodLevelChangeEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callFoodLevelChangeEvent(entityhuman, Math.max(this.field_75127_a - 1, 0));
 
                 if (!event.isCancelled()) {
-                    this.foodLevel = event.getFoodLevel();
+                    this.field_75127_a = event.getFoodLevel();
                 }
 
-                ((EntityPlayerMP) entityhuman).connection.sendPacket(new SPacketUpdateHealth(((EntityPlayerMP) entityhuman).getBukkitEntity().getScaledHealth(), this.foodLevel, this.foodSaturationLevel));
+                ((EntityPlayerMP) entityhuman).field_71135_a.func_147359_a(new SPacketUpdateHealth(((EntityPlayerMP) entityhuman).getBukkitEntity().getScaledHealth(), this.field_75127_a, this.field_75125_b));
                 // CraftBukkit end
             }
         }
 
-        boolean flag = entityhuman.world.getGameRules().getBoolean("naturalRegeneration");
+        boolean flag = entityhuman.field_70170_p.func_82736_K().func_82766_b("naturalRegeneration");
 
-        if (flag && this.foodSaturationLevel > 0.0F && entityhuman.shouldHeal() && this.foodLevel >= 20) {
-            ++this.foodTimer;
-            if (this.foodTimer >= 10) {
-                float f = Math.min(this.foodSaturationLevel, 6.0F);
+        if (flag && this.field_75125_b > 0.0F && entityhuman.func_70996_bM() && this.field_75127_a >= 20) {
+            ++this.field_75123_d;
+            if (this.field_75123_d >= 10) {
+                float f = Math.min(this.field_75125_b, 6.0F);
 
                 entityhuman.heal(f / 6.0F, org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason.SATIATED, true); // CraftBukkit - added RegainReason // Paper - This is fast regen
-                this.addExhaustion(f);
-                this.foodTimer = 0;
+                this.func_75113_a(f);
+                this.field_75123_d = 0;
             }
-        } else if (flag && this.foodLevel >= 18 && entityhuman.shouldHeal()) {
-            ++this.foodTimer;
-            if (this.foodTimer >= 80) {
+        } else if (flag && this.field_75127_a >= 18 && entityhuman.func_70996_bM()) {
+            ++this.field_75123_d;
+            if (this.field_75123_d >= 80) {
                 entityhuman.heal(1.0F, org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason.SATIATED); // CraftBukkit - added RegainReason
-                this.addExhaustion(entityhuman.world.spigotConfig.regenExhaustion); // Spigot - Change to use configurable value
-                this.foodTimer = 0;
+                this.func_75113_a(entityhuman.field_70170_p.spigotConfig.regenExhaustion); // Spigot - Change to use configurable value
+                this.field_75123_d = 0;
             }
-        } else if (this.foodLevel <= 0) {
-            ++this.foodTimer;
-            if (this.foodTimer >= 80) {
-                if (entityhuman.getHealth() > 10.0F || enumdifficulty == EnumDifficulty.HARD || entityhuman.getHealth() > 1.0F && enumdifficulty == EnumDifficulty.NORMAL) {
-                    entityhuman.attackEntityFrom(DamageSource.STARVE, 1.0F);
+        } else if (this.field_75127_a <= 0) {
+            ++this.field_75123_d;
+            if (this.field_75123_d >= 80) {
+                if (entityhuman.func_110143_aJ() > 10.0F || enumdifficulty == EnumDifficulty.HARD || entityhuman.func_110143_aJ() > 1.0F && enumdifficulty == EnumDifficulty.NORMAL) {
+                    entityhuman.func_70097_a(DamageSource.field_76366_f, 1.0F);
                 }
 
-                this.foodTimer = 0;
+                this.field_75123_d = 0;
             }
         } else {
-            this.foodTimer = 0;
+            this.field_75123_d = 0;
         }
 
     }
 
-    public void readNBT(NBTTagCompound nbttagcompound) {
-        if (nbttagcompound.hasKey("foodLevel", 99)) {
-            this.foodLevel = nbttagcompound.getInteger("foodLevel");
-            this.foodTimer = nbttagcompound.getInteger("foodTickTimer");
-            this.foodSaturationLevel = nbttagcompound.getFloat("foodSaturationLevel");
-            this.foodExhaustionLevel = nbttagcompound.getFloat("foodExhaustionLevel");
+    public void func_75112_a(NBTTagCompound nbttagcompound) {
+        if (nbttagcompound.func_150297_b("foodLevel", 99)) {
+            this.field_75127_a = nbttagcompound.func_74762_e("foodLevel");
+            this.field_75123_d = nbttagcompound.func_74762_e("foodTickTimer");
+            this.field_75125_b = nbttagcompound.func_74760_g("foodSaturationLevel");
+            this.field_75126_c = nbttagcompound.func_74760_g("foodExhaustionLevel");
         }
 
     }
 
-    public void writeNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setInteger("foodLevel", this.foodLevel);
-        nbttagcompound.setInteger("foodTickTimer", this.foodTimer);
-        nbttagcompound.setFloat("foodSaturationLevel", this.foodSaturationLevel);
-        nbttagcompound.setFloat("foodExhaustionLevel", this.foodExhaustionLevel);
+    public void func_75117_b(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74768_a("foodLevel", this.field_75127_a);
+        nbttagcompound.func_74768_a("foodTickTimer", this.field_75123_d);
+        nbttagcompound.func_74776_a("foodSaturationLevel", this.field_75125_b);
+        nbttagcompound.func_74776_a("foodExhaustionLevel", this.field_75126_c);
     }
 
-    public int getFoodLevel() {
-        return this.foodLevel;
+    public int func_75116_a() {
+        return this.field_75127_a;
     }
 
-    public boolean needFood() {
-        return this.foodLevel < 20;
+    public boolean func_75121_c() {
+        return this.field_75127_a < 20;
     }
 
-    public void addExhaustion(float f) {
-        this.foodExhaustionLevel = Math.min(this.foodExhaustionLevel + f, 40.0F);
+    public void func_75113_a(float f) {
+        this.field_75126_c = Math.min(this.field_75126_c + f, 40.0F);
     }
 
-    public float getSaturationLevel() {
-        return this.foodSaturationLevel;
+    public float func_75115_e() {
+        return this.field_75125_b;
     }
 
-    public void setFoodLevel(int i) {
-        this.foodLevel = i;
+    public void func_75114_a(int i) {
+        this.field_75127_a = i;
     }
 }

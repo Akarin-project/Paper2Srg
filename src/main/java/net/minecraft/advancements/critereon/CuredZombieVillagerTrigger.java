@@ -22,51 +22,51 @@ import net.minecraft.util.ResourceLocation;
 
 public class CuredZombieVillagerTrigger implements ICriterionTrigger<CriterionTriggerCuredZombieVillager.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("cured_zombie_villager");
-    private final Map<PlayerAdvancements, CriterionTriggerCuredZombieVillager.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_192186_a = new ResourceLocation("cured_zombie_villager");
+    private final Map<PlayerAdvancements, CriterionTriggerCuredZombieVillager.a> field_192187_b = Maps.newHashMap();
 
     public CuredZombieVillagerTrigger() {}
 
-    public ResourceLocation getId() {
-        return CuredZombieVillagerTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return CuredZombieVillagerTrigger.field_192186_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerCuredZombieVillager.b> criteriontrigger_a) {
-        CriterionTriggerCuredZombieVillager.a criteriontriggercuredzombievillager_a = (CriterionTriggerCuredZombieVillager.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerCuredZombieVillager.a criteriontriggercuredzombievillager_a = (CriterionTriggerCuredZombieVillager.a) this.field_192187_b.get(advancementdataplayer);
 
         if (criteriontriggercuredzombievillager_a == null) {
             criteriontriggercuredzombievillager_a = new CriterionTriggerCuredZombieVillager.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggercuredzombievillager_a);
+            this.field_192187_b.put(advancementdataplayer, criteriontriggercuredzombievillager_a);
         }
 
         criteriontriggercuredzombievillager_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerCuredZombieVillager.b> criteriontrigger_a) {
-        CriterionTriggerCuredZombieVillager.a criteriontriggercuredzombievillager_a = (CriterionTriggerCuredZombieVillager.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerCuredZombieVillager.a criteriontriggercuredzombievillager_a = (CriterionTriggerCuredZombieVillager.a) this.field_192187_b.get(advancementdataplayer);
 
         if (criteriontriggercuredzombievillager_a != null) {
             criteriontriggercuredzombievillager_a.b(criteriontrigger_a);
             if (criteriontriggercuredzombievillager_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192187_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192187_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerCuredZombieVillager.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        EntityPredicate criterionconditionentity = EntityPredicate.deserialize(jsonobject.get("zombie"));
-        EntityPredicate criterionconditionentity1 = EntityPredicate.deserialize(jsonobject.get("villager"));
+        EntityPredicate criterionconditionentity = EntityPredicate.func_192481_a(jsonobject.get("zombie"));
+        EntityPredicate criterionconditionentity1 = EntityPredicate.func_192481_a(jsonobject.get("villager"));
 
         return new CriterionTriggerCuredZombieVillager.b(criterionconditionentity, criterionconditionentity1);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, EntityZombie entityzombie, EntityVillager entityvillager) {
-        CriterionTriggerCuredZombieVillager.a criteriontriggercuredzombievillager_a = (CriterionTriggerCuredZombieVillager.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_192183_a(EntityPlayerMP entityplayer, EntityZombie entityzombie, EntityVillager entityvillager) {
+        CriterionTriggerCuredZombieVillager.a criteriontriggercuredzombievillager_a = (CriterionTriggerCuredZombieVillager.a) this.field_192187_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggercuredzombievillager_a != null) {
             criteriontriggercuredzombievillager_a.a(entityplayer, entityzombie, entityvillager);
@@ -74,7 +74,7 @@ public class CuredZombieVillagerTrigger implements ICriterionTrigger<CriterionTr
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -134,13 +134,13 @@ public class CuredZombieVillagerTrigger implements ICriterionTrigger<CriterionTr
         private final EntityPredicate b;
 
         public b(EntityPredicate criterionconditionentity, EntityPredicate criterionconditionentity1) {
-            super(CuredZombieVillagerTrigger.ID);
+            super(CuredZombieVillagerTrigger.field_192186_a);
             this.a = criterionconditionentity;
             this.b = criterionconditionentity1;
         }
 
         public boolean a(EntityPlayerMP entityplayer, EntityZombie entityzombie, EntityVillager entityvillager) {
-            return !this.a.test(entityplayer, entityzombie) ? false : this.b.test(entityplayer, entityvillager);
+            return !this.a.func_192482_a(entityplayer, entityzombie) ? false : this.b.func_192482_a(entityplayer, entityvillager);
         }
     }
 }

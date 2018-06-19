@@ -12,83 +12,83 @@ import net.minecraft.util.NonNullList;
 
 public class BlockStoneBrick extends Block {
 
-    public static final PropertyEnum<BlockStoneBrick.EnumType> VARIANT = PropertyEnum.create("variant", BlockStoneBrick.EnumType.class);
-    public static final int DEFAULT_META = BlockStoneBrick.EnumType.DEFAULT.getMetadata();
-    public static final int MOSSY_META = BlockStoneBrick.EnumType.MOSSY.getMetadata();
-    public static final int CRACKED_META = BlockStoneBrick.EnumType.CRACKED.getMetadata();
-    public static final int CHISELED_META = BlockStoneBrick.EnumType.CHISELED.getMetadata();
+    public static final PropertyEnum<BlockStoneBrick.EnumType> field_176249_a = PropertyEnum.func_177709_a("variant", BlockStoneBrick.EnumType.class);
+    public static final int field_176248_b = BlockStoneBrick.EnumType.DEFAULT.func_176612_a();
+    public static final int field_176250_M = BlockStoneBrick.EnumType.MOSSY.func_176612_a();
+    public static final int field_176251_N = BlockStoneBrick.EnumType.CRACKED.func_176612_a();
+    public static final int field_176252_O = BlockStoneBrick.EnumType.CHISELED.func_176612_a();
 
     public BlockStoneBrick() {
-        super(Material.ROCK);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.DEFAULT));
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151576_e);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockStoneBrick.field_176249_a, BlockStoneBrick.EnumType.DEFAULT));
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public int damageDropped(IBlockState iblockdata) {
-        return ((BlockStoneBrick.EnumType) iblockdata.getValue(BlockStoneBrick.VARIANT)).getMetadata();
+    public int func_180651_a(IBlockState iblockdata) {
+        return ((BlockStoneBrick.EnumType) iblockdata.func_177229_b(BlockStoneBrick.field_176249_a)).func_176612_a();
     }
 
-    public void getSubBlocks(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+    public void func_149666_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
         BlockStoneBrick.EnumType[] ablocksmoothbrick_enumstonebricktype = BlockStoneBrick.EnumType.values();
         int i = ablocksmoothbrick_enumstonebricktype.length;
 
         for (int j = 0; j < i; ++j) {
             BlockStoneBrick.EnumType blocksmoothbrick_enumstonebricktype = ablocksmoothbrick_enumstonebricktype[j];
 
-            nonnulllist.add(new ItemStack(this, 1, blocksmoothbrick_enumstonebricktype.getMetadata()));
+            nonnulllist.add(new ItemStack(this, 1, blocksmoothbrick_enumstonebricktype.func_176612_a()));
         }
 
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.byMetadata(i));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockStoneBrick.field_176249_a, BlockStoneBrick.EnumType.func_176613_a(i));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((BlockStoneBrick.EnumType) iblockdata.getValue(BlockStoneBrick.VARIANT)).getMetadata();
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((BlockStoneBrick.EnumType) iblockdata.func_177229_b(BlockStoneBrick.field_176249_a)).func_176612_a();
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockStoneBrick.VARIANT});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockStoneBrick.field_176249_a});
     }
 
     public static enum EnumType implements IStringSerializable {
 
         DEFAULT(0, "stonebrick", "default"), MOSSY(1, "mossy_stonebrick", "mossy"), CRACKED(2, "cracked_stonebrick", "cracked"), CHISELED(3, "chiseled_stonebrick", "chiseled");
 
-        private static final BlockStoneBrick.EnumType[] META_LOOKUP = new BlockStoneBrick.EnumType[values().length];
-        private final int meta;
-        private final String name;
-        private final String unlocalizedName;
+        private static final BlockStoneBrick.EnumType[] field_176618_e = new BlockStoneBrick.EnumType[values().length];
+        private final int field_176615_f;
+        private final String field_176616_g;
+        private final String field_176622_h;
 
         private EnumType(int i, String s, String s1) {
-            this.meta = i;
-            this.name = s;
-            this.unlocalizedName = s1;
+            this.field_176615_f = i;
+            this.field_176616_g = s;
+            this.field_176622_h = s1;
         }
 
-        public int getMetadata() {
-            return this.meta;
+        public int func_176612_a() {
+            return this.field_176615_f;
         }
 
         public String toString() {
-            return this.name;
+            return this.field_176616_g;
         }
 
-        public static BlockStoneBrick.EnumType byMetadata(int i) {
-            if (i < 0 || i >= BlockStoneBrick.EnumType.META_LOOKUP.length) {
+        public static BlockStoneBrick.EnumType func_176613_a(int i) {
+            if (i < 0 || i >= BlockStoneBrick.EnumType.field_176618_e.length) {
                 i = 0;
             }
 
-            return BlockStoneBrick.EnumType.META_LOOKUP[i];
+            return BlockStoneBrick.EnumType.field_176618_e[i];
         }
 
-        public String getName() {
-            return this.name;
+        public String func_176610_l() {
+            return this.field_176616_g;
         }
 
-        public String getUnlocalizedName() {
-            return this.unlocalizedName;
+        public String func_176614_c() {
+            return this.field_176622_h;
         }
 
         static {
@@ -98,7 +98,7 @@ public class BlockStoneBrick extends Block {
             for (int j = 0; j < i; ++j) {
                 BlockStoneBrick.EnumType blocksmoothbrick_enumstonebricktype = ablocksmoothbrick_enumstonebricktype[j];
 
-                BlockStoneBrick.EnumType.META_LOOKUP[blocksmoothbrick_enumstonebricktype.getMetadata()] = blocksmoothbrick_enumstonebricktype;
+                BlockStoneBrick.EnumType.field_176618_e[blocksmoothbrick_enumstonebricktype.func_176612_a()] = blocksmoothbrick_enumstonebricktype;
             }
 
         }

@@ -12,54 +12,54 @@ import net.minecraft.util.text.TextFormatting;
 
 public class StatBase {
 
-    public final String statId;
-    private final ITextComponent statName;
-    public boolean isIndependent;
-    private final IStatType formatter;
-    private final IScoreCriteria objectiveCriteria;
-    private Class<? extends IJsonSerializable> serializableClazz;
-    private static final NumberFormat numberFormat = NumberFormat.getIntegerInstance(Locale.US);
-    public static IStatType simpleStatType = new IStatType() {
+    public final String field_75975_e;
+    private final ITextComponent field_75978_a;
+    public boolean field_75972_f;
+    private final IStatType field_75976_b;
+    private final IScoreCriteria field_150957_c;
+    private Class<? extends IJsonSerializable> field_150956_d;
+    private static final NumberFormat field_75977_c = NumberFormat.getIntegerInstance(Locale.US);
+    public static IStatType field_75980_h = new IStatType() {
     };
-    private static final DecimalFormat decimalFormat = new DecimalFormat("########0.00");
-    public static IStatType timeStatType = new IStatType() {
+    private static final DecimalFormat field_75974_d = new DecimalFormat("########0.00");
+    public static IStatType field_75981_i = new IStatType() {
     };
-    public static IStatType distanceStatType = new IStatType() {
+    public static IStatType field_75979_j = new IStatType() {
     };
-    public static IStatType divideByTen = new IStatType() {
+    public static IStatType field_111202_k = new IStatType() {
     };
 
     public StatBase(String s, ITextComponent ichatbasecomponent, IStatType counter) {
-        this.statId = s;
-        this.statName = ichatbasecomponent;
-        this.formatter = counter;
-        this.objectiveCriteria = new ScoreCriteriaStat(this);
-        IScoreCriteria.INSTANCES.put(this.objectiveCriteria.getName(), this.objectiveCriteria);
+        this.field_75975_e = s;
+        this.field_75978_a = ichatbasecomponent;
+        this.field_75976_b = counter;
+        this.field_150957_c = new ScoreCriteriaStat(this);
+        IScoreCriteria.field_96643_a.put(this.field_150957_c.func_96636_a(), this.field_150957_c);
     }
 
     public StatBase(String s, ITextComponent ichatbasecomponent) {
-        this(s, ichatbasecomponent, StatBase.simpleStatType);
+        this(s, ichatbasecomponent, StatBase.field_75980_h);
     }
 
-    public StatBase initIndependentStat() {
-        this.isIndependent = true;
+    public StatBase func_75966_h() {
+        this.field_75972_f = true;
         return this;
     }
 
-    public StatBase registerStat() {
-        if (StatList.ID_TO_STAT_MAP.containsKey(this.statId)) {
-            throw new RuntimeException("Duplicate stat id: \"" + ((StatBase) StatList.ID_TO_STAT_MAP.get(this.statId)).statName + "\" and \"" + this.statName + "\" at id " + this.statId);
+    public StatBase func_75971_g() {
+        if (StatList.field_188093_a.containsKey(this.field_75975_e)) {
+            throw new RuntimeException("Duplicate stat id: \"" + ((StatBase) StatList.field_188093_a.get(this.field_75975_e)).field_75978_a + "\" and \"" + this.field_75978_a + "\" at id " + this.field_75975_e);
         } else {
-            StatList.ALL_STATS.add(this);
-            StatList.ID_TO_STAT_MAP.put(this.statId, this);
+            StatList.field_75940_b.add(this);
+            StatList.field_188093_a.put(this.field_75975_e, this);
             return this;
         }
     }
 
-    public ITextComponent getStatName() {
-        ITextComponent ichatbasecomponent = this.statName.createCopy();
+    public ITextComponent func_150951_e() {
+        ITextComponent ichatbasecomponent = this.field_75978_a.func_150259_f();
 
-        ichatbasecomponent.getStyle().setColor(TextFormatting.GRAY);
+        ichatbasecomponent.func_150256_b().func_150238_a(TextFormatting.GRAY);
         return ichatbasecomponent;
     }
 
@@ -69,25 +69,25 @@ public class StatBase {
         } else if (object != null && this.getClass() == object.getClass()) {
             StatBase statistic = (StatBase) object;
 
-            return this.statId.equals(statistic.statId);
+            return this.field_75975_e.equals(statistic.field_75975_e);
         } else {
             return false;
         }
     }
 
     public int hashCode() {
-        return this.statId.hashCode();
+        return this.field_75975_e.hashCode();
     }
 
     public String toString() {
-        return "Stat{id=" + this.statId + ", nameId=" + this.statName + ", awardLocallyOnly=" + this.isIndependent + ", formatter=" + this.formatter + ", objectiveCriteria=" + this.objectiveCriteria + '}';
+        return "Stat{id=" + this.field_75975_e + ", nameId=" + this.field_75978_a + ", awardLocallyOnly=" + this.field_75972_f + ", formatter=" + this.field_75976_b + ", objectiveCriteria=" + this.field_150957_c + '}';
     }
 
-    public IScoreCriteria getCriteria() {
-        return this.objectiveCriteria;
+    public IScoreCriteria func_150952_k() {
+        return this.field_150957_c;
     }
 
-    public Class<? extends IJsonSerializable> getSerializableClazz() {
-        return this.serializableClazz;
+    public Class<? extends IJsonSerializable> func_150954_l() {
+        return this.field_150956_d;
     }
 }

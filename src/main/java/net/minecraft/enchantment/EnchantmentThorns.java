@@ -14,48 +14,48 @@ public class EnchantmentThorns extends Enchantment {
 
     public EnchantmentThorns(Enchantment.Rarity enchantment_rarity, EntityEquipmentSlot... aenumitemslot) {
         super(enchantment_rarity, EnumEnchantmentType.ARMOR_CHEST, aenumitemslot);
-        this.setName("thorns");
+        this.func_77322_b("thorns");
     }
 
-    public int getMinEnchantability(int i) {
+    public int func_77321_a(int i) {
         return 10 + 20 * (i - 1);
     }
 
-    public int getMaxEnchantability(int i) {
-        return super.getMinEnchantability(i) + 50;
+    public int func_77317_b(int i) {
+        return super.func_77321_a(i) + 50;
     }
 
-    public int getMaxLevel() {
+    public int func_77325_b() {
         return 3;
     }
 
-    public boolean canApply(ItemStack itemstack) {
-        return itemstack.getItem() instanceof ItemArmor ? true : super.canApply(itemstack);
+    public boolean func_92089_a(ItemStack itemstack) {
+        return itemstack.func_77973_b() instanceof ItemArmor ? true : super.func_92089_a(itemstack);
     }
 
-    public void onUserHurt(EntityLivingBase entityliving, Entity entity, int i) {
-        Random random = entityliving.getRNG();
-        ItemStack itemstack = EnchantmentHelper.getEnchantedItem(Enchantments.THORNS, entityliving);
+    public void func_151367_b(EntityLivingBase entityliving, Entity entity, int i) {
+        Random random = entityliving.func_70681_au();
+        ItemStack itemstack = EnchantmentHelper.func_92099_a(Enchantments.field_92091_k, entityliving);
 
-        if (entity != null && shouldHit(i, random)) { // CraftBukkit
+        if (entity != null && func_92094_a(i, random)) { // CraftBukkit
             if (entity != null) {
-                entity.attackEntityFrom(DamageSource.causeThornsDamage(entityliving), (float) getDamage(i, random));
+                entity.func_70097_a(DamageSource.func_92087_a(entityliving), (float) func_92095_b(i, random));
             }
 
-            if (!itemstack.isEmpty()) {
-                itemstack.damageItem(3, entityliving);
+            if (!itemstack.func_190926_b()) {
+                itemstack.func_77972_a(3, entityliving);
             }
-        } else if (!itemstack.isEmpty()) {
-            itemstack.damageItem(1, entityliving);
+        } else if (!itemstack.func_190926_b()) {
+            itemstack.func_77972_a(1, entityliving);
         }
 
     }
 
-    public static boolean shouldHit(int i, Random random) {
+    public static boolean func_92094_a(int i, Random random) {
         return i <= 0 ? false : random.nextFloat() < 0.15F * (float) i;
     }
 
-    public static int getDamage(int i, Random random) {
+    public static int func_92095_b(int i, Random random) {
         return i > 10 ? i - 10 : 1 + random.nextInt(4);
     }
 }

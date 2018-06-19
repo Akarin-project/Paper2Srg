@@ -16,16 +16,16 @@ import net.minecraft.util.ResourceLocation;
 
 public class AdvancementList {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    public final Map<ResourceLocation, Advancement> advancements = Maps.newHashMap();
-    private final Set<Advancement> roots = Sets.newLinkedHashSet();
-    private final Set<Advancement> nonRoots = Sets.newLinkedHashSet();
-    private AdvancementList.a listener;
+    private static final Logger field_192091_a = LogManager.getLogger();
+    public final Map<ResourceLocation, Advancement> field_192092_b = Maps.newHashMap();
+    private final Set<Advancement> field_192093_c = Sets.newLinkedHashSet();
+    private final Set<Advancement> field_192094_d = Sets.newLinkedHashSet();
+    private AdvancementList.a field_192095_e;
 
     public AdvancementList() {}
 
-    public void loadAdvancements(Map<ResourceLocation, Advancement.Builder> map) {
-        Function function = Functions.forMap(this.advancements, (Object) null);
+    public void func_192083_a(Map<ResourceLocation, Advancement.Builder> map) {
+        Function function = Functions.forMap(this.field_192092_b, (Object) null);
 
         label42:
         while (!map.isEmpty()) {
@@ -39,21 +39,21 @@ public class AdvancementList {
                 ResourceLocation minecraftkey = (ResourceLocation) entry.getKey();
                 Advancement.Builder advancement_serializedadvancement = (Advancement.Builder) entry.getValue();
 
-                if (advancement_serializedadvancement.resolveParent(function)) {
-                    Advancement advancement = advancement_serializedadvancement.build(minecraftkey);
+                if (advancement_serializedadvancement.func_192058_a(function)) {
+                    Advancement advancement = advancement_serializedadvancement.func_192056_a(minecraftkey);
 
-                    this.advancements.put(minecraftkey, advancement);
+                    this.field_192092_b.put(minecraftkey, advancement);
                     flag = true;
                     iterator.remove();
-                    if (advancement.getParent() == null) {
-                        this.roots.add(advancement);
-                        if (this.listener != null) {
-                            this.listener.a(advancement);
+                    if (advancement.func_192070_b() == null) {
+                        this.field_192093_c.add(advancement);
+                        if (this.field_192095_e != null) {
+                            this.field_192095_e.a(advancement);
                         }
                     } else {
-                        this.nonRoots.add(advancement);
-                        if (this.listener != null) {
-                            this.listener.c(advancement);
+                        this.field_192094_d.add(advancement);
+                        if (this.field_192095_e != null) {
+                            this.field_192095_e.c(advancement);
                         }
                     }
                 }
@@ -68,7 +68,7 @@ public class AdvancementList {
                     }
 
                     entry = (Entry) iterator.next();
-                    AdvancementList.LOGGER.error("Couldn\'t load advancement " + entry.getKey() + ": " + entry.getValue());
+                    AdvancementList.field_192091_a.error("Couldn\'t load advancement " + entry.getKey() + ": " + entry.getValue());
                 }
             }
         }
@@ -76,27 +76,27 @@ public class AdvancementList {
         // Advancements.a.info("Loaded " + this.b.size() + " advancements"); // CraftBukkit - moved to AdvancementDataWorld#reload
     }
 
-    public void clear() {
-        this.advancements.clear();
-        this.roots.clear();
-        this.nonRoots.clear();
-        if (this.listener != null) {
-            this.listener.a();
+    public void func_192087_a() {
+        this.field_192092_b.clear();
+        this.field_192093_c.clear();
+        this.field_192094_d.clear();
+        if (this.field_192095_e != null) {
+            this.field_192095_e.a();
         }
 
     }
 
-    public Iterable<Advancement> getRoots() {
-        return this.roots;
+    public Iterable<Advancement> func_192088_b() {
+        return this.field_192093_c;
     }
 
-    public Iterable<Advancement> getAdvancements() {
-        return this.advancements.values();
+    public Iterable<Advancement> func_192089_c() {
+        return this.field_192092_b.values();
     }
 
     @Nullable
-    public Advancement getAdvancement(ResourceLocation minecraftkey) {
-        return this.advancements.get(minecraftkey);
+    public Advancement func_192084_a(ResourceLocation minecraftkey) {
+        return this.field_192092_b.get(minecraftkey);
     }
 
     public interface a {

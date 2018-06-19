@@ -2,43 +2,43 @@ package net.minecraft.network.rcon;
 
 public interface IServer {
 
-    int getIntProperty(String s, int i);
+    int func_71327_a(String s, int i);
 
-    String getStringProperty(String s, String s1);
+    String func_71330_a(String s, String s1);
 
-    void setProperty(String s, Object object);
+    void func_71328_a(String s, Object object);
 
-    void saveProperties();
+    void func_71326_a();
 
-    String getSettingsFilename();
+    String func_71329_c();
 
-    String getHostname();
+    String func_71277_t();
 
-    int getPort();
+    int func_71234_u();
 
-    String getMotd();
+    String func_71274_v();
 
-    String getMinecraftVersion();
+    String func_71249_w();
 
-    int getCurrentPlayerCount();
+    int func_71233_x();
 
-    int getMaxPlayers();
+    int func_71275_y();
 
-    String[] getOnlinePlayerNames();
+    String[] func_71213_z();
 
-    String getFolderName();
+    String func_71270_I();
 
-    String getPlugins();
+    String func_71258_A();
 
-    String handleRConCommand(String s);
+    String func_71252_i(String s);
 
-    boolean isDebuggingEnabled();
+    boolean func_71239_B();
 
-    void logInfo(String s);
+    void func_71244_g(String s);
 
-    void logWarning(String s);
+    void func_71236_h(String s);
 
-    void logSevere(String s);
+    void func_71201_j(String s);
 
-    void logDebug(String s);
+    void func_71198_k(String s);
 }

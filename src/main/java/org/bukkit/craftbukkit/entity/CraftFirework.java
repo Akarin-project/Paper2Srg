@@ -24,11 +24,11 @@ public class CraftFirework extends CraftEntity implements Firework {
     public CraftFirework(CraftServer server, EntityFireworkRocket entity) {
         super(server, entity);
 
-        ItemStack item = getHandle().getDataManager().get(EntityFireworkRocket.FIREWORK_ITEM);
+        ItemStack item = getHandle().func_184212_Q().func_187225_a(EntityFireworkRocket.field_184566_a);
 
-        if (item.isEmpty()) {
-            item = new ItemStack(Items.FIREWORKS);
-            getHandle().getDataManager().set(EntityFireworkRocket.FIREWORK_ITEM, item);
+        if (item.func_190926_b()) {
+            item = new ItemStack(Items.field_151152_bP);
+            getHandle().func_184212_Q().func_187227_b(EntityFireworkRocket.field_184566_a, item);
         }
 
         this.item = CraftItemStack.asCraftMirror(item);
@@ -64,14 +64,14 @@ public class CraftFirework extends CraftEntity implements Firework {
         item.setItemMeta(meta);
 
         // Copied from EntityFireworks constructor, update firework lifetime/power
-        getHandle().lifetime = 10 * (1 + meta.getPower()) + random.nextInt(6) + random.nextInt(7);
+        getHandle().field_92055_b = 10 * (1 + meta.getPower()) + random.nextInt(6) + random.nextInt(7);
 
-        getHandle().getDataManager().setDirty(EntityFireworkRocket.FIREWORK_ITEM);
+        getHandle().func_184212_Q().func_187217_b(EntityFireworkRocket.field_184566_a);
     }
 
     @Override
     public void detonate() {
-        getHandle().lifetime = 0;
+        getHandle().field_92055_b = 0;
     }
 
     // Paper start

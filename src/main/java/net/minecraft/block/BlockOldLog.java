@@ -17,9 +17,9 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockOldLog extends BlockLog {
 
-    public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockPlanks.EnumType.class, new Predicate() {
+    public static final PropertyEnum<BlockPlanks.EnumType> field_176301_b = PropertyEnum.func_177708_a("variant", BlockPlanks.EnumType.class, new Predicate() {
         public boolean a(@Nullable BlockPlanks.EnumType blockwood_enumlogvariant) {
-            return blockwood_enumlogvariant.getMetadata() < 4;
+            return blockwood_enumlogvariant.func_176839_a() < 4;
         }
 
         public boolean apply(@Nullable Object object) {
@@ -28,13 +28,13 @@ public class BlockOldLog extends BlockLog {
     });
 
     public BlockOldLog() {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.OAK).withProperty(BlockOldLog.LOG_AXIS, BlockLog.EnumAxis.Y));
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockOldLog.field_176301_b, BlockPlanks.EnumType.OAK).func_177226_a(BlockOldLog.field_176299_a, BlockLog.EnumAxis.Y));
     }
 
-    public MapColor getMapColor(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        BlockPlanks.EnumType blockwood_enumlogvariant = (BlockPlanks.EnumType) iblockdata.getValue(BlockOldLog.VARIANT);
+    public MapColor func_180659_g(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        BlockPlanks.EnumType blockwood_enumlogvariant = (BlockPlanks.EnumType) iblockdata.func_177229_b(BlockOldLog.field_176301_b);
 
-        switch ((BlockLog.EnumAxis) iblockdata.getValue(BlockOldLog.LOG_AXIS)) {
+        switch ((BlockLog.EnumAxis) iblockdata.func_177229_b(BlockOldLog.field_176299_a)) {
         case X:
         case Z:
         case NONE:
@@ -42,58 +42,58 @@ public class BlockOldLog extends BlockLog {
             switch (blockwood_enumlogvariant) {
             case OAK:
             default:
-                return BlockPlanks.EnumType.SPRUCE.getMapColor();
+                return BlockPlanks.EnumType.SPRUCE.func_181070_c();
 
             case SPRUCE:
-                return BlockPlanks.EnumType.DARK_OAK.getMapColor();
+                return BlockPlanks.EnumType.DARK_OAK.func_181070_c();
 
             case BIRCH:
-                return MapColor.QUARTZ;
+                return MapColor.field_151677_p;
 
             case JUNGLE:
-                return BlockPlanks.EnumType.SPRUCE.getMapColor();
+                return BlockPlanks.EnumType.SPRUCE.func_181070_c();
             }
 
         case Y:
-            return blockwood_enumlogvariant.getMapColor();
+            return blockwood_enumlogvariant.func_181070_c();
         }
     }
 
-    public void getSubBlocks(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
-        nonnulllist.add(new ItemStack(this, 1, BlockPlanks.EnumType.OAK.getMetadata()));
-        nonnulllist.add(new ItemStack(this, 1, BlockPlanks.EnumType.SPRUCE.getMetadata()));
-        nonnulllist.add(new ItemStack(this, 1, BlockPlanks.EnumType.BIRCH.getMetadata()));
-        nonnulllist.add(new ItemStack(this, 1, BlockPlanks.EnumType.JUNGLE.getMetadata()));
+    public void func_149666_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+        nonnulllist.add(new ItemStack(this, 1, BlockPlanks.EnumType.OAK.func_176839_a()));
+        nonnulllist.add(new ItemStack(this, 1, BlockPlanks.EnumType.SPRUCE.func_176839_a()));
+        nonnulllist.add(new ItemStack(this, 1, BlockPlanks.EnumType.BIRCH.func_176839_a()));
+        nonnulllist.add(new ItemStack(this, 1, BlockPlanks.EnumType.JUNGLE.func_176839_a()));
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        IBlockState iblockdata = this.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.byMetadata((i & 3) % 4));
+    public IBlockState func_176203_a(int i) {
+        IBlockState iblockdata = this.func_176223_P().func_177226_a(BlockOldLog.field_176301_b, BlockPlanks.EnumType.func_176837_a((i & 3) % 4));
 
         switch (i & 12) {
         case 0:
-            iblockdata = iblockdata.withProperty(BlockOldLog.LOG_AXIS, BlockLog.EnumAxis.Y);
+            iblockdata = iblockdata.func_177226_a(BlockOldLog.field_176299_a, BlockLog.EnumAxis.Y);
             break;
 
         case 4:
-            iblockdata = iblockdata.withProperty(BlockOldLog.LOG_AXIS, BlockLog.EnumAxis.X);
+            iblockdata = iblockdata.func_177226_a(BlockOldLog.field_176299_a, BlockLog.EnumAxis.X);
             break;
 
         case 8:
-            iblockdata = iblockdata.withProperty(BlockOldLog.LOG_AXIS, BlockLog.EnumAxis.Z);
+            iblockdata = iblockdata.func_177226_a(BlockOldLog.field_176299_a, BlockLog.EnumAxis.Z);
             break;
 
         default:
-            iblockdata = iblockdata.withProperty(BlockOldLog.LOG_AXIS, BlockLog.EnumAxis.NONE);
+            iblockdata = iblockdata.func_177226_a(BlockOldLog.field_176299_a, BlockLog.EnumAxis.NONE);
         }
 
         return iblockdata;
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         byte b0 = 0;
-        int i = b0 | ((BlockPlanks.EnumType) iblockdata.getValue(BlockOldLog.VARIANT)).getMetadata();
+        int i = b0 | ((BlockPlanks.EnumType) iblockdata.func_177229_b(BlockOldLog.field_176301_b)).func_176839_a();
 
-        switch ((BlockLog.EnumAxis) iblockdata.getValue(BlockOldLog.LOG_AXIS)) {
+        switch ((BlockLog.EnumAxis) iblockdata.func_177229_b(BlockOldLog.field_176299_a)) {
         case X:
             i |= 4;
             break;
@@ -109,15 +109,15 @@ public class BlockOldLog extends BlockLog {
         return i;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockOldLog.VARIANT, BlockOldLog.LOG_AXIS});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockOldLog.field_176301_b, BlockOldLog.field_176299_a});
     }
 
-    protected ItemStack getSilkTouchDrop(IBlockState iblockdata) {
-        return new ItemStack(Item.getItemFromBlock(this), 1, ((BlockPlanks.EnumType) iblockdata.getValue(BlockOldLog.VARIANT)).getMetadata());
+    protected ItemStack func_180643_i(IBlockState iblockdata) {
+        return new ItemStack(Item.func_150898_a(this), 1, ((BlockPlanks.EnumType) iblockdata.func_177229_b(BlockOldLog.field_176301_b)).func_176839_a());
     }
 
-    public int damageDropped(IBlockState iblockdata) {
-        return ((BlockPlanks.EnumType) iblockdata.getValue(BlockOldLog.VARIANT)).getMetadata();
+    public int func_180651_a(IBlockState iblockdata) {
+        return ((BlockPlanks.EnumType) iblockdata.func_177229_b(BlockOldLog.field_176301_b)).func_176839_a();
     }
 }

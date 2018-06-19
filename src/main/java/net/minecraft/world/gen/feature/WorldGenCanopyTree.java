@@ -16,33 +16,33 @@ import net.minecraft.world.World;
 
 public class WorldGenCanopyTree extends WorldGenAbstractTree {
 
-    private static final IBlockState DARK_OAK_LOG = Blocks.LOG2.getDefaultState().withProperty(BlockNewLog.VARIANT, BlockPlanks.EnumType.DARK_OAK);
-    private static final IBlockState DARK_OAK_LEAVES = Blocks.LEAVES2.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.DARK_OAK).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+    private static final IBlockState field_181640_a = Blocks.field_150363_s.func_176223_P().func_177226_a(BlockNewLog.field_176300_b, BlockPlanks.EnumType.DARK_OAK);
+    private static final IBlockState field_181641_b = Blocks.field_150361_u.func_176223_P().func_177226_a(BlockNewLeaf.field_176240_P, BlockPlanks.EnumType.DARK_OAK).func_177226_a(BlockLeaves.field_176236_b, Boolean.valueOf(false));
 
     public WorldGenCanopyTree(boolean flag) {
         super(flag);
     }
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
         int i = random.nextInt(3) + random.nextInt(2) + 6;
-        int j = blockposition.getX();
-        int k = blockposition.getY();
-        int l = blockposition.getZ();
+        int j = blockposition.func_177958_n();
+        int k = blockposition.func_177956_o();
+        int l = blockposition.func_177952_p();
 
         if (k >= 1 && k + i + 1 < 256) {
-            BlockPos blockposition1 = blockposition.down();
-            Block block = world.getBlockState(blockposition1).getBlock();
+            BlockPos blockposition1 = blockposition.func_177977_b();
+            Block block = world.func_180495_p(blockposition1).func_177230_c();
 
-            if (block != Blocks.GRASS && block != Blocks.DIRT) {
+            if (block != Blocks.field_150349_c && block != Blocks.field_150346_d) {
                 return false;
-            } else if (!this.placeTreeOfHeight(world, blockposition, i)) {
+            } else if (!this.func_181638_a(world, blockposition, i)) {
                 return false;
             } else {
-                this.setDirtAt(world, blockposition1);
-                this.setDirtAt(world, blockposition1.east());
-                this.setDirtAt(world, blockposition1.south());
-                this.setDirtAt(world, blockposition1.south().east());
-                EnumFacing enumdirection = EnumFacing.Plane.HORIZONTAL.random(random);
+                this.func_175921_a(world, blockposition1);
+                this.func_175921_a(world, blockposition1.func_177974_f());
+                this.func_175921_a(world, blockposition1.func_177968_d());
+                this.func_175921_a(world, blockposition1.func_177968_d().func_177974_f());
+                EnumFacing enumdirection = EnumFacing.Plane.HORIZONTAL.func_179518_a(random);
                 int i1 = i - random.nextInt(4);
                 int j1 = 2 - random.nextInt(3);
                 int k1 = j;
@@ -54,20 +54,20 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
 
                 for (j2 = 0; j2 < i; ++j2) {
                     if (j2 >= i1 && j1 > 0) {
-                        k1 += enumdirection.getFrontOffsetX();
-                        l1 += enumdirection.getFrontOffsetZ();
+                        k1 += enumdirection.func_82601_c();
+                        l1 += enumdirection.func_82599_e();
                         --j1;
                     }
 
                     k2 = k + j2;
                     BlockPos blockposition2 = new BlockPos(k1, k2, l1);
-                    Material material = world.getBlockState(blockposition2).getMaterial();
+                    Material material = world.func_180495_p(blockposition2).func_185904_a();
 
-                    if (material == Material.AIR || material == Material.LEAVES) {
-                        this.placeLogAt(world, blockposition2);
-                        this.placeLogAt(world, blockposition2.east());
-                        this.placeLogAt(world, blockposition2.south());
-                        this.placeLogAt(world, blockposition2.east().south());
+                    if (material == Material.field_151579_a || material == Material.field_151584_j) {
+                        this.func_181639_b(world, blockposition2);
+                        this.func_181639_b(world, blockposition2.func_177974_f());
+                        this.func_181639_b(world, blockposition2.func_177968_d());
+                        this.func_181639_b(world, blockposition2.func_177974_f().func_177968_d());
                     }
                 }
 
@@ -75,32 +75,32 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
                     for (k2 = -2; k2 <= 0; ++k2) {
                         byte b0 = -1;
 
-                        this.placeLeafAt(world, k1 + j2, i2 + b0, l1 + k2);
-                        this.placeLeafAt(world, 1 + k1 - j2, i2 + b0, l1 + k2);
-                        this.placeLeafAt(world, k1 + j2, i2 + b0, 1 + l1 - k2);
-                        this.placeLeafAt(world, 1 + k1 - j2, i2 + b0, 1 + l1 - k2);
+                        this.func_150526_a(world, k1 + j2, i2 + b0, l1 + k2);
+                        this.func_150526_a(world, 1 + k1 - j2, i2 + b0, l1 + k2);
+                        this.func_150526_a(world, k1 + j2, i2 + b0, 1 + l1 - k2);
+                        this.func_150526_a(world, 1 + k1 - j2, i2 + b0, 1 + l1 - k2);
                         if ((j2 > -2 || k2 > -1) && (j2 != -1 || k2 != -2)) {
                             byte b1 = 1;
 
-                            this.placeLeafAt(world, k1 + j2, i2 + b1, l1 + k2);
-                            this.placeLeafAt(world, 1 + k1 - j2, i2 + b1, l1 + k2);
-                            this.placeLeafAt(world, k1 + j2, i2 + b1, 1 + l1 - k2);
-                            this.placeLeafAt(world, 1 + k1 - j2, i2 + b1, 1 + l1 - k2);
+                            this.func_150526_a(world, k1 + j2, i2 + b1, l1 + k2);
+                            this.func_150526_a(world, 1 + k1 - j2, i2 + b1, l1 + k2);
+                            this.func_150526_a(world, k1 + j2, i2 + b1, 1 + l1 - k2);
+                            this.func_150526_a(world, 1 + k1 - j2, i2 + b1, 1 + l1 - k2);
                         }
                     }
                 }
 
                 if (random.nextBoolean()) {
-                    this.placeLeafAt(world, k1, i2 + 2, l1);
-                    this.placeLeafAt(world, k1 + 1, i2 + 2, l1);
-                    this.placeLeafAt(world, k1 + 1, i2 + 2, l1 + 1);
-                    this.placeLeafAt(world, k1, i2 + 2, l1 + 1);
+                    this.func_150526_a(world, k1, i2 + 2, l1);
+                    this.func_150526_a(world, k1 + 1, i2 + 2, l1);
+                    this.func_150526_a(world, k1 + 1, i2 + 2, l1 + 1);
+                    this.func_150526_a(world, k1, i2 + 2, l1 + 1);
                 }
 
                 for (j2 = -3; j2 <= 4; ++j2) {
                     for (k2 = -3; k2 <= 4; ++k2) {
                         if ((j2 != -3 || k2 != -3) && (j2 != -3 || k2 != 4) && (j2 != 4 || k2 != -3) && (j2 != 4 || k2 != 4) && (Math.abs(j2) < 3 || Math.abs(k2) < 3)) {
-                            this.placeLeafAt(world, k1 + j2, i2, l1 + k2);
+                            this.func_150526_a(world, k1 + j2, i2, l1 + k2);
                         }
                     }
                 }
@@ -113,21 +113,21 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
                             int i3;
 
                             for (i3 = 0; i3 < l2; ++i3) {
-                                this.placeLogAt(world, new BlockPos(j + j2, i2 - i3 - 1, l + k2));
+                                this.func_181639_b(world, new BlockPos(j + j2, i2 - i3 - 1, l + k2));
                             }
 
                             int j3;
 
                             for (i3 = -1; i3 <= 1; ++i3) {
                                 for (j3 = -1; j3 <= 1; ++j3) {
-                                    this.placeLeafAt(world, k1 + j2 + i3, i2, l1 + k2 + j3);
+                                    this.func_150526_a(world, k1 + j2 + i3, i2, l1 + k2 + j3);
                                 }
                             }
 
                             for (i3 = -2; i3 <= 2; ++i3) {
                                 for (j3 = -2; j3 <= 2; ++j3) {
                                     if (Math.abs(i3) != 2 || Math.abs(j3) != 2) {
-                                        this.placeLeafAt(world, k1 + j2 + i3, i2 - 1, l1 + k2 + j3);
+                                        this.func_150526_a(world, k1 + j2 + i3, i2 - 1, l1 + k2 + j3);
                                     }
                                 }
                             }
@@ -142,10 +142,10 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
         }
     }
 
-    private boolean placeTreeOfHeight(World world, BlockPos blockposition, int i) {
-        int j = blockposition.getX();
-        int k = blockposition.getY();
-        int l = blockposition.getZ();
+    private boolean func_181638_a(World world, BlockPos blockposition, int i) {
+        int j = blockposition.func_177958_n();
+        int k = blockposition.func_177956_o();
+        int l = blockposition.func_177952_p();
         BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos();
 
         for (int i1 = 0; i1 <= i + 1; ++i1) {
@@ -161,7 +161,7 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
 
             for (int j1 = -b0; j1 <= b0; ++j1) {
                 for (int k1 = -b0; k1 <= b0; ++k1) {
-                    if (!this.canGrowInto(world.getBlockState(blockposition_mutableblockposition.setPos(j + j1, k + i1, l + k1)).getBlock())) {
+                    if (!this.func_150523_a(world.func_180495_p(blockposition_mutableblockposition.func_181079_c(j + j1, k + i1, l + k1)).func_177230_c())) {
                         return false;
                     }
                 }
@@ -171,19 +171,19 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
         return true;
     }
 
-    private void placeLogAt(World world, BlockPos blockposition) {
-        if (this.canGrowInto(world.getBlockState(blockposition).getBlock())) {
-            this.setBlockAndNotifyAdequately(world, blockposition, WorldGenCanopyTree.DARK_OAK_LOG);
+    private void func_181639_b(World world, BlockPos blockposition) {
+        if (this.func_150523_a(world.func_180495_p(blockposition).func_177230_c())) {
+            this.func_175903_a(world, blockposition, WorldGenCanopyTree.field_181640_a);
         }
 
     }
 
-    private void placeLeafAt(World world, int i, int j, int k) {
+    private void func_150526_a(World world, int i, int j, int k) {
         BlockPos blockposition = new BlockPos(i, j, k);
-        Material material = world.getBlockState(blockposition).getMaterial();
+        Material material = world.func_180495_p(blockposition).func_185904_a();
 
-        if (material == Material.AIR) {
-            this.setBlockAndNotifyAdequately(world, blockposition, WorldGenCanopyTree.DARK_OAK_LEAVES);
+        if (material == Material.field_151579_a) {
+            this.func_175903_a(world, blockposition, WorldGenCanopyTree.field_181641_b);
         }
 
     }

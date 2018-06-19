@@ -15,39 +15,39 @@ import net.minecraft.world.World;
 public class ItemBucketMilk extends Item {
 
     public ItemBucketMilk() {
-        this.setMaxStackSize(1);
-        this.setCreativeTab(CreativeTabs.MISC);
+        this.func_77625_d(1);
+        this.func_77637_a(CreativeTabs.field_78026_f);
     }
 
-    public ItemStack onItemUseFinish(ItemStack itemstack, World world, EntityLivingBase entityliving) {
+    public ItemStack func_77654_b(ItemStack itemstack, World world, EntityLivingBase entityliving) {
         if (entityliving instanceof EntityPlayerMP) {
             EntityPlayerMP entityplayer = (EntityPlayerMP) entityliving;
 
-            CriteriaTriggers.CONSUME_ITEM.trigger(entityplayer, itemstack);
-            entityplayer.addStat(StatList.getObjectUseStats((Item) this));
+            CriteriaTriggers.field_193138_y.func_193148_a(entityplayer, itemstack);
+            entityplayer.func_71029_a(StatList.func_188057_b((Item) this));
         }
 
-        if (entityliving instanceof EntityPlayer && !((EntityPlayer) entityliving).capabilities.isCreativeMode) {
-            itemstack.shrink(1);
+        if (entityliving instanceof EntityPlayer && !((EntityPlayer) entityliving).field_71075_bZ.field_75098_d) {
+            itemstack.func_190918_g(1);
         }
 
-        if (!world.isRemote) {
-            entityliving.clearActivePotions();
+        if (!world.field_72995_K) {
+            entityliving.func_70674_bp();
         }
 
-        return itemstack.isEmpty() ? new ItemStack(Items.BUCKET) : itemstack;
+        return itemstack.func_190926_b() ? new ItemStack(Items.field_151133_ar) : itemstack;
     }
 
-    public int getMaxItemUseDuration(ItemStack itemstack) {
+    public int func_77626_a(ItemStack itemstack) {
         return 32;
     }
 
-    public EnumAction getItemUseAction(ItemStack itemstack) {
+    public EnumAction func_77661_b(ItemStack itemstack) {
         return EnumAction.DRINK;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        entityhuman.setActiveHand(enumhand);
-        return new ActionResult(EnumActionResult.SUCCESS, entityhuman.getHeldItem(enumhand));
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        entityhuman.func_184598_c(enumhand);
+        return new ActionResult(EnumActionResult.SUCCESS, entityhuman.func_184586_b(enumhand));
     }
 }

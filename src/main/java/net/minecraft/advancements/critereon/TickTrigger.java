@@ -19,48 +19,48 @@ import net.minecraft.util.ResourceLocation;
 
 public class TickTrigger implements ICriterionTrigger<CriterionTriggerTick.b> {
 
-    public static final ResourceLocation ID = new ResourceLocation("tick");
-    private final Map<PlayerAdvancements, CriterionTriggerTick.a> listeners = Maps.newHashMap();
+    public static final ResourceLocation field_193183_a = new ResourceLocation("tick");
+    private final Map<PlayerAdvancements, CriterionTriggerTick.a> field_193184_b = Maps.newHashMap();
 
     public TickTrigger() {}
 
-    public ResourceLocation getId() {
-        return TickTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return TickTrigger.field_193183_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerTick.b> criteriontrigger_a) {
-        CriterionTriggerTick.a criteriontriggertick_a = (CriterionTriggerTick.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerTick.a criteriontriggertick_a = (CriterionTriggerTick.a) this.field_193184_b.get(advancementdataplayer);
 
         if (criteriontriggertick_a == null) {
             criteriontriggertick_a = new CriterionTriggerTick.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggertick_a);
+            this.field_193184_b.put(advancementdataplayer, criteriontriggertick_a);
         }
 
         criteriontriggertick_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerTick.b> criteriontrigger_a) {
-        CriterionTriggerTick.a criteriontriggertick_a = (CriterionTriggerTick.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerTick.a criteriontriggertick_a = (CriterionTriggerTick.a) this.field_193184_b.get(advancementdataplayer);
 
         if (criteriontriggertick_a != null) {
             criteriontriggertick_a.b(criteriontrigger_a);
             if (criteriontriggertick_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_193184_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_193184_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerTick.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return new CriterionTriggerTick.b();
     }
 
-    public void trigger(EntityPlayerMP entityplayer) {
-        CriterionTriggerTick.a criteriontriggertick_a = (CriterionTriggerTick.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_193182_a(EntityPlayerMP entityplayer) {
+        CriterionTriggerTick.a criteriontriggertick_a = (CriterionTriggerTick.a) this.field_193184_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggertick_a != null) {
             criteriontriggertick_a.b();
@@ -68,7 +68,7 @@ public class TickTrigger implements ICriterionTrigger<CriterionTriggerTick.b> {
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -108,7 +108,7 @@ public class TickTrigger implements ICriterionTrigger<CriterionTriggerTick.b> {
     public static class b extends AbstractCriterionInstance {
 
         public b() {
-            super(TickTrigger.ID);
+            super(TickTrigger.field_193183_a);
         }
     }
 }

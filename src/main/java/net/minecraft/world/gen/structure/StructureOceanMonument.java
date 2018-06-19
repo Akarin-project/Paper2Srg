@@ -23,15 +23,15 @@ import net.minecraft.world.biome.Biome;
 
 public class StructureOceanMonument extends MapGenStructure {
 
-    private int spacing;
-    private int separation;
-    public static final List<Biome> WATER_BIOMES = Arrays.asList(new Biome[] { Biomes.OCEAN, Biomes.DEEP_OCEAN, Biomes.RIVER, Biomes.FROZEN_OCEAN, Biomes.FROZEN_RIVER});
-    public static final List<Biome> SPAWN_BIOMES = Arrays.asList(new Biome[] { Biomes.DEEP_OCEAN});
-    private static final List<Biome.SpawnListEntry> MONUMENT_ENEMIES = Lists.newArrayList();
+    private int field_175800_f;
+    private int field_175801_g;
+    public static final List<Biome> field_175802_d = Arrays.asList(new Biome[] { Biomes.field_76771_b, Biomes.field_150575_M, Biomes.field_76781_i, Biomes.field_76776_l, Biomes.field_76777_m});
+    public static final List<Biome> field_186134_b = Arrays.asList(new Biome[] { Biomes.field_150575_M});
+    private static final List<Biome.SpawnListEntry> field_175803_h = Lists.newArrayList();
 
     public StructureOceanMonument() {
-        this.spacing = 32;
-        this.separation = 5;
+        this.field_175800_f = 32;
+        this.field_175801_g = 5;
     }
 
     public StructureOceanMonument(Map<String, String> map) {
@@ -42,44 +42,44 @@ public class StructureOceanMonument extends MapGenStructure {
             Entry entry = (Entry) iterator.next();
 
             if (((String) entry.getKey()).equals("spacing")) {
-                this.spacing = MathHelper.getInt((String) entry.getValue(), this.spacing, 1);
+                this.field_175800_f = MathHelper.func_82714_a((String) entry.getValue(), this.field_175800_f, 1);
             } else if (((String) entry.getKey()).equals("separation")) {
-                this.separation = MathHelper.getInt((String) entry.getValue(), this.separation, 1);
+                this.field_175801_g = MathHelper.func_82714_a((String) entry.getValue(), this.field_175801_g, 1);
             }
         }
 
     }
 
-    public String getStructureName() {
+    public String func_143025_a() {
         return "Monument";
     }
 
-    protected boolean canSpawnStructureAtCoords(int i, int j) {
+    protected boolean func_75047_a(int i, int j) {
         int k = i;
         int l = j;
 
         if (i < 0) {
-            i -= this.spacing - 1;
+            i -= this.field_175800_f - 1;
         }
 
         if (j < 0) {
-            j -= this.spacing - 1;
+            j -= this.field_175800_f - 1;
         }
 
-        int i1 = i / this.spacing;
-        int j1 = j / this.spacing;
-        Random random = this.world.setRandomSeed(i1, j1, this.world.spigotConfig.monumentSeed); // Spigot
+        int i1 = i / this.field_175800_f;
+        int j1 = j / this.field_175800_f;
+        Random random = this.field_75039_c.func_72843_D(i1, j1, this.field_75039_c.spigotConfig.monumentSeed); // Spigot
 
-        i1 *= this.spacing;
-        j1 *= this.spacing;
-        i1 += (random.nextInt(this.spacing - this.separation) + random.nextInt(this.spacing - this.separation)) / 2;
-        j1 += (random.nextInt(this.spacing - this.separation) + random.nextInt(this.spacing - this.separation)) / 2;
+        i1 *= this.field_175800_f;
+        j1 *= this.field_175800_f;
+        i1 += (random.nextInt(this.field_175800_f - this.field_175801_g) + random.nextInt(this.field_175800_f - this.field_175801_g)) / 2;
+        j1 += (random.nextInt(this.field_175800_f - this.field_175801_g) + random.nextInt(this.field_175800_f - this.field_175801_g)) / 2;
         if (k == i1 && l == j1) {
-            if (!this.world.getBiomeProvider().areBiomesViable(k * 16 + 8, l * 16 + 8, 16, StructureOceanMonument.SPAWN_BIOMES)) {
+            if (!this.field_75039_c.func_72959_q().func_76940_a(k * 16 + 8, l * 16 + 8, 16, StructureOceanMonument.field_186134_b)) {
                 return false;
             }
 
-            boolean flag = this.world.getBiomeProvider().areBiomesViable(k * 16 + 8, l * 16 + 8, 29, StructureOceanMonument.WATER_BIOMES);
+            boolean flag = this.field_75039_c.func_72959_q().func_76940_a(k * 16 + 8, l * 16 + 8, 29, StructureOceanMonument.field_175802_d);
 
             if (flag) {
                 return true;
@@ -89,96 +89,96 @@ public class StructureOceanMonument extends MapGenStructure {
         return false;
     }
 
-    public BlockPos getNearestStructurePos(World world, BlockPos blockposition, boolean flag) {
-        this.world = world;
-        return findNearestStructurePosBySpacing(world, this, blockposition, this.spacing, this.separation, this.world.spigotConfig.monumentSeed, true, 100, flag); // Spigot
+    public BlockPos func_180706_b(World world, BlockPos blockposition, boolean flag) {
+        this.field_75039_c = world;
+        return func_191069_a(world, this, blockposition, this.field_175800_f, this.field_175801_g, this.field_75039_c.spigotConfig.monumentSeed, true, 100, flag); // Spigot
     }
 
-    protected StructureStart getStructureStart(int i, int j) {
-        return new StructureOceanMonument.StartMonument(this.world, this.rand, i, j);
+    protected StructureStart func_75049_b(int i, int j) {
+        return new StructureOceanMonument.StartMonument(this.field_75039_c, this.field_75038_b, i, j);
     }
 
-    public List<Biome.SpawnListEntry> getMonsters() {
-        return StructureOceanMonument.MONUMENT_ENEMIES;
+    public List<Biome.SpawnListEntry> func_175799_b() {
+        return StructureOceanMonument.field_175803_h;
     }
 
     static {
-        StructureOceanMonument.MONUMENT_ENEMIES.add(new Biome.SpawnListEntry(EntityGuardian.class, 1, 2, 4));
+        StructureOceanMonument.field_175803_h.add(new Biome.SpawnListEntry(EntityGuardian.class, 1, 2, 4));
     }
 
     public static class StartMonument extends StructureStart {
 
-        private final Set<ChunkPos> processed = Sets.newHashSet();
-        private boolean wasCreated;
+        private final Set<ChunkPos> field_175791_c = Sets.newHashSet();
+        private boolean field_175790_d;
 
         public StartMonument() {}
 
         public StartMonument(World world, Random random, int i, int j) {
             super(i, j);
-            this.create(world, random, i, j);
+            this.func_175789_b(world, random, i, j);
         }
 
-        private void create(World world, Random random, int i, int j) {
-            random.setSeed(world.getSeed());
+        private void func_175789_b(World world, Random random, int i, int j) {
+            random.setSeed(world.func_72905_C());
             long k = random.nextLong();
             long l = random.nextLong();
             long i1 = (long) i * k;
             long j1 = (long) j * l;
 
-            random.setSeed(i1 ^ j1 ^ world.getSeed());
+            random.setSeed(i1 ^ j1 ^ world.func_72905_C());
             int k1 = i * 16 + 8 - 29;
             int l1 = j * 16 + 8 - 29;
-            EnumFacing enumdirection = EnumFacing.Plane.HORIZONTAL.random(random);
+            EnumFacing enumdirection = EnumFacing.Plane.HORIZONTAL.func_179518_a(random);
 
-            this.components.add(new StructureOceanMonumentPieces.MonumentBuilding(random, k1, l1, enumdirection));
-            this.updateBoundingBox();
-            this.wasCreated = true;
+            this.field_75075_a.add(new StructureOceanMonumentPieces.MonumentBuilding(random, k1, l1, enumdirection));
+            this.func_75072_c();
+            this.field_175790_d = true;
         }
 
-        public void generateStructure(World world, Random random, StructureBoundingBox structureboundingbox) {
-            if (!this.wasCreated) {
-                this.components.clear();
-                this.create(world, random, this.getChunkPosX(), this.getChunkPosZ());
+        public void func_75068_a(World world, Random random, StructureBoundingBox structureboundingbox) {
+            if (!this.field_175790_d) {
+                this.field_75075_a.clear();
+                this.func_175789_b(world, random, this.func_143019_e(), this.func_143018_f());
             }
 
-            super.generateStructure(world, random, structureboundingbox);
+            super.func_75068_a(world, random, structureboundingbox);
         }
 
-        public boolean isValidForPostProcess(ChunkPos chunkcoordintpair) {
-            return this.processed.contains(chunkcoordintpair) ? false : super.isValidForPostProcess(chunkcoordintpair);
+        public boolean func_175788_a(ChunkPos chunkcoordintpair) {
+            return this.field_175791_c.contains(chunkcoordintpair) ? false : super.func_175788_a(chunkcoordintpair);
         }
 
-        public void notifyPostProcessAt(ChunkPos chunkcoordintpair) {
-            super.notifyPostProcessAt(chunkcoordintpair);
-            this.processed.add(chunkcoordintpair);
+        public void func_175787_b(ChunkPos chunkcoordintpair) {
+            super.func_175787_b(chunkcoordintpair);
+            this.field_175791_c.add(chunkcoordintpair);
         }
 
-        public void writeToNBT(NBTTagCompound nbttagcompound) {
-            super.writeToNBT(nbttagcompound);
+        public void func_143022_a(NBTTagCompound nbttagcompound) {
+            super.func_143022_a(nbttagcompound);
             NBTTagList nbttaglist = new NBTTagList();
-            Iterator iterator = this.processed.iterator();
+            Iterator iterator = this.field_175791_c.iterator();
 
             while (iterator.hasNext()) {
                 ChunkPos chunkcoordintpair = (ChunkPos) iterator.next();
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-                nbttagcompound1.setInteger("X", chunkcoordintpair.x);
-                nbttagcompound1.setInteger("Z", chunkcoordintpair.z);
-                nbttaglist.appendTag(nbttagcompound1);
+                nbttagcompound1.func_74768_a("X", chunkcoordintpair.field_77276_a);
+                nbttagcompound1.func_74768_a("Z", chunkcoordintpair.field_77275_b);
+                nbttaglist.func_74742_a(nbttagcompound1);
             }
 
-            nbttagcompound.setTag("Processed", nbttaglist);
+            nbttagcompound.func_74782_a("Processed", nbttaglist);
         }
 
-        public void readFromNBT(NBTTagCompound nbttagcompound) {
-            super.readFromNBT(nbttagcompound);
-            if (nbttagcompound.hasKey("Processed", 9)) {
-                NBTTagList nbttaglist = nbttagcompound.getTagList("Processed", 10);
+        public void func_143017_b(NBTTagCompound nbttagcompound) {
+            super.func_143017_b(nbttagcompound);
+            if (nbttagcompound.func_150297_b("Processed", 9)) {
+                NBTTagList nbttaglist = nbttagcompound.func_150295_c("Processed", 10);
 
-                for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                    NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+                for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+                    NBTTagCompound nbttagcompound1 = nbttaglist.func_150305_b(i);
 
-                    this.processed.add(new ChunkPos(nbttagcompound1.getInteger("X"), nbttagcompound1.getInteger("Z")));
+                    this.field_175791_c.add(new ChunkPos(nbttagcompound1.func_74762_e("X"), nbttagcompound1.func_74762_e("Z")));
                 }
             }
 

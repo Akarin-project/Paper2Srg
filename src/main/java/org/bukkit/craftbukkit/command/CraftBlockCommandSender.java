@@ -19,12 +19,12 @@ public class CraftBlockCommandSender extends ServerCommandSender implements Bloc
     }
 
     public Block getBlock() {
-        return block.getEntityWorld().getWorld().getBlockAt(block.getPosition().getX(), block.getPosition().getY(), block.getPosition().getZ());
+        return block.func_130014_f_().getWorld().getBlockAt(block.func_180425_c().func_177958_n(), block.func_180425_c().func_177956_o(), block.func_180425_c().func_177952_p());
     }
 
     public void sendMessage(String message) {
         for (ITextComponent component : CraftChatMessage.fromString(message)) {
-            block.sendMessage(component);
+            block.func_145747_a(component);
         }
     }
 
@@ -35,7 +35,7 @@ public class CraftBlockCommandSender extends ServerCommandSender implements Bloc
     }
 
     public String getName() {
-        return block.getName();
+        return block.func_70005_c_();
     }
 
     public boolean isOp() {

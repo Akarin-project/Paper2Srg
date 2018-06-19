@@ -12,31 +12,31 @@ import net.minecraft.world.WorldServer;
 
 public class WorldBorder {
 
-    private final List<IBorderListener> listeners = Lists.newArrayList();
-    private double centerX;
-    private double centerZ;
-    private double startDiameter = 6.0E7D;
-    private double endDiameter;
-    private long endTime;
-    private long startTime;
-    private int worldSize;
-    private double damageAmount;
-    private double damageBuffer;
-    private int warningTime;
-    private int warningDistance;
+    private final List<IBorderListener> field_177758_a = Lists.newArrayList();
+    private double field_177756_b;
+    private double field_177757_c;
+    private double field_177754_d = 6.0E7D;
+    private double field_177755_e;
+    private long field_177752_f;
+    private long field_177753_g;
+    private int field_177762_h;
+    private double field_177763_i;
+    private double field_177760_j;
+    private int field_177761_k;
+    private int field_177759_l;
     public WorldServer world; // CraftBukkit
 
     public WorldBorder() {
-        this.endDiameter = this.startDiameter;
-        this.worldSize = 29999984;
-        this.damageAmount = 0.2D;
-        this.damageBuffer = 5.0D;
-        this.warningTime = 15;
-        this.warningDistance = 5;
+        this.field_177755_e = this.field_177754_d;
+        this.field_177762_h = 29999984;
+        this.field_177763_i = 0.2D;
+        this.field_177760_j = 5.0D;
+        this.field_177761_k = 15;
+        this.field_177759_l = 5;
     }
 
-    public boolean isInBounds(BlockPos blockposition) { return contains(blockposition); }public boolean contains(BlockPos blockposition) { // Paper - OBFHELPER
-        return (double) (blockposition.getX() + 1) > this.minX() && (double) blockposition.getX() < this.maxX() && (double) (blockposition.getZ() + 1) > this.minZ() && (double) blockposition.getZ() < this.maxZ();
+    public boolean isInBounds(BlockPos blockposition) { return func_177746_a(blockposition); }public boolean func_177746_a(BlockPos blockposition) { // Paper - OBFHELPER
+        return (double) (blockposition.func_177958_n() + 1) > this.func_177726_b() && (double) blockposition.func_177958_n() < this.func_177728_d() && (double) (blockposition.func_177952_p() + 1) > this.func_177736_c() && (double) blockposition.func_177952_p() < this.func_177733_e();
     }
 
     // Paper start
@@ -51,223 +51,223 @@ public class WorldBorder {
     }
     // Paper end
 
-    public boolean contains(ChunkPos chunkcoordintpair) {
-        return (double) chunkcoordintpair.getXEnd() > this.minX() && (double) chunkcoordintpair.getXStart() < this.maxX() && (double) chunkcoordintpair.getZEnd() > this.minZ() && (double) chunkcoordintpair.getZStart() < this.maxZ();
+    public boolean func_177730_a(ChunkPos chunkcoordintpair) {
+        return (double) chunkcoordintpair.func_180332_e() > this.func_177726_b() && (double) chunkcoordintpair.func_180334_c() < this.func_177728_d() && (double) chunkcoordintpair.func_180330_f() > this.func_177736_c() && (double) chunkcoordintpair.func_180333_d() < this.func_177733_e();
     }
 
-    public boolean contains(AxisAlignedBB axisalignedbb) {
-        return axisalignedbb.maxX > this.minX() && axisalignedbb.minX < this.maxX() && axisalignedbb.maxZ > this.minZ() && axisalignedbb.minZ < this.maxZ();
+    public boolean func_177743_a(AxisAlignedBB axisalignedbb) {
+        return axisalignedbb.field_72336_d > this.func_177726_b() && axisalignedbb.field_72340_a < this.func_177728_d() && axisalignedbb.field_72334_f > this.func_177736_c() && axisalignedbb.field_72339_c < this.func_177733_e();
     }
 
-    public double getClosestDistance(Entity entity) {
-        return this.getClosestDistance(entity.posX, entity.posZ);
+    public double func_177745_a(Entity entity) {
+        return this.func_177729_b(entity.field_70165_t, entity.field_70161_v);
     }
 
-    public double getClosestDistance(double d0, double d1) {
-        double d2 = d1 - this.minZ();
-        double d3 = this.maxZ() - d1;
-        double d4 = d0 - this.minX();
-        double d5 = this.maxX() - d0;
+    public double func_177729_b(double d0, double d1) {
+        double d2 = d1 - this.func_177736_c();
+        double d3 = this.func_177733_e() - d1;
+        double d4 = d0 - this.func_177726_b();
+        double d5 = this.func_177728_d() - d0;
         double d6 = Math.min(d4, d5);
 
         d6 = Math.min(d6, d2);
         return Math.min(d6, d3);
     }
 
-    public EnumBorderStatus getStatus() {
-        return this.endDiameter < this.startDiameter ? EnumBorderStatus.SHRINKING : (this.endDiameter > this.startDiameter ? EnumBorderStatus.GROWING : EnumBorderStatus.STATIONARY);
+    public EnumBorderStatus func_177734_a() {
+        return this.field_177755_e < this.field_177754_d ? EnumBorderStatus.SHRINKING : (this.field_177755_e > this.field_177754_d ? EnumBorderStatus.GROWING : EnumBorderStatus.STATIONARY);
     }
 
-    public double minX() {
-        double d0 = this.getCenterX() - this.getDiameter() / 2.0D;
+    public double func_177726_b() {
+        double d0 = this.func_177731_f() - this.func_177741_h() / 2.0D;
 
-        if (d0 < (double) (-this.worldSize)) {
-            d0 = (double) (-this.worldSize);
+        if (d0 < (double) (-this.field_177762_h)) {
+            d0 = (double) (-this.field_177762_h);
         }
 
         return d0;
     }
 
-    public double minZ() {
-        double d0 = this.getCenterZ() - this.getDiameter() / 2.0D;
+    public double func_177736_c() {
+        double d0 = this.func_177721_g() - this.func_177741_h() / 2.0D;
 
-        if (d0 < (double) (-this.worldSize)) {
-            d0 = (double) (-this.worldSize);
+        if (d0 < (double) (-this.field_177762_h)) {
+            d0 = (double) (-this.field_177762_h);
         }
 
         return d0;
     }
 
-    public double maxX() {
-        double d0 = this.getCenterX() + this.getDiameter() / 2.0D;
+    public double func_177728_d() {
+        double d0 = this.func_177731_f() + this.func_177741_h() / 2.0D;
 
-        if (d0 > (double) this.worldSize) {
-            d0 = (double) this.worldSize;
+        if (d0 > (double) this.field_177762_h) {
+            d0 = (double) this.field_177762_h;
         }
 
         return d0;
     }
 
-    public double maxZ() {
-        double d0 = this.getCenterZ() + this.getDiameter() / 2.0D;
+    public double func_177733_e() {
+        double d0 = this.func_177721_g() + this.func_177741_h() / 2.0D;
 
-        if (d0 > (double) this.worldSize) {
-            d0 = (double) this.worldSize;
+        if (d0 > (double) this.field_177762_h) {
+            d0 = (double) this.field_177762_h;
         }
 
         return d0;
     }
 
-    public double getCenterX() {
-        return this.centerX;
+    public double func_177731_f() {
+        return this.field_177756_b;
     }
 
-    public double getCenterZ() {
-        return this.centerZ;
+    public double func_177721_g() {
+        return this.field_177757_c;
     }
 
-    public void setCenter(double d0, double d1) {
-        this.centerX = d0;
-        this.centerZ = d1;
-        Iterator iterator = this.getListeners().iterator();
+    public void func_177739_c(double d0, double d1) {
+        this.field_177756_b = d0;
+        this.field_177757_c = d1;
+        Iterator iterator = this.func_177735_k().iterator();
 
         while (iterator.hasNext()) {
             IBorderListener iworldborderlistener = (IBorderListener) iterator.next();
 
-            iworldborderlistener.onCenterChanged(this, d0, d1);
+            iworldborderlistener.func_177693_a(this, d0, d1);
         }
 
     }
 
-    public double getDiameter() {
-        if (this.getStatus() != EnumBorderStatus.STATIONARY) {
-            double d0 = (double) ((float) (System.currentTimeMillis() - this.startTime) / (float) (this.endTime - this.startTime));
+    public double func_177741_h() {
+        if (this.func_177734_a() != EnumBorderStatus.STATIONARY) {
+            double d0 = (double) ((float) (System.currentTimeMillis() - this.field_177753_g) / (float) (this.field_177752_f - this.field_177753_g));
 
             if (d0 < 1.0D) {
-                return this.startDiameter + (this.endDiameter - this.startDiameter) * d0;
+                return this.field_177754_d + (this.field_177755_e - this.field_177754_d) * d0;
             }
 
-            this.setTransition(this.endDiameter);
+            this.func_177750_a(this.field_177755_e);
         }
 
-        return this.startDiameter;
+        return this.field_177754_d;
     }
 
-    public long getTimeUntilTarget() {
-        return this.getStatus() == EnumBorderStatus.STATIONARY ? 0L : this.endTime - System.currentTimeMillis();
+    public long func_177732_i() {
+        return this.func_177734_a() == EnumBorderStatus.STATIONARY ? 0L : this.field_177752_f - System.currentTimeMillis();
     }
 
-    public double getTargetSize() {
-        return this.endDiameter;
+    public double func_177751_j() {
+        return this.field_177755_e;
     }
 
-    public void setTransition(double d0) {
-        this.startDiameter = d0;
-        this.endDiameter = d0;
-        this.endTime = System.currentTimeMillis();
-        this.startTime = this.endTime;
-        Iterator iterator = this.getListeners().iterator();
+    public void func_177750_a(double d0) {
+        this.field_177754_d = d0;
+        this.field_177755_e = d0;
+        this.field_177752_f = System.currentTimeMillis();
+        this.field_177753_g = this.field_177752_f;
+        Iterator iterator = this.func_177735_k().iterator();
 
         while (iterator.hasNext()) {
             IBorderListener iworldborderlistener = (IBorderListener) iterator.next();
 
-            iworldborderlistener.onSizeChanged(this, d0);
+            iworldborderlistener.func_177694_a(this, d0);
         }
 
     }
 
-    public void setTransition(double d0, double d1, long i) {
-        this.startDiameter = d0;
-        this.endDiameter = d1;
-        this.startTime = System.currentTimeMillis();
-        this.endTime = this.startTime + i;
-        Iterator iterator = this.getListeners().iterator();
+    public void func_177738_a(double d0, double d1, long i) {
+        this.field_177754_d = d0;
+        this.field_177755_e = d1;
+        this.field_177753_g = System.currentTimeMillis();
+        this.field_177752_f = this.field_177753_g + i;
+        Iterator iterator = this.func_177735_k().iterator();
 
         while (iterator.hasNext()) {
             IBorderListener iworldborderlistener = (IBorderListener) iterator.next();
 
-            iworldborderlistener.onTransitionStarted(this, d0, d1, i);
+            iworldborderlistener.func_177692_a(this, d0, d1, i);
         }
 
     }
 
-    protected List<IBorderListener> getListeners() {
-        return Lists.newArrayList(this.listeners);
+    protected List<IBorderListener> func_177735_k() {
+        return Lists.newArrayList(this.field_177758_a);
     }
 
-    public void addListener(IBorderListener iworldborderlistener) {
-        if (listeners.contains(iworldborderlistener)) return; // CraftBukkit
-        this.listeners.add(iworldborderlistener);
+    public void func_177737_a(IBorderListener iworldborderlistener) {
+        if (field_177758_a.contains(iworldborderlistener)) return; // CraftBukkit
+        this.field_177758_a.add(iworldborderlistener);
     }
 
-    public void setSize(int i) {
-        this.worldSize = i;
+    public void func_177725_a(int i) {
+        this.field_177762_h = i;
     }
 
-    public int getSize() {
-        return this.worldSize;
+    public int func_177722_l() {
+        return this.field_177762_h;
     }
 
-    public double getDamageBuffer() {
-        return this.damageBuffer;
+    public double func_177742_m() {
+        return this.field_177760_j;
     }
 
-    public void setDamageBuffer(double d0) {
-        this.damageBuffer = d0;
-        Iterator iterator = this.getListeners().iterator();
+    public void func_177724_b(double d0) {
+        this.field_177760_j = d0;
+        Iterator iterator = this.func_177735_k().iterator();
 
         while (iterator.hasNext()) {
             IBorderListener iworldborderlistener = (IBorderListener) iterator.next();
 
-            iworldborderlistener.onDamageBufferChanged(this, d0);
+            iworldborderlistener.func_177695_c(this, d0);
         }
 
     }
 
-    public double getDamageAmount() {
-        return this.damageAmount;
+    public double func_177727_n() {
+        return this.field_177763_i;
     }
 
-    public void setDamageAmount(double d0) {
-        this.damageAmount = d0;
-        Iterator iterator = this.getListeners().iterator();
+    public void func_177744_c(double d0) {
+        this.field_177763_i = d0;
+        Iterator iterator = this.func_177735_k().iterator();
 
         while (iterator.hasNext()) {
             IBorderListener iworldborderlistener = (IBorderListener) iterator.next();
 
-            iworldborderlistener.onDamageAmountChanged(this, d0);
+            iworldborderlistener.func_177696_b(this, d0);
         }
 
     }
 
-    public int getWarningTime() {
-        return this.warningTime;
+    public int func_177740_p() {
+        return this.field_177761_k;
     }
 
-    public void setWarningTime(int i) {
-        this.warningTime = i;
-        Iterator iterator = this.getListeners().iterator();
+    public void func_177723_b(int i) {
+        this.field_177761_k = i;
+        Iterator iterator = this.func_177735_k().iterator();
 
         while (iterator.hasNext()) {
             IBorderListener iworldborderlistener = (IBorderListener) iterator.next();
 
-            iworldborderlistener.onWarningTimeChanged(this, i);
+            iworldborderlistener.func_177691_a(this, i);
         }
 
     }
 
-    public int getWarningDistance() {
-        return this.warningDistance;
+    public int func_177748_q() {
+        return this.field_177759_l;
     }
 
-    public void setWarningDistance(int i) {
-        this.warningDistance = i;
-        Iterator iterator = this.getListeners().iterator();
+    public void func_177747_c(int i) {
+        this.field_177759_l = i;
+        Iterator iterator = this.func_177735_k().iterator();
 
         while (iterator.hasNext()) {
             IBorderListener iworldborderlistener = (IBorderListener) iterator.next();
 
-            iworldborderlistener.onWarningDistanceChanged(this, i);
+            iworldborderlistener.func_177690_b(this, i);
         }
 
     }

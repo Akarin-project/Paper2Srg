@@ -5,13 +5,13 @@ import javax.annotation.Nullable;
 public interface IChunkProvider {
 
     @Nullable
-    Chunk getLoadedChunk(int i, int j);
+    Chunk func_186026_b(int i, int j);
 
-    Chunk provideChunk(int i, int j);
+    Chunk func_186025_d(int i, int j);
 
-    boolean tick();
+    boolean func_73156_b();
 
-    String makeString();
+    String func_73148_d();
 
-    boolean isChunkGeneratedAt(int i, int j);
+    boolean func_191062_e(int i, int j);
 }

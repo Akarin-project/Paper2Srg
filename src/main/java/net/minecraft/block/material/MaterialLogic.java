@@ -4,18 +4,18 @@ public class MaterialLogic extends Material {
 
     public MaterialLogic(MapColor materialmapcolor) {
         super(materialmapcolor);
-        this.setAdventureModeExempt();
+        this.func_85158_p();
     }
 
-    public boolean isSolid() {
+    public boolean func_76220_a() {
         return false;
     }
 
-    public boolean blocksLight() {
+    public boolean func_76228_b() {
         return false;
     }
 
-    public boolean blocksMovement() {
+    public boolean func_76230_c() {
         return false;
     }
 }

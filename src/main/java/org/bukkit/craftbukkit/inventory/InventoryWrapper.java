@@ -25,110 +25,110 @@ public class InventoryWrapper implements IInventory {
     }
 
     @Override
-    public int getSizeInventory() {
+    public int func_70302_i_() {
         return inventory.getSize();
     }
 
     @Override
-    public ItemStack getStackInSlot(int i) {
+    public ItemStack func_70301_a(int i) {
         return CraftItemStack.asNMSCopy(inventory.getItem(i));
     }
 
     @Override
-    public ItemStack decrStackSize(int i, int j) {
+    public ItemStack func_70298_a(int i, int j) {
         // Copied from CraftItemStack
-        ItemStack stack = getStackInSlot(i);
+        ItemStack stack = func_70301_a(i);
         ItemStack result;
-        if (stack.isEmpty()) {
+        if (stack.func_190926_b()) {
             return stack;
         }
-        if (stack.getCount() <= j) {
-            this.setInventorySlotContents(i, ItemStack.EMPTY);
+        if (stack.func_190916_E() <= j) {
+            this.func_70299_a(i, ItemStack.field_190927_a);
             result = stack;
         } else {
             result = CraftItemStack.copyNMSStack(stack, j);
-            stack.shrink(j);
+            stack.func_190918_g(j);
         }
-        this.markDirty();
+        this.func_70296_d();
         return result;
     }
 
     @Override
-    public ItemStack removeStackFromSlot(int i) {
+    public ItemStack func_70304_b(int i) {
         // Copied from CraftItemStack
-        ItemStack stack = getStackInSlot(i);
+        ItemStack stack = func_70301_a(i);
         ItemStack result;
-        if (stack.isEmpty()) {
+        if (stack.func_190926_b()) {
             return stack;
         }
-        if (stack.getCount() <= 1) {
-            this.setInventorySlotContents(i, ItemStack.EMPTY);
+        if (stack.func_190916_E() <= 1) {
+            this.func_70299_a(i, ItemStack.field_190927_a);
             result = stack;
         } else {
             result = CraftItemStack.copyNMSStack(stack, 1);
-            stack.shrink(1);
+            stack.func_190918_g(1);
         }
         return result;
     }
 
     @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
+    public void func_70299_a(int i, ItemStack itemstack) {
         inventory.setItem(i, CraftItemStack.asBukkitCopy(itemstack));
     }
 
     @Override
-    public int getInventoryStackLimit() {
+    public int func_70297_j_() {
         return inventory.getMaxStackSize();
     }
 
     @Override
-    public void markDirty() {
+    public void func_70296_d() {
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer entityhuman) {
+    public boolean func_70300_a(EntityPlayer entityhuman) {
         return true;
     }
 
     @Override
-    public void openInventory(EntityPlayer entityhuman) {
+    public void func_174889_b(EntityPlayer entityhuman) {
     }
 
     @Override
-    public void closeInventory(EntityPlayer entityhuman) {
+    public void func_174886_c(EntityPlayer entityhuman) {
     }
 
     @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+    public boolean func_94041_b(int i, ItemStack itemstack) {
         return true;
     }
 
     @Override
-    public int getField(int i) {
+    public int func_174887_a_(int i) {
         return 0;
     }
 
     @Override
-    public void setField(int i, int j) {
+    public void func_174885_b(int i, int j) {
     }
 
     @Override
-    public int getFieldCount() {
+    public int func_174890_g() {
         return 0;
     }
 
     @Override
-    public void clear() {
+    public void func_174888_l() {
         inventory.clear();
     }
 
     @Override
     public List<ItemStack> getContents() {
-        int size = getSizeInventory();
+        int size = func_70302_i_();
         List<ItemStack> items = new ArrayList<ItemStack>(size);
 
         for (int i = 0; i < size; i++) {
-            items.set(i, getStackInSlot(i));
+            items.set(i, func_70301_a(i));
         }
 
         return items;
@@ -160,18 +160,18 @@ public class InventoryWrapper implements IInventory {
     }
 
     @Override
-    public String getName() {
+    public String func_70005_c_() {
         return inventory.getName();
     }
 
     @Override
-    public boolean hasCustomName() {
-        return getName() != null;
+    public boolean func_145818_k_() {
+        return func_70005_c_() != null;
     }
 
     @Override
-    public ITextComponent getDisplayName() {
-        return CraftChatMessage.fromString(getName())[0];
+    public ITextComponent func_145748_c_() {
+        return CraftChatMessage.fromString(func_70005_c_())[0];
     }
 
     @Override
@@ -180,7 +180,7 @@ public class InventoryWrapper implements IInventory {
     }
 
     @Override
-    public boolean isEmpty() {
+    public boolean func_191420_l() {
         return Iterables.any(inventory, Predicates.notNull());
     }
 }

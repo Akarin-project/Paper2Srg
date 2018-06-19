@@ -12,25 +12,25 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 public interface ISaveHandler {
 
     @Nullable
-    WorldInfo loadWorldInfo();
+    WorldInfo func_75757_d();
 
-    void checkSessionLock() throws MinecraftException;
+    void func_75762_c() throws MinecraftException;
 
-    IChunkLoader getChunkLoader(WorldProvider worldprovider);
+    IChunkLoader func_75763_a(WorldProvider worldprovider);
 
-    void saveWorldInfoWithPlayer(WorldInfo worlddata, NBTTagCompound nbttagcompound);
+    void func_75755_a(WorldInfo worlddata, NBTTagCompound nbttagcompound);
 
-    void saveWorldInfo(WorldInfo worlddata);
+    void func_75761_a(WorldInfo worlddata);
 
-    IPlayerFileData getPlayerNBTManager();
+    IPlayerFileData func_75756_e();
 
-    void flush();
+    void func_75759_a();
 
-    File getWorldDirectory();
+    File func_75765_b();
 
-    File getMapFileFromName(String s);
+    File func_75758_b(String s);
 
-    TemplateManager getStructureTemplateManager();
+    TemplateManager func_186340_h();
 
     java.util.UUID getUUID(); // CraftBukkit
 }

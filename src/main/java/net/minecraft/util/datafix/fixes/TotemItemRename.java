@@ -7,13 +7,13 @@ public class TotemItemRename implements IFixableData {
 
     public TotemItemRename() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 820;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        if ("minecraft:totem".equals(nbttagcompound.getString("id"))) {
-            nbttagcompound.setString("id", "minecraft:totem_of_undying");
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        if ("minecraft:totem".equals(nbttagcompound.func_74779_i("id"))) {
+            nbttagcompound.func_74778_a("id", "minecraft:totem_of_undying");
         }
 
         return nbttagcompound;

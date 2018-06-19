@@ -18,182 +18,182 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntitySquid extends EntityWaterMob {
 
-    public float squidPitch;
-    public float prevSquidPitch;
-    public float squidYaw;
-    public float prevSquidYaw;
-    public float squidRotation;
-    public float prevSquidRotation;
-    public float tentacleAngle;
-    public float lastTentacleAngle;
-    private float randomMotionSpeed;
-    private float rotationVelocity;
-    private float rotateSpeed;
-    private float randomMotionVecX;
-    private float randomMotionVecY;
-    private float randomMotionVecZ;
+    public float field_70861_d;
+    public float field_70862_e;
+    public float field_70859_f;
+    public float field_70860_g;
+    public float field_70867_h;
+    public float field_70868_i;
+    public float field_70866_j;
+    public float field_70865_by;
+    private float field_70863_bz;
+    private float field_70864_bA;
+    private float field_70871_bB;
+    private float field_70872_bC;
+    private float field_70869_bD;
+    private float field_70870_bE;
 
     public EntitySquid(World world) {
         super(world);
-        this.setSize(0.8F, 0.8F);
-        this.rand.setSeed((long) (1 + this.getEntityId()));
-        this.rotationVelocity = 1.0F / (this.rand.nextFloat() + 1.0F) * 0.2F;
+        this.func_70105_a(0.8F, 0.8F);
+        this.field_70146_Z.setSeed((long) (1 + this.func_145782_y()));
+        this.field_70864_bA = 1.0F / (this.field_70146_Z.nextFloat() + 1.0F) * 0.2F;
     }
 
-    public static void registerFixesSquid(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntitySquid.class);
+    public static void func_189804_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntitySquid.class);
     }
 
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntitySquid.AIMoveRandom(this));
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(0, new EntitySquid.AIMoveRandom(this));
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
     }
 
-    public float getEyeHeight() {
-        return this.height * 0.5F;
+    public float func_70047_e() {
+        return this.field_70131_O * 0.5F;
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_SQUID_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_187829_fQ;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_SQUID_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187833_fS;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SQUID_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187831_fR;
     }
 
-    protected float getSoundVolume() {
+    protected float func_70599_aP() {
         return 0.4F;
     }
 
-    protected boolean canTriggerWalking() {
+    protected boolean func_70041_e_() {
         return false;
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_SQUID;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186381_af;
     }
 
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        this.prevSquidPitch = this.squidPitch;
-        this.prevSquidYaw = this.squidYaw;
-        this.prevSquidRotation = this.squidRotation;
-        this.lastTentacleAngle = this.tentacleAngle;
-        this.squidRotation += this.rotationVelocity;
-        if ((double) this.squidRotation > 6.283185307179586D) {
-            if (this.world.isRemote) {
-                this.squidRotation = 6.2831855F;
+    public void func_70636_d() {
+        super.func_70636_d();
+        this.field_70862_e = this.field_70861_d;
+        this.field_70860_g = this.field_70859_f;
+        this.field_70868_i = this.field_70867_h;
+        this.field_70865_by = this.field_70866_j;
+        this.field_70867_h += this.field_70864_bA;
+        if ((double) this.field_70867_h > 6.283185307179586D) {
+            if (this.field_70170_p.field_72995_K) {
+                this.field_70867_h = 6.2831855F;
             } else {
-                this.squidRotation = (float) ((double) this.squidRotation - 6.283185307179586D);
-                if (this.rand.nextInt(10) == 0) {
-                    this.rotationVelocity = 1.0F / (this.rand.nextFloat() + 1.0F) * 0.2F;
+                this.field_70867_h = (float) ((double) this.field_70867_h - 6.283185307179586D);
+                if (this.field_70146_Z.nextInt(10) == 0) {
+                    this.field_70864_bA = 1.0F / (this.field_70146_Z.nextFloat() + 1.0F) * 0.2F;
                 }
 
-                this.world.setEntityState(this, (byte) 19);
+                this.field_70170_p.func_72960_a(this, (byte) 19);
             }
         }
 
-        if (this.inWater) {
+        if (this.field_70171_ac) {
             float f;
 
-            if (this.squidRotation < 3.1415927F) {
-                f = this.squidRotation / 3.1415927F;
-                this.tentacleAngle = MathHelper.sin(f * f * 3.1415927F) * 3.1415927F * 0.25F;
+            if (this.field_70867_h < 3.1415927F) {
+                f = this.field_70867_h / 3.1415927F;
+                this.field_70866_j = MathHelper.func_76126_a(f * f * 3.1415927F) * 3.1415927F * 0.25F;
                 if ((double) f > 0.75D) {
-                    this.randomMotionSpeed = 1.0F;
-                    this.rotateSpeed = 1.0F;
+                    this.field_70863_bz = 1.0F;
+                    this.field_70871_bB = 1.0F;
                 } else {
-                    this.rotateSpeed *= 0.8F;
+                    this.field_70871_bB *= 0.8F;
                 }
             } else {
-                this.tentacleAngle = 0.0F;
-                this.randomMotionSpeed *= 0.9F;
-                this.rotateSpeed *= 0.99F;
+                this.field_70866_j = 0.0F;
+                this.field_70863_bz *= 0.9F;
+                this.field_70871_bB *= 0.99F;
             }
 
-            if (!this.world.isRemote) {
-                this.motionX = (double) (this.randomMotionVecX * this.randomMotionSpeed);
-                this.motionY = (double) (this.randomMotionVecY * this.randomMotionSpeed);
-                this.motionZ = (double) (this.randomMotionVecZ * this.randomMotionSpeed);
+            if (!this.field_70170_p.field_72995_K) {
+                this.field_70159_w = (double) (this.field_70872_bC * this.field_70863_bz);
+                this.field_70181_x = (double) (this.field_70869_bD * this.field_70863_bz);
+                this.field_70179_y = (double) (this.field_70870_bE * this.field_70863_bz);
             }
 
-            f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-            this.renderYawOffset += (-((float) MathHelper.atan2(this.motionX, this.motionZ)) * 57.295776F - this.renderYawOffset) * 0.1F;
-            this.rotationYaw = this.renderYawOffset;
-            this.squidYaw = (float) ((double) this.squidYaw + 3.141592653589793D * (double) this.rotateSpeed * 1.5D);
-            this.squidPitch += (-((float) MathHelper.atan2((double) f, this.motionY)) * 57.295776F - this.squidPitch) * 0.1F;
+            f = MathHelper.func_76133_a(this.field_70159_w * this.field_70159_w + this.field_70179_y * this.field_70179_y);
+            this.field_70761_aq += (-((float) MathHelper.func_181159_b(this.field_70159_w, this.field_70179_y)) * 57.295776F - this.field_70761_aq) * 0.1F;
+            this.field_70177_z = this.field_70761_aq;
+            this.field_70859_f = (float) ((double) this.field_70859_f + 3.141592653589793D * (double) this.field_70871_bB * 1.5D);
+            this.field_70861_d += (-((float) MathHelper.func_181159_b((double) f, this.field_70181_x)) * 57.295776F - this.field_70861_d) * 0.1F;
         } else {
-            this.tentacleAngle = MathHelper.abs(MathHelper.sin(this.squidRotation)) * 3.1415927F * 0.25F;
-            if (!this.world.isRemote) {
-                this.motionX = 0.0D;
-                this.motionZ = 0.0D;
-                if (this.isPotionActive(MobEffects.LEVITATION)) {
-                    this.motionY += 0.05D * (double) (this.getActivePotionEffect(MobEffects.LEVITATION).getAmplifier() + 1) - this.motionY;
-                } else if (!this.hasNoGravity()) {
-                    this.motionY -= 0.08D;
+            this.field_70866_j = MathHelper.func_76135_e(MathHelper.func_76126_a(this.field_70867_h)) * 3.1415927F * 0.25F;
+            if (!this.field_70170_p.field_72995_K) {
+                this.field_70159_w = 0.0D;
+                this.field_70179_y = 0.0D;
+                if (this.func_70644_a(MobEffects.field_188424_y)) {
+                    this.field_70181_x += 0.05D * (double) (this.func_70660_b(MobEffects.field_188424_y).func_76458_c() + 1) - this.field_70181_x;
+                } else if (!this.func_189652_ae()) {
+                    this.field_70181_x -= 0.08D;
                 }
 
-                this.motionY *= 0.9800000190734863D;
+                this.field_70181_x *= 0.9800000190734863D;
             }
 
-            this.squidPitch = (float) ((double) this.squidPitch + (double) (-90.0F - this.squidPitch) * 0.02D);
+            this.field_70861_d = (float) ((double) this.field_70861_d + (double) (-90.0F - this.field_70861_d) * 0.02D);
         }
 
     }
 
-    public void travel(float f, float f1, float f2) {
-        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+    public void func_191986_a(float f, float f1, float f2) {
+        this.func_70091_d(MoverType.SELF, this.field_70159_w, this.field_70181_x, this.field_70179_y);
     }
 
-    public boolean getCanSpawnHere() {
+    public boolean func_70601_bi() {
         // Paper - Make max spawn height configurable
-        final double maxHeight = world.paperConfig.squidMaxSpawnHeight > 0 ? world.paperConfig.squidMaxSpawnHeight : world.getSeaLevel();
-        return this.posY > this.world.spigotConfig.squidSpawnRangeMin && this.posY < maxHeight && super.getCanSpawnHere(); // Spigot
+        final double maxHeight = field_70170_p.paperConfig.squidMaxSpawnHeight > 0 ? field_70170_p.paperConfig.squidMaxSpawnHeight : field_70170_p.func_181545_F();
+        return this.field_70163_u > this.field_70170_p.spigotConfig.squidSpawnRangeMin && this.field_70163_u < maxHeight && super.func_70601_bi(); // Spigot
     }
 
-    public void setMovementVector(float f, float f1, float f2) {
-        this.randomMotionVecX = f;
-        this.randomMotionVecY = f1;
-        this.randomMotionVecZ = f2;
+    public void func_175568_b(float f, float f1, float f2) {
+        this.field_70872_bC = f;
+        this.field_70869_bD = f1;
+        this.field_70870_bE = f2;
     }
 
-    public boolean hasMovementVector() {
-        return this.randomMotionVecX != 0.0F || this.randomMotionVecY != 0.0F || this.randomMotionVecZ != 0.0F;
+    public boolean func_175567_n() {
+        return this.field_70872_bC != 0.0F || this.field_70869_bD != 0.0F || this.field_70870_bE != 0.0F;
     }
 
     static class AIMoveRandom extends EntityAIBase {
 
-        private final EntitySquid squid;
+        private final EntitySquid field_179476_a;
 
         public AIMoveRandom(EntitySquid entitysquid) {
-            this.squid = entitysquid;
+            this.field_179476_a = entitysquid;
         }
 
-        public boolean shouldExecute() {
+        public boolean func_75250_a() {
             return true;
         }
 
-        public void updateTask() {
-            int i = this.squid.getIdleTime();
+        public void func_75246_d() {
+            int i = this.field_179476_a.func_70654_ax();
 
             if (i > 100) {
-                this.squid.setMovementVector(0.0F, 0.0F, 0.0F);
-            } else if (this.squid.getRNG().nextInt(50) == 0 || !this.squid.inWater || !this.squid.hasMovementVector()) {
-                float f = this.squid.getRNG().nextFloat() * 6.2831855F;
-                float f1 = MathHelper.cos(f) * 0.2F;
-                float f2 = -0.1F + this.squid.getRNG().nextFloat() * 0.2F;
-                float f3 = MathHelper.sin(f) * 0.2F;
+                this.field_179476_a.func_175568_b(0.0F, 0.0F, 0.0F);
+            } else if (this.field_179476_a.func_70681_au().nextInt(50) == 0 || !this.field_179476_a.field_70171_ac || !this.field_179476_a.func_175567_n()) {
+                float f = this.field_179476_a.func_70681_au().nextFloat() * 6.2831855F;
+                float f1 = MathHelper.func_76134_b(f) * 0.2F;
+                float f2 = -0.1F + this.field_179476_a.func_70681_au().nextFloat() * 0.2F;
+                float f3 = MathHelper.func_76126_a(f) * 0.2F;
 
-                this.squid.setMovementVector(f1, f2, f3);
+                this.field_179476_a.func_175568_b(f1, f2, f3);
             }
 
         }

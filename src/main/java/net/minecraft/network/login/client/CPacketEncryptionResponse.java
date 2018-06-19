@@ -11,30 +11,30 @@ import net.minecraft.util.CryptManager;
 
 public class CPacketEncryptionResponse implements Packet<INetHandlerLoginServer> {
 
-    private byte[] secretKeyEncrypted = new byte[0];
-    private byte[] verifyTokenEncrypted = new byte[0];
+    private byte[] field_149302_a = new byte[0];
+    private byte[] field_149301_b = new byte[0];
 
     public CPacketEncryptionResponse() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.secretKeyEncrypted = packetdataserializer.readByteArray();
-        this.verifyTokenEncrypted = packetdataserializer.readByteArray();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149302_a = packetdataserializer.func_179251_a();
+        this.field_149301_b = packetdataserializer.func_179251_a();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeByteArray(this.secretKeyEncrypted);
-        packetdataserializer.writeByteArray(this.verifyTokenEncrypted);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179250_a(this.field_149302_a);
+        packetdataserializer.func_179250_a(this.field_149301_b);
     }
 
-    public void processPacket(INetHandlerLoginServer packetlogininlistener) {
-        packetlogininlistener.processEncryptionResponse(this);
+    public void func_148833_a(INetHandlerLoginServer packetlogininlistener) {
+        packetlogininlistener.func_147315_a(this);
     }
 
-    public SecretKey getSecretKey(PrivateKey privatekey) {
-        return CryptManager.decryptSharedKey(privatekey, this.secretKeyEncrypted);
+    public SecretKey func_149300_a(PrivateKey privatekey) {
+        return CryptManager.func_75887_a(privatekey, this.field_149302_a);
     }
 
-    public byte[] getVerifyToken(PrivateKey privatekey) {
-        return privatekey == null ? this.verifyTokenEncrypted : CryptManager.decryptData(privatekey, this.verifyTokenEncrypted);
+    public byte[] func_149299_b(PrivateKey privatekey) {
+        return privatekey == null ? this.field_149301_b : CryptManager.func_75889_b(privatekey, this.field_149301_b);
     }
 }

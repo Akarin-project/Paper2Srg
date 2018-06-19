@@ -9,13 +9,13 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class PotionEffect implements Comparable<PotionEffect> {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final Potion potion;
-    private int duration;
-    private int amplifier;
-    private boolean isSplashPotion;
-    private boolean isAmbient;
-    private boolean showParticles;
+    private static final Logger field_180155_a = LogManager.getLogger();
+    private final Potion field_188420_b;
+    private int field_76460_b;
+    private int field_76461_c;
+    private boolean field_82723_d;
+    private boolean field_82724_e;
+    private boolean field_188421_h;
 
     public PotionEffect(Potion mobeffectlist) {
         this(mobeffectlist, 0, 0);
@@ -30,107 +30,105 @@ public class PotionEffect implements Comparable<PotionEffect> {
     }
 
     public PotionEffect(Potion mobeffectlist, int i, int j, boolean flag, boolean flag1) {
-        this.potion = mobeffectlist;
-        this.duration = i;
-        this.amplifier = j;
-        this.isAmbient = flag;
-        this.showParticles = flag1;
+        this.field_188420_b = mobeffectlist;
+        this.field_76460_b = i;
+        this.field_76461_c = j;
+        this.field_82724_e = flag;
+        this.field_188421_h = flag1;
     }
 
     public PotionEffect(PotionEffect mobeffect) {
-        this.potion = mobeffect.potion;
-        this.duration = mobeffect.duration;
-        this.amplifier = mobeffect.amplifier;
-        this.isAmbient = mobeffect.isAmbient;
-        this.showParticles = mobeffect.showParticles;
+        this.field_188420_b = mobeffect.field_188420_b;
+        this.field_76460_b = mobeffect.field_76460_b;
+        this.field_76461_c = mobeffect.field_76461_c;
+        this.field_82724_e = mobeffect.field_82724_e;
+        this.field_188421_h = mobeffect.field_188421_h;
     }
 
-    public void combine(PotionEffect mobeffect) {
-        if (this.potion != mobeffect.potion) {
-            PotionEffect.LOGGER.warn("This method should only be called for matching effects!");
+    public void func_76452_a(PotionEffect mobeffect) {
+        if (this.field_188420_b != mobeffect.field_188420_b) {
+            PotionEffect.field_180155_a.warn("This method should only be called for matching effects!");
         }
 
-        if (mobeffect.amplifier > this.amplifier) {
-            this.amplifier = mobeffect.amplifier;
-            this.duration = mobeffect.duration;
-        } else if (mobeffect.amplifier == this.amplifier && this.duration < mobeffect.duration) {
-            this.duration = mobeffect.duration;
-        } else if (!mobeffect.isAmbient && this.isAmbient) {
-            this.isAmbient = mobeffect.isAmbient;
+        if (mobeffect.field_76461_c > this.field_76461_c) {
+            this.field_76461_c = mobeffect.field_76461_c;
+            this.field_76460_b = mobeffect.field_76460_b;
+        } else if (mobeffect.field_76461_c == this.field_76461_c && this.field_76460_b < mobeffect.field_76460_b) {
+            this.field_76460_b = mobeffect.field_76460_b;
+        } else if (!mobeffect.field_82724_e && this.field_82724_e) {
+            this.field_82724_e = mobeffect.field_82724_e;
         }
 
-        this.showParticles = mobeffect.showParticles;
+        this.field_188421_h = mobeffect.field_188421_h;
     }
 
-    public Potion getPotion() {
-        return this.potion;
+    public Potion func_188419_a() {
+        return this.field_188420_b;
     }
 
-    public int getDuration() {
-        return this.duration;
+    public int func_76459_b() {
+        return this.field_76460_b;
     }
 
-    public int getAmplifier() {
-        return this.amplifier;
+    public int func_76458_c() {
+        return this.field_76461_c;
     }
 
-    public boolean getIsAmbient() {
-        return this.isAmbient;
+    public boolean func_82720_e() {
+        return this.field_82724_e;
     }
 
-    public boolean doesShowParticles() {
-        return this.showParticles;
+    public boolean func_188418_e() {
+        return this.field_188421_h;
     }
 
-    public boolean onUpdate(EntityLivingBase entityliving) {
-        if (this.duration > 0) {
-            if (this.potion.isReady(this.duration, this.amplifier)) {
-                this.performEffect(entityliving);
+    public boolean func_76455_a(EntityLivingBase entityliving) {
+        if (this.field_76460_b > 0) {
+            if (this.field_188420_b.func_76397_a(this.field_76460_b, this.field_76461_c)) {
+                this.func_76457_b(entityliving);
             }
 
-            this.deincrementDuration();
+            this.func_76454_e();
         }
 
-        return this.duration > 0;
+        return this.field_76460_b > 0;
     }
 
-    private int deincrementDuration() {
-        return --this.duration;
+    private int func_76454_e() {
+        return --this.field_76460_b;
     }
 
-    public void performEffect(EntityLivingBase entityliving) {
-        if (this.duration > 0) {
-            this.potion.performEffect(entityliving, this.amplifier);
+    public void func_76457_b(EntityLivingBase entityliving) {
+        if (this.field_76460_b > 0) {
+            this.field_188420_b.func_76394_a(entityliving, this.field_76461_c);
         }
 
     }
 
-    public String getEffectName() {
-        return this.potion.getName();
+    public String func_76453_d() {
+        return this.field_188420_b.func_76393_a();
     }
 
-    @Override
     public String toString() {
         String s;
 
-        if (this.amplifier > 0) {
-            s = this.getEffectName() + " x " + (this.amplifier + 1) + ", Duration: " + this.duration;
+        if (this.field_76461_c > 0) {
+            s = this.func_76453_d() + " x " + (this.field_76461_c + 1) + ", Duration: " + this.field_76460_b;
         } else {
-            s = this.getEffectName() + ", Duration: " + this.duration;
+            s = this.func_76453_d() + ", Duration: " + this.field_76460_b;
         }
 
-        if (this.isSplashPotion) {
+        if (this.field_82723_d) {
             s = s + ", Splash: true";
         }
 
-        if (!this.showParticles) {
+        if (!this.field_188421_h) {
             s = s + ", Particles: false";
         }
 
         return s;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -139,54 +137,56 @@ public class PotionEffect implements Comparable<PotionEffect> {
         } else {
             PotionEffect mobeffect = (PotionEffect) object;
 
-            return this.duration == mobeffect.duration && this.amplifier == mobeffect.amplifier && this.isSplashPotion == mobeffect.isSplashPotion && this.isAmbient == mobeffect.isAmbient && this.potion.equals(mobeffect.potion);
+            return this.field_76460_b == mobeffect.field_76460_b && this.field_76461_c == mobeffect.field_76461_c && this.field_82723_d == mobeffect.field_82723_d && this.field_82724_e == mobeffect.field_82724_e && this.field_188420_b.equals(mobeffect.field_188420_b);
         }
     }
 
-    @Override
     public int hashCode() {
-        int i = this.potion.hashCode();
+        int i = this.field_188420_b.hashCode();
 
-        i = 31 * i + this.duration;
-        i = 31 * i + this.amplifier;
-        i = 31 * i + (this.isSplashPotion ? 1 : 0);
-        i = 31 * i + (this.isAmbient ? 1 : 0);
+        i = 31 * i + this.field_76460_b;
+        i = 31 * i + this.field_76461_c;
+        i = 31 * i + (this.field_82723_d ? 1 : 0);
+        i = 31 * i + (this.field_82724_e ? 1 : 0);
         return i;
     }
 
-    public NBTTagCompound writeCustomPotionEffectToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setByte("Id", (byte) Potion.getIdFromPotion(this.getPotion()));
-        nbttagcompound.setByte("Amplifier", (byte) this.getAmplifier());
-        nbttagcompound.setInteger("Duration", this.getDuration());
-        nbttagcompound.setBoolean("Ambient", this.getIsAmbient());
-        nbttagcompound.setBoolean("ShowParticles", this.doesShowParticles());
+    public NBTTagCompound func_82719_a(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74774_a("Id", (byte) Potion.func_188409_a(this.func_188419_a()));
+        nbttagcompound.func_74774_a("Amplifier", (byte) this.func_76458_c());
+        nbttagcompound.func_74768_a("Duration", this.func_76459_b());
+        nbttagcompound.func_74757_a("Ambient", this.func_82720_e());
+        nbttagcompound.func_74757_a("ShowParticles", this.func_188418_e());
         return nbttagcompound;
     }
 
-    public static PotionEffect readCustomPotionEffectFromNBT(NBTTagCompound nbttagcompound) {
-        byte b0 = nbttagcompound.getByte("Id");
-        Potion mobeffectlist = Potion.getPotionById(b0);
+    public static PotionEffect func_82722_b(NBTTagCompound nbttagcompound) {
+        byte b0 = nbttagcompound.func_74771_c("Id");
+        Potion mobeffectlist = Potion.func_188412_a(b0);
 
         if (mobeffectlist == null) {
             return null;
         } else {
-            byte b1 = nbttagcompound.getByte("Amplifier");
-            int i = nbttagcompound.getInteger("Duration");
-            boolean flag = nbttagcompound.getBoolean("Ambient");
+            byte b1 = nbttagcompound.func_74771_c("Amplifier");
+            int i = nbttagcompound.func_74762_e("Duration");
+            boolean flag = nbttagcompound.func_74767_n("Ambient");
             boolean flag1 = true;
 
-            if (nbttagcompound.hasKey("ShowParticles", 1)) {
-                flag1 = nbttagcompound.getBoolean("ShowParticles");
+            if (nbttagcompound.func_150297_b("ShowParticles", 1)) {
+                flag1 = nbttagcompound.func_74767_n("ShowParticles");
             }
 
             return new PotionEffect(mobeffectlist, i, b1 < 0 ? 0 : b1, flag, flag1);
         }
     }
 
-    @Override
     public int compareTo(PotionEffect mobeffect) {
         boolean flag = true;
 
-        return (this.getDuration() <= 32147 || mobeffect.getDuration() <= 32147) && (!this.getIsAmbient() || !mobeffect.getIsAmbient()) ? ComparisonChain.start().compare(Boolean.valueOf(this.getIsAmbient()), Boolean.valueOf(mobeffect.getIsAmbient())).compare(this.getDuration(), mobeffect.getDuration()).compare(this.getPotion().getLiquidColor(), mobeffect.getPotion().getLiquidColor()).result() : ComparisonChain.start().compare(Boolean.valueOf(this.getIsAmbient()), Boolean.valueOf(mobeffect.getIsAmbient())).compare(this.getPotion().getLiquidColor(), mobeffect.getPotion().getLiquidColor()).result();
+        return (this.func_76459_b() <= 32147 || mobeffect.func_76459_b() <= 32147) && (!this.func_82720_e() || !mobeffect.func_82720_e()) ? ComparisonChain.start().compare(Boolean.valueOf(this.func_82720_e()), Boolean.valueOf(mobeffect.func_82720_e())).compare(this.func_76459_b(), mobeffect.func_76459_b()).compare(this.func_188419_a().func_76401_j(), mobeffect.func_188419_a().func_76401_j()).result() : ComparisonChain.start().compare(Boolean.valueOf(this.func_82720_e()), Boolean.valueOf(mobeffect.func_82720_e())).compare(this.func_188419_a().func_76401_j(), mobeffect.func_188419_a().func_76401_j()).result();
+    }
+
+    public int compareTo(Object object) {
+        return this.compareTo((PotionEffect) object);
     }
 }

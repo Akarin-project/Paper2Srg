@@ -10,9 +10,9 @@ import net.minecraft.util.text.ITextComponent;
 
 public class SPacketChat implements Packet<INetHandlerPlayClient> {
 
-    private ITextComponent chatComponent;
+    private ITextComponent field_148919_a;
     public net.md_5.bungee.api.chat.BaseComponent[] components; // Spigot
-    private ChatType type;
+    private ChatType field_179842_b;
 
     public SPacketChat() {}
 
@@ -21,42 +21,42 @@ public class SPacketChat implements Packet<INetHandlerPlayClient> {
     }
 
     public SPacketChat(ITextComponent ichatbasecomponent, ChatType chatmessagetype) {
-        this.chatComponent = ichatbasecomponent;
-        this.type = chatmessagetype;
+        this.field_148919_a = ichatbasecomponent;
+        this.field_179842_b = chatmessagetype;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.chatComponent = packetdataserializer.readTextComponent();
-        this.type = ChatType.byId(packetdataserializer.readByte());
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_148919_a = packetdataserializer.func_179258_d();
+        this.field_179842_b = ChatType.func_192582_a(packetdataserializer.readByte());
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
         // Spigot start
         if (components != null) {
             //packetdataserializer.a(net.md_5.bungee.chat.ComponentSerializer.toString(components)); // Paper - comment, replaced with below
             // Paper start - don't nest if we don't need to so that we can preserve formatting
             if (this.components.length == 1) {
-                packetdataserializer.writeString(net.md_5.bungee.chat.ComponentSerializer.toString(this.components[0]));
+                packetdataserializer.func_180714_a(net.md_5.bungee.chat.ComponentSerializer.toString(this.components[0]));
             } else {
-                packetdataserializer.writeString(net.md_5.bungee.chat.ComponentSerializer.toString(this.components));
+                packetdataserializer.func_180714_a(net.md_5.bungee.chat.ComponentSerializer.toString(this.components));
             }
             // Paper end
         } else {
-            packetdataserializer.writeTextComponent(this.chatComponent);
+            packetdataserializer.func_179256_a(this.field_148919_a);
         }
         // Spigot end
-        packetdataserializer.writeByte(this.type.getId());
+        packetdataserializer.writeByte(this.field_179842_b.func_192583_a());
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleChat(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147251_a(this);
     }
 
-    public boolean isSystem() {
-        return this.type == ChatType.SYSTEM || this.type == ChatType.GAME_INFO;
+    public boolean func_148916_d() {
+        return this.field_179842_b == ChatType.SYSTEM || this.field_179842_b == ChatType.GAME_INFO;
     }
 
-    public ChatType getType() {
-        return this.type;
+    public ChatType func_192590_c() {
+        return this.field_179842_b;
     }
 }

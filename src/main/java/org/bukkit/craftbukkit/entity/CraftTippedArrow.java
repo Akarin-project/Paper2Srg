@@ -44,8 +44,8 @@ public class CraftTippedArrow extends CraftArrow implements TippedArrow {
     public boolean addCustomEffect(PotionEffect effect, boolean override) {
         int effectId = effect.getType().getId();
         PotionEffect existing = null;
-        for (PotionEffect mobEffect : getHandle().customPotionEffects) {
-            if (Potion.getIdFromPotion(mobEffect.getPotion()) == effectId) {
+        for (PotionEffect mobEffect : getHandle().field_184561_h) {
+            if (Potion.func_188409_a(mobEffect.func_188419_a()) == effectId) {
                 existing = mobEffect;
             }
         }
@@ -53,9 +53,9 @@ public class CraftTippedArrow extends CraftArrow implements TippedArrow {
             if (!override) {
                 return false;
             }
-            getHandle().customPotionEffects.remove(existing);
+            getHandle().field_184561_h.remove(existing);
         }
-        getHandle().addEffect(CraftPotionUtil.fromBukkit(effect));
+        getHandle().func_184558_a(CraftPotionUtil.fromBukkit(effect));
         getHandle().refreshEffects();
         return true;
     }
@@ -63,14 +63,14 @@ public class CraftTippedArrow extends CraftArrow implements TippedArrow {
     @Override
     public void clearCustomEffects() {
         Validate.isTrue(getBasePotionData().getType() != PotionType.UNCRAFTABLE, "Tipped Arrows must have at least 1 effect");
-        getHandle().customPotionEffects.clear();
+        getHandle().field_184561_h.clear();
         getHandle().refreshEffects();
     }
 
     @Override
     public List<PotionEffect> getCustomEffects() {
         ImmutableList.Builder<PotionEffect> builder = ImmutableList.builder();
-        for (PotionEffect effect : getHandle().customPotionEffects) {
+        for (PotionEffect effect : getHandle().field_184561_h) {
             builder.add(CraftPotionUtil.toBukkit(effect));
         }
         return builder.build();
@@ -78,8 +78,8 @@ public class CraftTippedArrow extends CraftArrow implements TippedArrow {
 
     @Override
     public boolean hasCustomEffect(PotionEffectType type) {
-        for (PotionEffect effect : getHandle().customPotionEffects) {
-            if (CraftPotionUtil.equals(effect.getPotion(), type)) {
+        for (PotionEffect effect : getHandle().field_184561_h) {
+            if (CraftPotionUtil.equals(effect.func_188419_a(), type)) {
                 return true;
             }
         }
@@ -88,23 +88,23 @@ public class CraftTippedArrow extends CraftArrow implements TippedArrow {
 
     @Override
     public boolean hasCustomEffects() {
-        return !getHandle().customPotionEffects.isEmpty();
+        return !getHandle().field_184561_h.isEmpty();
     }
 
     @Override
     public boolean removeCustomEffect(PotionEffectType effect) {
         int effectId = effect.getId();
         PotionEffect existing = null;
-        for (PotionEffect mobEffect : getHandle().customPotionEffects) {
-            if (Potion.getIdFromPotion(mobEffect.getPotion()) == effectId) {
+        for (PotionEffect mobEffect : getHandle().field_184561_h) {
+            if (Potion.func_188409_a(mobEffect.func_188419_a()) == effectId) {
                 existing = mobEffect;
             }
         }
         if (existing == null) {
             return false;
         }
-        Validate.isTrue(getBasePotionData().getType() != PotionType.UNCRAFTABLE || !getHandle().customPotionEffects.isEmpty(), "Tipped Arrows must have at least 1 effect");
-        getHandle().customPotionEffects.remove(existing);
+        Validate.isTrue(getBasePotionData().getType() != PotionType.UNCRAFTABLE || !getHandle().field_184561_h.isEmpty(), "Tipped Arrows must have at least 1 effect");
+        getHandle().field_184561_h.remove(existing);
         getHandle().refreshEffects();
         return true;
     }
@@ -112,7 +112,7 @@ public class CraftTippedArrow extends CraftArrow implements TippedArrow {
     @Override
     public void setBasePotionData(PotionData data) {
         Validate.notNull(data, "PotionData cannot be null");
-        Validate.isTrue(data.getType() != PotionType.UNCRAFTABLE || !getHandle().customPotionEffects.isEmpty(), "Tipped Arrows must have at least 1 effect");
+        Validate.isTrue(data.getType() != PotionType.UNCRAFTABLE || !getHandle().field_184561_h.isEmpty(), "Tipped Arrows must have at least 1 effect");
         getHandle().setType(CraftPotionUtil.fromBukkit(data));
     }
 
@@ -123,11 +123,11 @@ public class CraftTippedArrow extends CraftArrow implements TippedArrow {
 
     @Override
     public void setColor(Color color) {
-        getHandle().setFixedColor(color.asRGB());
+        getHandle().func_191507_d(color.asRGB());
     }
 
     @Override
     public Color getColor() {
-        return Color.fromRGB(getHandle().getColor());
+        return Color.fromRGB(getHandle().func_184557_n());
     }
 }

@@ -27,124 +27,124 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityEndermite extends EntityMob {
 
-    private int lifetime;
-    private boolean playerSpawned;
+    private int field_175497_b;
+    private boolean field_175498_c;
 
     public EntityEndermite(World world) {
         super(world);
-        this.experienceValue = 3;
-        this.setSize(0.4F, 0.3F);
+        this.field_70728_aV = 3;
+        this.func_70105_a(0.4F, 0.3F);
     }
 
-    protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.0D, false));
-        this.tasks.addTask(3, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(1, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(2, new EntityAIAttackMelee(this, 1.0D, false));
+        this.field_70714_bg.func_75776_a(3, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.field_70714_bg.func_75776_a(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.field_70714_bg.func_75776_a(8, new EntityAILookIdle(this));
+        this.field_70715_bh.func_75776_a(1, new EntityAIHurtByTarget(this, true, new Class[0]));
+        this.field_70715_bh.func_75776_a(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
     }
 
-    public float getEyeHeight() {
+    public float func_70047_e() {
         return 0.1F;
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(8.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
+        this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(2.0D);
     }
 
-    protected boolean canTriggerWalking() {
+    protected boolean func_70041_e_() {
         return false;
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_ENDERMITE_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_187535_aY;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_ENDERMITE_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187590_ba;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_ENDERMITE_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187536_aZ;
     }
 
-    protected void playStepSound(BlockPos blockposition, Block block) {
-        this.playSound(SoundEvents.ENTITY_ENDERMITE_STEP, 0.15F, 1.0F);
+    protected void func_180429_a(BlockPos blockposition, Block block) {
+        this.func_184185_a(SoundEvents.field_187592_bb, 0.15F, 1.0F);
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_ENDERMITE;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186382_ag;
     }
 
-    public static void registerFixesEndermite(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityEndermite.class);
+    public static void func_189764_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityEndermite.class);
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.lifetime = nbttagcompound.getInteger("Lifetime");
-        this.playerSpawned = nbttagcompound.getBoolean("PlayerSpawned");
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.field_175497_b = nbttagcompound.func_74762_e("Lifetime");
+        this.field_175498_c = nbttagcompound.func_74767_n("PlayerSpawned");
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setInteger("Lifetime", this.lifetime);
-        nbttagcompound.setBoolean("PlayerSpawned", this.playerSpawned);
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74768_a("Lifetime", this.field_175497_b);
+        nbttagcompound.func_74757_a("PlayerSpawned", this.field_175498_c);
     }
 
-    public void onUpdate() {
-        this.renderYawOffset = this.rotationYaw;
-        super.onUpdate();
+    public void func_70071_h_() {
+        this.field_70761_aq = this.field_70177_z;
+        super.func_70071_h_();
     }
 
-    public void setRenderYawOffset(float f) {
-        this.rotationYaw = f;
-        super.setRenderYawOffset(f);
+    public void func_181013_g(float f) {
+        this.field_70177_z = f;
+        super.func_181013_g(f);
     }
 
-    public double getYOffset() {
+    public double func_70033_W() {
         return 0.1D;
     }
 
-    public boolean isSpawnedByPlayer() {
-        return this.playerSpawned;
+    public boolean func_175495_n() {
+        return this.field_175498_c;
     }
 
-    public void setSpawnedByPlayer(boolean flag) {
-        this.playerSpawned = flag;
+    public void func_175496_a(boolean flag) {
+        this.field_175498_c = flag;
     }
 
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        if (this.world.isRemote) {
+    public void func_70636_d() {
+        super.func_70636_d();
+        if (this.field_70170_p.field_72995_K) {
             for (int i = 0; i < 2; ++i) {
-                this.world.spawnParticle(EnumParticleTypes.PORTAL, this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width, this.posY + this.rand.nextDouble() * (double) this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width, (this.rand.nextDouble() - 0.5D) * 2.0D, -this.rand.nextDouble(), (this.rand.nextDouble() - 0.5D) * 2.0D, new int[0]);
+                this.field_70170_p.func_175688_a(EnumParticleTypes.PORTAL, this.field_70165_t + (this.field_70146_Z.nextDouble() - 0.5D) * (double) this.field_70130_N, this.field_70163_u + this.field_70146_Z.nextDouble() * (double) this.field_70131_O, this.field_70161_v + (this.field_70146_Z.nextDouble() - 0.5D) * (double) this.field_70130_N, (this.field_70146_Z.nextDouble() - 0.5D) * 2.0D, -this.field_70146_Z.nextDouble(), (this.field_70146_Z.nextDouble() - 0.5D) * 2.0D, new int[0]);
             }
         } else {
-            if (!this.isNoDespawnRequired()) {
-                ++this.lifetime;
+            if (!this.func_104002_bU()) {
+                ++this.field_175497_b;
             }
 
-            if (this.lifetime >= 2400) {
-                this.setDead();
+            if (this.field_175497_b >= 2400) {
+                this.func_70106_y();
             }
         }
 
     }
 
-    protected boolean isValidLightLevel() {
+    protected boolean func_70814_o() {
         return true;
     }
 
-    public boolean getCanSpawnHere() {
-        if (super.getCanSpawnHere()) {
-            EntityPlayer entityhuman = this.world.getClosestPlayerToEntity(this, 5.0D);
+    public boolean func_70601_bi() {
+        if (super.func_70601_bi()) {
+            EntityPlayer entityhuman = this.field_70170_p.func_72890_a(this, 5.0D);
 
             return entityhuman == null;
         } else {
@@ -152,7 +152,7 @@ public class EntityEndermite extends EntityMob {
         }
     }
 
-    public EnumCreatureAttribute getCreatureAttribute() {
+    public EnumCreatureAttribute func_70668_bt() {
         return EnumCreatureAttribute.ARTHROPOD;
     }
 }

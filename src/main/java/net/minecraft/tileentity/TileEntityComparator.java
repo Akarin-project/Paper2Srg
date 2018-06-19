@@ -4,26 +4,26 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityComparator extends TileEntity {
 
-    private int outputSignal;
+    private int field_145997_a;
 
     public TileEntityComparator() {}
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        super.writeToNBT(nbttagcompound);
-        nbttagcompound.setInteger("OutputSignal", this.outputSignal);
+    public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
+        super.func_189515_b(nbttagcompound);
+        nbttagcompound.func_74768_a("OutputSignal", this.field_145997_a);
         return nbttagcompound;
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        super.readFromNBT(nbttagcompound);
-        this.outputSignal = nbttagcompound.getInteger("OutputSignal");
+    public void func_145839_a(NBTTagCompound nbttagcompound) {
+        super.func_145839_a(nbttagcompound);
+        this.field_145997_a = nbttagcompound.func_74762_e("OutputSignal");
     }
 
-    public int getOutputSignal() {
-        return this.outputSignal;
+    public int func_145996_a() {
+        return this.field_145997_a;
     }
 
-    public void setOutputSignal(int i) {
-        this.outputSignal = i;
+    public void func_145995_a(int i) {
+        this.field_145997_a = i;
     }
 }

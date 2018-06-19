@@ -8,11 +8,11 @@ public class ItemSoup extends ItemFood {
 
     public ItemSoup(int i) {
         super(i, false);
-        this.setMaxStackSize(1);
+        this.func_77625_d(1);
     }
 
-    public ItemStack onItemUseFinish(ItemStack itemstack, World world, EntityLivingBase entityliving) {
-        super.onItemUseFinish(itemstack, world, entityliving);
-        return new ItemStack(Items.BOWL);
+    public ItemStack func_77654_b(ItemStack itemstack, World world, EntityLivingBase entityliving) {
+        super.func_77654_b(itemstack, world, entityliving);
+        return new ItemStack(Items.field_151054_z);
     }
 }

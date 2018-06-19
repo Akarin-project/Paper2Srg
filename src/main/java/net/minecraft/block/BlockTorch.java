@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 
 public class BlockTorch extends Block {
 
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", new Predicate() {
+    public static final PropertyDirection field_176596_a = PropertyDirection.func_177712_a("facing", new Predicate() {
         public boolean a(@Nullable EnumFacing enumdirection) {
             return enumdirection != EnumFacing.DOWN;
         }
@@ -32,66 +32,66 @@ public class BlockTorch extends Block {
             return this.a((EnumFacing) object);
         }
     });
-    protected static final AxisAlignedBB STANDING_AABB = new AxisAlignedBB(0.4000000059604645D, 0.0D, 0.4000000059604645D, 0.6000000238418579D, 0.6000000238418579D, 0.6000000238418579D);
-    protected static final AxisAlignedBB TORCH_NORTH_AABB = new AxisAlignedBB(0.3499999940395355D, 0.20000000298023224D, 0.699999988079071D, 0.6499999761581421D, 0.800000011920929D, 1.0D);
-    protected static final AxisAlignedBB TORCH_SOUTH_AABB = new AxisAlignedBB(0.3499999940395355D, 0.20000000298023224D, 0.0D, 0.6499999761581421D, 0.800000011920929D, 0.30000001192092896D);
-    protected static final AxisAlignedBB TORCH_WEST_AABB = new AxisAlignedBB(0.699999988079071D, 0.20000000298023224D, 0.3499999940395355D, 1.0D, 0.800000011920929D, 0.6499999761581421D);
-    protected static final AxisAlignedBB TORCH_EAST_AABB = new AxisAlignedBB(0.0D, 0.20000000298023224D, 0.3499999940395355D, 0.30000001192092896D, 0.800000011920929D, 0.6499999761581421D);
+    protected static final AxisAlignedBB field_185738_b = new AxisAlignedBB(0.4000000059604645D, 0.0D, 0.4000000059604645D, 0.6000000238418579D, 0.6000000238418579D, 0.6000000238418579D);
+    protected static final AxisAlignedBB field_185739_c = new AxisAlignedBB(0.3499999940395355D, 0.20000000298023224D, 0.699999988079071D, 0.6499999761581421D, 0.800000011920929D, 1.0D);
+    protected static final AxisAlignedBB field_185740_d = new AxisAlignedBB(0.3499999940395355D, 0.20000000298023224D, 0.0D, 0.6499999761581421D, 0.800000011920929D, 0.30000001192092896D);
+    protected static final AxisAlignedBB field_185741_e = new AxisAlignedBB(0.699999988079071D, 0.20000000298023224D, 0.3499999940395355D, 1.0D, 0.800000011920929D, 0.6499999761581421D);
+    protected static final AxisAlignedBB field_185742_f = new AxisAlignedBB(0.0D, 0.20000000298023224D, 0.3499999940395355D, 0.30000001192092896D, 0.800000011920929D, 0.6499999761581421D);
 
     protected BlockTorch() {
-        super(Material.CIRCUITS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockTorch.FACING, EnumFacing.UP));
-        this.setTickRandomly(true);
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        super(Material.field_151594_q);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockTorch.field_176596_a, EnumFacing.UP));
+        this.func_149675_a(true);
+        this.func_149647_a(CreativeTabs.field_78031_c);
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        switch ((EnumFacing) iblockdata.getValue(BlockTorch.FACING)) {
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        switch ((EnumFacing) iblockdata.func_177229_b(BlockTorch.field_176596_a)) {
         case EAST:
-            return BlockTorch.TORCH_EAST_AABB;
+            return BlockTorch.field_185742_f;
 
         case WEST:
-            return BlockTorch.TORCH_WEST_AABB;
+            return BlockTorch.field_185741_e;
 
         case SOUTH:
-            return BlockTorch.TORCH_SOUTH_AABB;
+            return BlockTorch.field_185740_d;
 
         case NORTH:
-            return BlockTorch.TORCH_NORTH_AABB;
+            return BlockTorch.field_185739_c;
 
         default:
-            return BlockTorch.STANDING_AABB;
+            return BlockTorch.field_185738_b;
         }
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockTorch.NULL_AABB;
+    public AxisAlignedBB func_180646_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockTorch.field_185506_k;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    private boolean canPlaceOn(World world, BlockPos blockposition) {
-        Block block = world.getBlockState(blockposition).getBlock();
-        boolean flag = block == Blocks.END_GATEWAY || block == Blocks.LIT_PUMPKIN;
+    private boolean func_176594_d(World world, BlockPos blockposition) {
+        Block block = world.func_180495_p(blockposition).func_177230_c();
+        boolean flag = block == Blocks.field_185775_db || block == Blocks.field_150428_aP;
 
-        if (world.getBlockState(blockposition).isTopSolid()) {
+        if (world.func_180495_p(blockposition).func_185896_q()) {
             return !flag;
         } else {
-            boolean flag1 = block instanceof BlockFence || block == Blocks.GLASS || block == Blocks.COBBLESTONE_WALL || block == Blocks.STAINED_GLASS;
+            boolean flag1 = block instanceof BlockFence || block == Blocks.field_150359_w || block == Blocks.field_150463_bK || block == Blocks.field_150399_cn;
 
             return flag1 && !flag;
         }
     }
 
-    public boolean canPlaceBlockAt(World world, BlockPos blockposition) {
-        Iterator iterator = BlockTorch.FACING.getAllowedValues().iterator();
+    public boolean func_176196_c(World world, BlockPos blockposition) {
+        Iterator iterator = BlockTorch.field_176596_a.func_177700_c().iterator();
 
         EnumFacing enumdirection;
 
@@ -101,23 +101,23 @@ public class BlockTorch extends Block {
             }
 
             enumdirection = (EnumFacing) iterator.next();
-        } while (!this.canPlaceAt(world, blockposition, enumdirection));
+        } while (!this.func_176595_b(world, blockposition, enumdirection));
 
         return true;
     }
 
-    private boolean canPlaceAt(World world, BlockPos blockposition, EnumFacing enumdirection) {
-        BlockPos blockposition1 = blockposition.offset(enumdirection.getOpposite());
-        IBlockState iblockdata = world.getBlockState(blockposition1);
-        Block block = iblockdata.getBlock();
-        BlockFaceShape enumblockfaceshape = iblockdata.getBlockFaceShape(world, blockposition1, enumdirection);
+    private boolean func_176595_b(World world, BlockPos blockposition, EnumFacing enumdirection) {
+        BlockPos blockposition1 = blockposition.func_177972_a(enumdirection.func_176734_d());
+        IBlockState iblockdata = world.func_180495_p(blockposition1);
+        Block block = iblockdata.func_177230_c();
+        BlockFaceShape enumblockfaceshape = iblockdata.func_193401_d(world, blockposition1, enumdirection);
 
-        return enumdirection.equals(EnumFacing.UP) && this.canPlaceOn(world, blockposition1) ? true : (enumdirection != EnumFacing.UP && enumdirection != EnumFacing.DOWN ? !isExceptBlockForAttachWithPiston(block) && enumblockfaceshape == BlockFaceShape.SOLID : false);
+        return enumdirection.equals(EnumFacing.UP) && this.func_176594_d(world, blockposition1) ? true : (enumdirection != EnumFacing.UP && enumdirection != EnumFacing.DOWN ? !func_193382_c(block) && enumblockfaceshape == BlockFaceShape.SOLID : false);
     }
 
-    public IBlockState getStateForPlacement(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
-        if (this.canPlaceAt(world, blockposition, enumdirection)) {
-            return this.getDefaultState().withProperty(BlockTorch.FACING, enumdirection);
+    public IBlockState func_180642_a(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
+        if (this.func_176595_b(world, blockposition, enumdirection)) {
+            return this.func_176223_P().func_177226_a(BlockTorch.field_176596_a, enumdirection);
         } else {
             Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 
@@ -125,43 +125,43 @@ public class BlockTorch extends Block {
 
             do {
                 if (!iterator.hasNext()) {
-                    return this.getDefaultState();
+                    return this.func_176223_P();
                 }
 
                 enumdirection1 = (EnumFacing) iterator.next();
-            } while (!this.canPlaceAt(world, blockposition, enumdirection1));
+            } while (!this.func_176595_b(world, blockposition, enumdirection1));
 
-            return this.getDefaultState().withProperty(BlockTorch.FACING, enumdirection1);
+            return this.func_176223_P().func_177226_a(BlockTorch.field_176596_a, enumdirection1);
         }
     }
 
-    public void onBlockAdded(World world, BlockPos blockposition, IBlockState iblockdata) {
-        this.checkForDrop(world, blockposition, iblockdata);
+    public void func_176213_c(World world, BlockPos blockposition, IBlockState iblockdata) {
+        this.func_176593_f(world, blockposition, iblockdata);
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        this.onNeighborChangeInternal(world, blockposition, iblockdata);
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        this.func_176592_e(world, blockposition, iblockdata);
     }
 
-    protected boolean onNeighborChangeInternal(World world, BlockPos blockposition, IBlockState iblockdata) {
-        if (!this.checkForDrop(world, blockposition, iblockdata)) {
+    protected boolean func_176592_e(World world, BlockPos blockposition, IBlockState iblockdata) {
+        if (!this.func_176593_f(world, blockposition, iblockdata)) {
             return true;
         } else {
-            EnumFacing enumdirection = (EnumFacing) iblockdata.getValue(BlockTorch.FACING);
-            EnumFacing.Axis enumdirection_enumaxis = enumdirection.getAxis();
-            EnumFacing enumdirection1 = enumdirection.getOpposite();
-            BlockPos blockposition1 = blockposition.offset(enumdirection1);
+            EnumFacing enumdirection = (EnumFacing) iblockdata.func_177229_b(BlockTorch.field_176596_a);
+            EnumFacing.Axis enumdirection_enumaxis = enumdirection.func_176740_k();
+            EnumFacing enumdirection1 = enumdirection.func_176734_d();
+            BlockPos blockposition1 = blockposition.func_177972_a(enumdirection1);
             boolean flag = false;
 
-            if (enumdirection_enumaxis.isHorizontal() && world.getBlockState(blockposition1).getBlockFaceShape(world, blockposition1, enumdirection) != BlockFaceShape.SOLID) {
+            if (enumdirection_enumaxis.func_176722_c() && world.func_180495_p(blockposition1).func_193401_d(world, blockposition1, enumdirection) != BlockFaceShape.SOLID) {
                 flag = true;
-            } else if (enumdirection_enumaxis.isVertical() && !this.canPlaceOn(world, blockposition1)) {
+            } else if (enumdirection_enumaxis.func_176720_b() && !this.func_176594_d(world, blockposition1)) {
                 flag = true;
             }
 
             if (flag) {
-                this.dropBlockAsItem(world, blockposition, iblockdata, 0);
-                world.setBlockToAir(blockposition);
+                this.func_176226_b(world, blockposition, iblockdata, 0);
+                world.func_175698_g(blockposition);
                 return true;
             } else {
                 return false;
@@ -169,52 +169,52 @@ public class BlockTorch extends Block {
         }
     }
 
-    protected boolean checkForDrop(World world, BlockPos blockposition, IBlockState iblockdata) {
-        if (iblockdata.getBlock() == this && this.canPlaceAt(world, blockposition, (EnumFacing) iblockdata.getValue(BlockTorch.FACING))) {
+    protected boolean func_176593_f(World world, BlockPos blockposition, IBlockState iblockdata) {
+        if (iblockdata.func_177230_c() == this && this.func_176595_b(world, blockposition, (EnumFacing) iblockdata.func_177229_b(BlockTorch.field_176596_a))) {
             return true;
         } else {
-            if (world.getBlockState(blockposition).getBlock() == this) {
-                this.dropBlockAsItem(world, blockposition, iblockdata, 0);
-                world.setBlockToAir(blockposition);
+            if (world.func_180495_p(blockposition).func_177230_c() == this) {
+                this.func_176226_b(world, blockposition, iblockdata, 0);
+                world.func_175698_g(blockposition);
             }
 
             return false;
         }
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        IBlockState iblockdata = this.getDefaultState();
+    public IBlockState func_176203_a(int i) {
+        IBlockState iblockdata = this.func_176223_P();
 
         switch (i) {
         case 1:
-            iblockdata = iblockdata.withProperty(BlockTorch.FACING, EnumFacing.EAST);
+            iblockdata = iblockdata.func_177226_a(BlockTorch.field_176596_a, EnumFacing.EAST);
             break;
 
         case 2:
-            iblockdata = iblockdata.withProperty(BlockTorch.FACING, EnumFacing.WEST);
+            iblockdata = iblockdata.func_177226_a(BlockTorch.field_176596_a, EnumFacing.WEST);
             break;
 
         case 3:
-            iblockdata = iblockdata.withProperty(BlockTorch.FACING, EnumFacing.SOUTH);
+            iblockdata = iblockdata.func_177226_a(BlockTorch.field_176596_a, EnumFacing.SOUTH);
             break;
 
         case 4:
-            iblockdata = iblockdata.withProperty(BlockTorch.FACING, EnumFacing.NORTH);
+            iblockdata = iblockdata.func_177226_a(BlockTorch.field_176596_a, EnumFacing.NORTH);
             break;
 
         case 5:
         default:
-            iblockdata = iblockdata.withProperty(BlockTorch.FACING, EnumFacing.UP);
+            iblockdata = iblockdata.func_177226_a(BlockTorch.field_176596_a, EnumFacing.UP);
         }
 
         return iblockdata;
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         byte b0 = 0;
         int i;
 
-        switch ((EnumFacing) iblockdata.getValue(BlockTorch.FACING)) {
+        switch ((EnumFacing) iblockdata.func_177229_b(BlockTorch.field_176596_a)) {
         case EAST:
             i = b0 | 1;
             break;
@@ -240,19 +240,19 @@ public class BlockTorch extends Block {
         return i;
     }
 
-    public IBlockState withRotation(IBlockState iblockdata, Rotation enumblockrotation) {
-        return iblockdata.withProperty(BlockTorch.FACING, enumblockrotation.rotate((EnumFacing) iblockdata.getValue(BlockTorch.FACING)));
+    public IBlockState func_185499_a(IBlockState iblockdata, Rotation enumblockrotation) {
+        return iblockdata.func_177226_a(BlockTorch.field_176596_a, enumblockrotation.func_185831_a((EnumFacing) iblockdata.func_177229_b(BlockTorch.field_176596_a)));
     }
 
-    public IBlockState withMirror(IBlockState iblockdata, Mirror enumblockmirror) {
-        return iblockdata.withRotation(enumblockmirror.toRotation((EnumFacing) iblockdata.getValue(BlockTorch.FACING)));
+    public IBlockState func_185471_a(IBlockState iblockdata, Mirror enumblockmirror) {
+        return iblockdata.func_185907_a(enumblockmirror.func_185800_a((EnumFacing) iblockdata.func_177229_b(BlockTorch.field_176596_a)));
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockTorch.FACING});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockTorch.field_176596_a});
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.UNDEFINED;
     }
 }

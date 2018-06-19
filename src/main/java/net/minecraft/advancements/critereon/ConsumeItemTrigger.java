@@ -21,50 +21,50 @@ import net.minecraft.util.ResourceLocation;
 
 public class ConsumeItemTrigger implements ICriterionTrigger<CriterionTriggerConsumeItem.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("consume_item");
-    private final Map<PlayerAdvancements, CriterionTriggerConsumeItem.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_193149_a = new ResourceLocation("consume_item");
+    private final Map<PlayerAdvancements, CriterionTriggerConsumeItem.a> field_193150_b = Maps.newHashMap();
 
     public ConsumeItemTrigger() {}
 
-    public ResourceLocation getId() {
-        return ConsumeItemTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return ConsumeItemTrigger.field_193149_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerConsumeItem.b> criteriontrigger_a) {
-        CriterionTriggerConsumeItem.a criteriontriggerconsumeitem_a = (CriterionTriggerConsumeItem.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerConsumeItem.a criteriontriggerconsumeitem_a = (CriterionTriggerConsumeItem.a) this.field_193150_b.get(advancementdataplayer);
 
         if (criteriontriggerconsumeitem_a == null) {
             criteriontriggerconsumeitem_a = new CriterionTriggerConsumeItem.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerconsumeitem_a);
+            this.field_193150_b.put(advancementdataplayer, criteriontriggerconsumeitem_a);
         }
 
         criteriontriggerconsumeitem_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerConsumeItem.b> criteriontrigger_a) {
-        CriterionTriggerConsumeItem.a criteriontriggerconsumeitem_a = (CriterionTriggerConsumeItem.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerConsumeItem.a criteriontriggerconsumeitem_a = (CriterionTriggerConsumeItem.a) this.field_193150_b.get(advancementdataplayer);
 
         if (criteriontriggerconsumeitem_a != null) {
             criteriontriggerconsumeitem_a.b(criteriontrigger_a);
             if (criteriontriggerconsumeitem_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_193150_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_193150_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerConsumeItem.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        ItemPredicate criterionconditionitem = ItemPredicate.deserialize(jsonobject.get("item"));
+        ItemPredicate criterionconditionitem = ItemPredicate.func_192492_a(jsonobject.get("item"));
 
         return new CriterionTriggerConsumeItem.b(criterionconditionitem);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, ItemStack itemstack) {
-        CriterionTriggerConsumeItem.a criteriontriggerconsumeitem_a = (CriterionTriggerConsumeItem.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_193148_a(EntityPlayerMP entityplayer, ItemStack itemstack) {
+        CriterionTriggerConsumeItem.a criteriontriggerconsumeitem_a = (CriterionTriggerConsumeItem.a) this.field_193150_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerconsumeitem_a != null) {
             criteriontriggerconsumeitem_a.a(itemstack);
@@ -72,7 +72,7 @@ public class ConsumeItemTrigger implements ICriterionTrigger<CriterionTriggerCon
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -131,12 +131,12 @@ public class ConsumeItemTrigger implements ICriterionTrigger<CriterionTriggerCon
         private final ItemPredicate a;
 
         public b(ItemPredicate criterionconditionitem) {
-            super(ConsumeItemTrigger.ID);
+            super(ConsumeItemTrigger.field_193149_a);
             this.a = criterionconditionitem;
         }
 
         public boolean a(ItemStack itemstack) {
-            return this.a.test(itemstack);
+            return this.a.func_192493_a(itemstack);
         }
     }
 }

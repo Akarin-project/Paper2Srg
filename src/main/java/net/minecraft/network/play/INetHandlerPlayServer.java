@@ -34,63 +34,63 @@ import net.minecraft.network.play.client.CPacketVehicleMove;
 
 public interface INetHandlerPlayServer extends INetHandler {
 
-    void handleAnimation(CPacketAnimation packetplayinarmanimation);
+    void func_175087_a(CPacketAnimation packetplayinarmanimation);
 
-    void processChatMessage(CPacketChatMessage packetplayinchat);
+    void func_147354_a(CPacketChatMessage packetplayinchat);
 
-    void processTabComplete(CPacketTabComplete packetplayintabcomplete);
+    void func_147341_a(CPacketTabComplete packetplayintabcomplete);
 
-    void processClientStatus(CPacketClientStatus packetplayinclientcommand);
+    void func_147342_a(CPacketClientStatus packetplayinclientcommand);
 
-    void processClientSettings(CPacketClientSettings packetplayinsettings);
+    void func_147352_a(CPacketClientSettings packetplayinsettings);
 
-    void processConfirmTransaction(CPacketConfirmTransaction packetplayintransaction);
+    void func_147339_a(CPacketConfirmTransaction packetplayintransaction);
 
-    void processEnchantItem(CPacketEnchantItem packetplayinenchantitem);
+    void func_147338_a(CPacketEnchantItem packetplayinenchantitem);
 
-    void processClickWindow(CPacketClickWindow packetplayinwindowclick);
+    void func_147351_a(CPacketClickWindow packetplayinwindowclick);
 
     void func_194308_a(CPacketPlaceRecipe packetplayinautorecipe);
 
-    void processCloseWindow(CPacketCloseWindow packetplayinclosewindow);
+    void func_147356_a(CPacketCloseWindow packetplayinclosewindow);
 
-    void processCustomPayload(CPacketCustomPayload packetplayincustompayload);
+    void func_147349_a(CPacketCustomPayload packetplayincustompayload);
 
-    void processUseEntity(CPacketUseEntity packetplayinuseentity);
+    void func_147340_a(CPacketUseEntity packetplayinuseentity);
 
-    void processKeepAlive(CPacketKeepAlive packetplayinkeepalive);
+    void func_147353_a(CPacketKeepAlive packetplayinkeepalive);
 
-    void processPlayer(CPacketPlayer packetplayinflying);
+    void func_147347_a(CPacketPlayer packetplayinflying);
 
-    void processPlayerAbilities(CPacketPlayerAbilities packetplayinabilities);
+    void func_147348_a(CPacketPlayerAbilities packetplayinabilities);
 
-    void processPlayerDigging(CPacketPlayerDigging packetplayinblockdig);
+    void func_147345_a(CPacketPlayerDigging packetplayinblockdig);
 
-    void processEntityAction(CPacketEntityAction packetplayinentityaction);
+    void func_147357_a(CPacketEntityAction packetplayinentityaction);
 
-    void processInput(CPacketInput packetplayinsteervehicle);
+    void func_147358_a(CPacketInput packetplayinsteervehicle);
 
-    void processHeldItemChange(CPacketHeldItemChange packetplayinhelditemslot);
+    void func_147355_a(CPacketHeldItemChange packetplayinhelditemslot);
 
-    void processCreativeInventoryAction(CPacketCreativeInventoryAction packetplayinsetcreativeslot);
+    void func_147344_a(CPacketCreativeInventoryAction packetplayinsetcreativeslot);
 
-    void processUpdateSign(CPacketUpdateSign packetplayinupdatesign);
+    void func_147343_a(CPacketUpdateSign packetplayinupdatesign);
 
-    void processTryUseItemOnBlock(CPacketPlayerTryUseItemOnBlock packetplayinuseitem);
+    void func_184337_a(CPacketPlayerTryUseItemOnBlock packetplayinuseitem);
 
-    void processTryUseItem(CPacketPlayerTryUseItem packetplayinblockplace);
+    void func_147346_a(CPacketPlayerTryUseItem packetplayinblockplace);
 
-    void handleSpectate(CPacketSpectate packetplayinspectate);
+    void func_175088_a(CPacketSpectate packetplayinspectate);
 
-    void handleResourcePackStatus(CPacketResourcePackStatus packetplayinresourcepackstatus);
+    void func_175086_a(CPacketResourcePackStatus packetplayinresourcepackstatus);
 
-    void processSteerBoat(CPacketSteerBoat packetplayinboatmove);
+    void func_184340_a(CPacketSteerBoat packetplayinboatmove);
 
-    void processVehicleMove(CPacketVehicleMove packetplayinvehiclemove);
+    void func_184338_a(CPacketVehicleMove packetplayinvehiclemove);
 
-    void processConfirmTeleport(CPacketConfirmTeleport packetplayinteleportaccept);
+    void func_184339_a(CPacketConfirmTeleport packetplayinteleportaccept);
 
-    void handleRecipeBookUpdate(CPacketRecipeInfo packetplayinrecipedisplayed);
+    void func_191984_a(CPacketRecipeInfo packetplayinrecipedisplayed);
 
-    void handleSeenAdvancements(CPacketSeenAdvancements packetplayinadvancements);
+    void func_194027_a(CPacketSeenAdvancements packetplayinadvancements);
 }

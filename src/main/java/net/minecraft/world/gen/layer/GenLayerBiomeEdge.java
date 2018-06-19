@@ -7,47 +7,47 @@ public class GenLayerBiomeEdge extends GenLayer {
 
     public GenLayerBiomeEdge(long i, GenLayer genlayer) {
         super(i);
-        this.parent = genlayer;
+        this.field_75909_a = genlayer;
     }
 
-    public int[] getInts(int i, int j, int k, int l) {
-        int[] aint = this.parent.getInts(i - 1, j - 1, k + 2, l + 2);
-        int[] aint1 = IntCache.getIntCache(k * l);
+    public int[] func_75904_a(int i, int j, int k, int l) {
+        int[] aint = this.field_75909_a.func_75904_a(i - 1, j - 1, k + 2, l + 2);
+        int[] aint1 = IntCache.func_76445_a(k * l);
 
         for (int i1 = 0; i1 < l; ++i1) {
             for (int j1 = 0; j1 < k; ++j1) {
-                this.initChunkSeed((long) (j1 + i), (long) (i1 + j));
+                this.func_75903_a((long) (j1 + i), (long) (i1 + j));
                 int k1 = aint[j1 + 1 + (i1 + 1) * (k + 2)];
 
-                if (!this.replaceBiomeEdgeIfNecessary(aint, aint1, j1, i1, k, k1, Biome.getIdForBiome(Biomes.EXTREME_HILLS), Biome.getIdForBiome(Biomes.EXTREME_HILLS_EDGE)) && !this.replaceBiomeEdge(aint, aint1, j1, i1, k, k1, Biome.getIdForBiome(Biomes.MESA_ROCK), Biome.getIdForBiome(Biomes.MESA)) && !this.replaceBiomeEdge(aint, aint1, j1, i1, k, k1, Biome.getIdForBiome(Biomes.MESA_CLEAR_ROCK), Biome.getIdForBiome(Biomes.MESA)) && !this.replaceBiomeEdge(aint, aint1, j1, i1, k, k1, Biome.getIdForBiome(Biomes.REDWOOD_TAIGA), Biome.getIdForBiome(Biomes.TAIGA))) {
+                if (!this.func_151636_a(aint, aint1, j1, i1, k, k1, Biome.func_185362_a(Biomes.field_76770_e), Biome.func_185362_a(Biomes.field_76783_v)) && !this.func_151635_b(aint, aint1, j1, i1, k, k1, Biome.func_185362_a(Biomes.field_150607_aa), Biome.func_185362_a(Biomes.field_150589_Z)) && !this.func_151635_b(aint, aint1, j1, i1, k, k1, Biome.func_185362_a(Biomes.field_150608_ab), Biome.func_185362_a(Biomes.field_150589_Z)) && !this.func_151635_b(aint, aint1, j1, i1, k, k1, Biome.func_185362_a(Biomes.field_150578_U), Biome.func_185362_a(Biomes.field_76768_g))) {
                     int l1;
                     int i2;
                     int j2;
                     int k2;
 
-                    if (k1 == Biome.getIdForBiome(Biomes.DESERT)) {
+                    if (k1 == Biome.func_185362_a(Biomes.field_76769_d)) {
                         l1 = aint[j1 + 1 + (i1 + 1 - 1) * (k + 2)];
                         i2 = aint[j1 + 1 + 1 + (i1 + 1) * (k + 2)];
                         j2 = aint[j1 + 1 - 1 + (i1 + 1) * (k + 2)];
                         k2 = aint[j1 + 1 + (i1 + 1 + 1) * (k + 2)];
-                        if (l1 != Biome.getIdForBiome(Biomes.ICE_PLAINS) && i2 != Biome.getIdForBiome(Biomes.ICE_PLAINS) && j2 != Biome.getIdForBiome(Biomes.ICE_PLAINS) && k2 != Biome.getIdForBiome(Biomes.ICE_PLAINS)) {
+                        if (l1 != Biome.func_185362_a(Biomes.field_76774_n) && i2 != Biome.func_185362_a(Biomes.field_76774_n) && j2 != Biome.func_185362_a(Biomes.field_76774_n) && k2 != Biome.func_185362_a(Biomes.field_76774_n)) {
                             aint1[j1 + i1 * k] = k1;
                         } else {
-                            aint1[j1 + i1 * k] = Biome.getIdForBiome(Biomes.EXTREME_HILLS_WITH_TREES);
+                            aint1[j1 + i1 * k] = Biome.func_185362_a(Biomes.field_150580_W);
                         }
-                    } else if (k1 == Biome.getIdForBiome(Biomes.SWAMPLAND)) {
+                    } else if (k1 == Biome.func_185362_a(Biomes.field_76780_h)) {
                         l1 = aint[j1 + 1 + (i1 + 1 - 1) * (k + 2)];
                         i2 = aint[j1 + 1 + 1 + (i1 + 1) * (k + 2)];
                         j2 = aint[j1 + 1 - 1 + (i1 + 1) * (k + 2)];
                         k2 = aint[j1 + 1 + (i1 + 1 + 1) * (k + 2)];
-                        if (l1 != Biome.getIdForBiome(Biomes.DESERT) && i2 != Biome.getIdForBiome(Biomes.DESERT) && j2 != Biome.getIdForBiome(Biomes.DESERT) && k2 != Biome.getIdForBiome(Biomes.DESERT) && l1 != Biome.getIdForBiome(Biomes.COLD_TAIGA) && i2 != Biome.getIdForBiome(Biomes.COLD_TAIGA) && j2 != Biome.getIdForBiome(Biomes.COLD_TAIGA) && k2 != Biome.getIdForBiome(Biomes.COLD_TAIGA) && l1 != Biome.getIdForBiome(Biomes.ICE_PLAINS) && i2 != Biome.getIdForBiome(Biomes.ICE_PLAINS) && j2 != Biome.getIdForBiome(Biomes.ICE_PLAINS) && k2 != Biome.getIdForBiome(Biomes.ICE_PLAINS)) {
-                            if (l1 != Biome.getIdForBiome(Biomes.JUNGLE) && k2 != Biome.getIdForBiome(Biomes.JUNGLE) && i2 != Biome.getIdForBiome(Biomes.JUNGLE) && j2 != Biome.getIdForBiome(Biomes.JUNGLE)) {
+                        if (l1 != Biome.func_185362_a(Biomes.field_76769_d) && i2 != Biome.func_185362_a(Biomes.field_76769_d) && j2 != Biome.func_185362_a(Biomes.field_76769_d) && k2 != Biome.func_185362_a(Biomes.field_76769_d) && l1 != Biome.func_185362_a(Biomes.field_150584_S) && i2 != Biome.func_185362_a(Biomes.field_150584_S) && j2 != Biome.func_185362_a(Biomes.field_150584_S) && k2 != Biome.func_185362_a(Biomes.field_150584_S) && l1 != Biome.func_185362_a(Biomes.field_76774_n) && i2 != Biome.func_185362_a(Biomes.field_76774_n) && j2 != Biome.func_185362_a(Biomes.field_76774_n) && k2 != Biome.func_185362_a(Biomes.field_76774_n)) {
+                            if (l1 != Biome.func_185362_a(Biomes.field_76782_w) && k2 != Biome.func_185362_a(Biomes.field_76782_w) && i2 != Biome.func_185362_a(Biomes.field_76782_w) && j2 != Biome.func_185362_a(Biomes.field_76782_w)) {
                                 aint1[j1 + i1 * k] = k1;
                             } else {
-                                aint1[j1 + i1 * k] = Biome.getIdForBiome(Biomes.JUNGLE_EDGE);
+                                aint1[j1 + i1 * k] = Biome.func_185362_a(Biomes.field_150574_L);
                             }
                         } else {
-                            aint1[j1 + i1 * k] = Biome.getIdForBiome(Biomes.PLAINS);
+                            aint1[j1 + i1 * k] = Biome.func_185362_a(Biomes.field_76772_c);
                         }
                     } else {
                         aint1[j1 + i1 * k] = k1;
@@ -59,8 +59,8 @@ public class GenLayerBiomeEdge extends GenLayer {
         return aint1;
     }
 
-    private boolean replaceBiomeEdgeIfNecessary(int[] aint, int[] aint1, int i, int j, int k, int l, int i1, int j1) {
-        if (!biomesEqualOrMesaPlateau(l, i1)) {
+    private boolean func_151636_a(int[] aint, int[] aint1, int i, int j, int k, int l, int i1, int j1) {
+        if (!func_151616_a(l, i1)) {
             return false;
         } else {
             int k1 = aint[i + 1 + (j + 1 - 1) * (k + 2)];
@@ -68,7 +68,7 @@ public class GenLayerBiomeEdge extends GenLayer {
             int i2 = aint[i + 1 - 1 + (j + 1) * (k + 2)];
             int j2 = aint[i + 1 + (j + 1 + 1) * (k + 2)];
 
-            if (this.canBiomesBeNeighbors(k1, i1) && this.canBiomesBeNeighbors(l1, i1) && this.canBiomesBeNeighbors(i2, i1) && this.canBiomesBeNeighbors(j2, i1)) {
+            if (this.func_151634_b(k1, i1) && this.func_151634_b(l1, i1) && this.func_151634_b(i2, i1) && this.func_151634_b(j2, i1)) {
                 aint1[i + j * k] = l;
             } else {
                 aint1[i + j * k] = j1;
@@ -78,7 +78,7 @@ public class GenLayerBiomeEdge extends GenLayer {
         }
     }
 
-    private boolean replaceBiomeEdge(int[] aint, int[] aint1, int i, int j, int k, int l, int i1, int j1) {
+    private boolean func_151635_b(int[] aint, int[] aint1, int i, int j, int k, int l, int i1, int j1) {
         if (l != i1) {
             return false;
         } else {
@@ -87,7 +87,7 @@ public class GenLayerBiomeEdge extends GenLayer {
             int i2 = aint[i + 1 - 1 + (j + 1) * (k + 2)];
             int j2 = aint[i + 1 + (j + 1 + 1) * (k + 2)];
 
-            if (biomesEqualOrMesaPlateau(k1, i1) && biomesEqualOrMesaPlateau(l1, i1) && biomesEqualOrMesaPlateau(i2, i1) && biomesEqualOrMesaPlateau(j2, i1)) {
+            if (func_151616_a(k1, i1) && func_151616_a(l1, i1) && func_151616_a(i2, i1) && func_151616_a(j2, i1)) {
                 aint1[i + j * k] = l;
             } else {
                 aint1[i + j * k] = j1;
@@ -97,16 +97,16 @@ public class GenLayerBiomeEdge extends GenLayer {
         }
     }
 
-    private boolean canBiomesBeNeighbors(int i, int j) {
-        if (biomesEqualOrMesaPlateau(i, j)) {
+    private boolean func_151634_b(int i, int j) {
+        if (func_151616_a(i, j)) {
             return true;
         } else {
-            Biome biomebase = Biome.getBiome(i);
-            Biome biomebase1 = Biome.getBiome(j);
+            Biome biomebase = Biome.func_150568_d(i);
+            Biome biomebase1 = Biome.func_150568_d(j);
 
             if (biomebase != null && biomebase1 != null) {
-                Biome.TempCategory biomebase_enumtemperature = biomebase.getTempCategory();
-                Biome.TempCategory biomebase_enumtemperature1 = biomebase1.getTempCategory();
+                Biome.TempCategory biomebase_enumtemperature = biomebase.func_150561_m();
+                Biome.TempCategory biomebase_enumtemperature1 = biomebase1.func_150561_m();
 
                 return biomebase_enumtemperature == biomebase_enumtemperature1 || biomebase_enumtemperature == Biome.TempCategory.MEDIUM || biomebase_enumtemperature1 == Biome.TempCategory.MEDIUM;
             } else {

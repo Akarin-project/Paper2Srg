@@ -59,58 +59,58 @@ public class CraftInventoryCustom extends CraftInventory {
 
         public MinecraftInventory(InventoryHolder owner, int size, String title) {
             Validate.notNull(title, "Title cannot be null");
-            this.items = NonNullList.withSize(size, ItemStack.EMPTY);
+            this.items = NonNullList.func_191197_a(size, ItemStack.field_190927_a);
             this.title = title;
             this.viewers = new ArrayList<HumanEntity>();
             this.owner = owner;
             this.type = InventoryType.CHEST;
         }
 
-        public int getSizeInventory() {
+        public int func_70302_i_() {
             return items.size();
         }
 
-        public ItemStack getStackInSlot(int i) {
+        public ItemStack func_70301_a(int i) {
             return items.get(i);
         }
 
-        public ItemStack decrStackSize(int i, int j) {
-            ItemStack stack = this.getStackInSlot(i);
+        public ItemStack func_70298_a(int i, int j) {
+            ItemStack stack = this.func_70301_a(i);
             ItemStack result;
-            if (stack == ItemStack.EMPTY) return stack;
-            if (stack.getCount() <= j) {
-                this.setInventorySlotContents(i, ItemStack.EMPTY);
+            if (stack == ItemStack.field_190927_a) return stack;
+            if (stack.func_190916_E() <= j) {
+                this.func_70299_a(i, ItemStack.field_190927_a);
                 result = stack;
             } else {
                 result = CraftItemStack.copyNMSStack(stack, j);
-                stack.shrink(j);
+                stack.func_190918_g(j);
             }
-            this.markDirty();
+            this.func_70296_d();
             return result;
         }
 
-        public ItemStack removeStackFromSlot(int i) {
-            ItemStack stack = this.getStackInSlot(i);
+        public ItemStack func_70304_b(int i) {
+            ItemStack stack = this.func_70301_a(i);
             ItemStack result;
-            if (stack == ItemStack.EMPTY) return stack;
-            if (stack.getCount() <= 1) {
-                this.setInventorySlotContents(i, null);
+            if (stack == ItemStack.field_190927_a) return stack;
+            if (stack.func_190916_E() <= 1) {
+                this.func_70299_a(i, null);
                 result = stack;
             } else {
                 result = CraftItemStack.copyNMSStack(stack, 1);
-                stack.shrink(1);
+                stack.func_190918_g(1);
             }
             return result;
         }
 
-        public void setInventorySlotContents(int i, ItemStack itemstack) {
+        public void func_70299_a(int i, ItemStack itemstack) {
             items.set(i, itemstack);
-            if (itemstack != ItemStack.EMPTY && this.getInventoryStackLimit() > 0 && itemstack.getCount() > this.getInventoryStackLimit()) {
-                itemstack.setCount(this.getInventoryStackLimit());
+            if (itemstack != ItemStack.field_190927_a && this.func_70297_j_() > 0 && itemstack.func_190916_E() > this.func_70297_j_()) {
+                itemstack.func_190920_e(this.func_70297_j_());
             }
         }
 
-        public int getInventoryStackLimit() {
+        public int func_70297_j_() {
             return maxStack;
         }
 
@@ -118,9 +118,9 @@ public class CraftInventoryCustom extends CraftInventory {
             maxStack = size;
         }
 
-        public void markDirty() {}
+        public void func_70296_d() {}
 
-        public boolean isUsableByPlayer(EntityPlayer entityhuman) {
+        public boolean func_70300_a(EntityPlayer entityhuman) {
             return true;
         }
 
@@ -148,51 +148,51 @@ public class CraftInventoryCustom extends CraftInventory {
             return owner;
         }
 
-        public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+        public boolean func_94041_b(int i, ItemStack itemstack) {
             return true;
         }
 
         @Override
-        public void openInventory(EntityPlayer entityHuman) {
+        public void func_174889_b(EntityPlayer entityHuman) {
 
         }
 
         @Override
-        public void closeInventory(EntityPlayer entityHuman) {
+        public void func_174886_c(EntityPlayer entityHuman) {
 
         }
 
         @Override
-        public int getField(int i) {
+        public int func_174887_a_(int i) {
             return 0;
         }
 
         @Override
-        public void setField(int i, int j) {
+        public void func_174885_b(int i, int j) {
         }
 
         @Override
-        public int getFieldCount() {
+        public int func_174890_g() {
             return 0;
         }
 
         @Override
-        public void clear() {
+        public void func_174888_l() {
             items.clear();
         }
 
         @Override
-        public String getName() {
+        public String func_70005_c_() {
             return title;
         }
 
         @Override
-        public boolean hasCustomName() {
+        public boolean func_145818_k_() {
             return title != null;
         }
 
         @Override
-        public ITextComponent getDisplayName() {
+        public ITextComponent func_145748_c_() {
             return new TextComponentString(title);
         }
 
@@ -202,7 +202,7 @@ public class CraftInventoryCustom extends CraftInventory {
         }
 
         @Override
-        public boolean isEmpty() {
+        public boolean func_191420_l() {
             Iterator iterator = this.items.iterator();
 
             ItemStack itemstack;
@@ -213,7 +213,7 @@ public class CraftInventoryCustom extends CraftInventory {
                 }
 
                 itemstack = (ItemStack) iterator.next();
-            } while (itemstack.isEmpty());
+            } while (itemstack.func_190926_b());
 
             return false;
         }

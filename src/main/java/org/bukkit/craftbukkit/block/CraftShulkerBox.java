@@ -41,6 +41,6 @@ public class CraftShulkerBox extends CraftLootable<TileEntityShulkerBox> impleme
     public DyeColor getColor() {
         net.minecraft.block.Block block = CraftMagicNumbers.getBlock(this.getType());
 
-        return DyeColor.getByWoolData((byte) ((BlockShulkerBox) block).color.getMetadata());
+        return DyeColor.getByWoolData((byte) ((BlockShulkerBox) block).field_190958_b.func_176765_a());
     }
 }

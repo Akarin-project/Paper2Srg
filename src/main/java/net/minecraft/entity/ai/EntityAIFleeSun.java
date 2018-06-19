@@ -11,61 +11,61 @@ import net.minecraft.world.World;
 
 public class EntityAIFleeSun extends EntityAIBase {
 
-    private final EntityCreature creature;
-    private double shelterX;
-    private double shelterY;
-    private double shelterZ;
-    private final double movementSpeed;
-    private final World world;
+    private final EntityCreature field_75372_a;
+    private double field_75370_b;
+    private double field_75371_c;
+    private double field_75368_d;
+    private final double field_75369_e;
+    private final World field_75367_f;
 
     public EntityAIFleeSun(EntityCreature entitycreature, double d0) {
-        this.creature = entitycreature;
-        this.movementSpeed = d0;
-        this.world = entitycreature.world;
-        this.setMutexBits(1);
+        this.field_75372_a = entitycreature;
+        this.field_75369_e = d0;
+        this.field_75367_f = entitycreature.field_70170_p;
+        this.func_75248_a(1);
     }
 
-    public boolean shouldExecute() {
-        if (!this.world.isDaytime()) {
+    public boolean func_75250_a() {
+        if (!this.field_75367_f.func_72935_r()) {
             return false;
-        } else if (!this.creature.isBurning()) {
+        } else if (!this.field_75372_a.func_70027_ad()) {
             return false;
-        } else if (!this.world.canSeeSky(new BlockPos(this.creature.posX, this.creature.getEntityBoundingBox().minY, this.creature.posZ))) {
+        } else if (!this.field_75367_f.func_175678_i(new BlockPos(this.field_75372_a.field_70165_t, this.field_75372_a.func_174813_aQ().field_72338_b, this.field_75372_a.field_70161_v))) {
             return false;
-        } else if (!this.creature.getItemStackFromSlot(EntityEquipmentSlot.HEAD).isEmpty()) {
+        } else if (!this.field_75372_a.func_184582_a(EntityEquipmentSlot.HEAD).func_190926_b()) {
             return false;
         } else {
-            Vec3d vec3d = this.findPossibleShelter();
+            Vec3d vec3d = this.func_75366_f();
 
             if (vec3d == null) {
                 return false;
             } else {
-                this.shelterX = vec3d.x;
-                this.shelterY = vec3d.y;
-                this.shelterZ = vec3d.z;
+                this.field_75370_b = vec3d.field_72450_a;
+                this.field_75371_c = vec3d.field_72448_b;
+                this.field_75368_d = vec3d.field_72449_c;
                 return true;
             }
         }
     }
 
-    public boolean shouldContinueExecuting() {
-        return !this.creature.getNavigator().noPath();
+    public boolean func_75253_b() {
+        return !this.field_75372_a.func_70661_as().func_75500_f();
     }
 
-    public void startExecuting() {
-        this.creature.getNavigator().tryMoveToXYZ(this.shelterX, this.shelterY, this.shelterZ, this.movementSpeed);
+    public void func_75249_e() {
+        this.field_75372_a.func_70661_as().func_75492_a(this.field_75370_b, this.field_75371_c, this.field_75368_d, this.field_75369_e);
     }
 
     @Nullable
-    private Vec3d findPossibleShelter() {
-        Random random = this.creature.getRNG();
-        BlockPos blockposition = new BlockPos(this.creature.posX, this.creature.getEntityBoundingBox().minY, this.creature.posZ);
+    private Vec3d func_75366_f() {
+        Random random = this.field_75372_a.func_70681_au();
+        BlockPos blockposition = new BlockPos(this.field_75372_a.field_70165_t, this.field_75372_a.func_174813_aQ().field_72338_b, this.field_75372_a.field_70161_v);
 
         for (int i = 0; i < 10; ++i) {
-            BlockPos blockposition1 = blockposition.add(random.nextInt(20) - 10, random.nextInt(6) - 3, random.nextInt(20) - 10);
+            BlockPos blockposition1 = blockposition.func_177982_a(random.nextInt(20) - 10, random.nextInt(6) - 3, random.nextInt(20) - 10);
 
-            if (!this.world.canSeeSky(blockposition1) && this.creature.getBlockPathWeight(blockposition1) < 0.0F) {
-                return new Vec3d((double) blockposition1.getX(), (double) blockposition1.getY(), (double) blockposition1.getZ());
+            if (!this.field_75367_f.func_175678_i(blockposition1) && this.field_75372_a.func_180484_a(blockposition1) < 0.0F) {
+                return new Vec3d((double) blockposition1.func_177958_n(), (double) blockposition1.func_177956_o(), (double) blockposition1.func_177952_p());
             }
         }
 

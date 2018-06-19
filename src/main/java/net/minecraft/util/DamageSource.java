@@ -15,36 +15,36 @@ import net.minecraft.world.Explosion;
 
 public class DamageSource {
 
-    public static final DamageSource IN_FIRE = (new DamageSource("inFire")).setFireDamage();
-    public static final DamageSource LIGHTNING_BOLT = new DamageSource("lightningBolt");
-    public static final DamageSource ON_FIRE = (new DamageSource("onFire")).setDamageBypassesArmor().setFireDamage();
-    public static final DamageSource LAVA = (new DamageSource("lava")).setFireDamage();
-    public static final DamageSource HOT_FLOOR = (new DamageSource("hotFloor")).setFireDamage();
-    public static final DamageSource IN_WALL = (new DamageSource("inWall")).setDamageBypassesArmor();
-    public static final DamageSource CRAMMING = (new DamageSource("cramming")).setDamageBypassesArmor();
-    public static final DamageSource DROWN = (new DamageSource("drown")).setDamageBypassesArmor();
-    public static final DamageSource STARVE = (new DamageSource("starve")).setDamageBypassesArmor().setDamageIsAbsolute();
-    public static final DamageSource CACTUS = new DamageSource("cactus");
-    public static final DamageSource FALL = (new DamageSource("fall")).setDamageBypassesArmor();
-    public static final DamageSource FLY_INTO_WALL = (new DamageSource("flyIntoWall")).setDamageBypassesArmor();
-    public static final DamageSource OUT_OF_WORLD = (new DamageSource("outOfWorld")).setDamageBypassesArmor().setDamageAllowedInCreativeMode();
-    public static final DamageSource GENERIC = (new DamageSource("generic")).setDamageBypassesArmor();
-    public static final DamageSource MAGIC = (new DamageSource("magic")).setDamageBypassesArmor().setMagicDamage();
-    public static final DamageSource WITHER = (new DamageSource("wither")).setDamageBypassesArmor();
-    public static final DamageSource ANVIL = new DamageSource("anvil");
-    public static final DamageSource FALLING_BLOCK = new DamageSource("fallingBlock");
-    public static final DamageSource DRAGON_BREATH = (new DamageSource("dragonBreath")).setDamageBypassesArmor();
-    public static final DamageSource FIREWORKS = (new DamageSource("fireworks")).setExplosion();
-    private boolean isUnblockable;
-    private boolean isDamageAllowedInCreativeMode;
-    private boolean damageIsAbsolute;
-    private float hungerDamage = 0.1F;
-    private boolean fireDamage;
-    private boolean projectile;
-    private boolean difficultyScaled;
-    private boolean magicDamage;
-    private boolean explosion;
-    public String damageType;
+    public static final DamageSource field_76372_a = (new DamageSource("inFire")).func_76361_j();
+    public static final DamageSource field_180137_b = new DamageSource("lightningBolt");
+    public static final DamageSource field_76370_b = (new DamageSource("onFire")).func_76348_h().func_76361_j();
+    public static final DamageSource field_76371_c = (new DamageSource("lava")).func_76361_j();
+    public static final DamageSource field_190095_e = (new DamageSource("hotFloor")).func_76361_j();
+    public static final DamageSource field_76368_d = (new DamageSource("inWall")).func_76348_h();
+    public static final DamageSource field_191291_g = (new DamageSource("cramming")).func_76348_h();
+    public static final DamageSource field_76369_e = (new DamageSource("drown")).func_76348_h();
+    public static final DamageSource field_76366_f = (new DamageSource("starve")).func_76348_h().func_151518_m();
+    public static final DamageSource field_76367_g = new DamageSource("cactus");
+    public static final DamageSource field_76379_h = (new DamageSource("fall")).func_76348_h();
+    public static final DamageSource field_188406_j = (new DamageSource("flyIntoWall")).func_76348_h();
+    public static final DamageSource field_76380_i = (new DamageSource("outOfWorld")).func_76348_h().func_76359_i();
+    public static final DamageSource field_76377_j = (new DamageSource("generic")).func_76348_h();
+    public static final DamageSource field_76376_m = (new DamageSource("magic")).func_76348_h().func_82726_p();
+    public static final DamageSource field_82727_n = (new DamageSource("wither")).func_76348_h();
+    public static final DamageSource field_82728_o = new DamageSource("anvil");
+    public static final DamageSource field_82729_p = new DamageSource("fallingBlock");
+    public static final DamageSource field_188407_q = (new DamageSource("dragonBreath")).func_76348_h();
+    public static final DamageSource field_191552_t = (new DamageSource("fireworks")).func_94540_d();
+    private boolean field_76374_o;
+    private boolean field_76385_p;
+    private boolean field_151520_r;
+    private float field_76384_q = 0.1F;
+    private boolean field_76383_r;
+    private boolean field_76382_s;
+    private boolean field_76381_t;
+    private boolean field_82730_x;
+    private boolean field_76378_k;
+    public String field_76373_n;
     // CraftBukkit start
     private boolean sweep;
 
@@ -58,158 +58,158 @@ public class DamageSource {
     }
     // CraftBukkit end
 
-    public static DamageSource causeMobDamage(EntityLivingBase entityliving) {
+    public static DamageSource func_76358_a(EntityLivingBase entityliving) {
         return new EntityDamageSource("mob", entityliving);
     }
 
-    public static DamageSource causeIndirectDamage(Entity entity, EntityLivingBase entityliving) {
+    public static DamageSource func_188403_a(Entity entity, EntityLivingBase entityliving) {
         return new EntityDamageSourceIndirect("mob", entity, entityliving);
     }
 
-    public static DamageSource causePlayerDamage(EntityPlayer entityhuman) {
+    public static DamageSource func_76365_a(EntityPlayer entityhuman) {
         return new EntityDamageSource("player", entityhuman);
     }
 
-    public static DamageSource causeArrowDamage(EntityArrow entityarrow, @Nullable Entity entity) {
-        return (new EntityDamageSourceIndirect("arrow", entityarrow, entity)).setProjectile();
+    public static DamageSource func_76353_a(EntityArrow entityarrow, @Nullable Entity entity) {
+        return (new EntityDamageSourceIndirect("arrow", entityarrow, entity)).func_76349_b();
     }
 
-    public static DamageSource causeFireballDamage(EntityFireball entityfireball, @Nullable Entity entity) {
-        return entity == null ? (new EntityDamageSourceIndirect("onFire", entityfireball, entityfireball)).setFireDamage().setProjectile() : (new EntityDamageSourceIndirect("fireball", entityfireball, entity)).setFireDamage().setProjectile();
+    public static DamageSource func_76362_a(EntityFireball entityfireball, @Nullable Entity entity) {
+        return entity == null ? (new EntityDamageSourceIndirect("onFire", entityfireball, entityfireball)).func_76361_j().func_76349_b() : (new EntityDamageSourceIndirect("fireball", entityfireball, entity)).func_76361_j().func_76349_b();
     }
 
-    public static DamageSource causeThrownDamage(Entity entity, @Nullable Entity entity1) {
-        return (new EntityDamageSourceIndirect("thrown", entity, entity1)).setProjectile();
+    public static DamageSource func_76356_a(Entity entity, @Nullable Entity entity1) {
+        return (new EntityDamageSourceIndirect("thrown", entity, entity1)).func_76349_b();
     }
 
-    public static DamageSource causeIndirectMagicDamage(Entity entity, @Nullable Entity entity1) {
-        return (new EntityDamageSourceIndirect("indirectMagic", entity, entity1)).setDamageBypassesArmor().setMagicDamage();
+    public static DamageSource func_76354_b(Entity entity, @Nullable Entity entity1) {
+        return (new EntityDamageSourceIndirect("indirectMagic", entity, entity1)).func_76348_h().func_82726_p();
     }
 
-    public static DamageSource causeThornsDamage(Entity entity) {
-        return (new EntityDamageSource("thorns", entity)).setIsThornsDamage().setMagicDamage();
+    public static DamageSource func_92087_a(Entity entity) {
+        return (new EntityDamageSource("thorns", entity)).func_180138_v().func_82726_p();
     }
 
-    public static DamageSource causeExplosionDamage(@Nullable Explosion explosion) {
-        return explosion != null && explosion.getExplosivePlacedBy() != null ? (new EntityDamageSource("explosion.player", explosion.getExplosivePlacedBy())).setDifficultyScaled().setExplosion() : (new DamageSource("explosion")).setDifficultyScaled().setExplosion();
+    public static DamageSource func_94539_a(@Nullable Explosion explosion) {
+        return explosion != null && explosion.func_94613_c() != null ? (new EntityDamageSource("explosion.player", explosion.func_94613_c())).func_76351_m().func_94540_d() : (new DamageSource("explosion")).func_76351_m().func_94540_d();
     }
 
-    public static DamageSource causeExplosionDamage(@Nullable EntityLivingBase entityliving) {
-        return entityliving != null ? (new EntityDamageSource("explosion.player", entityliving)).setDifficultyScaled().setExplosion() : (new DamageSource("explosion")).setDifficultyScaled().setExplosion();
+    public static DamageSource func_188405_b(@Nullable EntityLivingBase entityliving) {
+        return entityliving != null ? (new EntityDamageSource("explosion.player", entityliving)).func_76351_m().func_94540_d() : (new DamageSource("explosion")).func_76351_m().func_94540_d();
     }
 
-    public boolean isProjectile() {
-        return this.projectile;
+    public boolean func_76352_a() {
+        return this.field_76382_s;
     }
 
-    public DamageSource setProjectile() {
-        this.projectile = true;
+    public DamageSource func_76349_b() {
+        this.field_76382_s = true;
         return this;
     }
 
-    public boolean isExplosion() {
-        return this.explosion;
+    public boolean func_94541_c() {
+        return this.field_76378_k;
     }
 
-    public DamageSource setExplosion() {
-        this.explosion = true;
+    public DamageSource func_94540_d() {
+        this.field_76378_k = true;
         return this;
     }
 
-    public boolean isUnblockable() {
-        return this.isUnblockable;
+    public boolean func_76363_c() {
+        return this.field_76374_o;
     }
 
-    public float getHungerDamage() {
-        return this.hungerDamage;
+    public float func_76345_d() {
+        return this.field_76384_q;
     }
 
-    public boolean canHarmInCreative() {
-        return this.isDamageAllowedInCreativeMode;
+    public boolean func_76357_e() {
+        return this.field_76385_p;
     }
 
-    public boolean isDamageAbsolute() {
-        return this.damageIsAbsolute;
+    public boolean func_151517_h() {
+        return this.field_151520_r;
     }
 
     protected DamageSource(String s) {
-        this.damageType = s;
+        this.field_76373_n = s;
     }
 
     @Nullable
-    public Entity getImmediateSource() {
-        return this.getTrueSource();
+    public Entity func_76364_f() {
+        return this.func_76346_g();
     }
 
     @Nullable
-    public Entity getTrueSource() {
+    public Entity func_76346_g() {
         return null;
     }
 
-    protected DamageSource setDamageBypassesArmor() {
-        this.isUnblockable = true;
-        this.hungerDamage = 0.0F;
+    protected DamageSource func_76348_h() {
+        this.field_76374_o = true;
+        this.field_76384_q = 0.0F;
         return this;
     }
 
-    protected DamageSource setDamageAllowedInCreativeMode() {
-        this.isDamageAllowedInCreativeMode = true;
+    protected DamageSource func_76359_i() {
+        this.field_76385_p = true;
         return this;
     }
 
-    protected DamageSource setDamageIsAbsolute() {
-        this.damageIsAbsolute = true;
-        this.hungerDamage = 0.0F;
+    protected DamageSource func_151518_m() {
+        this.field_151520_r = true;
+        this.field_76384_q = 0.0F;
         return this;
     }
 
-    protected DamageSource setFireDamage() {
-        this.fireDamage = true;
+    protected DamageSource func_76361_j() {
+        this.field_76383_r = true;
         return this;
     }
 
-    public ITextComponent getDeathMessage(EntityLivingBase entityliving) {
-        EntityLivingBase entityliving1 = entityliving.getAttackingEntity();
-        String s = "death.attack." + this.damageType;
+    public ITextComponent func_151519_b(EntityLivingBase entityliving) {
+        EntityLivingBase entityliving1 = entityliving.func_94060_bK();
+        String s = "death.attack." + this.field_76373_n;
         String s1 = s + ".player";
 
-        return entityliving1 != null && I18n.canTranslate(s1) ? new TextComponentTranslation(s1, new Object[] { entityliving.getDisplayName(), entityliving1.getDisplayName()}) : new TextComponentTranslation(s, new Object[] { entityliving.getDisplayName()});
+        return entityliving1 != null && I18n.func_94522_b(s1) ? new TextComponentTranslation(s1, new Object[] { entityliving.func_145748_c_(), entityliving1.func_145748_c_()}) : new TextComponentTranslation(s, new Object[] { entityliving.func_145748_c_()});
     }
 
-    public boolean isFireDamage() {
-        return this.fireDamage;
+    public boolean func_76347_k() {
+        return this.field_76383_r;
     }
 
-    public String getDamageType() {
-        return this.damageType;
+    public String func_76355_l() {
+        return this.field_76373_n;
     }
 
-    public DamageSource setDifficultyScaled() {
-        this.difficultyScaled = true;
+    public DamageSource func_76351_m() {
+        this.field_76381_t = true;
         return this;
     }
 
-    public boolean isDifficultyScaled() {
-        return this.difficultyScaled;
+    public boolean func_76350_n() {
+        return this.field_76381_t;
     }
 
-    public boolean isMagicDamage() {
-        return this.magicDamage;
+    public boolean func_82725_o() {
+        return this.field_82730_x;
     }
 
-    public DamageSource setMagicDamage() {
-        this.magicDamage = true;
+    public DamageSource func_82726_p() {
+        this.field_82730_x = true;
         return this;
     }
 
-    public boolean isCreativePlayer() {
-        Entity entity = this.getTrueSource();
+    public boolean func_180136_u() {
+        Entity entity = this.func_76346_g();
 
-        return entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode;
+        return entity instanceof EntityPlayer && ((EntityPlayer) entity).field_71075_bZ.field_75098_d;
     }
 
     @Nullable
-    public Vec3d getDamageLocation() {
+    public Vec3d func_188404_v() {
         return null;
     }
 }

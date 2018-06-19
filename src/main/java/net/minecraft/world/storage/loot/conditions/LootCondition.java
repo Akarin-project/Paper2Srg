@@ -5,12 +5,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import java.util.Random;
 
+import net.minecraft.server.LootItemCondition.a;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
 
 public interface LootCondition {
 
-    boolean testCondition(Random random, LootContext loottableinfo);
+    boolean func_186618_a(Random random, LootContext loottableinfo);
 
     public abstract static class a<T extends LootCondition> {
 

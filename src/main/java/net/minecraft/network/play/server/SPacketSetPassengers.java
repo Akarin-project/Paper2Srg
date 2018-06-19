@@ -10,34 +10,34 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketSetPassengers implements Packet<INetHandlerPlayClient> {
 
-    private int entityId;
-    private int[] passengerIds;
+    private int field_186973_a;
+    private int[] field_186974_b;
 
     public SPacketSetPassengers() {}
 
     public SPacketSetPassengers(Entity entity) {
-        this.entityId = entity.getEntityId();
-        List list = entity.getPassengers();
+        this.field_186973_a = entity.func_145782_y();
+        List list = entity.func_184188_bt();
 
-        this.passengerIds = new int[list.size()];
+        this.field_186974_b = new int[list.size()];
 
         for (int i = 0; i < list.size(); ++i) {
-            this.passengerIds[i] = ((Entity) list.get(i)).getEntityId();
+            this.field_186974_b[i] = ((Entity) list.get(i)).func_145782_y();
         }
 
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.entityId = packetdataserializer.readVarInt();
-        this.passengerIds = packetdataserializer.readVarIntArray();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_186973_a = packetdataserializer.func_150792_a();
+        this.field_186974_b = packetdataserializer.func_186863_b();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeVarInt(this.entityId);
-        packetdataserializer.writeVarIntArray(this.passengerIds);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_150787_b(this.field_186973_a);
+        packetdataserializer.func_186875_a(this.field_186974_b);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleSetPassengers(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_184328_a(this);
     }
 }

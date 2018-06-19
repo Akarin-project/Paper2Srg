@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 
-public class PaperLightingQueue {
+class PaperLightingQueue {
     private static final long MAX_TIME = (long) (1000000000 / 20 * .95);
     private static int updatesThisTick;
 
@@ -26,7 +26,7 @@ public class PaperLightingQueue {
                 continue;
             }
 
-            ObjectCollection<Chunk> loadedChunks = ((WorldServer) world).getChunkProvider().id2ChunkMap.values();
+            ObjectCollection<Chunk> loadedChunks = ((WorldServer) world).func_72863_F().field_73244_f.values();
             for (Chunk chunk : loadedChunks.toArray(new Chunk[loadedChunks.size()])) {
                 if (chunk.lightingQueue.processQueue(startTime, maxTickTime)) {
                     break START;
@@ -35,10 +35,10 @@ public class PaperLightingQueue {
         }
     }
 
-    public static class LightingQueue extends ArrayDeque<Runnable> {
+    static class LightingQueue extends ArrayDeque<Runnable> {
         final private Chunk chunk;
 
-        public LightingQueue(Chunk chunk) {
+        LightingQueue(Chunk chunk) {
             super();
             this.chunk = chunk;
         }
@@ -54,7 +54,7 @@ public class PaperLightingQueue {
             if (this.isEmpty()) {
                 return false;
             }
-            try (Timing ignored = chunk.world.timings.lightingQueueTimer.startTiming()) {
+            try (Timing ignored = chunk.field_76637_e.timings.lightingQueueTimer.startTiming()) {
                 Runnable lightUpdate;
                 while ((lightUpdate = this.poll()) != null) {
                     lightUpdate.run();
@@ -72,20 +72,20 @@ public class PaperLightingQueue {
         /**
          * Flushes lighting updates to unload the chunk
          */
-        public void processUnload() {
-            if (!chunk.world.paperConfig.queueLightUpdates) {
+        void processUnload() {
+            if (!chunk.field_76637_e.paperConfig.queueLightUpdates) {
                 return;
             }
             processQueue(0, 0); // No timeout
 
             final int radius = 1; // TODO: bitflip, why should this ever be 2?
-            for (int x = chunk.x - radius; x <= chunk.x + radius; ++x) {
-                for (int z = chunk.z - radius; z <= chunk.z + radius; ++z) {
-                    if (x == chunk.x && z == chunk.z) {
+            for (int x = chunk.field_76635_g - radius; x <= chunk.field_76635_g + radius; ++x) {
+                for (int z = chunk.field_76647_h - radius; z <= chunk.field_76647_h + radius; ++z) {
+                    if (x == chunk.field_76635_g && z == chunk.field_76647_h) {
                         continue;
                     }
 
-                    Chunk neighbor = MCUtil.getLoadedChunkWithoutMarkingActive(chunk.world, x, z);
+                    Chunk neighbor = MCUtil.getLoadedChunkWithoutMarkingActive(chunk.field_76637_e, x, z);
                     if (neighbor != null) {
                         neighbor.lightingQueue.processQueue(0, 0); // No timeout
                     }

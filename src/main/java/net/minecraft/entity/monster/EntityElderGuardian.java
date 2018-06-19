@@ -25,59 +25,59 @@ public class EntityElderGuardian extends EntityGuardian {
 
     public EntityElderGuardian(World world) {
         super(world);
-        this.setSize(this.width * 2.35F, this.height * 2.35F);
-        this.enablePersistence();
-        if (this.wander != null) {
-            this.wander.setExecutionChance(400);
+        this.func_70105_a(this.field_70130_N * 2.35F, this.field_70131_O * 2.35F);
+        this.func_110163_bv();
+        if (this.field_175481_bq != null) {
+            this.field_175481_bq.func_179479_b(400);
         }
 
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(80.0D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.30000001192092896D);
+        this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(8.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(80.0D);
     }
 
-    public static void registerFixesElderGuardian(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityElderGuardian.class);
+    public static void func_190768_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityElderGuardian.class);
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_ELDER_GUARDIAN;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186441_w;
     }
 
-    public int getAttackDuration() {
+    public int func_175464_ck() {
         return 60;
     }
 
-    protected SoundEvent getAmbientSound() {
-        return this.isInWater() ? SoundEvents.ENTITY_ELDER_GUARDIAN_AMBIENT : SoundEvents.ENTITY_ELDERGUARDIAN_AMBIENTLAND;
+    protected SoundEvent func_184639_G() {
+        return this.func_70090_H() ? SoundEvents.field_187512_aB : SoundEvents.field_187513_aC;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return this.isInWater() ? SoundEvents.ENTITY_ELDER_GUARDIAN_HURT : SoundEvents.ENTITY_ELDER_GUARDIAN_HURT_LAND;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return this.func_70090_H() ? SoundEvents.field_187517_aG : SoundEvents.field_187518_aH;
     }
 
-    protected SoundEvent getDeathSound() {
-        return this.isInWater() ? SoundEvents.ENTITY_ELDER_GUARDIAN_DEATH : SoundEvents.ENTITY_ELDER_GUARDIAN_DEATH_LAND;
+    protected SoundEvent func_184615_bR() {
+        return this.func_70090_H() ? SoundEvents.field_187515_aE : SoundEvents.field_187516_aF;
     }
 
-    protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_ELDER_GUARDIAN_FLOP;
+    protected SoundEvent func_190765_dj() {
+        return SoundEvents.field_191240_aK;
     }
 
-    protected void updateAITasks() {
-        super.updateAITasks();
+    protected void func_70619_bc() {
+        super.func_70619_bc();
         boolean flag = true;
 
-        if ((this.ticksExisted + this.getEntityId()) % 1200 == 0) {
-            Potion mobeffectlist = MobEffects.MINING_FATIGUE;
-            List list = this.world.getPlayers(EntityPlayerMP.class, new Predicate() {
+        if ((this.field_70173_aa + this.func_145782_y()) % 1200 == 0) {
+            Potion mobeffectlist = MobEffects.field_76419_f;
+            List list = this.field_70170_p.func_175661_b(EntityPlayerMP.class, new Predicate() {
                 public boolean a(@Nullable EntityPlayerMP entityplayer) {
-                    return EntityElderGuardian.this.getDistanceSq(entityplayer) < 2500.0D && entityplayer.interactionManager.survivalOrAdventure();
+                    return EntityElderGuardian.this.func_70068_e(entityplayer) < 2500.0D && entityplayer.field_71134_c.func_180239_c();
                 }
 
                 public boolean apply(@Nullable Object object) {
@@ -92,15 +92,15 @@ public class EntityElderGuardian extends EntityGuardian {
             while (iterator.hasNext()) {
                 EntityPlayerMP entityplayer = (EntityPlayerMP) iterator.next();
 
-                if (!entityplayer.isPotionActive(mobeffectlist) || entityplayer.getActivePotionEffect(mobeffectlist).getAmplifier() < 2 || entityplayer.getActivePotionEffect(mobeffectlist).getDuration() < 1200) {
-                    entityplayer.connection.sendPacket(new SPacketChangeGameState(10, 0.0F));
-                    entityplayer.addPotionEffect(new PotionEffect(mobeffectlist, 6000, 2));
+                if (!entityplayer.func_70644_a(mobeffectlist) || entityplayer.func_70660_b(mobeffectlist).func_76458_c() < 2 || entityplayer.func_70660_b(mobeffectlist).func_76459_b() < 1200) {
+                    entityplayer.field_71135_a.func_147359_a(new SPacketChangeGameState(10, 0.0F));
+                    entityplayer.func_70690_d(new PotionEffect(mobeffectlist, 6000, 2));
                 }
             }
         }
 
-        if (!this.hasHome()) {
-            this.setHomePosAndDistance(new BlockPos(this), 16);
+        if (!this.func_110175_bO()) {
+            this.func_175449_a(new BlockPos(this), 16);
         }
 
     }

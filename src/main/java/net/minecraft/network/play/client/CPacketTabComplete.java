@@ -11,50 +11,50 @@ import net.minecraft.util.math.BlockPos;
 
 public class CPacketTabComplete implements Packet<INetHandlerPlayServer> {
 
-    private String message;
-    private boolean hasTargetBlock;
+    private String field_149420_a;
+    private boolean field_186990_b;
     @Nullable
-    private BlockPos targetBlock;
+    private BlockPos field_179710_b;
 
     public CPacketTabComplete() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.message = packetdataserializer.readString(32767);
-        this.hasTargetBlock = packetdataserializer.readBoolean();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149420_a = packetdataserializer.func_150789_c(32767);
+        this.field_186990_b = packetdataserializer.readBoolean();
         boolean flag = packetdataserializer.readBoolean();
 
         if (flag) {
-            this.targetBlock = packetdataserializer.readBlockPos();
+            this.field_179710_b = packetdataserializer.func_179259_c();
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeString(StringUtils.substring(this.message, 0, 32767));
-        packetdataserializer.writeBoolean(this.hasTargetBlock);
-        boolean flag = this.targetBlock != null;
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_180714_a(StringUtils.substring(this.field_149420_a, 0, 32767));
+        packetdataserializer.writeBoolean(this.field_186990_b);
+        boolean flag = this.field_179710_b != null;
 
         packetdataserializer.writeBoolean(flag);
         if (flag) {
-            packetdataserializer.writeBlockPos(this.targetBlock);
+            packetdataserializer.func_179255_a(this.field_179710_b);
         }
 
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.processTabComplete(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_147341_a(this);
     }
 
-    public String getMessage() {
-        return this.message;
+    public String func_149419_c() {
+        return this.field_149420_a;
     }
 
     @Nullable
-    public BlockPos getTargetBlock() {
-        return this.targetBlock;
+    public BlockPos func_179709_b() {
+        return this.field_179710_b;
     }
 
-    public boolean hasTargetBlock() {
-        return this.hasTargetBlock;
+    public boolean func_186989_c() {
+        return this.field_186990_b;
     }
 }

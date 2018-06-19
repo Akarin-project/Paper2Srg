@@ -62,7 +62,7 @@ import net.minecraft.network.play.server.SPacketCooldown;
 import net.minecraft.network.play.server.SPacketCustomPayload;
 import net.minecraft.network.play.server.SPacketCustomSound;
 import net.minecraft.network.play.server.SPacketDestroyEntities;
-
+import net.minecraft.network.play.server.SPacketDisconnect;
 import net.minecraft.network.play.server.SPacketDisplayObjective;
 import net.minecraft.network.play.server.SPacketEffect;
 import net.minecraft.network.play.server.SPacketEntity;
@@ -131,192 +131,192 @@ public enum EnumConnectionState {
 
     HANDSHAKING(-1) {;
         {
-            this.registerPacket(EnumPacketDirection.SERVERBOUND, C00Handshake.class);
+            this.func_179245_a(EnumPacketDirection.SERVERBOUND, C00Handshake.class);
         }
     }, PLAY(0) {;
     {
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSpawnObject.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSpawnExperienceOrb.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSpawnGlobalEntity.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSpawnMob.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSpawnPainting.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSpawnPlayer.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketAnimation.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketStatistics.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketBlockBreakAnim.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketUpdateTileEntity.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketBlockAction.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketBlockChange.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketUpdateBossInfo.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketServerDifficulty.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketTabComplete.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketChat.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketMultiBlockChange.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketConfirmTransaction.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketCloseWindow.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketOpenWindow.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketWindowItems.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketWindowProperty.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSetSlot.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketCooldown.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketCustomPayload.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketCustomSound.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketDisconnect.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntityStatus.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketExplosion.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketUnloadChunk.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketChangeGameState.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketKeepAlive.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketChunkData.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEffect.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketParticles.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketJoinGame.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketMaps.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntity.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntity.S15PacketEntityRelMove.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntity.S17PacketEntityLookMove.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntity.S16PacketEntityLook.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketMoveVehicle.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSignEditorOpen.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketPlaceGhostRecipe.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketPlayerAbilities.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketCombatEvent.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketPlayerListItem.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketPlayerPosLook.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketUseBed.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketRecipeBook.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketDestroyEntities.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketRemoveEntityEffect.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketResourcePackSend.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketRespawn.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntityHeadLook.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSelectAdvancementsTab.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketWorldBorder.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketCamera.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketHeldItemChange.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketDisplayObjective.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntityMetadata.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntityAttach.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntityVelocity.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntityEquipment.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSetExperience.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketUpdateHealth.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketScoreboardObjective.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSetPassengers.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketTeams.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketUpdateScore.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSpawnPosition.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketTimeUpdate.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketTitle.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketSoundEffect.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketPlayerListHeaderFooter.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketCollectItem.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntityTeleport.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketAdvancementInfo.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntityProperties.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEntityEffect.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketConfirmTeleport.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketTabComplete.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketChatMessage.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketClientStatus.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketClientSettings.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketConfirmTransaction.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketEnchantItem.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketClickWindow.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketCloseWindow.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketCustomPayload.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketUseEntity.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketKeepAlive.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketPlayer.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketPlayer.Position.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketPlayer.PositionRotation.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketPlayer.Rotation.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketVehicleMove.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketSteerBoat.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketPlaceRecipe.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketPlayerAbilities.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketPlayerDigging.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketEntityAction.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketInput.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketRecipeInfo.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketResourcePackStatus.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketSeenAdvancements.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketHeldItemChange.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketCreativeInventoryAction.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketUpdateSign.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketAnimation.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketSpectate.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketPlayerTryUseItemOnBlock.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketPlayerTryUseItem.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSpawnObject.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSpawnExperienceOrb.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSpawnGlobalEntity.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSpawnMob.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSpawnPainting.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSpawnPlayer.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketAnimation.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketStatistics.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketBlockBreakAnim.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketUpdateTileEntity.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketBlockAction.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketBlockChange.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketUpdateBossInfo.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketServerDifficulty.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketTabComplete.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketChat.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketMultiBlockChange.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketConfirmTransaction.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketCloseWindow.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketOpenWindow.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketWindowItems.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketWindowProperty.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSetSlot.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketCooldown.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketCustomPayload.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketCustomSound.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketDisconnect.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntityStatus.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketExplosion.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketUnloadChunk.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketChangeGameState.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketKeepAlive.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketChunkData.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEffect.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketParticles.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketJoinGame.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketMaps.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntity.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntity.S15PacketEntityRelMove.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntity.S17PacketEntityLookMove.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntity.S16PacketEntityLook.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketMoveVehicle.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSignEditorOpen.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketPlaceGhostRecipe.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketPlayerAbilities.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketCombatEvent.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketPlayerListItem.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketPlayerPosLook.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketUseBed.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketRecipeBook.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketDestroyEntities.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketRemoveEntityEffect.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketResourcePackSend.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketRespawn.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntityHeadLook.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSelectAdvancementsTab.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketWorldBorder.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketCamera.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketHeldItemChange.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketDisplayObjective.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntityMetadata.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntityAttach.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntityVelocity.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntityEquipment.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSetExperience.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketUpdateHealth.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketScoreboardObjective.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSetPassengers.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketTeams.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketUpdateScore.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSpawnPosition.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketTimeUpdate.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketTitle.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketSoundEffect.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketPlayerListHeaderFooter.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketCollectItem.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntityTeleport.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketAdvancementInfo.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntityProperties.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEntityEffect.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketConfirmTeleport.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketTabComplete.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketChatMessage.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketClientStatus.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketClientSettings.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketConfirmTransaction.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketEnchantItem.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketClickWindow.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketCloseWindow.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketCustomPayload.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketUseEntity.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketKeepAlive.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketPlayer.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketPlayer.Position.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketPlayer.PositionRotation.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketPlayer.Rotation.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketVehicleMove.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketSteerBoat.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketPlaceRecipe.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketPlayerAbilities.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketPlayerDigging.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketEntityAction.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketInput.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketRecipeInfo.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketResourcePackStatus.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketSeenAdvancements.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketHeldItemChange.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketCreativeInventoryAction.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketUpdateSign.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketAnimation.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketSpectate.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketPlayerTryUseItemOnBlock.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketPlayerTryUseItem.class);
     }
 }, STATUS(1) {;
     {
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketServerQuery.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketServerInfo.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketPing.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketPong.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketServerQuery.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketServerInfo.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketPing.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketPong.class);
     }
 }, LOGIN(2) {;
     {
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketDisconnect.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEncryptionRequest.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketLoginSuccess.class);
-        this.registerPacket(EnumPacketDirection.CLIENTBOUND, SPacketEnableCompression.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketLoginStart.class);
-        this.registerPacket(EnumPacketDirection.SERVERBOUND, CPacketEncryptionResponse.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketDisconnect.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEncryptionRequest.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketLoginSuccess.class);
+        this.func_179245_a(EnumPacketDirection.CLIENTBOUND, SPacketEnableCompression.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketLoginStart.class);
+        this.func_179245_a(EnumPacketDirection.SERVERBOUND, CPacketEncryptionResponse.class);
     }
 };
 
-    private static final EnumConnectionState[] STATES_BY_ID = new EnumConnectionState[4];
-    private static final Map<Class<? extends Packet<?>>, EnumConnectionState> STATES_BY_CLASS = Maps.newHashMap();
-    private final int id;
-    private final Map<EnumPacketDirection, BiMap<Integer, Class<? extends Packet<?>>>> directionMaps;
+    private static final EnumConnectionState[] field_150764_e = new EnumConnectionState[4];
+    private static final Map<Class<? extends Packet<?>>, EnumConnectionState> field_150761_f = Maps.newHashMap();
+    private final int field_150762_g;
+    private final Map<EnumPacketDirection, BiMap<Integer, Class<? extends Packet<?>>>> field_179247_h;
 
     private EnumConnectionState(int i) {
-        this.directionMaps = Maps.newEnumMap(EnumPacketDirection.class);
-        this.id = i;
+        this.field_179247_h = Maps.newEnumMap(EnumPacketDirection.class);
+        this.field_150762_g = i;
     }
 
-    protected EnumConnectionState registerPacket(EnumPacketDirection enumprotocoldirection, Class<? extends Packet<?>> oclass) {
-        BiMap object = this.directionMaps.get(enumprotocoldirection);
+    protected EnumConnectionState func_179245_a(EnumPacketDirection enumprotocoldirection, Class<? extends Packet<?>> oclass) {
+        Object object = (BiMap) this.field_179247_h.get(enumprotocoldirection);
 
         if (object == null) {
             object = HashBiMap.create();
-            this.directionMaps.put(enumprotocoldirection, object);
+            this.field_179247_h.put(enumprotocoldirection, object);
         }
 
-        if (object.containsValue(oclass)) {
-            String s = enumprotocoldirection + " packet " + oclass + " is already known to ID " + object.inverse().get(oclass);
+        if (((BiMap) object).containsValue(oclass)) {
+            String s = enumprotocoldirection + " packet " + oclass + " is already known to ID " + ((BiMap) object).inverse().get(oclass);
 
             LogManager.getLogger().fatal(s);
             throw new IllegalArgumentException(s);
         } else {
-            object.put(Integer.valueOf(object.size()), oclass);
+            ((BiMap) object).put(Integer.valueOf(((BiMap) object).size()), oclass);
             return this;
         }
     }
 
-    public Integer getPacketId(EnumPacketDirection enumprotocoldirection, Packet<?> packet) throws Exception {
-        return (Integer) ((BiMap) this.directionMaps.get(enumprotocoldirection)).inverse().get(packet.getClass());
+    public Integer func_179246_a(EnumPacketDirection enumprotocoldirection, Packet<?> packet) throws Exception {
+        return (Integer) ((BiMap) this.field_179247_h.get(enumprotocoldirection)).inverse().get(packet.getClass());
     }
 
     @Nullable
-    public Packet<?> getPacket(EnumPacketDirection enumprotocoldirection, int i) throws IllegalAccessException, InstantiationException {
-        Class oclass = (Class) ((BiMap) this.directionMaps.get(enumprotocoldirection)).get(Integer.valueOf(i));
+    public Packet<?> func_179244_a(EnumPacketDirection enumprotocoldirection, int i) throws IllegalAccessException, InstantiationException {
+        Class oclass = (Class) ((BiMap) this.field_179247_h.get(enumprotocoldirection)).get(Integer.valueOf(i));
 
         return oclass == null ? null : (Packet) oclass.newInstance();
     }
 
-    public int getId() {
-        return this.id;
+    public int func_150759_c() {
+        return this.field_150762_g;
     }
 
-    public static EnumConnectionState getById(int i) {
-        return i >= -1 && i <= 2 ? EnumConnectionState.STATES_BY_ID[i - -1] : null;
+    public static EnumConnectionState func_150760_a(int i) {
+        return i >= -1 && i <= 2 ? EnumConnectionState.field_150764_e[i - -1] : null;
     }
 
-    public static EnumConnectionState getFromPacket(Packet<?> packet) {
-        return EnumConnectionState.STATES_BY_CLASS.get(packet.getClass());
+    public static EnumConnectionState func_150752_a(Packet<?> packet) {
+        return (EnumConnectionState) EnumConnectionState.field_150761_f.get(packet.getClass());
     }
 
     EnumConnectionState(int i, Object object) {
@@ -329,24 +329,24 @@ public enum EnumConnectionState {
 
         for (int j = 0; j < i; ++j) {
             EnumConnectionState enumprotocol = aenumprotocol[j];
-            int k = enumprotocol.getId();
+            int k = enumprotocol.func_150759_c();
 
             if (k < -1 || k > 2) {
                 throw new Error("Invalid protocol ID " + Integer.toString(k));
             }
 
-            EnumConnectionState.STATES_BY_ID[k - -1] = enumprotocol;
-            Iterator iterator = enumprotocol.directionMaps.keySet().iterator();
+            EnumConnectionState.field_150764_e[k - -1] = enumprotocol;
+            Iterator iterator = enumprotocol.field_179247_h.keySet().iterator();
 
             while (iterator.hasNext()) {
                 EnumPacketDirection enumprotocoldirection = (EnumPacketDirection) iterator.next();
 
                 Class oclass;
 
-                for (Iterator iterator1 = ((BiMap) enumprotocol.directionMaps.get(enumprotocoldirection)).values().iterator(); iterator1.hasNext(); EnumConnectionState.STATES_BY_CLASS.put(oclass, enumprotocol)) {
+                for (Iterator iterator1 = ((BiMap) enumprotocol.field_179247_h.get(enumprotocoldirection)).values().iterator(); iterator1.hasNext(); EnumConnectionState.field_150761_f.put(oclass, enumprotocol)) {
                     oclass = (Class) iterator1.next();
-                    if (EnumConnectionState.STATES_BY_CLASS.containsKey(oclass) && EnumConnectionState.STATES_BY_CLASS.get(oclass) != enumprotocol) {
-                        throw new Error("Packet " + oclass + " is already assigned to protocol " + EnumConnectionState.STATES_BY_CLASS.get(oclass) + " - can\'t reassign to " + enumprotocol);
+                    if (EnumConnectionState.field_150761_f.containsKey(oclass) && EnumConnectionState.field_150761_f.get(oclass) != enumprotocol) {
+                        throw new Error("Packet " + oclass + " is already assigned to protocol " + EnumConnectionState.field_150761_f.get(oclass) + " - can\'t reassign to " + enumprotocol);
                     }
 
                     try {

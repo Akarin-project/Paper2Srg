@@ -28,22 +28,22 @@ import net.minecraft.world.gen.structure.StructureOceanMonument;
 
 public class ChunkGeneratorFlat implements IChunkGenerator {
 
-    private final World world;
-    private final Random random;
-    private final IBlockState[] cachedBlockIDs = new IBlockState[256];
-    private final FlatGeneratorInfo flatWorldGenInfo;
-    private final Map<String, MapGenStructure> structureGenerators = new HashMap();
-    private final boolean hasDecoration;
-    private final boolean hasDungeons;
-    private WorldGenLakes waterLakeGenerator;
-    private WorldGenLakes lavaLakeGenerator;
+    private final World field_73163_a;
+    private final Random field_73161_b;
+    private final IBlockState[] field_82700_c = new IBlockState[256];
+    private final FlatGeneratorInfo field_82699_e;
+    private final Map<String, MapGenStructure> field_82696_f = new HashMap();
+    private final boolean field_82697_g;
+    private final boolean field_82702_h;
+    private WorldGenLakes field_82703_i;
+    private WorldGenLakes field_82701_j;
 
     public ChunkGeneratorFlat(World world, long i, boolean flag, String s) {
-        this.world = world;
-        this.random = new Random(i);
-        this.flatWorldGenInfo = FlatGeneratorInfo.createFlatGeneratorFromString(s);
+        this.field_73163_a = world;
+        this.field_73161_b = new Random(i);
+        this.field_82699_e = FlatGeneratorInfo.func_82651_a(s);
         if (flag) {
-            Map map = this.flatWorldGenInfo.getWorldFeatures();
+            Map map = this.field_82699_e.func_82644_b();
 
             if (map.containsKey("village") && world.paperConfig.generateVillage) { // Paper
                 Map map1 = (Map) map.get("village");
@@ -52,179 +52,179 @@ public class ChunkGeneratorFlat implements IChunkGenerator {
                     map1.put("size", "1");
                 }
 
-                this.structureGenerators.put("Village", new MapGenVillage(map1));
+                this.field_82696_f.put("Village", new MapGenVillage(map1));
             }
 
             if (map.containsKey("biome_1") && world.paperConfig.generateTemple) { // Paper
-                this.structureGenerators.put("Temple", new MapGenScatteredFeature((Map) map.get("biome_1")));
+                this.field_82696_f.put("Temple", new MapGenScatteredFeature((Map) map.get("biome_1")));
             }
 
             if (map.containsKey("mineshaft") && world.paperConfig.generateMineshaft) { // Paper
-                this.structureGenerators.put("Mineshaft", new MapGenMineshaft((Map) map.get("mineshaft")));
+                this.field_82696_f.put("Mineshaft", new MapGenMineshaft((Map) map.get("mineshaft")));
             }
 
             if (map.containsKey("stronghold") && world.paperConfig.generateStronghold) { // Paper
-                this.structureGenerators.put("Stronghold", new MapGenStronghold((Map) map.get("stronghold")));
+                this.field_82696_f.put("Stronghold", new MapGenStronghold((Map) map.get("stronghold")));
             }
 
             if (map.containsKey("oceanmonument") && world.paperConfig.generateMonument) { // Paper
-                this.structureGenerators.put("Monument", new StructureOceanMonument((Map) map.get("oceanmonument")));
+                this.field_82696_f.put("Monument", new StructureOceanMonument((Map) map.get("oceanmonument")));
             }
         }
 
-        if (this.flatWorldGenInfo.getWorldFeatures().containsKey("lake")) {
-            this.waterLakeGenerator = new WorldGenLakes(Blocks.WATER);
+        if (this.field_82699_e.func_82644_b().containsKey("lake")) {
+            this.field_82703_i = new WorldGenLakes(Blocks.field_150355_j);
         }
 
-        if (this.flatWorldGenInfo.getWorldFeatures().containsKey("lava_lake")) {
-            this.lavaLakeGenerator = new WorldGenLakes(Blocks.LAVA);
+        if (this.field_82699_e.func_82644_b().containsKey("lava_lake")) {
+            this.field_82701_j = new WorldGenLakes(Blocks.field_150353_l);
         }
 
-        this.hasDungeons = world.paperConfig.generateDungeon && this.flatWorldGenInfo.getWorldFeatures().containsKey("dungeon");  // Paper
+        this.field_82702_h = world.paperConfig.generateDungeon && this.field_82699_e.func_82644_b().containsKey("dungeon");  // Paper
         int j = 0;
         int k = 0;
         boolean flag1 = true;
-        Iterator iterator = this.flatWorldGenInfo.getFlatLayers().iterator();
+        Iterator iterator = this.field_82699_e.func_82650_c().iterator();
 
         while (iterator.hasNext()) {
             FlatLayerInfo worldgenflatlayerinfo = (FlatLayerInfo) iterator.next();
 
-            for (int l = worldgenflatlayerinfo.getMinY(); l < worldgenflatlayerinfo.getMinY() + worldgenflatlayerinfo.getLayerCount(); ++l) {
-                IBlockState iblockdata = worldgenflatlayerinfo.getLayerMaterial();
+            for (int l = worldgenflatlayerinfo.func_82656_d(); l < worldgenflatlayerinfo.func_82656_d() + worldgenflatlayerinfo.func_82657_a(); ++l) {
+                IBlockState iblockdata = worldgenflatlayerinfo.func_175900_c();
 
-                if (iblockdata.getBlock() != Blocks.AIR) {
+                if (iblockdata.func_177230_c() != Blocks.field_150350_a) {
                     flag1 = false;
-                    this.cachedBlockIDs[l] = iblockdata;
+                    this.field_82700_c[l] = iblockdata;
                 }
             }
 
-            if (worldgenflatlayerinfo.getLayerMaterial().getBlock() == Blocks.AIR) {
-                k += worldgenflatlayerinfo.getLayerCount();
+            if (worldgenflatlayerinfo.func_175900_c().func_177230_c() == Blocks.field_150350_a) {
+                k += worldgenflatlayerinfo.func_82657_a();
             } else {
-                j += worldgenflatlayerinfo.getLayerCount() + k;
+                j += worldgenflatlayerinfo.func_82657_a() + k;
                 k = 0;
             }
         }
 
-        world.setSeaLevel(j);
-        this.hasDecoration = flag1 && this.flatWorldGenInfo.getBiome() != Biome.getIdForBiome(Biomes.VOID) ? false : this.flatWorldGenInfo.getWorldFeatures().containsKey("decoration");
+        world.func_181544_b(j);
+        this.field_82697_g = flag1 && this.field_82699_e.func_82648_a() != Biome.func_185362_a(Biomes.field_185440_P) ? false : this.field_82699_e.func_82644_b().containsKey("decoration");
     }
 
-    public Chunk generateChunk(int i, int j) {
+    public Chunk func_185932_a(int i, int j) {
         ChunkPrimer chunksnapshot = new ChunkPrimer();
 
         int k;
 
-        for (int l = 0; l < this.cachedBlockIDs.length; ++l) {
-            IBlockState iblockdata = this.cachedBlockIDs[l];
+        for (int l = 0; l < this.field_82700_c.length; ++l) {
+            IBlockState iblockdata = this.field_82700_c[l];
 
             if (iblockdata != null) {
                 for (int i1 = 0; i1 < 16; ++i1) {
                     for (k = 0; k < 16; ++k) {
-                        chunksnapshot.setBlockState(i1, l, k, iblockdata);
+                        chunksnapshot.func_177855_a(i1, l, k, iblockdata);
                     }
                 }
             }
         }
 
-        Iterator iterator = this.structureGenerators.values().iterator();
+        Iterator iterator = this.field_82696_f.values().iterator();
 
         while (iterator.hasNext()) {
             MapGenBase worldgenbase = (MapGenBase) iterator.next();
 
-            worldgenbase.generate(this.world, i, j, chunksnapshot);
+            worldgenbase.func_186125_a(this.field_73163_a, i, j, chunksnapshot);
         }
 
-        Chunk chunk = new Chunk(this.world, chunksnapshot, i, j);
-        Biome[] abiomebase = this.world.getBiomeProvider().getBiomes((Biome[]) null, i * 16, j * 16, 16, 16);
-        byte[] abyte = chunk.getBiomeArray();
+        Chunk chunk = new Chunk(this.field_73163_a, chunksnapshot, i, j);
+        Biome[] abiomebase = this.field_73163_a.func_72959_q().func_76933_b((Biome[]) null, i * 16, j * 16, 16, 16);
+        byte[] abyte = chunk.func_76605_m();
 
         for (k = 0; k < abyte.length; ++k) {
-            abyte[k] = (byte) Biome.getIdForBiome(abiomebase[k]);
+            abyte[k] = (byte) Biome.func_185362_a(abiomebase[k]);
         }
 
-        chunk.generateSkylightMap();
+        chunk.func_76603_b();
         return chunk;
     }
 
-    public void populate(int i, int j) {
+    public void func_185931_b(int i, int j) {
         int k = i * 16;
         int l = j * 16;
         BlockPos blockposition = new BlockPos(k, 0, l);
-        Biome biomebase = this.world.getBiome(new BlockPos(k + 16, 0, l + 16));
+        Biome biomebase = this.field_73163_a.func_180494_b(new BlockPos(k + 16, 0, l + 16));
         boolean flag = false;
 
-        this.random.setSeed(this.world.getSeed());
-        long i1 = this.random.nextLong() / 2L * 2L + 1L;
-        long j1 = this.random.nextLong() / 2L * 2L + 1L;
+        this.field_73161_b.setSeed(this.field_73163_a.func_72905_C());
+        long i1 = this.field_73161_b.nextLong() / 2L * 2L + 1L;
+        long j1 = this.field_73161_b.nextLong() / 2L * 2L + 1L;
 
-        this.random.setSeed((long) i * i1 + (long) j * j1 ^ this.world.getSeed());
+        this.field_73161_b.setSeed((long) i * i1 + (long) j * j1 ^ this.field_73163_a.func_72905_C());
         ChunkPos chunkcoordintpair = new ChunkPos(i, j);
-        Iterator iterator = this.structureGenerators.values().iterator();
+        Iterator iterator = this.field_82696_f.values().iterator();
 
         while (iterator.hasNext()) {
             MapGenStructure structuregenerator = (MapGenStructure) iterator.next();
-            boolean flag1 = structuregenerator.generateStructure(this.world, this.random, chunkcoordintpair);
+            boolean flag1 = structuregenerator.func_175794_a(this.field_73163_a, this.field_73161_b, chunkcoordintpair);
 
             if (structuregenerator instanceof MapGenVillage) {
                 flag |= flag1;
             }
         }
 
-        if (this.waterLakeGenerator != null && !flag && this.random.nextInt(4) == 0) {
-            this.waterLakeGenerator.generate(this.world, this.random, blockposition.add(this.random.nextInt(16) + 8, this.random.nextInt(256), this.random.nextInt(16) + 8));
+        if (this.field_82703_i != null && !flag && this.field_73161_b.nextInt(4) == 0) {
+            this.field_82703_i.func_180709_b(this.field_73163_a, this.field_73161_b, blockposition.func_177982_a(this.field_73161_b.nextInt(16) + 8, this.field_73161_b.nextInt(256), this.field_73161_b.nextInt(16) + 8));
         }
 
-        if (this.lavaLakeGenerator != null && !flag && this.random.nextInt(8) == 0) {
-            BlockPos blockposition1 = blockposition.add(this.random.nextInt(16) + 8, this.random.nextInt(this.random.nextInt(248) + 8), this.random.nextInt(16) + 8);
+        if (this.field_82701_j != null && !flag && this.field_73161_b.nextInt(8) == 0) {
+            BlockPos blockposition1 = blockposition.func_177982_a(this.field_73161_b.nextInt(16) + 8, this.field_73161_b.nextInt(this.field_73161_b.nextInt(248) + 8), this.field_73161_b.nextInt(16) + 8);
 
-            if (blockposition1.getY() < this.world.getSeaLevel() || this.random.nextInt(10) == 0) {
-                this.lavaLakeGenerator.generate(this.world, this.random, blockposition1);
+            if (blockposition1.func_177956_o() < this.field_73163_a.func_181545_F() || this.field_73161_b.nextInt(10) == 0) {
+                this.field_82701_j.func_180709_b(this.field_73163_a, this.field_73161_b, blockposition1);
             }
         }
 
-        if (this.hasDungeons) {
+        if (this.field_82702_h) {
             for (int k1 = 0; k1 < 8; ++k1) {
-                (new WorldGenDungeons()).generate(this.world, this.random, blockposition.add(this.random.nextInt(16) + 8, this.random.nextInt(256), this.random.nextInt(16) + 8));
+                (new WorldGenDungeons()).func_180709_b(this.field_73163_a, this.field_73161_b, blockposition.func_177982_a(this.field_73161_b.nextInt(16) + 8, this.field_73161_b.nextInt(256), this.field_73161_b.nextInt(16) + 8));
             }
         }
 
-        if (this.hasDecoration) {
-            biomebase.decorate(this.world, this.random, blockposition);
+        if (this.field_82697_g) {
+            biomebase.func_180624_a(this.field_73163_a, this.field_73161_b, blockposition);
         }
 
     }
 
-    public boolean generateStructures(Chunk chunk, int i, int j) {
+    public boolean func_185933_a(Chunk chunk, int i, int j) {
         return false;
     }
 
-    public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType enumcreaturetype, BlockPos blockposition) {
-        Biome biomebase = this.world.getBiome(blockposition);
+    public List<Biome.SpawnListEntry> func_177458_a(EnumCreatureType enumcreaturetype, BlockPos blockposition) {
+        Biome biomebase = this.field_73163_a.func_180494_b(blockposition);
 
-        return biomebase.getSpawnableList(enumcreaturetype);
+        return biomebase.func_76747_a(enumcreaturetype);
     }
 
     @Nullable
-    public BlockPos getNearestStructurePos(World world, String s, BlockPos blockposition, boolean flag) {
-        MapGenStructure structuregenerator = (MapGenStructure) this.structureGenerators.get(s);
+    public BlockPos func_180513_a(World world, String s, BlockPos blockposition, boolean flag) {
+        MapGenStructure structuregenerator = (MapGenStructure) this.field_82696_f.get(s);
 
-        return structuregenerator != null ? structuregenerator.getNearestStructurePos(world, blockposition, flag) : null;
+        return structuregenerator != null ? structuregenerator.func_180706_b(world, blockposition, flag) : null;
     }
 
-    public boolean isInsideStructure(World world, String s, BlockPos blockposition) {
-        MapGenStructure structuregenerator = (MapGenStructure) this.structureGenerators.get(s);
+    public boolean func_193414_a(World world, String s, BlockPos blockposition) {
+        MapGenStructure structuregenerator = (MapGenStructure) this.field_82696_f.get(s);
 
-        return structuregenerator != null ? structuregenerator.isInsideStructure(blockposition) : false;
+        return structuregenerator != null ? structuregenerator.func_175795_b(blockposition) : false;
     }
 
-    public void recreateStructures(Chunk chunk, int i, int j) {
-        Iterator iterator = this.structureGenerators.values().iterator();
+    public void func_180514_a(Chunk chunk, int i, int j) {
+        Iterator iterator = this.field_82696_f.values().iterator();
 
         while (iterator.hasNext()) {
             MapGenStructure structuregenerator = (MapGenStructure) iterator.next();
 
-            structuregenerator.generate(this.world, i, j, (ChunkPrimer) null);
+            structuregenerator.func_186125_a(this.field_73163_a, i, j, (ChunkPrimer) null);
         }
 
     }

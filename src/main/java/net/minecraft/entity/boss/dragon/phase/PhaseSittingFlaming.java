@@ -11,90 +11,90 @@ import net.minecraft.util.math.Vec3d;
 
 public class PhaseSittingFlaming extends PhaseSittingBase {
 
-    private int flameTicks;
-    private int flameCount;
-    private EntityAreaEffectCloud areaEffectCloud;
+    private int field_188664_b;
+    private int field_188665_c;
+    private EntityAreaEffectCloud field_188666_d;
 
     public PhaseSittingFlaming(EntityDragon entityenderdragon) {
         super(entityenderdragon);
     }
 
-    public void doClientRenderEffects() {
-        ++this.flameTicks;
-        if (this.flameTicks % 2 == 0 && this.flameTicks < 10) {
-            Vec3d vec3d = this.dragon.getHeadLookVec(1.0F).normalize();
+    public void func_188657_b() {
+        ++this.field_188664_b;
+        if (this.field_188664_b % 2 == 0 && this.field_188664_b < 10) {
+            Vec3d vec3d = this.field_188661_a.func_184665_a(1.0F).func_72432_b();
 
-            vec3d.rotateYaw(-0.7853982F);
-            double d0 = this.dragon.dragonPartHead.posX;
-            double d1 = this.dragon.dragonPartHead.posY + (double) (this.dragon.dragonPartHead.height / 2.0F);
-            double d2 = this.dragon.dragonPartHead.posZ;
+            vec3d.func_178785_b(-0.7853982F);
+            double d0 = this.field_188661_a.field_70986_h.field_70165_t;
+            double d1 = this.field_188661_a.field_70986_h.field_70163_u + (double) (this.field_188661_a.field_70986_h.field_70131_O / 2.0F);
+            double d2 = this.field_188661_a.field_70986_h.field_70161_v;
 
             for (int i = 0; i < 8; ++i) {
-                double d3 = d0 + this.dragon.getRNG().nextGaussian() / 2.0D;
-                double d4 = d1 + this.dragon.getRNG().nextGaussian() / 2.0D;
-                double d5 = d2 + this.dragon.getRNG().nextGaussian() / 2.0D;
+                double d3 = d0 + this.field_188661_a.func_70681_au().nextGaussian() / 2.0D;
+                double d4 = d1 + this.field_188661_a.func_70681_au().nextGaussian() / 2.0D;
+                double d5 = d2 + this.field_188661_a.func_70681_au().nextGaussian() / 2.0D;
 
                 for (int j = 0; j < 6; ++j) {
-                    this.dragon.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, d3, d4, d5, -vec3d.x * 0.07999999821186066D * (double) j, -vec3d.y * 0.6000000238418579D, -vec3d.z * 0.07999999821186066D * (double) j, new int[0]);
+                    this.field_188661_a.field_70170_p.func_175688_a(EnumParticleTypes.DRAGON_BREATH, d3, d4, d5, -vec3d.field_72450_a * 0.07999999821186066D * (double) j, -vec3d.field_72448_b * 0.6000000238418579D, -vec3d.field_72449_c * 0.07999999821186066D * (double) j, new int[0]);
                 }
 
-                vec3d.rotateYaw(0.19634955F);
+                vec3d.func_178785_b(0.19634955F);
             }
         }
 
     }
 
-    public void doLocalUpdate() {
-        ++this.flameTicks;
-        if (this.flameTicks >= 200) {
-            if (this.flameCount >= 4) {
-                this.dragon.getPhaseManager().setPhase(PhaseList.TAKEOFF);
+    public void func_188659_c() {
+        ++this.field_188664_b;
+        if (this.field_188664_b >= 200) {
+            if (this.field_188665_c >= 4) {
+                this.field_188661_a.func_184670_cT().func_188758_a(PhaseList.field_188745_e);
             } else {
-                this.dragon.getPhaseManager().setPhase(PhaseList.SITTING_SCANNING);
+                this.field_188661_a.func_184670_cT().func_188758_a(PhaseList.field_188747_g);
             }
-        } else if (this.flameTicks == 10) {
-            Vec3d vec3d = (new Vec3d(this.dragon.dragonPartHead.posX - this.dragon.posX, 0.0D, this.dragon.dragonPartHead.posZ - this.dragon.posZ)).normalize();
+        } else if (this.field_188664_b == 10) {
+            Vec3d vec3d = (new Vec3d(this.field_188661_a.field_70986_h.field_70165_t - this.field_188661_a.field_70165_t, 0.0D, this.field_188661_a.field_70986_h.field_70161_v - this.field_188661_a.field_70161_v)).func_72432_b();
             float f = 5.0F;
-            double d0 = this.dragon.dragonPartHead.posX + vec3d.x * 5.0D / 2.0D;
-            double d1 = this.dragon.dragonPartHead.posZ + vec3d.z * 5.0D / 2.0D;
-            double d2 = this.dragon.dragonPartHead.posY + (double) (this.dragon.dragonPartHead.height / 2.0F);
-            BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos(MathHelper.floor(d0), MathHelper.floor(d2), MathHelper.floor(d1));
+            double d0 = this.field_188661_a.field_70986_h.field_70165_t + vec3d.field_72450_a * 5.0D / 2.0D;
+            double d1 = this.field_188661_a.field_70986_h.field_70161_v + vec3d.field_72449_c * 5.0D / 2.0D;
+            double d2 = this.field_188661_a.field_70986_h.field_70163_u + (double) (this.field_188661_a.field_70986_h.field_70131_O / 2.0F);
+            BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos(MathHelper.func_76128_c(d0), MathHelper.func_76128_c(d2), MathHelper.func_76128_c(d1));
 
-            while (this.dragon.world.isAirBlock(blockposition_mutableblockposition) && d2 > 0) { // Paper
+            while (this.field_188661_a.field_70170_p.func_175623_d(blockposition_mutableblockposition) && d2 > 0) { // Paper
                 --d2;
-                blockposition_mutableblockposition.setPos(MathHelper.floor(d0), MathHelper.floor(d2), MathHelper.floor(d1));
+                blockposition_mutableblockposition.func_181079_c(MathHelper.func_76128_c(d0), MathHelper.func_76128_c(d2), MathHelper.func_76128_c(d1));
             }
 
-            d2 = (double) (MathHelper.floor(d2) + 1);
-            this.areaEffectCloud = new EntityAreaEffectCloud(this.dragon.world, d0, d2, d1);
-            this.areaEffectCloud.setOwner(this.dragon);
-            this.areaEffectCloud.setRadius(5.0F);
-            this.areaEffectCloud.setDuration(200);
-            this.areaEffectCloud.setParticle(EnumParticleTypes.DRAGON_BREATH);
-            this.areaEffectCloud.addEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE));
-            this.dragon.world.spawnEntity(this.areaEffectCloud);
+            d2 = (double) (MathHelper.func_76128_c(d2) + 1);
+            this.field_188666_d = new EntityAreaEffectCloud(this.field_188661_a.field_70170_p, d0, d2, d1);
+            this.field_188666_d.func_184481_a(this.field_188661_a);
+            this.field_188666_d.func_184483_a(5.0F);
+            this.field_188666_d.func_184486_b(200);
+            this.field_188666_d.func_184491_a(EnumParticleTypes.DRAGON_BREATH);
+            this.field_188666_d.func_184496_a(new PotionEffect(MobEffects.field_76433_i));
+            this.field_188661_a.field_70170_p.func_72838_d(this.field_188666_d);
         }
 
     }
 
-    public void initPhase() {
-        this.flameTicks = 0;
-        ++this.flameCount;
+    public void func_188660_d() {
+        this.field_188664_b = 0;
+        ++this.field_188665_c;
     }
 
-    public void removeAreaEffect() {
-        if (this.areaEffectCloud != null) {
-            this.areaEffectCloud.setDead();
-            this.areaEffectCloud = null;
+    public void func_188658_e() {
+        if (this.field_188666_d != null) {
+            this.field_188666_d.func_70106_y();
+            this.field_188666_d = null;
         }
 
     }
 
-    public PhaseList<PhaseSittingFlaming> getType() {
-        return PhaseList.SITTING_FLAMING;
+    public PhaseList<PhaseSittingFlaming> func_188652_i() {
+        return PhaseList.field_188746_f;
     }
 
-    public void resetFlameCount() {
-        this.flameCount = 0;
+    public void func_188663_j() {
+        this.field_188665_c = 0;
     }
 }

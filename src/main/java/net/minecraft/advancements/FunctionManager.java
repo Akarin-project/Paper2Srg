@@ -23,87 +23,87 @@ import net.minecraft.world.World;
 
 public class FunctionManager implements ITickable {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final File functionDir;
-    private final MinecraftServer server;
-    private final Map<ResourceLocation, FunctionObject> functions = Maps.newHashMap();
-    private String currentGameLoopFunctionId = "-";
-    private FunctionObject gameLoopFunction;
-    private final ArrayDeque<FunctionManager.a> commandQueue = new ArrayDeque();
-    private boolean isExecuting = false;
+    private static final Logger field_193067_a = LogManager.getLogger();
+    private final File field_193068_b;
+    private final MinecraftServer field_193069_c;
+    private final Map<ResourceLocation, FunctionObject> field_193070_d = Maps.newHashMap();
+    private String field_193071_e = "-";
+    private FunctionObject field_193072_f;
+    private final ArrayDeque<FunctionManager.a> field_194020_g = new ArrayDeque();
+    private boolean field_194021_h = false;
     // CraftBukkit start
-    private final ICommandSender gameLoopFunctionSender = new CustomFunctionListener();
+    private final ICommandSender field_193073_g = new CustomFunctionListener();
 
     public class CustomFunctionListener implements ICommandSender {
 
-        public org.bukkit.command.CommandSender sender = new org.bukkit.craftbukkit.command.CraftFunctionCommandSender(this);
+        protected org.bukkit.command.CommandSender sender = new org.bukkit.craftbukkit.command.CraftFunctionCommandSender(this);
         // CraftBukkit end
 
         @Override
-        public String getName() {
-            return FunctionManager.this.currentGameLoopFunctionId;
+        public String func_70005_c_() {
+            return FunctionManager.this.field_193071_e;
         }
 
         @Override
-        public boolean canUseCommand(int i, String s) {
+        public boolean func_70003_b(int i, String s) {
             return i <= 2;
         }
 
         @Override
-        public World getEntityWorld() {
-            return FunctionManager.this.server.worlds.get(0); // CraftBukkit
+        public World func_130014_f_() {
+            return FunctionManager.this.field_193069_c.worlds.get(0); // CraftBukkit
         }
 
         @Override
-        public MinecraftServer getServer() {
-            return FunctionManager.this.server;
+        public MinecraftServer func_184102_h() {
+            return FunctionManager.this.field_193069_c;
         }
     };
 
     public FunctionManager(@Nullable File file, MinecraftServer minecraftserver) {
-        this.functionDir = file;
-        this.server = minecraftserver;
-        this.reload();
+        this.field_193068_b = file;
+        this.field_193069_c = minecraftserver;
+        this.func_193059_f();
     }
 
     @Nullable
-    public FunctionObject getFunction(ResourceLocation minecraftkey) {
-        return this.functions.get(minecraftkey);
+    public FunctionObject func_193058_a(ResourceLocation minecraftkey) {
+        return this.field_193070_d.get(minecraftkey);
     }
 
-    public ICommandManager getCommandManager() {
-        return this.server.getCommandManager();
+    public ICommandManager func_193062_a() {
+        return this.field_193069_c.func_71187_D();
     }
 
-    public int getMaxCommandChainLength() {
-        return this.server.worlds.get(0).getGameRules().getInt("maxCommandChainLength"); // CraftBukkit
+    public int func_193065_c() {
+        return this.field_193069_c.worlds.get(0).func_82736_K().func_180263_c("maxCommandChainLength"); // CraftBukkit
     }
 
-    public Map<ResourceLocation, FunctionObject> getFunctions() {
-        return this.functions;
+    public Map<ResourceLocation, FunctionObject> func_193066_d() {
+        return this.field_193070_d;
     }
 
     @Override
-    public void update() {
-        String s = this.server.worlds.get(0).getGameRules().getString("gameLoopFunction"); // CraftBukkit
+    public void func_73660_a() {
+        String s = this.field_193069_c.worlds.get(0).func_82736_K().func_82767_a("gameLoopFunction"); // CraftBukkit
 
-        if (!s.equals(this.currentGameLoopFunctionId)) {
-            this.currentGameLoopFunctionId = s;
-            this.gameLoopFunction = this.getFunction(new ResourceLocation(s));
+        if (!s.equals(this.field_193071_e)) {
+            this.field_193071_e = s;
+            this.field_193072_f = this.func_193058_a(new ResourceLocation(s));
         }
 
-        if (this.gameLoopFunction != null) {
-            this.execute(this.gameLoopFunction, this.gameLoopFunctionSender);
+        if (this.field_193072_f != null) {
+            this.func_194019_a(this.field_193072_f, this.field_193073_g);
         }
 
     }
 
-    public int execute(FunctionObject customfunction, ICommandSender icommandlistener) {
-        int i = this.getMaxCommandChainLength();
+    public int func_194019_a(FunctionObject customfunction, ICommandSender icommandlistener) {
+        int i = this.func_193065_c();
 
-        if (this.isExecuting) {
-            if (this.commandQueue.size() < i) {
-                this.commandQueue.addFirst(new FunctionManager.a(this, icommandlistener, new FunctionObject.d(customfunction)));
+        if (this.field_194021_h) {
+            if (this.field_194020_g.size() < i) {
+                this.field_194020_g.addFirst(new FunctionManager.a(this, icommandlistener, new CustomFunction.d(customfunction)));
             }
 
             return 0;
@@ -111,64 +111,64 @@ public class FunctionManager implements ITickable {
             int j;
 
             try {
-                this.isExecuting = true;
+                this.field_194021_h = true;
                 int k = 0;
-                FunctionObject.c[] acustomfunction_c = customfunction.a();
+                CustomFunction.c[] acustomfunction_c = customfunction.a();
 
                 for (j = acustomfunction_c.length - 1; j >= 0; --j) {
-                    this.commandQueue.push(new FunctionManager.a(this, icommandlistener, acustomfunction_c[j]));
+                    this.field_194020_g.push(new FunctionManager.a(this, icommandlistener, acustomfunction_c[j]));
                 }
 
                 do {
-                    if (this.commandQueue.isEmpty()) {
+                    if (this.field_194020_g.isEmpty()) {
                         j = k;
                         return j;
                     }
 
-                    this.commandQueue.removeFirst().a(this.commandQueue, i);
+                    this.field_194020_g.removeFirst().a(this.field_194020_g, i);
                     ++k;
                 } while (k < i);
 
                 j = k;
             } finally {
-                this.commandQueue.clear();
-                this.isExecuting = false;
+                this.field_194020_g.clear();
+                this.field_194021_h = false;
             }
 
             return j;
         }
     }
 
-    public void reload() {
-        this.functions.clear();
-        this.gameLoopFunction = null;
-        this.currentGameLoopFunctionId = "-";
-        this.loadFunctions();
+    public void func_193059_f() {
+        this.field_193070_d.clear();
+        this.field_193072_f = null;
+        this.field_193071_e = "-";
+        this.func_193061_h();
     }
 
-    private void loadFunctions() {
-        if (this.functionDir != null) {
-            this.functionDir.mkdirs();
-            Iterator iterator = FileUtils.listFiles(this.functionDir, new String[] { "mcfunction"}, true).iterator();
+    private void func_193061_h() {
+        if (this.field_193068_b != null) {
+            this.field_193068_b.mkdirs();
+            Iterator iterator = FileUtils.listFiles(this.field_193068_b, new String[] { "mcfunction"}, true).iterator();
 
             while (iterator.hasNext()) {
                 File file = (File) iterator.next();
-                String s = FilenameUtils.removeExtension(this.functionDir.toURI().relativize(file.toURI()).toString());
+                String s = FilenameUtils.removeExtension(this.field_193068_b.toURI().relativize(file.toURI()).toString());
                 String[] astring = s.split("/", 2);
 
                 if (astring.length == 2) {
                     ResourceLocation minecraftkey = new ResourceLocation(astring[0], astring[1]);
 
                     try {
-                        this.functions.put(minecraftkey, FunctionObject.create(this, Files.readLines(file, StandardCharsets.UTF_8)));
+                        this.field_193070_d.put(minecraftkey, FunctionObject.func_193527_a(this, Files.readLines(file, StandardCharsets.UTF_8)));
                     } catch (Throwable throwable) {
-                        FunctionManager.LOGGER.error("Couldn\'t read custom function " + minecraftkey + " from " + file, throwable);
+                        FunctionManager.field_193067_a.error("Couldn\'t read custom function " + minecraftkey + " from " + file, throwable);
                     }
                 }
             }
 
-            if (!this.functions.isEmpty()) {
-                FunctionManager.LOGGER.info("Loaded " + this.functions.size() + " custom command functions");
+            if (!this.field_193070_d.isEmpty()) {
+                FunctionManager.field_193067_a.info("Loaded " + this.field_193070_d.size() + " custom command functions");
             }
 
         }

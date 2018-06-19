@@ -28,11 +28,11 @@ public class CraftSpectralArrow extends CraftArrow implements SpectralArrow {
 
     @Override
     public int getGlowingTicks() {
-        return getHandle().duration;
+        return getHandle().field_184562_f;
     }
 
     @Override
     public void setGlowingTicks(int duration) {
-        getHandle().duration = duration;
+        getHandle().field_184562_f = duration;
     }
 }

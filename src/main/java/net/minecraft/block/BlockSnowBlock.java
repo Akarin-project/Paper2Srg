@@ -11,16 +11,16 @@ import net.minecraft.item.Item;
 public class BlockSnowBlock extends Block {
 
     protected BlockSnowBlock() {
-        super(Material.CRAFTED_SNOW);
+        super(Material.field_151596_z);
         // this.a(true); // Paper - snow blocks don't need to tick
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.SNOWBALL;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_151126_ay;
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 4;
     }
 

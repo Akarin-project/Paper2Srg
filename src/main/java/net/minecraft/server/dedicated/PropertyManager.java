@@ -13,21 +13,21 @@ import net.minecraft.server.OptionSet;
 
 public class PropertyManager {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    public final Properties serverProperties = new Properties();
-    private final File serverPropertiesFile;
+    private static final Logger field_164440_a = LogManager.getLogger();
+    public final Properties field_73672_b = new Properties();
+    private final File field_73673_c;
 
     public PropertyManager(File file) {
-        this.serverPropertiesFile = file;
+        this.field_73673_c = file;
         if (file.exists()) {
             FileInputStream fileinputstream = null;
 
             try {
                 fileinputstream = new FileInputStream(file);
-                this.serverProperties.load(fileinputstream);
+                this.field_73672_b.load(fileinputstream);
             } catch (Exception exception) {
-                PropertyManager.LOGGER.warn("Failed to load {}", file, exception);
-                this.generateNewProperties();
+                PropertyManager.field_164440_a.warn("Failed to load {}", file, exception);
+                this.func_73666_a();
             } finally {
                 if (fileinputstream != null) {
                     try {
@@ -39,8 +39,8 @@ public class PropertyManager {
 
             }
         } else {
-            PropertyManager.LOGGER.warn("{} does not exist", file);
-            this.generateNewProperties();
+            PropertyManager.field_164440_a.warn("{} does not exist", file);
+            this.func_73666_a();
         }
 
     }
@@ -63,26 +63,26 @@ public class PropertyManager {
     }
     // CraftBukkit end
 
-    public void generateNewProperties() {
-        PropertyManager.LOGGER.info("Generating new properties file");
-        this.saveProperties();
+    public void func_73666_a() {
+        PropertyManager.field_164440_a.info("Generating new properties file");
+        this.func_73668_b();
     }
 
-    public void saveProperties() {
+    public void func_73668_b() {
         FileOutputStream fileoutputstream = null;
 
         try {
             // CraftBukkit start - Don't attempt writing to file if it's read only
-            if (this.serverPropertiesFile.exists() && !this.serverPropertiesFile.canWrite()) {
+            if (this.field_73673_c.exists() && !this.field_73673_c.canWrite()) {
                 return;
             }
             // CraftBukkit end
 
-            fileoutputstream = new FileOutputStream(this.serverPropertiesFile);
-            this.serverProperties.store(fileoutputstream, "Minecraft server properties");
+            fileoutputstream = new FileOutputStream(this.field_73673_c);
+            this.field_73672_b.store(fileoutputstream, "Minecraft server properties");
         } catch (Exception exception) {
-            PropertyManager.LOGGER.warn("Failed to save {}", this.serverPropertiesFile, exception);
-            this.generateNewProperties();
+            PropertyManager.field_164440_a.warn("Failed to save {}", this.field_73673_c, exception);
+            this.func_73666_a();
         } finally {
             if (fileoutputstream != null) {
                 try {
@@ -96,59 +96,59 @@ public class PropertyManager {
 
     }
 
-    public File getPropertiesFile() {
-        return this.serverPropertiesFile;
+    public File func_73665_c() {
+        return this.field_73673_c;
     }
 
-    public String getStringProperty(String s, String s1) {
-        if (!this.serverProperties.containsKey(s)) {
-            this.serverProperties.setProperty(s, s1);
-            this.saveProperties();
-            this.saveProperties();
+    public String func_73671_a(String s, String s1) {
+        if (!this.field_73672_b.containsKey(s)) {
+            this.field_73672_b.setProperty(s, s1);
+            this.func_73668_b();
+            this.func_73668_b();
         }
 
-        return getOverride(s, this.serverProperties.getProperty(s, s1)); // CraftBukkit
+        return getOverride(s, this.field_73672_b.getProperty(s, s1)); // CraftBukkit
     }
 
-    public int getIntProperty(String s, int i) {
+    public int func_73669_a(String s, int i) {
         try {
-            return getOverride(s, Integer.parseInt(this.getStringProperty(s, "" + i))); // CraftBukkit
+            return getOverride(s, Integer.parseInt(this.func_73671_a(s, "" + i))); // CraftBukkit
         } catch (Exception exception) {
-            this.serverProperties.setProperty(s, "" + i);
-            this.saveProperties();
+            this.field_73672_b.setProperty(s, "" + i);
+            this.func_73668_b();
             return getOverride(s, i); // CraftBukkit
         }
     }
 
-    public long getLongProperty(String s, long i) {
+    public long func_179885_a(String s, long i) {
         try {
-            return getOverride(s, Long.parseLong(this.getStringProperty(s, "" + i))); // CraftBukkit
+            return getOverride(s, Long.parseLong(this.func_73671_a(s, "" + i))); // CraftBukkit
         } catch (Exception exception) {
-            this.serverProperties.setProperty(s, "" + i);
-            this.saveProperties();
+            this.field_73672_b.setProperty(s, "" + i);
+            this.func_73668_b();
             return getOverride(s, i); // CraftBukkit
         }
     }
 
-    public boolean getBooleanProperty(String s, boolean flag) {
+    public boolean func_73670_a(String s, boolean flag) {
         try {
-            return getOverride(s, Boolean.parseBoolean(this.getStringProperty(s, "" + flag))); //CraftBukkit
+            return getOverride(s, Boolean.parseBoolean(this.func_73671_a(s, "" + flag))); //CraftBukkit
         } catch (Exception exception) {
-            this.serverProperties.setProperty(s, "" + flag);
-            this.saveProperties();
+            this.field_73672_b.setProperty(s, "" + flag);
+            this.func_73668_b();
             return getOverride(s, flag); // CraftBukkit
         }
     }
 
-    public void setProperty(String s, Object object) {
-        this.serverProperties.setProperty(s, "" + object);
+    public void func_73667_a(String s, Object object) {
+        this.field_73672_b.setProperty(s, "" + object);
     }
 
-    public boolean hasProperty(String s) {
-        return this.serverProperties.containsKey(s);
+    public boolean func_187239_a(String s) {
+        return this.field_73672_b.containsKey(s);
     }
 
-    public void removeProperty(String s) {
-        this.serverProperties.remove(s);
+    public void func_187238_b(String s) {
+        this.field_73672_b.remove(s);
     }
 }

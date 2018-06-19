@@ -27,72 +27,72 @@ public class EntityLeashKnot extends EntityHanging {
 
     public EntityLeashKnot(World world, BlockPos blockposition) {
         super(world, blockposition);
-        this.setPosition((double) blockposition.getX() + 0.5D, (double) blockposition.getY() + 0.5D, (double) blockposition.getZ() + 0.5D);
+        this.func_70107_b((double) blockposition.func_177958_n() + 0.5D, (double) blockposition.func_177956_o() + 0.5D, (double) blockposition.func_177952_p() + 0.5D);
         float f = 0.125F;
         float f1 = 0.1875F;
         float f2 = 0.25F;
 
-        this.setEntityBoundingBox(new AxisAlignedBB(this.posX - 0.1875D, this.posY - 0.25D + 0.125D, this.posZ - 0.1875D, this.posX + 0.1875D, this.posY + 0.25D + 0.125D, this.posZ + 0.1875D));
-        this.forceSpawn = true;
+        this.func_174826_a(new AxisAlignedBB(this.field_70165_t - 0.1875D, this.field_70163_u - 0.25D + 0.125D, this.field_70161_v - 0.1875D, this.field_70165_t + 0.1875D, this.field_70163_u + 0.25D + 0.125D, this.field_70161_v + 0.1875D));
+        this.field_98038_p = true;
     }
 
-    public void setPosition(double d0, double d1, double d2) {
-        super.setPosition((double) MathHelper.floor(d0) + 0.5D, (double) MathHelper.floor(d1) + 0.5D, (double) MathHelper.floor(d2) + 0.5D);
+    public void func_70107_b(double d0, double d1, double d2) {
+        super.func_70107_b((double) MathHelper.func_76128_c(d0) + 0.5D, (double) MathHelper.func_76128_c(d1) + 0.5D, (double) MathHelper.func_76128_c(d2) + 0.5D);
     }
 
-    protected void updateBoundingBox() {
-        this.posX = (double) this.hangingPosition.getX() + 0.5D;
-        this.posY = (double) this.hangingPosition.getY() + 0.5D;
-        this.posZ = (double) this.hangingPosition.getZ() + 0.5D;
+    protected void func_174856_o() {
+        this.field_70165_t = (double) this.field_174861_a.func_177958_n() + 0.5D;
+        this.field_70163_u = (double) this.field_174861_a.func_177956_o() + 0.5D;
+        this.field_70161_v = (double) this.field_174861_a.func_177952_p() + 0.5D;
     }
 
-    public void updateFacingWithBoundingBox(EnumFacing enumdirection) {}
+    public void func_174859_a(EnumFacing enumdirection) {}
 
-    public int getWidthPixels() {
+    public int func_82329_d() {
         return 9;
     }
 
-    public int getHeightPixels() {
+    public int func_82330_g() {
         return 9;
     }
 
-    public float getEyeHeight() {
+    public float func_70047_e() {
         return -0.0625F;
     }
 
-    public void onBroken(@Nullable Entity entity) {
-        this.playSound(SoundEvents.ENTITY_LEASHKNOT_BREAK, 1.0F, 1.0F);
+    public void func_110128_b(@Nullable Entity entity) {
+        this.func_184185_a(SoundEvents.field_187746_da, 1.0F, 1.0F);
     }
 
-    public boolean writeToNBTOptional(NBTTagCompound nbttagcompound) {
+    public boolean func_70039_c(NBTTagCompound nbttagcompound) {
         return false;
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {}
+    public void func_70014_b(NBTTagCompound nbttagcompound) {}
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {}
+    public void func_70037_a(NBTTagCompound nbttagcompound) {}
 
-    public boolean processInitialInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        if (this.world.isRemote) {
+    public boolean func_184230_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        if (this.field_70170_p.field_72995_K) {
             return true;
         } else {
             boolean flag = false;
             double d0 = 7.0D;
-            List list = this.world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(this.posX - 7.0D, this.posY - 7.0D, this.posZ - 7.0D, this.posX + 7.0D, this.posY + 7.0D, this.posZ + 7.0D));
+            List list = this.field_70170_p.func_72872_a(EntityLiving.class, new AxisAlignedBB(this.field_70165_t - 7.0D, this.field_70163_u - 7.0D, this.field_70161_v - 7.0D, this.field_70165_t + 7.0D, this.field_70163_u + 7.0D, this.field_70161_v + 7.0D));
             Iterator iterator = list.iterator();
 
             EntityLiving entityinsentient;
 
             while (iterator.hasNext()) {
                 entityinsentient = (EntityLiving) iterator.next();
-                if (entityinsentient.getLeashed() && entityinsentient.getLeashHolder() == entityhuman) {
+                if (entityinsentient.func_110167_bD() && entityinsentient.func_110166_bE() == entityhuman) {
                     // CraftBukkit start
                     if (CraftEventFactory.callPlayerLeashEntityEvent(entityinsentient, this, entityhuman).isCancelled()) {
-                        ((EntityPlayerMP) entityhuman).connection.sendPacket(new SPacketEntityAttach(entityinsentient, entityinsentient.getLeashHolder()));
+                        ((EntityPlayerMP) entityhuman).field_71135_a.func_147359_a(new SPacketEntityAttach(entityinsentient, entityinsentient.func_110166_bE()));
                         continue;
                     }
                     // CraftBukkit end
-                    entityinsentient.setLeashHolder(this, true);
+                    entityinsentient.func_110162_b(this, true);
                     flag = true;
                 }
             }
@@ -102,24 +102,24 @@ public class EntityLeashKnot extends EntityHanging {
                 // this.die();
                 boolean die = true;
                 // CraftBukkit end
-                if (true || entityhuman.capabilities.isCreativeMode) { // CraftBukkit - Process for non-creative as well
+                if (true || entityhuman.field_71075_bZ.field_75098_d) { // CraftBukkit - Process for non-creative as well
                     iterator = list.iterator();
 
                     while (iterator.hasNext()) {
                         entityinsentient = (EntityLiving) iterator.next();
-                        if (entityinsentient.getLeashed() && entityinsentient.getLeashHolder() == this) {
+                        if (entityinsentient.func_110167_bD() && entityinsentient.func_110166_bE() == this) {
                             // CraftBukkit start
                             if (CraftEventFactory.callPlayerUnleashEntityEvent(entityinsentient, entityhuman).isCancelled()) {
                                 die = false;
                                 continue;
                             }
-                            entityinsentient.clearLeashed(true, !entityhuman.capabilities.isCreativeMode); // false -> survival mode boolean
+                            entityinsentient.func_110160_i(true, !entityhuman.field_71075_bZ.field_75098_d); // false -> survival mode boolean
                             // CraftBukkit end
                         }
                     }
                     // CraftBukkit start
                     if (die) {
-                        this.setDead();
+                        this.func_70106_y();
                     }
                     // CraftBukkit end
                 }
@@ -129,24 +129,24 @@ public class EntityLeashKnot extends EntityHanging {
         }
     }
 
-    public boolean onValidSurface() {
-        return this.world.getBlockState(this.hangingPosition).getBlock() instanceof BlockFence;
+    public boolean func_70518_d() {
+        return this.field_70170_p.func_180495_p(this.field_174861_a).func_177230_c() instanceof BlockFence;
     }
 
-    public static EntityLeashKnot createKnot(World world, BlockPos blockposition) {
+    public static EntityLeashKnot func_174862_a(World world, BlockPos blockposition) {
         EntityLeashKnot entityleash = new EntityLeashKnot(world, blockposition);
 
-        world.spawnEntity(entityleash);
-        entityleash.playPlaceSound();
+        world.func_72838_d(entityleash);
+        entityleash.func_184523_o();
         return entityleash;
     }
 
     @Nullable
-    public static EntityLeashKnot getKnotForPosition(World world, BlockPos blockposition) {
-        int i = blockposition.getX();
-        int j = blockposition.getY();
-        int k = blockposition.getZ();
-        List list = world.getEntitiesWithinAABB(EntityLeashKnot.class, new AxisAlignedBB((double) i - 1.0D, (double) j - 1.0D, (double) k - 1.0D, (double) i + 1.0D, (double) j + 1.0D, (double) k + 1.0D));
+    public static EntityLeashKnot func_174863_b(World world, BlockPos blockposition) {
+        int i = blockposition.func_177958_n();
+        int j = blockposition.func_177956_o();
+        int k = blockposition.func_177952_p();
+        List list = world.func_72872_a(EntityLeashKnot.class, new AxisAlignedBB((double) i - 1.0D, (double) j - 1.0D, (double) k - 1.0D, (double) i + 1.0D, (double) j + 1.0D, (double) k + 1.0D));
         Iterator iterator = list.iterator();
 
         EntityLeashKnot entityleash;
@@ -157,12 +157,12 @@ public class EntityLeashKnot extends EntityHanging {
             }
 
             entityleash = (EntityLeashKnot) iterator.next();
-        } while (!entityleash.getHangingPosition().equals(blockposition));
+        } while (!entityleash.func_174857_n().equals(blockposition));
 
         return entityleash;
     }
 
-    public void playPlaceSound() {
-        this.playSound(SoundEvents.ENTITY_LEASHKNOT_PLACE, 1.0F, 1.0F);
+    public void func_184523_o() {
+        this.func_184185_a(SoundEvents.field_187748_db, 1.0F, 1.0F);
     }
 }

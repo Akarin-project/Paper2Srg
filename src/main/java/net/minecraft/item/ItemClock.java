@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 public class ItemClock extends Item {
 
     public ItemClock() {
-        this.addPropertyOverride(new ResourceLocation("time"), new IItemPropertyGetter() {
+        this.func_185043_a(new ResourceLocation("time"), new IItemPropertyGetter() {
         });
     }
 }

@@ -84,111 +84,111 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityParrot extends EntityShoulderRiding implements EntityFlying {
 
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityParrot.class, DataSerializers.VARINT);
-    private static final Predicate<EntityLiving> CAN_MIMIC = new Predicate() {
+    private static final DataParameter<Integer> field_192013_bG = EntityDataManager.func_187226_a(EntityParrot.class, DataSerializers.field_187192_b);
+    private static final Predicate<EntityLiving> field_192014_bH = new Predicate() {
         public boolean a(@Nullable EntityLiving entityinsentient) {
-            return entityinsentient != null && EntityParrot.IMITATION_SOUND_EVENTS.containsKey(EntityList.REGISTRY.getIDForObject(entityinsentient.getClass())); // CraftBukkit - decompile error
+            return entityinsentient != null && EntityParrot.field_192017_bK.containsKey(EntityList.field_191308_b.func_148757_b(entityinsentient.getClass())); // CraftBukkit - decompile error
         }
 
         public boolean apply(@Nullable Object object) {
             return this.a((EntityLiving) object);
         }
     };
-    private static final Item DEADLY_ITEM = Items.COOKIE;
-    private static final Set<Item> TAME_ITEMS = Sets.newHashSet(new Item[] { Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS});
-    private static final Int2ObjectMap<SoundEvent> IMITATION_SOUND_EVENTS = new Int2ObjectOpenHashMap(32);
-    public float flap;
-    public float flapSpeed;
-    public float oFlapSpeed;
-    public float oFlap;
-    public float flapping = 1.0F;
-    private boolean partyParrot;
-    private BlockPos jukeboxPosition;
+    private static final Item field_192015_bI = Items.field_151106_aX;
+    private static final Set<Item> field_192016_bJ = Sets.newHashSet(new Item[] { Items.field_151014_N, Items.field_151081_bc, Items.field_151080_bb, Items.field_185163_cU});
+    private static final Int2ObjectMap<SoundEvent> field_192017_bK = new Int2ObjectOpenHashMap(32);
+    public float field_192008_bB;
+    public float field_192009_bC;
+    public float field_192010_bD;
+    public float field_192011_bE;
+    public float field_192012_bF = 1.0F;
+    private boolean field_192018_bL;
+    private BlockPos field_192019_bM;
 
     public EntityParrot(World world) {
         super(world);
-        this.setSize(0.5F, 0.9F);
-        this.moveHelper = new EntityFlyHelper(this);
+        this.func_70105_a(0.5F, 0.9F);
+        this.field_70765_h = new EntityFlyHelper(this);
     }
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
-        this.setVariant(this.rand.nextInt(5));
-        return super.onInitialSpawn(difficultydamagescaler, groupdataentity);
+    public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
+        this.func_191997_m(this.field_70146_Z.nextInt(5));
+        return super.func_180482_a(difficultydamagescaler, groupdataentity);
     }
 
-    protected void initEntityAI() {
-        this.aiSit = new EntityAISit(this);
-        this.tasks.addTask(0, new EntityAIPanic(this, 1.25D));
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(2, new EntityAIFollowOwnerFlying(this, 1.0D, 5.0F, 1.0F));
-        this.tasks.addTask(2, new EntityAIWanderAvoidWaterFlying(this, 1.0D));
-        this.tasks.addTask(3, new EntityAILandOnOwnersShoulder(this));
-        this.tasks.addTask(3, new EntityAIFollow(this, 1.0D, 3.0F, 7.0F));
+    protected void func_184651_r() {
+        this.field_70911_d = new EntityAISit(this);
+        this.field_70714_bg.func_75776_a(0, new EntityAIPanic(this, 1.25D));
+        this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(1, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.field_70714_bg.func_75776_a(2, this.field_70911_d);
+        this.field_70714_bg.func_75776_a(2, new EntityAIFollowOwnerFlying(this, 1.0D, 5.0F, 1.0F));
+        this.field_70714_bg.func_75776_a(2, new EntityAIWanderAvoidWaterFlying(this, 1.0D));
+        this.field_70714_bg.func_75776_a(3, new EntityAILandOnOwnersShoulder(this));
+        this.field_70714_bg.func_75776_a(3, new EntityAIFollow(this, 1.0D, 3.0F, 7.0F));
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.4000000059604645D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20000000298023224D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110140_aT().func_111150_b(SharedMonsterAttributes.field_193334_e);
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(6.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_193334_e).func_111128_a(0.4000000059604645D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.20000000298023224D);
     }
 
-    protected PathNavigate createNavigator(World world) {
+    protected PathNavigate func_175447_b(World world) {
         PathNavigateFlying navigationflying = new PathNavigateFlying(this, world);
 
-        navigationflying.setCanOpenDoors(false);
-        navigationflying.setCanFloat(true);
-        navigationflying.setCanEnterDoors(true);
+        navigationflying.func_192879_a(false);
+        navigationflying.func_192877_c(true);
+        navigationflying.func_192878_b(true);
         return navigationflying;
     }
 
-    public float getEyeHeight() {
-        return this.height * 0.6F;
+    public float func_70047_e() {
+        return this.field_70131_O * 0.6F;
     }
 
-    public void onLivingUpdate() {
-        playMimicSound(this.world, (Entity) this);
-        if (this.jukeboxPosition == null || this.jukeboxPosition.distanceSq(this.posX, this.posY, this.posZ) > 12.0D || this.world.getBlockState(this.jukeboxPosition).getBlock() != Blocks.JUKEBOX) {
-            this.partyParrot = false;
-            this.jukeboxPosition = null;
+    public void func_70636_d() {
+        func_192006_b(this.field_70170_p, (Entity) this);
+        if (this.field_192019_bM == null || this.field_192019_bM.func_177954_c(this.field_70165_t, this.field_70163_u, this.field_70161_v) > 12.0D || this.field_70170_p.func_180495_p(this.field_192019_bM).func_177230_c() != Blocks.field_150421_aI) {
+            this.field_192018_bL = false;
+            this.field_192019_bM = null;
         }
 
-        super.onLivingUpdate();
-        this.calculateFlapping();
+        super.func_70636_d();
+        this.func_192001_dv();
     }
 
-    private void calculateFlapping() {
-        this.oFlap = this.flap;
-        this.oFlapSpeed = this.flapSpeed;
-        this.flapSpeed = (float) ((double) this.flapSpeed + (double) (this.onGround ? -1 : 4) * 0.3D);
-        this.flapSpeed = MathHelper.clamp(this.flapSpeed, 0.0F, 1.0F);
-        if (!this.onGround && this.flapping < 1.0F) {
-            this.flapping = 1.0F;
+    private void func_192001_dv() {
+        this.field_192011_bE = this.field_192008_bB;
+        this.field_192010_bD = this.field_192009_bC;
+        this.field_192009_bC = (float) ((double) this.field_192009_bC + (double) (this.field_70122_E ? -1 : 4) * 0.3D);
+        this.field_192009_bC = MathHelper.func_76131_a(this.field_192009_bC, 0.0F, 1.0F);
+        if (!this.field_70122_E && this.field_192012_bF < 1.0F) {
+            this.field_192012_bF = 1.0F;
         }
 
-        this.flapping = (float) ((double) this.flapping * 0.9D);
-        if (!this.onGround && this.motionY < 0.0D) {
-            this.motionY *= 0.6D;
+        this.field_192012_bF = (float) ((double) this.field_192012_bF * 0.9D);
+        if (!this.field_70122_E && this.field_70181_x < 0.0D) {
+            this.field_70181_x *= 0.6D;
         }
 
-        this.flap += this.flapping * 2.0F;
+        this.field_192008_bB += this.field_192012_bF * 2.0F;
     }
 
-    private static boolean playMimicSound(World world, Entity entity) {
-        if (!entity.isSilent() && world.rand.nextInt(50) == 0) {
-            List list = world.getEntitiesWithinAABB(EntityLiving.class, entity.getEntityBoundingBox().grow(20.0D), EntityParrot.CAN_MIMIC);
+    private static boolean func_192006_b(World world, Entity entity) {
+        if (!entity.func_174814_R() && world.field_73012_v.nextInt(50) == 0) {
+            List list = world.func_175647_a(EntityLiving.class, entity.func_174813_aQ().func_186662_g(20.0D), EntityParrot.field_192014_bH);
 
             if (!list.isEmpty()) {
-                EntityLiving entityinsentient = (EntityLiving) list.get(world.rand.nextInt(list.size()));
+                EntityLiving entityinsentient = (EntityLiving) list.get(world.field_73012_v.nextInt(list.size()));
 
-                if (!entityinsentient.isSilent()) {
-                    SoundEvent soundeffect = getImitatedSound(EntityList.REGISTRY.getIDForObject(entityinsentient.getClass())); // CraftBukkit - decompile error
+                if (!entityinsentient.func_174814_R()) {
+                    SoundEvent soundeffect = func_191999_g(EntityList.field_191308_b.func_148757_b(entityinsentient.getClass())); // CraftBukkit - decompile error
 
-                    world.playSound((EntityPlayer) null, entity.posX, entity.posY, entity.posZ, soundeffect, entity.getSoundCategory(), 0.7F, getPitch(world.rand));
+                    world.func_184148_a((EntityPlayer) null, entity.field_70165_t, entity.field_70163_u, entity.field_70161_v, soundeffect, entity.func_184176_by(), 0.7F, func_192000_b(world.field_73012_v));
                     return true;
                 }
             }
@@ -199,225 +199,225 @@ public class EntityParrot extends EntityShoulderRiding implements EntityFlying {
         }
     }
 
-    public boolean processInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (!this.isTamed() && EntityParrot.TAME_ITEMS.contains(itemstack.getItem())) {
-            if (!entityhuman.capabilities.isCreativeMode) {
-                itemstack.shrink(1);
+        if (!this.func_70909_n() && EntityParrot.field_192016_bJ.contains(itemstack.func_77973_b())) {
+            if (!entityhuman.field_71075_bZ.field_75098_d) {
+                itemstack.func_190918_g(1);
             }
 
-            if (!this.isSilent()) {
-                this.world.playSound((EntityPlayer) null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PARROT_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+            if (!this.func_174814_R()) {
+                this.field_70170_p.func_184148_a((EntityPlayer) null, this.field_70165_t, this.field_70163_u, this.field_70161_v, SoundEvents.field_192797_eu, this.func_184176_by(), 1.0F, 1.0F + (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F);
             }
 
-            if (!this.world.isRemote) {
-                if (this.rand.nextInt(10) == 0 && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTameEvent(this, entityhuman).isCancelled()) { // CraftBukkit
-                    this.setTamedBy(entityhuman);
-                    this.playTameEffect(true);
-                    this.world.setEntityState(this, (byte) 7);
+            if (!this.field_70170_p.field_72995_K) {
+                if (this.field_70146_Z.nextInt(10) == 0 && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTameEvent(this, entityhuman).isCancelled()) { // CraftBukkit
+                    this.func_193101_c(entityhuman);
+                    this.func_70908_e(true);
+                    this.field_70170_p.func_72960_a(this, (byte) 7);
                 } else {
-                    this.playTameEffect(false);
-                    this.world.setEntityState(this, (byte) 6);
+                    this.func_70908_e(false);
+                    this.field_70170_p.func_72960_a(this, (byte) 6);
                 }
             }
 
             return true;
-        } else if (itemstack.getItem() == EntityParrot.DEADLY_ITEM) {
-            if (!entityhuman.capabilities.isCreativeMode) {
-                itemstack.shrink(1);
+        } else if (itemstack.func_77973_b() == EntityParrot.field_192015_bI) {
+            if (!entityhuman.field_71075_bZ.field_75098_d) {
+                itemstack.func_190918_g(1);
             }
 
-            this.addPotionEffect(new PotionEffect(MobEffects.POISON, 900));
-            if (entityhuman.isCreative() || !this.getIsInvulnerable()) {
-                this.attackEntityFrom(DamageSource.causePlayerDamage(entityhuman), Float.MAX_VALUE);
+            this.func_70690_d(new PotionEffect(MobEffects.field_76436_u, 900));
+            if (entityhuman.func_184812_l_() || !this.func_190530_aW()) {
+                this.func_70097_a(DamageSource.func_76365_a(entityhuman), Float.MAX_VALUE);
             }
 
             return true;
         } else {
-            if (!this.world.isRemote && !this.isFlying() && this.isTamed() && this.isOwner((EntityLivingBase) entityhuman)) {
-                this.aiSit.setSitting(!this.isSitting());
+            if (!this.field_70170_p.field_72995_K && !this.func_192002_a() && this.func_70909_n() && this.func_152114_e((EntityLivingBase) entityhuman)) {
+                this.field_70911_d.func_75270_a(!this.func_70906_o());
             }
 
-            return super.processInteract(entityhuman, enumhand);
+            return super.func_184645_a(entityhuman, enumhand);
         }
     }
 
-    public boolean isBreedingItem(ItemStack itemstack) {
+    public boolean func_70877_b(ItemStack itemstack) {
         return false;
     }
 
-    public boolean getCanSpawnHere() {
-        int i = MathHelper.floor(this.posX);
-        int j = MathHelper.floor(this.getEntityBoundingBox().minY);
-        int k = MathHelper.floor(this.posZ);
+    public boolean func_70601_bi() {
+        int i = MathHelper.func_76128_c(this.field_70165_t);
+        int j = MathHelper.func_76128_c(this.func_174813_aQ().field_72338_b);
+        int k = MathHelper.func_76128_c(this.field_70161_v);
         BlockPos blockposition = new BlockPos(i, j, k);
-        Block block = this.world.getBlockState(blockposition.down()).getBlock();
+        Block block = this.field_70170_p.func_180495_p(blockposition.func_177977_b()).func_177230_c();
 
-        return block instanceof BlockLeaves || block == Blocks.GRASS || block instanceof BlockLog || block == Blocks.AIR && this.world.getLight(blockposition) > 8 && super.getCanSpawnHere();
+        return block instanceof BlockLeaves || block == Blocks.field_150349_c || block instanceof BlockLog || block == Blocks.field_150350_a && this.field_70170_p.func_175699_k(blockposition) > 8 && super.func_70601_bi();
     }
 
-    public void fall(float f, float f1) {}
+    public void func_180430_e(float f, float f1) {}
 
-    protected void updateFallState(double d0, boolean flag, IBlockState iblockdata, BlockPos blockposition) {}
+    protected void func_184231_a(double d0, boolean flag, IBlockState iblockdata, BlockPos blockposition) {}
 
-    public boolean canMateWith(EntityAnimal entityanimal) {
+    public boolean func_70878_b(EntityAnimal entityanimal) {
         return false;
     }
 
     @Nullable
-    public EntityAgeable createChild(EntityAgeable entityageable) {
+    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
         return null;
     }
 
-    public static void playAmbientSound(World world, Entity entity) {
-        if (!entity.isSilent() && !playMimicSound(world, entity) && world.rand.nextInt(200) == 0) {
-            world.playSound((EntityPlayer) null, entity.posX, entity.posY, entity.posZ, getAmbientSound(world.rand), entity.getSoundCategory(), 1.0F, getPitch(world.rand));
+    public static void func_192005_a(World world, Entity entity) {
+        if (!entity.func_174814_R() && !func_192006_b(world, entity) && world.field_73012_v.nextInt(200) == 0) {
+            world.func_184148_a((EntityPlayer) null, entity.field_70165_t, entity.field_70163_u, entity.field_70161_v, func_192003_a(world.field_73012_v), entity.func_184176_by(), 1.0F, func_192000_b(world.field_73012_v));
         }
 
     }
 
-    public boolean attackEntityAsMob(Entity entity) {
-        return entity.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
+    public boolean func_70652_k(Entity entity) {
+        return entity.func_70097_a(DamageSource.func_76358_a(this), 3.0F);
     }
 
     @Nullable
-    public SoundEvent getAmbientSound() {
-        return getAmbientSound(this.rand);
+    public SoundEvent func_184639_G() {
+        return func_192003_a(this.field_70146_Z);
     }
 
-    private static SoundEvent getAmbientSound(Random random) {
+    private static SoundEvent func_192003_a(Random random) {
         if (random.nextInt(1000) == 0) {
-            ArrayList arraylist = new ArrayList(EntityParrot.IMITATION_SOUND_EVENTS.keySet());
+            ArrayList arraylist = new ArrayList(EntityParrot.field_192017_bK.keySet());
 
-            return getImitatedSound(((Integer) arraylist.get(random.nextInt(arraylist.size()))).intValue());
+            return func_191999_g(((Integer) arraylist.get(random.nextInt(arraylist.size()))).intValue());
         } else {
-            return SoundEvents.ENTITY_PARROT_AMBIENT;
+            return SoundEvents.field_192792_ep;
         }
     }
 
-    public static SoundEvent getImitatedSound(int i) {
-        return EntityParrot.IMITATION_SOUND_EVENTS.containsKey(i) ? (SoundEvent) EntityParrot.IMITATION_SOUND_EVENTS.get(i) : SoundEvents.ENTITY_PARROT_AMBIENT;
+    public static SoundEvent func_191999_g(int i) {
+        return EntityParrot.field_192017_bK.containsKey(i) ? (SoundEvent) EntityParrot.field_192017_bK.get(i) : SoundEvents.field_192792_ep;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_PARROT_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_192794_er;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_PARROT_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_192793_eq;
     }
 
-    protected void playStepSound(BlockPos blockposition, Block block) {
-        this.playSound(SoundEvents.ENTITY_PARROT_STEP, 0.15F, 1.0F);
+    protected void func_180429_a(BlockPos blockposition, Block block) {
+        this.func_184185_a(SoundEvents.field_192795_es, 0.15F, 1.0F);
     }
 
-    protected float playFlySound(float f) {
-        this.playSound(SoundEvents.ENTITY_PARROT_FLY, 0.15F, 1.0F);
-        return f + this.flapSpeed / 2.0F;
+    protected float func_191954_d(float f) {
+        this.func_184185_a(SoundEvents.field_192796_et, 0.15F, 1.0F);
+        return f + this.field_192009_bC / 2.0F;
     }
 
-    protected boolean makeFlySound() {
+    protected boolean func_191957_ae() {
         return true;
     }
 
-    protected float getSoundPitch() {
-        return getPitch(this.rand);
+    protected float func_70647_i() {
+        return func_192000_b(this.field_70146_Z);
     }
 
-    private static float getPitch(Random random) {
+    private static float func_192000_b(Random random) {
         return (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F;
     }
 
-    public SoundCategory getSoundCategory() {
+    public SoundCategory func_184176_by() {
         return SoundCategory.NEUTRAL;
     }
 
-    public boolean canBePushed() {
+    public boolean func_70104_M() {
         return true;
     }
 
-    protected void collideWithEntity(Entity entity) {
+    protected void func_82167_n(Entity entity) {
         if (!(entity instanceof EntityPlayer)) {
-            super.collideWithEntity(entity);
+            super.func_82167_n(entity);
         }
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        if (this.isEntityInvulnerable(damagesource)) {
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        if (this.func_180431_b(damagesource)) {
             return false;
         } else {
-            if (this.aiSit != null) {
+            if (this.field_70911_d != null) {
                 // CraftBukkit - moved into EntityLiving.d(DamageSource, float)
                 // this.goalSit.setSitting(false);
             }
 
-            return super.attackEntityFrom(damagesource, f);
+            return super.func_70097_a(damagesource, f);
         }
     }
 
-    public int getVariant() {
-        return MathHelper.clamp(((Integer) this.dataManager.get(EntityParrot.VARIANT)).intValue(), 0, 4);
+    public int func_191998_ds() {
+        return MathHelper.func_76125_a(((Integer) this.field_70180_af.func_187225_a(EntityParrot.field_192013_bG)).intValue(), 0, 4);
     }
 
-    public void setVariant(int i) {
-        this.dataManager.set(EntityParrot.VARIANT, Integer.valueOf(i));
+    public void func_191997_m(int i) {
+        this.field_70180_af.func_187227_b(EntityParrot.field_192013_bG, Integer.valueOf(i));
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(EntityParrot.VARIANT, Integer.valueOf(0));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(EntityParrot.field_192013_bG, Integer.valueOf(0));
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setInteger("Variant", this.getVariant());
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74768_a("Variant", this.func_191998_ds());
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.setVariant(nbttagcompound.getInteger("Variant"));
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.func_191997_m(nbttagcompound.func_74762_e("Variant"));
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_PARROT;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_192561_ax;
     }
 
-    public boolean isFlying() {
-        return !this.onGround;
+    public boolean func_192002_a() {
+        return !this.field_70122_E;
     }
 
     static {
         // CraftBukkit start
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityBlaze.class), SoundEvents.E_PARROT_IM_BLAZE);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityCaveSpider.class), SoundEvents.E_PARROT_IM_SPIDER);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityCreeper.class), SoundEvents.E_PARROT_IM_CREEPER);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityElderGuardian.class), SoundEvents.E_PARROT_IM_ELDER_GUARDIAN);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityDragon.class), SoundEvents.E_PARROT_IM_ENDERDRAGON);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityEnderman.class), SoundEvents.E_PARROT_IM_ENDERMAN);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityEndermite.class), SoundEvents.E_PARROT_IM_ENDERMITE);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityEvoker.class), SoundEvents.E_PARROT_IM_EVOCATION_ILLAGER);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityGhast.class), SoundEvents.E_PARROT_IM_GHAST);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityHusk.class), SoundEvents.E_PARROT_IM_HUSK);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityIllusionIllager.class), SoundEvents.E_PARROT_IM_ILLUSION_ILLAGER);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityMagmaCube.class), SoundEvents.E_PARROT_IM_MAGMACUBE);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityPigZombie.class), SoundEvents.E_PARROT_IM_ZOMBIE_PIGMAN);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityPolarBear.class), SoundEvents.E_PARROT_IM_POLAR_BEAR);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityShulker.class), SoundEvents.E_PARROT_IM_SHULKER);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntitySilverfish.class), SoundEvents.E_PARROT_IM_SILVERFISH);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntitySkeleton.class), SoundEvents.E_PARROT_IM_SKELETON);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntitySlime.class), SoundEvents.E_PARROT_IM_SLIME);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntitySpider.class), SoundEvents.E_PARROT_IM_SPIDER);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityStray.class), SoundEvents.E_PARROT_IM_STRAY);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityVex.class), SoundEvents.E_PARROT_IM_VEX);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityVindicator.class), SoundEvents.E_PARROT_IM_VINDICATION_ILLAGER);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityWitch.class), SoundEvents.E_PARROT_IM_WITCH);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityWither.class), SoundEvents.E_PARROT_IM_WITHER);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityWitherSkeleton.class), SoundEvents.E_PARROT_IM_WITHER_SKELETON);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityWolf.class), SoundEvents.E_PARROT_IM_WOLF);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityZombie.class), SoundEvents.E_PARROT_IM_ZOMBIE);
-        EntityParrot.IMITATION_SOUND_EVENTS.put(EntityList.REGISTRY.getIDForObject(EntityZombieVillager.class), SoundEvents.E_PARROT_IM_ZOMBIE_VILLAGER);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityBlaze.class), SoundEvents.field_193791_eM);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityCaveSpider.class), SoundEvents.field_193813_fc);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityCreeper.class), SoundEvents.field_193792_eN);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityElderGuardian.class), SoundEvents.field_193793_eO);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityDragon.class), SoundEvents.field_193794_eP);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityEnderman.class), SoundEvents.field_193795_eQ);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityEndermite.class), SoundEvents.field_193796_eR);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityEvoker.class), SoundEvents.field_193797_eS);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityGhast.class), SoundEvents.field_193798_eT);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityHusk.class), SoundEvents.field_193799_eU);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityIllusionIllager.class), SoundEvents.field_193800_eV);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityMagmaCube.class), SoundEvents.field_193801_eW);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityPigZombie.class), SoundEvents.field_193822_fl);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityPolarBear.class), SoundEvents.field_193802_eX);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityShulker.class), SoundEvents.field_193803_eY);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntitySilverfish.class), SoundEvents.field_193804_eZ);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntitySkeleton.class), SoundEvents.field_193811_fa);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntitySlime.class), SoundEvents.field_193812_fb);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntitySpider.class), SoundEvents.field_193813_fc);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityStray.class), SoundEvents.field_193814_fd);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityVex.class), SoundEvents.field_193815_fe);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityVindicator.class), SoundEvents.field_193816_ff);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityWitch.class), SoundEvents.field_193817_fg);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityWither.class), SoundEvents.field_193818_fh);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityWitherSkeleton.class), SoundEvents.field_193819_fi);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityWolf.class), SoundEvents.field_193820_fj);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityZombie.class), SoundEvents.field_193821_fk);
+        EntityParrot.field_192017_bK.put(EntityList.field_191308_b.func_148757_b(EntityZombieVillager.class), SoundEvents.field_193823_fm);
         // CraftBukkit end
     }
 }

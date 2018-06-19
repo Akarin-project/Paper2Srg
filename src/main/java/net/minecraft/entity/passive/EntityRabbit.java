@@ -54,338 +54,338 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityRabbit extends EntityAnimal {
 
-    private static final DataParameter<Integer> RABBIT_TYPE = EntityDataManager.createKey(EntityRabbit.class, DataSerializers.VARINT);
-    private int jumpTicks;
-    private int jumpDuration;
-    private boolean wasOnGround;
-    private int currentMoveTypeDuration;
-    private int carrotTicks;
+    private static final DataParameter<Integer> field_184773_bv = EntityDataManager.func_187226_a(EntityRabbit.class, DataSerializers.field_187192_b);
+    private int field_175540_bm;
+    private int field_175535_bn;
+    private boolean field_175537_bp;
+    private int field_175538_bq;
+    private int field_175541_bs;
 
     public EntityRabbit(World world) {
         super(world);
-        this.setSize(0.4F, 0.5F);
-        this.jumpHelper = new EntityRabbit.RabbitJumpHelper(this);
-        this.moveHelper = new EntityRabbit.RabbitMoveHelper(this);
+        this.func_70105_a(0.4F, 0.5F);
+        this.field_70767_i = new EntityRabbit.RabbitJumpHelper(this);
+        this.field_70765_h = new EntityRabbit.RabbitMoveHelper(this);
         this.initializePathFinderGoals(); // CraftBukkit - moved code
     }
 
     // CraftBukkit start - code from constructor
     public void initializePathFinderGoals(){
-        this.setMovementSpeed(0.0D);
+        this.func_175515_b(0.0D);
     }
     // CraftBukkit end
 
-    protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityRabbit.AIPanic(this, 2.2D));
-        this.tasks.addTask(2, new EntityAIMate(this, 0.8D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, Items.CARROT, false));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, Items.GOLDEN_CARROT, false));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, Item.getItemFromBlock(Blocks.YELLOW_FLOWER), false));
-        this.tasks.addTask(4, new EntityRabbit.AIAvoidEntity(this, EntityPlayer.class, 8.0F, 2.2D, 2.2D));
-        this.tasks.addTask(4, new EntityRabbit.AIAvoidEntity(this, EntityWolf.class, 10.0F, 2.2D, 2.2D));
-        this.tasks.addTask(4, new EntityRabbit.AIAvoidEntity(this, EntityMob.class, 4.0F, 2.2D, 2.2D));
-        this.tasks.addTask(5, new EntityRabbit.AIRaidFarm(this));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.6D));
-        this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(1, new EntityAISwimming(this));
+        this.field_70714_bg.func_75776_a(1, new EntityRabbit.AIPanic(this, 2.2D));
+        this.field_70714_bg.func_75776_a(2, new EntityAIMate(this, 0.8D));
+        this.field_70714_bg.func_75776_a(3, new EntityAITempt(this, 1.0D, Items.field_151172_bF, false));
+        this.field_70714_bg.func_75776_a(3, new EntityAITempt(this, 1.0D, Items.field_151150_bK, false));
+        this.field_70714_bg.func_75776_a(3, new EntityAITempt(this, 1.0D, Item.func_150898_a(Blocks.field_150327_N), false));
+        this.field_70714_bg.func_75776_a(4, new EntityRabbit.AIAvoidEntity(this, EntityPlayer.class, 8.0F, 2.2D, 2.2D));
+        this.field_70714_bg.func_75776_a(4, new EntityRabbit.AIAvoidEntity(this, EntityWolf.class, 10.0F, 2.2D, 2.2D));
+        this.field_70714_bg.func_75776_a(4, new EntityRabbit.AIAvoidEntity(this, EntityMob.class, 4.0F, 2.2D, 2.2D));
+        this.field_70714_bg.func_75776_a(5, new EntityRabbit.AIRaidFarm(this));
+        this.field_70714_bg.func_75776_a(6, new EntityAIWanderAvoidWater(this, 0.6D));
+        this.field_70714_bg.func_75776_a(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
     }
 
-    protected float getJumpUpwardsMotion() {
-        if (!this.collidedHorizontally && (!this.moveHelper.isUpdating() || this.moveHelper.getY() <= this.posY + 0.5D)) {
-            Path pathentity = this.navigator.getPath();
+    protected float func_175134_bD() {
+        if (!this.field_70123_F && (!this.field_70765_h.func_75640_a() || this.field_70765_h.func_179919_e() <= this.field_70163_u + 0.5D)) {
+            Path pathentity = this.field_70699_by.func_75505_d();
 
-            if (pathentity != null && pathentity.getCurrentPathIndex() < pathentity.getCurrentPathLength()) {
-                Vec3d vec3d = pathentity.getPosition((Entity) this);
+            if (pathentity != null && pathentity.func_75873_e() < pathentity.func_75874_d()) {
+                Vec3d vec3d = pathentity.func_75878_a((Entity) this);
 
-                if (vec3d.y > this.posY + 0.5D) {
+                if (vec3d.field_72448_b > this.field_70163_u + 0.5D) {
                     return 0.5F;
                 }
             }
 
-            return this.moveHelper.getSpeed() <= 0.6D ? 0.2F : 0.3F;
+            return this.field_70765_h.func_75638_b() <= 0.6D ? 0.2F : 0.3F;
         } else {
             return 0.5F;
         }
     }
 
-    protected void jump() {
-        super.jump();
-        double d0 = this.moveHelper.getSpeed();
+    protected void func_70664_aZ() {
+        super.func_70664_aZ();
+        double d0 = this.field_70765_h.func_75638_b();
 
         if (d0 > 0.0D) {
-            double d1 = this.motionX * this.motionX + this.motionZ * this.motionZ;
+            double d1 = this.field_70159_w * this.field_70159_w + this.field_70179_y * this.field_70179_y;
 
             if (d1 < 0.010000000000000002D) {
-                this.moveRelative(0.0F, 0.0F, 1.0F, 0.1F);
+                this.func_191958_b(0.0F, 0.0F, 1.0F, 0.1F);
             }
         }
 
-        if (!this.world.isRemote) {
-            this.world.setEntityState(this, (byte) 1);
+        if (!this.field_70170_p.field_72995_K) {
+            this.field_70170_p.func_72960_a(this, (byte) 1);
         }
 
     }
 
-    public void setMovementSpeed(double d0) {
-        this.getNavigator().setSpeed(d0);
-        this.moveHelper.setMoveTo(this.moveHelper.getX(), this.moveHelper.getY(), this.moveHelper.getZ(), d0);
+    public void func_175515_b(double d0) {
+        this.func_70661_as().func_75489_a(d0);
+        this.field_70765_h.func_75642_a(this.field_70765_h.func_179917_d(), this.field_70765_h.func_179919_e(), this.field_70765_h.func_179918_f(), d0);
     }
 
-    public void setJumping(boolean flag) {
-        super.setJumping(flag);
+    public void func_70637_d(boolean flag) {
+        super.func_70637_d(flag);
         if (flag) {
-            this.playSound(this.getJumpSound(), this.getSoundVolume(), ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F) * 0.8F);
+            this.func_184185_a(this.func_184771_da(), this.func_70599_aP(), ((this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F + 1.0F) * 0.8F);
         }
 
     }
 
-    public void startJumping() {
-        this.setJumping(true);
-        this.jumpDuration = 10;
-        this.jumpTicks = 0;
+    public void func_184770_cZ() {
+        this.func_70637_d(true);
+        this.field_175535_bn = 10;
+        this.field_175540_bm = 0;
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(EntityRabbit.RABBIT_TYPE, Integer.valueOf(0));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(EntityRabbit.field_184773_bv, Integer.valueOf(0));
     }
 
-    public void updateAITasks() {
-        if (this.currentMoveTypeDuration > 0) {
-            --this.currentMoveTypeDuration;
+    public void func_70619_bc() {
+        if (this.field_175538_bq > 0) {
+            --this.field_175538_bq;
         }
 
-        if (this.carrotTicks > 0) {
-            this.carrotTicks -= this.rand.nextInt(3);
-            if (this.carrotTicks < 0) {
-                this.carrotTicks = 0;
+        if (this.field_175541_bs > 0) {
+            this.field_175541_bs -= this.field_70146_Z.nextInt(3);
+            if (this.field_175541_bs < 0) {
+                this.field_175541_bs = 0;
             }
         }
 
-        if (this.onGround) {
-            if (!this.wasOnGround) {
-                this.setJumping(false);
-                this.checkLandingDelay();
+        if (this.field_70122_E) {
+            if (!this.field_175537_bp) {
+                this.func_70637_d(false);
+                this.func_175517_cu();
             }
 
-            if (this.getRabbitType() == 99 && this.currentMoveTypeDuration == 0) {
-                EntityLivingBase entityliving = this.getAttackTarget();
+            if (this.func_175531_cl() == 99 && this.field_175538_bq == 0) {
+                EntityLivingBase entityliving = this.func_70638_az();
 
-                if (entityliving != null && this.getDistanceSq(entityliving) < 16.0D) {
-                    this.calculateRotationYaw(entityliving.posX, entityliving.posZ);
-                    this.moveHelper.setMoveTo(entityliving.posX, entityliving.posY, entityliving.posZ, this.moveHelper.getSpeed());
-                    this.startJumping();
-                    this.wasOnGround = true;
+                if (entityliving != null && this.func_70068_e(entityliving) < 16.0D) {
+                    this.func_175533_a(entityliving.field_70165_t, entityliving.field_70161_v);
+                    this.field_70765_h.func_75642_a(entityliving.field_70165_t, entityliving.field_70163_u, entityliving.field_70161_v, this.field_70765_h.func_75638_b());
+                    this.func_184770_cZ();
+                    this.field_175537_bp = true;
                 }
             }
 
-            EntityRabbit.RabbitJumpHelper entityrabbit_controllerjumprabbit = (EntityRabbit.RabbitJumpHelper) this.jumpHelper;
+            EntityRabbit.RabbitJumpHelper entityrabbit_controllerjumprabbit = (EntityRabbit.RabbitJumpHelper) this.field_70767_i;
 
-            if (!entityrabbit_controllerjumprabbit.getIsJumping()) {
-                if (this.moveHelper.isUpdating() && this.currentMoveTypeDuration == 0) {
-                    Path pathentity = this.navigator.getPath();
-                    Vec3d vec3d = new Vec3d(this.moveHelper.getX(), this.moveHelper.getY(), this.moveHelper.getZ());
+            if (!entityrabbit_controllerjumprabbit.func_180067_c()) {
+                if (this.field_70765_h.func_75640_a() && this.field_175538_bq == 0) {
+                    Path pathentity = this.field_70699_by.func_75505_d();
+                    Vec3d vec3d = new Vec3d(this.field_70765_h.func_179917_d(), this.field_70765_h.func_179919_e(), this.field_70765_h.func_179918_f());
 
-                    if (pathentity != null && pathentity.getCurrentPathIndex() < pathentity.getCurrentPathLength()) {
-                        vec3d = pathentity.getPosition((Entity) this);
+                    if (pathentity != null && pathentity.func_75873_e() < pathentity.func_75874_d()) {
+                        vec3d = pathentity.func_75878_a((Entity) this);
                     }
 
-                    this.calculateRotationYaw(vec3d.x, vec3d.z);
-                    this.startJumping();
+                    this.func_175533_a(vec3d.field_72450_a, vec3d.field_72449_c);
+                    this.func_184770_cZ();
                 }
-            } else if (!entityrabbit_controllerjumprabbit.canJump()) {
-                this.enableJumpControl();
+            } else if (!entityrabbit_controllerjumprabbit.func_180065_d()) {
+                this.func_175518_cr();
             }
         }
 
-        this.wasOnGround = this.onGround;
+        this.field_175537_bp = this.field_70122_E;
     }
 
-    public void spawnRunningParticles() {}
+    public void func_174830_Y() {}
 
-    private void calculateRotationYaw(double d0, double d1) {
-        this.rotationYaw = (float) (MathHelper.atan2(d1 - this.posZ, d0 - this.posX) * 57.2957763671875D) - 90.0F;
+    private void func_175533_a(double d0, double d1) {
+        this.field_70177_z = (float) (MathHelper.func_181159_b(d1 - this.field_70161_v, d0 - this.field_70165_t) * 57.2957763671875D) - 90.0F;
     }
 
-    private void enableJumpControl() {
-        ((EntityRabbit.RabbitJumpHelper) this.jumpHelper).setCanJump(true);
+    private void func_175518_cr() {
+        ((EntityRabbit.RabbitJumpHelper) this.field_70767_i).func_180066_a(true);
     }
 
-    private void disableJumpControl() {
-        ((EntityRabbit.RabbitJumpHelper) this.jumpHelper).setCanJump(false);
+    private void func_175520_cs() {
+        ((EntityRabbit.RabbitJumpHelper) this.field_70767_i).func_180066_a(false);
     }
 
-    private void updateMoveTypeDuration() {
-        if (this.moveHelper.getSpeed() < 2.2D) {
-            this.currentMoveTypeDuration = 10;
+    private void func_175530_ct() {
+        if (this.field_70765_h.func_75638_b() < 2.2D) {
+            this.field_175538_bq = 10;
         } else {
-            this.currentMoveTypeDuration = 1;
+            this.field_175538_bq = 1;
         }
 
     }
 
-    private void checkLandingDelay() {
-        this.updateMoveTypeDuration();
-        this.disableJumpControl();
+    private void func_175517_cu() {
+        this.func_175530_ct();
+        this.func_175520_cs();
     }
 
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        if (this.jumpTicks != this.jumpDuration) {
-            ++this.jumpTicks;
-        } else if (this.jumpDuration != 0) {
-            this.jumpTicks = 0;
-            this.jumpDuration = 0;
-            this.setJumping(false);
+    public void func_70636_d() {
+        super.func_70636_d();
+        if (this.field_175540_bm != this.field_175535_bn) {
+            ++this.field_175540_bm;
+        } else if (this.field_175535_bn != 0) {
+            this.field_175540_bm = 0;
+            this.field_175535_bn = 0;
+            this.func_70637_d(false);
         }
 
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(3.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.30000001192092896D);
     }
 
-    public static void registerFixesRabbit(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityRabbit.class);
+    public static void func_189801_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityRabbit.class);
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setInteger("RabbitType", this.getRabbitType());
-        nbttagcompound.setInteger("MoreCarrotTicks", this.carrotTicks);
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74768_a("RabbitType", this.func_175531_cl());
+        nbttagcompound.func_74768_a("MoreCarrotTicks", this.field_175541_bs);
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.setRabbitType(nbttagcompound.getInteger("RabbitType"));
-        this.carrotTicks = nbttagcompound.getInteger("MoreCarrotTicks");
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.func_175529_r(nbttagcompound.func_74762_e("RabbitType"));
+        this.field_175541_bs = nbttagcompound.func_74762_e("MoreCarrotTicks");
     }
 
-    protected SoundEvent getJumpSound() {
-        return SoundEvents.ENTITY_RABBIT_JUMP;
+    protected SoundEvent func_184771_da() {
+        return SoundEvents.field_187824_en;
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_RABBIT_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_187816_ej;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_RABBIT_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187822_em;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_RABBIT_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187820_el;
     }
 
-    public boolean attackEntityAsMob(Entity entity) {
-        if (this.getRabbitType() == 99) {
-            this.playSound(SoundEvents.ENTITY_RABBIT_ATTACK, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            return entity.attackEntityFrom(DamageSource.causeMobDamage(this), 8.0F);
+    public boolean func_70652_k(Entity entity) {
+        if (this.func_175531_cl() == 99) {
+            this.func_184185_a(SoundEvents.field_187818_ek, 1.0F, (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F + 1.0F);
+            return entity.func_70097_a(DamageSource.func_76358_a(this), 8.0F);
         } else {
-            return entity.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
+            return entity.func_70097_a(DamageSource.func_76358_a(this), 3.0F);
         }
     }
 
-    public SoundCategory getSoundCategory() {
-        return this.getRabbitType() == 99 ? SoundCategory.HOSTILE : SoundCategory.NEUTRAL;
+    public SoundCategory func_184176_by() {
+        return this.func_175531_cl() == 99 ? SoundCategory.HOSTILE : SoundCategory.NEUTRAL;
     }
 
-    public boolean attackEntityFrom(DamageSource damagesource, float f) {
-        return this.isEntityInvulnerable(damagesource) ? false : super.attackEntityFrom(damagesource, f);
+    public boolean func_70097_a(DamageSource damagesource, float f) {
+        return this.func_180431_b(damagesource) ? false : super.func_70097_a(damagesource, f);
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_RABBIT;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186393_A;
     }
 
-    private boolean isRabbitBreedingItem(Item item) {
-        return item == Items.CARROT || item == Items.GOLDEN_CARROT || item == Item.getItemFromBlock(Blocks.YELLOW_FLOWER);
+    private boolean func_175525_a(Item item) {
+        return item == Items.field_151172_bF || item == Items.field_151150_bK || item == Item.func_150898_a(Blocks.field_150327_N);
     }
 
-    public EntityRabbit createChild(EntityAgeable entityageable) {
-        EntityRabbit entityrabbit = new EntityRabbit(this.world);
-        int i = this.getRandomRabbitType();
+    public EntityRabbit func_90011_a(EntityAgeable entityageable) {
+        EntityRabbit entityrabbit = new EntityRabbit(this.field_70170_p);
+        int i = this.func_184772_dk();
 
-        if (this.rand.nextInt(20) != 0) {
-            if (entityageable instanceof EntityRabbit && this.rand.nextBoolean()) {
-                i = ((EntityRabbit) entityageable).getRabbitType();
+        if (this.field_70146_Z.nextInt(20) != 0) {
+            if (entityageable instanceof EntityRabbit && this.field_70146_Z.nextBoolean()) {
+                i = ((EntityRabbit) entityageable).func_175531_cl();
             } else {
-                i = this.getRabbitType();
+                i = this.func_175531_cl();
             }
         }
 
-        entityrabbit.setRabbitType(i);
+        entityrabbit.func_175529_r(i);
         return entityrabbit;
     }
 
-    public boolean isBreedingItem(ItemStack itemstack) {
-        return this.isRabbitBreedingItem(itemstack.getItem());
+    public boolean func_70877_b(ItemStack itemstack) {
+        return this.func_175525_a(itemstack.func_77973_b());
     }
 
-    public int getRabbitType() {
-        return ((Integer) this.dataManager.get(EntityRabbit.RABBIT_TYPE)).intValue();
+    public int func_175531_cl() {
+        return ((Integer) this.field_70180_af.func_187225_a(EntityRabbit.field_184773_bv)).intValue();
     }
 
-    public void setRabbitType(int i) {
+    public void func_175529_r(int i) {
         if (i == 99) {
-            this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(8.0D);
-            this.tasks.addTask(4, new EntityRabbit.AIEvilAttack(this));
-            this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityWolf.class, true));
-            if (!this.hasCustomName()) {
-                this.setCustomNameTag(I18n.translateToLocal("entity.KillerBunny.name"));
+            this.func_110148_a(SharedMonsterAttributes.field_188791_g).func_111128_a(8.0D);
+            this.field_70714_bg.func_75776_a(4, new EntityRabbit.AIEvilAttack(this));
+            this.field_70715_bh.func_75776_a(1, new EntityAIHurtByTarget(this, false, new Class[0]));
+            this.field_70715_bh.func_75776_a(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+            this.field_70715_bh.func_75776_a(2, new EntityAINearestAttackableTarget(this, EntityWolf.class, true));
+            if (!this.func_145818_k_()) {
+                this.func_96094_a(I18n.func_74838_a("entity.KillerBunny.name"));
             }
         }
 
-        this.dataManager.set(EntityRabbit.RABBIT_TYPE, Integer.valueOf(i));
+        this.field_70180_af.func_187227_b(EntityRabbit.field_184773_bv, Integer.valueOf(i));
     }
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
-        Object object = super.onInitialSpawn(difficultydamagescaler, groupdataentity);
-        int i = this.getRandomRabbitType();
+    public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
+        Object object = super.func_180482_a(difficultydamagescaler, groupdataentity);
+        int i = this.func_184772_dk();
         boolean flag = false;
 
         if (object instanceof EntityRabbit.RabbitTypeData) {
-            i = ((EntityRabbit.RabbitTypeData) object).typeData;
+            i = ((EntityRabbit.RabbitTypeData) object).field_179427_a;
             flag = true;
         } else {
             object = new EntityRabbit.RabbitTypeData(i);
         }
 
-        this.setRabbitType(i);
+        this.func_175529_r(i);
         if (flag) {
-            this.setGrowingAge(-24000);
+            this.func_70873_a(-24000);
         }
 
         return (IEntityLivingData) object;
     }
 
-    private int getRandomRabbitType() {
-        Biome biomebase = this.world.getBiome(new BlockPos(this));
-        int i = this.rand.nextInt(100);
+    private int func_184772_dk() {
+        Biome biomebase = this.field_70170_p.func_180494_b(new BlockPos(this));
+        int i = this.field_70146_Z.nextInt(100);
 
-        return biomebase.isSnowyBiome() ? (i < 80 ? 1 : 3) : (biomebase instanceof BiomeDesert ? 4 : (i < 50 ? 0 : (i < 90 ? 5 : 2)));
+        return biomebase.func_150559_j() ? (i < 80 ? 1 : 3) : (biomebase instanceof BiomeDesert ? 4 : (i < 50 ? 0 : (i < 90 ? 5 : 2)));
     }
 
-    private boolean isCarrotEaten() {
-        return this.carrotTicks == 0;
+    private boolean func_175534_cv() {
+        return this.field_175541_bs == 0;
     }
 
-    protected void createEatingParticles() {
-        BlockCarrot blockcarrots = (BlockCarrot) Blocks.CARROTS;
-        IBlockState iblockdata = blockcarrots.withAge(blockcarrots.getMaxAge());
+    protected void func_175528_cn() {
+        BlockCarrot blockcarrots = (BlockCarrot) Blocks.field_150459_bM;
+        IBlockState iblockdata = blockcarrots.func_185528_e(blockcarrots.func_185526_g());
 
-        this.world.spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, 0.0D, 0.0D, 0.0D, new int[] { Block.getStateId(iblockdata)});
-        this.carrotTicks = 40;
+        this.field_70170_p.func_175688_a(EnumParticleTypes.BLOCK_DUST, this.field_70165_t + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, this.field_70163_u + 0.5D + (double) (this.field_70146_Z.nextFloat() * this.field_70131_O), this.field_70161_v + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, 0.0D, 0.0D, 0.0D, new int[] { Block.func_176210_f(iblockdata)});
+        this.field_175541_bs = 40;
     }
 
-    public EntityAgeable createChild(EntityAgeable entityageable) {
-        return this.createChild(entityageable);
+    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
+        return this.func_90011_a(entityageable);
     }
 
     static class AIEvilAttack extends EntityAIAttackMelee {
@@ -394,108 +394,108 @@ public class EntityRabbit extends EntityAnimal {
             super(entityrabbit, 1.4D, true);
         }
 
-        protected double getAttackReachSqr(EntityLivingBase entityliving) {
-            return (double) (4.0F + entityliving.width);
+        protected double func_179512_a(EntityLivingBase entityliving) {
+            return (double) (4.0F + entityliving.field_70130_N);
         }
     }
 
     static class AIPanic extends EntityAIPanic {
 
-        private final EntityRabbit rabbit;
+        private final EntityRabbit field_179486_b;
 
         public AIPanic(EntityRabbit entityrabbit, double d0) {
             super(entityrabbit, d0);
-            this.rabbit = entityrabbit;
+            this.field_179486_b = entityrabbit;
         }
 
-        public void updateTask() {
-            super.updateTask();
-            this.rabbit.setMovementSpeed(this.speed);
+        public void func_75246_d() {
+            super.func_75246_d();
+            this.field_179486_b.func_175515_b(this.field_75265_b);
         }
     }
 
     static class AIRaidFarm extends EntityAIMoveToBlock {
 
-        private final EntityRabbit rabbit;
-        private boolean wantsToRaid;
-        private boolean canRaid;
+        private final EntityRabbit field_179500_c;
+        private boolean field_179498_d;
+        private boolean field_179499_e;
 
         public AIRaidFarm(EntityRabbit entityrabbit) {
             super(entityrabbit, 0.699999988079071D, 16);
-            this.rabbit = entityrabbit;
+            this.field_179500_c = entityrabbit;
         }
 
-        public boolean shouldExecute() {
-            if (this.runDelay <= 0) {
-                if (!this.rabbit.world.getGameRules().getBoolean("mobGriefing")) {
+        public boolean func_75250_a() {
+            if (this.field_179496_a <= 0) {
+                if (!this.field_179500_c.field_70170_p.func_82736_K().func_82766_b("mobGriefing")) {
                     return false;
                 }
 
-                this.canRaid = false;
-                this.wantsToRaid = this.rabbit.isCarrotEaten();
-                this.wantsToRaid = true;
+                this.field_179499_e = false;
+                this.field_179498_d = this.field_179500_c.func_175534_cv();
+                this.field_179498_d = true;
             }
 
-            return super.shouldExecute();
+            return super.func_75250_a();
         }
 
-        public boolean shouldContinueExecuting() {
-            return this.canRaid && super.shouldContinueExecuting();
+        public boolean func_75253_b() {
+            return this.field_179499_e && super.func_75253_b();
         }
 
-        public void updateTask() {
-            super.updateTask();
-            this.rabbit.getLookHelper().setLookPosition((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY() + 1), (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.rabbit.getVerticalFaceSpeed());
-            if (this.getIsAboveDestination()) {
-                World world = this.rabbit.world;
-                BlockPos blockposition = this.destinationBlock.up();
-                IBlockState iblockdata = world.getBlockState(blockposition);
-                Block block = iblockdata.getBlock();
+        public void func_75246_d() {
+            super.func_75246_d();
+            this.field_179500_c.func_70671_ap().func_75650_a((double) this.field_179494_b.func_177958_n() + 0.5D, (double) (this.field_179494_b.func_177956_o() + 1), (double) this.field_179494_b.func_177952_p() + 0.5D, 10.0F, (float) this.field_179500_c.func_70646_bf());
+            if (this.func_179487_f()) {
+                World world = this.field_179500_c.field_70170_p;
+                BlockPos blockposition = this.field_179494_b.func_177984_a();
+                IBlockState iblockdata = world.func_180495_p(blockposition);
+                Block block = iblockdata.func_177230_c();
 
-                if (this.canRaid && block instanceof BlockCarrot) {
-                    Integer integer = (Integer) iblockdata.getValue(BlockCarrot.AGE);
+                if (this.field_179499_e && block instanceof BlockCarrot) {
+                    Integer integer = (Integer) iblockdata.func_177229_b(BlockCarrot.field_176488_a);
 
                     if (integer.intValue() == 0) {
                         // CraftBukkit start
-                        if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(this.rabbit, blockposition, Blocks.AIR, 0).isCancelled()) {
+                        if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(this.field_179500_c, blockposition, Blocks.field_150350_a, 0).isCancelled()) {
                             return;
                         }
                         // CraftBukkit end
-                        world.setBlockState(blockposition, Blocks.AIR.getDefaultState(), 2);
-                        world.destroyBlock(blockposition, true);
+                        world.func_180501_a(blockposition, Blocks.field_150350_a.func_176223_P(), 2);
+                        world.func_175655_b(blockposition, true);
                     } else {
                         // CraftBukkit start
                         if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(
-                                this.rabbit,
+                                this.field_179500_c,
                                 blockposition,
-                                block, block.getMetaFromState(iblockdata.withProperty(BlockCarrot.AGE, Integer.valueOf(integer.intValue() - 1)))
+                                block, block.func_176201_c(iblockdata.func_177226_a(BlockCarrot.field_176488_a, Integer.valueOf(integer.intValue() - 1)))
                         ).isCancelled()) {
                             return;
                         }
                         // CraftBukkit end
-                        world.setBlockState(blockposition, iblockdata.withProperty(BlockCarrot.AGE, Integer.valueOf(integer.intValue() - 1)), 2);
-                        world.playEvent(2001, blockposition, Block.getStateId(iblockdata));
+                        world.func_180501_a(blockposition, iblockdata.func_177226_a(BlockCarrot.field_176488_a, Integer.valueOf(integer.intValue() - 1)), 2);
+                        world.func_175718_b(2001, blockposition, Block.func_176210_f(iblockdata));
                     }
 
-                    this.rabbit.createEatingParticles();
+                    this.field_179500_c.func_175528_cn();
                 }
 
-                this.canRaid = false;
-                this.runDelay = 10;
+                this.field_179499_e = false;
+                this.field_179496_a = 10;
             }
 
         }
 
-        protected boolean shouldMoveTo(World world, BlockPos blockposition) {
-            Block block = world.getBlockState(blockposition).getBlock();
+        protected boolean func_179488_a(World world, BlockPos blockposition) {
+            Block block = world.func_180495_p(blockposition).func_177230_c();
 
-            if (block == Blocks.FARMLAND && this.wantsToRaid && !this.canRaid) {
-                blockposition = blockposition.up();
-                IBlockState iblockdata = world.getBlockState(blockposition);
+            if (block == Blocks.field_150458_ak && this.field_179498_d && !this.field_179499_e) {
+                blockposition = blockposition.func_177984_a();
+                IBlockState iblockdata = world.func_180495_p(blockposition);
 
-                block = iblockdata.getBlock();
-                if (block instanceof BlockCarrot && ((BlockCarrot) block).isMaxAge(iblockdata)) {
-                    this.canRaid = true;
+                block = iblockdata.func_177230_c();
+                if (block instanceof BlockCarrot && ((BlockCarrot) block).func_185525_y(iblockdata)) {
+                    this.field_179499_e = true;
                     return true;
                 }
             }
@@ -506,46 +506,46 @@ public class EntityRabbit extends EntityAnimal {
 
     static class AIAvoidEntity<T extends Entity> extends EntityAIAvoidEntity<T> {
 
-        private final EntityRabbit rabbit;
+        private final EntityRabbit field_179511_d;
 
         public AIAvoidEntity(EntityRabbit entityrabbit, Class<T> oclass, float f, double d0, double d1) {
             super(entityrabbit, oclass, f, d0, d1);
-            this.rabbit = entityrabbit;
+            this.field_179511_d = entityrabbit;
         }
 
-        public boolean shouldExecute() {
-            return this.rabbit.getRabbitType() != 99 && super.shouldExecute();
+        public boolean func_75250_a() {
+            return this.field_179511_d.func_175531_cl() != 99 && super.func_75250_a();
         }
     }
 
     static class RabbitMoveHelper extends EntityMoveHelper {
 
-        private final EntityRabbit rabbit;
-        private double nextJumpSpeed;
+        private final EntityRabbit field_179929_g;
+        private double field_188492_j;
 
         public RabbitMoveHelper(EntityRabbit entityrabbit) {
             super(entityrabbit);
-            this.rabbit = entityrabbit;
+            this.field_179929_g = entityrabbit;
         }
 
-        public void onUpdateMoveHelper() {
-            if (this.rabbit.onGround && !this.rabbit.isJumping && !((EntityRabbit.RabbitJumpHelper) this.rabbit.jumpHelper).getIsJumping()) {
-                this.rabbit.setMovementSpeed(0.0D);
-            } else if (this.isUpdating()) {
-                this.rabbit.setMovementSpeed(this.nextJumpSpeed);
+        public void func_75641_c() {
+            if (this.field_179929_g.field_70122_E && !this.field_179929_g.field_70703_bu && !((EntityRabbit.RabbitJumpHelper) this.field_179929_g.field_70767_i).func_180067_c()) {
+                this.field_179929_g.func_175515_b(0.0D);
+            } else if (this.func_75640_a()) {
+                this.field_179929_g.func_175515_b(this.field_188492_j);
             }
 
-            super.onUpdateMoveHelper();
+            super.func_75641_c();
         }
 
-        public void setMoveTo(double d0, double d1, double d2, double d3) {
-            if (this.rabbit.isInWater()) {
+        public void func_75642_a(double d0, double d1, double d2, double d3) {
+            if (this.field_179929_g.func_70090_H()) {
                 d3 = 1.5D;
             }
 
-            super.setMoveTo(d0, d1, d2, d3);
+            super.func_75642_a(d0, d1, d2, d3);
             if (d3 > 0.0D) {
-                this.nextJumpSpeed = d3;
+                this.field_188492_j = d3;
             }
 
         }
@@ -553,30 +553,30 @@ public class EntityRabbit extends EntityAnimal {
 
     public class RabbitJumpHelper extends EntityJumpHelper {
 
-        private final EntityRabbit rabbit;
-        private boolean canJump;
+        private final EntityRabbit field_180070_c;
+        private boolean field_180068_d;
 
         public RabbitJumpHelper(EntityRabbit entityrabbit) {
             super(entityrabbit);
-            this.rabbit = entityrabbit;
+            this.field_180070_c = entityrabbit;
         }
 
-        public boolean getIsJumping() {
-            return this.isJumping;
+        public boolean func_180067_c() {
+            return this.field_75662_b;
         }
 
-        public boolean canJump() {
-            return this.canJump;
+        public boolean func_180065_d() {
+            return this.field_180068_d;
         }
 
-        public void setCanJump(boolean flag) {
-            this.canJump = flag;
+        public void func_180066_a(boolean flag) {
+            this.field_180068_d = flag;
         }
 
-        public void doJump() {
-            if (this.isJumping) {
-                this.rabbit.startJumping();
-                this.isJumping = false;
+        public void func_75661_b() {
+            if (this.field_75662_b) {
+                this.field_180070_c.func_184770_cZ();
+                this.field_75662_b = false;
             }
 
         }
@@ -584,10 +584,10 @@ public class EntityRabbit extends EntityAnimal {
 
     public static class RabbitTypeData implements IEntityLivingData {
 
-        public int typeData;
+        public int field_179427_a;
 
         public RabbitTypeData(int i) {
-            this.typeData = i;
+            this.field_179427_a = i;
         }
     }
 }

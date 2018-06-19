@@ -8,14 +8,17 @@ import javax.crypto.Cipher;
 
 public class NettyEncryptingDecoder extends MessageToMessageDecoder<ByteBuf> {
 
-    private final NettyEncryptionTranslator decryptionCodec;
+    private final NettyEncryptionTranslator field_150509_a;
 
     public NettyEncryptingDecoder(Cipher cipher) {
-        this.decryptionCodec = new NettyEncryptionTranslator(cipher);
+        this.field_150509_a = new NettyEncryptionTranslator(cipher);
     }
 
-    @Override
     protected void decode(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf, List<Object> list) throws Exception {
-        list.add(this.decryptionCodec.decipher(channelhandlercontext, bytebuf));
+        list.add(this.field_150509_a.func_150503_a(channelhandlercontext, bytebuf));
+    }
+
+    protected void decode(ChannelHandlerContext channelhandlercontext, Object object, List list) throws Exception {
+        this.decode(channelhandlercontext, (ByteBuf) object, list);
     }
 }

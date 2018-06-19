@@ -14,26 +14,26 @@ import net.minecraft.world.storage.loot.conditions.LootCondition;
 
 public class LootEntryTable extends LootEntry {
 
-    protected final ResourceLocation table;
+    protected final ResourceLocation field_186371_a;
 
     public LootEntryTable(ResourceLocation minecraftkey, int i, int j, LootCondition[] alootitemcondition) {
         super(i, j, alootitemcondition);
-        this.table = minecraftkey;
+        this.field_186371_a = minecraftkey;
     }
 
-    public void addLoot(Collection<ItemStack> collection, Random random, LootContext loottableinfo) {
-        LootTable loottable = loottableinfo.getLootTableManager().getLootTableFromLocation(this.table);
-        List list = loottable.generateLootForPools(random, loottableinfo);
+    public void func_186363_a(Collection<ItemStack> collection, Random random, LootContext loottableinfo) {
+        LootTable loottable = loottableinfo.func_186497_e().func_186521_a(this.field_186371_a);
+        List list = loottable.func_186462_a(random, loottableinfo);
 
         collection.addAll(list);
     }
 
-    protected void serialize(JsonObject jsonobject, JsonSerializationContext jsonserializationcontext) {
-        jsonobject.addProperty("name", this.table.toString());
+    protected void func_186362_a(JsonObject jsonobject, JsonSerializationContext jsonserializationcontext) {
+        jsonobject.addProperty("name", this.field_186371_a.toString());
     }
 
-    public static LootEntryTable deserialize(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, int i, int j, LootCondition[] alootitemcondition) {
-        ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.getString(jsonobject, "name"));
+    public static LootEntryTable func_186370_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, int i, int j, LootCondition[] alootitemcondition) {
+        ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.func_151200_h(jsonobject, "name"));
 
         return new LootEntryTable(minecraftkey, i, j, alootitemcondition);
     }

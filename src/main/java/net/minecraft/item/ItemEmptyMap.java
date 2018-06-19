@@ -11,22 +11,22 @@ import net.minecraft.world.World;
 public class ItemEmptyMap extends ItemMapBase {
 
     protected ItemEmptyMap() {
-        this.setCreativeTab(CreativeTabs.MISC);
+        this.func_77637_a(CreativeTabs.field_78026_f);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = ItemMap.setupNewMap(world, entityhuman.posX, entityhuman.posZ, (byte) 0, true, false);
-        ItemStack itemstack1 = entityhuman.getHeldItem(enumhand);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = ItemMap.func_190906_a(world, entityhuman.field_70165_t, entityhuman.field_70161_v, (byte) 0, true, false);
+        ItemStack itemstack1 = entityhuman.func_184586_b(enumhand);
 
-        itemstack1.shrink(1);
-        if (itemstack1.isEmpty()) {
+        itemstack1.func_190918_g(1);
+        if (itemstack1.func_190926_b()) {
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         } else {
-            if (!entityhuman.inventory.addItemStackToInventory(itemstack.copy())) {
-                entityhuman.dropItem(itemstack, false);
+            if (!entityhuman.field_71071_by.func_70441_a(itemstack.func_77946_l())) {
+                entityhuman.func_71019_a(itemstack, false);
             }
 
-            entityhuman.addStat(StatList.getObjectUseStats((Item) this));
+            entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
             return new ActionResult(EnumActionResult.SUCCESS, itemstack1);
         }
     }

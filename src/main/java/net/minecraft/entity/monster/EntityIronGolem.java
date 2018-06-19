@@ -41,32 +41,32 @@ import org;
 
 public class EntityIronGolem extends EntityGolem {
 
-    protected static final DataParameter<Byte> PLAYER_CREATED = EntityDataManager.createKey(EntityIronGolem.class, DataSerializers.BYTE);
-    private int homeCheckTimer;
+    protected static final DataParameter<Byte> field_184750_a = EntityDataManager.func_187226_a(EntityIronGolem.class, DataSerializers.field_187191_a);
+    private int field_70858_e;
     @Nullable
-    Village village;
-    private int attackTimer;
-    private int holdRoseTick;
+    Village field_70857_d;
+    private int field_70855_f;
+    private int field_70856_g;
 
     public EntityIronGolem(World world) {
         super(world);
-        this.setSize(1.4F, 2.7F);
+        this.func_70105_a(1.4F, 2.7F);
     }
 
-    protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, true));
-        this.tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
-        this.tasks.addTask(3, new EntityAIMoveThroughVillage(this, 0.6D, true));
-        this.tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(5, new EntityAILookAtVillager(this));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.6D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIDefendVillage(this));
-        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, false, true, new Predicate() {
+    protected void func_184651_r() {
+        this.field_70714_bg.func_75776_a(1, new EntityAIAttackMelee(this, 1.0D, true));
+        this.field_70714_bg.func_75776_a(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
+        this.field_70714_bg.func_75776_a(3, new EntityAIMoveThroughVillage(this, 0.6D, true));
+        this.field_70714_bg.func_75776_a(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        this.field_70714_bg.func_75776_a(5, new EntityAILookAtVillager(this));
+        this.field_70714_bg.func_75776_a(6, new EntityAIWanderAvoidWater(this, 0.6D));
+        this.field_70714_bg.func_75776_a(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.field_70714_bg.func_75776_a(8, new EntityAILookIdle(this));
+        this.field_70715_bh.func_75776_a(1, new EntityAIDefendVillage(this));
+        this.field_70715_bh.func_75776_a(2, new EntityAIHurtByTarget(this, false, new Class[0]));
+        this.field_70715_bh.func_75776_a(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, false, true, new Predicate() {
             public boolean a(@Nullable EntityLiving entityinsentient) {
-                return entityinsentient != null && IMob.VISIBLE_MOB_SELECTOR.apply(entityinsentient) && !(entityinsentient instanceof EntityCreeper);
+                return entityinsentient != null && IMob.field_175450_e.apply(entityinsentient) && !(entityinsentient instanceof EntityCreeper);
             }
 
             public boolean apply(@Nullable Object object) {
@@ -75,157 +75,157 @@ public class EntityIronGolem extends EntityGolem {
         }));
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(EntityIronGolem.PLAYER_CREATED, Byte.valueOf((byte) 0));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.field_70180_af.func_187214_a(EntityIronGolem.field_184750_a, Byte.valueOf((byte) 0));
     }
 
-    protected void updateAITasks() {
-        if (--this.homeCheckTimer <= 0) {
-            this.homeCheckTimer = 70 + this.rand.nextInt(50);
-            this.village = this.world.getVillageCollection().getNearestVillage(new BlockPos(this), 32);
-            if (this.village == null) {
-                this.detachHome();
+    protected void func_70619_bc() {
+        if (--this.field_70858_e <= 0) {
+            this.field_70858_e = 70 + this.field_70146_Z.nextInt(50);
+            this.field_70857_d = this.field_70170_p.func_175714_ae().func_176056_a(new BlockPos(this), 32);
+            if (this.field_70857_d == null) {
+                this.func_110177_bN();
             } else {
-                BlockPos blockposition = this.village.getCenter();
+                BlockPos blockposition = this.field_70857_d.func_180608_a();
 
-                this.setHomePosAndDistance(blockposition, (int) ((float) this.village.getVillageRadius() * 0.6F));
+                this.func_175449_a(blockposition, (int) ((float) this.field_70857_d.func_75568_b() * 0.6F));
             }
         }
 
-        super.updateAITasks();
+        super.func_70619_bc();
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(100.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
+    protected void func_110147_ax() {
+        super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(100.0D);
+        this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
+        this.func_110148_a(SharedMonsterAttributes.field_111266_c).func_111128_a(1.0D);
     }
 
-    protected int decreaseAirSupply(int i) {
+    protected int func_70682_h(int i) {
         return i;
     }
 
-    protected void collideWithEntity(Entity entity) {
-        if (entity instanceof IMob && !(entity instanceof EntityCreeper) && this.getRNG().nextInt(20) == 0) {
+    protected void func_82167_n(Entity entity) {
+        if (entity instanceof IMob && !(entity instanceof EntityCreeper) && this.func_70681_au().nextInt(20) == 0) {
             this.setGoalTarget((EntityLivingBase) entity, org.bukkit.event.entity.EntityTargetLivingEntityEvent.TargetReason.COLLISION, true); // CraftBukkit - set reason
         }
 
-        super.collideWithEntity(entity);
+        super.func_82167_n(entity);
     }
 
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        if (this.attackTimer > 0) {
-            --this.attackTimer;
+    public void func_70636_d() {
+        super.func_70636_d();
+        if (this.field_70855_f > 0) {
+            --this.field_70855_f;
         }
 
-        if (this.holdRoseTick > 0) {
-            --this.holdRoseTick;
+        if (this.field_70856_g > 0) {
+            --this.field_70856_g;
         }
 
-        if (this.motionX * this.motionX + this.motionZ * this.motionZ > 2.500000277905201E-7D && this.rand.nextInt(5) == 0) {
-            int i = MathHelper.floor(this.posX);
-            int j = MathHelper.floor(this.posY - 0.20000000298023224D);
-            int k = MathHelper.floor(this.posZ);
-            IBlockState iblockdata = this.world.getBlockState(new BlockPos(i, j, k));
+        if (this.field_70159_w * this.field_70159_w + this.field_70179_y * this.field_70179_y > 2.500000277905201E-7D && this.field_70146_Z.nextInt(5) == 0) {
+            int i = MathHelper.func_76128_c(this.field_70165_t);
+            int j = MathHelper.func_76128_c(this.field_70163_u - 0.20000000298023224D);
+            int k = MathHelper.func_76128_c(this.field_70161_v);
+            IBlockState iblockdata = this.field_70170_p.func_180495_p(new BlockPos(i, j, k));
 
-            if (iblockdata.getMaterial() != Material.AIR) {
-                this.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, 4.0D * ((double) this.rand.nextFloat() - 0.5D), 0.5D, ((double) this.rand.nextFloat() - 0.5D) * 4.0D, new int[] { Block.getStateId(iblockdata)});
+            if (iblockdata.func_185904_a() != Material.field_151579_a) {
+                this.field_70170_p.func_175688_a(EnumParticleTypes.BLOCK_CRACK, this.field_70165_t + ((double) this.field_70146_Z.nextFloat() - 0.5D) * (double) this.field_70130_N, this.func_174813_aQ().field_72338_b + 0.1D, this.field_70161_v + ((double) this.field_70146_Z.nextFloat() - 0.5D) * (double) this.field_70130_N, 4.0D * ((double) this.field_70146_Z.nextFloat() - 0.5D), 0.5D, ((double) this.field_70146_Z.nextFloat() - 0.5D) * 4.0D, new int[] { Block.func_176210_f(iblockdata)});
             }
         }
 
     }
 
-    public boolean canAttackClass(Class<? extends EntityLivingBase> oclass) {
-        return this.isPlayerCreated() && EntityPlayer.class.isAssignableFrom(oclass) ? false : (oclass == EntityCreeper.class ? false : super.canAttackClass(oclass));
+    public boolean func_70686_a(Class<? extends EntityLivingBase> oclass) {
+        return this.func_70850_q() && EntityPlayer.class.isAssignableFrom(oclass) ? false : (oclass == EntityCreeper.class ? false : super.func_70686_a(oclass));
     }
 
-    public static void registerFixesIronGolem(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityIronGolem.class);
+    public static void func_189784_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityIronGolem.class);
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        nbttagcompound.setBoolean("PlayerCreated", this.isPlayerCreated());
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        nbttagcompound.func_74757_a("PlayerCreated", this.func_70850_q());
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.setPlayerCreated(nbttagcompound.getBoolean("PlayerCreated"));
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.func_70849_f(nbttagcompound.func_74767_n("PlayerCreated"));
     }
 
-    public boolean attackEntityAsMob(Entity entity) {
-        this.attackTimer = 10;
-        this.world.setEntityState(this, (byte) 4);
-        boolean flag = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (7 + this.rand.nextInt(15)));
+    public boolean func_70652_k(Entity entity) {
+        this.field_70855_f = 10;
+        this.field_70170_p.func_72960_a(this, (byte) 4);
+        boolean flag = entity.func_70097_a(DamageSource.func_76358_a(this), (float) (7 + this.field_70146_Z.nextInt(15)));
 
         if (flag) {
-            entity.motionY += 0.4000000059604645D;
-            this.applyEnchantments((EntityLivingBase) this, entity);
+            entity.field_70181_x += 0.4000000059604645D;
+            this.func_174815_a((EntityLivingBase) this, entity);
         }
 
-        this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
+        this.func_184185_a(SoundEvents.field_187596_cD, 1.0F, 1.0F);
         return flag;
     }
 
-    public Village getVillage() {
-        return this.village;
+    public Village func_70852_n() {
+        return this.field_70857_d;
     }
 
-    public void setHoldingRose(boolean flag) {
+    public void func_70851_e(boolean flag) {
         if (flag) {
-            this.holdRoseTick = 400;
-            this.world.setEntityState(this, (byte) 11);
+            this.field_70856_g = 400;
+            this.field_70170_p.func_72960_a(this, (byte) 11);
         } else {
-            this.holdRoseTick = 0;
-            this.world.setEntityState(this, (byte) 34);
+            this.field_70856_g = 0;
+            this.field_70170_p.func_72960_a(this, (byte) 34);
         }
 
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_IRONGOLEM_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_187602_cF;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_IRONGOLEM_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_187599_cE;
     }
 
-    protected void playStepSound(BlockPos blockposition, Block block) {
-        this.playSound(SoundEvents.ENTITY_IRONGOLEM_STEP, 1.0F, 1.0F);
+    protected void func_180429_a(BlockPos blockposition, Block block) {
+        this.func_184185_a(SoundEvents.field_187605_cG, 1.0F, 1.0F);
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_IRON_GOLEM;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186443_y;
     }
 
-    public int getHoldRoseTick() {
-        return this.holdRoseTick;
+    public int func_70853_p() {
+        return this.field_70856_g;
     }
 
-    public boolean isPlayerCreated() {
-        return (((Byte) this.dataManager.get(EntityIronGolem.PLAYER_CREATED)).byteValue() & 1) != 0;
+    public boolean func_70850_q() {
+        return (((Byte) this.field_70180_af.func_187225_a(EntityIronGolem.field_184750_a)).byteValue() & 1) != 0;
     }
 
-    public void setPlayerCreated(boolean flag) {
-        byte b0 = ((Byte) this.dataManager.get(EntityIronGolem.PLAYER_CREATED)).byteValue();
+    public void func_70849_f(boolean flag) {
+        byte b0 = ((Byte) this.field_70180_af.func_187225_a(EntityIronGolem.field_184750_a)).byteValue();
 
         if (flag) {
-            this.dataManager.set(EntityIronGolem.PLAYER_CREATED, Byte.valueOf((byte) (b0 | 1)));
+            this.field_70180_af.func_187227_b(EntityIronGolem.field_184750_a, Byte.valueOf((byte) (b0 | 1)));
         } else {
-            this.dataManager.set(EntityIronGolem.PLAYER_CREATED, Byte.valueOf((byte) (b0 & -2)));
+            this.field_70180_af.func_187227_b(EntityIronGolem.field_184750_a, Byte.valueOf((byte) (b0 & -2)));
         }
 
     }
 
-    public void onDeath(DamageSource damagesource) {
-        if (!this.isPlayerCreated() && this.attackingPlayer != null && this.village != null) {
-            this.village.modifyPlayerReputation(this.attackingPlayer.getName(), -5);
+    public void func_70645_a(DamageSource damagesource) {
+        if (!this.func_70850_q() && this.field_70717_bb != null && this.field_70857_d != null) {
+            this.field_70857_d.func_82688_a(this.field_70717_bb.func_70005_c_(), -5);
         }
 
-        super.onDeath(damagesource);
+        super.func_70645_a(damagesource);
     }
 }

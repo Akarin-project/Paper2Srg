@@ -37,8 +37,8 @@ class CraftMetaCharge extends CraftMetaItem implements FireworkEffectMeta {
     CraftMetaCharge(NBTTagCompound tag) {
         super(tag);
 
-        if (tag.hasKey(EXPLOSION.NBT)) {
-            effect = CraftMetaFirework.getEffect(tag.getCompoundTag(EXPLOSION.NBT));
+        if (tag.func_74764_b(EXPLOSION.NBT)) {
+            effect = CraftMetaFirework.getEffect(tag.func_74775_l(EXPLOSION.NBT));
         }
     }
 
@@ -62,7 +62,7 @@ class CraftMetaCharge extends CraftMetaItem implements FireworkEffectMeta {
         super.applyToItem(itemTag);
 
         if (hasEffect()) {
-            itemTag.setTag(EXPLOSION.NBT, CraftMetaFirework.getExplosion(effect));
+            itemTag.func_74782_a(EXPLOSION.NBT, CraftMetaFirework.getExplosion(effect));
         }
     }
 

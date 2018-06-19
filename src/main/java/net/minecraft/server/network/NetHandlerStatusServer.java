@@ -16,23 +16,23 @@ import net.minecraft.util.text.TextComponentString;
 
 public class NetHandlerStatusServer implements INetHandlerStatusServer {
 
-    private static final ITextComponent EXIT_MESSAGE = new TextComponentString("Status request has been handled.");
-    private final MinecraftServer server;
-    private final NetworkManager networkManager;
-    private boolean handled;
+    private static final ITextComponent field_183007_a = new TextComponentString("Status request has been handled.");
+    private final MinecraftServer field_147314_a;
+    private final NetworkManager field_147313_b;
+    private boolean field_183008_d;
 
     public NetHandlerStatusServer(MinecraftServer minecraftserver, NetworkManager networkmanager) {
-        this.server = minecraftserver;
-        this.networkManager = networkmanager;
+        this.field_147314_a = minecraftserver;
+        this.field_147313_b = networkmanager;
     }
 
-    public void onDisconnect(ITextComponent ichatbasecomponent) {}
+    public void func_147231_a(ITextComponent ichatbasecomponent) {}
 
-    public void processServerQuery(CPacketServerQuery packetstatusinstart) {
-        if (this.handled) {
-            this.networkManager.closeChannel(NetHandlerStatusServer.EXIT_MESSAGE);
+    public void func_147312_a(CPacketServerQuery packetstatusinstart) {
+        if (this.field_183008_d) {
+            this.field_147313_b.func_150718_a(NetHandlerStatusServer.field_183007_a);
         } else {
-            this.handled = true;
+            this.field_183008_d = true;
             // Paper start - Replace everything
             /*
             // CraftBukkit start
@@ -131,14 +131,14 @@ public class NetHandlerStatusServer implements INetHandlerStatusServer {
 
             this.networkManager.sendPacket(new PacketStatusOutServerInfo(ping));
             */
-            com.destroystokyo.paper.network.StandardPaperServerListPingEventImpl.processRequest(this.server, this.networkManager);
+            com.destroystokyo.paper.network.StandardPaperServerListPingEventImpl.processRequest(this.field_147314_a, this.field_147313_b);
             // Paper end
         }
         // CraftBukkit end
     }
 
-    public void processPing(CPacketPing packetstatusinping) {
-        this.networkManager.sendPacket(new SPacketPong(packetstatusinping.getClientTime()));
-        this.networkManager.closeChannel(NetHandlerStatusServer.EXIT_MESSAGE);
+    public void func_147311_a(CPacketPing packetstatusinping) {
+        this.field_147313_b.func_179290_a(new SPacketPong(packetstatusinping.func_149289_c()));
+        this.field_147313_b.func_150718_a(NetHandlerStatusServer.field_183007_a);
     }
 }

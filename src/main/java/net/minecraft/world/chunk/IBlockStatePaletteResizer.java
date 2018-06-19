@@ -4,5 +4,5 @@ import net.minecraft.block.state.IBlockState;
 
 interface IBlockStatePaletteResizer {
 
-    int onResize(int i, IBlockState iblockdata);
+    int func_186008_a(int i, IBlockState iblockdata);
 }

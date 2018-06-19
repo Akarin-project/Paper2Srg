@@ -17,16 +17,16 @@ import net.minecraft.world.biome.Biome;
 
 public class MapGenScatteredFeature extends MapGenStructure {
 
-    private static final List<Biome> BIOMELIST = Arrays.asList(new Biome[] { Biomes.DESERT, Biomes.DESERT_HILLS, Biomes.JUNGLE, Biomes.JUNGLE_HILLS, Biomes.SWAMPLAND, Biomes.ICE_PLAINS, Biomes.COLD_TAIGA});
-    private final List<Biome.SpawnListEntry> monsters;
-    private int maxDistanceBetweenScatteredFeatures;
-    private final int minDistanceBetweenScatteredFeatures;
+    private static final List<Biome> field_75061_e = Arrays.asList(new Biome[] { Biomes.field_76769_d, Biomes.field_76786_s, Biomes.field_76782_w, Biomes.field_76792_x, Biomes.field_76780_h, Biomes.field_76774_n, Biomes.field_150584_S});
+    private final List<Biome.SpawnListEntry> field_82668_f;
+    private int field_82669_g;
+    private final int field_82670_h;
 
     public MapGenScatteredFeature() {
-        this.monsters = Lists.newArrayList();
-        this.maxDistanceBetweenScatteredFeatures = 32;
-        this.minDistanceBetweenScatteredFeatures = 8;
-        this.monsters.add(new Biome.SpawnListEntry(EntityWitch.class, 1, 1, 1));
+        this.field_82668_f = Lists.newArrayList();
+        this.field_82669_g = 32;
+        this.field_82670_h = 8;
+        this.field_82668_f.add(new Biome.SpawnListEntry(EntityWitch.class, 1, 1, 1));
     }
 
     public MapGenScatteredFeature(Map<String, String> map) {
@@ -37,46 +37,44 @@ public class MapGenScatteredFeature extends MapGenStructure {
             Entry entry = (Entry) iterator.next();
 
             if (((String) entry.getKey()).equals("distance")) {
-                this.maxDistanceBetweenScatteredFeatures = MathHelper.getInt((String) entry.getValue(), this.maxDistanceBetweenScatteredFeatures, 9);
+                this.field_82669_g = MathHelper.func_82714_a((String) entry.getValue(), this.field_82669_g, 9);
             }
         }
 
     }
 
-    @Override
-    public String getStructureName() {
+    public String func_143025_a() {
         return "Temple";
     }
 
-    @Override
-    protected boolean canSpawnStructureAtCoords(int i, int j) {
+    protected boolean func_75047_a(int i, int j) {
         int k = i;
         int l = j;
 
         if (i < 0) {
-            i -= this.maxDistanceBetweenScatteredFeatures - 1;
+            i -= this.field_82669_g - 1;
         }
 
         if (j < 0) {
-            j -= this.maxDistanceBetweenScatteredFeatures - 1;
+            j -= this.field_82669_g - 1;
         }
 
-        int i1 = i / this.maxDistanceBetweenScatteredFeatures;
-        int j1 = j / this.maxDistanceBetweenScatteredFeatures;
-        Random random = this.world.setRandomSeed(i1, j1, this.world.spigotConfig.largeFeatureSeed); // Spigot
+        int i1 = i / this.field_82669_g;
+        int j1 = j / this.field_82669_g;
+        Random random = this.field_75039_c.func_72843_D(i1, j1, this.field_75039_c.spigotConfig.largeFeatureSeed); // Spigot
 
-        i1 *= this.maxDistanceBetweenScatteredFeatures;
-        j1 *= this.maxDistanceBetweenScatteredFeatures;
-        i1 += random.nextInt(this.maxDistanceBetweenScatteredFeatures - 8);
-        j1 += random.nextInt(this.maxDistanceBetweenScatteredFeatures - 8);
+        i1 *= this.field_82669_g;
+        j1 *= this.field_82669_g;
+        i1 += random.nextInt(this.field_82669_g - 8);
+        j1 += random.nextInt(this.field_82669_g - 8);
         if (k == i1 && l == j1) {
-            Biome biomebase = this.world.getBiomeProvider().getBiome(new BlockPos(k * 16 + 8, 0, l * 16 + 8));
+            Biome biomebase = this.field_75039_c.func_72959_q().func_180631_a(new BlockPos(k * 16 + 8, 0, l * 16 + 8));
 
             if (biomebase == null) {
                 return false;
             }
 
-            Iterator iterator = MapGenScatteredFeature.BIOMELIST.iterator();
+            Iterator iterator = MapGenScatteredFeature.field_75061_e.iterator();
 
             while (iterator.hasNext()) {
                 Biome biomebase1 = (Biome) iterator.next();
@@ -90,22 +88,20 @@ public class MapGenScatteredFeature extends MapGenStructure {
         return false;
     }
 
-    @Override
-    public BlockPos getNearestStructurePos(World world, BlockPos blockposition, boolean flag) {
-        this.world = world;
-        return findNearestStructurePosBySpacing(world, this, blockposition, this.maxDistanceBetweenScatteredFeatures, 8, this.world.spigotConfig.largeFeatureSeed, false, 100, flag); // Spigot
+    public BlockPos func_180706_b(World world, BlockPos blockposition, boolean flag) {
+        this.field_75039_c = world;
+        return func_191069_a(world, this, blockposition, this.field_82669_g, 8, this.field_75039_c.spigotConfig.largeFeatureSeed, false, 100, flag); // Spigot
     }
 
-    @Override
-    protected StructureStart getStructureStart(int i, int j) {
-        return new MapGenScatteredFeature.Start(this.world, this.rand, i, j);
+    protected StructureStart func_75049_b(int i, int j) {
+        return new MapGenScatteredFeature.Start(this.field_75039_c, this.field_75038_b, i, j);
     }
 
-    public boolean isSwampHut(BlockPos blockposition) {
-        StructureStart structurestart = this.getStructureAt(blockposition);
+    public boolean func_175798_a(BlockPos blockposition) {
+        StructureStart structurestart = this.func_175797_c(blockposition);
 
-        if (structurestart != null && structurestart instanceof MapGenScatteredFeature.Start && !structurestart.components.isEmpty()) {
-            StructureComponent structurepiece = structurestart.components.get(0);
+        if (structurestart != null && structurestart instanceof MapGenScatteredFeature.Start && !structurestart.field_75075_a.isEmpty()) {
+            StructureComponent structurepiece = (StructureComponent) structurestart.field_75075_a.get(0);
 
             return structurepiece instanceof ComponentScatteredFeaturePieces.SwampHut;
         } else {
@@ -113,8 +109,8 @@ public class MapGenScatteredFeature extends MapGenStructure {
         }
     }
 
-    public List<Biome.SpawnListEntry> getMonsters() {
-        return this.monsters;
+    public List<Biome.SpawnListEntry> func_82667_a() {
+        return this.field_82668_f;
     }
 
     public static class Start extends StructureStart {
@@ -122,34 +118,34 @@ public class MapGenScatteredFeature extends MapGenStructure {
         public Start() {}
 
         public Start(World world, Random random, int i, int j) {
-            this(world, random, i, j, world.getBiome(new BlockPos(i * 16 + 8, 0, j * 16 + 8)));
+            this(world, random, i, j, world.func_180494_b(new BlockPos(i * 16 + 8, 0, j * 16 + 8)));
         }
 
         public Start(World world, Random random, int i, int j, Biome biomebase) {
             super(i, j);
-            if (biomebase != Biomes.JUNGLE && biomebase != Biomes.JUNGLE_HILLS) {
-                if (biomebase == Biomes.SWAMPLAND) {
+            if (biomebase != Biomes.field_76782_w && biomebase != Biomes.field_76792_x) {
+                if (biomebase == Biomes.field_76780_h) {
                     ComponentScatteredFeaturePieces.SwampHut worldgenregistration_worldgenwitchhut = new ComponentScatteredFeaturePieces.SwampHut(random, i * 16, j * 16);
 
-                    this.components.add(worldgenregistration_worldgenwitchhut);
-                } else if (biomebase != Biomes.DESERT && biomebase != Biomes.DESERT_HILLS) {
-                    if (biomebase == Biomes.ICE_PLAINS || biomebase == Biomes.COLD_TAIGA) {
-                        ComponentScatteredFeaturePieces.b worldgenregistration_b = new ComponentScatteredFeaturePieces.b(random, i * 16, j * 16);
+                    this.field_75075_a.add(worldgenregistration_worldgenwitchhut);
+                } else if (biomebase != Biomes.field_76769_d && biomebase != Biomes.field_76786_s) {
+                    if (biomebase == Biomes.field_76774_n || biomebase == Biomes.field_150584_S) {
+                        WorldGenRegistration.b worldgenregistration_b = new WorldGenRegistration.b(random, i * 16, j * 16);
 
-                        this.components.add(worldgenregistration_b);
+                        this.field_75075_a.add(worldgenregistration_b);
                     }
                 } else {
                     ComponentScatteredFeaturePieces.DesertPyramid worldgenregistration_worldgenpyramidpiece = new ComponentScatteredFeaturePieces.DesertPyramid(random, i * 16, j * 16);
 
-                    this.components.add(worldgenregistration_worldgenpyramidpiece);
+                    this.field_75075_a.add(worldgenregistration_worldgenpyramidpiece);
                 }
             } else {
                 ComponentScatteredFeaturePieces.JunglePyramid worldgenregistration_worldgenjungletemple = new ComponentScatteredFeaturePieces.JunglePyramid(random, i * 16, j * 16);
 
-                this.components.add(worldgenregistration_worldgenjungletemple);
+                this.field_75075_a.add(worldgenregistration_worldgenjungletemple);
             }
 
-            this.updateBoundingBox();
+            this.func_75072_c();
         }
     }
 }

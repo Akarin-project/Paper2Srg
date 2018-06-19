@@ -17,8 +17,6 @@ import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.PotionType;
-import net.minecraft.server.CriterionTrigger;
-import net.minecraft.server.CriterionTriggerBrewedPotion;
 import net.minecraft.server.CriterionTriggerBrewedPotion.a;
 import net.minecraft.server.CriterionTriggerBrewedPotion.b;
 import net.minecraft.util.JsonUtils;
@@ -26,64 +24,60 @@ import net.minecraft.util.ResourceLocation;
 
 public class BrewedPotionTrigger implements ICriterionTrigger<CriterionTriggerBrewedPotion.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("brewed_potion");
-    private final Map<PlayerAdvancements, CriterionTriggerBrewedPotion.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_192176_a = new ResourceLocation("brewed_potion");
+    private final Map<PlayerAdvancements, CriterionTriggerBrewedPotion.a> field_192177_b = Maps.newHashMap();
 
     public BrewedPotionTrigger() {}
 
-    @Override
-    public ResourceLocation getId() {
-        return BrewedPotionTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return BrewedPotionTrigger.field_192176_a;
     }
 
-    @Override
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerBrewedPotion.b> criteriontrigger_a) {
-        CriterionTriggerBrewedPotion.a criteriontriggerbrewedpotion_a = this.listeners.get(advancementdataplayer);
+        CriterionTriggerBrewedPotion.a criteriontriggerbrewedpotion_a = (CriterionTriggerBrewedPotion.a) this.field_192177_b.get(advancementdataplayer);
 
         if (criteriontriggerbrewedpotion_a == null) {
             criteriontriggerbrewedpotion_a = new CriterionTriggerBrewedPotion.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerbrewedpotion_a);
+            this.field_192177_b.put(advancementdataplayer, criteriontriggerbrewedpotion_a);
         }
 
         criteriontriggerbrewedpotion_a.a(criteriontrigger_a);
     }
 
-    @Override
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerBrewedPotion.b> criteriontrigger_a) {
-        CriterionTriggerBrewedPotion.a criteriontriggerbrewedpotion_a = this.listeners.get(advancementdataplayer);
+        CriterionTriggerBrewedPotion.a criteriontriggerbrewedpotion_a = (CriterionTriggerBrewedPotion.a) this.field_192177_b.get(advancementdataplayer);
 
         if (criteriontriggerbrewedpotion_a != null) {
             criteriontriggerbrewedpotion_a.b(criteriontrigger_a);
             if (criteriontriggerbrewedpotion_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192177_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    @Override
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192177_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerBrewedPotion.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         PotionType potionregistry = null;
 
         if (jsonobject.has("potion")) {
-            ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.getString(jsonobject, "potion"));
+            ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.func_151200_h(jsonobject, "potion"));
 
-            if (!PotionType.REGISTRY.containsKey(minecraftkey)) {
+            if (!PotionType.field_185176_a.func_148741_d(minecraftkey)) {
                 throw new JsonSyntaxException("Unknown potion \'" + minecraftkey + "\'");
             }
 
-            potionregistry = PotionType.REGISTRY.getObject(minecraftkey);
+            potionregistry = (PotionType) PotionType.field_185176_a.func_82594_a(minecraftkey);
         }
 
         return new CriterionTriggerBrewedPotion.b(potionregistry);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, PotionType potionregistry) {
-        CriterionTriggerBrewedPotion.a criteriontriggerbrewedpotion_a = this.listeners.get(entityplayer.getAdvancements());
+    public void func_192173_a(EntityPlayerMP entityplayer, PotionType potionregistry) {
+        CriterionTriggerBrewedPotion.a criteriontriggerbrewedpotion_a = (CriterionTriggerBrewedPotion.a) this.field_192177_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerbrewedpotion_a != null) {
             criteriontriggerbrewedpotion_a.a(potionregistry);
@@ -91,8 +85,7 @@ public class BrewedPotionTrigger implements ICriterionTrigger<CriterionTriggerBr
 
     }
 
-    @Override
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -151,7 +144,7 @@ public class BrewedPotionTrigger implements ICriterionTrigger<CriterionTriggerBr
         private final PotionType a;
 
         public b(@Nullable PotionType potionregistry) {
-            super(BrewedPotionTrigger.ID);
+            super(BrewedPotionTrigger.field_192176_a);
             this.a = potionregistry;
         }
 

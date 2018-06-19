@@ -24,32 +24,32 @@ public class CraftLlama extends CraftChestedHorse implements Llama {
 
     @Override
     public Color getColor() {
-        return Color.values()[getHandle().getVariant()];
+        return Color.values()[getHandle().func_190719_dM()];
     }
 
     @Override
     public void setColor(Color color) {
         Preconditions.checkArgument(color != null, "color");
 
-        getHandle().setVariant(color.ordinal());
+        getHandle().func_190710_o(color.ordinal());
     }
 
     @Override
     public LlamaInventory getInventory() {
-        return new CraftInventoryLlama(getHandle().horseChest);
+        return new CraftInventoryLlama(getHandle().field_110296_bG);
     }
 
     @Override
     public int getStrength() {
-       return getHandle().getStrength();
+       return getHandle().func_190707_dL();
     }
 
     @Override
     public void setStrength(int strength) {
         Preconditions.checkArgument(1 <= strength && strength <= 5, "strength must be [1,5]");
         if (strength == getStrength()) return;
-        getHandle().setStrength(strength);
-        getHandle().initHorseChest();
+        getHandle().func_190706_p(strength);
+        getHandle().func_110226_cD();
     }
 
     @Override

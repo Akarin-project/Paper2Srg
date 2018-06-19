@@ -4,7 +4,7 @@ public class BlockDoubleWoodSlab extends BlockWoodSlab {
 
     public BlockDoubleWoodSlab() {}
 
-    public boolean isDouble() {
+    public boolean func_176552_j() {
         return true;
     }
 }

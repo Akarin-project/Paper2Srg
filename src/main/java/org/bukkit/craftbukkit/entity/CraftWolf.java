@@ -13,11 +13,11 @@ public class CraftWolf extends CraftTameableAnimal implements Wolf {
     }
 
     public boolean isAngry() {
-        return getHandle().isAngry();
+        return getHandle().func_70919_bu();
     }
 
     public void setAngry(boolean angry) {
-        getHandle().setAngry(angry);
+        getHandle().func_70916_h(angry);
     }
 
     @Override
@@ -31,10 +31,10 @@ public class CraftWolf extends CraftTameableAnimal implements Wolf {
     }
 
     public DyeColor getCollarColor() {
-        return DyeColor.getByWoolData((byte) getHandle().getCollarColor().getMetadata());
+        return DyeColor.getByWoolData((byte) getHandle().func_175546_cu().func_176765_a());
     }
 
     public void setCollarColor(DyeColor color) {
-        getHandle().setCollarColor(EnumDyeColor.byMetadata(color.getWoolData()));
+        getHandle().func_175547_a(EnumDyeColor.func_176764_b(color.getWoolData()));
     }
 }

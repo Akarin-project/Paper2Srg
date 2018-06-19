@@ -20,61 +20,61 @@ import net.minecraft.world.World;
 
 public class BlockEnchantmentTable extends BlockContainer {
 
-    protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D);
+    protected static final AxisAlignedBB field_185567_a = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D);
 
     protected BlockEnchantmentTable() {
-        super(Material.ROCK, MapColor.RED);
-        this.setLightOpacity(0);
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        super(Material.field_151576_e, MapColor.field_151645_D);
+        this.func_149713_g(0);
+        this.func_149647_a(CreativeTabs.field_78031_c);
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockEnchantmentTable.AABB;
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockEnchantmentTable.field_185567_a;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public EnumBlockRenderType getRenderType(IBlockState iblockdata) {
+    public EnumBlockRenderType func_149645_b(IBlockState iblockdata) {
         return EnumBlockRenderType.MODEL;
     }
 
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity func_149915_a(World world, int i) {
         return new TileEntityEnchantmentTable();
     }
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        if (world.isRemote) {
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        if (world.field_72995_K) {
             return true;
         } else {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityEnchantmentTable) {
-                entityhuman.displayGui((TileEntityEnchantmentTable) tileentity);
+                entityhuman.func_180468_a((TileEntityEnchantmentTable) tileentity);
             }
 
             return true;
         }
     }
 
-    public void onBlockPlacedBy(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
-        super.onBlockPlacedBy(world, blockposition, iblockdata, entityliving, itemstack);
-        if (itemstack.hasDisplayName()) {
-            TileEntity tileentity = world.getTileEntity(blockposition);
+    public void func_180633_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityLivingBase entityliving, ItemStack itemstack) {
+        super.func_180633_a(world, blockposition, iblockdata, entityliving, itemstack);
+        if (itemstack.func_82837_s()) {
+            TileEntity tileentity = world.func_175625_s(blockposition);
 
             if (tileentity instanceof TileEntityEnchantmentTable) {
-                ((TileEntityEnchantmentTable) tileentity).setCustomName(itemstack.getDisplayName());
+                ((TileEntityEnchantmentTable) tileentity).func_145920_a(itemstack.func_82833_r());
             }
         }
 
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return enumdirection == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
 }

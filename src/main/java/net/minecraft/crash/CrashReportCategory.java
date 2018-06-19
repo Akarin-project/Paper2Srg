@@ -10,21 +10,21 @@ import net.minecraft.util.math.BlockPos;
 
 public class CrashReportCategory {
 
-    private final CrashReport crashReport;
-    private final String name;
-    private final List<CrashReportCategory.Entry> children = Lists.newArrayList();
-    private StackTraceElement[] stackTrace = new StackTraceElement[0];
+    private final CrashReport field_85078_a;
+    private final String field_85076_b;
+    private final List<CrashReportCategory.Entry> field_85077_c = Lists.newArrayList();
+    private StackTraceElement[] field_85075_d = new StackTraceElement[0];
 
     public CrashReportCategory(CrashReport crashreport, String s) {
-        this.crashReport = crashreport;
-        this.name = s;
+        this.field_85078_a = crashreport;
+        this.field_85076_b = s;
     }
 
-    public static String getCoordinateInfo(BlockPos blockposition) {
-        return getCoordinateInfo(blockposition.getX(), blockposition.getY(), blockposition.getZ());
+    public static String func_180522_a(BlockPos blockposition) {
+        return func_184876_a(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
     }
 
-    public static String getCoordinateInfo(int i, int j, int k) {
+    public static String func_184876_a(int i, int j, int k) {
         StringBuilder stringbuilder = new StringBuilder();
 
         try {
@@ -82,46 +82,46 @@ public class CrashReportCategory {
         return stringbuilder.toString();
     }
 
-    public void addDetail(String s, ICrashReportDetail<String> crashreportcallable) {
+    public void func_189529_a(String s, ICrashReportDetail<String> crashreportcallable) {
         try {
-            this.addCrashSection(s, crashreportcallable.call());
+            this.func_71507_a(s, crashreportcallable.call());
         } catch (Throwable throwable) {
-            this.addCrashSectionThrowable(s, throwable);
+            this.func_71499_a(s, throwable);
         }
 
     }
 
-    public void addCrashSection(String s, Object object) {
-        this.children.add(new CrashReportCategory.Entry(s, object));
+    public void func_71507_a(String s, Object object) {
+        this.field_85077_c.add(new CrashReportCategory.Entry(s, object));
     }
 
-    public void addCrashSectionThrowable(String s, Throwable throwable) {
-        this.addCrashSection(s, (Object) throwable);
+    public void func_71499_a(String s, Throwable throwable) {
+        this.func_71507_a(s, (Object) throwable);
     }
 
-    public int getPrunedStackTrace(int i) {
+    public int func_85073_a(int i) {
         StackTraceElement[] astacktraceelement = Thread.currentThread().getStackTrace();
 
         if (astacktraceelement.length <= 0) {
             return 0;
         } else {
-            this.stackTrace = new StackTraceElement[astacktraceelement.length - 3 - i];
-            System.arraycopy(astacktraceelement, 3 + i, this.stackTrace, 0, this.stackTrace.length);
-            return this.stackTrace.length;
+            this.field_85075_d = new StackTraceElement[astacktraceelement.length - 3 - i];
+            System.arraycopy(astacktraceelement, 3 + i, this.field_85075_d, 0, this.field_85075_d.length);
+            return this.field_85075_d.length;
         }
     }
 
-    public boolean firstTwoElementsOfStackTraceMatch(StackTraceElement stacktraceelement, StackTraceElement stacktraceelement1) {
-        if (this.stackTrace.length != 0 && stacktraceelement != null) {
-            StackTraceElement stacktraceelement2 = this.stackTrace[0];
+    public boolean func_85069_a(StackTraceElement stacktraceelement, StackTraceElement stacktraceelement1) {
+        if (this.field_85075_d.length != 0 && stacktraceelement != null) {
+            StackTraceElement stacktraceelement2 = this.field_85075_d[0];
 
             if (stacktraceelement2.isNativeMethod() == stacktraceelement.isNativeMethod() && stacktraceelement2.getClassName().equals(stacktraceelement.getClassName()) && stacktraceelement2.getFileName().equals(stacktraceelement.getFileName()) && stacktraceelement2.getMethodName().equals(stacktraceelement.getMethodName())) {
-                if (stacktraceelement1 != null != this.stackTrace.length > 1) {
+                if (stacktraceelement1 != null != this.field_85075_d.length > 1) {
                     return false;
-                } else if (stacktraceelement1 != null && !this.stackTrace[1].equals(stacktraceelement1)) {
+                } else if (stacktraceelement1 != null && !this.field_85075_d[1].equals(stacktraceelement1)) {
                     return false;
                 } else {
-                    this.stackTrace[0] = stacktraceelement;
+                    this.field_85075_d[0] = stacktraceelement;
                     return true;
                 }
             } else {
@@ -132,30 +132,30 @@ public class CrashReportCategory {
         }
     }
 
-    public void trimStackTraceEntriesFromBottom(int i) {
-        StackTraceElement[] astacktraceelement = new StackTraceElement[this.stackTrace.length - i];
+    public void func_85070_b(int i) {
+        StackTraceElement[] astacktraceelement = new StackTraceElement[this.field_85075_d.length - i];
 
-        System.arraycopy(this.stackTrace, 0, astacktraceelement, 0, astacktraceelement.length);
-        this.stackTrace = astacktraceelement;
+        System.arraycopy(this.field_85075_d, 0, astacktraceelement, 0, astacktraceelement.length);
+        this.field_85075_d = astacktraceelement;
     }
 
-    public void appendToStringBuilder(StringBuilder stringbuilder) {
-        stringbuilder.append("-- ").append(this.name).append(" --\n");
+    public void func_85072_a(StringBuilder stringbuilder) {
+        stringbuilder.append("-- ").append(this.field_85076_b).append(" --\n");
         stringbuilder.append("Details:");
-        Iterator iterator = this.children.iterator();
+        Iterator iterator = this.field_85077_c.iterator();
 
         while (iterator.hasNext()) {
             CrashReportCategory.Entry crashreportsystemdetails_crashreportdetail = (CrashReportCategory.Entry) iterator.next();
 
             stringbuilder.append("\n\t");
-            stringbuilder.append(crashreportsystemdetails_crashreportdetail.getKey());
+            stringbuilder.append(crashreportsystemdetails_crashreportdetail.func_85089_a());
             stringbuilder.append(": ");
-            stringbuilder.append(crashreportsystemdetails_crashreportdetail.getValue());
+            stringbuilder.append(crashreportsystemdetails_crashreportdetail.func_85090_b());
         }
 
-        if (this.stackTrace != null && this.stackTrace.length > 0) {
+        if (this.field_85075_d != null && this.field_85075_d.length > 0) {
             stringbuilder.append("\nStacktrace:");
-            StackTraceElement[] astacktraceelement = this.stackTrace;
+            StackTraceElement[] astacktraceelement = this.field_85075_d;
             int i = astacktraceelement.length;
 
             for (int j = 0; j < i; ++j) {
@@ -168,17 +168,17 @@ public class CrashReportCategory {
 
     }
 
-    public StackTraceElement[] getStackTrace() {
-        return this.stackTrace;
+    public StackTraceElement[] func_147152_a() {
+        return this.field_85075_d;
     }
 
-    public static void addBlockInfo(CrashReportCategory crashreportsystemdetails, final BlockPos blockposition, final Block block, final int i) {
-        final int j = Block.getIdFromBlock(block);
+    public static void func_180523_a(CrashReportCategory crashreportsystemdetails, final BlockPos blockposition, final Block block, final int i) {
+        final int j = Block.func_149682_b(block);
 
-        crashreportsystemdetails.addDetail("Block type", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Block type", new ICrashReportDetail() {
             public String a() throws Exception {
                 try {
-                    return String.format("ID #%d (%s // %s)", new Object[] { Integer.valueOf(i), block.getUnlocalizedName(), block.getClass().getCanonicalName()});
+                    return String.format("ID #%d (%s // %s)", new Object[] { Integer.valueOf(i), block.func_149739_a(), block.getClass().getCanonicalName()});
                 } catch (Throwable throwable) {
                     return "ID #" + i;
                 }
@@ -188,7 +188,7 @@ public class CrashReportCategory {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Block data value", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Block data value", new ICrashReportDetail() {
             public String a() throws Exception {
                 if (i < 0) {
                     return "Unknown? (Got " + i + ")";
@@ -203,9 +203,9 @@ public class CrashReportCategory {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Block location", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Block location", new ICrashReportDetail() {
             public String a() throws Exception {
-                return CrashReportCategory.getCoordinateInfo(blockposition);
+                return CrashReportCategory.func_180522_a(blockposition);
             }
 
             public Object call() throws Exception {
@@ -214,8 +214,8 @@ public class CrashReportCategory {
         });
     }
 
-    public static void addBlockInfo(CrashReportCategory crashreportsystemdetails, final BlockPos blockposition, final IBlockState iblockdata) {
-        crashreportsystemdetails.addDetail("Block", new ICrashReportDetail() {
+    public static void func_175750_a(CrashReportCategory crashreportsystemdetails, final BlockPos blockposition, final IBlockState iblockdata) {
+        crashreportsystemdetails.func_189529_a("Block", new ICrashReportDetail() {
             public String a() throws Exception {
                 return iblockdata.toString();
             }
@@ -224,9 +224,9 @@ public class CrashReportCategory {
                 return this.a();
             }
         });
-        crashreportsystemdetails.addDetail("Block location", new ICrashReportDetail() {
+        crashreportsystemdetails.func_189529_a("Block location", new ICrashReportDetail() {
             public String a() throws Exception {
-                return CrashReportCategory.getCoordinateInfo(blockposition);
+                return CrashReportCategory.func_180522_a(blockposition);
             }
 
             public Object call() throws Exception {
@@ -237,29 +237,29 @@ public class CrashReportCategory {
 
     static class Entry {
 
-        private final String key;
-        private final String value;
+        private final String field_85092_a;
+        private final String field_85091_b;
 
         public Entry(String s, Object object) {
-            this.key = s;
+            this.field_85092_a = s;
             if (object == null) {
-                this.value = "~~NULL~~";
+                this.field_85091_b = "~~NULL~~";
             } else if (object instanceof Throwable) {
                 Throwable throwable = (Throwable) object;
 
-                this.value = "~~ERROR~~ " + throwable.getClass().getSimpleName() + ": " + throwable.getMessage();
+                this.field_85091_b = "~~ERROR~~ " + throwable.getClass().getSimpleName() + ": " + throwable.getMessage();
             } else {
-                this.value = object.toString();
+                this.field_85091_b = object.toString();
             }
 
         }
 
-        public String getKey() {
-            return this.key;
+        public String func_85089_a() {
+            return this.field_85092_a;
         }
 
-        public String getValue() {
-            return this.value;
+        public String func_85090_b() {
+            return this.field_85091_b;
         }
     }
 }

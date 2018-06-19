@@ -4,10 +4,10 @@ import javax.annotation.Nullable;
 
 public class Vec3d {
 
-    public static final Vec3d ZERO = new Vec3d(0.0D, 0.0D, 0.0D);
-    public final double x;
-    public final double y;
-    public final double z;
+    public static final Vec3d field_186680_a = new Vec3d(0.0D, 0.0D, 0.0D);
+    public final double field_72450_a;
+    public final double field_72448_b;
+    public final double field_72449_c;
 
     public Vec3d(double d0, double d1, double d2) {
         if (d0 == -0.0D) {
@@ -22,119 +22,119 @@ public class Vec3d {
             d2 = 0.0D;
         }
 
-        this.x = d0;
-        this.y = d1;
-        this.z = d2;
+        this.field_72450_a = d0;
+        this.field_72448_b = d1;
+        this.field_72449_c = d2;
     }
 
     public Vec3d(Vec3i baseblockposition) {
-        this((double) baseblockposition.getX(), (double) baseblockposition.getY(), (double) baseblockposition.getZ());
+        this((double) baseblockposition.func_177958_n(), (double) baseblockposition.func_177956_o(), (double) baseblockposition.func_177952_p());
     }
 
-    public Vec3d subtractReverse(Vec3d vec3d) {
-        return new Vec3d(vec3d.x - this.x, vec3d.y - this.y, vec3d.z - this.z);
+    public Vec3d func_72444_a(Vec3d vec3d) {
+        return new Vec3d(vec3d.field_72450_a - this.field_72450_a, vec3d.field_72448_b - this.field_72448_b, vec3d.field_72449_c - this.field_72449_c);
     }
 
-    public Vec3d normalize() {
-        double d0 = (double) MathHelper.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    public Vec3d func_72432_b() {
+        double d0 = (double) MathHelper.func_76133_a(this.field_72450_a * this.field_72450_a + this.field_72448_b * this.field_72448_b + this.field_72449_c * this.field_72449_c);
 
-        return d0 < 1.0E-4D ? Vec3d.ZERO : new Vec3d(this.x / d0, this.y / d0, this.z / d0);
+        return d0 < 1.0E-4D ? Vec3d.field_186680_a : new Vec3d(this.field_72450_a / d0, this.field_72448_b / d0, this.field_72449_c / d0);
     }
 
-    public double dotProduct(Vec3d vec3d) {
-        return this.x * vec3d.x + this.y * vec3d.y + this.z * vec3d.z;
+    public double func_72430_b(Vec3d vec3d) {
+        return this.field_72450_a * vec3d.field_72450_a + this.field_72448_b * vec3d.field_72448_b + this.field_72449_c * vec3d.field_72449_c;
     }
 
-    public Vec3d subtract(Vec3d vec3d) {
-        return this.subtract(vec3d.x, vec3d.y, vec3d.z);
+    public Vec3d func_178788_d(Vec3d vec3d) {
+        return this.func_178786_a(vec3d.field_72450_a, vec3d.field_72448_b, vec3d.field_72449_c);
     }
 
-    public Vec3d subtract(double d0, double d1, double d2) {
-        return this.addVector(-d0, -d1, -d2);
+    public Vec3d func_178786_a(double d0, double d1, double d2) {
+        return this.func_72441_c(-d0, -d1, -d2);
     }
 
-    public Vec3d add(Vec3d vec3d) {
-        return this.addVector(vec3d.x, vec3d.y, vec3d.z);
+    public Vec3d func_178787_e(Vec3d vec3d) {
+        return this.func_72441_c(vec3d.field_72450_a, vec3d.field_72448_b, vec3d.field_72449_c);
     }
 
-    public Vec3d addVector(double d0, double d1, double d2) {
-        return new Vec3d(this.x + d0, this.y + d1, this.z + d2);
+    public Vec3d func_72441_c(double d0, double d1, double d2) {
+        return new Vec3d(this.field_72450_a + d0, this.field_72448_b + d1, this.field_72449_c + d2);
     }
 
-    public double distanceTo(Vec3d vec3d) {
-        double d0 = vec3d.x - this.x;
-        double d1 = vec3d.y - this.y;
-        double d2 = vec3d.z - this.z;
+    public double func_72438_d(Vec3d vec3d) {
+        double d0 = vec3d.field_72450_a - this.field_72450_a;
+        double d1 = vec3d.field_72448_b - this.field_72448_b;
+        double d2 = vec3d.field_72449_c - this.field_72449_c;
 
-        return (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+        return (double) MathHelper.func_76133_a(d0 * d0 + d1 * d1 + d2 * d2);
     }
 
-    public double squareDistanceTo(Vec3d vec3d) {
-        double d0 = vec3d.x - this.x;
-        double d1 = vec3d.y - this.y;
-        double d2 = vec3d.z - this.z;
+    public double func_72436_e(Vec3d vec3d) {
+        double d0 = vec3d.field_72450_a - this.field_72450_a;
+        double d1 = vec3d.field_72448_b - this.field_72448_b;
+        double d2 = vec3d.field_72449_c - this.field_72449_c;
 
         return d0 * d0 + d1 * d1 + d2 * d2;
     }
 
-    public double squareDistanceTo(double d0, double d1, double d2) {
-        double d3 = d0 - this.x;
-        double d4 = d1 - this.y;
-        double d5 = d2 - this.z;
+    public double func_186679_c(double d0, double d1, double d2) {
+        double d3 = d0 - this.field_72450_a;
+        double d4 = d1 - this.field_72448_b;
+        double d5 = d2 - this.field_72449_c;
 
         return d3 * d3 + d4 * d4 + d5 * d5;
     }
 
-    public Vec3d scale(double d0) {
-        return new Vec3d(this.x * d0, this.y * d0, this.z * d0);
+    public Vec3d func_186678_a(double d0) {
+        return new Vec3d(this.field_72450_a * d0, this.field_72448_b * d0, this.field_72449_c * d0);
     }
 
-    public double lengthVector() {
-        return (double) MathHelper.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    public double func_72433_c() {
+        return (double) MathHelper.func_76133_a(this.field_72450_a * this.field_72450_a + this.field_72448_b * this.field_72448_b + this.field_72449_c * this.field_72449_c);
     }
 
     @Nullable
-    public Vec3d getIntermediateWithXValue(Vec3d vec3d, double d0) {
-        double d1 = vec3d.x - this.x;
-        double d2 = vec3d.y - this.y;
-        double d3 = vec3d.z - this.z;
+    public Vec3d func_72429_b(Vec3d vec3d, double d0) {
+        double d1 = vec3d.field_72450_a - this.field_72450_a;
+        double d2 = vec3d.field_72448_b - this.field_72448_b;
+        double d3 = vec3d.field_72449_c - this.field_72449_c;
 
         if (d1 * d1 < 1.0000000116860974E-7D) {
             return null;
         } else {
-            double d4 = (d0 - this.x) / d1;
+            double d4 = (d0 - this.field_72450_a) / d1;
 
-            return d4 >= 0.0D && d4 <= 1.0D ? new Vec3d(this.x + d1 * d4, this.y + d2 * d4, this.z + d3 * d4) : null;
+            return d4 >= 0.0D && d4 <= 1.0D ? new Vec3d(this.field_72450_a + d1 * d4, this.field_72448_b + d2 * d4, this.field_72449_c + d3 * d4) : null;
         }
     }
 
     @Nullable
-    public Vec3d getIntermediateWithYValue(Vec3d vec3d, double d0) {
-        double d1 = vec3d.x - this.x;
-        double d2 = vec3d.y - this.y;
-        double d3 = vec3d.z - this.z;
+    public Vec3d func_72435_c(Vec3d vec3d, double d0) {
+        double d1 = vec3d.field_72450_a - this.field_72450_a;
+        double d2 = vec3d.field_72448_b - this.field_72448_b;
+        double d3 = vec3d.field_72449_c - this.field_72449_c;
 
         if (d2 * d2 < 1.0000000116860974E-7D) {
             return null;
         } else {
-            double d4 = (d0 - this.y) / d2;
+            double d4 = (d0 - this.field_72448_b) / d2;
 
-            return d4 >= 0.0D && d4 <= 1.0D ? new Vec3d(this.x + d1 * d4, this.y + d2 * d4, this.z + d3 * d4) : null;
+            return d4 >= 0.0D && d4 <= 1.0D ? new Vec3d(this.field_72450_a + d1 * d4, this.field_72448_b + d2 * d4, this.field_72449_c + d3 * d4) : null;
         }
     }
 
     @Nullable
-    public Vec3d getIntermediateWithZValue(Vec3d vec3d, double d0) {
-        double d1 = vec3d.x - this.x;
-        double d2 = vec3d.y - this.y;
-        double d3 = vec3d.z - this.z;
+    public Vec3d func_72434_d(Vec3d vec3d, double d0) {
+        double d1 = vec3d.field_72450_a - this.field_72450_a;
+        double d2 = vec3d.field_72448_b - this.field_72448_b;
+        double d3 = vec3d.field_72449_c - this.field_72449_c;
 
         if (d3 * d3 < 1.0000000116860974E-7D) {
             return null;
         } else {
-            double d4 = (d0 - this.z) / d3;
+            double d4 = (d0 - this.field_72449_c) / d3;
 
-            return d4 >= 0.0D && d4 <= 1.0D ? new Vec3d(this.x + d1 * d4, this.y + d2 * d4, this.z + d3 * d4) : null;
+            return d4 >= 0.0D && d4 <= 1.0D ? new Vec3d(this.field_72450_a + d1 * d4, this.field_72448_b + d2 * d4, this.field_72449_c + d3 * d4) : null;
         }
     }
 
@@ -146,41 +146,41 @@ public class Vec3d {
         } else {
             Vec3d vec3d = (Vec3d) object;
 
-            return Double.compare(vec3d.x, this.x) != 0 ? false : (Double.compare(vec3d.y, this.y) != 0 ? false : Double.compare(vec3d.z, this.z) == 0);
+            return Double.compare(vec3d.field_72450_a, this.field_72450_a) != 0 ? false : (Double.compare(vec3d.field_72448_b, this.field_72448_b) != 0 ? false : Double.compare(vec3d.field_72449_c, this.field_72449_c) == 0);
         }
     }
 
     public int hashCode() {
-        long i = Double.doubleToLongBits(this.x);
+        long i = Double.doubleToLongBits(this.field_72450_a);
         int j = (int) (i ^ i >>> 32);
 
-        i = Double.doubleToLongBits(this.y);
+        i = Double.doubleToLongBits(this.field_72448_b);
         j = 31 * j + (int) (i ^ i >>> 32);
-        i = Double.doubleToLongBits(this.z);
+        i = Double.doubleToLongBits(this.field_72449_c);
         j = 31 * j + (int) (i ^ i >>> 32);
         return j;
     }
 
     public String toString() {
-        return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+        return "(" + this.field_72450_a + ", " + this.field_72448_b + ", " + this.field_72449_c + ")";
     }
 
-    public Vec3d rotatePitch(float f) {
-        float f1 = MathHelper.cos(f);
-        float f2 = MathHelper.sin(f);
-        double d0 = this.x;
-        double d1 = this.y * (double) f1 + this.z * (double) f2;
-        double d2 = this.z * (double) f1 - this.y * (double) f2;
+    public Vec3d func_178789_a(float f) {
+        float f1 = MathHelper.func_76134_b(f);
+        float f2 = MathHelper.func_76126_a(f);
+        double d0 = this.field_72450_a;
+        double d1 = this.field_72448_b * (double) f1 + this.field_72449_c * (double) f2;
+        double d2 = this.field_72449_c * (double) f1 - this.field_72448_b * (double) f2;
 
         return new Vec3d(d0, d1, d2);
     }
 
-    public Vec3d rotateYaw(float f) {
-        float f1 = MathHelper.cos(f);
-        float f2 = MathHelper.sin(f);
-        double d0 = this.x * (double) f1 + this.z * (double) f2;
-        double d1 = this.y;
-        double d2 = this.z * (double) f1 - this.x * (double) f2;
+    public Vec3d func_178785_b(float f) {
+        float f1 = MathHelper.func_76134_b(f);
+        float f2 = MathHelper.func_76126_a(f);
+        double d0 = this.field_72450_a * (double) f1 + this.field_72449_c * (double) f2;
+        double d1 = this.field_72448_b;
+        double d2 = this.field_72449_c * (double) f1 - this.field_72450_a * (double) f2;
 
         return new Vec3d(d0, d1, d2);
     }

@@ -10,18 +10,18 @@ public class BlockGlass extends BlockBreakable {
 
     public BlockGlass(Material material, boolean flag) {
         super(material, flag);
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 0;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    protected boolean canSilkHarvest() {
+    protected boolean func_149700_E() {
         return true;
     }
 }

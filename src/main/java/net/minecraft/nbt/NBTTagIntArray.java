@@ -8,19 +8,19 @@ import java.util.List;
 
 public class NBTTagIntArray extends NBTBase {
 
-    private int[] intArray;
+    private int[] field_74749_a;
 
     NBTTagIntArray() {}
 
     public NBTTagIntArray(int[] aint) {
-        this.intArray = aint;
+        this.field_74749_a = aint;
     }
 
     public NBTTagIntArray(List<Integer> list) {
-        this(toArray(list));
+        this(func_193584_a(list));
     }
 
-    private static int[] toArray(List<Integer> list) {
+    private static int[] func_193584_a(List<Integer> list) {
         int[] aint = new int[list.size()];
 
         for (int i = 0; i < list.size(); ++i) {
@@ -32,9 +32,9 @@ public class NBTTagIntArray extends NBTBase {
         return aint;
     }
 
-    void write(DataOutput dataoutput) throws IOException {
-        dataoutput.writeInt(this.intArray.length);
-        int[] aint = this.intArray;
+    void func_74734_a(DataOutput dataoutput) throws IOException {
+        dataoutput.writeInt(this.field_74749_a.length);
+        int[] aint = this.field_74749_a;
         int i = aint.length;
 
         for (int j = 0; j < i; ++j) {
@@ -45,58 +45,58 @@ public class NBTTagIntArray extends NBTBase {
 
     }
 
-    void read(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
-        nbtreadlimiter.read(192L);
+    void func_152446_a(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
+        nbtreadlimiter.func_152450_a(192L);
         int j = datainput.readInt();
        com.google.common.base.Preconditions.checkArgument( j < 1 << 24);
 
-        nbtreadlimiter.read((long) (32 * j));
-        this.intArray = new int[j];
+        nbtreadlimiter.func_152450_a((long) (32 * j));
+        this.field_74749_a = new int[j];
 
         for (int k = 0; k < j; ++k) {
-            this.intArray[k] = datainput.readInt();
+            this.field_74749_a[k] = datainput.readInt();
         }
 
     }
 
-    public byte getId() {
+    public byte func_74732_a() {
         return (byte) 11;
     }
 
     public String toString() {
         StringBuilder stringbuilder = new StringBuilder("[I;");
 
-        for (int i = 0; i < this.intArray.length; ++i) {
+        for (int i = 0; i < this.field_74749_a.length; ++i) {
             if (i != 0) {
                 stringbuilder.append(',');
             }
 
-            stringbuilder.append(this.intArray[i]);
+            stringbuilder.append(this.field_74749_a[i]);
         }
 
         return stringbuilder.append(']').toString();
     }
 
-    public NBTTagIntArray copy() {
-        int[] aint = new int[this.intArray.length];
+    public NBTTagIntArray func_74737_b() {
+        int[] aint = new int[this.field_74749_a.length];
 
-        System.arraycopy(this.intArray, 0, aint, 0, this.intArray.length);
+        System.arraycopy(this.field_74749_a, 0, aint, 0, this.field_74749_a.length);
         return new NBTTagIntArray(aint);
     }
 
     public boolean equals(Object object) {
-        return super.equals(object) && Arrays.equals(this.intArray, ((NBTTagIntArray) object).intArray);
+        return super.equals(object) && Arrays.equals(this.field_74749_a, ((NBTTagIntArray) object).field_74749_a);
     }
 
     public int hashCode() {
-        return super.hashCode() ^ Arrays.hashCode(this.intArray);
+        return super.hashCode() ^ Arrays.hashCode(this.field_74749_a);
     }
 
-    public int[] getIntArray() {
-        return this.intArray;
+    public int[] func_150302_c() {
+        return this.field_74749_a;
     }
 
     public NBTBase clone() {
-        return this.copy();
+        return this.func_74737_b();
     }
 }

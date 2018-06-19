@@ -23,93 +23,93 @@ import net.minecraft.world.World;
 
 public class BlockRedstoneRepeater extends BlockRedstoneDiode {
 
-    public static final PropertyBool LOCKED = PropertyBool.create("locked");
-    public static final PropertyInteger DELAY = PropertyInteger.create("delay", 1, 4);
+    public static final PropertyBool field_176411_a = PropertyBool.func_177716_a("locked");
+    public static final PropertyInteger field_176410_b = PropertyInteger.func_177719_a("delay", 1, 4);
 
     protected BlockRedstoneRepeater(boolean flag) {
         super(flag);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockRedstoneRepeater.FACING, EnumFacing.NORTH).withProperty(BlockRedstoneRepeater.DELAY, Integer.valueOf(1)).withProperty(BlockRedstoneRepeater.LOCKED, Boolean.valueOf(false)));
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockRedstoneRepeater.field_185512_D, EnumFacing.NORTH).func_177226_a(BlockRedstoneRepeater.field_176410_b, Integer.valueOf(1)).func_177226_a(BlockRedstoneRepeater.field_176411_a, Boolean.valueOf(false)));
     }
 
-    public String getLocalizedName() {
-        return I18n.translateToLocal("item.diode.name");
+    public String func_149732_F() {
+        return I18n.func_74838_a("item.diode.name");
     }
 
-    public IBlockState getActualState(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return iblockdata.withProperty(BlockRedstoneRepeater.LOCKED, Boolean.valueOf(this.isLocked(iblockaccess, blockposition, iblockdata)));
+    public IBlockState func_176221_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return iblockdata.func_177226_a(BlockRedstoneRepeater.field_176411_a, Boolean.valueOf(this.func_176405_b(iblockaccess, blockposition, iblockdata)));
     }
 
-    public IBlockState withRotation(IBlockState iblockdata, Rotation enumblockrotation) {
-        return iblockdata.withProperty(BlockRedstoneRepeater.FACING, enumblockrotation.rotate((EnumFacing) iblockdata.getValue(BlockRedstoneRepeater.FACING)));
+    public IBlockState func_185499_a(IBlockState iblockdata, Rotation enumblockrotation) {
+        return iblockdata.func_177226_a(BlockRedstoneRepeater.field_185512_D, enumblockrotation.func_185831_a((EnumFacing) iblockdata.func_177229_b(BlockRedstoneRepeater.field_185512_D)));
     }
 
-    public IBlockState withMirror(IBlockState iblockdata, Mirror enumblockmirror) {
-        return iblockdata.withRotation(enumblockmirror.toRotation((EnumFacing) iblockdata.getValue(BlockRedstoneRepeater.FACING)));
+    public IBlockState func_185471_a(IBlockState iblockdata, Mirror enumblockmirror) {
+        return iblockdata.func_185907_a(enumblockmirror.func_185800_a((EnumFacing) iblockdata.func_177229_b(BlockRedstoneRepeater.field_185512_D)));
     }
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        if (!entityhuman.capabilities.allowEdit) {
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        if (!entityhuman.field_71075_bZ.field_75099_e) {
             return false;
         } else {
-            world.setBlockState(blockposition, iblockdata.cycleProperty((IProperty) BlockRedstoneRepeater.DELAY), 3);
+            world.func_180501_a(blockposition, iblockdata.func_177231_a((IProperty) BlockRedstoneRepeater.field_176410_b), 3);
             return true;
         }
     }
 
-    protected int getDelay(IBlockState iblockdata) {
-        return ((Integer) iblockdata.getValue(BlockRedstoneRepeater.DELAY)).intValue() * 2;
+    protected int func_176403_d(IBlockState iblockdata) {
+        return ((Integer) iblockdata.func_177229_b(BlockRedstoneRepeater.field_176410_b)).intValue() * 2;
     }
 
-    protected IBlockState getPoweredState(IBlockState iblockdata) {
-        Integer integer = (Integer) iblockdata.getValue(BlockRedstoneRepeater.DELAY);
-        Boolean obool = (Boolean) iblockdata.getValue(BlockRedstoneRepeater.LOCKED);
-        EnumFacing enumdirection = (EnumFacing) iblockdata.getValue(BlockRedstoneRepeater.FACING);
+    protected IBlockState func_180674_e(IBlockState iblockdata) {
+        Integer integer = (Integer) iblockdata.func_177229_b(BlockRedstoneRepeater.field_176410_b);
+        Boolean obool = (Boolean) iblockdata.func_177229_b(BlockRedstoneRepeater.field_176411_a);
+        EnumFacing enumdirection = (EnumFacing) iblockdata.func_177229_b(BlockRedstoneRepeater.field_185512_D);
 
-        return Blocks.POWERED_REPEATER.getDefaultState().withProperty(BlockRedstoneRepeater.FACING, enumdirection).withProperty(BlockRedstoneRepeater.DELAY, integer).withProperty(BlockRedstoneRepeater.LOCKED, obool);
+        return Blocks.field_150416_aS.func_176223_P().func_177226_a(BlockRedstoneRepeater.field_185512_D, enumdirection).func_177226_a(BlockRedstoneRepeater.field_176410_b, integer).func_177226_a(BlockRedstoneRepeater.field_176411_a, obool);
     }
 
-    protected IBlockState getUnpoweredState(IBlockState iblockdata) {
-        Integer integer = (Integer) iblockdata.getValue(BlockRedstoneRepeater.DELAY);
-        Boolean obool = (Boolean) iblockdata.getValue(BlockRedstoneRepeater.LOCKED);
-        EnumFacing enumdirection = (EnumFacing) iblockdata.getValue(BlockRedstoneRepeater.FACING);
+    protected IBlockState func_180675_k(IBlockState iblockdata) {
+        Integer integer = (Integer) iblockdata.func_177229_b(BlockRedstoneRepeater.field_176410_b);
+        Boolean obool = (Boolean) iblockdata.func_177229_b(BlockRedstoneRepeater.field_176411_a);
+        EnumFacing enumdirection = (EnumFacing) iblockdata.func_177229_b(BlockRedstoneRepeater.field_185512_D);
 
-        return Blocks.UNPOWERED_REPEATER.getDefaultState().withProperty(BlockRedstoneRepeater.FACING, enumdirection).withProperty(BlockRedstoneRepeater.DELAY, integer).withProperty(BlockRedstoneRepeater.LOCKED, obool);
+        return Blocks.field_150413_aR.func_176223_P().func_177226_a(BlockRedstoneRepeater.field_185512_D, enumdirection).func_177226_a(BlockRedstoneRepeater.field_176410_b, integer).func_177226_a(BlockRedstoneRepeater.field_176411_a, obool);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.REPEATER;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_151107_aW;
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(Items.REPEATER);
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(Items.field_151107_aW);
     }
 
-    public boolean isLocked(IBlockAccess iblockaccess, BlockPos blockposition, IBlockState iblockdata) {
-        return this.getPowerOnSides(iblockaccess, blockposition, iblockdata) > 0;
+    public boolean func_176405_b(IBlockAccess iblockaccess, BlockPos blockposition, IBlockState iblockdata) {
+        return this.func_176407_c(iblockaccess, blockposition, iblockdata) > 0;
     }
 
-    protected boolean isAlternateInput(IBlockState iblockdata) {
-        return isDiode(iblockdata);
+    protected boolean func_185545_A(IBlockState iblockdata) {
+        return func_185546_B(iblockdata);
     }
 
-    public void breakBlock(World world, BlockPos blockposition, IBlockState iblockdata) {
-        super.breakBlock(world, blockposition, iblockdata);
-        this.notifyNeighbors(world, blockposition, iblockdata);
+    public void func_180663_b(World world, BlockPos blockposition, IBlockState iblockdata) {
+        super.func_180663_b(world, blockposition, iblockdata);
+        this.func_176400_h(world, blockposition, iblockdata);
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockRedstoneRepeater.FACING, EnumFacing.getHorizontal(i)).withProperty(BlockRedstoneRepeater.LOCKED, Boolean.valueOf(false)).withProperty(BlockRedstoneRepeater.DELAY, Integer.valueOf(1 + (i >> 2)));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockRedstoneRepeater.field_185512_D, EnumFacing.func_176731_b(i)).func_177226_a(BlockRedstoneRepeater.field_176411_a, Boolean.valueOf(false)).func_177226_a(BlockRedstoneRepeater.field_176410_b, Integer.valueOf(1 + (i >> 2)));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         byte b0 = 0;
-        int i = b0 | ((EnumFacing) iblockdata.getValue(BlockRedstoneRepeater.FACING)).getHorizontalIndex();
+        int i = b0 | ((EnumFacing) iblockdata.func_177229_b(BlockRedstoneRepeater.field_185512_D)).func_176736_b();
 
-        i |= ((Integer) iblockdata.getValue(BlockRedstoneRepeater.DELAY)).intValue() - 1 << 2;
+        i |= ((Integer) iblockdata.func_177229_b(BlockRedstoneRepeater.field_176410_b)).intValue() - 1 << 2;
         return i;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockRedstoneRepeater.FACING, BlockRedstoneRepeater.DELAY, BlockRedstoneRepeater.LOCKED});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockRedstoneRepeater.field_185512_D, BlockRedstoneRepeater.field_176410_b, BlockRedstoneRepeater.field_176411_a});
     }
 }

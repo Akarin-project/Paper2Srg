@@ -31,53 +31,53 @@ import net.minecraft.util.ResourceLocation;
 
 public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnterBlock.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("enter_block");
-    private final Map<PlayerAdvancements, CriterionTriggerEnterBlock.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_192196_a = new ResourceLocation("enter_block");
+    private final Map<PlayerAdvancements, CriterionTriggerEnterBlock.a> field_192197_b = Maps.newHashMap();
 
     public EnterBlockTrigger() {}
 
-    public ResourceLocation getId() {
-        return EnterBlockTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return EnterBlockTrigger.field_192196_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerEnterBlock.b> criteriontrigger_a) {
-        CriterionTriggerEnterBlock.a criteriontriggerenterblock_a = (CriterionTriggerEnterBlock.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerEnterBlock.a criteriontriggerenterblock_a = (CriterionTriggerEnterBlock.a) this.field_192197_b.get(advancementdataplayer);
 
         if (criteriontriggerenterblock_a == null) {
             criteriontriggerenterblock_a = new CriterionTriggerEnterBlock.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerenterblock_a);
+            this.field_192197_b.put(advancementdataplayer, criteriontriggerenterblock_a);
         }
 
         criteriontriggerenterblock_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerEnterBlock.b> criteriontrigger_a) {
-        CriterionTriggerEnterBlock.a criteriontriggerenterblock_a = (CriterionTriggerEnterBlock.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerEnterBlock.a criteriontriggerenterblock_a = (CriterionTriggerEnterBlock.a) this.field_192197_b.get(advancementdataplayer);
 
         if (criteriontriggerenterblock_a != null) {
             criteriontriggerenterblock_a.b(criteriontrigger_a);
             if (criteriontriggerenterblock_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_192197_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_192197_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerEnterBlock.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         Block block = null;
 
         if (jsonobject.has("block")) {
-            ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.getString(jsonobject, "block"));
+            ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.func_151200_h(jsonobject, "block"));
 
-            if (!Block.REGISTRY.containsKey(minecraftkey)) {
+            if (!Block.field_149771_c.func_148741_d(minecraftkey)) {
                 throw new JsonSyntaxException("Unknown block type \'" + minecraftkey + "\'");
             }
 
-            block = (Block) Block.REGISTRY.getObject(minecraftkey);
+            block = (Block) Block.field_149771_c.func_82594_a(minecraftkey);
         }
 
         HashMap hashmap = null;
@@ -87,24 +87,24 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
                 throw new JsonSyntaxException("Can\'t define block state without a specific block type");
             }
 
-            BlockStateContainer blockstatelist = block.getBlockState();
+            BlockStateContainer blockstatelist = block.func_176194_O();
 
             IProperty iblockstate;
             Optional optional;
 
-            for (Iterator iterator = JsonUtils.getJsonObject(jsonobject, "state").entrySet().iterator(); iterator.hasNext(); hashmap.put(iblockstate, optional.get())) {
+            for (Iterator iterator = JsonUtils.func_152754_s(jsonobject, "state").entrySet().iterator(); iterator.hasNext(); hashmap.put(iblockstate, optional.get())) {
                 Entry entry = (Entry) iterator.next();
 
-                iblockstate = blockstatelist.getProperty((String) entry.getKey());
+                iblockstate = blockstatelist.func_185920_a((String) entry.getKey());
                 if (iblockstate == null) {
-                    throw new JsonSyntaxException("Unknown block state property \'" + (String) entry.getKey() + "\' for block \'" + Block.REGISTRY.getNameForObject(block) + "\'");
+                    throw new JsonSyntaxException("Unknown block state property \'" + (String) entry.getKey() + "\' for block \'" + Block.field_149771_c.func_177774_c(block) + "\'");
                 }
 
-                String s = JsonUtils.getString((JsonElement) entry.getValue(), (String) entry.getKey());
+                String s = JsonUtils.func_151206_a((JsonElement) entry.getValue(), (String) entry.getKey());
 
-                optional = iblockstate.parseValue(s);
+                optional = iblockstate.func_185929_b(s);
                 if (!optional.isPresent()) {
-                    throw new JsonSyntaxException("Invalid block state value \'" + s + "\' for property \'" + (String) entry.getKey() + "\' on block \'" + Block.REGISTRY.getNameForObject(block) + "\'");
+                    throw new JsonSyntaxException("Invalid block state value \'" + s + "\' for property \'" + (String) entry.getKey() + "\' on block \'" + Block.field_149771_c.func_177774_c(block) + "\'");
                 }
 
                 if (hashmap == null) {
@@ -116,8 +116,8 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
         return new CriterionTriggerEnterBlock.b(block, hashmap);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, IBlockState iblockdata) {
-        CriterionTriggerEnterBlock.a criteriontriggerenterblock_a = (CriterionTriggerEnterBlock.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_192193_a(EntityPlayerMP entityplayer, IBlockState iblockdata) {
+        CriterionTriggerEnterBlock.a criteriontriggerenterblock_a = (CriterionTriggerEnterBlock.a) this.field_192197_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerenterblock_a != null) {
             criteriontriggerenterblock_a.a(iblockdata);
@@ -125,7 +125,7 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -185,13 +185,13 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
         private final Map<IProperty<?>, Object> b;
 
         public b(@Nullable Block block, @Nullable Map<IProperty<?>, Object> map) {
-            super(EnterBlockTrigger.ID);
+            super(EnterBlockTrigger.field_192196_a);
             this.a = block;
             this.b = map;
         }
 
         public boolean a(IBlockState iblockdata) {
-            if (this.a != null && iblockdata.getBlock() != this.a) {
+            if (this.a != null && iblockdata.func_177230_c() != this.a) {
                 return false;
             } else {
                 if (this.b != null) {
@@ -200,7 +200,7 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
                     while (iterator.hasNext()) {
                         Entry entry = (Entry) iterator.next();
 
-                        if (iblockdata.getValue((IProperty) entry.getKey()) != entry.getValue()) {
+                        if (iblockdata.func_177229_b((IProperty) entry.getKey()) != entry.getValue()) {
                             return false;
                         }
                     }

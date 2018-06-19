@@ -8,48 +8,48 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 
 public class TileEntityBed extends TileEntity {
 
-    private EnumDyeColor color;
+    private EnumDyeColor field_193053_a;
 
     public TileEntityBed() {
-        this.color = EnumDyeColor.RED;
+        this.field_193053_a = EnumDyeColor.RED;
     }
 
-    public void setItemValues(ItemStack itemstack) {
-        this.setColor(EnumDyeColor.byMetadata(itemstack.getMetadata()));
+    public void func_193051_a(ItemStack itemstack) {
+        this.func_193052_a(EnumDyeColor.func_176764_b(itemstack.func_77960_j()));
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        super.readFromNBT(nbttagcompound);
-        if (nbttagcompound.hasKey("color")) {
-            this.color = EnumDyeColor.byMetadata(nbttagcompound.getInteger("color"));
+    public void func_145839_a(NBTTagCompound nbttagcompound) {
+        super.func_145839_a(nbttagcompound);
+        if (nbttagcompound.func_74764_b("color")) {
+            this.field_193053_a = EnumDyeColor.func_176764_b(nbttagcompound.func_74762_e("color"));
         }
 
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        super.writeToNBT(nbttagcompound);
-        nbttagcompound.setInteger("color", this.color.getMetadata());
+    public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
+        super.func_189515_b(nbttagcompound);
+        nbttagcompound.func_74768_a("color", this.field_193053_a.func_176765_a());
         return nbttagcompound;
     }
 
-    public NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+    public NBTTagCompound func_189517_E_() {
+        return this.func_189515_b(new NBTTagCompound());
     }
 
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        return new SPacketUpdateTileEntity(this.pos, 11, this.getUpdateTag());
+    public SPacketUpdateTileEntity func_189518_D_() {
+        return new SPacketUpdateTileEntity(this.field_174879_c, 11, this.func_189517_E_());
     }
 
-    public EnumDyeColor getColor() {
-        return this.color;
+    public EnumDyeColor func_193048_a() {
+        return this.field_193053_a;
     }
 
-    public void setColor(EnumDyeColor enumcolor) {
-        this.color = enumcolor;
-        this.markDirty();
+    public void func_193052_a(EnumDyeColor enumcolor) {
+        this.field_193053_a = enumcolor;
+        this.func_70296_d();
     }
 
-    public ItemStack getItemStack() {
-        return new ItemStack(Items.BED, 1, this.color.getMetadata());
+    public ItemStack func_193049_f() {
+        return new ItemStack(Items.field_151104_aV, 1, this.field_193053_a.func_176765_a());
     }
 }

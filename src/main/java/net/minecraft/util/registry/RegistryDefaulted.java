@@ -5,16 +5,16 @@ import javax.annotation.Nullable;
 
 public class RegistryDefaulted<K, V> extends RegistrySimple<K, V> {
 
-    private final V defaultObject;
+    private final V field_82597_b;
 
     public RegistryDefaulted(V v0) {
-        this.defaultObject = v0;
+        this.field_82597_b = v0;
     }
 
     @Nonnull
-    public V getObject(@Nullable K k0) {
-        Object object = super.getObject(k0);
+    public V func_82594_a(@Nullable K k0) {
+        Object object = super.func_82594_a(k0);
 
-        return object == null ? this.defaultObject : object;
+        return object == null ? this.field_82597_b : object;
     }
 }

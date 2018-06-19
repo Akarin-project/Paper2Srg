@@ -8,7 +8,7 @@ public class ItemAnvilBlock extends ItemMultiTexture {
         super(block, block, new String[] { "intact", "slightlyDamaged", "veryDamaged"});
     }
 
-    public int getMetadata(int i) {
+    public int func_77647_b(int i) {
         return i << 2;
     }
 }

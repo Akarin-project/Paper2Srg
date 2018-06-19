@@ -10,12 +10,12 @@ public class WorldGenMelon extends WorldGenerator {
 
     public WorldGenMelon() {}
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
         for (int i = 0; i < 64; ++i) {
-            BlockPos blockposition1 = blockposition.add(random.nextInt(8) - random.nextInt(8), random.nextInt(4) - random.nextInt(4), random.nextInt(8) - random.nextInt(8));
+            BlockPos blockposition1 = blockposition.func_177982_a(random.nextInt(8) - random.nextInt(8), random.nextInt(4) - random.nextInt(4), random.nextInt(8) - random.nextInt(8));
 
-            if (Blocks.MELON_BLOCK.canPlaceBlockAt(world, blockposition1) && world.getBlockState(blockposition1.down()).getBlock() == Blocks.GRASS) {
-                world.setBlockState(blockposition1, Blocks.MELON_BLOCK.getDefaultState(), 2);
+            if (Blocks.field_150440_ba.func_176196_c(world, blockposition1) && world.func_180495_p(blockposition1.func_177977_b()).func_177230_c() == Blocks.field_150349_c) {
+                world.func_180501_a(blockposition1, Blocks.field_150440_ba.func_176223_P(), 2);
             }
         }
 

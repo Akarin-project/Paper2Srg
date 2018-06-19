@@ -1,11 +1,9 @@
 package net.minecraft.client.util;
 
 import com.google.common.collect.Lists;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntCollection;
-import it.unimi.dsi.fastutil.ints.IntIterator;
-import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.ints.IntListIterator;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntAVLTreeSet;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntIterator;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -19,72 +17,73 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.server.AutoRecipeStackManager.a;
 import net.minecraft.util.NonNullList;
 
 public class RecipeItemHelper {
 
-    public final Int2IntMap itemToCount = new Int2IntOpenHashMap();
+    public final Int2IntMap field_194124_a = new Int2IntOpenHashMap();
 
     public RecipeItemHelper() {}
 
-    public void accountStack(ItemStack itemstack) {
-        if (!itemstack.isEmpty() && !itemstack.isItemDamaged() && !itemstack.isItemEnchanted() && !itemstack.hasDisplayName()) {
-            int i = pack(itemstack);
-            int j = itemstack.getCount();
+    public void func_194112_a(ItemStack itemstack) {
+        if (!itemstack.func_190926_b() && !itemstack.func_77951_h() && !itemstack.func_77948_v() && !itemstack.func_82837_s()) {
+            int i = func_194113_b(itemstack);
+            int j = itemstack.func_190916_E();
 
-            this.increment(i, j);
+            this.func_194117_b(i, j);
         }
 
     }
 
-    public static int pack(ItemStack itemstack) {
-        Item item = itemstack.getItem();
-        int i = item.getHasSubtypes() ? itemstack.getMetadata() : 0;
+    public static int func_194113_b(ItemStack itemstack) {
+        Item item = itemstack.func_77973_b();
+        int i = item.func_77614_k() ? itemstack.func_77960_j() : 0;
 
-        return Item.REGISTRY.getIDForObject(item) << 16 | i & '\uffff';
+        return Item.field_150901_e.func_148757_b((Object) item) << 16 | i & '\uffff';
     }
 
-    public boolean containsItem(int i) {
-        return this.itemToCount.get(i) > 0;
+    public boolean func_194120_a(int i) {
+        return this.field_194124_a.get(i) > 0;
     }
 
-    public int tryTake(int i, int j) {
-        int k = this.itemToCount.get(i);
+    public int func_194122_a(int i, int j) {
+        int k = this.field_194124_a.get(i);
 
         if (k >= j) {
-            this.itemToCount.put(i, k - j);
+            this.field_194124_a.put(i, k - j);
             return i;
         } else {
             return 0;
         }
     }
 
-    private void increment(int i, int j) {
-        this.itemToCount.put(i, this.itemToCount.get(i) + j);
+    private void func_194117_b(int i, int j) {
+        this.field_194124_a.put(i, this.field_194124_a.get(i) + j);
     }
 
-    public boolean canCraft(IRecipe irecipe, @Nullable IntList intlist) {
-        return this.canCraft(irecipe, intlist, 1);
+    public boolean func_194116_a(IRecipe irecipe, @Nullable IntList intlist) {
+        return this.func_194118_a(irecipe, intlist, 1);
     }
 
-    public boolean canCraft(IRecipe irecipe, @Nullable IntList intlist, int i) {
+    public boolean func_194118_a(IRecipe irecipe, @Nullable IntList intlist, int i) {
         return (new AutoRecipeStackManager.a(irecipe)).a(i, intlist);
     }
 
-    public int getBiggestCraftableStack(IRecipe irecipe, @Nullable IntList intlist) {
-        return this.getBiggestCraftableStack(irecipe, Integer.MAX_VALUE, intlist);
+    public int func_194114_b(IRecipe irecipe, @Nullable IntList intlist) {
+        return this.func_194121_a(irecipe, Integer.MAX_VALUE, intlist);
     }
 
-    public int getBiggestCraftableStack(IRecipe irecipe, int i, @Nullable IntList intlist) {
+    public int func_194121_a(IRecipe irecipe, int i, @Nullable IntList intlist) {
         return (new AutoRecipeStackManager.a(irecipe)).b(i, intlist);
     }
 
-    public static ItemStack unpack(int i) {
-        return i == 0 ? ItemStack.EMPTY : new ItemStack(Item.getItemById(i >> 16 & '\uffff'), 1, i & '\uffff');
+    public static ItemStack func_194115_b(int i) {
+        return i == 0 ? ItemStack.field_190927_a : new ItemStack(Item.func_150899_d(i >> 16 & '\uffff'), 1, i & '\uffff');
     }
 
-    public void clear() {
-        this.itemToCount.clear();
+    public void func_194119_a() {
+        this.field_194124_a.clear();
     }
 
     class a {
@@ -99,9 +98,9 @@ public class RecipeItemHelper {
 
         public a(IRecipe irecipe) {
             this.b = irecipe;
-            this.c.addAll(irecipe.getIngredients());
+            this.c.addAll(irecipe.func_192400_c());
             this.c.removeIf((var0) -> {
-                return recipeitemstack == Ingredient.EMPTY;
+                return recipeitemstack == Ingredient.field_193370_a;
             });
             this.d = this.c.size();
             this.e = this.a();
@@ -109,7 +108,7 @@ public class RecipeItemHelper {
             this.g = new BitSet(this.d + this.f + this.d + this.d * this.f);
 
             for (int i = 0; i < this.c.size(); ++i) {
-                IntList intlist = this.c.get(i).getValidItemStacksPacked();
+                IntList intlist = ((Ingredient) this.c.get(i)).func_194139_b();
 
                 for (int j = 0; j < this.f; ++j) {
                     if (intlist.contains(this.e[j])) {
@@ -127,13 +126,13 @@ public class RecipeItemHelper {
                 int j;
 
                 for (j = 0; this.a(i); ++j) {
-                    RecipeItemHelper.this.tryTake(this.e[this.h.getInt(0)], i);
+                    RecipeItemHelper.this.func_194122_a(this.e[this.h.getInt(0)], i);
                     int k = this.h.size() - 1;
 
                     this.c(this.h.getInt(k));
 
                     for (int l = 0; l < k; ++l) {
-                        this.c((l & 1) == 0, this.h.get(l).intValue(), this.h.get(l + 1).intValue());
+                        this.c((l & 1) == 0, ((Integer) this.h.get(l)).intValue(), ((Integer) this.h.get(l + 1)).intValue());
                     }
 
                     this.h.clear();
@@ -149,16 +148,16 @@ public class RecipeItemHelper {
 
                 this.g.clear(0, this.d + this.f + this.d);
                 int i1 = 0;
-                NonNullList nonnulllist = this.b.getIngredients();
+                NonNullList nonnulllist = this.b.func_192400_c();
 
                 for (int j1 = 0; j1 < nonnulllist.size(); ++j1) {
-                    if (flag1 && nonnulllist.get(j1) == Ingredient.EMPTY) {
+                    if (flag1 && nonnulllist.get(j1) == Ingredient.field_193370_a) {
                         intlist.add(0);
                     } else {
                         for (int k1 = 0; k1 < this.f; ++k1) {
                             if (this.b(false, i1, k1)) {
                                 this.c(true, k1, i1);
-                                RecipeItemHelper.this.increment(this.e[k1], i);
+                                RecipeItemHelper.this.func_194117_b(this.e[k1], i);
                                 if (flag1) {
                                     intlist.add(this.e[k1]);
                                 }
@@ -180,13 +179,13 @@ public class RecipeItemHelper {
             while (iterator.hasNext()) {
                 Ingredient recipeitemstack = (Ingredient) iterator.next();
 
-                intavltreeset.addAll(recipeitemstack.getValidItemStacksPacked());
+                intavltreeset.addAll(recipeitemstack.func_194139_b());
             }
 
             IntIterator intiterator = intavltreeset.iterator();
 
             while (intiterator.hasNext()) {
-                if (!RecipeItemHelper.this.containsItem(intiterator.nextInt())) {
+                if (!RecipeItemHelper.this.func_194120_a(intiterator.nextInt())) {
                     intiterator.remove();
                 }
             }
@@ -198,7 +197,7 @@ public class RecipeItemHelper {
             int j = this.f;
 
             for (int k = 0; k < j; ++k) {
-                if (RecipeItemHelper.this.itemToCount.get(this.e[k]) >= i) {
+                if (RecipeItemHelper.this.field_194124_a.get(this.e[k]) >= i) {
                     this.a(false, k);
 
                     while (!this.h.isEmpty()) {
@@ -314,8 +313,8 @@ public class RecipeItemHelper {
 
                 int k;
 
-                for (IntListIterator intlistiterator = recipeitemstack.getValidItemStacksPacked().iterator(); intlistiterator.hasNext(); j = Math.max(j, RecipeItemHelper.this.itemToCount.get(k))) {
-                    k = intlistiterator.next().intValue();
+                for (IntListIterator intlistiterator = recipeitemstack.func_194139_b().iterator(); intlistiterator.hasNext(); j = Math.max(j, RecipeItemHelper.this.field_194124_a.get(k))) {
+                    k = ((Integer) intlistiterator.next()).intValue();
                 }
 
                 if (i > 0) {

@@ -8,33 +8,33 @@ import net.minecraft.entity.EntityLiving;
 
 public class EntitySenses {
 
-    EntityLiving entity;
-    List<Entity> seenEntities = Lists.newArrayList();
-    List<Entity> unseenEntities = Lists.newArrayList();
+    EntityLiving field_75526_a;
+    List<Entity> field_75524_b = Lists.newArrayList();
+    List<Entity> field_75525_c = Lists.newArrayList();
 
     public EntitySenses(EntityLiving entityinsentient) {
-        this.entity = entityinsentient;
+        this.field_75526_a = entityinsentient;
     }
 
-    public void clearSensingCache() {
-        this.seenEntities.clear();
-        this.unseenEntities.clear();
+    public void func_75523_a() {
+        this.field_75524_b.clear();
+        this.field_75525_c.clear();
     }
 
-    public boolean canSee(Entity entity) {
-        if (this.seenEntities.contains(entity)) {
+    public boolean func_75522_a(Entity entity) {
+        if (this.field_75524_b.contains(entity)) {
             return true;
-        } else if (this.unseenEntities.contains(entity)) {
+        } else if (this.field_75525_c.contains(entity)) {
             return false;
         } else {
-            this.entity.world.profiler.startSection("canSee");
-            boolean flag = this.entity.canEntityBeSeen(entity);
+            this.field_75526_a.field_70170_p.field_72984_F.func_76320_a("canSee");
+            boolean flag = this.field_75526_a.func_70685_l(entity);
 
-            this.entity.world.profiler.endSection();
+            this.field_75526_a.field_70170_p.field_72984_F.func_76319_b();
             if (flag) {
-                this.seenEntities.add(entity);
+                this.field_75524_b.add(entity);
             } else {
-                this.unseenEntities.add(entity);
+                this.field_75525_c.add(entity);
             }
 
             return flag;

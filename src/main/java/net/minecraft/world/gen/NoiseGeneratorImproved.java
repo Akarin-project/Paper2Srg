@@ -4,60 +4,60 @@ import java.util.Random;
 
 public class NoiseGeneratorImproved extends NoiseGenerator {
 
-    private final int[] permutations;
-    public double xCoord;
-    public double yCoord;
-    public double zCoord;
-    private static final double[] GRAD_X = new double[] { 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, -1.0D, 0.0D};
-    private static final double[] GRAD_Y = new double[] { 1.0D, 1.0D, -1.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D};
-    private static final double[] GRAD_Z = new double[] { 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 1.0D, -1.0D, -1.0D, 1.0D, 1.0D, -1.0D, -1.0D, 0.0D, 1.0D, 0.0D, -1.0D};
-    private static final double[] GRAD_2X = new double[] { 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, -1.0D, 0.0D};
-    private static final double[] GRAD_2Z = new double[] { 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 1.0D, -1.0D, -1.0D, 1.0D, 1.0D, -1.0D, -1.0D, 0.0D, 1.0D, 0.0D, -1.0D};
+    private final int[] field_76312_d;
+    public double field_76315_a;
+    public double field_76313_b;
+    public double field_76314_c;
+    private static final double[] field_152381_e = new double[] { 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, -1.0D, 0.0D};
+    private static final double[] field_152382_f = new double[] { 1.0D, 1.0D, -1.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D};
+    private static final double[] field_152383_g = new double[] { 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 1.0D, -1.0D, -1.0D, 1.0D, 1.0D, -1.0D, -1.0D, 0.0D, 1.0D, 0.0D, -1.0D};
+    private static final double[] field_152384_h = new double[] { 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D, 1.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, -1.0D, 0.0D};
+    private static final double[] field_152385_i = new double[] { 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 1.0D, -1.0D, -1.0D, 1.0D, 1.0D, -1.0D, -1.0D, 0.0D, 1.0D, 0.0D, -1.0D};
 
     public NoiseGeneratorImproved() {
         this(new Random());
     }
 
     public NoiseGeneratorImproved(Random random) {
-        this.permutations = new int[512];
-        this.xCoord = random.nextDouble() * 256.0D;
-        this.yCoord = random.nextDouble() * 256.0D;
-        this.zCoord = random.nextDouble() * 256.0D;
+        this.field_76312_d = new int[512];
+        this.field_76315_a = random.nextDouble() * 256.0D;
+        this.field_76313_b = random.nextDouble() * 256.0D;
+        this.field_76314_c = random.nextDouble() * 256.0D;
 
         int i;
 
-        for (i = 0; i < 256; this.permutations[i] = i++) {
+        for (i = 0; i < 256; this.field_76312_d[i] = i++) {
             ;
         }
 
         for (i = 0; i < 256; ++i) {
             int j = random.nextInt(256 - i) + i;
-            int k = this.permutations[i];
+            int k = this.field_76312_d[i];
 
-            this.permutations[i] = this.permutations[j];
-            this.permutations[j] = k;
-            this.permutations[i + 256] = this.permutations[i];
+            this.field_76312_d[i] = this.field_76312_d[j];
+            this.field_76312_d[j] = k;
+            this.field_76312_d[i + 256] = this.field_76312_d[i];
         }
 
     }
 
-    public final double lerp(double d0, double d1, double d2) {
+    public final double func_76311_b(double d0, double d1, double d2) {
         return d1 + d0 * (d2 - d1);
     }
 
-    public final double grad2(int i, double d0, double d1) {
+    public final double func_76309_a(int i, double d0, double d1) {
         int j = i & 15;
 
-        return NoiseGeneratorImproved.GRAD_2X[j] * d0 + NoiseGeneratorImproved.GRAD_2Z[j] * d1;
+        return NoiseGeneratorImproved.field_152384_h[j] * d0 + NoiseGeneratorImproved.field_152385_i[j] * d1;
     }
 
-    public final double grad(int i, double d0, double d1, double d2) {
+    public final double func_76310_a(int i, double d0, double d1, double d2) {
         int j = i & 15;
 
-        return NoiseGeneratorImproved.GRAD_X[j] * d0 + NoiseGeneratorImproved.GRAD_Y[j] * d1 + NoiseGeneratorImproved.GRAD_Z[j] * d2;
+        return NoiseGeneratorImproved.field_152381_e[j] * d0 + NoiseGeneratorImproved.field_152382_f[j] * d1 + NoiseGeneratorImproved.field_152383_g[j] * d2;
     }
 
-    public void populateNoiseArray(double[] adouble, double d0, double d1, double d2, int i, int j, int k, double d3, double d4, double d5, double d6) {
+    public void func_76308_a(double[] adouble, double d0, double d1, double d2, int i, int j, int k, double d3, double d4, double d5, double d6) {
         int l;
         int i1;
         double d7;
@@ -82,7 +82,7 @@ public class NoiseGeneratorImproved extends NoiseGenerator {
             double d13 = 1.0D / d6;
 
             for (int k2 = 0; k2 < i; ++k2) {
-                d7 = d0 + (double) k2 * d3 + this.xCoord;
+                d7 = d0 + (double) k2 * d3 + this.field_76315_a;
                 int l2 = (int) d7;
 
                 if (d7 < (double) l2) {
@@ -95,7 +95,7 @@ public class NoiseGeneratorImproved extends NoiseGenerator {
                 d8 = d7 * d7 * d7 * (d7 * (d7 * 6.0D - 15.0D) + 10.0D);
 
                 for (j1 = 0; j1 < k; ++j1) {
-                    d9 = d2 + (double) j1 * d5 + this.zCoord;
+                    d9 = d2 + (double) j1 * d5 + this.field_76314_c;
                     k1 = (int) d9;
                     if (d9 < (double) k1) {
                         --k1;
@@ -104,14 +104,14 @@ public class NoiseGeneratorImproved extends NoiseGenerator {
                     l1 = k1 & 255;
                     d9 -= (double) k1;
                     d10 = d9 * d9 * d9 * (d9 * (d9 * 6.0D - 15.0D) + 10.0D);
-                    l = this.permutations[i3] + 0;
-                    int j3 = this.permutations[l] + l1;
-                    int k3 = this.permutations[i3 + 1] + 0;
+                    l = this.field_76312_d[i3] + 0;
+                    int j3 = this.field_76312_d[l] + l1;
+                    int k3 = this.field_76312_d[i3 + 1] + 0;
 
-                    i1 = this.permutations[k3] + l1;
-                    d11 = this.lerp(d8, this.grad2(this.permutations[j3], d7, d9), this.grad(this.permutations[i1], d7 - 1.0D, 0.0D, d9));
-                    d12 = this.lerp(d8, this.grad(this.permutations[j3 + 1], d7, 0.0D, d9 - 1.0D), this.grad(this.permutations[i1 + 1], d7 - 1.0D, 0.0D, d9 - 1.0D));
-                    double d14 = this.lerp(d10, d11, d12);
+                    i1 = this.field_76312_d[k3] + l1;
+                    d11 = this.func_76311_b(d8, this.func_76309_a(this.field_76312_d[j3], d7, d9), this.func_76310_a(this.field_76312_d[i1], d7 - 1.0D, 0.0D, d9));
+                    d12 = this.func_76311_b(d8, this.func_76310_a(this.field_76312_d[j3 + 1], d7, 0.0D, d9 - 1.0D), this.func_76310_a(this.field_76312_d[i1 + 1], d7 - 1.0D, 0.0D, d9 - 1.0D));
+                    double d14 = this.func_76311_b(d10, d11, d12);
 
                     j2 = i2++;
                     adouble[j2] += d14 * d13;
@@ -137,7 +137,7 @@ public class NoiseGeneratorImproved extends NoiseGenerator {
             d8 = 0.0D;
 
             for (j1 = 0; j1 < i; ++j1) {
-                d9 = d0 + (double) j1 * d3 + this.xCoord;
+                d9 = d0 + (double) j1 * d3 + this.field_76315_a;
                 k1 = (int) d9;
                 if (d9 < (double) k1) {
                     --k1;
@@ -148,7 +148,7 @@ public class NoiseGeneratorImproved extends NoiseGenerator {
                 d10 = d9 * d9 * d9 * (d9 * (d9 * 6.0D - 15.0D) + 10.0D);
 
                 for (int l3 = 0; l3 < k; ++l3) {
-                    double d18 = d2 + (double) l3 * d5 + this.zCoord;
+                    double d18 = d2 + (double) l3 * d5 + this.field_76314_c;
                     int i4 = (int) d18;
 
                     if (d18 < (double) i4) {
@@ -161,7 +161,7 @@ public class NoiseGeneratorImproved extends NoiseGenerator {
                     double d19 = d18 * d18 * d18 * (d18 * (d18 * 6.0D - 15.0D) + 10.0D);
 
                     for (int k4 = 0; k4 < j; ++k4) {
-                        double d20 = d1 + (double) k4 * d4 + this.yCoord;
+                        double d20 = d1 + (double) k4 * d4 + this.field_76313_b;
                         int l4 = (int) d20;
 
                         if (d20 < (double) l4) {
@@ -175,23 +175,23 @@ public class NoiseGeneratorImproved extends NoiseGenerator {
 
                         if (k4 == 0 || i5 != i1) {
                             i1 = i5;
-                            int j5 = this.permutations[l1] + i5;
-                            int k5 = this.permutations[j5] + j4;
-                            int l5 = this.permutations[j5 + 1] + j4;
-                            int i6 = this.permutations[l1 + 1] + i5;
+                            int j5 = this.field_76312_d[l1] + i5;
+                            int k5 = this.field_76312_d[j5] + j4;
+                            int l5 = this.field_76312_d[j5 + 1] + j4;
+                            int i6 = this.field_76312_d[l1 + 1] + i5;
 
-                            i2 = this.permutations[i6] + j4;
-                            int j6 = this.permutations[i6 + 1] + j4;
+                            i2 = this.field_76312_d[i6] + j4;
+                            int j6 = this.field_76312_d[i6 + 1] + j4;
 
-                            d16 = this.lerp(d10, this.grad(this.permutations[k5], d9, d20, d18), this.grad(this.permutations[i2], d9 - 1.0D, d20, d18));
-                            d7 = this.lerp(d10, this.grad(this.permutations[l5], d9, d20 - 1.0D, d18), this.grad(this.permutations[j6], d9 - 1.0D, d20 - 1.0D, d18));
-                            d17 = this.lerp(d10, this.grad(this.permutations[k5 + 1], d9, d20, d18 - 1.0D), this.grad(this.permutations[i2 + 1], d9 - 1.0D, d20, d18 - 1.0D));
-                            d8 = this.lerp(d10, this.grad(this.permutations[l5 + 1], d9, d20 - 1.0D, d18 - 1.0D), this.grad(this.permutations[j6 + 1], d9 - 1.0D, d20 - 1.0D, d18 - 1.0D));
+                            d16 = this.func_76311_b(d10, this.func_76310_a(this.field_76312_d[k5], d9, d20, d18), this.func_76310_a(this.field_76312_d[i2], d9 - 1.0D, d20, d18));
+                            d7 = this.func_76311_b(d10, this.func_76310_a(this.field_76312_d[l5], d9, d20 - 1.0D, d18), this.func_76310_a(this.field_76312_d[j6], d9 - 1.0D, d20 - 1.0D, d18));
+                            d17 = this.func_76311_b(d10, this.func_76310_a(this.field_76312_d[k5 + 1], d9, d20, d18 - 1.0D), this.func_76310_a(this.field_76312_d[i2 + 1], d9 - 1.0D, d20, d18 - 1.0D));
+                            d8 = this.func_76311_b(d10, this.func_76310_a(this.field_76312_d[l5 + 1], d9, d20 - 1.0D, d18 - 1.0D), this.func_76310_a(this.field_76312_d[j6 + 1], d9 - 1.0D, d20 - 1.0D, d18 - 1.0D));
                         }
 
-                        double d22 = this.lerp(d21, d16, d7);
-                        double d23 = this.lerp(d21, d17, d8);
-                        double d24 = this.lerp(d19, d22, d23);
+                        double d22 = this.func_76311_b(d21, d16, d7);
+                        double d23 = this.func_76311_b(d21, d17, d8);
+                        double d24 = this.func_76311_b(d19, d22, d23);
 
                         j2 = l++;
                         adouble[j2] += d24 * d15;

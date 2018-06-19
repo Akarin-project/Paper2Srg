@@ -15,30 +15,30 @@ import net.minecraft.world.World;
 public class ItemElytra extends Item {
 
     public ItemElytra() {
-        this.maxStackSize = 1;
-        this.setMaxDamage(432);
-        this.setCreativeTab(CreativeTabs.TRANSPORTATION);
-        this.addPropertyOverride(new ResourceLocation("broken"), new IItemPropertyGetter() {
+        this.field_77777_bU = 1;
+        this.func_77656_e(432);
+        this.func_77637_a(CreativeTabs.field_78029_e);
+        this.func_185043_a(new ResourceLocation("broken"), new IItemPropertyGetter() {
         });
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, ItemArmor.DISPENSER_BEHAVIOR);
+        BlockDispenser.field_149943_a.func_82595_a(this, ItemArmor.field_96605_cw);
     }
 
-    public static boolean isUsable(ItemStack itemstack) {
-        return itemstack.getItemDamage() < itemstack.getMaxDamage() - 1;
+    public static boolean func_185069_d(ItemStack itemstack) {
+        return itemstack.func_77952_i() < itemstack.func_77958_k() - 1;
     }
 
-    public boolean getIsRepairable(ItemStack itemstack, ItemStack itemstack1) {
-        return itemstack1.getItem() == Items.LEATHER;
+    public boolean func_82789_a(ItemStack itemstack, ItemStack itemstack1) {
+        return itemstack1.func_77973_b() == Items.field_151116_aA;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
-        EntityEquipmentSlot enumitemslot = EntityLiving.getSlotForItemStack(itemstack);
-        ItemStack itemstack1 = entityhuman.getItemStackFromSlot(enumitemslot);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
+        EntityEquipmentSlot enumitemslot = EntityLiving.func_184640_d(itemstack);
+        ItemStack itemstack1 = entityhuman.func_184582_a(enumitemslot);
 
-        if (itemstack1.isEmpty()) {
-            entityhuman.setItemStackToSlot(enumitemslot, itemstack.copy());
-            itemstack.setCount(0);
+        if (itemstack1.func_190926_b()) {
+            entityhuman.func_184201_a(enumitemslot, itemstack.func_77946_l());
+            itemstack.func_190920_e(0);
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         } else {
             return new ActionResult(EnumActionResult.FAIL, itemstack);

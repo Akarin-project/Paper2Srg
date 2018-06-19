@@ -23,36 +23,36 @@ import org.bukkit.event.entity.EntityCombustEvent;
 public class ItemBow extends Item {
 
     public ItemBow() {
-        this.maxStackSize = 1;
-        this.setMaxDamage(384);
-        this.setCreativeTab(CreativeTabs.COMBAT);
-        this.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter() {
+        this.field_77777_bU = 1;
+        this.func_77656_e(384);
+        this.func_77637_a(CreativeTabs.field_78037_j);
+        this.func_185043_a(new ResourceLocation("pull"), new IItemPropertyGetter() {
         });
-        this.addPropertyOverride(new ResourceLocation("pulling"), new IItemPropertyGetter() {
+        this.func_185043_a(new ResourceLocation("pulling"), new IItemPropertyGetter() {
         });
     }
 
     private ItemStack a(EntityPlayer entityhuman, ItemStack bow) { // Paper
-        if (this.d(entityhuman, bow, entityhuman.getHeldItem(EnumHand.OFF_HAND))) { // Paper
-            return entityhuman.getHeldItem(EnumHand.OFF_HAND);
-        } else if (this.d(entityhuman, bow, entityhuman.getHeldItem(EnumHand.MAIN_HAND))) { // Paper
-            return entityhuman.getHeldItem(EnumHand.MAIN_HAND);
+        if (this.d(entityhuman, bow, entityhuman.func_184586_b(EnumHand.OFF_HAND))) { // Paper
+            return entityhuman.func_184586_b(EnumHand.OFF_HAND);
+        } else if (this.d(entityhuman, bow, entityhuman.func_184586_b(EnumHand.MAIN_HAND))) { // Paper
+            return entityhuman.func_184586_b(EnumHand.MAIN_HAND);
         } else {
-            for (int i = 0; i < entityhuman.inventory.getSizeInventory(); ++i) {
-                ItemStack itemstack = entityhuman.inventory.getStackInSlot(i);
+            for (int i = 0; i < entityhuman.field_71071_by.func_70302_i_(); ++i) {
+                ItemStack itemstack = entityhuman.field_71071_by.func_70301_a(i);
 
                 if (this.d(entityhuman, bow, itemstack)) { // Paper
                     return itemstack;
                 }
             }
 
-            return ItemStack.EMPTY;
+            return ItemStack.field_190927_a;
         }
     }
 
     // Paper start
     protected boolean d(EntityPlayer player, ItemStack bow, ItemStack itemstack) {
-        return itemstack.getItem() instanceof ItemArrow && (
+        return itemstack.func_77973_b() instanceof ItemArrow && (
                 !(player instanceof EntityPlayerMP) ||
                 new com.destroystokyo.paper.event.player.PlayerReadyArrowEvent(
                         ((EntityPlayerMP) player).getBukkitEntity(),
@@ -62,52 +62,52 @@ public class ItemBow extends Item {
         // Paper end
     }
 
-    public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityLivingBase entityliving, int i) {
+    public void func_77615_a(ItemStack itemstack, World world, EntityLivingBase entityliving, int i) {
         if (entityliving instanceof EntityPlayer) {
             EntityPlayer entityhuman = (EntityPlayer) entityliving;
-            boolean flag = entityhuman.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, itemstack) > 0;
+            boolean flag = entityhuman.field_71075_bZ.field_75098_d || EnchantmentHelper.func_77506_a(Enchantments.field_185312_x, itemstack) > 0;
             ItemStack itemstack1 = this.a(entityhuman, itemstack); // Paper
 
-            if (!itemstack1.isEmpty() || flag) {
-                if (itemstack1.isEmpty()) {
-                    itemstack1 = new ItemStack(Items.ARROW);
+            if (!itemstack1.func_190926_b() || flag) {
+                if (itemstack1.func_190926_b()) {
+                    itemstack1 = new ItemStack(Items.field_151032_g);
                 }
 
-                int j = this.getMaxItemUseDuration(itemstack) - i;
-                float f = getArrowVelocity(j);
+                int j = this.func_77626_a(itemstack) - i;
+                float f = func_185059_b(j);
 
                 if ((double) f >= 0.1D) {
-                    boolean flag1 = flag && itemstack1.getItem() == Items.ARROW;
+                    boolean flag1 = flag && itemstack1.func_77973_b() == Items.field_151032_g;
 
                     boolean consumeArrow = true; // Paper
-                    if (!world.isRemote) {
-                        ItemArrow itemarrow = (ItemArrow) ((ItemArrow) (itemstack1.getItem() instanceof ItemArrow ? itemstack1.getItem() : Items.ARROW));
-                        EntityArrow entityarrow = itemarrow.createArrow(world, itemstack1, (EntityLivingBase) entityhuman);
+                    if (!world.field_72995_K) {
+                        ItemArrow itemarrow = (ItemArrow) ((ItemArrow) (itemstack1.func_77973_b() instanceof ItemArrow ? itemstack1.func_77973_b() : Items.field_151032_g));
+                        EntityArrow entityarrow = itemarrow.func_185052_a(world, itemstack1, (EntityLivingBase) entityhuman);
 
-                        entityarrow.shoot(entityhuman, entityhuman.rotationPitch, entityhuman.rotationYaw, 0.0F, f * 3.0F, 1.0F);
+                        entityarrow.func_184547_a(entityhuman, entityhuman.field_70125_A, entityhuman.field_70177_z, 0.0F, f * 3.0F, 1.0F);
                         if (f == 1.0F) {
-                            entityarrow.setIsCritical(true);
+                            entityarrow.func_70243_d(true);
                         }
 
-                        int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, itemstack);
+                        int k = EnchantmentHelper.func_77506_a(Enchantments.field_185309_u, itemstack);
 
                         if (k > 0) {
-                            entityarrow.setDamage(entityarrow.getDamage() + (double) k * 0.5D + 0.5D);
+                            entityarrow.func_70239_b(entityarrow.func_70242_d() + (double) k * 0.5D + 0.5D);
                         }
 
-                        int l = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, itemstack);
+                        int l = EnchantmentHelper.func_77506_a(Enchantments.field_185310_v, itemstack);
 
                         if (l > 0) {
-                            entityarrow.setKnockbackStrength(l);
+                            entityarrow.func_70240_a(l);
                         }
 
-                        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, itemstack) > 0) {
+                        if (EnchantmentHelper.func_77506_a(Enchantments.field_185311_w, itemstack) > 0) {
                         // CraftBukkit start - call EntityCombustEvent
                         EntityCombustEvent event = new EntityCombustEvent(entityarrow.getBukkitEntity(), 100);
-                        entityarrow.world.getServer().getPluginManager().callEvent(event);
+                        entityarrow.field_70170_p.getServer().getPluginManager().callEvent(event);
 
                         if (!event.isCancelled()) {
-                            entityarrow.setFire(event.getDuration());
+                            entityarrow.func_70015_d(event.getDuration());
                         }
                         // CraftBukkit end
                         }
@@ -118,14 +118,14 @@ public class ItemBow extends Item {
                             return;
                         }
 
-                        itemstack.damageItem(1, entityhuman);
+                        itemstack.func_77972_a(1, entityhuman);
                         consumeArrow = event.getConsumeArrow(); // Paper
-                        if (!consumeArrow || flag1 || (entityhuman.capabilities.isCreativeMode && ((itemstack1.getItem() == Items.SPECTRAL_ARROW) || (itemstack1.getItem() == Items.TIPPED_ARROW)))) { // Paper - add !consumeArrow
-                            entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
+                        if (!consumeArrow || flag1 || (entityhuman.field_71075_bZ.field_75098_d && ((itemstack1.func_77973_b() == Items.field_185166_h) || (itemstack1.func_77973_b() == Items.field_185167_i)))) { // Paper - add !consumeArrow
+                            entityarrow.field_70251_a = EntityArrow.PickupStatus.CREATIVE_ONLY;
                         }
 
                         if (event.getProjectile() == entityarrow.getBukkitEntity()) {
-                            if (!world.spawnEntity(entityarrow)) {
+                            if (!world.func_72838_d(entityarrow)) {
                                 if (entityhuman instanceof EntityPlayerMP) {
                                     ((EntityPlayerMP) entityhuman).getBukkitEntity().updateInventory();
                                 }
@@ -135,21 +135,21 @@ public class ItemBow extends Item {
                         // CraftBukkit end
                     }
 
-                    world.playSound((EntityPlayer) null, entityhuman.posX, entityhuman.posY, entityhuman.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (ItemBow.itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-                    if (!flag1 && !entityhuman.capabilities.isCreativeMode && consumeArrow) { // Paper
-                        itemstack1.shrink(1);
-                        if (itemstack1.isEmpty()) {
-                            entityhuman.inventory.deleteStack(itemstack1);
+                    world.func_184148_a((EntityPlayer) null, entityhuman.field_70165_t, entityhuman.field_70163_u, entityhuman.field_70161_v, SoundEvents.field_187737_v, SoundCategory.PLAYERS, 1.0F, 1.0F / (ItemBow.field_77697_d.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                    if (!flag1 && !entityhuman.field_71075_bZ.field_75098_d && consumeArrow) { // Paper
+                        itemstack1.func_190918_g(1);
+                        if (itemstack1.func_190926_b()) {
+                            entityhuman.field_71071_by.func_184437_d(itemstack1);
                         }
                     }
 
-                    entityhuman.addStat(StatList.getObjectUseStats((Item) this));
+                    entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
                 }
             }
         }
     }
 
-    public static float getArrowVelocity(int i) {
+    public static float func_185059_b(int i) {
         float f = (float) i / 20.0F;
 
         f = (f * f + f * 2.0F) / 3.0F;
@@ -160,27 +160,27 @@ public class ItemBow extends Item {
         return f;
     }
 
-    public int getMaxItemUseDuration(ItemStack itemstack) {
+    public int func_77626_a(ItemStack itemstack) {
         return 72000;
     }
 
-    public EnumAction getItemUseAction(ItemStack itemstack) {
+    public EnumAction func_77661_b(ItemStack itemstack) {
         return EnumAction.BOW;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
-        boolean flag = !this.a(entityhuman, itemstack).isEmpty(); // Paper
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
+        boolean flag = !this.a(entityhuman, itemstack).func_190926_b(); // Paper
 
-        if (!entityhuman.capabilities.isCreativeMode && !flag) {
+        if (!entityhuman.field_71075_bZ.field_75098_d && !flag) {
             return flag ? new ActionResult(EnumActionResult.PASS, itemstack) : new ActionResult(EnumActionResult.FAIL, itemstack);
         } else {
-            entityhuman.setActiveHand(enumhand);
+            entityhuman.func_184598_c(enumhand);
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         }
     }
 
-    public int getItemEnchantability() {
+    public int func_77619_b() {
         return 1;
     }
 }

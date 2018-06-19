@@ -6,18 +6,18 @@ public class EnchantmentArrowFire extends Enchantment {
 
     public EnchantmentArrowFire(Enchantment.Rarity enchantment_rarity, EntityEquipmentSlot... aenumitemslot) {
         super(enchantment_rarity, EnumEnchantmentType.BOW, aenumitemslot);
-        this.setName("arrowFire");
+        this.func_77322_b("arrowFire");
     }
 
-    public int getMinEnchantability(int i) {
+    public int func_77321_a(int i) {
         return 20;
     }
 
-    public int getMaxEnchantability(int i) {
+    public int func_77317_b(int i) {
         return 50;
     }
 
-    public int getMaxLevel() {
+    public int func_77325_b() {
         return 1;
     }
 }

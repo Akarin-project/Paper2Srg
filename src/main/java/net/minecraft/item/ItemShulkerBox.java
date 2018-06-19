@@ -6,6 +6,6 @@ public class ItemShulkerBox extends ItemBlock {
 
     public ItemShulkerBox(Block block) {
         super(block);
-        this.setMaxStackSize(1);
+        this.func_77625_d(1);
     }
 }

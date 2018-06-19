@@ -9,13 +9,13 @@ public class OptionsLowerCaseLanguage implements IFixableData {
 
     public OptionsLowerCaseLanguage() {}
 
-    public int getFixVersion() {
+    public int func_188216_a() {
         return 816;
     }
 
-    public NBTTagCompound fixTagCompound(NBTTagCompound nbttagcompound) {
-        if (nbttagcompound.hasKey("lang", 8)) {
-            nbttagcompound.setString("lang", nbttagcompound.getString("lang").toLowerCase(Locale.ROOT));
+    public NBTTagCompound func_188217_a(NBTTagCompound nbttagcompound) {
+        if (nbttagcompound.func_150297_b("lang", 8)) {
+            nbttagcompound.func_74778_a("lang", nbttagcompound.func_74779_i("lang").toLowerCase(Locale.ROOT));
         }
 
         return nbttagcompound;

@@ -12,116 +12,117 @@ import net.minecraft.world.World;
 
 public abstract class StructureStart {
 
-    protected List<StructureComponent> components = Lists.newLinkedList();
-    protected StructureBoundingBox boundingBox;
-    private int chunkPosX;
-    private int chunkPosZ;
+    protected List<StructureComponent> field_75075_a = Lists.newLinkedList();
+    protected StructureBoundingBox field_75074_b;
+    private int field_143024_c;
+    private int field_143023_d;
 
     public StructureStart() {}
 
     public StructureStart(int i, int j) {
-        this.chunkPosX = i;
-        this.chunkPosZ = j;
+        this.field_143024_c = i;
+        this.field_143023_d = j;
     }
 
-    public StructureBoundingBox getBoundingBox() {
-        return this.boundingBox;
+    public StructureBoundingBox getBoundingBox() { return func_75071_a(); } // Paper - OBFHELPER
+    public StructureBoundingBox func_75071_a() {
+        return this.field_75074_b;
     }
 
-    public List<StructureComponent> getStructurePieces() { return getComponents(); } // Paper - OBFHELPER
-    public List<StructureComponent> getComponents() {
-        return this.components;
+    public List<StructureComponent> getStructurePieces() { return func_186161_c(); } // Paper - OBFHELPER
+    public List<StructureComponent> func_186161_c() {
+        return this.field_75075_a;
     }
 
-    public void generateStructure(World world, Random random, StructureBoundingBox structureboundingbox) {
-        Iterator iterator = this.components.iterator();
+    public void func_75068_a(World world, Random random, StructureBoundingBox structureboundingbox) {
+        Iterator iterator = this.field_75075_a.iterator();
 
         while (iterator.hasNext()) {
             StructureComponent structurepiece = (StructureComponent) iterator.next();
 
-            if (structurepiece.getBoundingBox().intersectsWith(structureboundingbox) && !structurepiece.addComponentParts(world, random, structureboundingbox)) {
+            if (structurepiece.func_74874_b().func_78884_a(structureboundingbox) && !structurepiece.func_74875_a(world, random, structureboundingbox)) {
                 iterator.remove();
             }
         }
 
     }
 
-    protected void updateBoundingBox() {
-        this.boundingBox = StructureBoundingBox.getNewBoundingBox();
-        Iterator iterator = this.components.iterator();
+    protected void func_75072_c() {
+        this.field_75074_b = StructureBoundingBox.func_78887_a();
+        Iterator iterator = this.field_75075_a.iterator();
 
         while (iterator.hasNext()) {
             StructureComponent structurepiece = (StructureComponent) iterator.next();
 
-            this.boundingBox.expandTo(structurepiece.getBoundingBox());
+            this.field_75074_b.func_78888_b(structurepiece.func_74874_b());
         }
 
     }
 
-    public NBTTagCompound writeStructureComponentsToNBT(int i, int j) {
+    public NBTTagCompound func_143021_a(int i, int j) {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-        nbttagcompound.setString("id", MapGenStructureIO.getStructureStartName(this));
-        nbttagcompound.setInteger("ChunkX", i);
-        nbttagcompound.setInteger("ChunkZ", j);
-        nbttagcompound.setTag("BB", this.boundingBox.toNBTTagIntArray());
+        nbttagcompound.func_74778_a("id", MapGenStructureIO.func_143033_a(this));
+        nbttagcompound.func_74768_a("ChunkX", i);
+        nbttagcompound.func_74768_a("ChunkZ", j);
+        nbttagcompound.func_74782_a("BB", this.field_75074_b.func_151535_h());
         NBTTagList nbttaglist = new NBTTagList();
-        Iterator iterator = this.components.iterator();
+        Iterator iterator = this.field_75075_a.iterator();
 
         while (iterator.hasNext()) {
             StructureComponent structurepiece = (StructureComponent) iterator.next();
 
-            nbttaglist.appendTag(structurepiece.createStructureBaseNBT());
+            nbttaglist.func_74742_a(structurepiece.func_143010_b());
         }
 
-        nbttagcompound.setTag("Children", nbttaglist);
-        this.writeToNBT(nbttagcompound);
+        nbttagcompound.func_74782_a("Children", nbttaglist);
+        this.func_143022_a(nbttagcompound);
         return nbttagcompound;
     }
 
-    public void writeToNBT(NBTTagCompound nbttagcompound) {}
+    public void func_143022_a(NBTTagCompound nbttagcompound) {}
 
-    public void readStructureComponentsFromNBT(World world, NBTTagCompound nbttagcompound) {
-        this.chunkPosX = nbttagcompound.getInteger("ChunkX");
-        this.chunkPosZ = nbttagcompound.getInteger("ChunkZ");
-        if (nbttagcompound.hasKey("BB")) {
-            this.boundingBox = new StructureBoundingBox(nbttagcompound.getIntArray("BB"));
+    public void func_143020_a(World world, NBTTagCompound nbttagcompound) {
+        this.field_143024_c = nbttagcompound.func_74762_e("ChunkX");
+        this.field_143023_d = nbttagcompound.func_74762_e("ChunkZ");
+        if (nbttagcompound.func_74764_b("BB")) {
+            this.field_75074_b = new StructureBoundingBox(nbttagcompound.func_74759_k("BB"));
         }
 
-        NBTTagList nbttaglist = nbttagcompound.getTagList("Children", 10);
+        NBTTagList nbttaglist = nbttagcompound.func_150295_c("Children", 10);
 
-        for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-            this.components.add(MapGenStructureIO.getStructureComponent(nbttaglist.getCompoundTagAt(i), world));
+        for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+            this.field_75075_a.add(MapGenStructureIO.func_143032_b(nbttaglist.func_150305_b(i), world));
         }
 
-        this.readFromNBT(nbttagcompound);
+        this.func_143017_b(nbttagcompound);
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {}
+    public void func_143017_b(NBTTagCompound nbttagcompound) {}
 
-    protected void markAvailableHeight(World world, Random random, int i) {
-        int j = world.getSeaLevel() - i;
-        int k = this.boundingBox.getYSize() + 1;
+    protected void func_75067_a(World world, Random random, int i) {
+        int j = world.func_181545_F() - i;
+        int k = this.field_75074_b.func_78882_c() + 1;
 
         if (k < j) {
             k += random.nextInt(j - k);
         }
 
-        int l = k - this.boundingBox.maxY;
+        int l = k - this.field_75074_b.field_78894_e;
 
-        this.boundingBox.offset(0, l, 0);
-        Iterator iterator = this.components.iterator();
+        this.field_75074_b.func_78886_a(0, l, 0);
+        Iterator iterator = this.field_75075_a.iterator();
 
         while (iterator.hasNext()) {
             StructureComponent structurepiece = (StructureComponent) iterator.next();
 
-            structurepiece.offset(0, l, 0);
+            structurepiece.func_181138_a(0, l, 0);
         }
 
     }
 
-    protected void setRandomHeight(World world, Random random, int i, int j) {
-        int k = j - i + 1 - this.boundingBox.getYSize();
+    protected void func_75070_a(World world, Random random, int i, int j) {
+        int k = j - i + 1 - this.field_75074_b.func_78882_c();
         int l;
 
         if (k > 1) {
@@ -130,34 +131,34 @@ public abstract class StructureStart {
             l = i;
         }
 
-        int i1 = l - this.boundingBox.minY;
+        int i1 = l - this.field_75074_b.field_78895_b;
 
-        this.boundingBox.offset(0, i1, 0);
-        Iterator iterator = this.components.iterator();
+        this.field_75074_b.func_78886_a(0, i1, 0);
+        Iterator iterator = this.field_75075_a.iterator();
 
         while (iterator.hasNext()) {
             StructureComponent structurepiece = (StructureComponent) iterator.next();
 
-            structurepiece.offset(0, i1, 0);
+            structurepiece.func_181138_a(0, i1, 0);
         }
 
     }
 
-    public boolean isSizeable() { return isSizeableStructure(); } public boolean isSizeableStructure() { // Paper - OBFHELPER
+    public boolean isSizeable() { return func_75069_d(); } public boolean func_75069_d() { // Paper - OBFHELPER
         return true;
     }
 
-    public boolean isValidForPostProcess(ChunkPos chunkcoordintpair) {
+    public boolean func_175788_a(ChunkPos chunkcoordintpair) {
         return true;
     }
 
-    public void notifyPostProcessAt(ChunkPos chunkcoordintpair) {}
+    public void func_175787_b(ChunkPos chunkcoordintpair) {}
 
-    public int getChunkPosX() {
-        return this.chunkPosX;
+    public int func_143019_e() {
+        return this.field_143024_c;
     }
 
-    public int getChunkPosZ() {
-        return this.chunkPosZ;
+    public int func_143018_f() {
+        return this.field_143023_d;
     }
 }

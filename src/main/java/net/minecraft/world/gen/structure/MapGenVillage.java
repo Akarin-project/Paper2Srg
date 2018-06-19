@@ -16,14 +16,14 @@ import net.minecraft.world.biome.Biome;
 
 public class MapGenVillage extends MapGenStructure {
 
-    public static final List<Biome> VILLAGE_SPAWN_BIOMES = Arrays.asList(new Biome[] { Biomes.PLAINS, Biomes.DESERT, Biomes.SAVANNA, Biomes.TAIGA});
-    private int size;
-    private int distance;
-    private final int minTownSeparation;
+    public static final List<Biome> field_75055_e = Arrays.asList(new Biome[] { Biomes.field_76772_c, Biomes.field_76769_d, Biomes.field_150588_X, Biomes.field_76768_g});
+    private int field_75054_f;
+    private int field_82665_g;
+    private final int field_82666_h;
 
     public MapGenVillage() {
-        this.distance = 32;
-        this.minTownSeparation = 8;
+        this.field_82665_g = 32;
+        this.field_82666_h = 8;
     }
 
     public MapGenVillage(Map<String, String> map) {
@@ -34,40 +34,40 @@ public class MapGenVillage extends MapGenStructure {
             Entry entry = (Entry) iterator.next();
 
             if (((String) entry.getKey()).equals("size")) {
-                this.size = MathHelper.getInt((String) entry.getValue(), this.size, 0);
+                this.field_75054_f = MathHelper.func_82714_a((String) entry.getValue(), this.field_75054_f, 0);
             } else if (((String) entry.getKey()).equals("distance")) {
-                this.distance = MathHelper.getInt((String) entry.getValue(), this.distance, 9);
+                this.field_82665_g = MathHelper.func_82714_a((String) entry.getValue(), this.field_82665_g, 9);
             }
         }
 
     }
 
-    public String getStructureName() {
+    public String func_143025_a() {
         return "Village";
     }
 
-    protected boolean canSpawnStructureAtCoords(int i, int j) {
+    protected boolean func_75047_a(int i, int j) {
         int k = i;
         int l = j;
 
         if (i < 0) {
-            i -= this.distance - 1;
+            i -= this.field_82665_g - 1;
         }
 
         if (j < 0) {
-            j -= this.distance - 1;
+            j -= this.field_82665_g - 1;
         }
 
-        int i1 = i / this.distance;
-        int j1 = j / this.distance;
-        Random random = this.world.setRandomSeed(i1, j1, this.world.spigotConfig.villageSeed); // Spigot
+        int i1 = i / this.field_82665_g;
+        int j1 = j / this.field_82665_g;
+        Random random = this.field_75039_c.func_72843_D(i1, j1, this.field_75039_c.spigotConfig.villageSeed); // Spigot
 
-        i1 *= this.distance;
-        j1 *= this.distance;
-        i1 += random.nextInt(this.distance - 8);
-        j1 += random.nextInt(this.distance - 8);
+        i1 *= this.field_82665_g;
+        j1 *= this.field_82665_g;
+        i1 += random.nextInt(this.field_82665_g - 8);
+        j1 += random.nextInt(this.field_82665_g - 8);
         if (k == i1 && l == j1) {
-            boolean flag = this.world.getBiomeProvider().areBiomesViable(k * 16 + 8, l * 16 + 8, 0, MapGenVillage.VILLAGE_SPAWN_BIOMES);
+            boolean flag = this.field_75039_c.func_72959_q().func_76940_a(k * 16 + 8, l * 16 + 8, 0, MapGenVillage.field_75055_e);
 
             if (flag) {
                 return true;
@@ -77,30 +77,30 @@ public class MapGenVillage extends MapGenStructure {
         return false;
     }
 
-    public BlockPos getNearestStructurePos(World world, BlockPos blockposition, boolean flag) {
-        this.world = world;
-        return findNearestStructurePosBySpacing(world, this, blockposition, this.distance, 8, 10387312, false, 100, flag);
+    public BlockPos func_180706_b(World world, BlockPos blockposition, boolean flag) {
+        this.field_75039_c = world;
+        return func_191069_a(world, this, blockposition, this.field_82665_g, 8, 10387312, false, 100, flag);
     }
 
-    protected StructureStart getStructureStart(int i, int j) {
-        return new MapGenVillage.Start(this.world, this.rand, i, j, this.size);
+    protected StructureStart func_75049_b(int i, int j) {
+        return new MapGenVillage.Start(this.field_75039_c, this.field_75038_b, i, j, this.field_75054_f);
     }
 
     public static class Start extends StructureStart {
 
-        private boolean hasMoreThanTwoComponents;
+        private boolean field_75076_c;
 
         public Start() {}
 
         public Start(World world, Random random, int i, int j, int k) {
             super(i, j);
-            List list = StructureVillagePieces.getStructureVillageWeightedPieceList(random, k);
-            StructureVillagePieces.Start worldgenvillagepieces_worldgenvillagestartpiece = new StructureVillagePieces.Start(world.getBiomeProvider(), 0, random, (i << 4) + 2, (j << 4) + 2, list, k);
+            List list = StructureVillagePieces.func_75084_a(random, k);
+            StructureVillagePieces.Start worldgenvillagepieces_worldgenvillagestartpiece = new StructureVillagePieces.Start(world.func_72959_q(), 0, random, (i << 4) + 2, (j << 4) + 2, list, k);
 
-            this.components.add(worldgenvillagepieces_worldgenvillagestartpiece);
-            worldgenvillagepieces_worldgenvillagestartpiece.buildComponent((StructureComponent) worldgenvillagepieces_worldgenvillagestartpiece, this.components, random);
-            List list1 = worldgenvillagepieces_worldgenvillagestartpiece.pendingRoads;
-            List list2 = worldgenvillagepieces_worldgenvillagestartpiece.pendingHouses;
+            this.field_75075_a.add(worldgenvillagepieces_worldgenvillagestartpiece);
+            worldgenvillagepieces_worldgenvillagestartpiece.func_74861_a((StructureComponent) worldgenvillagepieces_worldgenvillagestartpiece, this.field_75075_a, random);
+            List list1 = worldgenvillagepieces_worldgenvillagestartpiece.field_74930_j;
+            List list2 = worldgenvillagepieces_worldgenvillagestartpiece.field_74932_i;
 
             int l;
 
@@ -110,17 +110,17 @@ public class MapGenVillage extends MapGenStructure {
                 if (list1.isEmpty()) {
                     l = random.nextInt(list2.size());
                     structurepiece = (StructureComponent) list2.remove(l);
-                    structurepiece.buildComponent((StructureComponent) worldgenvillagepieces_worldgenvillagestartpiece, this.components, random);
+                    structurepiece.func_74861_a((StructureComponent) worldgenvillagepieces_worldgenvillagestartpiece, this.field_75075_a, random);
                 } else {
                     l = random.nextInt(list1.size());
                     structurepiece = (StructureComponent) list1.remove(l);
-                    structurepiece.buildComponent((StructureComponent) worldgenvillagepieces_worldgenvillagestartpiece, this.components, random);
+                    structurepiece.func_74861_a((StructureComponent) worldgenvillagepieces_worldgenvillagestartpiece, this.field_75075_a, random);
                 }
             }
 
-            this.updateBoundingBox();
+            this.func_75072_c();
             l = 0;
-            Iterator iterator = this.components.iterator();
+            Iterator iterator = this.field_75075_a.iterator();
 
             while (iterator.hasNext()) {
                 StructureComponent structurepiece1 = (StructureComponent) iterator.next();
@@ -130,21 +130,21 @@ public class MapGenVillage extends MapGenStructure {
                 }
             }
 
-            this.hasMoreThanTwoComponents = l > 2;
+            this.field_75076_c = l > 2;
         }
 
-        public boolean isSizeableStructure() {
-            return this.hasMoreThanTwoComponents;
+        public boolean func_75069_d() {
+            return this.field_75076_c;
         }
 
-        public void writeToNBT(NBTTagCompound nbttagcompound) {
-            super.writeToNBT(nbttagcompound);
-            nbttagcompound.setBoolean("Valid", this.hasMoreThanTwoComponents);
+        public void func_143022_a(NBTTagCompound nbttagcompound) {
+            super.func_143022_a(nbttagcompound);
+            nbttagcompound.func_74757_a("Valid", this.field_75076_c);
         }
 
-        public void readFromNBT(NBTTagCompound nbttagcompound) {
-            super.readFromNBT(nbttagcompound);
-            this.hasMoreThanTwoComponents = nbttagcompound.getBoolean("Valid");
+        public void func_143017_b(NBTTagCompound nbttagcompound) {
+            super.func_143017_b(nbttagcompound);
+            this.field_75076_c = nbttagcompound.func_74767_n("Valid");
         }
     }
 }

@@ -32,42 +32,42 @@ public class CraftMerchantCustom extends CraftMerchant {
         }
 
         @Override
-        public void setCustomer(EntityPlayer entityhuman) {
+        public void func_70932_a_(EntityPlayer entityhuman) {
             this.tradingPlayer = entityhuman;
         }
 
         @Override
-        public EntityPlayer getCustomer() {
+        public EntityPlayer func_70931_l_() {
             return this.tradingPlayer;
         }
 
         @Override
-        public MerchantRecipeList getRecipes(EntityPlayer entityhuman) {
+        public MerchantRecipeList func_70934_b(EntityPlayer entityhuman) {
             return this.trades;
         }
 
         @Override
-        public void useRecipe(MerchantRecipe merchantrecipe) {
+        public void func_70933_a(MerchantRecipe merchantrecipe) {
             // increase recipe's uses
-            merchantrecipe.incrementToolUses();
+            merchantrecipe.func_77399_f();
         }
 
         @Override
-        public void verifySellingItem(ItemStack itemstack) {
+        public void func_110297_a_(ItemStack itemstack) {
         }
 
         @Override
-        public ITextComponent getDisplayName() {
+        public ITextComponent func_145748_c_() {
             return new TextComponentString(title);
         }
 
         @Override
-        public World getWorld() {
+        public World func_190670_t_() {
             return null;
         }
 
         @Override
-        public BlockPos getPos() {
+        public BlockPos func_190671_u_() {
             return null;
         }
     }

@@ -11,9 +11,9 @@ public class EntityAIFollowOwnerFlying extends EntityAIFollowOwner {
         super(entitytameableanimal, d0, f, f1);
     }
 
-    protected boolean isTeleportFriendlyBlock(int i, int j, int k, int l, int i1) {
-        IBlockState iblockdata = this.world.getBlockState(new BlockPos(i + l, k - 1, j + i1));
+    protected boolean func_192381_a(int i, int j, int k, int l, int i1) {
+        IBlockState iblockdata = this.field_75342_a.func_180495_p(new BlockPos(i + l, k - 1, j + i1));
 
-        return (iblockdata.isTopSolid() || iblockdata.getMaterial() == Material.LEAVES) && this.world.isAirBlock(new BlockPos(i + l, k, j + i1)) && this.world.isAirBlock(new BlockPos(i + l, k + 1, j + i1));
+        return (iblockdata.func_185896_q() || iblockdata.func_185904_a() == Material.field_151584_j) && this.field_75342_a.func_175623_d(new BlockPos(i + l, k, j + i1)) && this.field_75342_a.func_175623_d(new BlockPos(i + l, k + 1, j + i1));
     }
 }

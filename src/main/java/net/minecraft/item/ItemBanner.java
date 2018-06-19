@@ -27,45 +27,45 @@ import net.minecraft.world.World;
 public class ItemBanner extends ItemBlock {
 
     public ItemBanner() {
-        super(Blocks.STANDING_BANNER);
-        this.maxStackSize = 16;
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
-        this.setHasSubtypes(true);
-        this.setMaxDamage(0);
+        super(Blocks.field_180393_cK);
+        this.field_77777_bU = 16;
+        this.func_77637_a(CreativeTabs.field_78031_c);
+        this.func_77627_a(true);
+        this.func_77656_e(0);
     }
 
-    public EnumActionResult onItemUse(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        IBlockState iblockdata = world.getBlockState(blockposition);
-        boolean flag = iblockdata.getBlock().isReplaceable((IBlockAccess) world, blockposition);
+    public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        IBlockState iblockdata = world.func_180495_p(blockposition);
+        boolean flag = iblockdata.func_177230_c().func_176200_f((IBlockAccess) world, blockposition);
 
-        if (enumdirection != EnumFacing.DOWN && (iblockdata.getMaterial().isSolid() || flag) && (!flag || enumdirection == EnumFacing.UP)) {
-            blockposition = blockposition.offset(enumdirection);
-            ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+        if (enumdirection != EnumFacing.DOWN && (iblockdata.func_185904_a().func_76220_a() || flag) && (!flag || enumdirection == EnumFacing.UP)) {
+            blockposition = blockposition.func_177972_a(enumdirection);
+            ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-            if (entityhuman.canPlayerEdit(blockposition, enumdirection, itemstack) && Blocks.STANDING_BANNER.canPlaceBlockAt(world, blockposition)) {
-                if (world.isRemote) {
+            if (entityhuman.func_175151_a(blockposition, enumdirection, itemstack) && Blocks.field_180393_cK.func_176196_c(world, blockposition)) {
+                if (world.field_72995_K) {
                     return EnumActionResult.SUCCESS;
                 } else {
-                    blockposition = flag ? blockposition.down() : blockposition;
+                    blockposition = flag ? blockposition.func_177977_b() : blockposition;
                     if (enumdirection == EnumFacing.UP) {
-                        int i = MathHelper.floor((double) ((entityhuman.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
+                        int i = MathHelper.func_76128_c((double) ((entityhuman.field_70177_z + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
 
-                        world.setBlockState(blockposition, Blocks.STANDING_BANNER.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(i)), 3);
+                        world.func_180501_a(blockposition, Blocks.field_180393_cK.func_176223_P().func_177226_a(BlockStandingSign.field_176413_a, Integer.valueOf(i)), 3);
                     } else {
-                        world.setBlockState(blockposition, Blocks.WALL_BANNER.getDefaultState().withProperty(BlockWallSign.FACING, enumdirection), 3);
+                        world.func_180501_a(blockposition, Blocks.field_180394_cL.func_176223_P().func_177226_a(BlockWallSign.field_176412_a, enumdirection), 3);
                     }
 
-                    TileEntity tileentity = world.getTileEntity(blockposition);
+                    TileEntity tileentity = world.func_175625_s(blockposition);
 
                     if (tileentity instanceof TileEntityBanner) {
-                        ((TileEntityBanner) tileentity).setItemValues(itemstack, false);
+                        ((TileEntityBanner) tileentity).func_175112_a(itemstack, false);
                     }
 
                     if (entityhuman instanceof EntityPlayerMP) {
-                        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) entityhuman, blockposition, itemstack);
+                        CriteriaTriggers.field_193137_x.func_193173_a((EntityPlayerMP) entityhuman, blockposition, itemstack);
                     }
 
-                    itemstack.shrink(1);
+                    itemstack.func_190918_g(1);
                     return EnumActionResult.SUCCESS;
                 }
             } else {
@@ -76,43 +76,43 @@ public class ItemBanner extends ItemBlock {
         }
     }
 
-    public String getItemStackDisplayName(ItemStack itemstack) {
+    public String func_77653_i(ItemStack itemstack) {
         String s = "item.banner.";
-        EnumDyeColor enumcolor = getBaseColor(itemstack);
+        EnumDyeColor enumcolor = func_179225_h(itemstack);
 
-        s = s + enumcolor.getUnlocalizedName() + ".name";
-        return I18n.translateToLocal(s);
+        s = s + enumcolor.func_176762_d() + ".name";
+        return I18n.func_74838_a(s);
     }
 
-    public void getSubItems(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
-        if (this.isInCreativeTab(creativemodetab)) {
+    public void func_150895_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+        if (this.func_194125_a(creativemodetab)) {
             EnumDyeColor[] aenumcolor = EnumDyeColor.values();
             int i = aenumcolor.length;
 
             for (int j = 0; j < i; ++j) {
                 EnumDyeColor enumcolor = aenumcolor[j];
 
-                nonnulllist.add(makeBanner(enumcolor, (NBTTagList) null));
+                nonnulllist.add(func_190910_a(enumcolor, (NBTTagList) null));
             }
         }
 
     }
 
-    public static ItemStack makeBanner(EnumDyeColor enumcolor, @Nullable NBTTagList nbttaglist) {
-        ItemStack itemstack = new ItemStack(Items.BANNER, 1, enumcolor.getDyeDamage());
+    public static ItemStack func_190910_a(EnumDyeColor enumcolor, @Nullable NBTTagList nbttaglist) {
+        ItemStack itemstack = new ItemStack(Items.field_179564_cE, 1, enumcolor.func_176767_b());
 
-        if (nbttaglist != null && !nbttaglist.hasNoTags()) {
-            itemstack.getOrCreateSubCompound("BlockEntityTag").setTag("Patterns", nbttaglist.copy());
+        if (nbttaglist != null && !nbttaglist.func_82582_d()) {
+            itemstack.func_190925_c("BlockEntityTag").func_74782_a("Patterns", nbttaglist.func_74737_b());
         }
 
         return itemstack;
     }
 
-    public CreativeTabs getCreativeTab() {
-        return CreativeTabs.DECORATIONS;
+    public CreativeTabs func_77640_w() {
+        return CreativeTabs.field_78031_c;
     }
 
-    public static EnumDyeColor getBaseColor(ItemStack itemstack) {
-        return EnumDyeColor.byDyeDamage(itemstack.getMetadata() & 15);
+    public static EnumDyeColor func_179225_h(ItemStack itemstack) {
+        return EnumDyeColor.func_176766_a(itemstack.func_77960_j() & 15);
     }
 }

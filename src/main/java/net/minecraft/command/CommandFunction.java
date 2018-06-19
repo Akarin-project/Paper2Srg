@@ -13,24 +13,24 @@ public class CommandFunction extends CommandBase {
 
     public CommandFunction() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "function";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 2;
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.function.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length != 1 && astring.length != 3) {
             throw new WrongUsageException("commands.function.usage", new Object[0]);
         } else {
             ResourceLocation minecraftkey = new ResourceLocation(astring[0]);
-            FunctionObject customfunction = minecraftserver.getFunctionManager().getFunction(minecraftkey);
+            FunctionObject customfunction = minecraftserver.func_193030_aL().func_193058_a(minecraftkey);
 
             if (customfunction == null) {
                 throw new CommandException("commands.function.unknown", new Object[] { minecraftkey});
@@ -52,7 +52,7 @@ public class CommandFunction extends CommandBase {
                     boolean flag1 = false;
 
                     try {
-                        flag1 = !getEntityList(minecraftserver, icommandlistener, astring[2]).isEmpty();
+                        flag1 = !func_184890_c(minecraftserver, icommandlistener, astring[2]).isEmpty();
                     } catch (EntityNotFoundException exceptionentitynotfound) {
                         ;
                     }
@@ -62,14 +62,14 @@ public class CommandFunction extends CommandBase {
                     }
                 }
 
-                int i = minecraftserver.getFunctionManager().execute(customfunction, CommandSenderWrapper.create(icommandlistener).computePositionVector().withPermissionLevel(2).withSendCommandFeedback(false));
+                int i = minecraftserver.func_193030_aL().func_194019_a(customfunction, CommandSenderWrapper.func_193998_a(icommandlistener).func_194000_i().func_193999_a(2).func_194001_a(false));
 
-                notifyCommandListener(icommandlistener, (ICommand) this, "commands.function.success", new Object[] { minecraftkey, Integer.valueOf(i)});
+                func_152373_a(icommandlistener, (ICommand) this, "commands.function.success", new Object[] { minecraftkey, Integer.valueOf(i)});
             }
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, (Collection) minecraftserver.getFunctionManager().getFunctions().keySet()) : (astring.length == 2 ? getListOfStringsMatchingLastWord(astring, new String[] { "if", "unless"}) : (astring.length == 3 ? getListOfStringsMatchingLastWord(astring, minecraftserver.getOnlinePlayerNames()) : Collections.emptyList()));
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length == 1 ? func_175762_a(astring, (Collection) minecraftserver.func_193030_aL().func_193066_d().keySet()) : (astring.length == 2 ? func_71530_a(astring, new String[] { "if", "unless"}) : (astring.length == 3 ? func_71530_a(astring, minecraftserver.func_71213_z()) : Collections.emptyList()));
     }
 }

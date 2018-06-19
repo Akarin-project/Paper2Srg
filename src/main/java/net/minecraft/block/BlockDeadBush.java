@@ -20,42 +20,42 @@ import net.minecraft.world.World;
 
 public class BlockDeadBush extends BlockBush {
 
-    protected static final AxisAlignedBB DEAD_BUSH_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
+    protected static final AxisAlignedBB field_185516_a = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
 
     protected BlockDeadBush() {
-        super(Material.VINE);
+        super(Material.field_151582_l);
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockDeadBush.DEAD_BUSH_AABB;
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockDeadBush.field_185516_a;
     }
 
-    public MapColor getMapColor(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return MapColor.WOOD;
+    public MapColor func_180659_g(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return MapColor.field_151663_o;
     }
 
-    protected boolean canSustainBush(IBlockState iblockdata) {
-        return iblockdata.getBlock() == Blocks.SAND || iblockdata.getBlock() == Blocks.HARDENED_CLAY || iblockdata.getBlock() == Blocks.STAINED_HARDENED_CLAY || iblockdata.getBlock() == Blocks.DIRT;
+    protected boolean func_185514_i(IBlockState iblockdata) {
+        return iblockdata.func_177230_c() == Blocks.field_150354_m || iblockdata.func_177230_c() == Blocks.field_150405_ch || iblockdata.func_177230_c() == Blocks.field_150406_ce || iblockdata.func_177230_c() == Blocks.field_150346_d;
     }
 
-    public boolean isReplaceable(IBlockAccess iblockaccess, BlockPos blockposition) {
+    public boolean func_176200_f(IBlockAccess iblockaccess, BlockPos blockposition) {
         return true;
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return random.nextInt(3);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.STICK;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_151055_y;
     }
 
-    public void harvestBlock(World world, EntityPlayer entityhuman, BlockPos blockposition, IBlockState iblockdata, @Nullable TileEntity tileentity, ItemStack itemstack) {
-        if (!world.isRemote && itemstack.getItem() == Items.SHEARS) {
-            entityhuman.addStat(StatList.getBlockStats((Block) this));
-            spawnAsEntity(world, blockposition, new ItemStack(Blocks.DEADBUSH, 1, 0));
+    public void func_180657_a(World world, EntityPlayer entityhuman, BlockPos blockposition, IBlockState iblockdata, @Nullable TileEntity tileentity, ItemStack itemstack) {
+        if (!world.field_72995_K && itemstack.func_77973_b() == Items.field_151097_aZ) {
+            entityhuman.func_71029_a(StatList.func_188055_a((Block) this));
+            func_180635_a(world, blockposition, new ItemStack(Blocks.field_150330_I, 1, 0));
         } else {
-            super.harvestBlock(world, entityhuman, blockposition, iblockdata, tileentity, itemstack);
+            super.func_180657_a(world, entityhuman, blockposition, iblockdata, tileentity, itemstack);
         }
 
     }

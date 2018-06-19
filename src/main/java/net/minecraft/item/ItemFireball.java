@@ -15,34 +15,34 @@ import net.minecraft.world.World;
 public class ItemFireball extends Item {
 
     public ItemFireball() {
-        this.setCreativeTab(CreativeTabs.MISC);
+        this.func_77637_a(CreativeTabs.field_78026_f);
     }
 
-    public EnumActionResult onItemUse(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        if (world.isRemote) {
+    public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        if (world.field_72995_K) {
             return EnumActionResult.SUCCESS;
         } else {
-            blockposition = blockposition.offset(enumdirection);
-            ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+            blockposition = blockposition.func_177972_a(enumdirection);
+            ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-            if (!entityhuman.canPlayerEdit(blockposition, enumdirection, itemstack)) {
+            if (!entityhuman.func_175151_a(blockposition, enumdirection, itemstack)) {
                 return EnumActionResult.FAIL;
             } else {
-                if (world.getBlockState(blockposition).getMaterial() == Material.AIR) {
+                if (world.func_180495_p(blockposition).func_185904_a() == Material.field_151579_a) {
                     // CraftBukkit start - fire BlockIgniteEvent
-                    if (org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), org.bukkit.event.block.BlockIgniteEvent.IgniteCause.FIREBALL, entityhuman).isCancelled()) {
-                        if (!entityhuman.capabilities.isCreativeMode) {
-                            itemstack.shrink(1);
+                    if (org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), org.bukkit.event.block.BlockIgniteEvent.IgniteCause.FIREBALL, entityhuman).isCancelled()) {
+                        if (!entityhuman.field_71075_bZ.field_75098_d) {
+                            itemstack.func_190918_g(1);
                         }
                         return EnumActionResult.PASS;
                     }
                     // CraftBukkit end
-                    world.playSound((EntityPlayer) null, blockposition, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 1.0F, (ItemFireball.itemRand.nextFloat() - ItemFireball.itemRand.nextFloat()) * 0.2F + 1.0F);
-                    world.setBlockState(blockposition, Blocks.FIRE.getDefaultState());
+                    world.func_184133_a((EntityPlayer) null, blockposition, SoundEvents.field_187616_bj, SoundCategory.BLOCKS, 1.0F, (ItemFireball.field_77697_d.nextFloat() - ItemFireball.field_77697_d.nextFloat()) * 0.2F + 1.0F);
+                    world.func_175656_a(blockposition, Blocks.field_150480_ab.func_176223_P());
                 }
 
-                if (!entityhuman.capabilities.isCreativeMode) {
-                    itemstack.shrink(1);
+                if (!entityhuman.field_71075_bZ.field_75098_d) {
+                    itemstack.func_190918_g(1);
                 }
 
                 return EnumActionResult.SUCCESS;

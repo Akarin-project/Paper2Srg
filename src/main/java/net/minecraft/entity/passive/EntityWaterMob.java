@@ -16,56 +16,56 @@ public abstract class EntityWaterMob extends EntityLiving implements IAnimals {
         super(world);
     }
 
-    public boolean canBreatheUnderwater() {
+    public boolean func_70648_aU() {
         return true;
     }
 
-    public boolean getCanSpawnHere() {
+    public boolean func_70601_bi() {
         // Paper start - Don't let water mobs spawn in non-water blocks
         // Based around EntityAnimal's implementation
-        int i = MathHelper.floor(this.posX);
-        int j = MathHelper.floor(this.getEntityBoundingBox().minY); // minY of bounding box
-        int k = MathHelper.floor(this.posZ);
-        Block block = this.world.getBlockState(new BlockPos(i, j, k)).getBlock();
+        int i = MathHelper.func_76128_c(this.field_70165_t);
+        int j = MathHelper.func_76128_c(this.func_174813_aQ().field_72338_b); // minY of bounding box
+        int k = MathHelper.func_76128_c(this.field_70161_v);
+        Block block = this.field_70170_p.func_180495_p(new BlockPos(i, j, k)).func_177230_c();
 
-        return block == Blocks.WATER || block == Blocks.FLOWING_WATER;
+        return block == Blocks.field_150355_j || block == Blocks.field_150358_i;
         // Paper end
     }
 
-    public boolean isNotColliding() {
-        return this.world.checkNoEntityCollision(this.getEntityBoundingBox(), (Entity) this);
+    public boolean func_70058_J() {
+        return this.field_70170_p.func_72917_a(this.func_174813_aQ(), (Entity) this);
     }
 
-    public int getTalkInterval() {
+    public int func_70627_aG() {
         return 120;
     }
 
-    protected boolean canDespawn() {
+    protected boolean func_70692_ba() {
         return true;
     }
 
-    protected int getExperiencePoints(EntityPlayer entityhuman) {
-        return 1 + this.world.rand.nextInt(3);
+    protected int func_70693_a(EntityPlayer entityhuman) {
+        return 1 + this.field_70170_p.field_73012_v.nextInt(3);
     }
 
-    public void onEntityUpdate() {
-        int i = this.getAir();
+    public void func_70030_z() {
+        int i = this.func_70086_ai();
 
-        super.onEntityUpdate();
-        if (this.isEntityAlive() && !this.isInWater()) {
+        super.func_70030_z();
+        if (this.func_70089_S() && !this.func_70090_H()) {
             --i;
-            this.setAir(i);
-            if (this.getAir() == -20) {
-                this.setAir(0);
-                this.attackEntityFrom(DamageSource.DROWN, 2.0F);
+            this.func_70050_g(i);
+            if (this.func_70086_ai() == -20) {
+                this.func_70050_g(0);
+                this.func_70097_a(DamageSource.field_76369_e, 2.0F);
             }
         } else {
-            this.setAir(300);
+            this.func_70050_g(300);
         }
 
     }
 
-    public boolean isPushedByWater() {
+    public boolean func_96092_aw() {
         return false;
     }
 }

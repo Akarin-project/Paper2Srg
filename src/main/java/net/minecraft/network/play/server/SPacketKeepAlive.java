@@ -8,23 +8,23 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketKeepAlive implements Packet<INetHandlerPlayClient> {
 
-    private long id;
+    private long field_149136_a;
 
     public SPacketKeepAlive() {}
 
     public SPacketKeepAlive(long i) {
-        this.id = i;
+        this.field_149136_a = i;
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleKeepAlive(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147272_a(this);
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.id = packetdataserializer.readLong();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149136_a = packetdataserializer.readLong();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeLong(this.id);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeLong(this.field_149136_a);
     }
 }

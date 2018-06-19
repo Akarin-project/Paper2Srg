@@ -11,53 +11,53 @@ import net.minecraft.potion.PotionEffect;
 
 public class EnchantmentDamage extends Enchantment {
 
-    private static final String[] DAMAGE_NAMES = new String[] { "all", "undead", "arthropods"};
-    private static final int[] MIN_COST = new int[] { 1, 5, 5};
-    private static final int[] LEVEL_COST = new int[] { 11, 8, 8};
-    private static final int[] LEVEL_COST_SPAN = new int[] { 20, 20, 20};
-    public final int damageType;
+    private static final String[] field_77359_A = new String[] { "all", "undead", "arthropods"};
+    private static final int[] field_77360_B = new int[] { 1, 5, 5};
+    private static final int[] field_77362_C = new int[] { 11, 8, 8};
+    private static final int[] field_77358_D = new int[] { 20, 20, 20};
+    public final int field_77361_a;
 
     public EnchantmentDamage(Enchantment.Rarity enchantment_rarity, int i, EntityEquipmentSlot... aenumitemslot) {
         super(enchantment_rarity, EnumEnchantmentType.WEAPON, aenumitemslot);
-        this.damageType = i;
+        this.field_77361_a = i;
     }
 
-    public int getMinEnchantability(int i) {
-        return EnchantmentDamage.MIN_COST[this.damageType] + (i - 1) * EnchantmentDamage.LEVEL_COST[this.damageType];
+    public int func_77321_a(int i) {
+        return EnchantmentDamage.field_77360_B[this.field_77361_a] + (i - 1) * EnchantmentDamage.field_77362_C[this.field_77361_a];
     }
 
-    public int getMaxEnchantability(int i) {
-        return this.getMinEnchantability(i) + EnchantmentDamage.LEVEL_COST_SPAN[this.damageType];
+    public int func_77317_b(int i) {
+        return this.func_77321_a(i) + EnchantmentDamage.field_77358_D[this.field_77361_a];
     }
 
-    public int getMaxLevel() {
+    public int func_77325_b() {
         return 5;
     }
 
-    public float calcDamageByCreature(int i, EnumCreatureAttribute enummonstertype) {
-        return this.damageType == 0 ? 1.0F + (float) Math.max(0, i - 1) * 0.5F : (this.damageType == 1 && enummonstertype == EnumCreatureAttribute.UNDEAD ? (float) i * 2.5F : (this.damageType == 2 && enummonstertype == EnumCreatureAttribute.ARTHROPOD ? (float) i * 2.5F : 0.0F));
+    public float func_152376_a(int i, EnumCreatureAttribute enummonstertype) {
+        return this.field_77361_a == 0 ? 1.0F + (float) Math.max(0, i - 1) * 0.5F : (this.field_77361_a == 1 && enummonstertype == EnumCreatureAttribute.UNDEAD ? (float) i * 2.5F : (this.field_77361_a == 2 && enummonstertype == EnumCreatureAttribute.ARTHROPOD ? (float) i * 2.5F : 0.0F));
     }
 
-    public String getName() {
-        return "enchantment.damage." + EnchantmentDamage.DAMAGE_NAMES[this.damageType];
+    public String func_77320_a() {
+        return "enchantment.damage." + EnchantmentDamage.field_77359_A[this.field_77361_a];
     }
 
-    public boolean canApplyTogether(Enchantment enchantment) {
+    public boolean func_77326_a(Enchantment enchantment) {
         return !(enchantment instanceof EnchantmentDamage);
     }
 
-    public boolean canApply(ItemStack itemstack) {
-        return itemstack.getItem() instanceof ItemAxe ? true : super.canApply(itemstack);
+    public boolean func_92089_a(ItemStack itemstack) {
+        return itemstack.func_77973_b() instanceof ItemAxe ? true : super.func_92089_a(itemstack);
     }
 
-    public void onEntityDamaged(EntityLivingBase entityliving, Entity entity, int i) {
+    public void func_151368_a(EntityLivingBase entityliving, Entity entity, int i) {
         if (entity instanceof EntityLivingBase) {
             EntityLivingBase entityliving1 = (EntityLivingBase) entity;
 
-            if (this.damageType == 2 && entityliving1.getCreatureAttribute() == EnumCreatureAttribute.ARTHROPOD) {
-                int j = 20 + entityliving.getRNG().nextInt(10 * i);
+            if (this.field_77361_a == 2 && entityliving1.func_70668_bt() == EnumCreatureAttribute.ARTHROPOD) {
+                int j = 20 + entityliving.func_70681_au().nextInt(10 * i);
 
-                entityliving1.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, j, 3));
+                entityliving1.func_70690_d(new PotionEffect(MobEffects.field_76421_d, j, 3));
             }
         }
 

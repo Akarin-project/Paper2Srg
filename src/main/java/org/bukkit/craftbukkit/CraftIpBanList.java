@@ -25,7 +25,7 @@ public class CraftIpBanList implements org.bukkit.BanList {
     public org.bukkit.BanEntry getBanEntry(String target) {
         Validate.notNull(target, "Target cannot be null");
 
-        UserListIPBansEntry entry = (UserListIPBansEntry) list.getEntry(target);
+        UserListIPBansEntry entry = (UserListIPBansEntry) list.func_152683_b(target);
         if (entry == null) {
             return null;
         }
@@ -41,10 +41,10 @@ public class CraftIpBanList implements org.bukkit.BanList {
                 StringUtils.isBlank(source) ? null : source, expires,
                 StringUtils.isBlank(reason) ? null : reason);
 
-        list.addEntry(entry);
+        list.func_152687_a(entry);
 
         try {
-            list.writeChanges();
+            list.func_152678_f();
         } catch (IOException ex) {
             Bukkit.getLogger().log(Level.SEVERE, "Failed to save banned-ips.json, {0}", ex.getMessage());
         }
@@ -55,8 +55,8 @@ public class CraftIpBanList implements org.bukkit.BanList {
     @Override
     public Set<org.bukkit.BanEntry> getBanEntries() {
         ImmutableSet.Builder<org.bukkit.BanEntry> builder = ImmutableSet.builder();
-        for (String target : list.getKeys()) {
-            builder.add(new CraftIpBanEntry(target, (UserListIPBansEntry) list.getEntry(target), list));
+        for (String target : list.func_152685_a()) {
+            builder.add(new CraftIpBanEntry(target, (UserListIPBansEntry) list.func_152683_b(target), list));
         }
 
         return builder.build();
@@ -66,13 +66,13 @@ public class CraftIpBanList implements org.bukkit.BanList {
     public boolean isBanned(String target) {
         Validate.notNull(target, "Target cannot be null");
 
-        return list.isBanned(InetSocketAddress.createUnresolved(target, 0));
+        return list.func_152708_a(InetSocketAddress.createUnresolved(target, 0));
     }
 
     @Override
     public void pardon(String target) {
         Validate.notNull(target, "Target cannot be null");
 
-        list.removeEntry(target);
+        list.func_152684_c(target);
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.network.status.server.SPacketServerInfo;
 
 public interface INetHandlerStatusClient extends INetHandler {
 
-    void handleServerInfo(SPacketServerInfo packetstatusoutserverinfo);
+    void func_147397_a(SPacketServerInfo packetstatusoutserverinfo);
 
-    void handlePong(SPacketPong packetstatusoutpong);
+    void func_147398_a(SPacketPong packetstatusoutpong);
 }

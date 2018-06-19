@@ -38,8 +38,8 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 public final class WorldEntitySpawner {
 
-    private static final int MOB_COUNT_DIV = (int) Math.pow(17.0D, 2.0D);
-    private final LongHashSet eligibleChunksForSpawning = new LongHashSet(); // CraftBukkit
+    private static final int field_180268_a = (int) Math.pow(17.0D, 2.0D);
+    private final LongHashSet field_77193_b = new LongHashSet(); // CraftBukkit
 
     public WorldEntitySpawner() {}
 
@@ -49,36 +49,36 @@ public final class WorldEntitySpawner {
         // Paper start - use entire world, not just active chunks. Spigot broke vanilla expectations.
         if (true) {
             return server
-                    .getChunkProvider()
-                    .id2ChunkMap.values()
+                    .func_72863_F()
+                    .field_73244_f.values()
                     .stream()
                     .collect(java.util.stream.Collectors.summingInt(c -> c.entityCount.get(oClass)));
         }
         // Paper end
         int i = 0;
-        Iterator<Long> it = this.eligibleChunksForSpawning.iterator();
+        Iterator<Long> it = this.field_77193_b.iterator();
         while ( it.hasNext() )
         {
             Long coord = it.next();
             int x = LongHash.msw( coord );
             int z = LongHash.lsw( coord );
-            if ( !((ChunkProviderServer)server.chunkProvider).droppedChunksSet.contains( coord ) && server.isChunkLoaded( x, z, true ) )
+            if ( !((ChunkProviderServer)server.field_73020_y).field_73248_b.contains( coord ) && server.func_175680_a( x, z, true ) )
             {
-                i += server.getChunkFromChunkCoords( x, z ).entityCount.get( oClass );
+                i += server.func_72964_e( x, z ).entityCount.get( oClass );
             }
         }
         return i;
     }
     // Spigot end
 
-    public int findChunksForSpawning(WorldServer worldserver, boolean flag, boolean flag1, boolean flag2) {
+    public int func_77192_a(WorldServer worldserver, boolean flag, boolean flag1, boolean flag2) {
         org.spigotmc.AsyncCatcher.catchOp("check for eligible spawn chunks"); // Paper - At least until we figure out what is calling this async
         if (!flag && !flag1) {
             return 0;
         } else {
-            this.eligibleChunksForSpawning.clear();
+            this.field_77193_b.clear();
             int i = 0;
-            Iterator iterator = worldserver.playerEntities.iterator();
+            Iterator iterator = worldserver.field_73010_i.iterator();
 
             int j;
             int k;
@@ -86,10 +86,10 @@ public final class WorldEntitySpawner {
             while (iterator.hasNext()) {
                 EntityPlayer entityhuman = (EntityPlayer) iterator.next();
 
-                if (!entityhuman.isSpectator() && entityhuman.affectsSpawning) {
-                    int l = MathHelper.floor(entityhuman.posX / 16.0D);
+                if (!entityhuman.func_175149_v() && entityhuman.affectsSpawning) {
+                    int l = MathHelper.func_76128_c(entityhuman.field_70165_t / 16.0D);
 
-                    j = MathHelper.floor(entityhuman.posZ / 16.0D);
+                    j = MathHelper.func_76128_c(entityhuman.field_70161_v / 16.0D);
                     boolean flag3 = true;
                     // Spigot Start
                     byte b0 = worldserver.spigotConfig.mobSpawnRange;
@@ -112,14 +112,14 @@ public final class WorldEntitySpawner {
                             ChunkPos chunkcoordintpair = new ChunkPos(i1 + l, k + j);
 
                             // CraftBukkit start - use LongHash and LongHashSet
-                            long chunkCoords = LongHash.toLong(chunkcoordintpair.x, chunkcoordintpair.z);
-                            if (!this.eligibleChunksForSpawning.contains(chunkCoords)) {
+                            long chunkCoords = LongHash.toLong(chunkcoordintpair.field_77276_a, chunkcoordintpair.field_77275_b);
+                            if (!this.field_77193_b.contains(chunkCoords)) {
                                 ++i;
-                                if (!flag4 && worldserver.getWorldBorder().contains(chunkcoordintpair)) {
-                                    PlayerChunkMapEntry playerchunk = worldserver.getPlayerChunkMap().getEntry(chunkcoordintpair.x, chunkcoordintpair.z);
+                                if (!flag4 && worldserver.func_175723_af().func_177730_a(chunkcoordintpair)) {
+                                    PlayerChunkMapEntry playerchunk = worldserver.func_184164_w().func_187301_b(chunkcoordintpair.field_77276_a, chunkcoordintpair.field_77275_b);
 
-                                    if (playerchunk != null && playerchunk.isSentToPlayers()) {
-                                        this.eligibleChunksForSpawning.add(chunkCoords);
+                                    if (playerchunk != null && playerchunk.func_187274_e()) {
+                                        this.field_77193_b.add(chunkCoords);
                                         // CraftBukkit end
                                     }
                                 }
@@ -130,7 +130,7 @@ public final class WorldEntitySpawner {
             }
 
             int j1 = 0;
-            BlockPos blockposition = worldserver.getSpawnPoint();
+            BlockPos blockposition = worldserver.func_175694_M();
             EnumCreatureType[] aenumcreaturetype = EnumCreatureType.values();
 
             j = aenumcreaturetype.length;
@@ -139,7 +139,7 @@ public final class WorldEntitySpawner {
                 EnumCreatureType enumcreaturetype = aenumcreaturetype[k1];
 
                // CraftBukkit start - Use per-world spawn limits
-                int limit = enumcreaturetype.getMaxNumberOfCreature();
+                int limit = enumcreaturetype.func_75601_b();
                 switch (enumcreaturetype) {
                     case MONSTER:
                         limit = worldserver.getWorld().getMonsterSpawnLimit();
@@ -161,29 +161,29 @@ public final class WorldEntitySpawner {
 				int mobcnt = 0; // Spigot
                 // CraftBukkit end
 
-                if ((!enumcreaturetype.getPeacefulCreature() || flag1) && (enumcreaturetype.getPeacefulCreature() || flag) && (!enumcreaturetype.getAnimal() || flag2)) {
+                if ((!enumcreaturetype.func_75599_d() || flag1) && (enumcreaturetype.func_75599_d() || flag) && (!enumcreaturetype.func_82705_e() || flag2)) {
                     /* Paper start - As far as I can tell neither of these are even used
                     k = worldserver.a(enumcreaturetype.a());
                     int l1 = limit * i / a; // CraftBukkit - use per-world limits
                     */ // Paper end
 
-                    if ((mobcnt = getEntityCount(worldserver, enumcreaturetype.getCreatureClass())) <= limit * i / 289) { // Paper - use 17x17 like vanilla (a at top of file)
+                    if ((mobcnt = getEntityCount(worldserver, enumcreaturetype.func_75598_a())) <= limit * i / 289) { // Paper - use 17x17 like vanilla (a at top of file)
                         BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos();
-                        Iterator iterator1 = this.eligibleChunksForSpawning.iterator();
+                        Iterator iterator1 = this.field_77193_b.iterator();
 
                         int moblimit = (limit * i / 256) - mobcnt + 1; // Spigot - up to 1 more than limit
                         label120:
                         while (iterator1.hasNext() && (moblimit > 0)) { // Spigot - while more allowed
                             // CraftBukkit start = use LongHash and LongObjectHashMap
                             long key = ((Long) iterator1.next()).longValue();
-                            BlockPos blockposition1 = getRandomChunkPosition(worldserver, LongHash.msw(key), LongHash.lsw(key));
+                            BlockPos blockposition1 = func_180621_a(worldserver, LongHash.msw(key), LongHash.lsw(key));
                             // CraftBukkit
-                            int i2 = blockposition1.getX();
-                            int j2 = blockposition1.getY();
-                            int k2 = blockposition1.getZ();
-                            IBlockState iblockdata = worldserver.getBlockState(blockposition1);
+                            int i2 = blockposition1.func_177958_n();
+                            int j2 = blockposition1.func_177956_o();
+                            int k2 = blockposition1.func_177952_p();
+                            IBlockState iblockdata = worldserver.func_180495_p(blockposition1);
 
-                            if (!iblockdata.isNormalCube()) {
+                            if (!iblockdata.func_185915_l()) {
                                 int l2 = 0;
                                 int i3 = 0;
 
@@ -194,31 +194,31 @@ public final class WorldEntitySpawner {
                                     boolean flag5 = true;
                                     Biome.SpawnListEntry biomebase_biomemeta = null;
                                     IEntityLivingData groupdataentity = null;
-                                    int i4 = MathHelper.ceil(Math.random() * 4.0D);
+                                    int i4 = MathHelper.func_76143_f(Math.random() * 4.0D);
                                     int j4 = 0;
 
                                     while (true) {
                                         if (j4 < i4) {
                                             label113: {
-                                                j3 += worldserver.rand.nextInt(6) - worldserver.rand.nextInt(6);
-                                                k3 += worldserver.rand.nextInt(1) - worldserver.rand.nextInt(1);
-                                                l3 += worldserver.rand.nextInt(6) - worldserver.rand.nextInt(6);
-                                                blockposition_mutableblockposition.setPos(j3, k3, l3);
+                                                j3 += worldserver.field_73012_v.nextInt(6) - worldserver.field_73012_v.nextInt(6);
+                                                k3 += worldserver.field_73012_v.nextInt(1) - worldserver.field_73012_v.nextInt(1);
+                                                l3 += worldserver.field_73012_v.nextInt(6) - worldserver.field_73012_v.nextInt(6);
+                                                blockposition_mutableblockposition.func_181079_c(j3, k3, l3);
                                                 float f = (float) j3 + 0.5F;
                                                 float f1 = (float) l3 + 0.5F;
 
-                                                if (!worldserver.isAnyPlayerWithinRangeAt((double) f, (double) k3, (double) f1, 24.0D) && blockposition.distanceSq((double) f, (double) k3, (double) f1) >= 576.0D) {
+                                                if (!worldserver.func_175636_b((double) f, (double) k3, (double) f1, 24.0D) && blockposition.func_177954_c((double) f, (double) k3, (double) f1) >= 576.0D) {
                                                     if (biomebase_biomemeta == null) {
-                                                        biomebase_biomemeta = worldserver.getSpawnListEntryForTypeAt(enumcreaturetype, (BlockPos) blockposition_mutableblockposition);
+                                                        biomebase_biomemeta = worldserver.func_175734_a(enumcreaturetype, (BlockPos) blockposition_mutableblockposition);
                                                         if (biomebase_biomemeta == null) {
                                                             break label113;
                                                         }
                                                     }
 
-                                                    if (worldserver.canCreatureTypeSpawnHere(enumcreaturetype, biomebase_biomemeta, (BlockPos) blockposition_mutableblockposition) && canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.getPlacementForEntity(biomebase_biomemeta.entityClass), worldserver, blockposition_mutableblockposition)) {
+                                                    if (worldserver.func_175732_a(enumcreaturetype, biomebase_biomemeta, (BlockPos) blockposition_mutableblockposition) && func_180267_a(EntitySpawnPlacementRegistry.func_180109_a(biomebase_biomemeta.field_76300_b), worldserver, blockposition_mutableblockposition)) {
                                                         // Paper start
                                                         com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent event;
-                                                        Class<? extends EntityLiving> cls = biomebase_biomemeta.entityClass;
+                                                        Class<? extends EntityLiving> cls = biomebase_biomemeta.field_76300_b;
                                                         org.bukkit.entity.EntityType type = EntityList.clsToTypeMap.get(cls);
                                                         if (type != null) {
                                                             event = new com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent(
@@ -238,17 +238,17 @@ public final class WorldEntitySpawner {
                                                         EntityLiving entityinsentient;
 
                                                         try {
-                                                            entityinsentient = (EntityLiving) biomebase_biomemeta.entityClass.getConstructor(new Class[] { World.class}).newInstance(new Object[] { worldserver});
+                                                            entityinsentient = (EntityLiving) biomebase_biomemeta.field_76300_b.getConstructor(new Class[] { World.class}).newInstance(new Object[] { worldserver});
                                                         } catch (Exception exception) {
                                                             exception.printStackTrace();
                                                             ServerInternalException.reportInternalException(exception); // Paper
                                                             return j1;
                                                         }
 
-                                                        entityinsentient.setLocationAndAngles((double) f, (double) k3, (double) f1, worldserver.rand.nextFloat() * 360.0F, 0.0F);
-                                                        if (entityinsentient.getCanSpawnHere() && entityinsentient.isNotColliding()) {
-                                                            groupdataentity = entityinsentient.onInitialSpawn(worldserver.getDifficultyForLocation(new BlockPos(entityinsentient)), groupdataentity);
-                                                            if (entityinsentient.isNotColliding()) {
+                                                        entityinsentient.func_70012_b((double) f, (double) k3, (double) f1, worldserver.field_73012_v.nextFloat() * 360.0F, 0.0F);
+                                                        if (entityinsentient.func_70601_bi() && entityinsentient.func_70058_J()) {
+                                                            groupdataentity = entityinsentient.func_180482_a(worldserver.func_175649_E(new BlockPos(entityinsentient)), groupdataentity);
+                                                            if (entityinsentient.func_70058_J()) {
                                                                 // CraftBukkit start
                                                                 if (worldserver.addEntity(entityinsentient, SpawnReason.NATURAL)) {
                                                                     ++l2;
@@ -256,7 +256,7 @@ public final class WorldEntitySpawner {
                                                                 }
                                                                 // CraftBukkit end
                                                             } else {
-                                                                entityinsentient.setDead();
+                                                                entityinsentient.func_70106_y();
                                                             }
 
                                                             // Spigot start
@@ -290,50 +290,50 @@ public final class WorldEntitySpawner {
         }
     }
 
-    private static BlockPos getRandomChunkPosition(World world, int i, int j) {
-        Chunk chunk = world.getChunkFromChunkCoords(i, j);
-        int k = i * 16 + world.rand.nextInt(16);
-        int l = j * 16 + world.rand.nextInt(16);
-        int i1 = MathHelper.roundUp(chunk.getHeight(new BlockPos(k, 0, l)) + 1, 16);
-        int j1 = world.rand.nextInt(i1 > 0 ? i1 : chunk.getTopFilledSegment() + 16 - 1);
+    private static BlockPos func_180621_a(World world, int i, int j) {
+        Chunk chunk = world.func_72964_e(i, j);
+        int k = i * 16 + world.field_73012_v.nextInt(16);
+        int l = j * 16 + world.field_73012_v.nextInt(16);
+        int i1 = MathHelper.func_154354_b(chunk.func_177433_f(new BlockPos(k, 0, l)) + 1, 16);
+        int j1 = world.field_73012_v.nextInt(i1 > 0 ? i1 : chunk.func_76625_h() + 16 - 1);
 
         return new BlockPos(k, j1, l);
     }
 
-    public static boolean isValidEmptySpawnBlock(IBlockState iblockdata) {
-        return iblockdata.isBlockNormalCube() ? false : (iblockdata.canProvidePower() ? false : (iblockdata.getMaterial().isLiquid() ? false : !BlockRailBase.isRailBlock(iblockdata)));
+    public static boolean func_185331_a(IBlockState iblockdata) {
+        return iblockdata.func_185898_k() ? false : (iblockdata.func_185897_m() ? false : (iblockdata.func_185904_a().func_76224_d() ? false : !BlockRailBase.func_176563_d(iblockdata)));
     }
 
-    public static boolean canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType entityinsentient_enumentitypositiontype, World world, BlockPos blockposition) {
-        if (!world.getWorldBorder().contains(blockposition)) {
+    public static boolean func_180267_a(EntityLiving.SpawnPlacementType entityinsentient_enumentitypositiontype, World world, BlockPos blockposition) {
+        if (!world.func_175723_af().func_177746_a(blockposition)) {
             return false;
         } else {
-            IBlockState iblockdata = world.getBlockState(blockposition);
+            IBlockState iblockdata = world.func_180495_p(blockposition);
 
             if (entityinsentient_enumentitypositiontype == EntityLiving.SpawnPlacementType.IN_WATER) {
-                return iblockdata.getMaterial() == Material.WATER && world.getBlockState(blockposition.down()).getMaterial() == Material.WATER && !world.getBlockState(blockposition.up()).isNormalCube();
+                return iblockdata.func_185904_a() == Material.field_151586_h && world.func_180495_p(blockposition.func_177977_b()).func_185904_a() == Material.field_151586_h && !world.func_180495_p(blockposition.func_177984_a()).func_185915_l();
             } else {
-                BlockPos blockposition1 = blockposition.down();
+                BlockPos blockposition1 = blockposition.func_177977_b();
 
-                if (!world.getBlockState(blockposition1).isTopSolid()) {
+                if (!world.func_180495_p(blockposition1).func_185896_q()) {
                     return false;
                 } else {
-                    Block block = world.getBlockState(blockposition1).getBlock();
-                    boolean flag = block != Blocks.BEDROCK && block != Blocks.BARRIER;
+                    Block block = world.func_180495_p(blockposition1).func_177230_c();
+                    boolean flag = block != Blocks.field_150357_h && block != Blocks.field_180401_cv;
 
-                    return flag && isValidEmptySpawnBlock(iblockdata) && isValidEmptySpawnBlock(world.getBlockState(blockposition.up()));
+                    return flag && func_185331_a(iblockdata) && func_185331_a(world.func_180495_p(blockposition.func_177984_a()));
                 }
             }
         }
     }
 
-    public static void performWorldGenSpawning(World world, Biome biomebase, int i, int j, int k, int l, Random random) {
-        List list = biomebase.getSpawnableList(EnumCreatureType.CREATURE);
+    public static void func_77191_a(World world, Biome biomebase, int i, int j, int k, int l, Random random) {
+        List list = biomebase.func_76747_a(EnumCreatureType.CREATURE);
 
         if (!list.isEmpty()) {
-            while (random.nextFloat() < biomebase.getSpawningChance()) {
-                Biome.SpawnListEntry biomebase_biomemeta = (Biome.SpawnListEntry) WeightedRandom.getRandomItem(world.rand, list);
-                int i1 = biomebase_biomemeta.minGroupCount + random.nextInt(1 + biomebase_biomemeta.maxGroupCount - biomebase_biomemeta.minGroupCount);
+            while (random.nextFloat() < biomebase.func_76741_f()) {
+                Biome.SpawnListEntry biomebase_biomemeta = (Biome.SpawnListEntry) WeightedRandom.func_76271_a(world.field_73012_v, list);
+                int i1 = biomebase_biomemeta.field_76301_c + random.nextInt(1 + biomebase_biomemeta.field_76299_d - biomebase_biomemeta.field_76301_c);
                 IEntityLivingData groupdataentity = null;
                 int j1 = i + random.nextInt(k);
                 int k1 = j + random.nextInt(l);
@@ -344,22 +344,22 @@ public final class WorldEntitySpawner {
                     boolean flag = false;
 
                     for (int k2 = 0; !flag && k2 < 4; ++k2) {
-                        BlockPos blockposition = world.getTopSolidOrLiquidBlock(new BlockPos(j1, 0, k1));
+                        BlockPos blockposition = world.func_175672_r(new BlockPos(j1, 0, k1));
 
-                        if (canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType.ON_GROUND, world, blockposition)) {
+                        if (func_180267_a(EntityLiving.SpawnPlacementType.ON_GROUND, world, blockposition)) {
                             EntityLiving entityinsentient;
 
                             try {
-                                entityinsentient = (EntityLiving) biomebase_biomemeta.entityClass.getConstructor(new Class[] { World.class}).newInstance(new Object[] { world});
+                                entityinsentient = (EntityLiving) biomebase_biomemeta.field_76300_b.getConstructor(new Class[] { World.class}).newInstance(new Object[] { world});
                             } catch (Exception exception) {
                                 exception.printStackTrace();
                                 ServerInternalException.reportInternalException(exception); // Paper
                                 continue;
                             }
 
-                            entityinsentient.setLocationAndAngles((double) ((float) j1 + 0.5F), (double) blockposition.getY(), (double) ((float) k1 + 0.5F), random.nextFloat() * 360.0F, 0.0F);
+                            entityinsentient.func_70012_b((double) ((float) j1 + 0.5F), (double) blockposition.func_177956_o(), (double) ((float) k1 + 0.5F), random.nextFloat() * 360.0F, 0.0F);
                             // CraftBukkit start - Added a reason for spawning this creature, moved entityinsentient.prepare(groupdataentity) up
-                            groupdataentity = entityinsentient.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entityinsentient)), groupdataentity);
+                            groupdataentity = entityinsentient.func_180482_a(world.func_175649_E(new BlockPos(entityinsentient)), groupdataentity);
                             world.addEntity(entityinsentient, SpawnReason.CHUNK_GEN);
                             // CraftBukkit end
                             flag = true;

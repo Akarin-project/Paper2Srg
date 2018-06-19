@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerShulkerBox extends Container {
 
-    private final IInventory inventory;
+    private final IInventory field_190899_a;
     // CraftBukkit start
     private CraftInventoryView bukkitEntity;
     private InventoryPlayer player;
@@ -22,15 +22,15 @@ public class ContainerShulkerBox extends Container {
             return bukkitEntity;
         }
 
-        bukkitEntity = new CraftInventoryView(this.player.player.getBukkitEntity(), new CraftInventory(this.inventory), this);
+        bukkitEntity = new CraftInventoryView(this.player.field_70458_d.getBukkitEntity(), new CraftInventory(this.field_190899_a), this);
         return bukkitEntity;
     }
     // CraftBukkit end
 
     public ContainerShulkerBox(InventoryPlayer playerinventory, IInventory iinventory, EntityPlayer entityhuman) {
-        this.inventory = iinventory;
+        this.field_190899_a = iinventory;
         this.player = playerinventory; // CraftBukkit - save player
-        iinventory.openInventory(entityhuman);
+        iinventory.func_174889_b(entityhuman);
         boolean flag = true;
         boolean flag1 = true;
 
@@ -39,54 +39,54 @@ public class ContainerShulkerBox extends Container {
 
         for (i = 0; i < 3; ++i) {
             for (j = 0; j < 9; ++j) {
-                this.addSlotToContainer((Slot) (new SlotShulkerBox(iinventory, j + i * 9, 8 + j * 18, 18 + i * 18)));
+                this.func_75146_a((Slot) (new SlotShulkerBox(iinventory, j + i * 9, 8 + j * 18, 18 + i * 18)));
             }
         }
 
         for (i = 0; i < 3; ++i) {
             for (j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(playerinventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.func_75146_a(new Slot(playerinventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
 
         for (i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(playerinventory, i, 8 + i * 18, 142));
+            this.func_75146_a(new Slot(playerinventory, i, 8 + i * 18, 142));
         }
 
     }
 
-    public boolean canInteractWith(EntityPlayer entityhuman) {
-        return this.inventory.isUsableByPlayer(entityhuman);
+    public boolean func_75145_c(EntityPlayer entityhuman) {
+        return this.field_190899_a.func_70300_a(entityhuman);
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer entityhuman, int i) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = (Slot) this.inventorySlots.get(i);
+    public ItemStack func_82846_b(EntityPlayer entityhuman, int i) {
+        ItemStack itemstack = ItemStack.field_190927_a;
+        Slot slot = (Slot) this.field_75151_b.get(i);
 
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+        if (slot != null && slot.func_75216_d()) {
+            ItemStack itemstack1 = slot.func_75211_c();
 
-            itemstack = itemstack1.copy();
-            if (i < this.inventory.getSizeInventory()) {
-                if (!this.mergeItemStack(itemstack1, this.inventory.getSizeInventory(), this.inventorySlots.size(), true)) {
-                    return ItemStack.EMPTY;
+            itemstack = itemstack1.func_77946_l();
+            if (i < this.field_190899_a.func_70302_i_()) {
+                if (!this.func_75135_a(itemstack1, this.field_190899_a.func_70302_i_(), this.field_75151_b.size(), true)) {
+                    return ItemStack.field_190927_a;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, this.inventory.getSizeInventory(), false)) {
-                return ItemStack.EMPTY;
+            } else if (!this.func_75135_a(itemstack1, 0, this.field_190899_a.func_70302_i_(), false)) {
+                return ItemStack.field_190927_a;
             }
 
-            if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+            if (itemstack1.func_190926_b()) {
+                slot.func_75215_d(ItemStack.field_190927_a);
             } else {
-                slot.onSlotChanged();
+                slot.func_75218_e();
             }
         }
 
         return itemstack;
     }
 
-    public void onContainerClosed(EntityPlayer entityhuman) {
-        super.onContainerClosed(entityhuman);
-        this.inventory.closeInventory(entityhuman);
+    public void func_75134_a(EntityPlayer entityhuman) {
+        super.func_75134_a(entityhuman);
+        this.field_190899_a.func_174886_c(entityhuman);
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 
 public interface IBlockBehaviors {
 
-    boolean onBlockEventReceived(World world, BlockPos blockposition, int i, int j);
+    boolean func_189547_a(World world, BlockPos blockposition, int i, int j);
 
-    void neighborChanged(World world, BlockPos blockposition, Block block, BlockPos blockposition1);
+    void func_189546_a(World world, BlockPos blockposition, Block block, BlockPos blockposition1);
 }

@@ -17,34 +17,34 @@ import net.minecraft.world.World;
 public class ItemFlintAndSteel extends Item {
 
     public ItemFlintAndSteel() {
-        this.maxStackSize = 1;
-        this.setMaxDamage(64);
-        this.setCreativeTab(CreativeTabs.TOOLS);
+        this.field_77777_bU = 1;
+        this.func_77656_e(64);
+        this.func_77637_a(CreativeTabs.field_78040_i);
     }
 
-    public EnumActionResult onItemUse(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        blockposition = blockposition.offset(enumdirection);
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        blockposition = blockposition.func_177972_a(enumdirection);
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (!entityhuman.canPlayerEdit(blockposition, enumdirection, itemstack)) {
+        if (!entityhuman.func_175151_a(blockposition, enumdirection, itemstack)) {
             return EnumActionResult.FAIL;
         } else {
-            if (world.getBlockState(blockposition).getMaterial() == Material.AIR) {
+            if (world.func_180495_p(blockposition).func_185904_a() == Material.field_151579_a) {
                 // CraftBukkit start - Store the clicked block
-                if (org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), org.bukkit.event.block.BlockIgniteEvent.IgniteCause.FLINT_AND_STEEL, entityhuman).isCancelled()) {
-                    itemstack.damageItem(1, entityhuman);
+                if (org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), org.bukkit.event.block.BlockIgniteEvent.IgniteCause.FLINT_AND_STEEL, entityhuman).isCancelled()) {
+                    itemstack.func_77972_a(1, entityhuman);
                     return EnumActionResult.PASS;
                 }
                 // CraftBukkit end
-                world.playSound(entityhuman, blockposition, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, ItemFlintAndSteel.itemRand.nextFloat() * 0.4F + 0.8F);
-                world.setBlockState(blockposition, Blocks.FIRE.getDefaultState(), 11);
+                world.func_184133_a(entityhuman, blockposition, SoundEvents.field_187649_bu, SoundCategory.BLOCKS, 1.0F, ItemFlintAndSteel.field_77697_d.nextFloat() * 0.4F + 0.8F);
+                world.func_180501_a(blockposition, Blocks.field_150480_ab.func_176223_P(), 11);
             }
 
             if (entityhuman instanceof EntityPlayerMP) {
-                CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) entityhuman, blockposition, itemstack);
+                CriteriaTriggers.field_193137_x.func_193173_a((EntityPlayerMP) entityhuman, blockposition, itemstack);
             }
 
-            itemstack.damageItem(1, entityhuman);
+            itemstack.func_77972_a(1, entityhuman);
             return EnumActionResult.SUCCESS;
         }
     }

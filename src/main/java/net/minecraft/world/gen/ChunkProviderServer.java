@@ -37,10 +37,10 @@ import org.bukkit.event.world.ChunkUnloadEvent;
 
 public class ChunkProviderServer implements IChunkProvider {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    public final Set<Long> droppedChunksSet = Sets.newHashSet();
-    public final IChunkGenerator chunkGenerator;
-    private final IChunkLoader chunkLoader;
+    private static final Logger field_147417_b = LogManager.getLogger();
+    public final Set<Long> field_73248_b = Sets.newHashSet();
+    public final IChunkGenerator field_186029_c;
+    private final IChunkLoader field_73247_e;
     // Paper start - chunk save stats
     private long lastQueuedSaves = 0L; // Paper
     private long lastProcessedSaves = 0L; // Paper
@@ -48,7 +48,7 @@ public class ChunkProviderServer implements IChunkProvider {
     // Paper end
     // Paper start
     protected Chunk lastChunkByPos = null;
-    public Long2ObjectOpenHashMap<Chunk> id2ChunkMap = new Long2ObjectOpenHashMap<Chunk>(8192) {
+    public Long2ObjectOpenHashMap<Chunk> field_73244_f = new Long2ObjectOpenHashMap<Chunk>(8192) {
 
         @Override
         public Chunk get(long key) {
@@ -67,62 +67,62 @@ public class ChunkProviderServer implements IChunkProvider {
         }
     }; // CraftBukkit
     // Paper end
-    public final WorldServer world;
+    public final WorldServer field_73251_h;
 
     public ChunkProviderServer(WorldServer worldserver, IChunkLoader ichunkloader, IChunkGenerator chunkgenerator) {
-        this.world = worldserver;
-        this.chunkLoader = ichunkloader;
-        this.chunkGenerator = chunkgenerator;
+        this.field_73251_h = worldserver;
+        this.field_73247_e = ichunkloader;
+        this.field_186029_c = chunkgenerator;
     }
 
-    public Collection<Chunk> getLoadedChunks() {
-        return this.id2ChunkMap.values();
+    public Collection<Chunk> func_189548_a() {
+        return this.field_73244_f.values();
     }
 
-    public void queueUnload(Chunk chunk) {
-        if (this.world.provider.canDropChunk(chunk.x, chunk.z)) {
-            this.droppedChunksSet.add(Long.valueOf(ChunkPos.asLong(chunk.x, chunk.z)));
-            chunk.unloadQueued = true;
+    public void func_189549_a(Chunk chunk) {
+        if (this.field_73251_h.field_73011_w.func_186056_c(chunk.field_76635_g, chunk.field_76647_h)) {
+            this.field_73248_b.add(Long.valueOf(ChunkPos.func_77272_a(chunk.field_76635_g, chunk.field_76647_h)));
+            chunk.field_189550_d = true;
         }
 
     }
 
-    public void queueUnloadAll() {
-        ObjectIterator objectiterator = this.id2ChunkMap.values().iterator();
+    public void func_73240_a() {
+        ObjectIterator objectiterator = this.field_73244_f.values().iterator();
 
         while (objectiterator.hasNext()) {
             Chunk chunk = (Chunk) objectiterator.next();
 
-            this.queueUnload(chunk);
+            this.func_189549_a(chunk);
         }
 
     }
 
     @Nullable
-    public Chunk getLoadedChunk(int i, int j) {
-        long k = ChunkPos.asLong(i, j);
-        Chunk chunk = (Chunk) this.id2ChunkMap.get(k);
+    public Chunk func_186026_b(int i, int j) {
+        long k = ChunkPos.func_77272_a(i, j);
+        Chunk chunk = (Chunk) this.field_73244_f.get(k);
 
         if (chunk != null) {
-            chunk.unloadQueued = false;
+            chunk.field_189550_d = false;
         }
 
         return chunk;
     }
 
     @Nullable
-    public Chunk loadChunk(int i, int j) {
-        Chunk chunk = this.getLoadedChunk(i, j);
+    public Chunk func_186028_c(int i, int j) {
+        Chunk chunk = this.func_186026_b(i, j);
 
         if (chunk == null) {
             // CraftBukkit start
             AnvilChunkLoader loader = null;
 
-            if (this.chunkLoader instanceof AnvilChunkLoader) {
-                loader = (AnvilChunkLoader) this.chunkLoader;
+            if (this.field_73247_e instanceof AnvilChunkLoader) {
+                loader = (AnvilChunkLoader) this.field_73247_e;
             }
-            if (loader != null && loader.isChunkGeneratedAt(i, j)) {
-                chunk = ChunkIOExecutor.syncChunkLoad(world, loader, this, i, j);
+            if (loader != null && loader.func_191063_a(i, j)) {
+                chunk = ChunkIOExecutor.syncChunkLoad(field_73251_h, loader, this, i, j);
             }
         }
 
@@ -132,14 +132,14 @@ public class ChunkProviderServer implements IChunkProvider {
     @Nullable
     public Chunk originalGetOrLoadChunkAt(int i, int j) {
         // CraftBukkit end
-        Chunk chunk = this.getLoadedChunk(i, j);
+        Chunk chunk = this.func_186026_b(i, j);
 
         if (chunk == null) {
-            chunk = this.loadChunkFromFile(i, j);
+            chunk = this.func_73239_e(i, j);
             if (chunk != null) {
-                this.id2ChunkMap.put(ChunkPos.asLong(i, j), chunk);
-                chunk.onLoad();
-                chunk.loadNearby(this, this.chunkGenerator, false); // CraftBukkit
+                this.field_73244_f.put(ChunkPos.func_77272_a(i, j), chunk);
+                chunk.func_76631_c();
+                chunk.loadNearby(this, this.field_186029_c, false); // CraftBukkit
             }
         }
 
@@ -148,11 +148,11 @@ public class ChunkProviderServer implements IChunkProvider {
 
     // CraftBukkit start
     public Chunk getChunkIfLoaded(int x, int z) {
-        return id2ChunkMap.get(ChunkPos.asLong(x, z));
+        return field_73244_f.get(ChunkPos.func_77272_a(x, z));
     }
     // CraftBukkit end
 
-    public Chunk provideChunk(int i, int j) {
+    public Chunk func_186025_d(int i, int j) {
         return getChunkAt(i, j, null);
     }
 
@@ -161,20 +161,20 @@ public class ChunkProviderServer implements IChunkProvider {
     }
 
     public Chunk getChunkAt(int i, int j, Runnable runnable, boolean generate) {
-        Chunk chunk = world.paperConfig.allowPermaChunkLoaders ? getLoadedChunk(i, j) : getChunkIfLoaded(i, j); // Paper - Configurable perma chunk loaders
+        Chunk chunk = field_73251_h.paperConfig.allowPermaChunkLoaders ? func_186026_b(i, j) : getChunkIfLoaded(i, j); // Paper - Configurable perma chunk loaders
         AnvilChunkLoader loader = null;
 
-        if (this.chunkLoader instanceof AnvilChunkLoader) {
-            loader = (AnvilChunkLoader) this.chunkLoader;
+        if (this.field_73247_e instanceof AnvilChunkLoader) {
+            loader = (AnvilChunkLoader) this.field_73247_e;
 
         }
         // We can only use the queue for already generated chunks
-        if (chunk == null && loader != null && loader.isChunkGeneratedAt(i, j)) {
+        if (chunk == null && loader != null && loader.func_191063_a(i, j)) {
             if (runnable != null) {
-                ChunkIOExecutor.queueChunkLoad(world, loader, this, i, j, runnable);
+                ChunkIOExecutor.queueChunkLoad(field_73251_h, loader, this, i, j, runnable);
                 return null;
             } else {
-                chunk = ChunkIOExecutor.syncChunkLoad(world, loader, this, i, j);
+                chunk = ChunkIOExecutor.syncChunkLoad(field_73251_h, loader, this, i, j);
 
                 // Paper start - If there was an issue loading the chunk from region, stage1 will fail and stage2 will load it sync
                 // all we need to do is fetch an instance
@@ -200,58 +200,58 @@ public class ChunkProviderServer implements IChunkProvider {
         // CraftBukkit end
 
         if (chunk == null) {
-            world.timings.syncChunkLoadTimer.startTiming(); // Spigot
-            long k = ChunkPos.asLong(i, j);
+            field_73251_h.timings.syncChunkLoadTimer.startTiming(); // Spigot
+            long k = ChunkPos.func_77272_a(i, j);
 
             try {
-                chunk = this.chunkGenerator.generateChunk(i, j);
+                chunk = this.field_186029_c.func_185932_a(i, j);
             } catch (Throwable throwable) {
-                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Exception generating new chunk");
-                CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("Chunk to be generated");
+                CrashReport crashreport = CrashReport.func_85055_a(throwable, "Exception generating new chunk");
+                CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Chunk to be generated");
 
-                crashreportsystemdetails.addCrashSection("Location", (Object) String.format("%d,%d", new Object[] { Integer.valueOf(i), Integer.valueOf(j)}));
-                crashreportsystemdetails.addCrashSection("Position hash", (Object) Long.valueOf(k));
-                crashreportsystemdetails.addCrashSection("Generator", (Object) this.chunkGenerator);
+                crashreportsystemdetails.func_71507_a("Location", (Object) String.format("%d,%d", new Object[] { Integer.valueOf(i), Integer.valueOf(j)}));
+                crashreportsystemdetails.func_71507_a("Position hash", (Object) Long.valueOf(k));
+                crashreportsystemdetails.func_71507_a("Generator", (Object) this.field_186029_c);
                 throw new ReportedException(crashreport);
             }
 
-            this.id2ChunkMap.put(k, chunk);
-            chunk.onLoad();
-            chunk.loadNearby(this, this.chunkGenerator, true); // CraftBukkit
-            world.timings.syncChunkLoadTimer.stopTiming(); // Spigot
+            this.field_73244_f.put(k, chunk);
+            chunk.func_76631_c();
+            chunk.loadNearby(this, this.field_186029_c, true); // CraftBukkit
+            field_73251_h.timings.syncChunkLoadTimer.stopTiming(); // Spigot
         }
 
         return chunk;
     }
 
     @Nullable
-    public Chunk loadChunkFromFile(int i, int j) {
+    public Chunk func_73239_e(int i, int j) {
         try {
-            Chunk chunk = this.chunkLoader.loadChunk(this.world, i, j);
+            Chunk chunk = this.field_73247_e.func_75815_a(this.field_73251_h, i, j);
 
             if (chunk != null) {
-                chunk.setLastSaveTime(this.world.getTotalWorldTime());
-                this.chunkGenerator.recreateStructures(chunk, i, j);
+                chunk.func_177432_b(this.field_73251_h.func_82737_E());
+                this.field_186029_c.func_180514_a(chunk, i, j);
             }
 
             return chunk;
         } catch (Exception exception) {
             // Paper start
             String msg = "Couldn\'t load chunk";
-            ChunkProviderServer.LOGGER.error(msg, exception);
+            ChunkProviderServer.field_147417_b.error(msg, exception);
             ServerInternalException.reportInternalException(exception);
             // Paper end
             return null;
         }
     }
 
-    public void saveChunkExtraData(Chunk chunk) {
+    public void func_73243_a(Chunk chunk) {
         try {
             // this.chunkLoader.b(this.world, chunk); // Spigot
         } catch (Exception exception) {
             // Paper start
             String msg = "Couldn\'t save entities";
-            ChunkProviderServer.LOGGER.error(msg, exception);
+            ChunkProviderServer.field_147417_b.error(msg, exception);
             ServerInternalException.reportInternalException(exception);
             // Paper end
         }
@@ -259,28 +259,28 @@ public class ChunkProviderServer implements IChunkProvider {
     }
 
     public void saveChunk(Chunk chunk, boolean unloaded) { // Spigot
-        try (co.aikar.timings.Timing timed = world.timings.chunkSaveData.startTiming()) {
-            chunk.setLastSaveTime(this.world.getTotalWorldTime());
-            this.chunkLoader.saveChunk(this.world, chunk, unloaded); // Spigot
+        try (co.aikar.timings.Timing timed = field_73251_h.timings.chunkSaveData.startTiming()) {
+            chunk.func_177432_b(this.field_73251_h.func_82737_E());
+            this.field_73247_e.saveChunk(this.field_73251_h, chunk, unloaded); // Spigot
         } catch (IOException ioexception) {
             // Paper start
             String msg = "Couldn\'t save chunk";
-            ChunkProviderServer.LOGGER.error(msg, ioexception);
+            ChunkProviderServer.field_147417_b.error(msg, ioexception);
             ServerInternalException.reportInternalException(ioexception);
         } catch (MinecraftException exceptionworldconflict) {
             String msg = "Couldn\'t save chunk; already in use by another instance of Minecraft?";
-            ChunkProviderServer.LOGGER.error(msg, exceptionworldconflict);
+            ChunkProviderServer.field_147417_b.error(msg, exceptionworldconflict);
             ServerInternalException.reportInternalException(exceptionworldconflict);
         }
 
     }
 
-    public boolean saveChunks(boolean flag) {
+    public boolean func_186027_a(boolean flag) {
         int i = 0;
 
         // CraftBukkit start
         // Paper start
-        final AnvilChunkLoader chunkLoader = (AnvilChunkLoader) world.getChunkProvider().chunkLoader;
+        final AnvilChunkLoader chunkLoader = (AnvilChunkLoader) field_73251_h.func_72863_F().field_73247_e;
         final int queueSize = chunkLoader.getQueueSize();
 
         final long now = System.currentTimeMillis();
@@ -298,7 +298,7 @@ public class ChunkProviderServer implements IChunkProvider {
 
             lastSaveStatPrinted = now;
             if (processedDiff > 0 || queueSize > 0 || queuedDiff > 0) {
-                System.out.println("[Chunk Save Stats] " + world.worldInfo.getWorldName() +
+                System.out.println("[Chunk Save Stats] " + field_73251_h.field_72986_A.func_76065_j() +
                     " - Current: " + queueSize +
                     " - Queued: " + queuedDiff + timeStr +
                     " - Processed: " +processedDiff + timeStr
@@ -306,23 +306,23 @@ public class ChunkProviderServer implements IChunkProvider {
             }
         }
 
-        if (queueSize > world.paperConfig.queueSizeAutoSaveThreshold){
+        if (queueSize > field_73251_h.paperConfig.queueSizeAutoSaveThreshold){
             return false;
         }
-        final int autoSaveLimit = world.paperConfig.maxAutoSaveChunksPerTick;
+        final int autoSaveLimit = field_73251_h.paperConfig.maxAutoSaveChunksPerTick;
         // Paper end
-        Iterator iterator = this.id2ChunkMap.values().iterator();
+        Iterator iterator = this.field_73244_f.values().iterator();
         while (iterator.hasNext()) {
             Chunk chunk = (Chunk) iterator.next();
             // CraftBukkit end
 
             if (flag) {
-                this.saveChunkExtraData(chunk);
+                this.func_73243_a(chunk);
             }
 
-            if (chunk.needsSaving(flag)) {
+            if (chunk.func_76601_a(flag)) {
                 this.saveChunk(chunk, false); // Spigot
-                chunk.setModified(false);
+                chunk.func_177427_f(false);
                 ++i;
                 if (!flag && i >= autoSaveLimit) { // Spigot - // Paper - Incremental Auto Save - cap max per tick
                     return false;
@@ -333,29 +333,29 @@ public class ChunkProviderServer implements IChunkProvider {
         return true;
     }
 
-    public void flushToDisk() {
-        this.chunkLoader.flush();
+    public void func_104112_b() {
+        this.field_73247_e.func_75818_b();
     }
 
     private static final double UNLOAD_QUEUE_RESIZE_FACTOR = 0.96;
 
-    public boolean tick() {
-        if (!this.world.disableLevelSaving) {
-            if (!this.droppedChunksSet.isEmpty()) {
+    public boolean func_73156_b() {
+        if (!this.field_73251_h.field_73058_d) {
+            if (!this.field_73248_b.isEmpty()) {
                 // Spigot start
-                org.spigotmc.SlackActivityAccountant activityAccountant = this.world.getMinecraftServer().slackActivityAccountant;
+                org.spigotmc.SlackActivityAccountant activityAccountant = this.field_73251_h.func_73046_m().slackActivityAccountant;
                 activityAccountant.startActivity(0.5);
-                int targetSize = Math.min(this.droppedChunksSet.size() - 100,  (int) (this.droppedChunksSet.size() * UNLOAD_QUEUE_RESIZE_FACTOR)); // Paper - Make more aggressive
+                int targetSize = Math.min(this.field_73248_b.size() - 100,  (int) (this.field_73248_b.size() * UNLOAD_QUEUE_RESIZE_FACTOR)); // Paper - Make more aggressive
                 // Spigot end
 
-                Iterator iterator = this.droppedChunksSet.iterator();
+                Iterator iterator = this.field_73248_b.iterator();
 
                 while (iterator.hasNext()) { // Spigot
                     Long olong = (Long) iterator.next();
                     iterator.remove(); // Spigot
-                    Chunk chunk = (Chunk) this.id2ChunkMap.get(olong);
+                    Chunk chunk = (Chunk) this.field_73244_f.get(olong);
 
-                    if (chunk != null && chunk.unloadQueued) {
+                    if (chunk != null && chunk.field_189550_d) {
                         // CraftBukkit start - move unload logic to own method
                         chunk.setShouldUnload(false); // Paper
                         if (!unloadChunk(chunk, true)) {
@@ -364,7 +364,7 @@ public class ChunkProviderServer implements IChunkProvider {
                         // CraftBukkit end
 
                         // Spigot start
-                        if (this.droppedChunksSet.size() <= targetSize && activityAccountant.activityTimeIsExhausted()) {
+                        if (this.field_73248_b.size() <= targetSize && activityAccountant.activityTimeIsExhausted()) {
                             break;
                         }
                         // Spigot end
@@ -375,19 +375,19 @@ public class ChunkProviderServer implements IChunkProvider {
             }
             // Paper start - delayed chunk unloads
             long now = System.currentTimeMillis();
-            long unloadAfter = world.paperConfig.delayChunkUnloadsBy;
+            long unloadAfter = field_73251_h.paperConfig.delayChunkUnloadsBy;
             if (unloadAfter > 0) {
                 //noinspection Convert2streamapi
-                for (Chunk chunk : id2ChunkMap.values()) {
+                for (Chunk chunk : field_73244_f.values()) {
                     if (chunk.scheduledForUnload != null && now - chunk.scheduledForUnload > unloadAfter) {
                         chunk.scheduledForUnload = null;
-                        queueUnload(chunk);
+                        func_189549_a(chunk);
                     }
                 }
             }
             // Paper end
 
-            this.chunkLoader.chunkTick();
+            this.field_73247_e.func_75817_a();
         }
 
         return false;
@@ -396,7 +396,7 @@ public class ChunkProviderServer implements IChunkProvider {
     // CraftBukkit start
     public boolean unloadChunk(Chunk chunk, boolean save) {
         ChunkUnloadEvent event = new ChunkUnloadEvent(chunk.bukkitChunk, save);
-        this.world.getServer().getPluginManager().callEvent(event);
+        this.field_73251_h.getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return false;
         }
@@ -410,7 +410,7 @@ public class ChunkProviderServer implements IChunkProvider {
                     continue;
                 }
 
-                Chunk neighbor = this.getChunkIfLoaded(chunk.x + x, chunk.z + z);
+                Chunk neighbor = this.getChunkIfLoaded(chunk.field_76635_g + x, chunk.field_76647_h + z);
                 if (neighbor != null) {
                     neighbor.setNeighborUnloaded(-x, -z);
                     chunk.setNeighborUnloaded(x, z);
@@ -418,46 +418,46 @@ public class ChunkProviderServer implements IChunkProvider {
             }
         }
         // Moved from unloadChunks above
-        chunk.onUnload();
+        chunk.func_76623_d();
         if (save) {
             this.saveChunk(chunk, true); // Spigot
-            this.saveChunkExtraData(chunk);
+            this.func_73243_a(chunk);
         }
-        this.id2ChunkMap.remove(chunk.chunkKey);
+        this.field_73244_f.remove(chunk.chunkKey);
         return true;
     }
     // CraftBukkit end
 
-    public boolean canSave() {
-        return !this.world.disableLevelSaving;
+    public boolean func_73157_c() {
+        return !this.field_73251_h.field_73058_d;
     }
 
-    public String makeString() {
-        return "ServerChunkCache: " + this.id2ChunkMap.size() + " Drop: " + this.droppedChunksSet.size();
+    public String func_73148_d() {
+        return "ServerChunkCache: " + this.field_73244_f.size() + " Drop: " + this.field_73248_b.size();
     }
 
-    public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType enumcreaturetype, BlockPos blockposition) {
-        return this.chunkGenerator.getPossibleCreatures(enumcreaturetype, blockposition);
+    public List<Biome.SpawnListEntry> func_177458_a(EnumCreatureType enumcreaturetype, BlockPos blockposition) {
+        return this.field_186029_c.func_177458_a(enumcreaturetype, blockposition);
     }
 
     @Nullable
-    public BlockPos getNearestStructurePos(World world, String s, BlockPos blockposition, boolean flag) {
-        return this.chunkGenerator.getNearestStructurePos(world, s, blockposition, flag);
+    public BlockPos func_180513_a(World world, String s, BlockPos blockposition, boolean flag) {
+        return this.field_186029_c.func_180513_a(world, s, blockposition, flag);
     }
 
-    public boolean isInsideStructure(World world, String s, BlockPos blockposition) {
-        return this.chunkGenerator.isInsideStructure(world, s, blockposition);
+    public boolean func_193413_a(World world, String s, BlockPos blockposition) {
+        return this.field_186029_c.func_193414_a(world, s, blockposition);
     }
 
-    public int getLoadedChunkCount() {
-        return this.id2ChunkMap.size();
+    public int func_73152_e() {
+        return this.field_73244_f.size();
     }
 
-    public boolean chunkExists(int i, int j) {
-        return this.id2ChunkMap.containsKey(ChunkPos.asLong(i, j));
+    public boolean func_73149_a(int i, int j) {
+        return this.field_73244_f.containsKey(ChunkPos.func_77272_a(i, j));
     }
 
-    public boolean isChunkGeneratedAt(int i, int j) {
-        return this.id2ChunkMap.containsKey(ChunkPos.asLong(i, j)) || this.chunkLoader.isChunkGeneratedAt(i, j);
+    public boolean func_191062_e(int i, int j) {
+        return this.field_73244_f.containsKey(ChunkPos.func_77272_a(i, j)) || this.field_73247_e.func_191063_a(i, j);
     }
 }

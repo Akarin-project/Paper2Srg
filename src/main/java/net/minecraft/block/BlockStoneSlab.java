@@ -21,44 +21,44 @@ import net.minecraft.world.World;
 
 public abstract class BlockStoneSlab extends BlockSlab {
 
-    public static final PropertyBool SEAMLESS = PropertyBool.create("seamless");
-    public static final PropertyEnum<BlockStoneSlab.EnumType> VARIANT = PropertyEnum.create("variant", BlockStoneSlab.EnumType.class);
+    public static final PropertyBool field_176555_b = PropertyBool.func_177716_a("seamless");
+    public static final PropertyEnum<BlockStoneSlab.EnumType> field_176556_M = PropertyEnum.func_177709_a("variant", BlockStoneSlab.EnumType.class);
 
     public BlockStoneSlab() {
-        super(Material.ROCK);
-        IBlockState iblockdata = this.blockState.getBaseState();
+        super(Material.field_151576_e);
+        IBlockState iblockdata = this.field_176227_L.func_177621_b();
 
-        if (this.isDouble()) {
-            iblockdata = iblockdata.withProperty(BlockStoneSlab.SEAMLESS, Boolean.valueOf(false));
+        if (this.func_176552_j()) {
+            iblockdata = iblockdata.func_177226_a(BlockStoneSlab.field_176555_b, Boolean.valueOf(false));
         } else {
-            iblockdata = iblockdata.withProperty(BlockStoneSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
+            iblockdata = iblockdata.func_177226_a(BlockStoneSlab.field_176554_a, BlockSlab.EnumBlockHalf.BOTTOM);
         }
 
-        this.setDefaultState(iblockdata.withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.STONE));
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        this.func_180632_j(iblockdata.func_177226_a(BlockStoneSlab.field_176556_M, BlockStoneSlab.EnumType.STONE));
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Item.getItemFromBlock(Blocks.STONE_SLAB);
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Item.func_150898_a(Blocks.field_150333_U);
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(Blocks.STONE_SLAB, 1, ((BlockStoneSlab.EnumType) iblockdata.getValue(BlockStoneSlab.VARIANT)).getMetadata());
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(Blocks.field_150333_U, 1, ((BlockStoneSlab.EnumType) iblockdata.func_177229_b(BlockStoneSlab.field_176556_M)).func_176624_a());
     }
 
-    public String getUnlocalizedName(int i) {
-        return super.getUnlocalizedName() + "." + BlockStoneSlab.EnumType.byMetadata(i).getUnlocalizedName();
+    public String func_150002_b(int i) {
+        return super.func_149739_a() + "." + BlockStoneSlab.EnumType.func_176625_a(i).func_176627_c();
     }
 
-    public IProperty<?> getVariantProperty() {
-        return BlockStoneSlab.VARIANT;
+    public IProperty<?> func_176551_l() {
+        return BlockStoneSlab.field_176556_M;
     }
 
-    public Comparable<?> getTypeForItem(ItemStack itemstack) {
-        return BlockStoneSlab.EnumType.byMetadata(itemstack.getMetadata() & 7);
+    public Comparable<?> func_185674_a(ItemStack itemstack) {
+        return BlockStoneSlab.EnumType.func_176625_a(itemstack.func_77960_j() & 7);
     }
 
-    public void getSubBlocks(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+    public void func_149666_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
         BlockStoneSlab.EnumType[] ablockdoublestepabstract_enumstoneslabvariant = BlockStoneSlab.EnumType.values();
         int i = ablockdoublestepabstract_enumstoneslabvariant.length;
 
@@ -66,98 +66,98 @@ public abstract class BlockStoneSlab extends BlockSlab {
             BlockStoneSlab.EnumType blockdoublestepabstract_enumstoneslabvariant = ablockdoublestepabstract_enumstoneslabvariant[j];
 
             if (blockdoublestepabstract_enumstoneslabvariant != BlockStoneSlab.EnumType.WOOD) {
-                nonnulllist.add(new ItemStack(this, 1, blockdoublestepabstract_enumstoneslabvariant.getMetadata()));
+                nonnulllist.add(new ItemStack(this, 1, blockdoublestepabstract_enumstoneslabvariant.func_176624_a()));
             }
         }
 
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        IBlockState iblockdata = this.getDefaultState().withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.byMetadata(i & 7));
+    public IBlockState func_176203_a(int i) {
+        IBlockState iblockdata = this.func_176223_P().func_177226_a(BlockStoneSlab.field_176556_M, BlockStoneSlab.EnumType.func_176625_a(i & 7));
 
-        if (this.isDouble()) {
-            iblockdata = iblockdata.withProperty(BlockStoneSlab.SEAMLESS, Boolean.valueOf((i & 8) != 0));
+        if (this.func_176552_j()) {
+            iblockdata = iblockdata.func_177226_a(BlockStoneSlab.field_176555_b, Boolean.valueOf((i & 8) != 0));
         } else {
-            iblockdata = iblockdata.withProperty(BlockStoneSlab.HALF, (i & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
+            iblockdata = iblockdata.func_177226_a(BlockStoneSlab.field_176554_a, (i & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
         }
 
         return iblockdata;
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         byte b0 = 0;
-        int i = b0 | ((BlockStoneSlab.EnumType) iblockdata.getValue(BlockStoneSlab.VARIANT)).getMetadata();
+        int i = b0 | ((BlockStoneSlab.EnumType) iblockdata.func_177229_b(BlockStoneSlab.field_176556_M)).func_176624_a();
 
-        if (this.isDouble()) {
-            if (((Boolean) iblockdata.getValue(BlockStoneSlab.SEAMLESS)).booleanValue()) {
+        if (this.func_176552_j()) {
+            if (((Boolean) iblockdata.func_177229_b(BlockStoneSlab.field_176555_b)).booleanValue()) {
                 i |= 8;
             }
-        } else if (iblockdata.getValue(BlockStoneSlab.HALF) == BlockSlab.EnumBlockHalf.TOP) {
+        } else if (iblockdata.func_177229_b(BlockStoneSlab.field_176554_a) == BlockSlab.EnumBlockHalf.TOP) {
             i |= 8;
         }
 
         return i;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return this.isDouble() ? new BlockStateContainer(this, new IProperty[] { BlockStoneSlab.SEAMLESS, BlockStoneSlab.VARIANT}) : new BlockStateContainer(this, new IProperty[] { BlockStoneSlab.HALF, BlockStoneSlab.VARIANT});
+    protected BlockStateContainer func_180661_e() {
+        return this.func_176552_j() ? new BlockStateContainer(this, new IProperty[] { BlockStoneSlab.field_176555_b, BlockStoneSlab.field_176556_M}) : new BlockStateContainer(this, new IProperty[] { BlockStoneSlab.field_176554_a, BlockStoneSlab.field_176556_M});
     }
 
-    public int damageDropped(IBlockState iblockdata) {
-        return ((BlockStoneSlab.EnumType) iblockdata.getValue(BlockStoneSlab.VARIANT)).getMetadata();
+    public int func_180651_a(IBlockState iblockdata) {
+        return ((BlockStoneSlab.EnumType) iblockdata.func_177229_b(BlockStoneSlab.field_176556_M)).func_176624_a();
     }
 
-    public MapColor getMapColor(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return ((BlockStoneSlab.EnumType) iblockdata.getValue(BlockStoneSlab.VARIANT)).getMapColor();
+    public MapColor func_180659_g(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return ((BlockStoneSlab.EnumType) iblockdata.func_177229_b(BlockStoneSlab.field_176556_M)).func_181074_c();
     }
 
     public static enum EnumType implements IStringSerializable {
 
-        STONE(0, MapColor.STONE, "stone"), SAND(1, MapColor.SAND, "sandstone", "sand"), WOOD(2, MapColor.WOOD, "wood_old", "wood"), COBBLESTONE(3, MapColor.STONE, "cobblestone", "cobble"), BRICK(4, MapColor.RED, "brick"), SMOOTHBRICK(5, MapColor.STONE, "stone_brick", "smoothStoneBrick"), NETHERBRICK(6, MapColor.NETHERRACK, "nether_brick", "netherBrick"), QUARTZ(7, MapColor.QUARTZ, "quartz");
+        STONE(0, MapColor.field_151665_m, "stone"), SAND(1, MapColor.field_151658_d, "sandstone", "sand"), WOOD(2, MapColor.field_151663_o, "wood_old", "wood"), COBBLESTONE(3, MapColor.field_151665_m, "cobblestone", "cobble"), BRICK(4, MapColor.field_151645_D, "brick"), SMOOTHBRICK(5, MapColor.field_151665_m, "stone_brick", "smoothStoneBrick"), NETHERBRICK(6, MapColor.field_151655_K, "nether_brick", "netherBrick"), QUARTZ(7, MapColor.field_151677_p, "quartz");
 
-        private static final BlockStoneSlab.EnumType[] META_LOOKUP = new BlockStoneSlab.EnumType[values().length];
-        private final int meta;
-        private final MapColor mapColor;
-        private final String name;
-        private final String unlocalizedName;
+        private static final BlockStoneSlab.EnumType[] field_176640_i = new BlockStoneSlab.EnumType[values().length];
+        private final int field_176637_j;
+        private final MapColor field_181075_k;
+        private final String field_176638_k;
+        private final String field_176635_l;
 
         private EnumType(int i, MapColor materialmapcolor, String s) {
             this(i, materialmapcolor, s, s);
         }
 
         private EnumType(int i, MapColor materialmapcolor, String s, String s1) {
-            this.meta = i;
-            this.mapColor = materialmapcolor;
-            this.name = s;
-            this.unlocalizedName = s1;
+            this.field_176637_j = i;
+            this.field_181075_k = materialmapcolor;
+            this.field_176638_k = s;
+            this.field_176635_l = s1;
         }
 
-        public int getMetadata() {
-            return this.meta;
+        public int func_176624_a() {
+            return this.field_176637_j;
         }
 
-        public MapColor getMapColor() {
-            return this.mapColor;
+        public MapColor func_181074_c() {
+            return this.field_181075_k;
         }
 
         public String toString() {
-            return this.name;
+            return this.field_176638_k;
         }
 
-        public static BlockStoneSlab.EnumType byMetadata(int i) {
-            if (i < 0 || i >= BlockStoneSlab.EnumType.META_LOOKUP.length) {
+        public static BlockStoneSlab.EnumType func_176625_a(int i) {
+            if (i < 0 || i >= BlockStoneSlab.EnumType.field_176640_i.length) {
                 i = 0;
             }
 
-            return BlockStoneSlab.EnumType.META_LOOKUP[i];
+            return BlockStoneSlab.EnumType.field_176640_i[i];
         }
 
-        public String getName() {
-            return this.name;
+        public String func_176610_l() {
+            return this.field_176638_k;
         }
 
-        public String getUnlocalizedName() {
-            return this.unlocalizedName;
+        public String func_176627_c() {
+            return this.field_176635_l;
         }
 
         static {
@@ -167,7 +167,7 @@ public abstract class BlockStoneSlab extends BlockSlab {
             for (int j = 0; j < i; ++j) {
                 BlockStoneSlab.EnumType blockdoublestepabstract_enumstoneslabvariant = ablockdoublestepabstract_enumstoneslabvariant[j];
 
-                BlockStoneSlab.EnumType.META_LOOKUP[blockdoublestepabstract_enumstoneslabvariant.getMetadata()] = blockdoublestepabstract_enumstoneslabvariant;
+                BlockStoneSlab.EnumType.field_176640_i[blockdoublestepabstract_enumstoneslabvariant.func_176624_a()] = blockdoublestepabstract_enumstoneslabvariant;
             }
 
         }

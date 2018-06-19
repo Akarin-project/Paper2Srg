@@ -36,7 +36,7 @@ public final class CraftChatMessage {
     }
 
     public static ChatColor getColor(TextFormatting format) {
-        return ChatColor.getByChar(format.formattingCode);
+        return ChatColor.getByChar(format.field_96329_z);
     }
 
     private static class StringMessage {
@@ -70,33 +70,33 @@ public final class CraftChatMessage {
                     TextFormatting format = formatMap.get(match.toLowerCase(java.util.Locale.ENGLISH).charAt(1));
                     if (format == TextFormatting.RESET) {
                         modifier = new Style();
-                    } else if (format.isFancyStyling()) {
+                    } else if (format.func_96301_b()) {
                         switch (format) {
                         case BOLD:
-                            modifier.setBold(Boolean.TRUE);
+                            modifier.func_150227_a(Boolean.TRUE);
                             break;
                         case ITALIC:
-                            modifier.setItalic(Boolean.TRUE);
+                            modifier.func_150217_b(Boolean.TRUE);
                             break;
                         case STRIKETHROUGH:
-                            modifier.setStrikethrough(Boolean.TRUE);
+                            modifier.func_150225_c(Boolean.TRUE);
                             break;
                         case UNDERLINE:
-                            modifier.setUnderlined(Boolean.TRUE);
+                            modifier.func_150228_d(Boolean.TRUE);
                             break;
                         case OBFUSCATED:
-                            modifier.setObfuscated(Boolean.TRUE);
+                            modifier.func_150237_e(Boolean.TRUE);
                             break;
                         default:
                             throw new AssertionError("Unexpected message format");
                         }
                     } else { // Color resets formatting
-                        modifier = new Style().setColor(format);
+                        modifier = new Style().func_150238_a(format);
                     }
                     break;
                 case 2:
                     if (keepNewlines) {
-                        currentChatComponent.appendSibling(new TextComponentString("\n"));
+                        currentChatComponent.func_150257_a(new TextComponentString("\n"));
                     } else {
                         currentChatComponent = null;
                     }
@@ -105,9 +105,9 @@ public final class CraftChatMessage {
                     if ( !( match.startsWith( "http://" ) || match.startsWith( "https://" ) ) ) {
                         match = "http://" + match;
                     }
-                    modifier.setClickEvent(new ClickEvent(Action.OPEN_URL, match));
+                    modifier.func_150241_a(new ClickEvent(Action.OPEN_URL, match));
                     appendNewComponent(matcher.end(groupId));
-                    modifier.setClickEvent((ClickEvent) null);
+                    modifier.func_150241_a((ClickEvent) null);
                 }
                 currentIndex = matcher.end(groupId);
             }
@@ -123,14 +123,14 @@ public final class CraftChatMessage {
             if (index <= currentIndex) {
                 return;
             }
-            ITextComponent addition = new TextComponentString(message.substring(currentIndex, index)).setStyle(modifier);
+            ITextComponent addition = new TextComponentString(message.substring(currentIndex, index)).func_150255_a(modifier);
             currentIndex = index;
-            modifier = modifier.createShallowCopy();
+            modifier = modifier.func_150232_l();
             if (currentChatComponent == null) {
                 currentChatComponent = new TextComponentString("");
                 list.add(currentChatComponent);
             }
-            currentChatComponent.appendSibling(addition);
+            currentChatComponent.func_150257_a(addition);
         }
 
         private ITextComponent[] getOutput() {
@@ -155,24 +155,24 @@ public final class CraftChatMessage {
         StringBuilder out = new StringBuilder();
         
         for (ITextComponent c : (Iterable<ITextComponent>) component) {
-            Style modi = c.getStyle();
-            out.append(modi.getColor() == null ? defaultColor : modi.getColor());
-            if (modi.getBold()) {
+            Style modi = c.func_150256_b();
+            out.append(modi.func_150215_a() == null ? defaultColor : modi.func_150215_a());
+            if (modi.func_150223_b()) {
                 out.append(TextFormatting.BOLD);
             }
-            if (modi.getItalic()) {
+            if (modi.func_150242_c()) {
                 out.append(TextFormatting.ITALIC);
             }
-            if (modi.getUnderlined()) {
+            if (modi.func_150234_e()) {
                 out.append(TextFormatting.UNDERLINE);
             }
-            if (modi.getStrikethrough()) {
+            if (modi.func_150236_d()) {
                 out.append(TextFormatting.STRIKETHROUGH);
             }
-            if (modi.getObfuscated()) {
+            if (modi.func_150233_f()) {
                 out.append(TextFormatting.OBFUSCATED);
             }
-            out.append(c.getUnformattedComponentText());
+            out.append(c.func_150261_e());
         }
         return out.toString().replaceFirst("^(" + defaultColor + ")*", "");
     }
@@ -185,14 +185,14 @@ public final class CraftChatMessage {
     private static ITextComponent fixComponent(ITextComponent component, Matcher matcher) {
         if (component instanceof TextComponentString) {
             TextComponentString text = ((TextComponentString) component);
-            String msg = text.getText();
+            String msg = text.func_150265_g();
             if (matcher.reset(msg).find()) {
                 matcher.reset();
 
-                Style modifier = text.getStyle() != null ?
-                        text.getStyle() : new Style();
+                Style modifier = text.func_150256_b() != null ?
+                        text.func_150256_b() : new Style();
                 List<ITextComponent> extras = new ArrayList<ITextComponent>();
-                List<ITextComponent> extrasOld = new ArrayList<ITextComponent>(text.getSiblings());
+                List<ITextComponent> extrasOld = new ArrayList<ITextComponent>(text.func_150253_a());
                 component = text = new TextComponentString("");
 
                 int pos = 0;
@@ -204,44 +204,44 @@ public final class CraftChatMessage {
                     }
 
                     TextComponentString prev = new TextComponentString(msg.substring(pos, matcher.start()));
-                    prev.setStyle(modifier);
+                    prev.func_150255_a(modifier);
                     extras.add(prev);
 
                     TextComponentString link = new TextComponentString(matcher.group());
-                    Style linkModi = modifier.createShallowCopy();
-                    linkModi.setClickEvent(new ClickEvent(Action.OPEN_URL, match));
-                    link.setStyle(linkModi);
+                    Style linkModi = modifier.func_150232_l();
+                    linkModi.func_150241_a(new ClickEvent(Action.OPEN_URL, match));
+                    link.func_150255_a(linkModi);
                     extras.add(link);
 
                     pos = matcher.end();
                 }
 
                 TextComponentString prev = new TextComponentString(msg.substring(pos));
-                prev.setStyle(modifier);
+                prev.func_150255_a(modifier);
                 extras.add(prev);
                 extras.addAll(extrasOld);
 
                 for (ITextComponent c : extras) {
-                    text.appendSibling(c);
+                    text.func_150257_a(c);
                 }
             }
         }
 
-        List extras = component.getSiblings();
+        List extras = component.func_150253_a();
         for (int i = 0; i < extras.size(); i++) {
             ITextComponent comp = (ITextComponent) extras.get(i);
-            if (comp.getStyle() != null && comp.getStyle().getClickEvent() == null) {
+            if (comp.func_150256_b() != null && comp.func_150256_b().func_150235_h() == null) {
                 extras.set(i, fixComponent(comp, matcher));
             }
         }
 
         if (component instanceof TextComponentTranslation) {
-            Object[] subs = ((TextComponentTranslation) component).getFormatArgs();
+            Object[] subs = ((TextComponentTranslation) component).func_150271_j();
             for (int i = 0; i < subs.length; i++) {
                 Object comp = subs[i];
                 if (comp instanceof ITextComponent) {
                     ITextComponent c = (ITextComponent) comp;
-                    if (c.getStyle() != null && c.getStyle().getClickEvent() == null) {
+                    if (c.func_150256_b() != null && c.func_150256_b().func_150235_h() == null) {
                         subs[i] = fixComponent(c, matcher);
                     }
                 } else if (comp instanceof String && matcher.reset((String)comp).find()) {

@@ -9,48 +9,48 @@ import net.minecraft.util.math.MathHelper;
 
 public class AttributeModifier {
 
-    private final double amount;
-    private final int operation;
-    private final String name;
-    private final UUID id;
-    private boolean isSaved;
+    private final double field_111174_a;
+    private final int field_111172_b;
+    private final String field_111173_c;
+    private final UUID field_111170_d;
+    private boolean field_111171_e;
 
     public AttributeModifier(String s, double d0, int i) {
-        this(MathHelper.getRandomUUID((Random) ThreadLocalRandom.current()), s, d0, i);
+        this(MathHelper.func_180182_a((Random) ThreadLocalRandom.current()), s, d0, i);
     }
 
     public AttributeModifier(UUID uuid, String s, double d0, int i) {
-        this.isSaved = true;
-        this.id = uuid;
-        this.name = s;
-        this.amount = d0;
-        this.operation = i;
+        this.field_111171_e = true;
+        this.field_111170_d = uuid;
+        this.field_111173_c = s;
+        this.field_111174_a = d0;
+        this.field_111172_b = i;
         Validate.notEmpty(s, "Modifier name cannot be empty", new Object[0]);
         Validate.inclusiveBetween(0L, 2L, (long) i, "Invalid operation");
     }
 
-    public UUID getID() {
-        return this.id;
+    public UUID func_111167_a() {
+        return this.field_111170_d;
     }
 
-    public String getName() {
-        return this.name;
+    public String func_111166_b() {
+        return this.field_111173_c;
     }
 
-    public int getOperation() {
-        return this.operation;
+    public int func_111169_c() {
+        return this.field_111172_b;
     }
 
-    public double getAmount() {
-        return this.amount;
+    public double func_111164_d() {
+        return this.field_111174_a;
     }
 
-    public boolean isSaved() {
-        return this.isSaved;
+    public boolean func_111165_e() {
+        return this.field_111171_e;
     }
 
-    public AttributeModifier setSaved(boolean flag) {
-        this.isSaved = flag;
+    public AttributeModifier func_111168_a(boolean flag) {
+        this.field_111171_e = flag;
         return this;
     }
 
@@ -60,11 +60,11 @@ public class AttributeModifier {
         } else if (object != null && this.getClass() == object.getClass()) {
             AttributeModifier attributemodifier = (AttributeModifier) object;
 
-            if (this.id != null) {
-                if (!this.id.equals(attributemodifier.id)) {
+            if (this.field_111170_d != null) {
+                if (!this.field_111170_d.equals(attributemodifier.field_111170_d)) {
                     return false;
                 }
-            } else if (attributemodifier.id != null) {
+            } else if (attributemodifier.field_111170_d != null) {
                 return false;
             }
 
@@ -75,10 +75,10 @@ public class AttributeModifier {
     }
 
     public int hashCode() {
-        return this.id != null ? this.id.hashCode() : 0;
+        return this.field_111170_d != null ? this.field_111170_d.hashCode() : 0;
     }
 
     public String toString() {
-        return "AttributeModifier{amount=" + this.amount + ", operation=" + this.operation + ", name=\'" + this.name + '\'' + ", id=" + this.id + ", serialize=" + this.isSaved + '}';
+        return "AttributeModifier{amount=" + this.field_111174_a + ", operation=" + this.field_111172_b + ", name=\'" + this.field_111173_c + '\'' + ", id=" + this.field_111170_d + ", serialize=" + this.field_111171_e + '}';
     }
 }

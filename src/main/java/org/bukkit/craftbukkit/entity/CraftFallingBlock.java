@@ -33,29 +33,29 @@ public class CraftFallingBlock extends CraftEntity implements FallingBlock {
     }
 
     public int getBlockId() {
-        return CraftMagicNumbers.getId(getHandle().getBlock().getBlock());
+        return CraftMagicNumbers.getId(getHandle().func_175131_l().func_177230_c());
     }
 
     public byte getBlockData() {
-        return (byte) getHandle().getBlock().getBlock().getMetaFromState(getHandle().getBlock());
+        return (byte) getHandle().func_175131_l().func_177230_c().func_176201_c(getHandle().func_175131_l());
     }
 
     public boolean getDropItem() {
-        return getHandle().shouldDropItem;
+        return getHandle().field_145813_c;
     }
 
     public void setDropItem(boolean drop) {
-        getHandle().shouldDropItem = drop;
+        getHandle().field_145813_c = drop;
     }
 
     @Override
     public boolean canHurtEntities() {
-        return getHandle().hurtEntities;
+        return getHandle().field_145809_g;
     }
 
     @Override
     public void setHurtEntities(boolean hurtEntities) {
-        getHandle().hurtEntities = hurtEntities;
+        getHandle().field_145809_g = hurtEntities;
     }
 
     @Override
@@ -63,6 +63,6 @@ public class CraftFallingBlock extends CraftEntity implements FallingBlock {
         super.setTicksLived(value);
 
         // Second field for EntityFallingBlock
-        getHandle().fallTime = value;
+        getHandle().field_145812_b = value;
     }
 }

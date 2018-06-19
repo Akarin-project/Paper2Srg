@@ -18,20 +18,20 @@ public abstract class CraftLootable<T extends TileEntityLockableLoot> extends Cr
     @Override
     public String getCustomName() {
         T lootable = this.getSnapshot();
-        return lootable.hasCustomName() ? lootable.getName() : null;
+        return lootable.func_145818_k_() ? lootable.func_70005_c_() : null;
     }
 
     @Override
     public void setCustomName(String name) {
-        this.getSnapshot().setCustomName(name);
+        this.getSnapshot().func_190575_a(name);
     }
 
     @Override
     public void applyTo(T lootable) {
         super.applyTo(lootable);
 
-        if (!this.getSnapshot().hasCustomName()) {
-            lootable.setCustomName(null);
+        if (!this.getSnapshot().func_145818_k_()) {
+            lootable.func_190575_a(null);
         }
     }
 }

@@ -2,9 +2,9 @@ package net.minecraft.util;
 
 public interface IProgressUpdate {
 
-    void displaySavingString(String s);
+    void func_73720_a(String s);
 
-    void displayLoadingString(String s);
+    void func_73719_c(String s);
 
-    void setLoadingProgress(int i);
+    void func_73718_a(int i);
 }

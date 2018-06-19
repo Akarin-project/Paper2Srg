@@ -31,180 +31,180 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 
 public class EntityFireworkRocket extends Entity {
 
-    public static final DataParameter<ItemStack> FIREWORK_ITEM = EntityDataManager.createKey(EntityFireworkRocket.class, DataSerializers.ITEM_STACK);
-    private static final DataParameter<Integer> BOOSTED_ENTITY_ID = EntityDataManager.createKey(EntityFireworkRocket.class, DataSerializers.VARINT);
-    private int fireworkAge;
-    public int lifetime;
+    public static final DataParameter<ItemStack> field_184566_a = EntityDataManager.func_187226_a(EntityFireworkRocket.class, DataSerializers.field_187196_f);
+    private static final DataParameter<Integer> field_191512_b = EntityDataManager.func_187226_a(EntityFireworkRocket.class, DataSerializers.field_187192_b);
+    private int field_92056_a;
+    public int field_92055_b;
     public UUID spawningEntity; // Paper
-    private EntityLivingBase boostedEntity;public EntityLivingBase getBoostedEntity() { return boostedEntity; } // Paper - OBFHELPER
+    private EntityLivingBase field_191513_e;public EntityLivingBase getBoostedEntity() { return field_191513_e; } // Paper - OBFHELPER
 
     public EntityFireworkRocket(World world) {
         super(world);
-        this.setSize(0.25F, 0.25F);
+        this.func_70105_a(0.25F, 0.25F);
     }
 
     // Spigot Start
     @Override
     public void inactiveTick() {
-        this.fireworkAge += 1;
+        this.field_92056_a += 1;
         super.inactiveTick();
     }
     // Spigot End
 
-    protected void entityInit() {
-        this.dataManager.register(EntityFireworkRocket.FIREWORK_ITEM, ItemStack.EMPTY);
-        this.dataManager.register(EntityFireworkRocket.BOOSTED_ENTITY_ID, Integer.valueOf(0));
+    protected void func_70088_a() {
+        this.field_70180_af.func_187214_a(EntityFireworkRocket.field_184566_a, ItemStack.field_190927_a);
+        this.field_70180_af.func_187214_a(EntityFireworkRocket.field_191512_b, Integer.valueOf(0));
     }
 
     public EntityFireworkRocket(World world, double d0, double d1, double d2, ItemStack itemstack) {
         super(world);
-        this.fireworkAge = 0;
-        this.setSize(0.25F, 0.25F);
-        this.setPosition(d0, d1, d2);
+        this.field_92056_a = 0;
+        this.func_70105_a(0.25F, 0.25F);
+        this.func_70107_b(d0, d1, d2);
         int i = 1;
 
-        if (!itemstack.isEmpty() && itemstack.hasTagCompound()) {
-            this.dataManager.set(EntityFireworkRocket.FIREWORK_ITEM, itemstack.copy());
-            NBTTagCompound nbttagcompound = itemstack.getTagCompound();
-            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Fireworks");
+        if (!itemstack.func_190926_b() && itemstack.func_77942_o()) {
+            this.field_70180_af.func_187227_b(EntityFireworkRocket.field_184566_a, itemstack.func_77946_l());
+            NBTTagCompound nbttagcompound = itemstack.func_77978_p();
+            NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("Fireworks");
 
-            i += nbttagcompound1.getByte("Flight");
+            i += nbttagcompound1.func_74771_c("Flight");
         }
 
-        this.motionX = this.rand.nextGaussian() * 0.001D;
-        this.motionZ = this.rand.nextGaussian() * 0.001D;
-        this.motionY = 0.05D;
-        this.lifetime = 10 * i + this.rand.nextInt(6) + this.rand.nextInt(7);
+        this.field_70159_w = this.field_70146_Z.nextGaussian() * 0.001D;
+        this.field_70179_y = this.field_70146_Z.nextGaussian() * 0.001D;
+        this.field_70181_x = 0.05D;
+        this.field_92055_b = 10 * i + this.field_70146_Z.nextInt(6) + this.field_70146_Z.nextInt(7);
     }
 
     public EntityFireworkRocket(World world, ItemStack itemstack, EntityLivingBase entityliving) {
-        this(world, entityliving.posX, entityliving.posY, entityliving.posZ, itemstack);
-        this.dataManager.set(EntityFireworkRocket.BOOSTED_ENTITY_ID, Integer.valueOf(entityliving.getEntityId()));
-        this.boostedEntity = entityliving;
+        this(world, entityliving.field_70165_t, entityliving.field_70163_u, entityliving.field_70161_v, itemstack);
+        this.field_70180_af.func_187227_b(EntityFireworkRocket.field_191512_b, Integer.valueOf(entityliving.func_145782_y()));
+        this.field_191513_e = entityliving;
     }
 
-    public void onUpdate() {
-        this.lastTickPosX = this.posX;
-        this.lastTickPosY = this.posY;
-        this.lastTickPosZ = this.posZ;
-        super.onUpdate();
-        if (this.isAttachedToEntity()) {
-            if (this.boostedEntity == null) {
-                Entity entity = this.world.getEntityByID(((Integer) this.dataManager.get(EntityFireworkRocket.BOOSTED_ENTITY_ID)).intValue());
+    public void func_70071_h_() {
+        this.field_70142_S = this.field_70165_t;
+        this.field_70137_T = this.field_70163_u;
+        this.field_70136_U = this.field_70161_v;
+        super.func_70071_h_();
+        if (this.func_191511_j()) {
+            if (this.field_191513_e == null) {
+                Entity entity = this.field_70170_p.func_73045_a(((Integer) this.field_70180_af.func_187225_a(EntityFireworkRocket.field_191512_b)).intValue());
 
                 if (entity instanceof EntityLivingBase) {
-                    this.boostedEntity = (EntityLivingBase) entity;
+                    this.field_191513_e = (EntityLivingBase) entity;
                 }
             }
 
-            if (this.boostedEntity != null) {
-                if (this.boostedEntity.isElytraFlying()) {
-                    Vec3d vec3d = this.boostedEntity.getLookVec();
+            if (this.field_191513_e != null) {
+                if (this.field_191513_e.func_184613_cA()) {
+                    Vec3d vec3d = this.field_191513_e.func_70040_Z();
                     double d0 = 1.5D;
                     double d1 = 0.1D;
 
-                    this.boostedEntity.motionX += vec3d.x * 0.1D + (vec3d.x * 1.5D - this.boostedEntity.motionX) * 0.5D;
-                    this.boostedEntity.motionY += vec3d.y * 0.1D + (vec3d.y * 1.5D - this.boostedEntity.motionY) * 0.5D;
-                    this.boostedEntity.motionZ += vec3d.z * 0.1D + (vec3d.z * 1.5D - this.boostedEntity.motionZ) * 0.5D;
+                    this.field_191513_e.field_70159_w += vec3d.field_72450_a * 0.1D + (vec3d.field_72450_a * 1.5D - this.field_191513_e.field_70159_w) * 0.5D;
+                    this.field_191513_e.field_70181_x += vec3d.field_72448_b * 0.1D + (vec3d.field_72448_b * 1.5D - this.field_191513_e.field_70181_x) * 0.5D;
+                    this.field_191513_e.field_70179_y += vec3d.field_72449_c * 0.1D + (vec3d.field_72449_c * 1.5D - this.field_191513_e.field_70179_y) * 0.5D;
                 }
 
-                this.setPosition(this.boostedEntity.posX, this.boostedEntity.posY, this.boostedEntity.posZ);
-                this.motionX = this.boostedEntity.motionX;
-                this.motionY = this.boostedEntity.motionY;
-                this.motionZ = this.boostedEntity.motionZ;
+                this.func_70107_b(this.field_191513_e.field_70165_t, this.field_191513_e.field_70163_u, this.field_191513_e.field_70161_v);
+                this.field_70159_w = this.field_191513_e.field_70159_w;
+                this.field_70181_x = this.field_191513_e.field_70181_x;
+                this.field_70179_y = this.field_191513_e.field_70179_y;
             }
         } else {
-            this.motionX *= 1.15D;
-            this.motionZ *= 1.15D;
-            this.motionY += 0.04D;
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.field_70159_w *= 1.15D;
+            this.field_70179_y *= 1.15D;
+            this.field_70181_x += 0.04D;
+            this.func_70091_d(MoverType.SELF, this.field_70159_w, this.field_70181_x, this.field_70179_y);
         }
 
-        float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        float f = MathHelper.func_76133_a(this.field_70159_w * this.field_70159_w + this.field_70179_y * this.field_70179_y);
 
-        this.rotationYaw = (float) (MathHelper.atan2(this.motionX, this.motionZ) * 57.2957763671875D);
+        this.field_70177_z = (float) (MathHelper.func_181159_b(this.field_70159_w, this.field_70179_y) * 57.2957763671875D);
 
-        for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, (double) f) * 57.2957763671875D); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
+        for (this.field_70125_A = (float) (MathHelper.func_181159_b(this.field_70181_x, (double) f) * 57.2957763671875D); this.field_70125_A - this.field_70127_C < -180.0F; this.field_70127_C -= 360.0F) {
             ;
         }
 
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
-            this.prevRotationPitch += 360.0F;
+        while (this.field_70125_A - this.field_70127_C >= 180.0F) {
+            this.field_70127_C += 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw < -180.0F) {
-            this.prevRotationYaw -= 360.0F;
+        while (this.field_70177_z - this.field_70126_B < -180.0F) {
+            this.field_70126_B -= 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw >= 180.0F) {
-            this.prevRotationYaw += 360.0F;
+        while (this.field_70177_z - this.field_70126_B >= 180.0F) {
+            this.field_70126_B += 360.0F;
         }
 
-        this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
-        this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
-        if (this.fireworkAge == 0 && !this.isSilent()) {
-            this.world.playSound((EntityPlayer) null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_FIREWORK_LAUNCH, SoundCategory.AMBIENT, 3.0F, 1.0F);
+        this.field_70125_A = this.field_70127_C + (this.field_70125_A - this.field_70127_C) * 0.2F;
+        this.field_70177_z = this.field_70126_B + (this.field_70177_z - this.field_70126_B) * 0.2F;
+        if (this.field_92056_a == 0 && !this.func_174814_R()) {
+            this.field_70170_p.func_184148_a((EntityPlayer) null, this.field_70165_t, this.field_70163_u, this.field_70161_v, SoundEvents.field_187631_bo, SoundCategory.AMBIENT, 3.0F, 1.0F);
         }
 
-        ++this.fireworkAge;
-        if (this.world.isRemote && this.fireworkAge % 2 < 2) {
-            this.world.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, this.posX, this.posY - 0.3D, this.posZ, this.rand.nextGaussian() * 0.05D, -this.motionY * 0.5D, this.rand.nextGaussian() * 0.05D, new int[0]);
+        ++this.field_92056_a;
+        if (this.field_70170_p.field_72995_K && this.field_92056_a % 2 < 2) {
+            this.field_70170_p.func_175688_a(EnumParticleTypes.FIREWORKS_SPARK, this.field_70165_t, this.field_70163_u - 0.3D, this.field_70161_v, this.field_70146_Z.nextGaussian() * 0.05D, -this.field_70181_x * 0.5D, this.field_70146_Z.nextGaussian() * 0.05D, new int[0]);
         }
 
-        if (!this.world.isRemote && this.fireworkAge > this.lifetime) {
+        if (!this.field_70170_p.field_72995_K && this.field_92056_a > this.field_92055_b) {
             // CraftBukkit start
             if (!org.bukkit.craftbukkit.event.CraftEventFactory.callFireworkExplodeEvent(this).isCancelled()) {
-                this.world.setEntityState(this, (byte) 17);
-                this.dealExplosionDamage();
+                this.field_70170_p.func_72960_a(this, (byte) 17);
+                this.func_191510_k();
             }
             // CraftBukkit end
-            this.setDead();
+            this.func_70106_y();
         }
 
     }
 
-    private void dealExplosionDamage() {
+    private void func_191510_k() {
         float f = 0.0F;
-        ItemStack itemstack = (ItemStack) this.dataManager.get(EntityFireworkRocket.FIREWORK_ITEM);
-        NBTTagCompound nbttagcompound = itemstack.isEmpty() ? null : itemstack.getSubCompound("Fireworks");
-        NBTTagList nbttaglist = nbttagcompound != null ? nbttagcompound.getTagList("Explosions", 10) : null;
+        ItemStack itemstack = (ItemStack) this.field_70180_af.func_187225_a(EntityFireworkRocket.field_184566_a);
+        NBTTagCompound nbttagcompound = itemstack.func_190926_b() ? null : itemstack.func_179543_a("Fireworks");
+        NBTTagList nbttaglist = nbttagcompound != null ? nbttagcompound.func_150295_c("Explosions", 10) : null;
 
-        if (nbttaglist != null && !nbttaglist.hasNoTags()) {
-            f = (float) (5 + nbttaglist.tagCount() * 2);
+        if (nbttaglist != null && !nbttaglist.func_82582_d()) {
+            f = (float) (5 + nbttaglist.func_74745_c() * 2);
         }
 
         if (f > 0.0F) {
-            if (this.boostedEntity != null) {
+            if (this.field_191513_e != null) {
                 CraftEventFactory.entityDamage = this; // CraftBukkit
-                this.boostedEntity.attackEntityFrom(DamageSource.FIREWORKS, (float) (5 + nbttaglist.tagCount() * 2));
+                this.field_191513_e.func_70097_a(DamageSource.field_191552_t, (float) (5 + nbttaglist.func_74745_c() * 2));
                 CraftEventFactory.entityDamage = null; // CraftBukkit
             }
 
             double d0 = 5.0D;
-            Vec3d vec3d = new Vec3d(this.posX, this.posY, this.posZ);
-            List list = this.world.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().grow(5.0D));
+            Vec3d vec3d = new Vec3d(this.field_70165_t, this.field_70163_u, this.field_70161_v);
+            List list = this.field_70170_p.func_72872_a(EntityLivingBase.class, this.func_174813_aQ().func_186662_g(5.0D));
             Iterator iterator = list.iterator();
 
             while (iterator.hasNext()) {
                 EntityLivingBase entityliving = (EntityLivingBase) iterator.next();
 
-                if (entityliving != this.boostedEntity && this.getDistanceSq(entityliving) <= 25.0D) {
+                if (entityliving != this.field_191513_e && this.func_70068_e(entityliving) <= 25.0D) {
                     boolean flag = false;
 
                     for (int i = 0; i < 2; ++i) {
-                        RayTraceResult movingobjectposition = this.world.rayTraceBlocks(vec3d, new Vec3d(entityliving.posX, entityliving.posY + (double) entityliving.height * 0.5D * (double) i, entityliving.posZ), false, true, false);
+                        RayTraceResult movingobjectposition = this.field_70170_p.func_147447_a(vec3d, new Vec3d(entityliving.field_70165_t, entityliving.field_70163_u + (double) entityliving.field_70131_O * 0.5D * (double) i, entityliving.field_70161_v), false, true, false);
 
-                        if (movingobjectposition == null || movingobjectposition.typeOfHit == RayTraceResult.Type.MISS) {
+                        if (movingobjectposition == null || movingobjectposition.field_72313_a == RayTraceResult.Type.MISS) {
                             flag = true;
                             break;
                         }
                     }
 
                     if (flag) {
-                        float f1 = f * (float) Math.sqrt((5.0D - (double) this.getDistance(entityliving)) / 5.0D);
+                        float f1 = f * (float) Math.sqrt((5.0D - (double) this.func_70032_d(entityliving)) / 5.0D);
 
                         CraftEventFactory.entityDamage = this; // CraftBukkit
-                        entityliving.attackEntityFrom(DamageSource.FIREWORKS, f1);
+                        entityliving.func_70097_a(DamageSource.field_191552_t, f1);
                         CraftEventFactory.entityDamage = null; // CraftBukkit
                     }
                 }
@@ -213,21 +213,21 @@ public class EntityFireworkRocket extends Entity {
 
     }
 
-    public boolean isAttachedToEntity() {
-        return ((Integer) this.dataManager.get(EntityFireworkRocket.BOOSTED_ENTITY_ID)).intValue() > 0;
+    public boolean func_191511_j() {
+        return ((Integer) this.field_70180_af.func_187225_a(EntityFireworkRocket.field_191512_b)).intValue() > 0;
     }
 
-    public static void registerFixesFireworkRocket(DataFixer dataconvertermanager) {
-        dataconvertermanager.registerWalker(FixTypes.ENTITY, (IDataWalker) (new ItemStackData(EntityFireworkRocket.class, new String[] { "FireworksItem"})));
+    public static void func_189656_a(DataFixer dataconvertermanager) {
+        dataconvertermanager.func_188258_a(FixTypes.ENTITY, (IDataWalker) (new ItemStackData(EntityFireworkRocket.class, new String[] { "FireworksItem"})));
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setInteger("Life", this.fireworkAge);
-        nbttagcompound.setInteger("LifeTime", this.lifetime);
-        ItemStack itemstack = (ItemStack) this.dataManager.get(EntityFireworkRocket.FIREWORK_ITEM);
+    public void func_70014_b(NBTTagCompound nbttagcompound) {
+        nbttagcompound.func_74768_a("Life", this.field_92056_a);
+        nbttagcompound.func_74768_a("LifeTime", this.field_92055_b);
+        ItemStack itemstack = (ItemStack) this.field_70180_af.func_187225_a(EntityFireworkRocket.field_184566_a);
 
-        if (!itemstack.isEmpty()) {
-            nbttagcompound.setTag("FireworksItem", itemstack.writeToNBT(new NBTTagCompound()));
+        if (!itemstack.func_190926_b()) {
+            nbttagcompound.func_74782_a("FireworksItem", itemstack.func_77955_b(new NBTTagCompound()));
         }
         // Paper start
         if (spawningEntity != null) {
@@ -237,16 +237,16 @@ public class EntityFireworkRocket extends Entity {
 
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        this.fireworkAge = nbttagcompound.getInteger("Life");
-        this.lifetime = nbttagcompound.getInteger("LifeTime");
-        NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("FireworksItem");
+    public void func_70037_a(NBTTagCompound nbttagcompound) {
+        this.field_92056_a = nbttagcompound.func_74762_e("Life");
+        this.field_92055_b = nbttagcompound.func_74762_e("LifeTime");
+        NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("FireworksItem");
 
         if (nbttagcompound1 != null) {
             ItemStack itemstack = new ItemStack(nbttagcompound1);
 
-            if (!itemstack.isEmpty()) {
-                this.dataManager.set(EntityFireworkRocket.FIREWORK_ITEM, itemstack);
+            if (!itemstack.func_190926_b()) {
+                this.field_70180_af.func_187227_b(EntityFireworkRocket.field_184566_a, itemstack);
             }
         }
         // Paper start
@@ -256,7 +256,7 @@ public class EntityFireworkRocket extends Entity {
         // Paper end
     }
 
-    public boolean canBeAttackedWithItem() {
+    public boolean func_70075_an() {
         return false;
     }
 }

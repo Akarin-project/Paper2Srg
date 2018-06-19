@@ -10,60 +10,60 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketClickWindow implements Packet<INetHandlerPlayServer> {
 
-    private int windowId;
-    private int slotId;
-    private int packedClickData;
-    private short actionNumber;
-    private ItemStack clickedItem;
-    private ClickType mode;
+    private int field_149554_a;
+    private int field_149552_b;
+    private int field_149553_c;
+    private short field_149550_d;
+    private ItemStack field_149551_e;
+    private ClickType field_149549_f;
 
     public CPacketClickWindow() {
-        this.clickedItem = ItemStack.EMPTY;
+        this.field_149551_e = ItemStack.field_190927_a;
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.processClickWindow(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_147351_a(this);
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.windowId = packetdataserializer.readByte();
-        this.slotId = packetdataserializer.readShort();
-        this.packedClickData = packetdataserializer.readByte();
-        this.actionNumber = packetdataserializer.readShort();
-        this.mode = (ClickType) packetdataserializer.readEnumValue(ClickType.class);
-        this.clickedItem = packetdataserializer.readItemStack();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149554_a = packetdataserializer.readByte();
+        this.field_149552_b = packetdataserializer.readShort();
+        this.field_149553_c = packetdataserializer.readByte();
+        this.field_149550_d = packetdataserializer.readShort();
+        this.field_149549_f = (ClickType) packetdataserializer.func_179257_a(ClickType.class);
+        this.field_149551_e = packetdataserializer.func_150791_c();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeByte(this.windowId);
-        packetdataserializer.writeShort(this.slotId);
-        packetdataserializer.writeByte(this.packedClickData);
-        packetdataserializer.writeShort(this.actionNumber);
-        packetdataserializer.writeEnumValue((Enum) this.mode);
-        packetdataserializer.writeItemStack(this.clickedItem);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeByte(this.field_149554_a);
+        packetdataserializer.writeShort(this.field_149552_b);
+        packetdataserializer.writeByte(this.field_149553_c);
+        packetdataserializer.writeShort(this.field_149550_d);
+        packetdataserializer.func_179249_a((Enum) this.field_149549_f);
+        packetdataserializer.func_150788_a(this.field_149551_e);
     }
 
-    public int getWindowId() {
-        return this.windowId;
+    public int func_149548_c() {
+        return this.field_149554_a;
     }
 
-    public int getSlotId() {
-        return this.slotId;
+    public int func_149544_d() {
+        return this.field_149552_b;
     }
 
-    public int getUsedButton() {
-        return this.packedClickData;
+    public int func_149543_e() {
+        return this.field_149553_c;
     }
 
-    public short getActionNumber() {
-        return this.actionNumber;
+    public short func_149547_f() {
+        return this.field_149550_d;
     }
 
-    public ItemStack getClickedItem() {
-        return this.clickedItem;
+    public ItemStack func_149546_g() {
+        return this.field_149551_e;
     }
 
-    public ClickType getClickType() {
-        return this.mode;
+    public ClickType func_186993_f() {
+        return this.field_149549_f;
     }
 }

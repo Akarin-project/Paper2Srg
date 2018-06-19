@@ -30,13 +30,13 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
     public String getName() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return team.getName();
+        return team.func_96661_b();
     }
 
     public String getDisplayName() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return team.getDisplayName();
+        return team.func_96669_c();
     }
 
     public void setDisplayName(String displayName) throws IllegalStateException {
@@ -44,13 +44,13 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
         Validate.isTrue(displayName.length() <= 32, "Display name '" + displayName + "' is longer than the limit of 32 characters");
         CraftScoreboard scoreboard = checkState();
 
-        team.setDisplayName(displayName);
+        team.func_96664_a(displayName);
     }
 
     public String getPrefix() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return team.getPrefix();
+        return team.func_96668_e();
     }
 
     public void setPrefix(String prefix) throws IllegalStateException, IllegalArgumentException {
@@ -58,13 +58,13 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
         Validate.isTrue(prefix.length() <= 16, "Prefix '" + prefix + "' is longer than the limit of 16 characters");
         CraftScoreboard scoreboard = checkState();
 
-        team.setPrefix(prefix);
+        team.func_96666_b(prefix);
     }
 
     public String getSuffix() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return team.getSuffix();
+        return team.func_96663_f();
     }
 
     public void setSuffix(String suffix) throws IllegalStateException, IllegalArgumentException {
@@ -72,14 +72,14 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
         Validate.isTrue(suffix.length() <= 16, "Suffix '" + suffix + "' is longer than the limit of 16 characters");
         CraftScoreboard scoreboard = checkState();
 
-        team.setSuffix(suffix);
+        team.func_96662_c(suffix);
     }
 
     @Override
     public ChatColor getColor() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return CraftChatMessage.getColor(team.getColor());
+        return CraftChatMessage.getColor(team.func_178775_l());
     }
 
     @Override
@@ -87,51 +87,51 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
         Validate.notNull(color, "Color cannot be null");
         CraftScoreboard scoreboard = checkState();
 
-        team.setColor(CraftChatMessage.getColor(color));
-        scoreboard.board.broadcastTeamInfoUpdate(team); // SPIGOT-3684 - backing team fires this for prefix/suffix but not colour
+        team.func_178774_a(CraftChatMessage.getColor(color));
+        scoreboard.board.func_96538_b(team); // SPIGOT-3684 - backing team fires this for prefix/suffix but not colour
     }
 
     public boolean allowFriendlyFire() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return team.getAllowFriendlyFire();
+        return team.func_96665_g();
     }
 
     public void setAllowFriendlyFire(boolean enabled) throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        team.setAllowFriendlyFire(enabled);
+        team.func_96660_a(enabled);
     }
 
     public boolean canSeeFriendlyInvisibles() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return team.getSeeFriendlyInvisiblesEnabled();
+        return team.func_98297_h();
     }
 
     public void setCanSeeFriendlyInvisibles(boolean enabled) throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        team.setSeeFriendlyInvisiblesEnabled(enabled);
+        team.func_98300_b(enabled);
     }
 
     public NameTagVisibility getNameTagVisibility() throws IllegalArgumentException {
         CraftScoreboard scoreboard = checkState();
 
-        return notchToBukkit(team.getNameTagVisibility());
+        return notchToBukkit(team.func_178770_i());
     }
 
     public void setNameTagVisibility(NameTagVisibility visibility) throws IllegalArgumentException {
         CraftScoreboard scoreboard = checkState();
 
-        team.setNameTagVisibility(bukkitToNotch(visibility));
+        team.func_178772_a(bukkitToNotch(visibility));
     }
 
     public Set<OfflinePlayer> getPlayers() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
         ImmutableSet.Builder<OfflinePlayer> players = ImmutableSet.builder();
-        for (String playerName : team.getMembershipCollection()) {
+        for (String playerName : team.func_96670_d()) {
             players.add(Bukkit.getOfflinePlayer(playerName));
         }
         return players.build();
@@ -142,7 +142,7 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
         CraftScoreboard scoreboard = checkState();
 
         ImmutableSet.Builder<String> entries = ImmutableSet.builder();
-        for (String playerName: team.getMembershipCollection()){
+        for (String playerName: team.func_96670_d()){
             entries.add(playerName);
         }
         return entries.build();
@@ -151,7 +151,7 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
     public int getSize() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        return team.getMembershipCollection().size();
+        return team.func_96670_d().size();
     }
 
     public void addPlayer(OfflinePlayer player) throws IllegalStateException, IllegalArgumentException {
@@ -163,7 +163,7 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
         Validate.notNull(entry, "Entry cannot be null");
         CraftScoreboard scoreboard = checkState();
 
-        scoreboard.board.addPlayerToTeam(entry, team.getName());
+        scoreboard.board.func_151392_a(entry, team.func_96661_b());
     }
 
     public boolean removePlayer(OfflinePlayer player) throws IllegalStateException, IllegalArgumentException {
@@ -175,11 +175,11 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
         Validate.notNull(entry, "Entry cannot be null");
         CraftScoreboard scoreboard = checkState();
 
-        if (!team.getMembershipCollection().contains(entry)) {
+        if (!team.func_96670_d().contains(entry)) {
             return false;
         }
 
-        scoreboard.board.removePlayerFromTeam(entry, team);
+        scoreboard.board.func_96512_b(entry, team);
         return true;
     }
 
@@ -193,14 +193,14 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
 
         CraftScoreboard scoreboard = checkState();
 
-        return team.getMembershipCollection().contains(entry);
+        return team.func_96670_d().contains(entry);
     }
 
     @Override
     public void unregister() throws IllegalStateException {
         CraftScoreboard scoreboard = checkState();
 
-        scoreboard.board.removeTeam(team);
+        scoreboard.board.func_96511_d(team);
     }
 
     @Override
@@ -209,11 +209,11 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
 
         switch (option) {
             case NAME_TAG_VISIBILITY:
-                return OptionStatus.values()[team.getNameTagVisibility().ordinal()];
+                return OptionStatus.values()[team.func_178770_i().ordinal()];
             case DEATH_MESSAGE_VISIBILITY:
-                return OptionStatus.values()[team.getDeathMessageVisibility().ordinal()];
+                return OptionStatus.values()[team.func_178771_j().ordinal()];
             case COLLISION_RULE:
-                return OptionStatus.values()[team.getCollisionRule().ordinal()];
+                return OptionStatus.values()[team.func_186681_k().ordinal()];
             default:
                 throw new IllegalArgumentException("Unrecognised option " + option);
         }
@@ -225,13 +225,13 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
 
         switch (option) {
             case NAME_TAG_VISIBILITY:
-                team.setNameTagVisibility(EnumVisible.values()[status.ordinal()]);
+                team.func_178772_a(EnumVisible.values()[status.ordinal()]);
                 break;
             case DEATH_MESSAGE_VISIBILITY:
-                team.setDeathMessageVisibility(EnumVisible.values()[status.ordinal()]);
+                team.func_178773_b(EnumVisible.values()[status.ordinal()]);
                 break;
             case COLLISION_RULE:
-                team.setCollisionRule(Team.CollisionRule.values()[status.ordinal()]);
+                team.func_186682_a(Team.CollisionRule.values()[status.ordinal()]);
                 break;
             default:
                 throw new IllegalArgumentException("Unrecognised option " + option);
@@ -270,7 +270,7 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
 
     @Override
     CraftScoreboard checkState() throws IllegalStateException {
-        if (getScoreboard().board.getTeam(team.getName()) == null) {
+        if (getScoreboard().board.func_96508_e(team.func_96661_b()) == null) {
             throw new IllegalStateException("Unregistered scoreboard component");
         }
 

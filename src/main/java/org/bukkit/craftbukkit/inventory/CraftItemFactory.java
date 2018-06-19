@@ -215,7 +215,7 @@ public final class CraftItemFactory implements ItemFactory {
             nms = CraftItemStack.asNMSCopy(item);
         }
 
-        return nms != null ? nms.getDisplayName() : null;
+        return nms != null ? nms.func_82833_r() : null;
     }
     // Paper end
 }

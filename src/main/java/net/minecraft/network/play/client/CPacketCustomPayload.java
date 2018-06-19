@@ -9,40 +9,40 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketCustomPayload implements Packet<INetHandlerPlayServer> {
 
-    private String channel;
-    private PacketBuffer data;
+    private String field_149562_a;
+    private PacketBuffer field_149561_c;
 
     public CPacketCustomPayload() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.channel = packetdataserializer.readString(20);
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149562_a = packetdataserializer.func_150789_c(20);
         int i = packetdataserializer.readableBytes();
 
         if (i >= 0 && i <= 32767) {
-            this.data = new PacketBuffer(packetdataserializer.readBytes(i));
+            this.field_149561_c = new PacketBuffer(packetdataserializer.readBytes(i));
         } else {
             throw new IOException("Payload may not be larger than 32767 bytes");
         }
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeString(this.channel);
-        packetdataserializer.writeBytes((ByteBuf) this.data);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_180714_a(this.field_149562_a);
+        packetdataserializer.writeBytes((ByteBuf) this.field_149561_c);
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.processCustomPayload(this);
-        if (this.data != null) {
-            this.data.release();
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_147349_a(this);
+        if (this.field_149561_c != null) {
+            this.field_149561_c.release();
         }
 
     }
 
-    public String getChannelName() {
-        return this.channel;
+    public String func_149559_c() {
+        return this.field_149562_a;
     }
 
-    public PacketBuffer getBufferData() {
-        return this.data;
+    public PacketBuffer func_180760_b() {
+        return this.field_149561_c;
     }
 }

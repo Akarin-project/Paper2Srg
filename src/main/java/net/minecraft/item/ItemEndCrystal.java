@@ -21,50 +21,50 @@ import net.minecraft.world.end.DragonFightManager;
 public class ItemEndCrystal extends Item {
 
     public ItemEndCrystal() {
-        this.setUnlocalizedName("end_crystal");
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        this.func_77655_b("end_crystal");
+        this.func_77637_a(CreativeTabs.field_78031_c);
     }
 
-    public EnumActionResult onItemUse(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        IBlockState iblockdata = world.getBlockState(blockposition);
+    public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        IBlockState iblockdata = world.func_180495_p(blockposition);
 
-        if (iblockdata.getBlock() != Blocks.OBSIDIAN && iblockdata.getBlock() != Blocks.BEDROCK) {
+        if (iblockdata.func_177230_c() != Blocks.field_150343_Z && iblockdata.func_177230_c() != Blocks.field_150357_h) {
             return EnumActionResult.FAIL;
         } else {
-            BlockPos blockposition1 = blockposition.up();
-            ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+            BlockPos blockposition1 = blockposition.func_177984_a();
+            ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-            if (!entityhuman.canPlayerEdit(blockposition1, enumdirection, itemstack)) {
+            if (!entityhuman.func_175151_a(blockposition1, enumdirection, itemstack)) {
                 return EnumActionResult.FAIL;
             } else {
-                BlockPos blockposition2 = blockposition1.up();
-                boolean flag = !world.isAirBlock(blockposition1) && !world.getBlockState(blockposition1).getBlock().isReplaceable((IBlockAccess) world, blockposition1);
+                BlockPos blockposition2 = blockposition1.func_177984_a();
+                boolean flag = !world.func_175623_d(blockposition1) && !world.func_180495_p(blockposition1).func_177230_c().func_176200_f((IBlockAccess) world, blockposition1);
 
-                flag |= !world.isAirBlock(blockposition2) && !world.getBlockState(blockposition2).getBlock().isReplaceable((IBlockAccess) world, blockposition2);
+                flag |= !world.func_175623_d(blockposition2) && !world.func_180495_p(blockposition2).func_177230_c().func_176200_f((IBlockAccess) world, blockposition2);
                 if (flag) {
                     return EnumActionResult.FAIL;
                 } else {
-                    double d0 = (double) blockposition1.getX();
-                    double d1 = (double) blockposition1.getY();
-                    double d2 = (double) blockposition1.getZ();
-                    List list = world.getEntitiesWithinAABBExcludingEntity((Entity) null, new AxisAlignedBB(d0, d1, d2, d0 + 1.0D, d1 + 2.0D, d2 + 1.0D));
+                    double d0 = (double) blockposition1.func_177958_n();
+                    double d1 = (double) blockposition1.func_177956_o();
+                    double d2 = (double) blockposition1.func_177952_p();
+                    List list = world.func_72839_b((Entity) null, new AxisAlignedBB(d0, d1, d2, d0 + 1.0D, d1 + 2.0D, d2 + 1.0D));
 
                     if (!list.isEmpty()) {
                         return EnumActionResult.FAIL;
                     } else {
-                        if (!world.isRemote) {
-                            EntityEnderCrystal entityendercrystal = new EntityEnderCrystal(world, (double) ((float) blockposition.getX() + 0.5F), (double) (blockposition.getY() + 1), (double) ((float) blockposition.getZ() + 0.5F));
+                        if (!world.field_72995_K) {
+                            EntityEnderCrystal entityendercrystal = new EntityEnderCrystal(world, (double) ((float) blockposition.func_177958_n() + 0.5F), (double) (blockposition.func_177956_o() + 1), (double) ((float) blockposition.func_177952_p() + 0.5F));
 
-                            entityendercrystal.setShowBottom(false);
-                            world.spawnEntity(entityendercrystal);
-                            if (world.provider instanceof WorldProviderEnd) {
-                                DragonFightManager enderdragonbattle = ((WorldProviderEnd) world.provider).getDragonFightManager();
+                            entityendercrystal.func_184517_a(false);
+                            world.func_72838_d(entityendercrystal);
+                            if (world.field_73011_w instanceof WorldProviderEnd) {
+                                DragonFightManager enderdragonbattle = ((WorldProviderEnd) world.field_73011_w).func_186063_s();
 
-                                enderdragonbattle.respawnDragon();
+                                enderdragonbattle.func_186106_e();
                             }
                         }
 
-                        itemstack.shrink(1);
+                        itemstack.func_190918_g(1);
                         return EnumActionResult.SUCCESS;
                     }
                 }

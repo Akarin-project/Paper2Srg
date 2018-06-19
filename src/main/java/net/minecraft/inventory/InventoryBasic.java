@@ -23,11 +23,11 @@ import org.bukkit.entity.HumanEntity;
 
 public class InventoryBasic implements IInventory {
 
-    private String inventoryTitle;
-    private final int slotsCount;
-    public final NonNullList<ItemStack> inventoryContents;
-    private List<IInventoryChangedListener> changeListeners;
-    private boolean hasCustomName;
+    private String field_70483_a;
+    private final int field_70481_b;
+    public final NonNullList<ItemStack> field_70482_c;
+    private List<IInventoryChangedListener> field_70480_d;
+    private boolean field_94051_e;
 
     // CraftBukkit start - add fields and methods
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
@@ -35,7 +35,7 @@ public class InventoryBasic implements IInventory {
     protected org.bukkit.inventory.InventoryHolder bukkitOwner;
 
     public List<ItemStack> getContents() {
-        return this.inventoryContents;
+        return this.field_70482_c;
     }
 
     public void onOpen(CraftHumanEntity who) {
@@ -70,98 +70,98 @@ public class InventoryBasic implements IInventory {
     public InventoryBasic(String s, boolean flag, int i, org.bukkit.inventory.InventoryHolder owner) {
         this.bukkitOwner = owner;
         // CraftBukkit end
-        this.inventoryTitle = s;
-        this.hasCustomName = flag;
-        this.slotsCount = i;
-        this.inventoryContents = NonNullList.withSize(i, ItemStack.EMPTY);
+        this.field_70483_a = s;
+        this.field_94051_e = flag;
+        this.field_70481_b = i;
+        this.field_70482_c = NonNullList.func_191197_a(i, ItemStack.field_190927_a);
     }
 
-    public void addInventoryChangeListener(IInventoryChangedListener iinventorylistener) {
-        if (this.changeListeners == null) {
-            this.changeListeners = Lists.newArrayList();
+    public void func_110134_a(IInventoryChangedListener iinventorylistener) {
+        if (this.field_70480_d == null) {
+            this.field_70480_d = Lists.newArrayList();
         }
 
-        this.changeListeners.add(iinventorylistener);
+        this.field_70480_d.add(iinventorylistener);
     }
 
-    public void removeInventoryChangeListener(IInventoryChangedListener iinventorylistener) {
-        this.changeListeners.remove(iinventorylistener);
+    public void func_110132_b(IInventoryChangedListener iinventorylistener) {
+        this.field_70480_d.remove(iinventorylistener);
     }
 
-    public ItemStack getStackInSlot(int i) {
-        return i >= 0 && i < this.inventoryContents.size() ? (ItemStack) this.inventoryContents.get(i) : ItemStack.EMPTY;
+    public ItemStack func_70301_a(int i) {
+        return i >= 0 && i < this.field_70482_c.size() ? (ItemStack) this.field_70482_c.get(i) : ItemStack.field_190927_a;
     }
 
-    public ItemStack decrStackSize(int i, int j) {
-        ItemStack itemstack = ItemStackHelper.getAndSplit(this.inventoryContents, i, j);
+    public ItemStack func_70298_a(int i, int j) {
+        ItemStack itemstack = ItemStackHelper.func_188382_a(this.field_70482_c, i, j);
 
-        if (!itemstack.isEmpty()) {
-            this.markDirty();
+        if (!itemstack.func_190926_b()) {
+            this.func_70296_d();
         }
 
         return itemstack;
     }
 
-    public ItemStack addItem(ItemStack itemstack) {
-        ItemStack itemstack1 = itemstack.copy();
+    public ItemStack func_174894_a(ItemStack itemstack) {
+        ItemStack itemstack1 = itemstack.func_77946_l();
 
-        for (int i = 0; i < this.slotsCount; ++i) {
-            ItemStack itemstack2 = this.getStackInSlot(i);
+        for (int i = 0; i < this.field_70481_b; ++i) {
+            ItemStack itemstack2 = this.func_70301_a(i);
 
-            if (itemstack2.isEmpty()) {
-                this.setInventorySlotContents(i, itemstack1);
-                this.markDirty();
-                return ItemStack.EMPTY;
+            if (itemstack2.func_190926_b()) {
+                this.func_70299_a(i, itemstack1);
+                this.func_70296_d();
+                return ItemStack.field_190927_a;
             }
 
-            if (ItemStack.areItemsEqual(itemstack2, itemstack1)) {
-                int j = Math.min(this.getInventoryStackLimit(), itemstack2.getMaxStackSize());
-                int k = Math.min(itemstack1.getCount(), j - itemstack2.getCount());
+            if (ItemStack.func_179545_c(itemstack2, itemstack1)) {
+                int j = Math.min(this.func_70297_j_(), itemstack2.func_77976_d());
+                int k = Math.min(itemstack1.func_190916_E(), j - itemstack2.func_190916_E());
 
                 if (k > 0) {
-                    itemstack2.grow(k);
-                    itemstack1.shrink(k);
-                    if (itemstack1.isEmpty()) {
-                        this.markDirty();
-                        return ItemStack.EMPTY;
+                    itemstack2.func_190917_f(k);
+                    itemstack1.func_190918_g(k);
+                    if (itemstack1.func_190926_b()) {
+                        this.func_70296_d();
+                        return ItemStack.field_190927_a;
                     }
                 }
             }
         }
 
-        if (itemstack1.getCount() != itemstack.getCount()) {
-            this.markDirty();
+        if (itemstack1.func_190916_E() != itemstack.func_190916_E()) {
+            this.func_70296_d();
         }
 
         return itemstack1;
     }
 
-    public ItemStack removeStackFromSlot(int i) {
-        ItemStack itemstack = (ItemStack) this.inventoryContents.get(i);
+    public ItemStack func_70304_b(int i) {
+        ItemStack itemstack = (ItemStack) this.field_70482_c.get(i);
 
-        if (itemstack.isEmpty()) {
-            return ItemStack.EMPTY;
+        if (itemstack.func_190926_b()) {
+            return ItemStack.field_190927_a;
         } else {
-            this.inventoryContents.set(i, ItemStack.EMPTY);
+            this.field_70482_c.set(i, ItemStack.field_190927_a);
             return itemstack;
         }
     }
 
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
-        this.inventoryContents.set(i, itemstack);
-        if (!itemstack.isEmpty() && itemstack.getCount() > this.getInventoryStackLimit()) {
-            itemstack.setCount(this.getInventoryStackLimit());
+    public void func_70299_a(int i, ItemStack itemstack) {
+        this.field_70482_c.set(i, itemstack);
+        if (!itemstack.func_190926_b() && itemstack.func_190916_E() > this.func_70297_j_()) {
+            itemstack.func_190920_e(this.func_70297_j_());
         }
 
-        this.markDirty();
+        this.func_70296_d();
     }
 
-    public int getSizeInventory() {
-        return this.slotsCount;
+    public int func_70302_i_() {
+        return this.field_70481_b;
     }
 
-    public boolean isEmpty() {
-        Iterator iterator = this.inventoryContents.iterator();
+    public boolean func_191420_l() {
+        Iterator iterator = this.field_70482_c.iterator();
 
         ItemStack itemstack;
 
@@ -171,64 +171,64 @@ public class InventoryBasic implements IInventory {
             }
 
             itemstack = (ItemStack) iterator.next();
-        } while (itemstack.isEmpty());
+        } while (itemstack.func_190926_b());
 
         return false;
     }
 
-    public String getName() {
-        return this.inventoryTitle;
+    public String func_70005_c_() {
+        return this.field_70483_a;
     }
 
-    public boolean hasCustomName() {
-        return this.hasCustomName;
+    public boolean func_145818_k_() {
+        return this.field_94051_e;
     }
 
-    public void setCustomName(String s) {
-        this.hasCustomName = true;
-        this.inventoryTitle = s;
+    public void func_110133_a(String s) {
+        this.field_94051_e = true;
+        this.field_70483_a = s;
     }
 
-    public ITextComponent getDisplayName() {
-        return (ITextComponent) (this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
+    public ITextComponent func_145748_c_() {
+        return (ITextComponent) (this.func_145818_k_() ? new TextComponentString(this.func_70005_c_()) : new TextComponentTranslation(this.func_70005_c_(), new Object[0]));
     }
 
-    public int getInventoryStackLimit() {
+    public int func_70297_j_() {
         return 64;
     }
 
-    public void markDirty() {
-        if (this.changeListeners != null) {
-            for (int i = 0; i < this.changeListeners.size(); ++i) {
-                ((IInventoryChangedListener) this.changeListeners.get(i)).onInventoryChanged(this);
+    public void func_70296_d() {
+        if (this.field_70480_d != null) {
+            for (int i = 0; i < this.field_70480_d.size(); ++i) {
+                ((IInventoryChangedListener) this.field_70480_d.get(i)).func_76316_a(this);
             }
         }
 
     }
 
-    public boolean isUsableByPlayer(EntityPlayer entityhuman) {
+    public boolean func_70300_a(EntityPlayer entityhuman) {
         return true;
     }
 
-    public void openInventory(EntityPlayer entityhuman) {}
+    public void func_174889_b(EntityPlayer entityhuman) {}
 
-    public void closeInventory(EntityPlayer entityhuman) {}
+    public void func_174886_c(EntityPlayer entityhuman) {}
 
-    public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+    public boolean func_94041_b(int i, ItemStack itemstack) {
         return true;
     }
 
-    public int getField(int i) {
+    public int func_174887_a_(int i) {
         return 0;
     }
 
-    public void setField(int i, int j) {}
+    public void func_174885_b(int i, int j) {}
 
-    public int getFieldCount() {
+    public int func_174890_g() {
         return 0;
     }
 
-    public void clear() {
-        this.inventoryContents.clear();
+    public void func_174888_l() {
+        this.field_70482_c.clear();
     }
 }

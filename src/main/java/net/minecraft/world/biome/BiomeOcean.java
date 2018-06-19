@@ -2,13 +2,12 @@ package net.minecraft.world.biome;
 
 public class BiomeOcean extends Biome {
 
-    public BiomeOcean(Biome.a biomebase_a) {
+    public BiomeOcean(BiomeBase.a biomebase_a) {
         super(biomebase_a);
-        this.spawnableCreatureList.clear();
+        this.field_76762_K.clear();
     }
 
-    @Override
-    public Biome.TempCategory getTempCategory() {
+    public Biome.TempCategory func_150561_m() {
         return Biome.TempCategory.OCEAN;
     }
 }

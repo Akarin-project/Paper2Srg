@@ -8,23 +8,23 @@ import java.util.List;
 
 public class NBTTagByteArray extends NBTBase {
 
-    private byte[] data;
+    private byte[] field_74754_a;
 
     NBTTagByteArray() {}
 
     public NBTTagByteArray(byte[] abyte) {
-        this.data = abyte;
+        this.field_74754_a = abyte;
     }
 
     public NBTTagByteArray(List<Byte> list) {
-        this(toArray(list));
+        this(func_193589_a(list));
     }
 
-    private static byte[] toArray(List<Byte> list) {
+    private static byte[] func_193589_a(List<Byte> list) {
         byte[] abyte = new byte[list.size()];
 
         for (int i = 0; i < list.size(); ++i) {
-            Byte obyte = list.get(i);
+            Byte obyte = (Byte) list.get(i);
 
             abyte[i] = obyte == null ? 0 : obyte.byteValue();
         }
@@ -32,64 +32,55 @@ public class NBTTagByteArray extends NBTBase {
         return abyte;
     }
 
-    @Override
-    void write(DataOutput dataoutput) throws IOException {
-        dataoutput.writeInt(this.data.length);
-        dataoutput.write(this.data);
+    void func_74734_a(DataOutput dataoutput) throws IOException {
+        dataoutput.writeInt(this.field_74754_a.length);
+        dataoutput.write(this.field_74754_a);
     }
 
-    @Override
-    void read(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
-        nbtreadlimiter.read(192L);
+    void func_152446_a(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
+        nbtreadlimiter.func_152450_a(192L);
         int j = datainput.readInt();
        com.google.common.base.Preconditions.checkArgument( j < 1 << 24);
 
-        nbtreadlimiter.read(8 * j);
-        this.data = new byte[j];
-        datainput.readFully(this.data);
+        nbtreadlimiter.func_152450_a((long) (8 * j));
+        this.field_74754_a = new byte[j];
+        datainput.readFully(this.field_74754_a);
     }
 
-    @Override
-    public byte getId() {
+    public byte func_74732_a() {
         return (byte) 7;
     }
 
-    @Override
     public String toString() {
         StringBuilder stringbuilder = new StringBuilder("[B;");
 
-        for (int i = 0; i < this.data.length; ++i) {
+        for (int i = 0; i < this.field_74754_a.length; ++i) {
             if (i != 0) {
                 stringbuilder.append(',');
             }
 
-            stringbuilder.append(this.data[i]).append('B');
+            stringbuilder.append(this.field_74754_a[i]).append('B');
         }
 
         return stringbuilder.append(']').toString();
     }
 
-    @Override
-    public NBTBase copy() { return clone(); } // Akarin
-    @Override
     public NBTBase clone() {
-        byte[] abyte = new byte[this.data.length];
+        byte[] abyte = new byte[this.field_74754_a.length];
 
-        System.arraycopy(this.data, 0, abyte, 0, this.data.length);
+        System.arraycopy(this.field_74754_a, 0, abyte, 0, this.field_74754_a.length);
         return new NBTTagByteArray(abyte);
     }
 
-    @Override
     public boolean equals(Object object) {
-        return super.equals(object) && Arrays.equals(this.data, ((NBTTagByteArray) object).data);
+        return super.equals(object) && Arrays.equals(this.field_74754_a, ((NBTTagByteArray) object).field_74754_a);
     }
 
-    @Override
     public int hashCode() {
-        return super.hashCode() ^ Arrays.hashCode(this.data);
+        return super.hashCode() ^ Arrays.hashCode(this.field_74754_a);
     }
 
-    public byte[] getByteArray() {
-        return this.data;
+    public byte[] func_150292_c() {
+        return this.field_74754_a;
     }
 }

@@ -31,7 +31,7 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
             for (int j = 0; j < i; ++j) {
                 Object object = aobject[j];
 
-                hashmap.put(this.getName(object), object);
+                hashmap.put(this.func_151232_a(object), object);
             }
 
             return new TypeAdapter() {
@@ -39,7 +39,7 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
                     if (t0 == null) {
                         jsonwriter.nullValue();
                     } else {
-                        jsonwriter.value(EnumTypeAdapterFactory.this.getName(t0));
+                        jsonwriter.value(EnumTypeAdapterFactory.this.func_151232_a(t0));
                     }
 
                 }
@@ -57,7 +57,7 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
         }
     }
 
-    private String getName(Object object) {
+    private String func_151232_a(Object object) {
         return object instanceof Enum ? ((Enum) object).name().toLowerCase(Locale.ROOT) : object.toString().toLowerCase(Locale.ROOT);
     }
 }

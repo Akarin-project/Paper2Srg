@@ -10,10 +10,9 @@ public class NettyVarint21FrameEncoder extends MessageToByteEncoder<ByteBuf> {
 
     public NettyVarint21FrameEncoder() {}
 
-    @Override
     protected void encode(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf, ByteBuf bytebuf1) throws Exception {
         int i = bytebuf.readableBytes();
-        int j = PacketBuffer.getVarIntSize(i);
+        int j = PacketBuffer.func_150790_a(i);
 
         if (j > 3) {
             throw new IllegalArgumentException("unable to fit " + i + " into " + 3);
@@ -21,8 +20,12 @@ public class NettyVarint21FrameEncoder extends MessageToByteEncoder<ByteBuf> {
             PacketBuffer packetdataserializer = new PacketBuffer(bytebuf1);
 
             packetdataserializer.ensureWritable(j + i);
-            packetdataserializer.writeVarInt(i);
+            packetdataserializer.func_150787_b(i);
             packetdataserializer.writeBytes(bytebuf, bytebuf.readerIndex(), i);
         }
+    }
+
+    protected void encode(ChannelHandlerContext channelhandlercontext, Object object, ByteBuf bytebuf) throws Exception {
+        this.encode(channelhandlercontext, (ByteBuf) object, bytebuf);
     }
 }

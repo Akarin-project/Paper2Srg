@@ -16,6 +16,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 
+import net;
+
 public class CraftStatistic {
     private static final BiMap<String, org.bukkit.Statistic> statistics;
 
@@ -35,7 +37,7 @@ public class CraftStatistic {
     private CraftStatistic() {}
 
     public static org.bukkit.Statistic getBukkitStatistic(net.minecraft.stats.StatBase statistic) {
-        return getBukkitStatisticByName(statistic.statId);
+        return getBukkitStatisticByName(statistic.field_75975_e);
     }
 
     public static org.bukkit.Statistic getBukkitStatisticByName(String name) {
@@ -67,28 +69,28 @@ public class CraftStatistic {
     }
 
     public static net.minecraft.stats.StatBase getNMSStatistic(org.bukkit.Statistic statistic) {
-        return StatList.getOneShotStat(statistics.inverse().get(statistic));
+        return StatList.func_151177_a(statistics.inverse().get(statistic));
     }
 
     public static net.minecraft.stats.StatBase getMaterialStatistic(org.bukkit.Statistic stat, Material material) {
         try {
             if (stat == Statistic.MINE_BLOCK) {
-                return StatList.getBlockStats(CraftMagicNumbers.getBlock(material)); // PAIL: getMineBlockStatistic
+                return StatList.func_188055_a(CraftMagicNumbers.getBlock(material)); // PAIL: getMineBlockStatistic
             }
             if (stat == Statistic.CRAFT_ITEM) {
-                return StatList.getCraftStats(CraftMagicNumbers.getItem(material)); // PAIL: getCraftItemStatistic
+                return StatList.func_188060_a(CraftMagicNumbers.getItem(material)); // PAIL: getCraftItemStatistic
             }
             if (stat == Statistic.USE_ITEM) {
-                return StatList.getObjectUseStats(CraftMagicNumbers.getItem(material)); // PAIL: getUseItemStatistic
+                return StatList.func_188057_b(CraftMagicNumbers.getItem(material)); // PAIL: getUseItemStatistic
             }
             if (stat == Statistic.BREAK_ITEM) {
-                return StatList.getObjectBreakStats(CraftMagicNumbers.getItem(material)); // PAIL: getBreakItemStatistic
+                return StatList.func_188059_c(CraftMagicNumbers.getItem(material)); // PAIL: getBreakItemStatistic
             }
             if (stat == Statistic.PICKUP) {
-                return StatList.getObjectsPickedUpStats(CraftMagicNumbers.getItem(material)); // PAIL: getPickupStatistic
+                return StatList.func_188056_d(CraftMagicNumbers.getItem(material)); // PAIL: getPickupStatistic
             }
             if (stat == Statistic.DROP) {
-                return StatList.getDroppedObjectStats(CraftMagicNumbers.getItem(material)); // PAIL: getDropItemStatistic
+                return StatList.func_188058_e(CraftMagicNumbers.getItem(material)); // PAIL: getDropItemStatistic
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
@@ -97,34 +99,34 @@ public class CraftStatistic {
     }
 
     public static net.minecraft.stats.StatBase getEntityStatistic(org.bukkit.Statistic stat, EntityType entity) {
-        EntityEggInfo monsteregginfo = EntityList.ENTITY_EGGS.get(new ResourceLocation(entity.getName()));
+        EntityEggInfo monsteregginfo = (EntityEggInfo) EntityList.field_75627_a.get(new ResourceLocation(entity.getName()));
 
         if (monsteregginfo != null) {
             if (stat == org.bukkit.Statistic.KILL_ENTITY) {
-                return monsteregginfo.killEntityStat;
+                return monsteregginfo.field_151512_d;
             }
             if (stat == org.bukkit.Statistic.ENTITY_KILLED_BY) {
-                return monsteregginfo.entityKilledByStat;
+                return monsteregginfo.field_151513_e;
             }
         }
         return null;
     }
 
     public static EntityType getEntityTypeFromStatistic(net.minecraft.stats.StatBase statistic) {
-        String statisticString = statistic.statId;
+        String statisticString = statistic.field_75975_e;
         return EntityType.fromName(statisticString.substring(statisticString.lastIndexOf(".") + 1));
     }
 
     public static Material getMaterialFromStatistic(net.minecraft.stats.StatBase statistic) {
-        String statisticString = statistic.statId;
+        String statisticString = statistic.field_75975_e;
         String val = statisticString.substring(statisticString.lastIndexOf(".") + 1);
-        Item item = Item.REGISTRY.getObject(new ResourceLocation(val));
+        Item item = (Item) Item.field_150901_e.func_82594_a(new ResourceLocation(val));
         if (item != null) {
-            return Material.getMaterial(Item.getIdFromItem(item));
+            return Material.getMaterial(Item.func_150891_b(item));
         }
-        Block block = Block.REGISTRY.getObject(new ResourceLocation(val));
+        Block block = (Block) Block.field_149771_c.func_82594_a(new ResourceLocation(val));
         if (block != null) {
-            return Material.getMaterial(Block.getIdFromBlock(block));
+            return Material.getMaterial(Block.func_149682_b(block));
         }
         try {
             return Material.getMaterial(Integer.parseInt(val));

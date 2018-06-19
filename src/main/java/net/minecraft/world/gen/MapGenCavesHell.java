@@ -10,15 +10,15 @@ import net.minecraft.world.chunk.ChunkPrimer;
 
 public class MapGenCavesHell extends MapGenBase {
 
-    protected static final IBlockState AIR = Blocks.AIR.getDefaultState();
+    protected static final IBlockState field_186130_a = Blocks.field_150350_a.func_176223_P();
 
     public MapGenCavesHell() {}
 
-    protected void addRoom(long i, int j, int k, ChunkPrimer chunksnapshot, double d0, double d1, double d2) {
-        this.addTunnel(i, j, k, chunksnapshot, d0, d1, d2, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D);
+    protected void func_180705_a(long i, int j, int k, ChunkPrimer chunksnapshot, double d0, double d1, double d2) {
+        this.func_180704_a(i, j, k, chunksnapshot, d0, d1, d2, 1.0F + this.field_75038_b.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D);
     }
 
-    protected void addTunnel(long i, int j, int k, ChunkPrimer chunksnapshot, double d0, double d1, double d2, float f, float f1, float f2, int l, int i1, double d3) {
+    protected void func_180704_a(long i, int j, int k, ChunkPrimer chunksnapshot, double d0, double d1, double d2, float f, float f1, float f2, int l, int i1, double d3) {
         double d4 = (double) (j * 16 + 8);
         double d5 = (double) (k * 16 + 8);
         float f3 = 0.0F;
@@ -26,7 +26,7 @@ public class MapGenCavesHell extends MapGenBase {
         Random random = new Random(i);
 
         if (i1 <= 0) {
-            int j1 = this.range * 16 - 16;
+            int j1 = this.field_75040_a * 16 - 16;
 
             i1 = j1 - random.nextInt(j1 / 4);
         }
@@ -41,14 +41,14 @@ public class MapGenCavesHell extends MapGenBase {
         int k1 = random.nextInt(i1 / 2) + i1 / 4;
 
         for (boolean flag1 = random.nextInt(6) == 0; l < i1; ++l) {
-            double d6 = 1.5D + (double) (MathHelper.sin((float) l * 3.1415927F / (float) i1) * f);
+            double d6 = 1.5D + (double) (MathHelper.func_76126_a((float) l * 3.1415927F / (float) i1) * f);
             double d7 = d6 * d3;
-            float f5 = MathHelper.cos(f2);
-            float f6 = MathHelper.sin(f2);
+            float f5 = MathHelper.func_76134_b(f2);
+            float f6 = MathHelper.func_76126_a(f2);
 
-            d0 += (double) (MathHelper.cos(f1) * f5);
+            d0 += (double) (MathHelper.func_76134_b(f1) * f5);
             d1 += (double) f6;
-            d2 += (double) (MathHelper.sin(f1) * f5);
+            d2 += (double) (MathHelper.func_76126_a(f1) * f5);
             if (flag1) {
                 f2 *= 0.92F;
             } else {
@@ -62,8 +62,8 @@ public class MapGenCavesHell extends MapGenBase {
             f4 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 2.0F;
             f3 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 4.0F;
             if (!flag && l == k1 && f > 1.0F) {
-                this.addTunnel(random.nextLong(), j, k, chunksnapshot, d0, d1, d2, random.nextFloat() * 0.5F + 0.5F, f1 - 1.5707964F, f2 / 3.0F, l, i1, 1.0D);
-                this.addTunnel(random.nextLong(), j, k, chunksnapshot, d0, d1, d2, random.nextFloat() * 0.5F + 0.5F, f1 + 1.5707964F, f2 / 3.0F, l, i1, 1.0D);
+                this.func_180704_a(random.nextLong(), j, k, chunksnapshot, d0, d1, d2, random.nextFloat() * 0.5F + 0.5F, f1 - 1.5707964F, f2 / 3.0F, l, i1, 1.0D);
+                this.func_180704_a(random.nextLong(), j, k, chunksnapshot, d0, d1, d2, random.nextFloat() * 0.5F + 0.5F, f1 + 1.5707964F, f2 / 3.0F, l, i1, 1.0D);
                 return;
             }
 
@@ -78,12 +78,12 @@ public class MapGenCavesHell extends MapGenBase {
                 }
 
                 if (d0 >= d4 - 16.0D - d6 * 2.0D && d2 >= d5 - 16.0D - d6 * 2.0D && d0 <= d4 + 16.0D + d6 * 2.0D && d2 <= d5 + 16.0D + d6 * 2.0D) {
-                    int l1 = MathHelper.floor(d0 - d6) - j * 16 - 1;
-                    int i2 = MathHelper.floor(d0 + d6) - j * 16 + 1;
-                    int j2 = MathHelper.floor(d1 - d7) - 1;
-                    int k2 = MathHelper.floor(d1 + d7) + 1;
-                    int l2 = MathHelper.floor(d2 - d6) - k * 16 - 1;
-                    int i3 = MathHelper.floor(d2 + d6) - k * 16 + 1;
+                    int l1 = MathHelper.func_76128_c(d0 - d6) - j * 16 - 1;
+                    int i2 = MathHelper.func_76128_c(d0 + d6) - j * 16 + 1;
+                    int j2 = MathHelper.func_76128_c(d1 - d7) - 1;
+                    int k2 = MathHelper.func_76128_c(d1 + d7) + 1;
+                    int l2 = MathHelper.func_76128_c(d2 - d6) - k * 16 - 1;
+                    int i3 = MathHelper.func_76128_c(d2 + d6) - k * 16 + 1;
 
                     if (l1 < 0) {
                         l1 = 0;
@@ -117,9 +117,9 @@ public class MapGenCavesHell extends MapGenBase {
                         for (int k3 = l2; !flag2 && k3 < i3; ++k3) {
                             for (int l3 = k2 + 1; !flag2 && l3 >= j2 - 1; --l3) {
                                 if (l3 >= 0 && l3 < 128) {
-                                    IBlockState iblockdata = chunksnapshot.getBlockState(j3, l3, k3);
+                                    IBlockState iblockdata = chunksnapshot.func_177856_a(j3, l3, k3);
 
-                                    if (iblockdata.getBlock() == Blocks.FLOWING_LAVA || iblockdata.getBlock() == Blocks.LAVA) {
+                                    if (iblockdata.func_177230_c() == Blocks.field_150356_k || iblockdata.func_177230_c() == Blocks.field_150353_l) {
                                         flag2 = true;
                                     }
 
@@ -142,10 +142,10 @@ public class MapGenCavesHell extends MapGenBase {
                                     double d14 = ((double) (j4 - 1) + 0.5D - d1) / d7;
 
                                     if (d14 > -0.7D && d12 * d12 + d14 * d14 + d13 * d13 < 1.0D) {
-                                        IBlockState iblockdata1 = chunksnapshot.getBlockState(j3, j4, i4);
+                                        IBlockState iblockdata1 = chunksnapshot.func_177856_a(j3, j4, i4);
 
-                                        if (iblockdata1.getBlock() == Blocks.NETHERRACK || iblockdata1.getBlock() == Blocks.DIRT || iblockdata1.getBlock() == Blocks.GRASS) {
-                                            chunksnapshot.setBlockState(j3, j4, i4, MapGenCavesHell.AIR);
+                                        if (iblockdata1.func_177230_c() == Blocks.field_150424_aL || iblockdata1.func_177230_c() == Blocks.field_150346_d || iblockdata1.func_177230_c() == Blocks.field_150349_c) {
+                                            chunksnapshot.func_177855_a(j3, j4, i4, MapGenCavesHell.field_186130_a);
                                         }
                                     }
                                 }
@@ -162,30 +162,30 @@ public class MapGenCavesHell extends MapGenBase {
 
     }
 
-    protected void recursiveGenerate(World world, int i, int j, int k, int l, ChunkPrimer chunksnapshot) {
-        int i1 = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(10) + 1) + 1);
+    protected void func_180701_a(World world, int i, int j, int k, int l, ChunkPrimer chunksnapshot) {
+        int i1 = this.field_75038_b.nextInt(this.field_75038_b.nextInt(this.field_75038_b.nextInt(10) + 1) + 1);
 
-        if (this.rand.nextInt(5) != 0) {
+        if (this.field_75038_b.nextInt(5) != 0) {
             i1 = 0;
         }
 
         for (int j1 = 0; j1 < i1; ++j1) {
-            double d0 = (double) (i * 16 + this.rand.nextInt(16));
-            double d1 = (double) this.rand.nextInt(128);
-            double d2 = (double) (j * 16 + this.rand.nextInt(16));
+            double d0 = (double) (i * 16 + this.field_75038_b.nextInt(16));
+            double d1 = (double) this.field_75038_b.nextInt(128);
+            double d2 = (double) (j * 16 + this.field_75038_b.nextInt(16));
             int k1 = 1;
 
-            if (this.rand.nextInt(4) == 0) {
-                this.addRoom(this.rand.nextLong(), k, l, chunksnapshot, d0, d1, d2);
-                k1 += this.rand.nextInt(4);
+            if (this.field_75038_b.nextInt(4) == 0) {
+                this.func_180705_a(this.field_75038_b.nextLong(), k, l, chunksnapshot, d0, d1, d2);
+                k1 += this.field_75038_b.nextInt(4);
             }
 
             for (int l1 = 0; l1 < k1; ++l1) {
-                float f = this.rand.nextFloat() * 6.2831855F;
-                float f1 = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
-                float f2 = this.rand.nextFloat() * 2.0F + this.rand.nextFloat();
+                float f = this.field_75038_b.nextFloat() * 6.2831855F;
+                float f1 = (this.field_75038_b.nextFloat() - 0.5F) * 2.0F / 8.0F;
+                float f2 = this.field_75038_b.nextFloat() * 2.0F + this.field_75038_b.nextFloat();
 
-                this.addTunnel(this.rand.nextLong(), k, l, chunksnapshot, d0, d1, d2, f2 * 2.0F, f, f1, 0, 0, 0.5D);
+                this.func_180704_a(this.field_75038_b.nextLong(), k, l, chunksnapshot, d0, d1, d2, f2 * 2.0F, f, f1, 0, 0, 0.5D);
             }
         }
 

@@ -24,91 +24,91 @@ import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 
 public abstract class MobSpawnerBaseLogic {
 
-    public int spawnDelay = 20;
-    private final List<WeightedSpawnerEntity> potentialSpawns = Lists.newArrayList();
-    private WeightedSpawnerEntity spawnData = new WeightedSpawnerEntity();
-    private double mobRotation;
-    private double prevMobRotation;
-    public int minSpawnDelay = 200; // CraftBukkit private -> public
-    public int maxSpawnDelay = 800; // CraftBukkit private -> public
-    public int spawnCount = 4; // CraftBukkit private -> public
-    private Entity cachedEntity;
-    public int maxNearbyEntities = 6; // CraftBukkit private -> public
-    public int activatingRangeFromPlayer = 16; // CraftBukkit private -> public
-    public int spawnRange = 4; // CraftBukkit private -> public
+    public int field_98286_b = 20;
+    private final List<WeightedSpawnerEntity> field_98285_e = Lists.newArrayList();
+    private WeightedSpawnerEntity field_98282_f = new WeightedSpawnerEntity();
+    private double field_98287_c;
+    private double field_98284_d;
+    public int field_98283_g = 200; // CraftBukkit private -> public
+    public int field_98293_h = 800; // CraftBukkit private -> public
+    public int field_98294_i = 4; // CraftBukkit private -> public
+    private Entity field_98291_j;
+    public int field_98292_k = 6; // CraftBukkit private -> public
+    public int field_98289_l = 16; // CraftBukkit private -> public
+    public int field_98290_m = 4; // CraftBukkit private -> public
     private int tickDelay = 0; // Paper
 
     public MobSpawnerBaseLogic() {}
 
     @Nullable
-    public ResourceLocation getEntityId() {
-        String s = this.spawnData.getNbt().getString("id");
+    public ResourceLocation func_190895_g() {
+        String s = this.field_98282_f.func_185277_b().func_74779_i("id");
 
-        return StringUtils.isNullOrEmpty(s) ? null : new ResourceLocation(s);
+        return StringUtils.func_151246_b(s) ? null : new ResourceLocation(s);
     }
 
-    public void setEntityId(@Nullable ResourceLocation minecraftkey) {
+    public void func_190894_a(@Nullable ResourceLocation minecraftkey) {
         if (minecraftkey != null) {
-            this.spawnData.getNbt().setString("id", minecraftkey.toString());
-            this.potentialSpawns.clear(); // CraftBukkit - SPIGOT-3496, MC-92282
+            this.field_98282_f.func_185277_b().func_74778_a("id", minecraftkey.toString());
+            this.field_98285_e.clear(); // CraftBukkit - SPIGOT-3496, MC-92282
         }
 
     }
 
-    private boolean isActivated() {
-        BlockPos blockposition = this.getSpawnerPosition();
+    private boolean func_98279_f() {
+        BlockPos blockposition = this.func_177221_b();
 
-        return this.getSpawnerWorld().isAnyPlayerWithinRangeAt((double) blockposition.getX() + 0.5D, (double) blockposition.getY() + 0.5D, (double) blockposition.getZ() + 0.5D, (double) this.activatingRangeFromPlayer);
+        return this.func_98271_a().func_175636_b((double) blockposition.func_177958_n() + 0.5D, (double) blockposition.func_177956_o() + 0.5D, (double) blockposition.func_177952_p() + 0.5D, (double) this.field_98289_l);
     }
 
-    public void updateSpawner() {
+    public void func_98278_g() {
         // Paper start - Configurable mob spawner tick rate
-        if (spawnDelay > 0 && --tickDelay > 0) return;
-        tickDelay = this.getSpawnerWorld().paperConfig.mobSpawnerTickRate;
+        if (field_98286_b > 0 && --tickDelay > 0) return;
+        tickDelay = this.func_98271_a().paperConfig.mobSpawnerTickRate;
         // Paper end
-        if (!this.isActivated()) {
-            this.prevMobRotation = this.mobRotation;
+        if (!this.func_98279_f()) {
+            this.field_98284_d = this.field_98287_c;
         } else {
-            BlockPos blockposition = this.getSpawnerPosition();
+            BlockPos blockposition = this.func_177221_b();
 
-            if (this.getSpawnerWorld().isRemote) {
-                double d0 = (double) ((float) blockposition.getX() + this.getSpawnerWorld().rand.nextFloat());
-                double d1 = (double) ((float) blockposition.getY() + this.getSpawnerWorld().rand.nextFloat());
-                double d2 = (double) ((float) blockposition.getZ() + this.getSpawnerWorld().rand.nextFloat());
+            if (this.func_98271_a().field_72995_K) {
+                double d0 = (double) ((float) blockposition.func_177958_n() + this.func_98271_a().field_73012_v.nextFloat());
+                double d1 = (double) ((float) blockposition.func_177956_o() + this.func_98271_a().field_73012_v.nextFloat());
+                double d2 = (double) ((float) blockposition.func_177952_p() + this.func_98271_a().field_73012_v.nextFloat());
 
-                this.getSpawnerWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
-                this.getSpawnerWorld().spawnParticle(EnumParticleTypes.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
-                if (this.spawnDelay > 0) {
-                    this.spawnDelay -= tickDelay; // Paper
+                this.func_98271_a().func_175688_a(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+                this.func_98271_a().func_175688_a(EnumParticleTypes.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+                if (this.field_98286_b > 0) {
+                    this.field_98286_b -= tickDelay; // Paper
                 }
 
-                this.prevMobRotation = this.mobRotation;
-                this.mobRotation = (this.mobRotation + (double) (1000.0F / ((float) this.spawnDelay + 200.0F))) % 360.0D;
+                this.field_98284_d = this.field_98287_c;
+                this.field_98287_c = (this.field_98287_c + (double) (1000.0F / ((float) this.field_98286_b + 200.0F))) % 360.0D;
             } else {
-                if (this.spawnDelay < -tickDelay) { // Paper
-                    this.resetTimer();
+                if (this.field_98286_b < -tickDelay) { // Paper
+                    this.func_98273_j();
                 }
 
-                if (this.spawnDelay > 0) {
-                    this.spawnDelay -= tickDelay; // Paper
+                if (this.field_98286_b > 0) {
+                    this.field_98286_b -= tickDelay; // Paper
                     return;
                 }
 
                 boolean flag = false;
 
-                for (int i = 0; i < this.spawnCount; ++i) {
-                    NBTTagCompound nbttagcompound = this.spawnData.getNbt();
-                    NBTTagList nbttaglist = nbttagcompound.getTagList("Pos", 6);
-                    World world = this.getSpawnerWorld();
-                    int j = nbttaglist.tagCount();
-                    double d3 = j >= 1 ? nbttaglist.getDoubleAt(0) : (double) blockposition.getX() + (world.rand.nextDouble() - world.rand.nextDouble()) * (double) this.spawnRange + 0.5D;
-                    double d4 = j >= 2 ? nbttaglist.getDoubleAt(1) : (double) (blockposition.getY() + world.rand.nextInt(3) - 1);
-                    double d5 = j >= 3 ? nbttaglist.getDoubleAt(2) : (double) blockposition.getZ() + (world.rand.nextDouble() - world.rand.nextDouble()) * (double) this.spawnRange + 0.5D;
+                for (int i = 0; i < this.field_98294_i; ++i) {
+                    NBTTagCompound nbttagcompound = this.field_98282_f.func_185277_b();
+                    NBTTagList nbttaglist = nbttagcompound.func_150295_c("Pos", 6);
+                    World world = this.func_98271_a();
+                    int j = nbttaglist.func_74745_c();
+                    double d3 = j >= 1 ? nbttaglist.func_150309_d(0) : (double) blockposition.func_177958_n() + (world.field_73012_v.nextDouble() - world.field_73012_v.nextDouble()) * (double) this.field_98290_m + 0.5D;
+                    double d4 = j >= 2 ? nbttaglist.func_150309_d(1) : (double) (blockposition.func_177956_o() + world.field_73012_v.nextInt(3) - 1);
+                    double d5 = j >= 3 ? nbttaglist.func_150309_d(2) : (double) blockposition.func_177952_p() + (world.field_73012_v.nextDouble() - world.field_73012_v.nextDouble()) * (double) this.field_98290_m + 0.5D;
                     // Paper start
-                    if (this.getEntityId() == null) {
+                    if (this.func_190895_g() == null) {
                         return;
                     }
-                    String key = this.getEntityId().getResourcePath();
+                    String key = this.func_190895_g().func_110623_a();
                     org.bukkit.entity.EntityType type = org.bukkit.entity.EntityType.fromName(key);
                     if (type != null) {
                         com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent event;
@@ -125,29 +125,29 @@ public abstract class MobSpawnerBaseLogic {
                         }
                     }
                     // Paper end
-                    Entity entity = AnvilChunkLoader.readWorldEntityPos(nbttagcompound, world, d3, d4, d5, false);
+                    Entity entity = AnvilChunkLoader.func_186054_a(nbttagcompound, world, d3, d4, d5, false);
 
                     if (entity == null) {
                         return;
                     }
 
-                    int k = world.getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB((double) blockposition.getX(), (double) blockposition.getY(), (double) blockposition.getZ(), (double) (blockposition.getX() + 1), (double) (blockposition.getY() + 1), (double) (blockposition.getZ() + 1))).grow((double) this.spawnRange)).size();
+                    int k = world.func_72872_a(entity.getClass(), (new AxisAlignedBB((double) blockposition.func_177958_n(), (double) blockposition.func_177956_o(), (double) blockposition.func_177952_p(), (double) (blockposition.func_177958_n() + 1), (double) (blockposition.func_177956_o() + 1), (double) (blockposition.func_177952_p() + 1))).func_186662_g((double) this.field_98290_m)).size();
 
-                    if (k >= this.maxNearbyEntities) {
-                        this.resetTimer();
+                    if (k >= this.field_98292_k) {
+                        this.func_98273_j();
                         return;
                     }
 
                     EntityLiving entityinsentient = entity instanceof EntityLiving ? (EntityLiving) entity : null;
 
-                    entity.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, world.rand.nextFloat() * 360.0F, 0.0F);
-                    if (entityinsentient == null || entityinsentient.getCanSpawnHere() && entityinsentient.isNotColliding()) {
-                        if (this.spawnData.getNbt().getSize() == 1 && this.spawnData.getNbt().hasKey("id", 8) && entity instanceof EntityLiving) {
-                            ((EntityLiving) entity).onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entity)), (IEntityLivingData) null);
+                    entity.func_70012_b(entity.field_70165_t, entity.field_70163_u, entity.field_70161_v, world.field_73012_v.nextFloat() * 360.0F, 0.0F);
+                    if (entityinsentient == null || entityinsentient.func_70601_bi() && entityinsentient.func_70058_J()) {
+                        if (this.field_98282_f.func_185277_b().func_186856_d() == 1 && this.field_98282_f.func_185277_b().func_150297_b("id", 8) && entity instanceof EntityLiving) {
+                            ((EntityLiving) entity).func_180482_a(world.func_175649_E(new BlockPos(entity)), (IEntityLivingData) null);
                         }
                         entity.spawnedViaMobSpawner = true; // Paper
                         // Spigot Start
-                        if ( entity.world.spigotConfig.nerfSpawnerMobs )
+                        if ( entity.field_70170_p.spigotConfig.nerfSpawnerMobs )
                         {
                             entity.fromMobSpawner = true;
                         }
@@ -159,9 +159,9 @@ public abstract class MobSpawnerBaseLogic {
                         }
                         // Spigot End
                         AnvilChunkLoader.a(entity, world, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SPAWNER); // CraftBukkit
-                        world.playEvent(2004, blockposition, 0);
+                        world.func_175718_b(2004, blockposition, 0);
                         if (entityinsentient != null) {
-                            entityinsentient.spawnExplosionParticle();
+                            entityinsentient.func_70656_aK();
                         }
 
                         /*flag = true;*/ // Paper - moved up above cancellable event
@@ -169,116 +169,116 @@ public abstract class MobSpawnerBaseLogic {
                 }
 
                 if (flag) {
-                    this.resetTimer();
+                    this.func_98273_j();
                 }
             }
 
         }
     }
 
-    private void resetTimer() {
-        if (this.maxSpawnDelay <= this.minSpawnDelay) {
-            this.spawnDelay = this.minSpawnDelay;
+    private void func_98273_j() {
+        if (this.field_98293_h <= this.field_98283_g) {
+            this.field_98286_b = this.field_98283_g;
         } else {
-            int i = this.maxSpawnDelay - this.minSpawnDelay;
+            int i = this.field_98293_h - this.field_98283_g;
 
-            this.spawnDelay = this.minSpawnDelay + this.getSpawnerWorld().rand.nextInt(i);
+            this.field_98286_b = this.field_98283_g + this.func_98271_a().field_73012_v.nextInt(i);
         }
 
-        if (!this.potentialSpawns.isEmpty()) {
-            this.setNextSpawnData((WeightedSpawnerEntity) WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.potentialSpawns));
+        if (!this.field_98285_e.isEmpty()) {
+            this.func_184993_a((WeightedSpawnerEntity) WeightedRandom.func_76271_a(this.func_98271_a().field_73012_v, this.field_98285_e));
         }
 
-        this.broadcastEvent(1);
+        this.func_98267_a(1);
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
-        this.spawnDelay = nbttagcompound.getShort("Delay");
-        this.potentialSpawns.clear();
-        if (nbttagcompound.hasKey("SpawnPotentials", 9)) {
-            NBTTagList nbttaglist = nbttagcompound.getTagList("SpawnPotentials", 10);
+    public void func_98270_a(NBTTagCompound nbttagcompound) {
+        this.field_98286_b = nbttagcompound.func_74765_d("Delay");
+        this.field_98285_e.clear();
+        if (nbttagcompound.func_150297_b("SpawnPotentials", 9)) {
+            NBTTagList nbttaglist = nbttagcompound.func_150295_c("SpawnPotentials", 10);
 
-            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                this.potentialSpawns.add(new WeightedSpawnerEntity(nbttaglist.getCompoundTagAt(i)));
+            for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+                this.field_98285_e.add(new WeightedSpawnerEntity(nbttaglist.func_150305_b(i)));
             }
         }
 
-        if (nbttagcompound.hasKey("SpawnData", 10)) {
-            this.setNextSpawnData(new WeightedSpawnerEntity(1, nbttagcompound.getCompoundTag("SpawnData")));
-        } else if (!this.potentialSpawns.isEmpty()) {
-            this.setNextSpawnData((WeightedSpawnerEntity) WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.potentialSpawns));
+        if (nbttagcompound.func_150297_b("SpawnData", 10)) {
+            this.func_184993_a(new WeightedSpawnerEntity(1, nbttagcompound.func_74775_l("SpawnData")));
+        } else if (!this.field_98285_e.isEmpty()) {
+            this.func_184993_a((WeightedSpawnerEntity) WeightedRandom.func_76271_a(this.func_98271_a().field_73012_v, this.field_98285_e));
         }
 
-        if (nbttagcompound.hasKey("MinSpawnDelay", 99)) {
-            this.minSpawnDelay = nbttagcompound.getShort("MinSpawnDelay");
-            this.maxSpawnDelay = nbttagcompound.getShort("MaxSpawnDelay");
-            this.spawnCount = nbttagcompound.getShort("SpawnCount");
+        if (nbttagcompound.func_150297_b("MinSpawnDelay", 99)) {
+            this.field_98283_g = nbttagcompound.func_74765_d("MinSpawnDelay");
+            this.field_98293_h = nbttagcompound.func_74765_d("MaxSpawnDelay");
+            this.field_98294_i = nbttagcompound.func_74765_d("SpawnCount");
         }
 
-        if (nbttagcompound.hasKey("MaxNearbyEntities", 99)) {
-            this.maxNearbyEntities = nbttagcompound.getShort("MaxNearbyEntities");
-            this.activatingRangeFromPlayer = nbttagcompound.getShort("RequiredPlayerRange");
+        if (nbttagcompound.func_150297_b("MaxNearbyEntities", 99)) {
+            this.field_98292_k = nbttagcompound.func_74765_d("MaxNearbyEntities");
+            this.field_98289_l = nbttagcompound.func_74765_d("RequiredPlayerRange");
         }
 
-        if (nbttagcompound.hasKey("SpawnRange", 99)) {
-            this.spawnRange = nbttagcompound.getShort("SpawnRange");
+        if (nbttagcompound.func_150297_b("SpawnRange", 99)) {
+            this.field_98290_m = nbttagcompound.func_74765_d("SpawnRange");
         }
 
-        if (this.getSpawnerWorld() != null) {
-            this.cachedEntity = null;
+        if (this.func_98271_a() != null) {
+            this.field_98291_j = null;
         }
 
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
-        ResourceLocation minecraftkey = this.getEntityId();
+    public NBTTagCompound func_189530_b(NBTTagCompound nbttagcompound) {
+        ResourceLocation minecraftkey = this.func_190895_g();
 
         if (minecraftkey == null) {
             return nbttagcompound;
         } else {
-            nbttagcompound.setShort("Delay", (short) this.spawnDelay);
-            nbttagcompound.setShort("MinSpawnDelay", (short) this.minSpawnDelay);
-            nbttagcompound.setShort("MaxSpawnDelay", (short) this.maxSpawnDelay);
-            nbttagcompound.setShort("SpawnCount", (short) this.spawnCount);
-            nbttagcompound.setShort("MaxNearbyEntities", (short) this.maxNearbyEntities);
-            nbttagcompound.setShort("RequiredPlayerRange", (short) this.activatingRangeFromPlayer);
-            nbttagcompound.setShort("SpawnRange", (short) this.spawnRange);
-            nbttagcompound.setTag("SpawnData", this.spawnData.getNbt().copy());
+            nbttagcompound.func_74777_a("Delay", (short) this.field_98286_b);
+            nbttagcompound.func_74777_a("MinSpawnDelay", (short) this.field_98283_g);
+            nbttagcompound.func_74777_a("MaxSpawnDelay", (short) this.field_98293_h);
+            nbttagcompound.func_74777_a("SpawnCount", (short) this.field_98294_i);
+            nbttagcompound.func_74777_a("MaxNearbyEntities", (short) this.field_98292_k);
+            nbttagcompound.func_74777_a("RequiredPlayerRange", (short) this.field_98289_l);
+            nbttagcompound.func_74777_a("SpawnRange", (short) this.field_98290_m);
+            nbttagcompound.func_74782_a("SpawnData", this.field_98282_f.func_185277_b().func_74737_b());
             NBTTagList nbttaglist = new NBTTagList();
 
-            if (this.potentialSpawns.isEmpty()) {
-                nbttaglist.appendTag(this.spawnData.toCompoundTag());
+            if (this.field_98285_e.isEmpty()) {
+                nbttaglist.func_74742_a(this.field_98282_f.func_185278_a());
             } else {
-                Iterator iterator = this.potentialSpawns.iterator();
+                Iterator iterator = this.field_98285_e.iterator();
 
                 while (iterator.hasNext()) {
                     WeightedSpawnerEntity mobspawnerdata = (WeightedSpawnerEntity) iterator.next();
 
-                    nbttaglist.appendTag(mobspawnerdata.toCompoundTag());
+                    nbttaglist.func_74742_a(mobspawnerdata.func_185278_a());
                 }
             }
 
-            nbttagcompound.setTag("SpawnPotentials", nbttaglist);
+            nbttagcompound.func_74782_a("SpawnPotentials", nbttaglist);
             return nbttagcompound;
         }
     }
 
-    public boolean setDelayToMin(int i) {
-        if (i == 1 && this.getSpawnerWorld().isRemote) {
-            this.spawnDelay = this.minSpawnDelay;
+    public boolean func_98268_b(int i) {
+        if (i == 1 && this.func_98271_a().field_72995_K) {
+            this.field_98286_b = this.field_98283_g;
             return true;
         } else {
             return false;
         }
     }
 
-    public void setNextSpawnData(WeightedSpawnerEntity mobspawnerdata) {
-        this.spawnData = mobspawnerdata;
+    public void func_184993_a(WeightedSpawnerEntity mobspawnerdata) {
+        this.field_98282_f = mobspawnerdata;
     }
 
-    public abstract void broadcastEvent(int i);
+    public abstract void func_98267_a(int i);
 
-    public abstract World getSpawnerWorld();
+    public abstract World func_98271_a();
 
-    public abstract BlockPos getSpawnerPosition();
+    public abstract BlockPos func_177221_b();
 }

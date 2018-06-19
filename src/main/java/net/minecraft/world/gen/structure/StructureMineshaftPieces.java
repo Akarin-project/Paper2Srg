@@ -18,6 +18,7 @@ import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.WorldGenMineshaftPieces.c;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.EnumFacing;
@@ -30,29 +31,29 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class StructureMineshaftPieces {
 
-    public static void registerStructurePieces() {
-        MapGenStructureIO.registerStructureComponent(StructureMineshaftPieces.Corridor.class, "MSCorridor");
-        MapGenStructureIO.registerStructureComponent(StructureMineshaftPieces.Cross.class, "MSCrossing");
-        MapGenStructureIO.registerStructureComponent(StructureMineshaftPieces.Room.class, "MSRoom");
-        MapGenStructureIO.registerStructureComponent(StructureMineshaftPieces.Stairs.class, "MSStairs");
+    public static void func_143048_a() {
+        MapGenStructureIO.func_143031_a(StructureMineshaftPieces.Corridor.class, "MSCorridor");
+        MapGenStructureIO.func_143031_a(StructureMineshaftPieces.Cross.class, "MSCrossing");
+        MapGenStructureIO.func_143031_a(StructureMineshaftPieces.Room.class, "MSRoom");
+        MapGenStructureIO.func_143031_a(StructureMineshaftPieces.Stairs.class, "MSStairs");
     }
 
-    private static StructureMineshaftPieces.c a(List<StructureComponent> list, Random random, int i, int j, int k, @Nullable EnumFacing enumdirection, int l, MapGenMineshaft.Type worldgenmineshaft_type) {
+    private static WorldGenMineshaftPieces.c a(List<StructureComponent> list, Random random, int i, int j, int k, @Nullable EnumFacing enumdirection, int l, MapGenMineshaft.Type worldgenmineshaft_type) {
         int i1 = random.nextInt(100);
         StructureBoundingBox structureboundingbox;
 
         if (i1 >= 80) {
-            structureboundingbox = StructureMineshaftPieces.Cross.findCrossing(list, random, i, j, k, enumdirection);
+            structureboundingbox = StructureMineshaftPieces.Cross.func_175813_a(list, random, i, j, k, enumdirection);
             if (structureboundingbox != null) {
                 return new StructureMineshaftPieces.Cross(l, random, structureboundingbox, enumdirection, worldgenmineshaft_type);
             }
         } else if (i1 >= 70) {
-            structureboundingbox = StructureMineshaftPieces.Stairs.findStairs(list, random, i, j, k, enumdirection);
+            structureboundingbox = StructureMineshaftPieces.Stairs.func_175812_a(list, random, i, j, k, enumdirection);
             if (structureboundingbox != null) {
                 return new StructureMineshaftPieces.Stairs(l, random, structureboundingbox, enumdirection, worldgenmineshaft_type);
             }
         } else {
-            structureboundingbox = StructureMineshaftPieces.Corridor.findCorridorSize(list, random, i, j, k, enumdirection);
+            structureboundingbox = StructureMineshaftPieces.Corridor.func_175814_a(list, random, i, j, k, enumdirection);
             if (structureboundingbox != null) {
                 return new StructureMineshaftPieces.Corridor(l, random, structureboundingbox, enumdirection, worldgenmineshaft_type);
             }
@@ -61,99 +62,97 @@ public class StructureMineshaftPieces {
         return null;
     }
 
-    private static StructureMineshaftPieces.c b(StructureComponent structurepiece, List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection, int l) {
+    private static WorldGenMineshaftPieces.c b(StructureComponent structurepiece, List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection, int l) {
         if (l > 8) {
             return null;
-        } else if (Math.abs(i - structurepiece.getBoundingBox().minX) <= 80 && Math.abs(k - structurepiece.getBoundingBox().minZ) <= 80) {
-            MapGenMineshaft.Type worldgenmineshaft_type = ((StructureMineshaftPieces.c) structurepiece).a;
-            StructureMineshaftPieces.c StructureMineshaftPieces_c = a(list, random, i, j, k, enumdirection, l + 1, worldgenmineshaft_type);
+        } else if (Math.abs(i - structurepiece.func_74874_b().field_78897_a) <= 80 && Math.abs(k - structurepiece.func_74874_b().field_78896_c) <= 80) {
+            MapGenMineshaft.Type worldgenmineshaft_type = ((WorldGenMineshaftPieces.c) structurepiece).a;
+            WorldGenMineshaftPieces.c worldgenmineshaftpieces_c = a(list, random, i, j, k, enumdirection, l + 1, worldgenmineshaft_type);
 
-            if (StructureMineshaftPieces_c != null) {
-                list.add(StructureMineshaftPieces_c);
-                StructureMineshaftPieces_c.buildComponent(structurepiece, list, random);
+            if (worldgenmineshaftpieces_c != null) {
+                list.add(worldgenmineshaftpieces_c);
+                worldgenmineshaftpieces_c.func_74861_a(structurepiece, list, random);
             }
 
-            return StructureMineshaftPieces_c;
+            return worldgenmineshaftpieces_c;
         } else {
             return null;
         }
     }
 
-    public static class Stairs extends StructureMineshaftPieces.c {
+    public static class Stairs extends WorldGenMineshaftPieces.c {
 
         public Stairs() {}
 
         public Stairs(int i, Random random, StructureBoundingBox structureboundingbox, EnumFacing enumdirection, MapGenMineshaft.Type worldgenmineshaft_type) {
             super(i, worldgenmineshaft_type);
-            this.setCoordBaseMode(enumdirection);
-            this.boundingBox = structureboundingbox;
+            this.func_186164_a(enumdirection);
+            this.field_74887_e = structureboundingbox;
         }
 
-        public static StructureBoundingBox findStairs(List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection) {
+        public static StructureBoundingBox func_175812_a(List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection) {
             StructureBoundingBox structureboundingbox = new StructureBoundingBox(i, j - 5, k, i, j + 2, k);
 
             switch (enumdirection) {
             case NORTH:
             default:
-                structureboundingbox.maxX = i + 2;
-                structureboundingbox.minZ = k - 8;
+                structureboundingbox.field_78893_d = i + 2;
+                structureboundingbox.field_78896_c = k - 8;
                 break;
 
             case SOUTH:
-                structureboundingbox.maxX = i + 2;
-                structureboundingbox.maxZ = k + 8;
+                structureboundingbox.field_78893_d = i + 2;
+                structureboundingbox.field_78892_f = k + 8;
                 break;
 
             case WEST:
-                structureboundingbox.minX = i - 8;
-                structureboundingbox.maxZ = k + 2;
+                structureboundingbox.field_78897_a = i - 8;
+                structureboundingbox.field_78892_f = k + 2;
                 break;
 
             case EAST:
-                structureboundingbox.maxX = i + 8;
-                structureboundingbox.maxZ = k + 2;
+                structureboundingbox.field_78893_d = i + 8;
+                structureboundingbox.field_78892_f = k + 2;
             }
 
-            return StructureComponent.findIntersecting(list, structureboundingbox) != null ? null : structureboundingbox;
+            return StructureComponent.func_74883_a(list, structureboundingbox) != null ? null : structureboundingbox;
         }
 
-        @Override
-        public void buildComponent(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
-            int i = this.getComponentType();
-            EnumFacing enumdirection = this.getCoordBaseMode();
+        public void func_74861_a(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
+            int i = this.func_74877_c();
+            EnumFacing enumdirection = this.func_186165_e();
 
             if (enumdirection != null) {
                 switch (enumdirection) {
                 case NORTH:
                 default:
-                    StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
+                    StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c - 1, EnumFacing.NORTH, i);
                     break;
 
                 case SOUTH:
-                    StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
+                    StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b, this.field_74887_e.field_78892_f + 1, EnumFacing.SOUTH, i);
                     break;
 
                 case WEST:
-                    StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ, EnumFacing.WEST, i);
+                    StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a - 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c, EnumFacing.WEST, i);
                     break;
 
                 case EAST:
-                    StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ, EnumFacing.EAST, i);
+                    StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c, EnumFacing.EAST, i);
                 }
             }
 
         }
 
-        @Override
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
-            if (this.isLiquidInStructureBoundingBox(world, structureboundingbox)) {
+        public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
+            if (this.func_74860_a(world, structureboundingbox)) {
                 return false;
             } else {
-                this.fillWithBlocks(world, structureboundingbox, 0, 5, 0, 2, 7, 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
-                this.fillWithBlocks(world, structureboundingbox, 0, 0, 7, 2, 2, 8, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+                this.func_175804_a(world, structureboundingbox, 0, 5, 0, 2, 7, 1, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
+                this.func_175804_a(world, structureboundingbox, 0, 0, 7, 2, 2, 8, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
 
                 for (int i = 0; i < 5; ++i) {
-                    this.fillWithBlocks(world, structureboundingbox, 0, 5 - i - (i < 4 ? 1 : 0), 2 + i, 2, 7 - i, 2 + i, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+                    this.func_175804_a(world, structureboundingbox, 0, 5 - i - (i < 4 ? 1 : 0), 2 + i, 2, 7 - i, 2 + i, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
                 }
 
                 return true;
@@ -161,147 +160,143 @@ public class StructureMineshaftPieces {
         }
     }
 
-    public static class Cross extends StructureMineshaftPieces.c {
+    public static class Cross extends WorldGenMineshaftPieces.c {
 
-        private EnumFacing corridorDirection;
-        private boolean isMultipleFloors;
+        private EnumFacing field_74953_a;
+        private boolean field_74952_b;
 
         public Cross() {}
 
-        @Override
-        protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
-            super.writeStructureToNBT(nbttagcompound);
-            nbttagcompound.setBoolean("tf", this.isMultipleFloors);
-            nbttagcompound.setInteger("D", this.corridorDirection.getHorizontalIndex());
+        protected void func_143012_a(NBTTagCompound nbttagcompound) {
+            super.func_143012_a(nbttagcompound);
+            nbttagcompound.func_74757_a("tf", this.field_74952_b);
+            nbttagcompound.func_74768_a("D", this.field_74953_a.func_176736_b());
         }
 
-        @Override
-        protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
-            super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
-            this.isMultipleFloors = nbttagcompound.getBoolean("tf");
-            this.corridorDirection = EnumFacing.getHorizontal(nbttagcompound.getInteger("D"));
+        protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
+            super.func_143011_b(nbttagcompound, definedstructuremanager);
+            this.field_74952_b = nbttagcompound.func_74767_n("tf");
+            this.field_74953_a = EnumFacing.func_176731_b(nbttagcompound.func_74762_e("D"));
         }
 
         public Cross(int i, Random random, StructureBoundingBox structureboundingbox, @Nullable EnumFacing enumdirection, MapGenMineshaft.Type worldgenmineshaft_type) {
             super(i, worldgenmineshaft_type);
-            this.corridorDirection = enumdirection;
-            this.boundingBox = structureboundingbox;
-            this.isMultipleFloors = structureboundingbox.getYSize() > 3;
+            this.field_74953_a = enumdirection;
+            this.field_74887_e = structureboundingbox;
+            this.field_74952_b = structureboundingbox.func_78882_c() > 3;
         }
 
-        public static StructureBoundingBox findCrossing(List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection) {
+        public static StructureBoundingBox func_175813_a(List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection) {
             StructureBoundingBox structureboundingbox = new StructureBoundingBox(i, j, k, i, j + 2, k);
 
             if (random.nextInt(4) == 0) {
-                structureboundingbox.maxY += 4;
+                structureboundingbox.field_78894_e += 4;
             }
 
             switch (enumdirection) {
             case NORTH:
             default:
-                structureboundingbox.minX = i - 1;
-                structureboundingbox.maxX = i + 3;
-                structureboundingbox.minZ = k - 4;
+                structureboundingbox.field_78897_a = i - 1;
+                structureboundingbox.field_78893_d = i + 3;
+                structureboundingbox.field_78896_c = k - 4;
                 break;
 
             case SOUTH:
-                structureboundingbox.minX = i - 1;
-                structureboundingbox.maxX = i + 3;
-                structureboundingbox.maxZ = k + 3 + 1;
+                structureboundingbox.field_78897_a = i - 1;
+                structureboundingbox.field_78893_d = i + 3;
+                structureboundingbox.field_78892_f = k + 3 + 1;
                 break;
 
             case WEST:
-                structureboundingbox.minX = i - 4;
-                structureboundingbox.minZ = k - 1;
-                structureboundingbox.maxZ = k + 3;
+                structureboundingbox.field_78897_a = i - 4;
+                structureboundingbox.field_78896_c = k - 1;
+                structureboundingbox.field_78892_f = k + 3;
                 break;
 
             case EAST:
-                structureboundingbox.maxX = i + 3 + 1;
-                structureboundingbox.minZ = k - 1;
-                structureboundingbox.maxZ = k + 3;
+                structureboundingbox.field_78893_d = i + 3 + 1;
+                structureboundingbox.field_78896_c = k - 1;
+                structureboundingbox.field_78892_f = k + 3;
             }
 
-            return StructureComponent.findIntersecting(list, structureboundingbox) != null ? null : structureboundingbox;
+            return StructureComponent.func_74883_a(list, structureboundingbox) != null ? null : structureboundingbox;
         }
 
-        @Override
-        public void buildComponent(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
-            int i = this.getComponentType();
+        public void func_74861_a(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
+            int i = this.func_74877_c();
 
-            switch (this.corridorDirection) {
+            switch (this.field_74953_a) {
             case NORTH:
             default:
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.WEST, i);
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.EAST, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c - 1, EnumFacing.NORTH, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a - 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c + 1, EnumFacing.WEST, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c + 1, EnumFacing.EAST, i);
                 break;
 
             case SOUTH:
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.WEST, i);
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.EAST, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78892_f + 1, EnumFacing.SOUTH, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a - 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c + 1, EnumFacing.WEST, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c + 1, EnumFacing.EAST, i);
                 break;
 
             case WEST:
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.WEST, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c - 1, EnumFacing.NORTH, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78892_f + 1, EnumFacing.SOUTH, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a - 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c + 1, EnumFacing.WEST, i);
                 break;
 
             case EAST:
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
-                StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY, this.boundingBox.minZ + 1, EnumFacing.EAST, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c - 1, EnumFacing.NORTH, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78892_f + 1, EnumFacing.SOUTH, i);
+                StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c + 1, EnumFacing.EAST, i);
             }
 
-            if (this.isMultipleFloors) {
+            if (this.field_74952_b) {
                 if (random.nextBoolean()) {
-                    StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + 1, this.boundingBox.minY + 3 + 1, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
+                    StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b + 3 + 1, this.field_74887_e.field_78896_c - 1, EnumFacing.NORTH, i);
                 }
 
                 if (random.nextBoolean()) {
-                    StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY + 3 + 1, this.boundingBox.minZ + 1, EnumFacing.WEST, i);
+                    StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a - 1, this.field_74887_e.field_78895_b + 3 + 1, this.field_74887_e.field_78896_c + 1, EnumFacing.WEST, i);
                 }
 
                 if (random.nextBoolean()) {
-                    StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY + 3 + 1, this.boundingBox.minZ + 1, EnumFacing.EAST, i);
+                    StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d + 1, this.field_74887_e.field_78895_b + 3 + 1, this.field_74887_e.field_78896_c + 1, EnumFacing.EAST, i);
                 }
 
                 if (random.nextBoolean()) {
-                    StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + 1, this.boundingBox.minY + 3 + 1, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
+                    StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b + 3 + 1, this.field_74887_e.field_78892_f + 1, EnumFacing.SOUTH, i);
                 }
             }
 
         }
 
-        @Override
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
-            if (this.isLiquidInStructureBoundingBox(world, structureboundingbox)) {
+        public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
+            if (this.func_74860_a(world, structureboundingbox)) {
                 return false;
             } else {
                 IBlockState iblockdata = this.G_();
 
-                if (this.isMultipleFloors) {
-                    this.fillWithBlocks(world, structureboundingbox, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX - 1, this.boundingBox.minY + 3 - 1, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
-                    this.fillWithBlocks(world, structureboundingbox, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.minY + 3 - 1, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
-                    this.fillWithBlocks(world, structureboundingbox, this.boundingBox.minX + 1, this.boundingBox.maxY - 2, this.boundingBox.minZ, this.boundingBox.maxX - 1, this.boundingBox.maxY, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
-                    this.fillWithBlocks(world, structureboundingbox, this.boundingBox.minX, this.boundingBox.maxY - 2, this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.maxY, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
-                    this.fillWithBlocks(world, structureboundingbox, this.boundingBox.minX + 1, this.boundingBox.minY + 3, this.boundingBox.minZ + 1, this.boundingBox.maxX - 1, this.boundingBox.minY + 3, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+                if (this.field_74952_b) {
+                    this.func_175804_a(world, structureboundingbox, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c, this.field_74887_e.field_78893_d - 1, this.field_74887_e.field_78895_b + 3 - 1, this.field_74887_e.field_78892_f, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
+                    this.func_175804_a(world, structureboundingbox, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c + 1, this.field_74887_e.field_78893_d, this.field_74887_e.field_78895_b + 3 - 1, this.field_74887_e.field_78892_f - 1, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
+                    this.func_175804_a(world, structureboundingbox, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78894_e - 2, this.field_74887_e.field_78896_c, this.field_74887_e.field_78893_d - 1, this.field_74887_e.field_78894_e, this.field_74887_e.field_78892_f, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
+                    this.func_175804_a(world, structureboundingbox, this.field_74887_e.field_78897_a, this.field_74887_e.field_78894_e - 2, this.field_74887_e.field_78896_c + 1, this.field_74887_e.field_78893_d, this.field_74887_e.field_78894_e, this.field_74887_e.field_78892_f - 1, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
+                    this.func_175804_a(world, structureboundingbox, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b + 3, this.field_74887_e.field_78896_c + 1, this.field_74887_e.field_78893_d - 1, this.field_74887_e.field_78895_b + 3, this.field_74887_e.field_78892_f - 1, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
                 } else {
-                    this.fillWithBlocks(world, structureboundingbox, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX - 1, this.boundingBox.maxY, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
-                    this.fillWithBlocks(world, structureboundingbox, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxX, this.boundingBox.maxY, this.boundingBox.maxZ - 1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+                    this.func_175804_a(world, structureboundingbox, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c, this.field_74887_e.field_78893_d - 1, this.field_74887_e.field_78894_e, this.field_74887_e.field_78892_f, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
+                    this.func_175804_a(world, structureboundingbox, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c + 1, this.field_74887_e.field_78893_d, this.field_74887_e.field_78894_e, this.field_74887_e.field_78892_f - 1, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
                 }
 
-                this.placeSupportPillar(world, structureboundingbox, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxY);
-                this.placeSupportPillar(world, structureboundingbox, this.boundingBox.minX + 1, this.boundingBox.minY, this.boundingBox.maxZ - 1, this.boundingBox.maxY);
-                this.placeSupportPillar(world, structureboundingbox, this.boundingBox.maxX - 1, this.boundingBox.minY, this.boundingBox.minZ + 1, this.boundingBox.maxY);
-                this.placeSupportPillar(world, structureboundingbox, this.boundingBox.maxX - 1, this.boundingBox.minY, this.boundingBox.maxZ - 1, this.boundingBox.maxY);
+                this.func_189923_b(world, structureboundingbox, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c + 1, this.field_74887_e.field_78894_e);
+                this.func_189923_b(world, structureboundingbox, this.field_74887_e.field_78897_a + 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78892_f - 1, this.field_74887_e.field_78894_e);
+                this.func_189923_b(world, structureboundingbox, this.field_74887_e.field_78893_d - 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c + 1, this.field_74887_e.field_78894_e);
+                this.func_189923_b(world, structureboundingbox, this.field_74887_e.field_78893_d - 1, this.field_74887_e.field_78895_b, this.field_74887_e.field_78892_f - 1, this.field_74887_e.field_78894_e);
 
-                for (int i = this.boundingBox.minX; i <= this.boundingBox.maxX; ++i) {
-                    for (int j = this.boundingBox.minZ; j <= this.boundingBox.maxZ; ++j) {
-                        if (this.getBlockStateFromPos(world, i, this.boundingBox.minY - 1, j, structureboundingbox).getMaterial() == Material.AIR && this.getSkyBrightness(world, i, this.boundingBox.minY - 1, j, structureboundingbox) < 8) {
-                            this.setBlockState(world, iblockdata, i, this.boundingBox.minY - 1, j, structureboundingbox);
+                for (int i = this.field_74887_e.field_78897_a; i <= this.field_74887_e.field_78893_d; ++i) {
+                    for (int j = this.field_74887_e.field_78896_c; j <= this.field_74887_e.field_78892_f; ++j) {
+                        if (this.func_175807_a(world, i, this.field_74887_e.field_78895_b - 1, j, structureboundingbox).func_185904_a() == Material.field_151579_a && this.func_189916_b(world, i, this.field_74887_e.field_78895_b - 1, j, structureboundingbox) < 8) {
+                            this.func_175811_a(world, iblockdata, i, this.field_74887_e.field_78895_b - 1, j, structureboundingbox);
                         }
                     }
                 }
@@ -310,56 +305,54 @@ public class StructureMineshaftPieces {
             }
         }
 
-        private void placeSupportPillar(World world, StructureBoundingBox structureboundingbox, int i, int j, int k, int l) {
-            if (this.getBlockStateFromPos(world, i, l + 1, k, structureboundingbox).getMaterial() != Material.AIR) {
-                this.fillWithBlocks(world, structureboundingbox, i, j, k, i, l, k, this.G_(), Blocks.AIR.getDefaultState(), false);
+        private void func_189923_b(World world, StructureBoundingBox structureboundingbox, int i, int j, int k, int l) {
+            if (this.func_175807_a(world, i, l + 1, k, structureboundingbox).func_185904_a() != Material.field_151579_a) {
+                this.func_175804_a(world, structureboundingbox, i, j, k, i, l, k, this.G_(), Blocks.field_150350_a.func_176223_P(), false);
             }
 
         }
     }
 
-    public static class Corridor extends StructureMineshaftPieces.c {
+    public static class Corridor extends WorldGenMineshaftPieces.c {
 
-        private boolean hasRails;
-        private boolean hasSpiders;
-        private boolean spawnerPlaced;
-        private int sectionCount;
+        private boolean field_74958_a;
+        private boolean field_74956_b;
+        private boolean field_74957_c;
+        private int field_74955_d;
 
         public Corridor() {}
 
-        @Override
-        protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
-            super.writeStructureToNBT(nbttagcompound);
-            nbttagcompound.setBoolean("hr", this.hasRails);
-            nbttagcompound.setBoolean("sc", this.hasSpiders);
-            nbttagcompound.setBoolean("hps", this.spawnerPlaced);
-            nbttagcompound.setInteger("Num", this.sectionCount);
+        protected void func_143012_a(NBTTagCompound nbttagcompound) {
+            super.func_143012_a(nbttagcompound);
+            nbttagcompound.func_74757_a("hr", this.field_74958_a);
+            nbttagcompound.func_74757_a("sc", this.field_74956_b);
+            nbttagcompound.func_74757_a("hps", this.field_74957_c);
+            nbttagcompound.func_74768_a("Num", this.field_74955_d);
         }
 
-        @Override
-        protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
-            super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
-            this.hasRails = nbttagcompound.getBoolean("hr");
-            this.hasSpiders = nbttagcompound.getBoolean("sc");
-            this.spawnerPlaced = nbttagcompound.getBoolean("hps");
-            this.sectionCount = nbttagcompound.getInteger("Num");
+        protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
+            super.func_143011_b(nbttagcompound, definedstructuremanager);
+            this.field_74958_a = nbttagcompound.func_74767_n("hr");
+            this.field_74956_b = nbttagcompound.func_74767_n("sc");
+            this.field_74957_c = nbttagcompound.func_74767_n("hps");
+            this.field_74955_d = nbttagcompound.func_74762_e("Num");
         }
 
         public Corridor(int i, Random random, StructureBoundingBox structureboundingbox, EnumFacing enumdirection, MapGenMineshaft.Type worldgenmineshaft_type) {
             super(i, worldgenmineshaft_type);
-            this.setCoordBaseMode(enumdirection);
-            this.boundingBox = structureboundingbox;
-            this.hasRails = random.nextInt(3) == 0;
-            this.hasSpiders = !this.hasRails && random.nextInt(23) == 0;
-            if (this.getCoordBaseMode().getAxis() == EnumFacing.Axis.Z) {
-                this.sectionCount = structureboundingbox.getZSize() / 5;
+            this.func_186164_a(enumdirection);
+            this.field_74887_e = structureboundingbox;
+            this.field_74958_a = random.nextInt(3) == 0;
+            this.field_74956_b = !this.field_74958_a && random.nextInt(23) == 0;
+            if (this.func_186165_e().func_176740_k() == EnumFacing.Axis.Z) {
+                this.field_74955_d = structureboundingbox.func_78880_d() / 5;
             } else {
-                this.sectionCount = structureboundingbox.getXSize() / 5;
+                this.field_74955_d = structureboundingbox.func_78883_b() / 5;
             }
 
         }
 
-        public static StructureBoundingBox findCorridorSize(List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection) {
+        public static StructureBoundingBox func_175814_a(List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection) {
             StructureBoundingBox structureboundingbox = new StructureBoundingBox(i, j, k, i, j + 2, k);
 
             int l;
@@ -370,26 +363,26 @@ public class StructureMineshaftPieces {
                 switch (enumdirection) {
                 case NORTH:
                 default:
-                    structureboundingbox.maxX = i + 2;
-                    structureboundingbox.minZ = k - (i1 - 1);
+                    structureboundingbox.field_78893_d = i + 2;
+                    structureboundingbox.field_78896_c = k - (i1 - 1);
                     break;
 
                 case SOUTH:
-                    structureboundingbox.maxX = i + 2;
-                    structureboundingbox.maxZ = k + (i1 - 1);
+                    structureboundingbox.field_78893_d = i + 2;
+                    structureboundingbox.field_78892_f = k + (i1 - 1);
                     break;
 
                 case WEST:
-                    structureboundingbox.minX = i - (i1 - 1);
-                    structureboundingbox.maxZ = k + 2;
+                    structureboundingbox.field_78897_a = i - (i1 - 1);
+                    structureboundingbox.field_78892_f = k + 2;
                     break;
 
                 case EAST:
-                    structureboundingbox.maxX = i + (i1 - 1);
-                    structureboundingbox.maxZ = k + 2;
+                    structureboundingbox.field_78893_d = i + (i1 - 1);
+                    structureboundingbox.field_78892_f = k + 2;
                 }
 
-                if (StructureComponent.findIntersecting(list, structureboundingbox) == null) {
+                if (StructureComponent.func_74883_a(list, structureboundingbox) == null) {
                     break;
                 }
             }
@@ -397,52 +390,51 @@ public class StructureMineshaftPieces {
             return l > 0 ? structureboundingbox : null;
         }
 
-        @Override
-        public void buildComponent(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
-            int i = this.getComponentType();
+        public void func_74861_a(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
+            int i = this.func_74877_c();
             int j = random.nextInt(4);
-            EnumFacing enumdirection = this.getCoordBaseMode();
+            EnumFacing enumdirection = this.func_186165_e();
 
             if (enumdirection != null) {
                 switch (enumdirection) {
                 case NORTH:
                 default:
                     if (j <= 1) {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.minZ - 1, enumdirection, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78896_c - 1, enumdirection, i);
                     } else if (j == 2) {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.minZ, EnumFacing.WEST, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a - 1, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78896_c, EnumFacing.WEST, i);
                     } else {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.minZ, EnumFacing.EAST, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d + 1, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78896_c, EnumFacing.EAST, i);
                     }
                     break;
 
                 case SOUTH:
                     if (j <= 1) {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.maxZ + 1, enumdirection, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78892_f + 1, enumdirection, i);
                     } else if (j == 2) {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.maxZ - 3, EnumFacing.WEST, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a - 1, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78892_f - 3, EnumFacing.WEST, i);
                     } else {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.maxZ - 3, EnumFacing.EAST, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d + 1, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78892_f - 3, EnumFacing.EAST, i);
                     }
                     break;
 
                 case WEST:
                     if (j <= 1) {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.minZ, enumdirection, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a - 1, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78896_c, enumdirection, i);
                     } else if (j == 2) {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78896_c - 1, EnumFacing.NORTH, i);
                     } else {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78892_f + 1, EnumFacing.SOUTH, i);
                     }
                     break;
 
                 case EAST:
                     if (j <= 1) {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.minZ, enumdirection, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d + 1, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78896_c, enumdirection, i);
                     } else if (j == 2) {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX - 3, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d - 3, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78896_c - 1, EnumFacing.NORTH, i);
                     } else {
-                        StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX - 3, this.boundingBox.minY - 1 + random.nextInt(3), this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
+                        StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d - 3, this.field_74887_e.field_78895_b - 1 + random.nextInt(3), this.field_74887_e.field_78892_f + 1, EnumFacing.SOUTH, i);
                     }
                 }
             }
@@ -452,21 +444,21 @@ public class StructureMineshaftPieces {
                 int l;
 
                 if (enumdirection != EnumFacing.NORTH && enumdirection != EnumFacing.SOUTH) {
-                    for (k = this.boundingBox.minX + 3; k + 3 <= this.boundingBox.maxX; k += 5) {
+                    for (k = this.field_74887_e.field_78897_a + 3; k + 3 <= this.field_74887_e.field_78893_d; k += 5) {
                         l = random.nextInt(5);
                         if (l == 0) {
-                            StructureMineshaftPieces.b(structurepiece, list, random, k, this.boundingBox.minY, this.boundingBox.minZ - 1, EnumFacing.NORTH, i + 1);
+                            StructureMineshaftPieces.b(structurepiece, list, random, k, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c - 1, EnumFacing.NORTH, i + 1);
                         } else if (l == 1) {
-                            StructureMineshaftPieces.b(structurepiece, list, random, k, this.boundingBox.minY, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i + 1);
+                            StructureMineshaftPieces.b(structurepiece, list, random, k, this.field_74887_e.field_78895_b, this.field_74887_e.field_78892_f + 1, EnumFacing.SOUTH, i + 1);
                         }
                     }
                 } else {
-                    for (k = this.boundingBox.minZ + 3; k + 3 <= this.boundingBox.maxZ; k += 5) {
+                    for (k = this.field_74887_e.field_78896_c + 3; k + 3 <= this.field_74887_e.field_78892_f; k += 5) {
                         l = random.nextInt(5);
                         if (l == 0) {
-                            StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY, k, EnumFacing.WEST, i + 1);
+                            StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a - 1, this.field_74887_e.field_78895_b, k, EnumFacing.WEST, i + 1);
                         } else if (l == 1) {
-                            StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY, k, EnumFacing.EAST, i + 1);
+                            StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d + 1, this.field_74887_e.field_78895_b, k, EnumFacing.EAST, i + 1);
                         }
                     }
                 }
@@ -474,78 +466,76 @@ public class StructureMineshaftPieces {
 
         }
 
-        @Override
-        protected boolean generateChest(World world, StructureBoundingBox structureboundingbox, Random random, int i, int j, int k, ResourceLocation minecraftkey) {
-            BlockPos blockposition = new BlockPos(this.getXWithOffset(i, k), this.getYWithOffset(j), this.getZWithOffset(i, k));
+        protected boolean func_186167_a(World world, StructureBoundingBox structureboundingbox, Random random, int i, int j, int k, ResourceLocation minecraftkey) {
+            BlockPos blockposition = new BlockPos(this.func_74865_a(i, k), this.func_74862_a(j), this.func_74873_b(i, k));
 
-            if (structureboundingbox.isVecInside(blockposition) && world.getBlockState(blockposition).getMaterial() == Material.AIR && world.getBlockState(blockposition.down()).getMaterial() != Material.AIR) {
-                IBlockState iblockdata = Blocks.RAIL.getDefaultState().withProperty(BlockRail.SHAPE, random.nextBoolean() ? BlockRailBase.EnumRailDirection.NORTH_SOUTH : BlockRailBase.EnumRailDirection.EAST_WEST);
+            if (structureboundingbox.func_175898_b((Vec3i) blockposition) && world.func_180495_p(blockposition).func_185904_a() == Material.field_151579_a && world.func_180495_p(blockposition.func_177977_b()).func_185904_a() != Material.field_151579_a) {
+                IBlockState iblockdata = Blocks.field_150448_aq.func_176223_P().func_177226_a(BlockRail.field_176565_b, random.nextBoolean() ? BlockRailBase.EnumRailDirection.NORTH_SOUTH : BlockRailBase.EnumRailDirection.EAST_WEST);
 
-                this.setBlockState(world, iblockdata, i, j, k, structureboundingbox);
-                EntityMinecartChest entityminecartchest = new EntityMinecartChest(world, blockposition.getX() + 0.5F, blockposition.getY() + 0.5F, blockposition.getZ() + 0.5F);
+                this.func_175811_a(world, iblockdata, i, j, k, structureboundingbox);
+                EntityMinecartChest entityminecartchest = new EntityMinecartChest(world, (double) ((float) blockposition.func_177958_n() + 0.5F), (double) ((float) blockposition.func_177956_o() + 0.5F), (double) ((float) blockposition.func_177952_p() + 0.5F));
 
-                entityminecartchest.setLootTable(minecraftkey, random.nextLong());
-                world.spawnEntity(entityminecartchest);
+                entityminecartchest.func_184289_a(minecraftkey, random.nextLong());
+                world.func_72838_d(entityminecartchest);
                 return true;
             } else {
                 return false;
             }
         }
 
-        @Override
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
-            if (this.isLiquidInStructureBoundingBox(world, structureboundingbox)) {
+        public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
+            if (this.func_74860_a(world, structureboundingbox)) {
                 return false;
             } else {
                 boolean flag = false;
                 boolean flag1 = true;
                 boolean flag2 = false;
                 boolean flag3 = true;
-                int i = this.sectionCount * 5 - 1;
+                int i = this.field_74955_d * 5 - 1;
                 IBlockState iblockdata = this.G_();
 
-                this.fillWithBlocks(world, structureboundingbox, 0, 0, 0, 2, 1, i, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
-                this.generateMaybeBox(world, structureboundingbox, random, 0.8F, 0, 2, 0, 2, 2, i, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false, 0);
-                if (this.hasSpiders) {
-                    this.generateMaybeBox(world, structureboundingbox, random, 0.6F, 0, 0, 0, 2, 1, i, Blocks.WEB.getDefaultState(), Blocks.AIR.getDefaultState(), false, 8);
+                this.func_175804_a(world, structureboundingbox, 0, 0, 0, 2, 1, i, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
+                this.func_189914_a(world, structureboundingbox, random, 0.8F, 0, 2, 0, 2, 2, i, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false, 0);
+                if (this.field_74956_b) {
+                    this.func_189914_a(world, structureboundingbox, random, 0.6F, 0, 0, 0, 2, 1, i, Blocks.field_150321_G.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false, 8);
                 }
 
                 int j;
                 int k;
 
-                for (j = 0; j < this.sectionCount; ++j) {
+                for (j = 0; j < this.field_74955_d; ++j) {
                     k = 2 + j * 5;
-                    this.placeSupport(world, structureboundingbox, 0, 0, k, 2, 2, random);
-                    this.placeCobWeb(world, structureboundingbox, random, 0.1F, 0, 2, k - 1);
-                    this.placeCobWeb(world, structureboundingbox, random, 0.1F, 2, 2, k - 1);
-                    this.placeCobWeb(world, structureboundingbox, random, 0.1F, 0, 2, k + 1);
-                    this.placeCobWeb(world, structureboundingbox, random, 0.1F, 2, 2, k + 1);
-                    this.placeCobWeb(world, structureboundingbox, random, 0.05F, 0, 2, k - 2);
-                    this.placeCobWeb(world, structureboundingbox, random, 0.05F, 2, 2, k - 2);
-                    this.placeCobWeb(world, structureboundingbox, random, 0.05F, 0, 2, k + 2);
-                    this.placeCobWeb(world, structureboundingbox, random, 0.05F, 2, 2, k + 2);
+                    this.func_189921_a(world, structureboundingbox, 0, 0, k, 2, 2, random);
+                    this.func_189922_a(world, structureboundingbox, random, 0.1F, 0, 2, k - 1);
+                    this.func_189922_a(world, structureboundingbox, random, 0.1F, 2, 2, k - 1);
+                    this.func_189922_a(world, structureboundingbox, random, 0.1F, 0, 2, k + 1);
+                    this.func_189922_a(world, structureboundingbox, random, 0.1F, 2, 2, k + 1);
+                    this.func_189922_a(world, structureboundingbox, random, 0.05F, 0, 2, k - 2);
+                    this.func_189922_a(world, structureboundingbox, random, 0.05F, 2, 2, k - 2);
+                    this.func_189922_a(world, structureboundingbox, random, 0.05F, 0, 2, k + 2);
+                    this.func_189922_a(world, structureboundingbox, random, 0.05F, 2, 2, k + 2);
                     if (random.nextInt(100) == 0) {
-                        this.generateChest(world, structureboundingbox, random, 2, 0, k - 1, LootTableList.CHESTS_ABANDONED_MINESHAFT);
+                        this.func_186167_a(world, structureboundingbox, random, 2, 0, k - 1, LootTableList.field_186424_f);
                     }
 
                     if (random.nextInt(100) == 0) {
-                        this.generateChest(world, structureboundingbox, random, 0, 0, k + 1, LootTableList.CHESTS_ABANDONED_MINESHAFT);
+                        this.func_186167_a(world, structureboundingbox, random, 0, 0, k + 1, LootTableList.field_186424_f);
                     }
 
-                    if (this.hasSpiders && !this.spawnerPlaced) {
-                        int l = this.getYWithOffset(0);
+                    if (this.field_74956_b && !this.field_74957_c) {
+                        int l = this.func_74862_a(0);
                         int i1 = k - 1 + random.nextInt(3);
-                        int j1 = this.getXWithOffset(1, i1);
-                        int k1 = this.getZWithOffset(1, i1);
+                        int j1 = this.func_74865_a(1, i1);
+                        int k1 = this.func_74873_b(1, i1);
                         BlockPos blockposition = new BlockPos(j1, l, k1);
 
-                        if (structureboundingbox.isVecInside(blockposition) && this.getSkyBrightness(world, 1, 0, i1, structureboundingbox) < 8) {
-                            this.spawnerPlaced = true;
-                            world.setBlockState(blockposition, Blocks.MOB_SPAWNER.getDefaultState(), 2);
-                            TileEntity tileentity = world.getTileEntity(blockposition);
+                        if (structureboundingbox.func_175898_b((Vec3i) blockposition) && this.func_189916_b(world, 1, 0, i1, structureboundingbox) < 8) {
+                            this.field_74957_c = true;
+                            world.func_180501_a(blockposition, Blocks.field_150474_ac.func_176223_P(), 2);
+                            TileEntity tileentity = world.func_175625_s(blockposition);
 
                             if (tileentity instanceof TileEntityMobSpawner) {
-                                ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntityId(EntityList.getKey(EntityCaveSpider.class));
+                                ((TileEntityMobSpawner) tileentity).func_145881_a().func_190894_a(EntityList.func_191306_a(EntityCaveSpider.class));
                             }
                         }
                     }
@@ -554,26 +544,26 @@ public class StructureMineshaftPieces {
                 for (j = 0; j <= 2; ++j) {
                     for (k = 0; k <= i; ++k) {
                         boolean flag4 = true;
-                        IBlockState iblockdata1 = this.getBlockStateFromPos(world, j, -1, k, structureboundingbox);
+                        IBlockState iblockdata1 = this.func_175807_a(world, j, -1, k, structureboundingbox);
 
-                        if (iblockdata1.getMaterial() == Material.AIR && this.getSkyBrightness(world, j, -1, k, structureboundingbox) < 8) {
+                        if (iblockdata1.func_185904_a() == Material.field_151579_a && this.func_189916_b(world, j, -1, k, structureboundingbox) < 8) {
                             boolean flag5 = true;
 
-                            this.setBlockState(world, iblockdata, j, -1, k, structureboundingbox);
+                            this.func_175811_a(world, iblockdata, j, -1, k, structureboundingbox);
                         }
                     }
                 }
 
-                if (this.hasRails) {
-                    IBlockState iblockdata2 = Blocks.RAIL.getDefaultState().withProperty(BlockRail.SHAPE, BlockRailBase.EnumRailDirection.NORTH_SOUTH);
+                if (this.field_74958_a) {
+                    IBlockState iblockdata2 = Blocks.field_150448_aq.func_176223_P().func_177226_a(BlockRail.field_176565_b, BlockRailBase.EnumRailDirection.NORTH_SOUTH);
 
                     for (k = 0; k <= i; ++k) {
-                        IBlockState iblockdata3 = this.getBlockStateFromPos(world, 1, -1, k, structureboundingbox);
+                        IBlockState iblockdata3 = this.func_175807_a(world, 1, -1, k, structureboundingbox);
 
-                        if (iblockdata3.getMaterial() != Material.AIR && iblockdata3.isFullBlock()) {
-                            float f = this.getSkyBrightness(world, 1, 0, k, structureboundingbox) > 8 ? 0.9F : 0.7F;
+                        if (iblockdata3.func_185904_a() != Material.field_151579_a && iblockdata3.func_185913_b()) {
+                            float f = this.func_189916_b(world, 1, 0, k, structureboundingbox) > 8 ? 0.9F : 0.7F;
 
-                            this.randomlyPlaceBlock(world, structureboundingbox, random, f, 1, 0, k, iblockdata2);
+                            this.func_175809_a(world, structureboundingbox, random, f, 1, 0, k, iblockdata2);
                         }
                     }
                 }
@@ -582,168 +572,163 @@ public class StructureMineshaftPieces {
             }
         }
 
-        private void placeSupport(World world, StructureBoundingBox structureboundingbox, int i, int j, int k, int l, int i1, Random random) {
+        private void func_189921_a(World world, StructureBoundingBox structureboundingbox, int i, int j, int k, int l, int i1, Random random) {
             if (this.a(world, structureboundingbox, i, i1, l, k)) {
                 IBlockState iblockdata = this.G_();
                 IBlockState iblockdata1 = this.b();
-                IBlockState iblockdata2 = Blocks.AIR.getDefaultState();
+                IBlockState iblockdata2 = Blocks.field_150350_a.func_176223_P();
 
-                this.fillWithBlocks(world, structureboundingbox, i, j, k, i, l - 1, k, iblockdata1, iblockdata2, false);
-                this.fillWithBlocks(world, structureboundingbox, i1, j, k, i1, l - 1, k, iblockdata1, iblockdata2, false);
+                this.func_175804_a(world, structureboundingbox, i, j, k, i, l - 1, k, iblockdata1, iblockdata2, false);
+                this.func_175804_a(world, structureboundingbox, i1, j, k, i1, l - 1, k, iblockdata1, iblockdata2, false);
                 if (random.nextInt(4) == 0) {
-                    this.fillWithBlocks(world, structureboundingbox, i, l, k, i, l, k, iblockdata, iblockdata2, false);
-                    this.fillWithBlocks(world, structureboundingbox, i1, l, k, i1, l, k, iblockdata, iblockdata2, false);
+                    this.func_175804_a(world, structureboundingbox, i, l, k, i, l, k, iblockdata, iblockdata2, false);
+                    this.func_175804_a(world, structureboundingbox, i1, l, k, i1, l, k, iblockdata, iblockdata2, false);
                 } else {
-                    this.fillWithBlocks(world, structureboundingbox, i, l, k, i1, l, k, iblockdata, iblockdata2, false);
-                    this.randomlyPlaceBlock(world, structureboundingbox, random, 0.05F, i + 1, l, k - 1, Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.NORTH));
-                    this.randomlyPlaceBlock(world, structureboundingbox, random, 0.05F, i + 1, l, k + 1, Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.SOUTH));
+                    this.func_175804_a(world, structureboundingbox, i, l, k, i1, l, k, iblockdata, iblockdata2, false);
+                    this.func_175809_a(world, structureboundingbox, random, 0.05F, i + 1, l, k - 1, Blocks.field_150478_aa.func_176223_P().func_177226_a(BlockTorch.field_176596_a, EnumFacing.NORTH));
+                    this.func_175809_a(world, structureboundingbox, random, 0.05F, i + 1, l, k + 1, Blocks.field_150478_aa.func_176223_P().func_177226_a(BlockTorch.field_176596_a, EnumFacing.SOUTH));
                 }
 
             }
         }
 
-        private void placeCobWeb(World world, StructureBoundingBox structureboundingbox, Random random, float f, int i, int j, int k) {
-            if (this.getSkyBrightness(world, i, j, k, structureboundingbox) < 8) {
-                this.randomlyPlaceBlock(world, structureboundingbox, random, f, i, j, k, Blocks.WEB.getDefaultState());
+        private void func_189922_a(World world, StructureBoundingBox structureboundingbox, Random random, float f, int i, int j, int k) {
+            if (this.func_189916_b(world, i, j, k, structureboundingbox) < 8) {
+                this.func_175809_a(world, structureboundingbox, random, f, i, j, k, Blocks.field_150321_G.func_176223_P());
             }
 
         }
     }
 
-    public static class Room extends StructureMineshaftPieces.c {
+    public static class Room extends WorldGenMineshaftPieces.c {
 
-        private final List<StructureBoundingBox> connectedRooms = Lists.newLinkedList();
+        private final List<StructureBoundingBox> field_74949_a = Lists.newLinkedList();
 
         public Room() {}
 
         public Room(int i, Random random, int j, int k, MapGenMineshaft.Type worldgenmineshaft_type) {
             super(i, worldgenmineshaft_type);
             this.a = worldgenmineshaft_type;
-            this.boundingBox = new StructureBoundingBox(j, 50, k, j + 7 + random.nextInt(6), 54 + random.nextInt(6), k + 7 + random.nextInt(6));
+            this.field_74887_e = new StructureBoundingBox(j, 50, k, j + 7 + random.nextInt(6), 54 + random.nextInt(6), k + 7 + random.nextInt(6));
         }
 
-        @Override
-        public void buildComponent(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
-            int i = this.getComponentType();
-            int j = this.boundingBox.getYSize() - 3 - 1;
+        public void func_74861_a(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
+            int i = this.func_74877_c();
+            int j = this.field_74887_e.func_78882_c() - 3 - 1;
 
             if (j <= 0) {
                 j = 1;
             }
 
             int k;
-            StructureMineshaftPieces.c StructureMineshaftPieces_c;
+            WorldGenMineshaftPieces.c worldgenmineshaftpieces_c;
             StructureBoundingBox structureboundingbox;
 
-            for (k = 0; k < this.boundingBox.getXSize(); k += 4) {
-                k += random.nextInt(this.boundingBox.getXSize());
-                if (k + 3 > this.boundingBox.getXSize()) {
+            for (k = 0; k < this.field_74887_e.func_78883_b(); k += 4) {
+                k += random.nextInt(this.field_74887_e.func_78883_b());
+                if (k + 3 > this.field_74887_e.func_78883_b()) {
                     break;
                 }
 
-                StructureMineshaftPieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + k, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.minZ - 1, EnumFacing.NORTH, i);
-                if (StructureMineshaftPieces_c != null) {
-                    structureboundingbox = StructureMineshaftPieces_c.getBoundingBox();
-                    this.connectedRooms.add(new StructureBoundingBox(structureboundingbox.minX, structureboundingbox.minY, this.boundingBox.minZ, structureboundingbox.maxX, structureboundingbox.maxY, this.boundingBox.minZ + 1));
+                worldgenmineshaftpieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a + k, this.field_74887_e.field_78895_b + random.nextInt(j) + 1, this.field_74887_e.field_78896_c - 1, EnumFacing.NORTH, i);
+                if (worldgenmineshaftpieces_c != null) {
+                    structureboundingbox = worldgenmineshaftpieces_c.func_74874_b();
+                    this.field_74949_a.add(new StructureBoundingBox(structureboundingbox.field_78897_a, structureboundingbox.field_78895_b, this.field_74887_e.field_78896_c, structureboundingbox.field_78893_d, structureboundingbox.field_78894_e, this.field_74887_e.field_78896_c + 1));
                 }
             }
 
-            for (k = 0; k < this.boundingBox.getXSize(); k += 4) {
-                k += random.nextInt(this.boundingBox.getXSize());
-                if (k + 3 > this.boundingBox.getXSize()) {
+            for (k = 0; k < this.field_74887_e.func_78883_b(); k += 4) {
+                k += random.nextInt(this.field_74887_e.func_78883_b());
+                if (k + 3 > this.field_74887_e.func_78883_b()) {
                     break;
                 }
 
-                StructureMineshaftPieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX + k, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, i);
-                if (StructureMineshaftPieces_c != null) {
-                    structureboundingbox = StructureMineshaftPieces_c.getBoundingBox();
-                    this.connectedRooms.add(new StructureBoundingBox(structureboundingbox.minX, structureboundingbox.minY, this.boundingBox.maxZ - 1, structureboundingbox.maxX, structureboundingbox.maxY, this.boundingBox.maxZ));
+                worldgenmineshaftpieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a + k, this.field_74887_e.field_78895_b + random.nextInt(j) + 1, this.field_74887_e.field_78892_f + 1, EnumFacing.SOUTH, i);
+                if (worldgenmineshaftpieces_c != null) {
+                    structureboundingbox = worldgenmineshaftpieces_c.func_74874_b();
+                    this.field_74949_a.add(new StructureBoundingBox(structureboundingbox.field_78897_a, structureboundingbox.field_78895_b, this.field_74887_e.field_78892_f - 1, structureboundingbox.field_78893_d, structureboundingbox.field_78894_e, this.field_74887_e.field_78892_f));
                 }
             }
 
-            for (k = 0; k < this.boundingBox.getZSize(); k += 4) {
-                k += random.nextInt(this.boundingBox.getZSize());
-                if (k + 3 > this.boundingBox.getZSize()) {
+            for (k = 0; k < this.field_74887_e.func_78880_d(); k += 4) {
+                k += random.nextInt(this.field_74887_e.func_78880_d());
+                if (k + 3 > this.field_74887_e.func_78880_d()) {
                     break;
                 }
 
-                StructureMineshaftPieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.minX - 1, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.minZ + k, EnumFacing.WEST, i);
-                if (StructureMineshaftPieces_c != null) {
-                    structureboundingbox = StructureMineshaftPieces_c.getBoundingBox();
-                    this.connectedRooms.add(new StructureBoundingBox(this.boundingBox.minX, structureboundingbox.minY, structureboundingbox.minZ, this.boundingBox.minX + 1, structureboundingbox.maxY, structureboundingbox.maxZ));
+                worldgenmineshaftpieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78897_a - 1, this.field_74887_e.field_78895_b + random.nextInt(j) + 1, this.field_74887_e.field_78896_c + k, EnumFacing.WEST, i);
+                if (worldgenmineshaftpieces_c != null) {
+                    structureboundingbox = worldgenmineshaftpieces_c.func_74874_b();
+                    this.field_74949_a.add(new StructureBoundingBox(this.field_74887_e.field_78897_a, structureboundingbox.field_78895_b, structureboundingbox.field_78896_c, this.field_74887_e.field_78897_a + 1, structureboundingbox.field_78894_e, structureboundingbox.field_78892_f));
                 }
             }
 
-            for (k = 0; k < this.boundingBox.getZSize(); k += 4) {
-                k += random.nextInt(this.boundingBox.getZSize());
-                if (k + 3 > this.boundingBox.getZSize()) {
+            for (k = 0; k < this.field_74887_e.func_78880_d(); k += 4) {
+                k += random.nextInt(this.field_74887_e.func_78880_d());
+                if (k + 3 > this.field_74887_e.func_78880_d()) {
                     break;
                 }
 
-                StructureMineshaftPieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.boundingBox.maxX + 1, this.boundingBox.minY + random.nextInt(j) + 1, this.boundingBox.minZ + k, EnumFacing.EAST, i);
-                if (StructureMineshaftPieces_c != null) {
-                    structureboundingbox = StructureMineshaftPieces_c.getBoundingBox();
-                    this.connectedRooms.add(new StructureBoundingBox(this.boundingBox.maxX - 1, structureboundingbox.minY, structureboundingbox.minZ, this.boundingBox.maxX, structureboundingbox.maxY, structureboundingbox.maxZ));
+                worldgenmineshaftpieces_c = StructureMineshaftPieces.b(structurepiece, list, random, this.field_74887_e.field_78893_d + 1, this.field_74887_e.field_78895_b + random.nextInt(j) + 1, this.field_74887_e.field_78896_c + k, EnumFacing.EAST, i);
+                if (worldgenmineshaftpieces_c != null) {
+                    structureboundingbox = worldgenmineshaftpieces_c.func_74874_b();
+                    this.field_74949_a.add(new StructureBoundingBox(this.field_74887_e.field_78893_d - 1, structureboundingbox.field_78895_b, structureboundingbox.field_78896_c, this.field_74887_e.field_78893_d, structureboundingbox.field_78894_e, structureboundingbox.field_78892_f));
                 }
             }
 
         }
 
-        @Override
-        public boolean addComponentParts(World world, Random random, StructureBoundingBox structureboundingbox) {
-            if (this.isLiquidInStructureBoundingBox(world, structureboundingbox)) {
+        public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
+            if (this.func_74860_a(world, structureboundingbox)) {
                 return false;
             } else {
-                this.fillWithBlocks(world, structureboundingbox, this.boundingBox.minX, this.boundingBox.minY, this.boundingBox.minZ, this.boundingBox.maxX, this.boundingBox.minY, this.boundingBox.maxZ, Blocks.DIRT.getDefaultState(), Blocks.AIR.getDefaultState(), true);
-                this.fillWithBlocks(world, structureboundingbox, this.boundingBox.minX, this.boundingBox.minY + 1, this.boundingBox.minZ, this.boundingBox.maxX, Math.min(this.boundingBox.minY + 3, this.boundingBox.maxY), this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
-                Iterator iterator = this.connectedRooms.iterator();
+                this.func_175804_a(world, structureboundingbox, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b, this.field_74887_e.field_78896_c, this.field_74887_e.field_78893_d, this.field_74887_e.field_78895_b, this.field_74887_e.field_78892_f, Blocks.field_150346_d.func_176223_P(), Blocks.field_150350_a.func_176223_P(), true);
+                this.func_175804_a(world, structureboundingbox, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b + 1, this.field_74887_e.field_78896_c, this.field_74887_e.field_78893_d, Math.min(this.field_74887_e.field_78895_b + 3, this.field_74887_e.field_78894_e), this.field_74887_e.field_78892_f, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
+                Iterator iterator = this.field_74949_a.iterator();
 
                 while (iterator.hasNext()) {
                     StructureBoundingBox structureboundingbox1 = (StructureBoundingBox) iterator.next();
 
-                    this.fillWithBlocks(world, structureboundingbox, structureboundingbox1.minX, structureboundingbox1.maxY - 2, structureboundingbox1.minZ, structureboundingbox1.maxX, structureboundingbox1.maxY, structureboundingbox1.maxZ, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+                    this.func_175804_a(world, structureboundingbox, structureboundingbox1.field_78897_a, structureboundingbox1.field_78894_e - 2, structureboundingbox1.field_78896_c, structureboundingbox1.field_78893_d, structureboundingbox1.field_78894_e, structureboundingbox1.field_78892_f, Blocks.field_150350_a.func_176223_P(), Blocks.field_150350_a.func_176223_P(), false);
                 }
 
-                this.randomlyRareFillWithBlocks(world, structureboundingbox, this.boundingBox.minX, this.boundingBox.minY + 4, this.boundingBox.minZ, this.boundingBox.maxX, this.boundingBox.maxY, this.boundingBox.maxZ, Blocks.AIR.getDefaultState(), false);
+                this.func_180777_a(world, structureboundingbox, this.field_74887_e.field_78897_a, this.field_74887_e.field_78895_b + 4, this.field_74887_e.field_78896_c, this.field_74887_e.field_78893_d, this.field_74887_e.field_78894_e, this.field_74887_e.field_78892_f, Blocks.field_150350_a.func_176223_P(), false);
                 return true;
             }
         }
 
-        @Override
-        public void offset(int i, int j, int k) {
-            super.offset(i, j, k);
-            Iterator iterator = this.connectedRooms.iterator();
+        public void func_181138_a(int i, int j, int k) {
+            super.func_181138_a(i, j, k);
+            Iterator iterator = this.field_74949_a.iterator();
 
             while (iterator.hasNext()) {
                 StructureBoundingBox structureboundingbox = (StructureBoundingBox) iterator.next();
 
-                structureboundingbox.offset(i, j, k);
+                structureboundingbox.func_78886_a(i, j, k);
             }
 
         }
 
-        @Override
-        protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
-            super.writeStructureToNBT(nbttagcompound);
+        protected void func_143012_a(NBTTagCompound nbttagcompound) {
+            super.func_143012_a(nbttagcompound);
             NBTTagList nbttaglist = new NBTTagList();
-            Iterator iterator = this.connectedRooms.iterator();
+            Iterator iterator = this.field_74949_a.iterator();
 
             while (iterator.hasNext()) {
                 StructureBoundingBox structureboundingbox = (StructureBoundingBox) iterator.next();
 
-                nbttaglist.appendTag(structureboundingbox.toNBTTagIntArray());
+                nbttaglist.func_74742_a(structureboundingbox.func_151535_h());
             }
 
-            nbttagcompound.setTag("Entrances", nbttaglist);
+            nbttagcompound.func_74782_a("Entrances", nbttaglist);
         }
 
-        @Override
-        protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
-            super.readStructureFromNBT(nbttagcompound, definedstructuremanager);
-            NBTTagList nbttaglist = nbttagcompound.getTagList("Entrances", 11);
+        protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
+            super.func_143011_b(nbttagcompound, definedstructuremanager);
+            NBTTagList nbttaglist = nbttagcompound.func_150295_c("Entrances", 11);
 
-            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                this.connectedRooms.add(new StructureBoundingBox(nbttaglist.getIntArrayAt(i)));
+            for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+                this.field_74949_a.add(new StructureBoundingBox(nbttaglist.func_150306_c(i)));
             }
 
         }
@@ -760,24 +745,22 @@ public class StructureMineshaftPieces {
             this.a = worldgenmineshaft_type;
         }
 
-        @Override
-        protected void writeStructureToNBT(NBTTagCompound nbttagcompound) {
-            nbttagcompound.setInteger("MST", this.a.ordinal());
+        protected void func_143012_a(NBTTagCompound nbttagcompound) {
+            nbttagcompound.func_74768_a("MST", this.a.ordinal());
         }
 
-        @Override
-        protected void readStructureFromNBT(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
-            this.a = MapGenMineshaft.Type.byId(nbttagcompound.getInteger("MST"));
+        protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
+            this.a = MapGenMineshaft.Type.func_189910_a(nbttagcompound.func_74762_e("MST"));
         }
 
         protected IBlockState G_() {
             switch (this.a) {
             case NORMAL:
             default:
-                return Blocks.PLANKS.getDefaultState();
+                return Blocks.field_150344_f.func_176223_P();
 
             case MESA:
-                return Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK);
+                return Blocks.field_150344_f.func_176223_P().func_177226_a(BlockPlanks.field_176383_a, BlockPlanks.EnumType.DARK_OAK);
             }
         }
 
@@ -785,16 +768,16 @@ public class StructureMineshaftPieces {
             switch (this.a) {
             case NORMAL:
             default:
-                return Blocks.OAK_FENCE.getDefaultState();
+                return Blocks.field_180407_aO.func_176223_P();
 
             case MESA:
-                return Blocks.DARK_OAK_FENCE.getDefaultState();
+                return Blocks.field_180406_aS.func_176223_P();
             }
         }
 
         protected boolean a(World world, StructureBoundingBox structureboundingbox, int i, int j, int k, int l) {
             for (int i1 = i; i1 <= j; ++i1) {
-                if (this.getBlockStateFromPos(world, i1, k + 1, l, structureboundingbox).getMaterial() == Material.AIR) {
+                if (this.func_175807_a(world, i1, k + 1, l, structureboundingbox).func_185904_a() == Material.field_151579_a) {
                     return false;
                 }
             }

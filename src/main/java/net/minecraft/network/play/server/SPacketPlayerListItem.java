@@ -18,39 +18,39 @@ import net.minecraft.world.GameType;
 
 public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 
-    private SPacketPlayerListItem.Action action;
-    private final List<SPacketPlayerListItem.AddPlayerData> players = Lists.newArrayList();
+    private SPacketPlayerListItem.Action field_179770_a;
+    private final List<SPacketPlayerListItem.AddPlayerData> field_179769_b = Lists.newArrayList();
 
     public SPacketPlayerListItem() {}
 
     public SPacketPlayerListItem(SPacketPlayerListItem.Action packetplayoutplayerinfo_enumplayerinfoaction, EntityPlayerMP... aentityplayer) {
-        this.action = packetplayoutplayerinfo_enumplayerinfoaction;
+        this.field_179770_a = packetplayoutplayerinfo_enumplayerinfoaction;
         EntityPlayerMP[] aentityplayer1 = aentityplayer;
         int i = aentityplayer.length;
 
         for (int j = 0; j < i; ++j) {
             EntityPlayerMP entityplayer = aentityplayer1[j];
 
-            this.players.add(new SPacketPlayerListItem.AddPlayerData(entityplayer.getGameProfile(), entityplayer.ping, entityplayer.interactionManager.getGameType(), entityplayer.getTabListDisplayName()));
+            this.field_179769_b.add(new SPacketPlayerListItem.AddPlayerData(entityplayer.func_146103_bH(), entityplayer.field_71138_i, entityplayer.field_71134_c.func_73081_b(), entityplayer.func_175396_E()));
         }
 
     }
 
     public SPacketPlayerListItem(SPacketPlayerListItem.Action packetplayoutplayerinfo_enumplayerinfoaction, Iterable<EntityPlayerMP> iterable) {
-        this.action = packetplayoutplayerinfo_enumplayerinfoaction;
+        this.field_179770_a = packetplayoutplayerinfo_enumplayerinfoaction;
         Iterator iterator = iterable.iterator();
 
         while (iterator.hasNext()) {
             EntityPlayerMP entityplayer = (EntityPlayerMP) iterator.next();
 
-            this.players.add(new SPacketPlayerListItem.AddPlayerData(entityplayer.getGameProfile(), entityplayer.ping, entityplayer.interactionManager.getGameType(), entityplayer.getTabListDisplayName()));
+            this.field_179769_b.add(new SPacketPlayerListItem.AddPlayerData(entityplayer.func_146103_bH(), entityplayer.field_71138_i, entityplayer.field_71134_c.func_73081_b(), entityplayer.func_175396_E()));
         }
 
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.action = (SPacketPlayerListItem.Action) packetdataserializer.readEnumValue(SPacketPlayerListItem.Action.class);
-        int i = packetdataserializer.readVarInt();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_179770_a = (SPacketPlayerListItem.Action) packetdataserializer.func_179257_a(SPacketPlayerListItem.Action.class);
+        int i = packetdataserializer.func_150792_a();
 
         for (int j = 0; j < i; ++j) {
             GameProfile gameprofile = null;
@@ -58,161 +58,161 @@ public class SPacketPlayerListItem implements Packet<INetHandlerPlayClient> {
             GameType enumgamemode = null;
             ITextComponent ichatbasecomponent = null;
 
-            switch (this.action) {
+            switch (this.field_179770_a) {
             case ADD_PLAYER:
-                gameprofile = new GameProfile(packetdataserializer.readUniqueId(), packetdataserializer.readString(16));
-                int l = packetdataserializer.readVarInt();
+                gameprofile = new GameProfile(packetdataserializer.func_179253_g(), packetdataserializer.func_150789_c(16));
+                int l = packetdataserializer.func_150792_a();
 
                 for (int i1 = 0; i1 < l; ++i1) {
-                    String s = packetdataserializer.readString(32767);
-                    String s1 = packetdataserializer.readString(32767);
+                    String s = packetdataserializer.func_150789_c(32767);
+                    String s1 = packetdataserializer.func_150789_c(32767);
 
                     if (packetdataserializer.readBoolean()) {
-                        gameprofile.getProperties().put(s, new Property(s, s1, packetdataserializer.readString(32767)));
+                        gameprofile.getProperties().put(s, new Property(s, s1, packetdataserializer.func_150789_c(32767)));
                     } else {
                         gameprofile.getProperties().put(s, new Property(s, s1));
                     }
                 }
 
-                enumgamemode = GameType.getByID(packetdataserializer.readVarInt());
-                k = packetdataserializer.readVarInt();
+                enumgamemode = GameType.func_77146_a(packetdataserializer.func_150792_a());
+                k = packetdataserializer.func_150792_a();
                 if (packetdataserializer.readBoolean()) {
-                    ichatbasecomponent = packetdataserializer.readTextComponent();
+                    ichatbasecomponent = packetdataserializer.func_179258_d();
                 }
                 break;
 
             case UPDATE_GAME_MODE:
-                gameprofile = new GameProfile(packetdataserializer.readUniqueId(), (String) null);
-                enumgamemode = GameType.getByID(packetdataserializer.readVarInt());
+                gameprofile = new GameProfile(packetdataserializer.func_179253_g(), (String) null);
+                enumgamemode = GameType.func_77146_a(packetdataserializer.func_150792_a());
                 break;
 
             case UPDATE_LATENCY:
-                gameprofile = new GameProfile(packetdataserializer.readUniqueId(), (String) null);
-                k = packetdataserializer.readVarInt();
+                gameprofile = new GameProfile(packetdataserializer.func_179253_g(), (String) null);
+                k = packetdataserializer.func_150792_a();
                 break;
 
             case UPDATE_DISPLAY_NAME:
-                gameprofile = new GameProfile(packetdataserializer.readUniqueId(), (String) null);
+                gameprofile = new GameProfile(packetdataserializer.func_179253_g(), (String) null);
                 if (packetdataserializer.readBoolean()) {
-                    ichatbasecomponent = packetdataserializer.readTextComponent();
+                    ichatbasecomponent = packetdataserializer.func_179258_d();
                 }
                 break;
 
             case REMOVE_PLAYER:
-                gameprofile = new GameProfile(packetdataserializer.readUniqueId(), (String) null);
+                gameprofile = new GameProfile(packetdataserializer.func_179253_g(), (String) null);
             }
 
-            this.players.add(new SPacketPlayerListItem.AddPlayerData(gameprofile, k, enumgamemode, ichatbasecomponent));
+            this.field_179769_b.add(new SPacketPlayerListItem.AddPlayerData(gameprofile, k, enumgamemode, ichatbasecomponent));
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeEnumValue((Enum) this.action);
-        packetdataserializer.writeVarInt(this.players.size());
-        Iterator iterator = this.players.iterator();
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179249_a((Enum) this.field_179770_a);
+        packetdataserializer.func_150787_b(this.field_179769_b.size());
+        Iterator iterator = this.field_179769_b.iterator();
 
         while (iterator.hasNext()) {
             SPacketPlayerListItem.AddPlayerData packetplayoutplayerinfo_playerinfodata = (SPacketPlayerListItem.AddPlayerData) iterator.next();
 
-            switch (this.action) {
+            switch (this.field_179770_a) {
             case ADD_PLAYER:
-                packetdataserializer.writeUniqueId(packetplayoutplayerinfo_playerinfodata.getProfile().getId());
-                packetdataserializer.writeString(packetplayoutplayerinfo_playerinfodata.getProfile().getName());
-                packetdataserializer.writeVarInt(packetplayoutplayerinfo_playerinfodata.getProfile().getProperties().size());
-                Iterator iterator1 = packetplayoutplayerinfo_playerinfodata.getProfile().getProperties().values().iterator();
+                packetdataserializer.func_179252_a(packetplayoutplayerinfo_playerinfodata.func_179962_a().getId());
+                packetdataserializer.func_180714_a(packetplayoutplayerinfo_playerinfodata.func_179962_a().getName());
+                packetdataserializer.func_150787_b(packetplayoutplayerinfo_playerinfodata.func_179962_a().getProperties().size());
+                Iterator iterator1 = packetplayoutplayerinfo_playerinfodata.func_179962_a().getProperties().values().iterator();
 
                 while (iterator1.hasNext()) {
                     Property property = (Property) iterator1.next();
 
-                    packetdataserializer.writeString(property.getName());
-                    packetdataserializer.writeString(property.getValue());
+                    packetdataserializer.func_180714_a(property.getName());
+                    packetdataserializer.func_180714_a(property.getValue());
                     if (property.hasSignature()) {
                         packetdataserializer.writeBoolean(true);
-                        packetdataserializer.writeString(property.getSignature());
+                        packetdataserializer.func_180714_a(property.getSignature());
                     } else {
                         packetdataserializer.writeBoolean(false);
                     }
                 }
 
-                packetdataserializer.writeVarInt(packetplayoutplayerinfo_playerinfodata.getGameMode().getID());
-                packetdataserializer.writeVarInt(packetplayoutplayerinfo_playerinfodata.getPing());
-                if (packetplayoutplayerinfo_playerinfodata.getDisplayName() == null) {
+                packetdataserializer.func_150787_b(packetplayoutplayerinfo_playerinfodata.func_179960_c().func_77148_a());
+                packetdataserializer.func_150787_b(packetplayoutplayerinfo_playerinfodata.func_179963_b());
+                if (packetplayoutplayerinfo_playerinfodata.func_179961_d() == null) {
                     packetdataserializer.writeBoolean(false);
                 } else {
                     packetdataserializer.writeBoolean(true);
-                    packetdataserializer.writeTextComponent(packetplayoutplayerinfo_playerinfodata.getDisplayName());
+                    packetdataserializer.func_179256_a(packetplayoutplayerinfo_playerinfodata.func_179961_d());
                 }
                 break;
 
             case UPDATE_GAME_MODE:
-                packetdataserializer.writeUniqueId(packetplayoutplayerinfo_playerinfodata.getProfile().getId());
-                packetdataserializer.writeVarInt(packetplayoutplayerinfo_playerinfodata.getGameMode().getID());
+                packetdataserializer.func_179252_a(packetplayoutplayerinfo_playerinfodata.func_179962_a().getId());
+                packetdataserializer.func_150787_b(packetplayoutplayerinfo_playerinfodata.func_179960_c().func_77148_a());
                 break;
 
             case UPDATE_LATENCY:
-                packetdataserializer.writeUniqueId(packetplayoutplayerinfo_playerinfodata.getProfile().getId());
-                packetdataserializer.writeVarInt(packetplayoutplayerinfo_playerinfodata.getPing());
+                packetdataserializer.func_179252_a(packetplayoutplayerinfo_playerinfodata.func_179962_a().getId());
+                packetdataserializer.func_150787_b(packetplayoutplayerinfo_playerinfodata.func_179963_b());
                 break;
 
             case UPDATE_DISPLAY_NAME:
-                packetdataserializer.writeUniqueId(packetplayoutplayerinfo_playerinfodata.getProfile().getId());
-                if (packetplayoutplayerinfo_playerinfodata.getDisplayName() == null) {
+                packetdataserializer.func_179252_a(packetplayoutplayerinfo_playerinfodata.func_179962_a().getId());
+                if (packetplayoutplayerinfo_playerinfodata.func_179961_d() == null) {
                     packetdataserializer.writeBoolean(false);
                 } else {
                     packetdataserializer.writeBoolean(true);
-                    packetdataserializer.writeTextComponent(packetplayoutplayerinfo_playerinfodata.getDisplayName());
+                    packetdataserializer.func_179256_a(packetplayoutplayerinfo_playerinfodata.func_179961_d());
                 }
                 break;
 
             case REMOVE_PLAYER:
-                packetdataserializer.writeUniqueId(packetplayoutplayerinfo_playerinfodata.getProfile().getId());
+                packetdataserializer.func_179252_a(packetplayoutplayerinfo_playerinfodata.func_179962_a().getId());
             }
         }
 
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handlePlayerListItem(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147256_a(this);
     }
 
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("action", this.action).add("entries", this.players).toString();
+        return MoreObjects.toStringHelper(this).add("action", this.field_179770_a).add("entries", this.field_179769_b).toString();
     }
 
     public class AddPlayerData {
 
-        private final int ping;
-        private final GameType gamemode;
-        private final GameProfile profile;
-        private final ITextComponent displayName;
+        private final int field_179966_b;
+        private final GameType field_179967_c;
+        private final GameProfile field_179964_d;
+        private final ITextComponent field_179965_e;
 
         public AddPlayerData(GameProfile gameprofile, int i, GameType enumgamemode, @Nullable ITextComponent ichatbasecomponent) {
-            this.profile = gameprofile;
-            this.ping = i;
-            this.gamemode = enumgamemode;
-            this.displayName = ichatbasecomponent;
+            this.field_179964_d = gameprofile;
+            this.field_179966_b = i;
+            this.field_179967_c = enumgamemode;
+            this.field_179965_e = ichatbasecomponent;
         }
 
-        public GameProfile getProfile() {
-            return this.profile;
+        public GameProfile func_179962_a() {
+            return this.field_179964_d;
         }
 
-        public int getPing() {
-            return this.ping;
+        public int func_179963_b() {
+            return this.field_179966_b;
         }
 
-        public GameType getGameMode() {
-            return this.gamemode;
+        public GameType func_179960_c() {
+            return this.field_179967_c;
         }
 
         @Nullable
-        public ITextComponent getDisplayName() {
-            return this.displayName;
+        public ITextComponent func_179961_d() {
+            return this.field_179965_e;
         }
 
         public String toString() {
-            return MoreObjects.toStringHelper(this).add("latency", this.ping).add("gameMode", this.gamemode).add("profile", this.profile).add("displayName", this.displayName == null ? null : ITextComponent.Serializer.componentToJson(this.displayName)).toString();
+            return MoreObjects.toStringHelper(this).add("latency", this.field_179966_b).add("gameMode", this.field_179967_c).add("profile", this.field_179964_d).add("displayName", this.field_179965_e == null ? null : ITextComponent.Serializer.func_150696_a(this.field_179965_e)).toString();
         }
     }
 

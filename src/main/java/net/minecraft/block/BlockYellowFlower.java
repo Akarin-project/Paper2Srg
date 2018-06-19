@@ -4,7 +4,7 @@ public class BlockYellowFlower extends BlockFlower {
 
     public BlockYellowFlower() {}
 
-    public BlockFlower.EnumFlowerColor getBlockType() {
+    public BlockFlower.EnumFlowerColor func_176495_j() {
         return BlockFlower.EnumFlowerColor.YELLOW;
     }
 }

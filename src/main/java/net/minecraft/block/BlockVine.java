@@ -31,140 +31,140 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 
 public class BlockVine extends Block {
 
-    public static final PropertyBool UP = PropertyBool.create("up");
-    public static final PropertyBool NORTH = PropertyBool.create("north");
-    public static final PropertyBool EAST = PropertyBool.create("east");
-    public static final PropertyBool SOUTH = PropertyBool.create("south");
-    public static final PropertyBool WEST = PropertyBool.create("west");
-    public static final PropertyBool[] ALL_FACES = new PropertyBool[] { BlockVine.UP, BlockVine.NORTH, BlockVine.SOUTH, BlockVine.WEST, BlockVine.EAST};
-    protected static final AxisAlignedBB UP_AABB = new AxisAlignedBB(0.0D, 0.9375D, 0.0D, 1.0D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0625D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.9375D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.0625D);
-    protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.9375D, 1.0D, 1.0D, 1.0D);
+    public static final PropertyBool field_176277_a = PropertyBool.func_177716_a("up");
+    public static final PropertyBool field_176273_b = PropertyBool.func_177716_a("north");
+    public static final PropertyBool field_176278_M = PropertyBool.func_177716_a("east");
+    public static final PropertyBool field_176279_N = PropertyBool.func_177716_a("south");
+    public static final PropertyBool field_176280_O = PropertyBool.func_177716_a("west");
+    public static final PropertyBool[] field_176274_P = new PropertyBool[] { BlockVine.field_176277_a, BlockVine.field_176273_b, BlockVine.field_176279_N, BlockVine.field_176280_O, BlockVine.field_176278_M};
+    protected static final AxisAlignedBB field_185757_g = new AxisAlignedBB(0.0D, 0.9375D, 0.0D, 1.0D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB field_185753_B = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0625D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB field_185754_C = new AxisAlignedBB(0.9375D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB field_185755_D = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.0625D);
+    protected static final AxisAlignedBB field_185756_E = new AxisAlignedBB(0.0D, 0.0D, 0.9375D, 1.0D, 1.0D, 1.0D);
 
     public BlockVine() {
-        super(Material.VINE);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockVine.UP, Boolean.valueOf(false)).withProperty(BlockVine.NORTH, Boolean.valueOf(false)).withProperty(BlockVine.EAST, Boolean.valueOf(false)).withProperty(BlockVine.SOUTH, Boolean.valueOf(false)).withProperty(BlockVine.WEST, Boolean.valueOf(false)));
-        this.setTickRandomly(true);
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        super(Material.field_151582_l);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockVine.field_176277_a, Boolean.valueOf(false)).func_177226_a(BlockVine.field_176273_b, Boolean.valueOf(false)).func_177226_a(BlockVine.field_176278_M, Boolean.valueOf(false)).func_177226_a(BlockVine.field_176279_N, Boolean.valueOf(false)).func_177226_a(BlockVine.field_176280_O, Boolean.valueOf(false)));
+        this.func_149675_a(true);
+        this.func_149647_a(CreativeTabs.field_78031_c);
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockVine.NULL_AABB;
+    public AxisAlignedBB func_180646_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockVine.field_185506_k;
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        iblockdata = iblockdata.getActualState(iblockaccess, blockposition);
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        iblockdata = iblockdata.func_185899_b(iblockaccess, blockposition);
         int i = 0;
-        AxisAlignedBB axisalignedbb = BlockVine.FULL_BLOCK_AABB;
+        AxisAlignedBB axisalignedbb = BlockVine.field_185505_j;
 
-        if (((Boolean) iblockdata.getValue(BlockVine.UP)).booleanValue()) {
-            axisalignedbb = BlockVine.UP_AABB;
+        if (((Boolean) iblockdata.func_177229_b(BlockVine.field_176277_a)).booleanValue()) {
+            axisalignedbb = BlockVine.field_185757_g;
             ++i;
         }
 
-        if (((Boolean) iblockdata.getValue(BlockVine.NORTH)).booleanValue()) {
-            axisalignedbb = BlockVine.NORTH_AABB;
+        if (((Boolean) iblockdata.func_177229_b(BlockVine.field_176273_b)).booleanValue()) {
+            axisalignedbb = BlockVine.field_185755_D;
             ++i;
         }
 
-        if (((Boolean) iblockdata.getValue(BlockVine.EAST)).booleanValue()) {
-            axisalignedbb = BlockVine.EAST_AABB;
+        if (((Boolean) iblockdata.func_177229_b(BlockVine.field_176278_M)).booleanValue()) {
+            axisalignedbb = BlockVine.field_185754_C;
             ++i;
         }
 
-        if (((Boolean) iblockdata.getValue(BlockVine.SOUTH)).booleanValue()) {
-            axisalignedbb = BlockVine.SOUTH_AABB;
+        if (((Boolean) iblockdata.func_177229_b(BlockVine.field_176279_N)).booleanValue()) {
+            axisalignedbb = BlockVine.field_185756_E;
             ++i;
         }
 
-        if (((Boolean) iblockdata.getValue(BlockVine.WEST)).booleanValue()) {
-            axisalignedbb = BlockVine.WEST_AABB;
+        if (((Boolean) iblockdata.func_177229_b(BlockVine.field_176280_O)).booleanValue()) {
+            axisalignedbb = BlockVine.field_185753_B;
             ++i;
         }
 
-        return i == 1 ? axisalignedbb : BlockVine.FULL_BLOCK_AABB;
+        return i == 1 ? axisalignedbb : BlockVine.field_185505_j;
     }
 
-    public IBlockState getActualState(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        BlockPos blockposition1 = blockposition.up();
+    public IBlockState func_176221_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        BlockPos blockposition1 = blockposition.func_177984_a();
 
-        return iblockdata.withProperty(BlockVine.UP, Boolean.valueOf(iblockaccess.getBlockState(blockposition1).getBlockFaceShape(iblockaccess, blockposition1, EnumFacing.DOWN) == BlockFaceShape.SOLID));
+        return iblockdata.func_177226_a(BlockVine.field_176277_a, Boolean.valueOf(iblockaccess.func_180495_p(blockposition1).func_193401_d(iblockaccess, blockposition1, EnumFacing.DOWN) == BlockFaceShape.SOLID));
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isReplaceable(IBlockAccess iblockaccess, BlockPos blockposition) {
+    public boolean func_176200_f(IBlockAccess iblockaccess, BlockPos blockposition) {
         return true;
     }
 
-    public boolean canPlaceBlockOnSide(World world, BlockPos blockposition, EnumFacing enumdirection) {
-        return enumdirection != EnumFacing.DOWN && enumdirection != EnumFacing.UP && this.canAttachTo(world, blockposition, enumdirection);
+    public boolean func_176198_a(World world, BlockPos blockposition, EnumFacing enumdirection) {
+        return enumdirection != EnumFacing.DOWN && enumdirection != EnumFacing.UP && this.func_193395_a(world, blockposition, enumdirection);
     }
 
-    public boolean canAttachTo(World world, BlockPos blockposition, EnumFacing enumdirection) {
-        Block block = world.getBlockState(blockposition.up()).getBlock();
+    public boolean func_193395_a(World world, BlockPos blockposition, EnumFacing enumdirection) {
+        Block block = world.func_180495_p(blockposition.func_177984_a()).func_177230_c();
 
-        return this.isAcceptableNeighbor(world, blockposition.offset(enumdirection.getOpposite()), enumdirection) && (block == Blocks.AIR || block == Blocks.VINE || this.isAcceptableNeighbor(world, blockposition.up(), EnumFacing.UP));
+        return this.func_193396_c(world, blockposition.func_177972_a(enumdirection.func_176734_d()), enumdirection) && (block == Blocks.field_150350_a || block == Blocks.field_150395_bd || this.func_193396_c(world, blockposition.func_177984_a(), EnumFacing.UP));
     }
 
-    private boolean isAcceptableNeighbor(World world, BlockPos blockposition, EnumFacing enumdirection) {
-        IBlockState iblockdata = world.getBlockState(blockposition);
+    private boolean func_193396_c(World world, BlockPos blockposition, EnumFacing enumdirection) {
+        IBlockState iblockdata = world.func_180495_p(blockposition);
 
-        return iblockdata.getBlockFaceShape(world, blockposition, enumdirection) == BlockFaceShape.SOLID && !isExceptBlockForAttaching(iblockdata.getBlock());
+        return iblockdata.func_193401_d(world, blockposition, enumdirection) == BlockFaceShape.SOLID && !func_193397_e(iblockdata.func_177230_c());
     }
 
-    protected static boolean isExceptBlockForAttaching(Block block) {
-        return block instanceof BlockShulkerBox || block == Blocks.BEACON || block == Blocks.CAULDRON || block == Blocks.GLASS || block == Blocks.STAINED_GLASS || block == Blocks.PISTON || block == Blocks.STICKY_PISTON || block == Blocks.PISTON_HEAD || block == Blocks.TRAPDOOR;
+    protected static boolean func_193397_e(Block block) {
+        return block instanceof BlockShulkerBox || block == Blocks.field_150461_bJ || block == Blocks.field_150383_bp || block == Blocks.field_150359_w || block == Blocks.field_150399_cn || block == Blocks.field_150331_J || block == Blocks.field_150320_F || block == Blocks.field_150332_K || block == Blocks.field_150415_aT;
     }
 
-    private boolean recheckGrownSides(World world, BlockPos blockposition, IBlockState iblockdata) {
+    private boolean func_176269_e(World world, BlockPos blockposition, IBlockState iblockdata) {
         IBlockState iblockdata1 = iblockdata;
         Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 
         while (iterator.hasNext()) {
             EnumFacing enumdirection = (EnumFacing) iterator.next();
-            PropertyBool blockstateboolean = getPropertyFor(enumdirection);
+            PropertyBool blockstateboolean = func_176267_a(enumdirection);
 
-            if (((Boolean) iblockdata.getValue(blockstateboolean)).booleanValue() && !this.canAttachTo(world, blockposition, enumdirection.getOpposite())) {
-                IBlockState iblockdata2 = world.getBlockState(blockposition.up());
+            if (((Boolean) iblockdata.func_177229_b(blockstateboolean)).booleanValue() && !this.func_193395_a(world, blockposition, enumdirection.func_176734_d())) {
+                IBlockState iblockdata2 = world.func_180495_p(blockposition.func_177984_a());
 
-                if (iblockdata2.getBlock() != this || !((Boolean) iblockdata2.getValue(blockstateboolean)).booleanValue()) {
-                    iblockdata = iblockdata.withProperty(blockstateboolean, Boolean.valueOf(false));
+                if (iblockdata2.func_177230_c() != this || !((Boolean) iblockdata2.func_177229_b(blockstateboolean)).booleanValue()) {
+                    iblockdata = iblockdata.func_177226_a(blockstateboolean, Boolean.valueOf(false));
                 }
             }
         }
 
-        if (getNumGrownFaces(iblockdata) == 0) {
+        if (func_176268_d(iblockdata) == 0) {
             return false;
         } else {
             if (iblockdata1 != iblockdata) {
-                world.setBlockState(blockposition, iblockdata, 2);
+                world.func_180501_a(blockposition, iblockdata, 2);
             }
 
             return true;
         }
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        if (!world.isRemote && !this.recheckGrownSides(world, blockposition, iblockdata)) {
-            this.dropBlockAsItem(world, blockposition, iblockdata, 0);
-            world.setBlockToAir(blockposition);
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        if (!world.field_72995_K && !this.func_176269_e(world, blockposition, iblockdata)) {
+            this.func_176226_b(world, blockposition, iblockdata, 0);
+            world.func_175698_g(blockposition);
         }
 
     }
 
-    public void updateTick(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        if (!world.isRemote) {
-            if (world.rand.nextInt(Math.max(1, (int) (100.0F / world.spigotConfig.vineModifier) * 4)) == 0) { // Spigot
+    public void func_180650_b(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        if (!world.field_72995_K) {
+            if (world.field_73012_v.nextInt(Math.max(1, (int) (100.0F / world.spigotConfig.vineModifier) * 4)) == 0) { // Spigot
                 boolean flag = true;
                 int i = 5;
                 boolean flag1 = false;
@@ -173,7 +173,7 @@ public class BlockVine extends Block {
                 for (int j = -4; j <= 4; ++j) {
                     for (int k = -4; k <= 4; ++k) {
                         for (int l = -1; l <= 1; ++l) {
-                            if (world.getBlockState(blockposition.add(j, l, k)).getBlock() == this) {
+                            if (world.func_180495_p(blockposition.func_177982_a(j, l, k)).func_177230_c() == this) {
                                 --i;
                                 if (i <= 0) {
                                     flag1 = true;
@@ -184,30 +184,30 @@ public class BlockVine extends Block {
                     }
                 }
 
-                EnumFacing enumdirection = EnumFacing.random(random);
-                BlockPos blockposition1 = blockposition.up();
+                EnumFacing enumdirection = EnumFacing.func_176741_a(random);
+                BlockPos blockposition1 = blockposition.func_177984_a();
 
-                if (enumdirection == EnumFacing.UP && blockposition.getY() < 255 && world.isAirBlock(blockposition1)) {
+                if (enumdirection == EnumFacing.UP && blockposition.func_177956_o() < 255 && world.func_175623_d(blockposition1)) {
                     IBlockState iblockdata1 = iblockdata;
                     Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 
                     while (iterator.hasNext()) {
                         EnumFacing enumdirection1 = (EnumFacing) iterator.next();
 
-                        if (random.nextBoolean() && this.canAttachTo(world, blockposition1, enumdirection1.getOpposite())) {
-                            iblockdata1 = iblockdata1.withProperty(getPropertyFor(enumdirection1), Boolean.valueOf(true));
+                        if (random.nextBoolean() && this.func_193395_a(world, blockposition1, enumdirection1.func_176734_d())) {
+                            iblockdata1 = iblockdata1.func_177226_a(func_176267_a(enumdirection1), Boolean.valueOf(true));
                         } else {
-                            iblockdata1 = iblockdata1.withProperty(getPropertyFor(enumdirection1), Boolean.valueOf(false));
+                            iblockdata1 = iblockdata1.func_177226_a(func_176267_a(enumdirection1), Boolean.valueOf(false));
                         }
                     }
 
-                    if (((Boolean) iblockdata1.getValue(BlockVine.NORTH)).booleanValue() || ((Boolean) iblockdata1.getValue(BlockVine.EAST)).booleanValue() || ((Boolean) iblockdata1.getValue(BlockVine.SOUTH)).booleanValue() || ((Boolean) iblockdata1.getValue(BlockVine.WEST)).booleanValue()) {
+                    if (((Boolean) iblockdata1.func_177229_b(BlockVine.field_176273_b)).booleanValue() || ((Boolean) iblockdata1.func_177229_b(BlockVine.field_176278_M)).booleanValue() || ((Boolean) iblockdata1.func_177229_b(BlockVine.field_176279_N)).booleanValue() || ((Boolean) iblockdata1.func_177229_b(BlockVine.field_176280_O)).booleanValue()) {
                         // CraftBukkit start - Call BlockSpreadEvent
                         // world.setTypeAndData(blockposition1, iblockdata1, 2);
                         BlockPos target = blockposition1;
-                        org.bukkit.block.Block source = world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ());
-                        org.bukkit.block.Block block = world.getWorld().getBlockAt(target.getX(), target.getY(), target.getZ());
-                        CraftEventFactory.handleBlockSpreadEvent(block, source, this, getMetaFromState(iblockdata1));
+                        org.bukkit.block.Block source = world.getWorld().getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
+                        org.bukkit.block.Block block = world.getWorld().getBlockAt(target.func_177958_n(), target.func_177956_o(), target.func_177952_p());
+                        CraftEventFactory.handleBlockSpreadEvent(block, source, this, func_176201_c(iblockdata1));
                         // CraftBukkit end
                     }
 
@@ -216,70 +216,70 @@ public class BlockVine extends Block {
                     Block block;
                     BlockPos blockposition2;
 
-                    if (enumdirection.getAxis().isHorizontal() && !((Boolean) iblockdata.getValue(getPropertyFor(enumdirection))).booleanValue()) {
+                    if (enumdirection.func_176740_k().func_176722_c() && !((Boolean) iblockdata.func_177229_b(func_176267_a(enumdirection))).booleanValue()) {
                         if (!flag1) {
-                            blockposition2 = blockposition.offset(enumdirection);
-                            iblockdata2 = world.getBlockState(blockposition2);
-                            block = iblockdata2.getBlock();
-                            if (block.blockMaterial == Material.AIR) {
-                                EnumFacing enumdirection2 = enumdirection.rotateY();
-                                EnumFacing enumdirection3 = enumdirection.rotateYCCW();
-                                boolean flag2 = ((Boolean) iblockdata.getValue(getPropertyFor(enumdirection2))).booleanValue();
-                                boolean flag3 = ((Boolean) iblockdata.getValue(getPropertyFor(enumdirection3))).booleanValue();
-                                BlockPos blockposition3 = blockposition2.offset(enumdirection2);
-                                BlockPos blockposition4 = blockposition2.offset(enumdirection3);
+                            blockposition2 = blockposition.func_177972_a(enumdirection);
+                            iblockdata2 = world.func_180495_p(blockposition2);
+                            block = iblockdata2.func_177230_c();
+                            if (block.field_149764_J == Material.field_151579_a) {
+                                EnumFacing enumdirection2 = enumdirection.func_176746_e();
+                                EnumFacing enumdirection3 = enumdirection.func_176735_f();
+                                boolean flag2 = ((Boolean) iblockdata.func_177229_b(func_176267_a(enumdirection2))).booleanValue();
+                                boolean flag3 = ((Boolean) iblockdata.func_177229_b(func_176267_a(enumdirection3))).booleanValue();
+                                BlockPos blockposition3 = blockposition2.func_177972_a(enumdirection2);
+                                BlockPos blockposition4 = blockposition2.func_177972_a(enumdirection3);
 
                                 // CraftBukkit start - Call BlockSpreadEvent
-                                org.bukkit.block.Block source = world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ());
-                                org.bukkit.block.Block bukkitBlock = world.getWorld().getBlockAt(blockposition2.getX(), blockposition2.getY(), blockposition2.getZ());
+                                org.bukkit.block.Block source = world.getWorld().getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
+                                org.bukkit.block.Block bukkitBlock = world.getWorld().getBlockAt(blockposition2.func_177958_n(), blockposition2.func_177956_o(), blockposition2.func_177952_p());
 
-                                if (flag2 && this.canAttachTo(world, blockposition3.offset(enumdirection2), enumdirection2)) {
+                                if (flag2 && this.func_193395_a(world, blockposition3.func_177972_a(enumdirection2), enumdirection2)) {
                                     // world.setTypeAndData(blockposition2, this.getBlockData().set(getDirection(enumdirection2), Boolean.valueOf(true)), 2);
-                                    CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this, getMetaFromState(this.getDefaultState().withProperty(getPropertyFor(enumdirection2), Boolean.valueOf(true))));
-                                } else if (flag3 && this.canAttachTo(world, blockposition4.offset(enumdirection3), enumdirection3)) {
+                                    CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this, func_176201_c(this.func_176223_P().func_177226_a(func_176267_a(enumdirection2), Boolean.valueOf(true))));
+                                } else if (flag3 && this.func_193395_a(world, blockposition4.func_177972_a(enumdirection3), enumdirection3)) {
                                     // world.setTypeAndData(blockposition2, this.getBlockData().set(getDirection(enumdirection3), Boolean.valueOf(true)), 2);
-                                    CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this, getMetaFromState(this.getDefaultState().withProperty(getPropertyFor(enumdirection3), Boolean.valueOf(true))));
-                                } else if (flag2 && world.isAirBlock(blockposition3) && this.canAttachTo(world, blockposition3, enumdirection)) {
+                                    CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this, func_176201_c(this.func_176223_P().func_177226_a(func_176267_a(enumdirection3), Boolean.valueOf(true))));
+                                } else if (flag2 && world.func_175623_d(blockposition3) && this.func_193395_a(world, blockposition3, enumdirection)) {
                                     // world.setTypeAndData(blockposition3, this.getBlockData().set(getDirection(enumdirection.opposite()), Boolean.valueOf(true)), 2);
-                                    bukkitBlock = world.getWorld().getBlockAt(blockposition3.getX(), blockposition3.getY(), blockposition3.getZ());
-                                    CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this, getMetaFromState(this.getDefaultState().withProperty(getPropertyFor(enumdirection.getOpposite()), Boolean.valueOf(true))));
-                                } else if (flag3 && world.isAirBlock(blockposition4) && this.canAttachTo(world, blockposition4, enumdirection)) {
+                                    bukkitBlock = world.getWorld().getBlockAt(blockposition3.func_177958_n(), blockposition3.func_177956_o(), blockposition3.func_177952_p());
+                                    CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this, func_176201_c(this.func_176223_P().func_177226_a(func_176267_a(enumdirection.func_176734_d()), Boolean.valueOf(true))));
+                                } else if (flag3 && world.func_175623_d(blockposition4) && this.func_193395_a(world, blockposition4, enumdirection)) {
                                     // world.setTypeAndData(blockposition4, this.getBlockData().set(getDirection(enumdirection.opposite()), Boolean.valueOf(true)), 2);
-                                    bukkitBlock = world.getWorld().getBlockAt(blockposition4.getX(), blockposition4.getY(), blockposition4.getZ());
-                                    CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this, getMetaFromState(this.getDefaultState().withProperty(getPropertyFor(enumdirection.getOpposite()), Boolean.valueOf(true))));
+                                    bukkitBlock = world.getWorld().getBlockAt(blockposition4.func_177958_n(), blockposition4.func_177956_o(), blockposition4.func_177952_p());
+                                    CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this, func_176201_c(this.func_176223_P().func_177226_a(func_176267_a(enumdirection.func_176734_d()), Boolean.valueOf(true))));
                                 }
                                 // CraftBukkit end
-                            } else if (iblockdata2.getBlockFaceShape(world, blockposition2, enumdirection) == BlockFaceShape.SOLID) {
-                                world.setBlockState(blockposition, iblockdata.withProperty(getPropertyFor(enumdirection), Boolean.valueOf(true)), 2);
+                            } else if (iblockdata2.func_193401_d(world, blockposition2, enumdirection) == BlockFaceShape.SOLID) {
+                                world.func_180501_a(blockposition, iblockdata.func_177226_a(func_176267_a(enumdirection), Boolean.valueOf(true)), 2);
                             }
 
                         }
                     } else {
-                        if (blockposition.getY() > 1) {
-                            blockposition2 = blockposition.down();
-                            iblockdata2 = world.getBlockState(blockposition2);
-                            block = iblockdata2.getBlock();
+                        if (blockposition.func_177956_o() > 1) {
+                            blockposition2 = blockposition.func_177977_b();
+                            iblockdata2 = world.func_180495_p(blockposition2);
+                            block = iblockdata2.func_177230_c();
                             IBlockState iblockdata3;
                             Iterator iterator1;
                             EnumFacing enumdirection4;
 
-                            if (block.blockMaterial == Material.AIR) {
+                            if (block.field_149764_J == Material.field_151579_a) {
                                 iblockdata3 = iblockdata;
                                 iterator1 = EnumFacing.Plane.HORIZONTAL.iterator();
 
                                 while (iterator1.hasNext()) {
                                     enumdirection4 = (EnumFacing) iterator1.next();
                                     if (random.nextBoolean()) {
-                                        iblockdata3 = iblockdata3.withProperty(getPropertyFor(enumdirection4), Boolean.valueOf(false));
+                                        iblockdata3 = iblockdata3.func_177226_a(func_176267_a(enumdirection4), Boolean.valueOf(false));
                                     }
                                 }
 
-                                if (((Boolean) iblockdata3.getValue(BlockVine.NORTH)).booleanValue() || ((Boolean) iblockdata3.getValue(BlockVine.EAST)).booleanValue() || ((Boolean) iblockdata3.getValue(BlockVine.SOUTH)).booleanValue() || ((Boolean) iblockdata3.getValue(BlockVine.WEST)).booleanValue()) {
+                                if (((Boolean) iblockdata3.func_177229_b(BlockVine.field_176273_b)).booleanValue() || ((Boolean) iblockdata3.func_177229_b(BlockVine.field_176278_M)).booleanValue() || ((Boolean) iblockdata3.func_177229_b(BlockVine.field_176279_N)).booleanValue() || ((Boolean) iblockdata3.func_177229_b(BlockVine.field_176280_O)).booleanValue()) {
                                     // CraftBukkit start - Call BlockSpreadEvent
                                     // world.setTypeAndData(blockposition2, iblockdata3, 2);
-                                    org.bukkit.block.Block source = world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ());
-                                    org.bukkit.block.Block bukkitBlock = world.getWorld().getBlockAt(blockposition2.getX(), blockposition2.getY(), blockposition2.getZ());
-                                    CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this, getMetaFromState(iblockdata3));
+                                    org.bukkit.block.Block source = world.getWorld().getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
+                                    org.bukkit.block.Block bukkitBlock = world.getWorld().getBlockAt(blockposition2.func_177958_n(), blockposition2.func_177956_o(), blockposition2.func_177952_p());
+                                    CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this, func_176201_c(iblockdata3));
                                     // CraftBukkit end
                                 }
                             } else if (block == this) {
@@ -288,15 +288,15 @@ public class BlockVine extends Block {
 
                                 while (iterator1.hasNext()) {
                                     enumdirection4 = (EnumFacing) iterator1.next();
-                                    PropertyBool blockstateboolean = getPropertyFor(enumdirection4);
+                                    PropertyBool blockstateboolean = func_176267_a(enumdirection4);
 
-                                    if (random.nextBoolean() && ((Boolean) iblockdata.getValue(blockstateboolean)).booleanValue()) {
-                                        iblockdata3 = iblockdata3.withProperty(blockstateboolean, Boolean.valueOf(true));
+                                    if (random.nextBoolean() && ((Boolean) iblockdata.func_177229_b(blockstateboolean)).booleanValue()) {
+                                        iblockdata3 = iblockdata3.func_177226_a(blockstateboolean, Boolean.valueOf(true));
                                     }
                                 }
 
-                                if (((Boolean) iblockdata3.getValue(BlockVine.NORTH)).booleanValue() || ((Boolean) iblockdata3.getValue(BlockVine.EAST)).booleanValue() || ((Boolean) iblockdata3.getValue(BlockVine.SOUTH)).booleanValue() || ((Boolean) iblockdata3.getValue(BlockVine.WEST)).booleanValue()) {
-                                    world.setBlockState(blockposition2, iblockdata3, 2);
+                                if (((Boolean) iblockdata3.func_177229_b(BlockVine.field_176273_b)).booleanValue() || ((Boolean) iblockdata3.func_177229_b(BlockVine.field_176278_M)).booleanValue() || ((Boolean) iblockdata3.func_177229_b(BlockVine.field_176279_N)).booleanValue() || ((Boolean) iblockdata3.func_177229_b(BlockVine.field_176280_O)).booleanValue()) {
+                                    world.func_180501_a(blockposition2, iblockdata3, 2);
                                 }
                             }
                         }
@@ -307,120 +307,120 @@ public class BlockVine extends Block {
         }
     }
 
-    public IBlockState getStateForPlacement(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
-        IBlockState iblockdata = this.getDefaultState().withProperty(BlockVine.UP, Boolean.valueOf(false)).withProperty(BlockVine.NORTH, Boolean.valueOf(false)).withProperty(BlockVine.EAST, Boolean.valueOf(false)).withProperty(BlockVine.SOUTH, Boolean.valueOf(false)).withProperty(BlockVine.WEST, Boolean.valueOf(false));
+    public IBlockState func_180642_a(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
+        IBlockState iblockdata = this.func_176223_P().func_177226_a(BlockVine.field_176277_a, Boolean.valueOf(false)).func_177226_a(BlockVine.field_176273_b, Boolean.valueOf(false)).func_177226_a(BlockVine.field_176278_M, Boolean.valueOf(false)).func_177226_a(BlockVine.field_176279_N, Boolean.valueOf(false)).func_177226_a(BlockVine.field_176280_O, Boolean.valueOf(false));
 
-        return enumdirection.getAxis().isHorizontal() ? iblockdata.withProperty(getPropertyFor(enumdirection.getOpposite()), Boolean.valueOf(true)) : iblockdata;
+        return enumdirection.func_176740_k().func_176722_c() ? iblockdata.func_177226_a(func_176267_a(enumdirection.func_176734_d()), Boolean.valueOf(true)) : iblockdata;
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return Items.AIR;
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return Items.field_190931_a;
     }
 
-    public int quantityDropped(Random random) {
+    public int func_149745_a(Random random) {
         return 0;
     }
 
-    public void harvestBlock(World world, EntityPlayer entityhuman, BlockPos blockposition, IBlockState iblockdata, @Nullable TileEntity tileentity, ItemStack itemstack) {
-        if (!world.isRemote && itemstack.getItem() == Items.SHEARS) {
-            entityhuman.addStat(StatList.getBlockStats((Block) this));
-            spawnAsEntity(world, blockposition, new ItemStack(Blocks.VINE, 1, 0));
+    public void func_180657_a(World world, EntityPlayer entityhuman, BlockPos blockposition, IBlockState iblockdata, @Nullable TileEntity tileentity, ItemStack itemstack) {
+        if (!world.field_72995_K && itemstack.func_77973_b() == Items.field_151097_aZ) {
+            entityhuman.func_71029_a(StatList.func_188055_a((Block) this));
+            func_180635_a(world, blockposition, new ItemStack(Blocks.field_150395_bd, 1, 0));
         } else {
-            super.harvestBlock(world, entityhuman, blockposition, iblockdata, tileentity, itemstack);
+            super.func_180657_a(world, entityhuman, blockposition, iblockdata, tileentity, itemstack);
         }
 
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockVine.SOUTH, Boolean.valueOf((i & 1) > 0)).withProperty(BlockVine.WEST, Boolean.valueOf((i & 2) > 0)).withProperty(BlockVine.NORTH, Boolean.valueOf((i & 4) > 0)).withProperty(BlockVine.EAST, Boolean.valueOf((i & 8) > 0));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockVine.field_176279_N, Boolean.valueOf((i & 1) > 0)).func_177226_a(BlockVine.field_176280_O, Boolean.valueOf((i & 2) > 0)).func_177226_a(BlockVine.field_176273_b, Boolean.valueOf((i & 4) > 0)).func_177226_a(BlockVine.field_176278_M, Boolean.valueOf((i & 8) > 0));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         int i = 0;
 
-        if (((Boolean) iblockdata.getValue(BlockVine.SOUTH)).booleanValue()) {
+        if (((Boolean) iblockdata.func_177229_b(BlockVine.field_176279_N)).booleanValue()) {
             i |= 1;
         }
 
-        if (((Boolean) iblockdata.getValue(BlockVine.WEST)).booleanValue()) {
+        if (((Boolean) iblockdata.func_177229_b(BlockVine.field_176280_O)).booleanValue()) {
             i |= 2;
         }
 
-        if (((Boolean) iblockdata.getValue(BlockVine.NORTH)).booleanValue()) {
+        if (((Boolean) iblockdata.func_177229_b(BlockVine.field_176273_b)).booleanValue()) {
             i |= 4;
         }
 
-        if (((Boolean) iblockdata.getValue(BlockVine.EAST)).booleanValue()) {
+        if (((Boolean) iblockdata.func_177229_b(BlockVine.field_176278_M)).booleanValue()) {
             i |= 8;
         }
 
         return i;
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockVine.UP, BlockVine.NORTH, BlockVine.EAST, BlockVine.SOUTH, BlockVine.WEST});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockVine.field_176277_a, BlockVine.field_176273_b, BlockVine.field_176278_M, BlockVine.field_176279_N, BlockVine.field_176280_O});
     }
 
-    public IBlockState withRotation(IBlockState iblockdata, Rotation enumblockrotation) {
+    public IBlockState func_185499_a(IBlockState iblockdata, Rotation enumblockrotation) {
         switch (enumblockrotation) {
         case CLOCKWISE_180:
-            return iblockdata.withProperty(BlockVine.NORTH, iblockdata.getValue(BlockVine.SOUTH)).withProperty(BlockVine.EAST, iblockdata.getValue(BlockVine.WEST)).withProperty(BlockVine.SOUTH, iblockdata.getValue(BlockVine.NORTH)).withProperty(BlockVine.WEST, iblockdata.getValue(BlockVine.EAST));
+            return iblockdata.func_177226_a(BlockVine.field_176273_b, iblockdata.func_177229_b(BlockVine.field_176279_N)).func_177226_a(BlockVine.field_176278_M, iblockdata.func_177229_b(BlockVine.field_176280_O)).func_177226_a(BlockVine.field_176279_N, iblockdata.func_177229_b(BlockVine.field_176273_b)).func_177226_a(BlockVine.field_176280_O, iblockdata.func_177229_b(BlockVine.field_176278_M));
 
         case COUNTERCLOCKWISE_90:
-            return iblockdata.withProperty(BlockVine.NORTH, iblockdata.getValue(BlockVine.EAST)).withProperty(BlockVine.EAST, iblockdata.getValue(BlockVine.SOUTH)).withProperty(BlockVine.SOUTH, iblockdata.getValue(BlockVine.WEST)).withProperty(BlockVine.WEST, iblockdata.getValue(BlockVine.NORTH));
+            return iblockdata.func_177226_a(BlockVine.field_176273_b, iblockdata.func_177229_b(BlockVine.field_176278_M)).func_177226_a(BlockVine.field_176278_M, iblockdata.func_177229_b(BlockVine.field_176279_N)).func_177226_a(BlockVine.field_176279_N, iblockdata.func_177229_b(BlockVine.field_176280_O)).func_177226_a(BlockVine.field_176280_O, iblockdata.func_177229_b(BlockVine.field_176273_b));
 
         case CLOCKWISE_90:
-            return iblockdata.withProperty(BlockVine.NORTH, iblockdata.getValue(BlockVine.WEST)).withProperty(BlockVine.EAST, iblockdata.getValue(BlockVine.NORTH)).withProperty(BlockVine.SOUTH, iblockdata.getValue(BlockVine.EAST)).withProperty(BlockVine.WEST, iblockdata.getValue(BlockVine.SOUTH));
+            return iblockdata.func_177226_a(BlockVine.field_176273_b, iblockdata.func_177229_b(BlockVine.field_176280_O)).func_177226_a(BlockVine.field_176278_M, iblockdata.func_177229_b(BlockVine.field_176273_b)).func_177226_a(BlockVine.field_176279_N, iblockdata.func_177229_b(BlockVine.field_176278_M)).func_177226_a(BlockVine.field_176280_O, iblockdata.func_177229_b(BlockVine.field_176279_N));
 
         default:
             return iblockdata;
         }
     }
 
-    public IBlockState withMirror(IBlockState iblockdata, Mirror enumblockmirror) {
+    public IBlockState func_185471_a(IBlockState iblockdata, Mirror enumblockmirror) {
         switch (enumblockmirror) {
         case LEFT_RIGHT:
-            return iblockdata.withProperty(BlockVine.NORTH, iblockdata.getValue(BlockVine.SOUTH)).withProperty(BlockVine.SOUTH, iblockdata.getValue(BlockVine.NORTH));
+            return iblockdata.func_177226_a(BlockVine.field_176273_b, iblockdata.func_177229_b(BlockVine.field_176279_N)).func_177226_a(BlockVine.field_176279_N, iblockdata.func_177229_b(BlockVine.field_176273_b));
 
         case FRONT_BACK:
-            return iblockdata.withProperty(BlockVine.EAST, iblockdata.getValue(BlockVine.WEST)).withProperty(BlockVine.WEST, iblockdata.getValue(BlockVine.EAST));
+            return iblockdata.func_177226_a(BlockVine.field_176278_M, iblockdata.func_177229_b(BlockVine.field_176280_O)).func_177226_a(BlockVine.field_176280_O, iblockdata.func_177229_b(BlockVine.field_176278_M));
 
         default:
-            return super.withMirror(iblockdata, enumblockmirror);
+            return super.func_185471_a(iblockdata, enumblockmirror);
         }
     }
 
-    public static PropertyBool getPropertyFor(EnumFacing enumdirection) {
+    public static PropertyBool func_176267_a(EnumFacing enumdirection) {
         switch (enumdirection) {
         case UP:
-            return BlockVine.UP;
+            return BlockVine.field_176277_a;
 
         case NORTH:
-            return BlockVine.NORTH;
+            return BlockVine.field_176273_b;
 
         case SOUTH:
-            return BlockVine.SOUTH;
+            return BlockVine.field_176279_N;
 
         case WEST:
-            return BlockVine.WEST;
+            return BlockVine.field_176280_O;
 
         case EAST:
-            return BlockVine.EAST;
+            return BlockVine.field_176278_M;
 
         default:
             throw new IllegalArgumentException(enumdirection + " is an invalid choice");
         }
     }
 
-    public static int getNumGrownFaces(IBlockState iblockdata) {
+    public static int func_176268_d(IBlockState iblockdata) {
         int i = 0;
-        PropertyBool[] ablockstateboolean = BlockVine.ALL_FACES;
+        PropertyBool[] ablockstateboolean = BlockVine.field_176274_P;
         int j = ablockstateboolean.length;
 
         for (int k = 0; k < j; ++k) {
             PropertyBool blockstateboolean = ablockstateboolean[k];
 
-            if (((Boolean) iblockdata.getValue(blockstateboolean)).booleanValue()) {
+            if (((Boolean) iblockdata.func_177229_b(blockstateboolean)).booleanValue()) {
                 ++i;
             }
         }
@@ -428,7 +428,7 @@ public class BlockVine extends Block {
         return i;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.UNDEFINED;
     }
 }

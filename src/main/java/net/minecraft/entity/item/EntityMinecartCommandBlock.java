@@ -26,38 +26,38 @@ import net.minecraft.world.World;
 
 public class EntityMinecartCommandBlock extends EntityMinecart {
 
-    public static final DataParameter<String> COMMAND = EntityDataManager.createKey(EntityMinecartCommandBlock.class, DataSerializers.STRING);
-    private static final DataParameter<ITextComponent> LAST_OUTPUT = EntityDataManager.createKey(EntityMinecartCommandBlock.class, DataSerializers.TEXT_COMPONENT);
-    private final CommandBlockBaseLogic commandBlockLogic = new CommandBlockBaseLogic() {
+    public static final DataParameter<String> field_184273_a = EntityDataManager.func_187226_a(EntityMinecartCommandBlock.class, DataSerializers.field_187194_d);
+    private static final DataParameter<ITextComponent> field_184274_b = EntityDataManager.func_187226_a(EntityMinecartCommandBlock.class, DataSerializers.field_187195_e);
+    private final CommandBlockBaseLogic field_145824_a = new CommandBlockBaseLogic() {
         {
             this.sender = (org.bukkit.craftbukkit.entity.CraftMinecartCommand) EntityMinecartCommandBlock.this.getBukkitEntity(); // CraftBukkit - Set the sender
         }
-        public void updateCommand() {
-            EntityMinecartCommandBlock.this.getDataManager().set(EntityMinecartCommandBlock.COMMAND, this.getCommand());
-            EntityMinecartCommandBlock.this.getDataManager().set(EntityMinecartCommandBlock.LAST_OUTPUT, this.getLastOutput());
+        public void func_145756_e() {
+            EntityMinecartCommandBlock.this.func_184212_Q().func_187227_b(EntityMinecartCommandBlock.field_184273_a, this.func_145753_i());
+            EntityMinecartCommandBlock.this.func_184212_Q().func_187227_b(EntityMinecartCommandBlock.field_184274_b, this.func_145749_h());
         }
 
-        public BlockPos getPosition() {
-            return new BlockPos(EntityMinecartCommandBlock.this.posX, EntityMinecartCommandBlock.this.posY + 0.5D, EntityMinecartCommandBlock.this.posZ);
+        public BlockPos func_180425_c() {
+            return new BlockPos(EntityMinecartCommandBlock.this.field_70165_t, EntityMinecartCommandBlock.this.field_70163_u + 0.5D, EntityMinecartCommandBlock.this.field_70161_v);
         }
 
-        public Vec3d getPositionVector() {
-            return new Vec3d(EntityMinecartCommandBlock.this.posX, EntityMinecartCommandBlock.this.posY, EntityMinecartCommandBlock.this.posZ);
+        public Vec3d func_174791_d() {
+            return new Vec3d(EntityMinecartCommandBlock.this.field_70165_t, EntityMinecartCommandBlock.this.field_70163_u, EntityMinecartCommandBlock.this.field_70161_v);
         }
 
-        public World getEntityWorld() {
-            return EntityMinecartCommandBlock.this.world;
+        public World func_130014_f_() {
+            return EntityMinecartCommandBlock.this.field_70170_p;
         }
 
-        public Entity getCommandSenderEntity() {
+        public Entity func_174793_f() {
             return EntityMinecartCommandBlock.this;
         }
 
-        public MinecraftServer getServer() {
-            return EntityMinecartCommandBlock.this.world.getMinecraftServer();
+        public MinecraftServer func_184102_h() {
+            return EntityMinecartCommandBlock.this.field_70170_p.func_73046_m();
         }
     };
-    private int activatorRailCooldown;
+    private int field_145823_b;
 
     public EntityMinecartCommandBlock(World world) {
         super(world);
@@ -67,14 +67,14 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
         super(world, d0, d1, d2);
     }
 
-    public static void registerFixesMinecartCommand(DataFixer dataconvertermanager) {
-        EntityMinecart.registerFixesMinecart(dataconvertermanager, EntityMinecartCommandBlock.class);
-        dataconvertermanager.registerWalker(FixTypes.ENTITY, new IDataWalker() {
-            public NBTTagCompound process(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
-                if (TileEntity.getKey(TileEntityCommandBlock.class).equals(new ResourceLocation(nbttagcompound.getString("id")))) {
-                    nbttagcompound.setString("id", "Control");
-                    dataconverter.process(FixTypes.BLOCK_ENTITY, nbttagcompound, i);
-                    nbttagcompound.setString("id", "MinecartCommandBlock");
+    public static void func_189670_a(DataFixer dataconvertermanager) {
+        EntityMinecart.func_189669_a(dataconvertermanager, EntityMinecartCommandBlock.class);
+        dataconvertermanager.func_188258_a(FixTypes.ENTITY, new IDataWalker() {
+            public NBTTagCompound func_188266_a(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
+                if (TileEntity.func_190559_a(TileEntityCommandBlock.class).equals(new ResourceLocation(nbttagcompound.func_74779_i("id")))) {
+                    nbttagcompound.func_74778_a("id", "Control");
+                    dataconverter.func_188251_a(FixTypes.BLOCK_ENTITY, nbttagcompound, i);
+                    nbttagcompound.func_74778_a("id", "MinecartCommandBlock");
                 }
 
                 return nbttagcompound;
@@ -82,64 +82,64 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
         });
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.getDataManager().register(EntityMinecartCommandBlock.COMMAND, "");
-        this.getDataManager().register(EntityMinecartCommandBlock.LAST_OUTPUT, new TextComponentString(""));
+    protected void func_70088_a() {
+        super.func_70088_a();
+        this.func_184212_Q().func_187214_a(EntityMinecartCommandBlock.field_184273_a, "");
+        this.func_184212_Q().func_187214_a(EntityMinecartCommandBlock.field_184274_b, new TextComponentString(""));
     }
 
-    protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        super.readEntityFromNBT(nbttagcompound);
-        this.commandBlockLogic.readDataFromNBT(nbttagcompound);
-        this.getDataManager().set(EntityMinecartCommandBlock.COMMAND, this.getCommandBlockLogic().getCommand());
-        this.getDataManager().set(EntityMinecartCommandBlock.LAST_OUTPUT, this.getCommandBlockLogic().getLastOutput());
+    protected void func_70037_a(NBTTagCompound nbttagcompound) {
+        super.func_70037_a(nbttagcompound);
+        this.field_145824_a.func_145759_b(nbttagcompound);
+        this.func_184212_Q().func_187227_b(EntityMinecartCommandBlock.field_184273_a, this.func_145822_e().func_145753_i());
+        this.func_184212_Q().func_187227_b(EntityMinecartCommandBlock.field_184274_b, this.func_145822_e().func_145749_h());
     }
 
-    protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        super.writeEntityToNBT(nbttagcompound);
-        this.commandBlockLogic.writeToNBT(nbttagcompound);
+    protected void func_70014_b(NBTTagCompound nbttagcompound) {
+        super.func_70014_b(nbttagcompound);
+        this.field_145824_a.func_189510_a(nbttagcompound);
     }
 
-    public EntityMinecart.Type getType() {
+    public EntityMinecart.Type func_184264_v() {
         return EntityMinecart.Type.COMMAND_BLOCK;
     }
 
-    public IBlockState getDefaultDisplayTile() {
-        return Blocks.COMMAND_BLOCK.getDefaultState();
+    public IBlockState func_180457_u() {
+        return Blocks.field_150483_bI.func_176223_P();
     }
 
-    public CommandBlockBaseLogic getCommandBlockLogic() {
-        return this.commandBlockLogic;
+    public CommandBlockBaseLogic func_145822_e() {
+        return this.field_145824_a;
     }
 
-    public void onActivatorRailPass(int i, int j, int k, boolean flag) {
-        if (flag && this.ticksExisted - this.activatorRailCooldown >= 4) {
-            this.getCommandBlockLogic().trigger(this.world);
-            this.activatorRailCooldown = this.ticksExisted;
+    public void func_96095_a(int i, int j, int k, boolean flag) {
+        if (flag && this.field_70173_aa - this.field_145823_b >= 4) {
+            this.func_145822_e().func_145755_a(this.field_70170_p);
+            this.field_145823_b = this.field_70173_aa;
         }
 
     }
 
-    public boolean processInitialInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        this.commandBlockLogic.tryOpenEditCommandBlock(entityhuman);
+    public boolean func_184230_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        this.field_145824_a.func_175574_a(entityhuman);
         return false;
     }
 
-    public void notifyDataManagerChange(DataParameter<?> datawatcherobject) {
-        super.notifyDataManagerChange(datawatcherobject);
-        if (EntityMinecartCommandBlock.LAST_OUTPUT.equals(datawatcherobject)) {
+    public void func_184206_a(DataParameter<?> datawatcherobject) {
+        super.func_184206_a(datawatcherobject);
+        if (EntityMinecartCommandBlock.field_184274_b.equals(datawatcherobject)) {
             try {
-                this.commandBlockLogic.setLastOutput((ITextComponent) this.getDataManager().get(EntityMinecartCommandBlock.LAST_OUTPUT));
+                this.field_145824_a.func_145750_b((ITextComponent) this.func_184212_Q().func_187225_a(EntityMinecartCommandBlock.field_184274_b));
             } catch (Throwable throwable) {
                 ;
             }
-        } else if (EntityMinecartCommandBlock.COMMAND.equals(datawatcherobject)) {
-            this.commandBlockLogic.setCommand((String) this.getDataManager().get(EntityMinecartCommandBlock.COMMAND));
+        } else if (EntityMinecartCommandBlock.field_184273_a.equals(datawatcherobject)) {
+            this.field_145824_a.func_145752_a((String) this.func_184212_Q().func_187225_a(EntityMinecartCommandBlock.field_184273_a));
         }
 
     }
 
-    public boolean ignoreItemEntityData() {
+    public boolean func_184213_bq() {
         return true;
     }
 }

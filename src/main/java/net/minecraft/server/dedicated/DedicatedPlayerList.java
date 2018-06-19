@@ -9,143 +9,143 @@ import net.minecraft.server.management.PlayerList;
 
 public class DedicatedPlayerList extends PlayerList {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger field_164439_d = LogManager.getLogger();
 
     public DedicatedPlayerList(DedicatedServer dedicatedserver) {
         super(dedicatedserver);
-        this.setViewDistance(dedicatedserver.getIntProperty("view-distance", 10));
-        this.maxPlayers = dedicatedserver.getIntProperty("max-players", 20);
-        this.setWhiteListEnabled(dedicatedserver.getBooleanProperty("white-list", false));
-        if (!dedicatedserver.isSinglePlayer()) {
-            this.getBannedPlayers().setLanServer(true);
-            this.getBannedIPs().setLanServer(true);
+        this.func_152611_a(dedicatedserver.func_71327_a("view-distance", 10));
+        this.field_72405_c = dedicatedserver.func_71327_a("max-players", 20);
+        this.func_72371_a(dedicatedserver.func_71332_a("white-list", false));
+        if (!dedicatedserver.func_71264_H()) {
+            this.func_152608_h().func_152686_a(true);
+            this.func_72363_f().func_152686_a(true);
         }
 
-        this.loadPlayerBanList();
-        this.savePlayerBanList();
-        this.loadIPBanList();
-        this.saveIPBanList();
-        this.loadOpsList();
-        this.readWhiteList();
-        this.saveOpsList();
-        if (!this.getWhitelistedPlayers().getSaveFile().exists()) {
-            this.saveWhiteList();
+        this.func_187246_z();
+        this.func_187248_x();
+        this.func_187249_y();
+        this.func_187247_w();
+        this.func_72417_t();
+        this.func_72418_v();
+        this.func_72419_u();
+        if (!this.func_152599_k().func_152691_c().exists()) {
+            this.func_72421_w();
         }
 
     }
 
-    public void setWhiteListEnabled(boolean flag) {
-        super.setWhiteListEnabled(flag);
-        this.getServerInstance().setProperty("white-list", (Object) Boolean.valueOf(flag));
-        this.getServerInstance().saveProperties();
+    public void func_72371_a(boolean flag) {
+        super.func_72371_a(flag);
+        this.func_72365_p().func_71328_a("white-list", (Object) Boolean.valueOf(flag));
+        this.func_72365_p().func_71326_a();
     }
 
-    public void addOp(GameProfile gameprofile) {
-        super.addOp(gameprofile);
-        this.saveOpsList();
+    public void func_152605_a(GameProfile gameprofile) {
+        super.func_152605_a(gameprofile);
+        this.func_72419_u();
     }
 
-    public void removeOp(GameProfile gameprofile) {
-        super.removeOp(gameprofile);
-        this.saveOpsList();
+    public void func_152610_b(GameProfile gameprofile) {
+        super.func_152610_b(gameprofile);
+        this.func_72419_u();
     }
 
-    public void removePlayerFromWhitelist(GameProfile gameprofile) {
-        super.removePlayerFromWhitelist(gameprofile);
-        this.saveWhiteList();
+    public void func_152597_c(GameProfile gameprofile) {
+        super.func_152597_c(gameprofile);
+        this.func_72421_w();
     }
 
-    public void addWhitelistedPlayer(GameProfile gameprofile) {
-        super.addWhitelistedPlayer(gameprofile);
-        this.saveWhiteList();
+    public void func_152601_d(GameProfile gameprofile) {
+        super.func_152601_d(gameprofile);
+        this.func_72421_w();
     }
 
-    public void reloadWhitelist() {
-        this.readWhiteList();
+    public void func_187244_a() {
+        this.func_72418_v();
     }
 
-    private void saveIPBanList() {
+    private void func_187247_w() {
         try {
-            this.getBannedIPs().writeChanges();
+            this.func_72363_f().func_152678_f();
         } catch (IOException ioexception) {
-            DedicatedPlayerList.LOGGER.warn("Failed to save ip banlist: ", ioexception);
+            DedicatedPlayerList.field_164439_d.warn("Failed to save ip banlist: ", ioexception);
         }
 
     }
 
-    private void savePlayerBanList() {
+    private void func_187248_x() {
         try {
-            this.getBannedPlayers().writeChanges();
+            this.func_152608_h().func_152678_f();
         } catch (IOException ioexception) {
-            DedicatedPlayerList.LOGGER.warn("Failed to save user banlist: ", ioexception);
+            DedicatedPlayerList.field_164439_d.warn("Failed to save user banlist: ", ioexception);
         }
 
     }
 
-    private void loadIPBanList() {
+    private void func_187249_y() {
         try {
-            this.getBannedIPs().readSavedFile();
+            this.func_72363_f().func_152679_g();
         } catch (IOException ioexception) {
-            DedicatedPlayerList.LOGGER.warn("Failed to load ip banlist: ", ioexception);
+            DedicatedPlayerList.field_164439_d.warn("Failed to load ip banlist: ", ioexception);
         }
 
     }
 
-    private void loadPlayerBanList() {
+    private void func_187246_z() {
         try {
-            this.getBannedPlayers().readSavedFile();
+            this.func_152608_h().func_152679_g();
         } catch (IOException ioexception) {
-            DedicatedPlayerList.LOGGER.warn("Failed to load user banlist: ", ioexception);
+            DedicatedPlayerList.field_164439_d.warn("Failed to load user banlist: ", ioexception);
         }
 
     }
 
-    private void loadOpsList() {
+    private void func_72417_t() {
         try {
-            this.getOppedPlayers().readSavedFile();
+            this.func_152603_m().func_152679_g();
         } catch (Exception exception) {
-            DedicatedPlayerList.LOGGER.warn("Failed to load operators list: ", exception);
+            DedicatedPlayerList.field_164439_d.warn("Failed to load operators list: ", exception);
         }
 
     }
 
-    private void saveOpsList() {
+    private void func_72419_u() {
         try {
-            this.getOppedPlayers().writeChanges();
+            this.func_152603_m().func_152678_f();
         } catch (Exception exception) {
-            DedicatedPlayerList.LOGGER.warn("Failed to save operators list: ", exception);
+            DedicatedPlayerList.field_164439_d.warn("Failed to save operators list: ", exception);
         }
 
     }
 
-    private void readWhiteList() {
+    private void func_72418_v() {
         try {
-            this.getWhitelistedPlayers().readSavedFile();
+            this.func_152599_k().func_152679_g();
         } catch (Exception exception) {
-            DedicatedPlayerList.LOGGER.warn("Failed to load white-list: ", exception);
+            DedicatedPlayerList.field_164439_d.warn("Failed to load white-list: ", exception);
         }
 
     }
 
-    private void saveWhiteList() {
+    private void func_72421_w() {
         try {
-            this.getWhitelistedPlayers().writeChanges();
+            this.func_152599_k().func_152678_f();
         } catch (Exception exception) {
-            DedicatedPlayerList.LOGGER.warn("Failed to save white-list: ", exception);
+            DedicatedPlayerList.field_164439_d.warn("Failed to save white-list: ", exception);
         }
 
     }
 
-    public boolean canJoin(GameProfile gameprofile) {
-        return !this.isWhiteListEnabled() || this.canSendCommands(gameprofile) || this.getWhitelistedPlayers().isWhitelisted(gameprofile);
+    public boolean func_152607_e(GameProfile gameprofile) {
+        return !this.func_72383_n() || this.func_152596_g(gameprofile) || this.func_152599_k().func_152705_a(gameprofile);
     }
 
-    public DedicatedServer getServerInstance() {
-        return (DedicatedServer) super.getServerInstance();
+    public DedicatedServer func_72365_p() {
+        return (DedicatedServer) super.func_72365_p();
     }
 
-    public boolean bypassesPlayerLimit(GameProfile gameprofile) {
-        return this.getOppedPlayers().bypassesPlayerLimit(gameprofile);
+    public boolean func_183023_f(GameProfile gameprofile) {
+        return this.func_152603_m().func_183026_b(gameprofile);
     }
 
     public MinecraftServer getServer() {

@@ -15,93 +15,93 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockPlanks extends Block {
 
-    public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockPlanks.EnumType.class);
+    public static final PropertyEnum<BlockPlanks.EnumType> field_176383_a = PropertyEnum.func_177709_a("variant", BlockPlanks.EnumType.class);
 
     public BlockPlanks() {
-        super(Material.WOOD);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK));
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151575_d);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockPlanks.field_176383_a, BlockPlanks.EnumType.OAK));
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public int damageDropped(IBlockState iblockdata) {
-        return ((BlockPlanks.EnumType) iblockdata.getValue(BlockPlanks.VARIANT)).getMetadata();
+    public int func_180651_a(IBlockState iblockdata) {
+        return ((BlockPlanks.EnumType) iblockdata.func_177229_b(BlockPlanks.field_176383_a)).func_176839_a();
     }
 
-    public void getSubBlocks(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+    public void func_149666_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
         BlockPlanks.EnumType[] ablockwood_enumlogvariant = BlockPlanks.EnumType.values();
         int i = ablockwood_enumlogvariant.length;
 
         for (int j = 0; j < i; ++j) {
             BlockPlanks.EnumType blockwood_enumlogvariant = ablockwood_enumlogvariant[j];
 
-            nonnulllist.add(new ItemStack(this, 1, blockwood_enumlogvariant.getMetadata()));
+            nonnulllist.add(new ItemStack(this, 1, blockwood_enumlogvariant.func_176839_a()));
         }
 
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.byMetadata(i));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockPlanks.field_176383_a, BlockPlanks.EnumType.func_176837_a(i));
     }
 
-    public MapColor getMapColor(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return ((BlockPlanks.EnumType) iblockdata.getValue(BlockPlanks.VARIANT)).getMapColor();
+    public MapColor func_180659_g(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return ((BlockPlanks.EnumType) iblockdata.func_177229_b(BlockPlanks.field_176383_a)).func_181070_c();
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return ((BlockPlanks.EnumType) iblockdata.getValue(BlockPlanks.VARIANT)).getMetadata();
+    public int func_176201_c(IBlockState iblockdata) {
+        return ((BlockPlanks.EnumType) iblockdata.func_177229_b(BlockPlanks.field_176383_a)).func_176839_a();
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockPlanks.VARIANT});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockPlanks.field_176383_a});
     }
 
     public static enum EnumType implements IStringSerializable {
 
-        OAK(0, "oak", MapColor.WOOD), SPRUCE(1, "spruce", MapColor.OBSIDIAN), BIRCH(2, "birch", MapColor.SAND), JUNGLE(3, "jungle", MapColor.DIRT), ACACIA(4, "acacia", MapColor.ADOBE), DARK_OAK(5, "dark_oak", "big_oak", MapColor.BROWN);
+        OAK(0, "oak", MapColor.field_151663_o), SPRUCE(1, "spruce", MapColor.field_151654_J), BIRCH(2, "birch", MapColor.field_151658_d), JUNGLE(3, "jungle", MapColor.field_151664_l), ACACIA(4, "acacia", MapColor.field_151676_q), DARK_OAK(5, "dark_oak", "big_oak", MapColor.field_151650_B);
 
-        private static final BlockPlanks.EnumType[] META_LOOKUP = new BlockPlanks.EnumType[values().length];
-        private final int meta;
-        private final String name;
-        private final String unlocalizedName;
-        private final MapColor mapColor;
+        private static final BlockPlanks.EnumType[] field_176842_g = new BlockPlanks.EnumType[values().length];
+        private final int field_176850_h;
+        private final String field_176851_i;
+        private final String field_176848_j;
+        private final MapColor field_181071_k;
 
         private EnumType(int i, String s, MapColor materialmapcolor) {
             this(i, s, s, materialmapcolor);
         }
 
         private EnumType(int i, String s, String s1, MapColor materialmapcolor) {
-            this.meta = i;
-            this.name = s;
-            this.unlocalizedName = s1;
-            this.mapColor = materialmapcolor;
+            this.field_176850_h = i;
+            this.field_176851_i = s;
+            this.field_176848_j = s1;
+            this.field_181071_k = materialmapcolor;
         }
 
-        public int getMetadata() {
-            return this.meta;
+        public int func_176839_a() {
+            return this.field_176850_h;
         }
 
-        public MapColor getMapColor() {
-            return this.mapColor;
+        public MapColor func_181070_c() {
+            return this.field_181071_k;
         }
 
         public String toString() {
-            return this.name;
+            return this.field_176851_i;
         }
 
-        public static BlockPlanks.EnumType byMetadata(int i) {
-            if (i < 0 || i >= BlockPlanks.EnumType.META_LOOKUP.length) {
+        public static BlockPlanks.EnumType func_176837_a(int i) {
+            if (i < 0 || i >= BlockPlanks.EnumType.field_176842_g.length) {
                 i = 0;
             }
 
-            return BlockPlanks.EnumType.META_LOOKUP[i];
+            return BlockPlanks.EnumType.field_176842_g[i];
         }
 
-        public String getName() {
-            return this.name;
+        public String func_176610_l() {
+            return this.field_176851_i;
         }
 
-        public String getUnlocalizedName() {
-            return this.unlocalizedName;
+        public String func_176840_c() {
+            return this.field_176848_j;
         }
 
         static {
@@ -111,7 +111,7 @@ public class BlockPlanks extends Block {
             for (int j = 0; j < i; ++j) {
                 BlockPlanks.EnumType blockwood_enumlogvariant = ablockwood_enumlogvariant[j];
 
-                BlockPlanks.EnumType.META_LOOKUP[blockwood_enumlogvariant.getMetadata()] = blockwood_enumlogvariant;
+                BlockPlanks.EnumType.field_176842_g[blockwood_enumlogvariant.func_176839_a()] = blockwood_enumlogvariant;
             }
 
         }

@@ -8,23 +8,23 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketCloseWindow implements Packet<INetHandlerPlayClient> {
 
-    private int windowId;
+    private int field_148896_a;
 
     public SPacketCloseWindow() {}
 
     public SPacketCloseWindow(int i) {
-        this.windowId = i;
+        this.field_148896_a = i;
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleCloseWindow(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147276_a(this);
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.windowId = packetdataserializer.readUnsignedByte();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_148896_a = packetdataserializer.readUnsignedByte();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeByte(this.windowId);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeByte(this.field_148896_a);
     }
 }

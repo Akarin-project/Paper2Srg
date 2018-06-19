@@ -58,7 +58,7 @@ public class CraftBlockProjectileSource implements BlockProjectileSource {
 
     @Override
     public Block getBlock() {
-        return dispenserBlock.getWorld().getWorld().getBlockAt(dispenserBlock.getPos().getX(), dispenserBlock.getPos().getY(), dispenserBlock.getPos().getZ());
+        return dispenserBlock.func_145831_w().getWorld().getBlockAt(dispenserBlock.func_174877_v().func_177958_n(), dispenserBlock.func_174877_v().func_177956_o(), dispenserBlock.func_174877_v().func_177952_p());
     }
 
     @Override
@@ -70,66 +70,66 @@ public class CraftBlockProjectileSource implements BlockProjectileSource {
     public <T extends Projectile> T launchProjectile(Class<? extends T> projectile, Vector velocity) {
         Validate.isTrue(getBlock().getType() == Material.DISPENSER, "Block is no longer dispenser");
         // Copied from BlockDispenser.dispense()
-        BlockSourceImpl isourceblock = new BlockSourceImpl(dispenserBlock.getWorld(), dispenserBlock.getPos());
+        BlockSourceImpl isourceblock = new BlockSourceImpl(dispenserBlock.func_145831_w(), dispenserBlock.func_174877_v());
         // Copied from DispenseBehaviorProjectile
-        IPosition iposition = BlockDispenser.getDispensePosition(isourceblock);
-        EnumFacing enumdirection = (EnumFacing) isourceblock.getBlockState().getValue(BlockDispenser.FACING);
-        net.minecraft.world.World world = dispenserBlock.getWorld();
+        IPosition iposition = BlockDispenser.func_149939_a(isourceblock);
+        EnumFacing enumdirection = (EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
+        net.minecraft.world.World world = dispenserBlock.func_145831_w();
         net.minecraft.entity.Entity launch = null;
 
         if (Snowball.class.isAssignableFrom(projectile)) {
-            launch = new EntitySnowball(world, iposition.getX(), iposition.getY(), iposition.getZ());
+            launch = new EntitySnowball(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
         } else if (Egg.class.isAssignableFrom(projectile)) {
-            launch = new EntityEgg(world, iposition.getX(), iposition.getY(), iposition.getZ());
+            launch = new EntityEgg(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
         } else if (EnderPearl.class.isAssignableFrom(projectile)) {
             launch = new EntityEnderPearl(world, null);
-            launch.setPosition(iposition.getX(), iposition.getY(), iposition.getZ());
+            launch.func_70107_b(iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
         } else if (ThrownExpBottle.class.isAssignableFrom(projectile)) {
-            launch = new EntityExpBottle(world, iposition.getX(), iposition.getY(), iposition.getZ());
+            launch = new EntityExpBottle(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
         } else if (ThrownPotion.class.isAssignableFrom(projectile)) {
             if (LingeringPotion.class.isAssignableFrom(projectile)) {
-                launch = new EntityPotion(world, iposition.getX(), iposition.getY(), iposition.getZ(), CraftItemStack.asNMSCopy(new ItemStack(org.bukkit.Material.LINGERING_POTION, 1)));
+                launch = new EntityPotion(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c(), CraftItemStack.asNMSCopy(new ItemStack(org.bukkit.Material.LINGERING_POTION, 1)));
             } else {
-                launch = new EntityPotion(world, iposition.getX(), iposition.getY(), iposition.getZ(), CraftItemStack.asNMSCopy(new ItemStack(org.bukkit.Material.SPLASH_POTION, 1)));
+                launch = new EntityPotion(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c(), CraftItemStack.asNMSCopy(new ItemStack(org.bukkit.Material.SPLASH_POTION, 1)));
             }
         } else if (Arrow.class.isAssignableFrom(projectile)) {
             if (TippedArrow.class.isAssignableFrom(projectile)) {
-                launch = new EntityTippedArrow(world, iposition.getX(), iposition.getY(), iposition.getZ());
+                launch = new EntityTippedArrow(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
                 ((EntityTippedArrow) launch).setType(CraftPotionUtil.fromBukkit(new PotionData(PotionType.WATER, false, false)));
             } else if (SpectralArrow.class.isAssignableFrom(projectile)) {
-                launch = new EntitySpectralArrow(world, iposition.getX(), iposition.getY(), iposition.getZ());
+                launch = new EntitySpectralArrow(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
             } else {
-                launch = new EntityTippedArrow(world, iposition.getX(), iposition.getY(), iposition.getZ());
+                launch = new EntityTippedArrow(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
             }
-            ((EntityArrow) launch).pickupStatus = EntityArrow.PickupStatus.ALLOWED;
+            ((EntityArrow) launch).field_70251_a = EntityArrow.PickupStatus.ALLOWED;
             ((EntityArrow) launch).projectileSource = this;
         } else if (Fireball.class.isAssignableFrom(projectile)) {
-            double d0 = iposition.getX() + (double) ((float) enumdirection.getFrontOffsetX() * 0.3F);
-            double d1 = iposition.getY() + (double) ((float) enumdirection.getFrontOffsetY() * 0.3F);
-            double d2 = iposition.getZ() + (double) ((float) enumdirection.getFrontOffsetZ() * 0.3F);
-            Random random = world.rand;
-            double d3 = random.nextGaussian() * 0.05D + (double) enumdirection.getFrontOffsetX();
-            double d4 = random.nextGaussian() * 0.05D + (double) enumdirection.getFrontOffsetY();
-            double d5 = random.nextGaussian() * 0.05D + (double) enumdirection.getFrontOffsetZ();
+            double d0 = iposition.func_82615_a() + (double) ((float) enumdirection.func_82601_c() * 0.3F);
+            double d1 = iposition.func_82617_b() + (double) ((float) enumdirection.func_96559_d() * 0.3F);
+            double d2 = iposition.func_82616_c() + (double) ((float) enumdirection.func_82599_e() * 0.3F);
+            Random random = world.field_73012_v;
+            double d3 = random.nextGaussian() * 0.05D + (double) enumdirection.func_82601_c();
+            double d4 = random.nextGaussian() * 0.05D + (double) enumdirection.func_96559_d();
+            double d5 = random.nextGaussian() * 0.05D + (double) enumdirection.func_82599_e();
 
             if (SmallFireball.class.isAssignableFrom(projectile)) {
                 launch = new EntitySmallFireball(world, null, d0, d1, d2);
             } else if (WitherSkull.class.isAssignableFrom(projectile)) {
                 launch = new EntityWitherSkull(world);
-                launch.setPosition(d0, d1, d2);
-                double d6 = (double) MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
+                launch.func_70107_b(d0, d1, d2);
+                double d6 = (double) MathHelper.func_76133_a(d3 * d3 + d4 * d4 + d5 * d5);
 
-                ((EntityFireball) launch).accelerationX = d3 / d6 * 0.1D;
-                ((EntityFireball) launch).accelerationY = d4 / d6 * 0.1D;
-                ((EntityFireball) launch).accelerationZ = d5 / d6 * 0.1D;
+                ((EntityFireball) launch).field_70232_b = d3 / d6 * 0.1D;
+                ((EntityFireball) launch).field_70233_c = d4 / d6 * 0.1D;
+                ((EntityFireball) launch).field_70230_d = d5 / d6 * 0.1D;
             } else {
                 launch = new EntityLargeFireball(world);
-                launch.setPosition(d0, d1, d2);
-                double d6 = (double) MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
+                launch.func_70107_b(d0, d1, d2);
+                double d6 = (double) MathHelper.func_76133_a(d3 * d3 + d4 * d4 + d5 * d5);
 
-                ((EntityFireball) launch).accelerationX = d3 / d6 * 0.1D;
-                ((EntityFireball) launch).accelerationY = d4 / d6 * 0.1D;
-                ((EntityFireball) launch).accelerationZ = d5 / d6 * 0.1D;
+                ((EntityFireball) launch).field_70232_b = d3 / d6 * 0.1D;
+                ((EntityFireball) launch).field_70233_c = d4 / d6 * 0.1D;
+                ((EntityFireball) launch).field_70230_d = d5 / d6 * 0.1D;
             }
 
             ((EntityFireball) launch).projectileSource = this;
@@ -150,14 +150,14 @@ public class CraftBlockProjectileSource implements BlockProjectileSource {
                 b *= 1.25F;
             }
             // Copied from DispenseBehaviorProjectile
-            ((IProjectile) launch).shoot((double) enumdirection.getFrontOffsetX(), (double) ((float) enumdirection.getFrontOffsetY() + 0.1F), (double) enumdirection.getFrontOffsetZ(), b, a);
+            ((IProjectile) launch).func_70186_c((double) enumdirection.func_82601_c(), (double) ((float) enumdirection.func_96559_d() + 0.1F), (double) enumdirection.func_82599_e(), b, a);
         }
 
         if (velocity != null) {
             ((T) launch.getBukkitEntity()).setVelocity(velocity);
         }
 
-        world.spawnEntity(launch);
+        world.func_72838_d(launch);
         return (T) launch.getBukkitEntity();
     }
 }

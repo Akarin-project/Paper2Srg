@@ -10,7 +10,7 @@ public class SlotShulkerBox extends Slot {
         super(iinventory, i, j, k);
     }
 
-    public boolean isItemValid(ItemStack itemstack) {
-        return !(Block.getBlockFromItem(itemstack.getItem()) instanceof BlockShulkerBox);
+    public boolean func_75214_a(ItemStack itemstack) {
+        return !(Block.func_149634_a(itemstack.func_77973_b()) instanceof BlockShulkerBox);
     }
 }

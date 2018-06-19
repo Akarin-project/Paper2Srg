@@ -9,39 +9,39 @@ import net.minecraft.util.math.BlockPos;
 
 public class CPacketUpdateSign implements Packet<INetHandlerPlayServer> {
 
-    private BlockPos pos;
-    private String[] lines;
+    private BlockPos field_179723_a;
+    private String[] field_149590_d;
 
     public CPacketUpdateSign() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.pos = packetdataserializer.readBlockPos();
-        this.lines = new String[4];
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_179723_a = packetdataserializer.func_179259_c();
+        this.field_149590_d = new String[4];
 
         for (int i = 0; i < 4; ++i) {
-            this.lines[i] = packetdataserializer.readString(384);
+            this.field_149590_d[i] = packetdataserializer.func_150789_c(384);
         }
 
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeBlockPos(this.pos);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.func_179255_a(this.field_179723_a);
 
         for (int i = 0; i < 4; ++i) {
-            packetdataserializer.writeString(this.lines[i]);
+            packetdataserializer.func_180714_a(this.field_149590_d[i]);
         }
 
     }
 
-    public void processPacket(INetHandlerPlayServer packetlistenerplayin) {
-        packetlistenerplayin.processUpdateSign(this);
+    public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
+        packetlistenerplayin.func_147343_a(this);
     }
 
-    public BlockPos getPosition() {
-        return this.pos;
+    public BlockPos func_179722_a() {
+        return this.field_179723_a;
     }
 
-    public String[] getLines() {
-        return this.lines;
+    public String[] func_187017_b() {
+        return this.field_149590_d;
     }
 }

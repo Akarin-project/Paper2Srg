@@ -25,13 +25,13 @@ public class CraftSpellcaster extends CraftIllager implements Spellcaster {
 
     @Override
     public Spell getSpell() {
-        return Spell.valueOf(getHandle().getSpellType().name());
+        return Spell.valueOf(getHandle().func_193083_dm().name());
     }
 
     @Override
     public void setSpell(Spell spell) {
         Preconditions.checkArgument(spell != null, "Use Spell.NONE");
 
-        getHandle().setSpellType(EntitySpellcasterIllager.SpellType.getFromId(spell.ordinal()));
+        getHandle().func_193081_a(EntitySpellcasterIllager.SpellType.func_193337_a(spell.ordinal()));
     }
 }

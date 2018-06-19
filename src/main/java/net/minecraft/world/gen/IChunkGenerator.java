@@ -11,18 +11,18 @@ import net.minecraft.world.chunk.Chunk;
 
 public interface IChunkGenerator {
 
-    Chunk generateChunk(int i, int j);
+    Chunk func_185932_a(int i, int j);
 
-    void populate(int i, int j);
+    void func_185931_b(int i, int j);
 
-    boolean generateStructures(Chunk chunk, int i, int j);
+    boolean func_185933_a(Chunk chunk, int i, int j);
 
-    List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType enumcreaturetype, BlockPos blockposition);
+    List<Biome.SpawnListEntry> func_177458_a(EnumCreatureType enumcreaturetype, BlockPos blockposition);
 
     @Nullable
-    BlockPos getNearestStructurePos(World world, String s, BlockPos blockposition, boolean flag);
+    BlockPos func_180513_a(World world, String s, BlockPos blockposition, boolean flag);
 
-    void recreateStructures(Chunk chunk, int i, int j);
+    void func_180514_a(Chunk chunk, int i, int j);
 
-    boolean isInsideStructure(World world, String s, BlockPos blockposition);
+    boolean func_193414_a(World world, String s, BlockPos blockposition);
 }

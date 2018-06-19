@@ -23,19 +23,19 @@ import net.minecraft.util.math.BlockPos;
 
 public final class NBTUtil {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger field_193591_a = LogManager.getLogger();
 
     @Nullable
-    public static GameProfile readGameProfileFromNBT(NBTTagCompound nbttagcompound) {
+    public static GameProfile func_152459_a(NBTTagCompound nbttagcompound) {
         String s = null;
         String s1 = null;
 
-        if (nbttagcompound.hasKey("Name", 8)) {
-            s = nbttagcompound.getString("Name");
+        if (nbttagcompound.func_150297_b("Name", 8)) {
+            s = nbttagcompound.func_74779_i("Name");
         }
 
-        if (nbttagcompound.hasKey("Id", 8)) {
-            s1 = nbttagcompound.getString("Id");
+        if (nbttagcompound.func_150297_b("Id", 8)) {
+            s1 = nbttagcompound.func_74779_i("Id");
         }
 
         try {
@@ -49,20 +49,20 @@ public final class NBTUtil {
 
             GameProfile gameprofile = new GameProfile(uuid, s);
 
-            if (nbttagcompound.hasKey("Properties", 10)) {
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Properties");
-                Iterator iterator = nbttagcompound1.getKeySet().iterator();
+            if (nbttagcompound.func_150297_b("Properties", 10)) {
+                NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("Properties");
+                Iterator iterator = nbttagcompound1.func_150296_c().iterator();
 
                 while (iterator.hasNext()) {
                     String s2 = (String) iterator.next();
-                    NBTTagList nbttaglist = nbttagcompound1.getTagList(s2, 10);
+                    NBTTagList nbttaglist = nbttagcompound1.func_150295_c(s2, 10);
 
-                    for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                        NBTTagCompound nbttagcompound2 = nbttaglist.getCompoundTagAt(i);
-                        String s3 = nbttagcompound2.getString("Value");
+                    for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
+                        NBTTagCompound nbttagcompound2 = nbttaglist.func_150305_b(i);
+                        String s3 = nbttagcompound2.func_74779_i("Value");
 
-                        if (nbttagcompound2.hasKey("Signature", 8)) {
-                            gameprofile.getProperties().put(s2, new Property(s2, s3, nbttagcompound2.getString("Signature")));
+                        if (nbttagcompound2.func_150297_b("Signature", 8)) {
+                            gameprofile.getProperties().put(s2, new Property(s2, s3, nbttagcompound2.func_74779_i("Signature")));
                         } else {
                             gameprofile.getProperties().put(s2, new Property(s2, s3));
                         }
@@ -76,13 +76,13 @@ public final class NBTUtil {
         }
     }
 
-    public static NBTTagCompound writeGameProfile(NBTTagCompound nbttagcompound, GameProfile gameprofile) {
-        if (!StringUtils.isNullOrEmpty(gameprofile.getName())) {
-            nbttagcompound.setString("Name", gameprofile.getName());
+    public static NBTTagCompound func_180708_a(NBTTagCompound nbttagcompound, GameProfile gameprofile) {
+        if (!StringUtils.func_151246_b(gameprofile.getName())) {
+            nbttagcompound.func_74778_a("Name", gameprofile.getName());
         }
 
         if (gameprofile.getId() != null) {
-            nbttagcompound.setString("Id", gameprofile.getId().toString());
+            nbttagcompound.func_74778_a("Id", gameprofile.getId().toString());
         }
 
         if (!gameprofile.getProperties().isEmpty()) {
@@ -95,27 +95,27 @@ public final class NBTUtil {
 
                 NBTTagCompound nbttagcompound2;
 
-                for (Iterator iterator1 = gameprofile.getProperties().get(s).iterator(); iterator1.hasNext(); nbttaglist.appendTag(nbttagcompound2)) {
+                for (Iterator iterator1 = gameprofile.getProperties().get(s).iterator(); iterator1.hasNext(); nbttaglist.func_74742_a(nbttagcompound2)) {
                     Property property = (Property) iterator1.next();
 
                     nbttagcompound2 = new NBTTagCompound();
-                    nbttagcompound2.setString("Value", property.getValue());
+                    nbttagcompound2.func_74778_a("Value", property.getValue());
                     if (property.hasSignature()) {
-                        nbttagcompound2.setString("Signature", property.getSignature());
+                        nbttagcompound2.func_74778_a("Signature", property.getSignature());
                     }
                 }
 
-                nbttagcompound1.setTag(s, nbttaglist);
+                nbttagcompound1.func_74782_a(s, nbttaglist);
             }
 
-            nbttagcompound.setTag("Properties", nbttagcompound1);
+            nbttagcompound.func_74782_a("Properties", nbttagcompound1);
         }
 
         return nbttagcompound;
     }
 
     @VisibleForTesting
-    public static boolean areNBTEquals(NBTBase nbtbase, NBTBase nbtbase1, boolean flag) {
+    public static boolean func_181123_a(NBTBase nbtbase, NBTBase nbtbase1, boolean flag) {
         if (nbtbase == nbtbase1) {
             return true;
         } else if (nbtbase == null) {
@@ -127,7 +127,7 @@ public final class NBTUtil {
         } else if (nbtbase instanceof NBTTagCompound) {
             NBTTagCompound nbttagcompound = (NBTTagCompound) nbtbase;
             NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbtbase1;
-            Iterator iterator = nbttagcompound.getKeySet().iterator();
+            Iterator iterator = nbttagcompound.func_150296_c().iterator();
 
             String s;
             NBTBase nbtbase2;
@@ -138,27 +138,27 @@ public final class NBTUtil {
                 }
 
                 s = (String) iterator.next();
-                nbtbase2 = nbttagcompound.getTag(s);
-            } while (areNBTEquals(nbtbase2, nbttagcompound1.getTag(s), flag));
+                nbtbase2 = nbttagcompound.func_74781_a(s);
+            } while (func_181123_a(nbtbase2, nbttagcompound1.func_74781_a(s), flag));
 
             return false;
         } else if (nbtbase instanceof NBTTagList && flag) {
             NBTTagList nbttaglist = (NBTTagList) nbtbase;
             NBTTagList nbttaglist1 = (NBTTagList) nbtbase1;
 
-            if (nbttaglist.hasNoTags()) {
-                return nbttaglist1.hasNoTags();
+            if (nbttaglist.func_82582_d()) {
+                return nbttaglist1.func_82582_d();
             } else {
                 int i = 0;
 
-                while (i < nbttaglist.tagCount()) {
-                    NBTBase nbtbase3 = nbttaglist.get(i);
+                while (i < nbttaglist.func_74745_c()) {
+                    NBTBase nbtbase3 = nbttaglist.func_179238_g(i);
                     boolean flag1 = false;
                     int j = 0;
 
                     while (true) {
-                        if (j < nbttaglist1.tagCount()) {
-                            if (!areNBTEquals(nbtbase3, nbttaglist1.get(j), flag)) {
+                        if (j < nbttaglist1.func_74745_c()) {
+                            if (!func_181123_a(nbtbase3, nbttaglist1.func_179238_g(j), flag)) {
                                 ++j;
                                 continue;
                             }
@@ -182,49 +182,49 @@ public final class NBTUtil {
         }
     }
 
-    public static NBTTagCompound createUUIDTag(UUID uuid) {
+    public static NBTTagCompound func_186862_a(UUID uuid) {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-        nbttagcompound.setLong("M", uuid.getMostSignificantBits());
-        nbttagcompound.setLong("L", uuid.getLeastSignificantBits());
+        nbttagcompound.func_74772_a("M", uuid.getMostSignificantBits());
+        nbttagcompound.func_74772_a("L", uuid.getLeastSignificantBits());
         return nbttagcompound;
     }
 
-    public static UUID getUUIDFromTag(NBTTagCompound nbttagcompound) {
-        return new UUID(nbttagcompound.getLong("M"), nbttagcompound.getLong("L"));
+    public static UUID func_186860_b(NBTTagCompound nbttagcompound) {
+        return new UUID(nbttagcompound.func_74763_f("M"), nbttagcompound.func_74763_f("L"));
     }
 
-    public static BlockPos getPosFromTag(NBTTagCompound nbttagcompound) {
-        return new BlockPos(nbttagcompound.getInteger("X"), nbttagcompound.getInteger("Y"), nbttagcompound.getInteger("Z"));
+    public static BlockPos func_186861_c(NBTTagCompound nbttagcompound) {
+        return new BlockPos(nbttagcompound.func_74762_e("X"), nbttagcompound.func_74762_e("Y"), nbttagcompound.func_74762_e("Z"));
     }
 
-    public static NBTTagCompound createPosTag(BlockPos blockposition) {
+    public static NBTTagCompound func_186859_a(BlockPos blockposition) {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-        nbttagcompound.setInteger("X", blockposition.getX());
-        nbttagcompound.setInteger("Y", blockposition.getY());
-        nbttagcompound.setInteger("Z", blockposition.getZ());
+        nbttagcompound.func_74768_a("X", blockposition.func_177958_n());
+        nbttagcompound.func_74768_a("Y", blockposition.func_177956_o());
+        nbttagcompound.func_74768_a("Z", blockposition.func_177952_p());
         return nbttagcompound;
     }
 
-    public static IBlockState readBlockState(NBTTagCompound nbttagcompound) {
-        if (!nbttagcompound.hasKey("Name", 8)) {
-            return Blocks.AIR.getDefaultState();
+    public static IBlockState func_190008_d(NBTTagCompound nbttagcompound) {
+        if (!nbttagcompound.func_150297_b("Name", 8)) {
+            return Blocks.field_150350_a.func_176223_P();
         } else {
-            Block block = Block.REGISTRY.getObject(new ResourceLocation(nbttagcompound.getString("Name")));
-            IBlockState iblockdata = block.getDefaultState();
+            Block block = (Block) Block.field_149771_c.func_82594_a(new ResourceLocation(nbttagcompound.func_74779_i("Name")));
+            IBlockState iblockdata = block.func_176223_P();
 
-            if (nbttagcompound.hasKey("Properties", 10)) {
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Properties");
-                BlockStateContainer blockstatelist = block.getBlockState();
-                Iterator iterator = nbttagcompound1.getKeySet().iterator();
+            if (nbttagcompound.func_150297_b("Properties", 10)) {
+                NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("Properties");
+                BlockStateContainer blockstatelist = block.func_176194_O();
+                Iterator iterator = nbttagcompound1.func_150296_c().iterator();
 
                 while (iterator.hasNext()) {
                     String s = (String) iterator.next();
-                    IProperty iblockstate = blockstatelist.getProperty(s);
+                    IProperty iblockstate = blockstatelist.func_185920_a(s);
 
                     if (iblockstate != null) {
-                        iblockdata = setValueHelper(iblockdata, iblockstate, s, nbttagcompound1, nbttagcompound);
+                        iblockdata = func_193590_a(iblockdata, iblockstate, s, nbttagcompound1, nbttagcompound);
                     }
                 }
             }
@@ -233,37 +233,37 @@ public final class NBTUtil {
         }
     }
 
-    private static <T extends Comparable<T>> IBlockState setValueHelper(IBlockState iblockdata, IProperty<T> iblockstate, String s, NBTTagCompound nbttagcompound, NBTTagCompound nbttagcompound1) {
-        Optional optional = iblockstate.parseValue(nbttagcompound.getString(s));
+    private static <T extends Comparable<T>> IBlockState func_193590_a(IBlockState iblockdata, IProperty<T> iblockstate, String s, NBTTagCompound nbttagcompound, NBTTagCompound nbttagcompound1) {
+        Optional optional = iblockstate.func_185929_b(nbttagcompound.func_74779_i(s));
 
         if (optional.isPresent()) {
-            return iblockdata.withProperty(iblockstate, (Comparable) optional.get());
+            return iblockdata.func_177226_a(iblockstate, (Comparable) optional.get());
         } else {
-            NBTUtil.LOGGER.warn("Unable to read property: {} with value: {} for blockstate: {}", s, nbttagcompound.getString(s), nbttagcompound1.toString());
+            NBTUtil.field_193591_a.warn("Unable to read property: {} with value: {} for blockstate: {}", s, nbttagcompound.func_74779_i(s), nbttagcompound1.toString());
             return iblockdata;
         }
     }
 
-    public static NBTTagCompound writeBlockState(NBTTagCompound nbttagcompound, IBlockState iblockdata) {
-        nbttagcompound.setString("Name", Block.REGISTRY.getNameForObject(iblockdata.getBlock()).toString());
-        if (!iblockdata.getProperties().isEmpty()) {
+    public static NBTTagCompound func_190009_a(NBTTagCompound nbttagcompound, IBlockState iblockdata) {
+        nbttagcompound.func_74778_a("Name", ((ResourceLocation) Block.field_149771_c.func_177774_c(iblockdata.func_177230_c())).toString());
+        if (!iblockdata.func_177228_b().isEmpty()) {
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-            UnmodifiableIterator unmodifiableiterator = iblockdata.getProperties().entrySet().iterator();
+            UnmodifiableIterator unmodifiableiterator = iblockdata.func_177228_b().entrySet().iterator();
 
             while (unmodifiableiterator.hasNext()) {
                 Entry entry = (Entry) unmodifiableiterator.next();
                 IProperty iblockstate = (IProperty) entry.getKey();
 
-                nbttagcompound1.setString(iblockstate.getName(), getName(iblockstate, (Comparable) entry.getValue()));
+                nbttagcompound1.func_74778_a(iblockstate.func_177701_a(), func_190010_a(iblockstate, (Comparable) entry.getValue()));
             }
 
-            nbttagcompound.setTag("Properties", nbttagcompound1);
+            nbttagcompound.func_74782_a("Properties", nbttagcompound1);
         }
 
         return nbttagcompound;
     }
 
-    private static <T extends Comparable<T>> String getName(IProperty<T> iblockstate, Comparable<?> comparable) {
-        return iblockstate.getName(comparable);
+    private static <T extends Comparable<T>> String func_190010_a(IProperty<T> iblockstate, Comparable<?> comparable) {
+        return iblockstate.func_177702_a(comparable);
     }
 }

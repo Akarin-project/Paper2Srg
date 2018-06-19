@@ -10,11 +10,11 @@ public class CPacketServerQuery implements Packet<INetHandlerStatusServer> {
 
     public CPacketServerQuery() {}
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {}
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {}
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {}
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {}
 
-    public void processPacket(INetHandlerStatusServer packetstatusinlistener) {
-        packetstatusinlistener.processServerQuery(this);
+    public void func_148833_a(INetHandlerStatusServer packetstatusinlistener) {
+        packetstatusinlistener.func_147312_a(this);
     }
 }

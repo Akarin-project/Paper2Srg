@@ -6,11 +6,11 @@ public class PotionHealth extends Potion {
         super(flag, i);
     }
 
-    public boolean isInstant() {
+    public boolean func_76403_b() {
         return true;
     }
 
-    public boolean isReady(int i, int j) {
+    public boolean func_76397_a(int i, int j) {
         return i >= 1;
     }
 }

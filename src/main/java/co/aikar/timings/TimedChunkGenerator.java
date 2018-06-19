@@ -91,44 +91,44 @@ public class TimedChunkGenerator extends InternalChunkGenerator {
     }
 
     @Override
-    public Chunk generateChunk(int i, int j) {
+    public Chunk func_185932_a(int i, int j) {
         try (Timing ignored = world.timings.chunkGeneration.startTiming()) {
-            return timedGenerator.generateChunk(i, j);
+            return timedGenerator.func_185932_a(i, j);
         }
     }
 
     @Override
-    public void populate(int i, int j) {
+    public void func_185931_b(int i, int j) {
         try (Timing ignored = world.timings.syncChunkLoadStructuresTimer.startTiming()) {
-            timedGenerator.populate(i, j);
+            timedGenerator.func_185931_b(i, j);
         }
     }
 
     @Override
-    public boolean generateStructures(Chunk chunk, int i, int j) {
-        return timedGenerator.generateStructures(chunk, i, j);
+    public boolean func_185933_a(Chunk chunk, int i, int j) {
+        return timedGenerator.func_185933_a(chunk, i, j);
     }
 
     @Override
-    public List<SpawnListEntry> getPossibleCreatures(EnumCreatureType enumcreaturetype, BlockPos blockposition) {
-        return timedGenerator.getPossibleCreatures(enumcreaturetype, blockposition);
+    public List<SpawnListEntry> func_177458_a(EnumCreatureType enumcreaturetype, BlockPos blockposition) {
+        return timedGenerator.func_177458_a(enumcreaturetype, blockposition);
     }
 
     @Override
     @Nullable
-    public BlockPos getNearestStructurePos(World world, String s, BlockPos blockposition, boolean flag) {
-        return timedGenerator.getNearestStructurePos(world, s, blockposition, flag);
+    public BlockPos func_180513_a(World world, String s, BlockPos blockposition, boolean flag) {
+        return timedGenerator.func_180513_a(world, s, blockposition, flag);
     }
 
     @Override
-    public void recreateStructures(Chunk chunk, int i, int j) {
+    public void func_180514_a(Chunk chunk, int i, int j) {
         try (Timing ignored = world.timings.syncChunkLoadStructuresTimer.startTiming()) {
-            timedGenerator.recreateStructures(chunk, i, j);
+            timedGenerator.func_180514_a(chunk, i, j);
         }
     }
 
     @Override
-    public boolean isInsideStructure(World world, String s, BlockPos blockPosition) {
-        return timedGenerator.isInsideStructure(world, s, blockPosition);
+    public boolean func_193414_a(World world, String s, BlockPos blockPosition) {
+        return timedGenerator.func_193414_a(world, s, blockPosition);
     }
 }

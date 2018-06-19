@@ -4,11 +4,11 @@ import net.minecraft.network.PacketBuffer;
 
 public interface DataSerializer<T> {
 
-    void write(PacketBuffer packetdataserializer, T t0);
+    void func_187160_a(PacketBuffer packetdataserializer, T t0);
 
-    T read(PacketBuffer packetdataserializer);
+    T func_187159_a(PacketBuffer packetdataserializer);
 
-    DataParameter<T> createKey(int i);
+    DataParameter<T> func_187161_a(int i);
 
-    T copyValue(T t0);
+    T func_192717_a(T t0);
 }

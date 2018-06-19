@@ -18,29 +18,29 @@ public class CommandPardonIp extends CommandBase {
 
     public CommandPardonIp() {}
 
-    public String getName() {
+    public String func_71517_b() {
         return "pardon-ip";
     }
 
-    public int getRequiredPermissionLevel() {
+    public int func_82362_a() {
         return 3;
     }
 
-    public boolean checkPermission(MinecraftServer minecraftserver, ICommandSender icommandlistener) {
-        return minecraftserver.getPlayerList().getBannedIPs().isLanServer() && super.checkPermission(minecraftserver, icommandlistener);
+    public boolean func_184882_a(MinecraftServer minecraftserver, ICommandSender icommandlistener) {
+        return minecraftserver.func_184103_al().func_72363_f().func_152689_b() && super.func_184882_a(minecraftserver, icommandlistener);
     }
 
-    public String getUsage(ICommandSender icommandlistener) {
+    public String func_71518_a(ICommandSender icommandlistener) {
         return "commands.unbanip.usage";
     }
 
-    public void execute(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
+    public void func_184881_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring) throws CommandException {
         if (astring.length == 1 && astring[0].length() > 1) {
-            Matcher matcher = CommandBanIp.IP_PATTERN.matcher(astring[0]);
+            Matcher matcher = CommandBanIp.field_147211_a.matcher(astring[0]);
 
             if (matcher.matches()) {
-                minecraftserver.getPlayerList().getBannedIPs().removeEntry(astring[0]);
-                notifyCommandListener(icommandlistener, (ICommand) this, "commands.unbanip.success", new Object[] { astring[0]});
+                minecraftserver.func_184103_al().func_72363_f().func_152684_c(astring[0]);
+                func_152373_a(icommandlistener, (ICommand) this, "commands.unbanip.success", new Object[] { astring[0]});
             } else {
                 throw new SyntaxErrorException("commands.unbanip.invalid", new Object[0]);
             }
@@ -49,7 +49,7 @@ public class CommandPardonIp extends CommandBase {
         }
     }
 
-    public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
-        return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, minecraftserver.getPlayerList().getBannedIPs().getKeys()) : Collections.emptyList();
+    public List<String> func_184883_a(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
+        return astring.length == 1 ? func_71530_a(astring, minecraftserver.func_184103_al().func_72363_f().func_152685_a()) : Collections.emptyList();
     }
 }

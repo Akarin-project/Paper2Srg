@@ -11,40 +11,40 @@ import net.minecraft.world.World;
 public class BlockSlime extends BlockBreakable {
 
     public BlockSlime() {
-        super(Material.CLAY, false, MapColor.GRASS);
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
-        this.slipperiness = 0.8F;
+        super(Material.field_151571_B, false, MapColor.field_151661_c);
+        this.func_149647_a(CreativeTabs.field_78031_c);
+        this.field_149765_K = 0.8F;
     }
 
-    public void onFallenUpon(World world, BlockPos blockposition, Entity entity, float f) {
-        if (entity.isSneaking()) {
-            super.onFallenUpon(world, blockposition, entity, f);
+    public void func_180658_a(World world, BlockPos blockposition, Entity entity, float f) {
+        if (entity.func_70093_af()) {
+            super.func_180658_a(world, blockposition, entity, f);
         } else {
-            entity.fall(f, 0.0F);
+            entity.func_180430_e(f, 0.0F);
         }
 
     }
 
-    public void onLanded(World world, Entity entity) {
-        if (entity.isSneaking()) {
-            super.onLanded(world, entity);
-        } else if (entity.motionY < 0.0D) {
-            entity.motionY = -entity.motionY;
+    public void func_176216_a(World world, Entity entity) {
+        if (entity.func_70093_af()) {
+            super.func_176216_a(world, entity);
+        } else if (entity.field_70181_x < 0.0D) {
+            entity.field_70181_x = -entity.field_70181_x;
             if (!(entity instanceof EntityLivingBase)) {
-                entity.motionY *= 0.8D;
+                entity.field_70181_x *= 0.8D;
             }
         }
 
     }
 
-    public void onEntityWalk(World world, BlockPos blockposition, Entity entity) {
-        if (Math.abs(entity.motionY) < 0.1D && !entity.isSneaking()) {
-            double d0 = 0.4D + Math.abs(entity.motionY) * 0.2D;
+    public void func_176199_a(World world, BlockPos blockposition, Entity entity) {
+        if (Math.abs(entity.field_70181_x) < 0.1D && !entity.func_70093_af()) {
+            double d0 = 0.4D + Math.abs(entity.field_70181_x) * 0.2D;
 
-            entity.motionX *= d0;
-            entity.motionZ *= d0;
+            entity.field_70159_w *= d0;
+            entity.field_70179_y *= d0;
         }
 
-        super.onEntityWalk(world, blockposition, entity);
+        super.func_176199_a(world, blockposition, entity);
     }
 }

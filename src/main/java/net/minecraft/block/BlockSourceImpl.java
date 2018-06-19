@@ -1,53 +1,46 @@
 package net.minecraft.block;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+
 public class BlockSourceImpl implements IBlockSource {
 
-    private final World world;
-    private final BlockPos pos;
+    private final World field_82627_a;
+    private final BlockPos field_179317_b;
 
     public BlockSourceImpl(World world, BlockPos blockposition) {
-        this.world = world;
-        this.pos = blockposition;
+        this.field_82627_a = world;
+        this.field_179317_b = blockposition;
     }
 
-    @Override
-    public World getWorld() {
-        return this.world;
+    public World func_82618_k() {
+        return this.field_82627_a;
     }
 
-    @Override
-    public double getX() {
-        return this.pos.getX() + 0.5D;
+    public double func_82615_a() {
+        return (double) this.field_179317_b.func_177958_n() + 0.5D;
     }
 
-    @Override
-    public double getY() {
-        return this.pos.getY() + 0.5D;
+    public double func_82617_b() {
+        return (double) this.field_179317_b.func_177956_o() + 0.5D;
     }
 
-    @Override
-    public double getZ() {
-        return this.pos.getZ() + 0.5D;
+    public double func_82616_c() {
+        return (double) this.field_179317_b.func_177952_p() + 0.5D;
     }
 
-    @Override
-    public BlockPos getBlockPos() {
-        return this.pos;
+    public BlockPos func_180699_d() {
+        return this.field_179317_b;
     }
 
-    @Override
-    public IBlockState getBlockState() {
-        return this.world.getBlockState(this.pos);
+    public IBlockState func_189992_e() {
+        return this.field_82627_a.func_180495_p(this.field_179317_b);
     }
 
-    @Override
-    public <T extends TileEntity> T getBlockTileEntity() {
-        return (T) this.world.getTileEntity(this.pos); // Akarin - fix compile error
+    public <T extends TileEntity> T func_150835_j() {
+        return this.field_82627_a.func_175625_s(this.field_179317_b);
     }
 }

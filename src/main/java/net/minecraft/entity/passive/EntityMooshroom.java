@@ -22,77 +22,77 @@ public class EntityMooshroom extends EntityCow {
 
     public EntityMooshroom(World world) {
         super(world);
-        this.setSize(0.9F, 1.4F);
-        this.spawnableBlock = Blocks.MYCELIUM;
+        this.func_70105_a(0.9F, 1.4F);
+        this.field_175506_bl = Blocks.field_150391_bh;
     }
 
-    public static void registerFixesMooshroom(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityMooshroom.class);
+    public static void func_189791_c(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityMooshroom.class);
     }
 
-    public boolean processInteract(EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (itemstack.getItem() == Items.BOWL && this.getGrowingAge() >= 0 && !entityhuman.capabilities.isCreativeMode) {
-            itemstack.shrink(1);
-            if (itemstack.isEmpty()) {
-                entityhuman.setHeldItem(enumhand, new ItemStack(Items.MUSHROOM_STEW));
-            } else if (!entityhuman.inventory.addItemStackToInventory(new ItemStack(Items.MUSHROOM_STEW))) {
-                entityhuman.dropItem(new ItemStack(Items.MUSHROOM_STEW), false);
+        if (itemstack.func_77973_b() == Items.field_151054_z && this.func_70874_b() >= 0 && !entityhuman.field_71075_bZ.field_75098_d) {
+            itemstack.func_190918_g(1);
+            if (itemstack.func_190926_b()) {
+                entityhuman.func_184611_a(enumhand, new ItemStack(Items.field_151009_A));
+            } else if (!entityhuman.field_71071_by.func_70441_a(new ItemStack(Items.field_151009_A))) {
+                entityhuman.func_71019_a(new ItemStack(Items.field_151009_A), false);
             }
 
             return true;
-        } else if (itemstack.getItem() == Items.SHEARS && this.getGrowingAge() >= 0) {
+        } else if (itemstack.func_77973_b() == Items.field_151097_aZ && this.func_70874_b() >= 0) {
             // CraftBukkit start
             PlayerShearEntityEvent event = new PlayerShearEntityEvent((org.bukkit.entity.Player) entityhuman.getBukkitEntity(), this.getBukkitEntity());
-            this.world.getServer().getPluginManager().callEvent(event);
+            this.field_70170_p.getServer().getPluginManager().callEvent(event);
 
             if (event.isCancelled()) {
                 return false;
             }
             // CraftBukkit end
-            this.setDead();
-            this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX, this.posY + (double) (this.height / 2.0F), this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
-            if (!this.world.isRemote) {
-                EntityCow entitycow = new EntityCow(this.world);
+            this.func_70106_y();
+            this.field_70170_p.func_175688_a(EnumParticleTypes.EXPLOSION_LARGE, this.field_70165_t, this.field_70163_u + (double) (this.field_70131_O / 2.0F), this.field_70161_v, 0.0D, 0.0D, 0.0D, new int[0]);
+            if (!this.field_70170_p.field_72995_K) {
+                EntityCow entitycow = new EntityCow(this.field_70170_p);
 
-                entitycow.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
-                entitycow.setHealth(this.getHealth());
-                entitycow.renderYawOffset = this.renderYawOffset;
-                if (this.hasCustomName()) {
-                    entitycow.setCustomNameTag(this.getCustomNameTag());
+                entitycow.func_70012_b(this.field_70165_t, this.field_70163_u, this.field_70161_v, this.field_70177_z, this.field_70125_A);
+                entitycow.func_70606_j(this.func_110143_aJ());
+                entitycow.field_70761_aq = this.field_70761_aq;
+                if (this.func_145818_k_()) {
+                    entitycow.func_96094_a(this.func_95999_t());
                 }
 
-                this.world.spawnEntity(entitycow);
+                this.field_70170_p.func_72838_d(entitycow);
 
                 for (int i = 0; i < 5; ++i) {
-                    this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY + (double) this.height, this.posZ, new ItemStack(Blocks.RED_MUSHROOM)));
+                    this.field_70170_p.func_72838_d(new EntityItem(this.field_70170_p, this.field_70165_t, this.field_70163_u + (double) this.field_70131_O, this.field_70161_v, new ItemStack(Blocks.field_150337_Q)));
                 }
 
-                itemstack.damageItem(1, entityhuman);
-                this.playSound(SoundEvents.ENTITY_MOOSHROOM_SHEAR, 1.0F, 1.0F);
+                itemstack.func_77972_a(1, entityhuman);
+                this.func_184185_a(SoundEvents.field_187784_dt, 1.0F, 1.0F);
             }
 
             return true;
         } else {
-            return super.processInteract(entityhuman, enumhand);
+            return super.func_184645_a(entityhuman, enumhand);
         }
     }
 
-    public EntityMooshroom createChild(EntityAgeable entityageable) {
-        return new EntityMooshroom(this.world);
+    public EntityMooshroom func_90011_a(EntityAgeable entityageable) {
+        return new EntityMooshroom(this.field_70170_p);
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_MUSHROOM_COW;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_186400_H;
     }
 
-    public EntityCow createChild(EntityAgeable entityageable) {
-        return this.createChild(entityageable);
+    public EntityCow func_90011_a(EntityAgeable entityageable) {
+        return this.func_90011_a(entityageable);
     }
 
-    public EntityAgeable createChild(EntityAgeable entityageable) {
-        return this.createChild(entityageable);
+    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
+        return this.func_90011_a(entityageable);
     }
 }

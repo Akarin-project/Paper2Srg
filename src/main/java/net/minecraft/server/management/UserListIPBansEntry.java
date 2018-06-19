@@ -14,17 +14,17 @@ public class UserListIPBansEntry extends UserListEntryBan<String> {
     }
 
     public UserListIPBansEntry(JsonObject jsonobject) {
-        super(getIPFromJson(jsonobject), jsonobject);
+        super(func_152647_b(jsonobject), jsonobject);
     }
 
-    private static String getIPFromJson(JsonObject jsonobject) {
+    private static String func_152647_b(JsonObject jsonobject) {
         return jsonobject.has("ip") ? jsonobject.get("ip").getAsString() : null;
     }
 
-    protected void onSerialization(JsonObject jsonobject) {
-        if (this.getValue() != null) {
-            jsonobject.addProperty("ip", (String) this.getValue());
-            super.onSerialization(jsonobject);
+    protected void func_152641_a(JsonObject jsonobject) {
+        if (this.func_152640_f() != null) {
+            jsonobject.addProperty("ip", (String) this.func_152640_f());
+            super.func_152641_a(jsonobject);
         }
     }
 }

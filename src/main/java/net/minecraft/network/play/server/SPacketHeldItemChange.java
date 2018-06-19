@@ -8,23 +8,23 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 
 public class SPacketHeldItemChange implements Packet<INetHandlerPlayClient> {
 
-    private int heldItemHotbarIndex;
+    private int field_149387_a;
 
     public SPacketHeldItemChange() {}
 
     public SPacketHeldItemChange(int i) {
-        this.heldItemHotbarIndex = i;
+        this.field_149387_a = i;
     }
 
-    public void readPacketData(PacketBuffer packetdataserializer) throws IOException {
-        this.heldItemHotbarIndex = packetdataserializer.readByte();
+    public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_149387_a = packetdataserializer.readByte();
     }
 
-    public void writePacketData(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.writeByte(this.heldItemHotbarIndex);
+    public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
+        packetdataserializer.writeByte(this.field_149387_a);
     }
 
-    public void processPacket(INetHandlerPlayClient packetlistenerplayout) {
-        packetlistenerplayout.handleHeldItemChange(this);
+    public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
+        packetlistenerplayout.func_147257_a(this);
     }
 }

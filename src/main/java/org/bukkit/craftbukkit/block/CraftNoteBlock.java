@@ -23,22 +23,22 @@ public class CraftNoteBlock extends CraftBlockEntityState<TileEntityNote> implem
 
     @Override
     public Note getNote() {
-        return new Note(this.getSnapshot().note);
+        return new Note(this.getSnapshot().field_145879_a);
     }
 
     @Override
     public byte getRawNote() {
-        return this.getSnapshot().note;
+        return this.getSnapshot().field_145879_a;
     }
 
     @Override
     public void setNote(Note note) {
-        this.getSnapshot().note = note.getId();
+        this.getSnapshot().field_145879_a = note.getId();
     }
 
     @Override
     public void setRawNote(byte note) {
-        this.getSnapshot().note = note;
+        this.getSnapshot().field_145879_a = note;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class CraftNoteBlock extends CraftBlockEntityState<TileEntityNote> implem
         if (block.getType() == Material.NOTE_BLOCK) {
             TileEntityNote note = (TileEntityNote) this.getTileEntityFromWorld();
             CraftWorld world = (CraftWorld) this.getWorld();
-            note.triggerNote(world.getHandle(), new BlockPos(getX(), getY(), getZ()));
+            note.func_175108_a(world.getHandle(), new BlockPos(getX(), getY(), getZ()));
             return true;
         } else {
             return false;
@@ -61,7 +61,7 @@ public class CraftNoteBlock extends CraftBlockEntityState<TileEntityNote> implem
 
         if (block.getType() == Material.NOTE_BLOCK) {
             CraftWorld world = (CraftWorld) this.getWorld();
-            world.getHandle().addBlockEvent(new BlockPos(getX(), getY(), getZ()), CraftMagicNumbers.getBlock(block), instrument, note);
+            world.getHandle().func_175641_c(new BlockPos(getX(), getY(), getZ()), CraftMagicNumbers.getBlock(block), instrument, note);
             return true;
         } else {
             return false;
@@ -74,7 +74,7 @@ public class CraftNoteBlock extends CraftBlockEntityState<TileEntityNote> implem
 
         if (block.getType() == Material.NOTE_BLOCK) {
             CraftWorld world = (CraftWorld) this.getWorld();
-            world.getHandle().addBlockEvent(new BlockPos(getX(), getY(), getZ()), CraftMagicNumbers.getBlock(block), instrument.getType(), note.getId());
+            world.getHandle().func_175641_c(new BlockPos(getX(), getY(), getZ()), CraftMagicNumbers.getBlock(block), instrument.getType(), note.getId());
             return true;
         } else {
             return false;

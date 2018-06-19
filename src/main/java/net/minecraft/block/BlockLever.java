@@ -29,46 +29,46 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 
 public class BlockLever extends Block {
 
-    public static final PropertyEnum<BlockLever.EnumOrientation> FACING = PropertyEnum.create("facing", BlockLever.EnumOrientation.class);
-    public static final PropertyBool POWERED = PropertyBool.create("powered");
-    protected static final AxisAlignedBB LEVER_NORTH_AABB = new AxisAlignedBB(0.3125D, 0.20000000298023224D, 0.625D, 0.6875D, 0.800000011920929D, 1.0D);
-    protected static final AxisAlignedBB LEVER_SOUTH_AABB = new AxisAlignedBB(0.3125D, 0.20000000298023224D, 0.0D, 0.6875D, 0.800000011920929D, 0.375D);
-    protected static final AxisAlignedBB LEVER_WEST_AABB = new AxisAlignedBB(0.625D, 0.20000000298023224D, 0.3125D, 1.0D, 0.800000011920929D, 0.6875D);
-    protected static final AxisAlignedBB LEVER_EAST_AABB = new AxisAlignedBB(0.0D, 0.20000000298023224D, 0.3125D, 0.375D, 0.800000011920929D, 0.6875D);
-    protected static final AxisAlignedBB LEVER_UP_AABB = new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 0.6000000238418579D, 0.75D);
-    protected static final AxisAlignedBB LEVER_DOWN_AABB = new AxisAlignedBB(0.25D, 0.4000000059604645D, 0.25D, 0.75D, 1.0D, 0.75D);
+    public static final PropertyEnum<BlockLever.EnumOrientation> field_176360_a = PropertyEnum.func_177709_a("facing", BlockLever.EnumOrientation.class);
+    public static final PropertyBool field_176359_b = PropertyBool.func_177716_a("powered");
+    protected static final AxisAlignedBB field_185692_c = new AxisAlignedBB(0.3125D, 0.20000000298023224D, 0.625D, 0.6875D, 0.800000011920929D, 1.0D);
+    protected static final AxisAlignedBB field_185693_d = new AxisAlignedBB(0.3125D, 0.20000000298023224D, 0.0D, 0.6875D, 0.800000011920929D, 0.375D);
+    protected static final AxisAlignedBB field_185694_e = new AxisAlignedBB(0.625D, 0.20000000298023224D, 0.3125D, 1.0D, 0.800000011920929D, 0.6875D);
+    protected static final AxisAlignedBB field_185695_f = new AxisAlignedBB(0.0D, 0.20000000298023224D, 0.3125D, 0.375D, 0.800000011920929D, 0.6875D);
+    protected static final AxisAlignedBB field_185696_g = new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 0.6000000238418579D, 0.75D);
+    protected static final AxisAlignedBB field_185691_B = new AxisAlignedBB(0.25D, 0.4000000059604645D, 0.25D, 0.75D, 1.0D, 0.75D);
 
     protected BlockLever() {
-        super(Material.CIRCUITS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockLever.FACING, BlockLever.EnumOrientation.NORTH).withProperty(BlockLever.POWERED, Boolean.valueOf(false)));
-        this.setCreativeTab(CreativeTabs.REDSTONE);
+        super(Material.field_151594_q);
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.NORTH).func_177226_a(BlockLever.field_176359_b, Boolean.valueOf(false)));
+        this.func_149647_a(CreativeTabs.field_78028_d);
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockLever.NULL_AABB;
+    public AxisAlignedBB func_180646_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockLever.field_185506_k;
     }
 
-    public boolean isOpaqueCube(IBlockState iblockdata) {
+    public boolean func_149662_c(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean isFullCube(IBlockState iblockdata) {
+    public boolean func_149686_d(IBlockState iblockdata) {
         return false;
     }
 
-    public boolean canPlaceBlockOnSide(World world, BlockPos blockposition, EnumFacing enumdirection) {
-        return canAttachTo(world, blockposition, enumdirection);
+    public boolean func_176198_a(World world, BlockPos blockposition, EnumFacing enumdirection) {
+        return func_181090_a(world, blockposition, enumdirection);
     }
 
-    public boolean canPlaceBlockAt(World world, BlockPos blockposition) {
+    public boolean func_176196_c(World world, BlockPos blockposition) {
         EnumFacing[] aenumdirection = EnumFacing.values();
         int i = aenumdirection.length;
 
         for (int j = 0; j < i; ++j) {
             EnumFacing enumdirection = aenumdirection[j];
 
-            if (canAttachTo(world, blockposition, enumdirection)) {
+            if (func_181090_a(world, blockposition, enumdirection)) {
                 return true;
             }
         }
@@ -76,15 +76,15 @@ public class BlockLever extends Block {
         return false;
     }
 
-    protected static boolean canAttachTo(World world, BlockPos blockposition, EnumFacing enumdirection) {
-        return BlockButton.canPlaceBlock(world, blockposition, enumdirection);
+    protected static boolean func_181090_a(World world, BlockPos blockposition, EnumFacing enumdirection) {
+        return BlockButton.func_181088_a(world, blockposition, enumdirection);
     }
 
-    public IBlockState getStateForPlacement(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
-        IBlockState iblockdata = this.getDefaultState().withProperty(BlockLever.POWERED, Boolean.valueOf(false));
+    public IBlockState func_180642_a(World world, BlockPos blockposition, EnumFacing enumdirection, float f, float f1, float f2, int i, EntityLivingBase entityliving) {
+        IBlockState iblockdata = this.func_176223_P().func_177226_a(BlockLever.field_176359_b, Boolean.valueOf(false));
 
-        if (canAttachTo(world, blockposition, enumdirection)) {
-            return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.forFacings(enumdirection, entityliving.getHorizontalFacing()));
+        if (func_181090_a(world, blockposition, enumdirection)) {
+            return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.func_176856_a(enumdirection, entityliving.func_174811_aO()));
         } else {
             Iterator iterator = EnumFacing.Plane.HORIZONTAL.iterator();
 
@@ -92,70 +92,70 @@ public class BlockLever extends Block {
 
             do {
                 if (!iterator.hasNext()) {
-                    if (world.getBlockState(blockposition.down()).isTopSolid()) {
-                        return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.forFacings(EnumFacing.UP, entityliving.getHorizontalFacing()));
+                    if (world.func_180495_p(blockposition.func_177977_b()).func_185896_q()) {
+                        return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.func_176856_a(EnumFacing.UP, entityliving.func_174811_aO()));
                     }
 
                     return iblockdata;
                 }
 
                 enumdirection1 = (EnumFacing) iterator.next();
-            } while (enumdirection1 == enumdirection || !canAttachTo(world, blockposition, enumdirection1));
+            } while (enumdirection1 == enumdirection || !func_181090_a(world, blockposition, enumdirection1));
 
-            return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.forFacings(enumdirection1, entityliving.getHorizontalFacing()));
+            return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.func_176856_a(enumdirection1, entityliving.func_174811_aO()));
         }
     }
 
-    public void neighborChanged(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
-        if (this.checkCanSurvive(world, blockposition, iblockdata) && !canAttachTo(world, blockposition, ((BlockLever.EnumOrientation) iblockdata.getValue(BlockLever.FACING)).getFacing())) {
-            this.dropBlockAsItem(world, blockposition, iblockdata, 0);
-            world.setBlockToAir(blockposition);
+    public void func_189540_a(IBlockState iblockdata, World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
+        if (this.func_181091_e(world, blockposition, iblockdata) && !func_181090_a(world, blockposition, ((BlockLever.EnumOrientation) iblockdata.func_177229_b(BlockLever.field_176360_a)).func_176852_c())) {
+            this.func_176226_b(world, blockposition, iblockdata, 0);
+            world.func_175698_g(blockposition);
         }
 
     }
 
-    private boolean checkCanSurvive(World world, BlockPos blockposition, IBlockState iblockdata) {
-        if (this.canPlaceBlockAt(world, blockposition)) {
+    private boolean func_181091_e(World world, BlockPos blockposition, IBlockState iblockdata) {
+        if (this.func_176196_c(world, blockposition)) {
             return true;
         } else {
-            this.dropBlockAsItem(world, blockposition, iblockdata, 0);
-            world.setBlockToAir(blockposition);
+            this.func_176226_b(world, blockposition, iblockdata, 0);
+            world.func_175698_g(blockposition);
             return false;
         }
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        switch ((BlockLever.EnumOrientation) iblockdata.getValue(BlockLever.FACING)) {
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        switch ((BlockLever.EnumOrientation) iblockdata.func_177229_b(BlockLever.field_176360_a)) {
         case EAST:
         default:
-            return BlockLever.LEVER_EAST_AABB;
+            return BlockLever.field_185695_f;
 
         case WEST:
-            return BlockLever.LEVER_WEST_AABB;
+            return BlockLever.field_185694_e;
 
         case SOUTH:
-            return BlockLever.LEVER_SOUTH_AABB;
+            return BlockLever.field_185693_d;
 
         case NORTH:
-            return BlockLever.LEVER_NORTH_AABB;
+            return BlockLever.field_185692_c;
 
         case UP_Z:
         case UP_X:
-            return BlockLever.LEVER_UP_AABB;
+            return BlockLever.field_185696_g;
 
         case DOWN_X:
         case DOWN_Z:
-            return BlockLever.LEVER_DOWN_AABB;
+            return BlockLever.field_185691_B;
         }
     }
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        if (world.isRemote) {
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        if (world.field_72995_K) {
             return true;
         } else {
             // CraftBukkit start - Interact Lever
-            boolean powered = iblockdata.getValue(POWERED);
-            org.bukkit.block.Block block = world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ());
+            boolean powered = iblockdata.func_177229_b(field_176359_b);
+            org.bukkit.block.Block block = world.getWorld().getBlockAt(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
             int old = (powered) ? 15 : 0;
             int current = (!powered) ? 15 : 0;
 
@@ -167,129 +167,129 @@ public class BlockLever extends Block {
             }
             // CraftBukkit end
 
-            iblockdata = iblockdata.cycleProperty((IProperty) BlockLever.POWERED);
-            world.setBlockState(blockposition, iblockdata, 3);
-            float f3 = ((Boolean) iblockdata.getValue(BlockLever.POWERED)).booleanValue() ? 0.6F : 0.5F;
+            iblockdata = iblockdata.func_177231_a((IProperty) BlockLever.field_176359_b);
+            world.func_180501_a(blockposition, iblockdata, 3);
+            float f3 = ((Boolean) iblockdata.func_177229_b(BlockLever.field_176359_b)).booleanValue() ? 0.6F : 0.5F;
 
-            world.playSound((EntityPlayer) null, blockposition, SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, f3);
-            world.notifyNeighborsOfStateChange(blockposition, this, false);
-            EnumFacing enumdirection1 = ((BlockLever.EnumOrientation) iblockdata.getValue(BlockLever.FACING)).getFacing();
+            world.func_184133_a((EntityPlayer) null, blockposition, SoundEvents.field_187750_dc, SoundCategory.BLOCKS, 0.3F, f3);
+            world.func_175685_c(blockposition, this, false);
+            EnumFacing enumdirection1 = ((BlockLever.EnumOrientation) iblockdata.func_177229_b(BlockLever.field_176360_a)).func_176852_c();
 
-            world.notifyNeighborsOfStateChange(blockposition.offset(enumdirection1.getOpposite()), this, false);
+            world.func_175685_c(blockposition.func_177972_a(enumdirection1.func_176734_d()), this, false);
             return true;
         }
     }
 
-    public void breakBlock(World world, BlockPos blockposition, IBlockState iblockdata) {
-        if (((Boolean) iblockdata.getValue(BlockLever.POWERED)).booleanValue()) {
-            world.notifyNeighborsOfStateChange(blockposition, this, false);
-            EnumFacing enumdirection = ((BlockLever.EnumOrientation) iblockdata.getValue(BlockLever.FACING)).getFacing();
+    public void func_180663_b(World world, BlockPos blockposition, IBlockState iblockdata) {
+        if (((Boolean) iblockdata.func_177229_b(BlockLever.field_176359_b)).booleanValue()) {
+            world.func_175685_c(blockposition, this, false);
+            EnumFacing enumdirection = ((BlockLever.EnumOrientation) iblockdata.func_177229_b(BlockLever.field_176360_a)).func_176852_c();
 
-            world.notifyNeighborsOfStateChange(blockposition.offset(enumdirection.getOpposite()), this, false);
+            world.func_175685_c(blockposition.func_177972_a(enumdirection.func_176734_d()), this, false);
         }
 
-        super.breakBlock(world, blockposition, iblockdata);
+        super.func_180663_b(world, blockposition, iblockdata);
     }
 
-    public int getWeakPower(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection) {
-        return ((Boolean) iblockdata.getValue(BlockLever.POWERED)).booleanValue() ? 15 : 0;
+    public int func_180656_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection) {
+        return ((Boolean) iblockdata.func_177229_b(BlockLever.field_176359_b)).booleanValue() ? 15 : 0;
     }
 
-    public int getStrongPower(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection) {
-        return !((Boolean) iblockdata.getValue(BlockLever.POWERED)).booleanValue() ? 0 : (((BlockLever.EnumOrientation) iblockdata.getValue(BlockLever.FACING)).getFacing() == enumdirection ? 15 : 0);
+    public int func_176211_b(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection) {
+        return !((Boolean) iblockdata.func_177229_b(BlockLever.field_176359_b)).booleanValue() ? 0 : (((BlockLever.EnumOrientation) iblockdata.func_177229_b(BlockLever.field_176360_a)).func_176852_c() == enumdirection ? 15 : 0);
     }
 
-    public boolean canProvidePower(IBlockState iblockdata) {
+    public boolean func_149744_f(IBlockState iblockdata) {
         return true;
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.getDefaultState().withProperty(BlockLever.FACING, BlockLever.EnumOrientation.byMetadata(i & 7)).withProperty(BlockLever.POWERED, Boolean.valueOf((i & 8) > 0));
+    public IBlockState func_176203_a(int i) {
+        return this.func_176223_P().func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.func_176853_a(i & 7)).func_177226_a(BlockLever.field_176359_b, Boolean.valueOf((i & 8) > 0));
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
+    public int func_176201_c(IBlockState iblockdata) {
         byte b0 = 0;
-        int i = b0 | ((BlockLever.EnumOrientation) iblockdata.getValue(BlockLever.FACING)).getMetadata();
+        int i = b0 | ((BlockLever.EnumOrientation) iblockdata.func_177229_b(BlockLever.field_176360_a)).func_176855_a();
 
-        if (((Boolean) iblockdata.getValue(BlockLever.POWERED)).booleanValue()) {
+        if (((Boolean) iblockdata.func_177229_b(BlockLever.field_176359_b)).booleanValue()) {
             i |= 8;
         }
 
         return i;
     }
 
-    public IBlockState withRotation(IBlockState iblockdata, Rotation enumblockrotation) {
+    public IBlockState func_185499_a(IBlockState iblockdata, Rotation enumblockrotation) {
         switch (enumblockrotation) {
         case CLOCKWISE_180:
-            switch ((BlockLever.EnumOrientation) iblockdata.getValue(BlockLever.FACING)) {
+            switch ((BlockLever.EnumOrientation) iblockdata.func_177229_b(BlockLever.field_176360_a)) {
             case EAST:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.WEST);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.WEST);
 
             case WEST:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.EAST);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.EAST);
 
             case SOUTH:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.NORTH);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.NORTH);
 
             case NORTH:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.SOUTH);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.SOUTH);
 
             default:
                 return iblockdata;
             }
 
         case COUNTERCLOCKWISE_90:
-            switch ((BlockLever.EnumOrientation) iblockdata.getValue(BlockLever.FACING)) {
+            switch ((BlockLever.EnumOrientation) iblockdata.func_177229_b(BlockLever.field_176360_a)) {
             case EAST:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.NORTH);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.NORTH);
 
             case WEST:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.SOUTH);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.SOUTH);
 
             case SOUTH:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.EAST);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.EAST);
 
             case NORTH:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.WEST);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.WEST);
 
             case UP_Z:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.UP_X);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.UP_X);
 
             case UP_X:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.UP_Z);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.UP_Z);
 
             case DOWN_X:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.DOWN_Z);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.DOWN_Z);
 
             case DOWN_Z:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.DOWN_X);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.DOWN_X);
             }
 
         case CLOCKWISE_90:
-            switch ((BlockLever.EnumOrientation) iblockdata.getValue(BlockLever.FACING)) {
+            switch ((BlockLever.EnumOrientation) iblockdata.func_177229_b(BlockLever.field_176360_a)) {
             case EAST:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.SOUTH);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.SOUTH);
 
             case WEST:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.NORTH);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.NORTH);
 
             case SOUTH:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.WEST);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.WEST);
 
             case NORTH:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.EAST);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.EAST);
 
             case UP_Z:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.UP_X);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.UP_X);
 
             case UP_X:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.UP_Z);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.UP_Z);
 
             case DOWN_X:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.DOWN_Z);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.DOWN_Z);
 
             case DOWN_Z:
-                return iblockdata.withProperty(BlockLever.FACING, BlockLever.EnumOrientation.DOWN_X);
+                return iblockdata.func_177226_a(BlockLever.field_176360_a, BlockLever.EnumOrientation.DOWN_X);
             }
 
         default:
@@ -297,15 +297,15 @@ public class BlockLever extends Block {
         }
     }
 
-    public IBlockState withMirror(IBlockState iblockdata, Mirror enumblockmirror) {
-        return iblockdata.withRotation(enumblockmirror.toRotation(((BlockLever.EnumOrientation) iblockdata.getValue(BlockLever.FACING)).getFacing()));
+    public IBlockState func_185471_a(IBlockState iblockdata, Mirror enumblockmirror) {
+        return iblockdata.func_185907_a(enumblockmirror.func_185800_a(((BlockLever.EnumOrientation) iblockdata.func_177229_b(BlockLever.field_176360_a)).func_176852_c()));
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockLever.FACING, BlockLever.POWERED});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockLever.field_176360_a, BlockLever.field_176359_b});
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
+    public BlockFaceShape func_193383_a(IBlockAccess iblockaccess, IBlockState iblockdata, BlockPos blockposition, EnumFacing enumdirection) {
         return BlockFaceShape.UNDEFINED;
     }
 
@@ -313,41 +313,41 @@ public class BlockLever extends Block {
 
         DOWN_X(0, "down_x", EnumFacing.DOWN), EAST(1, "east", EnumFacing.EAST), WEST(2, "west", EnumFacing.WEST), SOUTH(3, "south", EnumFacing.SOUTH), NORTH(4, "north", EnumFacing.NORTH), UP_Z(5, "up_z", EnumFacing.UP), UP_X(6, "up_x", EnumFacing.UP), DOWN_Z(7, "down_z", EnumFacing.DOWN);
 
-        private static final BlockLever.EnumOrientation[] META_LOOKUP = new BlockLever.EnumOrientation[values().length];
-        private final int meta;
-        private final String name;
-        private final EnumFacing facing;
+        private static final BlockLever.EnumOrientation[] field_176869_i = new BlockLever.EnumOrientation[values().length];
+        private final int field_176866_j;
+        private final String field_176867_k;
+        private final EnumFacing field_176864_l;
 
         private EnumOrientation(int i, String s, EnumFacing enumdirection) {
-            this.meta = i;
-            this.name = s;
-            this.facing = enumdirection;
+            this.field_176866_j = i;
+            this.field_176867_k = s;
+            this.field_176864_l = enumdirection;
         }
 
-        public int getMetadata() {
-            return this.meta;
+        public int func_176855_a() {
+            return this.field_176866_j;
         }
 
-        public EnumFacing getFacing() {
-            return this.facing;
+        public EnumFacing func_176852_c() {
+            return this.field_176864_l;
         }
 
         public String toString() {
-            return this.name;
+            return this.field_176867_k;
         }
 
-        public static BlockLever.EnumOrientation byMetadata(int i) {
-            if (i < 0 || i >= BlockLever.EnumOrientation.META_LOOKUP.length) {
+        public static BlockLever.EnumOrientation func_176853_a(int i) {
+            if (i < 0 || i >= BlockLever.EnumOrientation.field_176869_i.length) {
                 i = 0;
             }
 
-            return BlockLever.EnumOrientation.META_LOOKUP[i];
+            return BlockLever.EnumOrientation.field_176869_i[i];
         }
 
-        public static BlockLever.EnumOrientation forFacings(EnumFacing enumdirection, EnumFacing enumdirection1) {
+        public static BlockLever.EnumOrientation func_176856_a(EnumFacing enumdirection, EnumFacing enumdirection1) {
             switch (enumdirection) {
             case DOWN:
-                switch (enumdirection1.getAxis()) {
+                switch (enumdirection1.func_176740_k()) {
                 case X:
                     return BlockLever.EnumOrientation.DOWN_X;
 
@@ -359,7 +359,7 @@ public class BlockLever extends Block {
                 }
 
             case UP:
-                switch (enumdirection1.getAxis()) {
+                switch (enumdirection1.func_176740_k()) {
                 case X:
                     return BlockLever.EnumOrientation.UP_X;
 
@@ -387,8 +387,8 @@ public class BlockLever extends Block {
             }
         }
 
-        public String getName() {
-            return this.name;
+        public String func_176610_l() {
+            return this.field_176867_k;
         }
 
         static {
@@ -398,7 +398,7 @@ public class BlockLever extends Block {
             for (int j = 0; j < i; ++j) {
                 BlockLever.EnumOrientation blocklever_enumleverposition = ablocklever_enumleverposition[j];
 
-                BlockLever.EnumOrientation.META_LOOKUP[blocklever_enumleverposition.getMetadata()] = blocklever_enumleverposition;
+                BlockLever.EnumOrientation.field_176869_i[blocklever_enumleverposition.func_176855_a()] = blocklever_enumleverposition;
             }
 
         }

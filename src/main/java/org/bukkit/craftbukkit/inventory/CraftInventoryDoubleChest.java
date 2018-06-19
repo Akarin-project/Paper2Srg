@@ -21,15 +21,15 @@ public class CraftInventoryDoubleChest extends CraftInventory implements DoubleC
 
     public CraftInventoryDoubleChest(InventoryLargeChest largeChest) {
         super(largeChest);
-        if (largeChest.upperChest instanceof InventoryLargeChest) {
-            left = new CraftInventoryDoubleChest((InventoryLargeChest) largeChest.upperChest);
+        if (largeChest.field_70477_b instanceof InventoryLargeChest) {
+            left = new CraftInventoryDoubleChest((InventoryLargeChest) largeChest.field_70477_b);
         } else {
-            left = new CraftInventory(largeChest.upperChest);
+            left = new CraftInventory(largeChest.field_70477_b);
         }
-        if (largeChest.lowerChest instanceof InventoryLargeChest) {
-            right = new CraftInventoryDoubleChest((InventoryLargeChest) largeChest.lowerChest);
+        if (largeChest.field_70478_c instanceof InventoryLargeChest) {
+            right = new CraftInventoryDoubleChest((InventoryLargeChest) largeChest.field_70478_c);
         } else {
-            right = new CraftInventory(largeChest.lowerChest);
+            right = new CraftInventory(largeChest.field_70478_c);
         }
     }
 
@@ -43,8 +43,8 @@ public class CraftInventoryDoubleChest extends CraftInventory implements DoubleC
 
     @Override
     public void setContents(ItemStack[] items) {
-        if (getInventory().getSizeInventory() < items.length) {
-            throw new IllegalArgumentException("Invalid inventory size; expected " + getInventory().getSizeInventory() + " or less");
+        if (getInventory().func_70302_i_() < items.length) {
+            throw new IllegalArgumentException("Invalid inventory size; expected " + getInventory().func_70302_i_() + " or less");
         }
         ItemStack[] leftItems = new ItemStack[left.getSize()], rightItems = new ItemStack[right.getSize()];
         System.arraycopy(items, 0, leftItems, 0, Math.min(left.getSize(), items.length));

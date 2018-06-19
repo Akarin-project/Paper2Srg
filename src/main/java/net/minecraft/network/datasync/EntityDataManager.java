@@ -25,25 +25,25 @@ import net.minecraft.util.ReportedException;
 
 public class EntityDataManager {
 
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static final Map<Class<? extends Entity>, Integer> NEXT_ID_MAP = Maps.newHashMap();
-    private final Entity entity;
-    private final Map<Integer, EntityDataManager.DataEntry<?>> entries = new Int2ObjectOpenHashMap<>(); // Paper
-    private final ReadWriteLock lock = new ReentrantReadWriteLock();
-    private boolean empty = true;
-    private boolean dirty;
+    private static final Logger field_190303_a = LogManager.getLogger();
+    private static final Map<Class<? extends Entity>, Integer> field_187232_a = Maps.newHashMap();
+    private final Entity field_187233_b;
+    private final Map<Integer, EntityDataManager.DataEntry<?>> field_187234_c = new Int2ObjectOpenHashMap<>(); // Paper
+    private final ReadWriteLock field_187235_d = new ReentrantReadWriteLock();
+    private boolean field_187236_e = true;
+    private boolean field_187237_f;
 
     public EntityDataManager(Entity entity) {
-        this.entity = entity;
+        this.field_187233_b = entity;
     }
 
-    public static <T> DataParameter<T> createKey(Class<? extends Entity> oclass, DataSerializer<T> datawatcherserializer) {
-        if (EntityDataManager.LOGGER.isDebugEnabled()) {
+    public static <T> DataParameter<T> func_187226_a(Class<? extends Entity> oclass, DataSerializer<T> datawatcherserializer) {
+        if (EntityDataManager.field_190303_a.isDebugEnabled()) {
             try {
                 Class oclass1 = Class.forName(Thread.currentThread().getStackTrace()[2].getClassName());
 
                 if (!oclass1.equals(oclass)) {
-                    EntityDataManager.LOGGER.debug("defineId called for: {} from {}", oclass, oclass1, new RuntimeException());
+                    EntityDataManager.field_190303_a.debug("defineId called for: {} from {}", oclass, oclass1, new RuntimeException());
                 }
             } catch (ClassNotFoundException classnotfoundexception) {
                 ;
@@ -52,16 +52,16 @@ public class EntityDataManager {
 
         int i;
 
-        if (EntityDataManager.NEXT_ID_MAP.containsKey(oclass)) {
-            i = ((Integer) EntityDataManager.NEXT_ID_MAP.get(oclass)).intValue() + 1;
+        if (EntityDataManager.field_187232_a.containsKey(oclass)) {
+            i = ((Integer) EntityDataManager.field_187232_a.get(oclass)).intValue() + 1;
         } else {
             int j = 0;
             Class oclass2 = oclass;
 
             while (oclass2 != Entity.class) {
                 oclass2 = oclass2.getSuperclass();
-                if (EntityDataManager.NEXT_ID_MAP.containsKey(oclass2)) {
-                    j = ((Integer) EntityDataManager.NEXT_ID_MAP.get(oclass2)).intValue() + 1;
+                if (EntityDataManager.field_187232_a.containsKey(oclass2)) {
+                    j = ((Integer) EntityDataManager.field_187232_a.get(oclass2)).intValue() + 1;
                     break;
                 }
             }
@@ -72,86 +72,86 @@ public class EntityDataManager {
         if (i > 254) {
             throw new IllegalArgumentException("Data value id is too big with " + i + "! (Max is " + 254 + ")");
         } else {
-            EntityDataManager.NEXT_ID_MAP.put(oclass, Integer.valueOf(i));
-            return datawatcherserializer.createKey(i);
+            EntityDataManager.field_187232_a.put(oclass, Integer.valueOf(i));
+            return datawatcherserializer.func_187161_a(i);
         }
     }
 
-    public <T> void register(DataParameter<T> datawatcherobject, Object t0) { // CraftBukkit T -> Object
-        int i = datawatcherobject.getId();
+    public <T> void func_187214_a(DataParameter<T> datawatcherobject, Object t0) { // CraftBukkit T -> Object
+        int i = datawatcherobject.func_187155_a();
 
         if (i > 254) {
             throw new IllegalArgumentException("Data value id is too big with " + i + "! (Max is " + 254 + ")");
-        } else if (this.entries.containsKey(Integer.valueOf(i))) {
+        } else if (this.field_187234_c.containsKey(Integer.valueOf(i))) {
             throw new IllegalArgumentException("Duplicate id value for " + i + "!");
-        } else if (DataSerializers.getSerializerId(datawatcherobject.getSerializer()) < 0) {
-            throw new IllegalArgumentException("Unregistered serializer " + datawatcherobject.getSerializer() + " for " + i + "!");
+        } else if (DataSerializers.func_187188_b(datawatcherobject.func_187156_b()) < 0) {
+            throw new IllegalArgumentException("Unregistered serializer " + datawatcherobject.func_187156_b() + " for " + i + "!");
         } else {
-            this.setEntry(datawatcherobject, t0);
+            this.func_187222_c(datawatcherobject, t0);
         }
     }
 
-    private <T> void setEntry(DataParameter<T> datawatcherobject, Object t0) { // CraftBukkit Object
+    private <T> void func_187222_c(DataParameter<T> datawatcherobject, Object t0) { // CraftBukkit Object
         EntityDataManager.DataEntry datawatcher_item = new EntityDataManager.DataEntry(datawatcherobject, t0);
 
-        this.lock.writeLock().lock();
-        this.entries.put(Integer.valueOf(datawatcherobject.getId()), datawatcher_item);
-        this.empty = false;
-        this.lock.writeLock().unlock();
+        this.field_187235_d.writeLock().lock();
+        this.field_187234_c.put(Integer.valueOf(datawatcherobject.func_187155_a()), datawatcher_item);
+        this.field_187236_e = false;
+        this.field_187235_d.writeLock().unlock();
     }
 
-    private <T> EntityDataManager.DataEntry<T> getEntry(DataParameter<T> datawatcherobject) {
-        this.lock.readLock().lock();
+    private <T> EntityDataManager.DataEntry<T> func_187219_c(DataParameter<T> datawatcherobject) {
+        this.field_187235_d.readLock().lock();
 
         EntityDataManager.DataEntry datawatcher_item;
 
         try {
-            datawatcher_item = (EntityDataManager.DataEntry) this.entries.get(Integer.valueOf(datawatcherobject.getId()));
+            datawatcher_item = (EntityDataManager.DataEntry) this.field_187234_c.get(Integer.valueOf(datawatcherobject.func_187155_a()));
         } catch (Throwable throwable) {
-            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Getting synched entity data");
-            CrashReportCategory crashreportsystemdetails = crashreport.makeCategory("Synched entity data");
+            CrashReport crashreport = CrashReport.func_85055_a(throwable, "Getting synched entity data");
+            CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Synched entity data");
 
-            crashreportsystemdetails.addCrashSection("Data ID", (Object) datawatcherobject);
+            crashreportsystemdetails.func_71507_a("Data ID", (Object) datawatcherobject);
             throw new ReportedException(crashreport);
         }
 
-        this.lock.readLock().unlock();
+        this.field_187235_d.readLock().unlock();
         return datawatcher_item;
     }
 
-    public <T> T get(DataParameter<T> datawatcherobject) {
-        return this.getEntry(datawatcherobject).getValue();
+    public <T> T func_187225_a(DataParameter<T> datawatcherobject) {
+        return this.func_187219_c(datawatcherobject).func_187206_b();
     }
 
-    public <T> void set(DataParameter<T> datawatcherobject, T t0) {
-        EntityDataManager.DataEntry datawatcher_item = this.getEntry(datawatcherobject);
+    public <T> void func_187227_b(DataParameter<T> datawatcherobject, T t0) {
+        EntityDataManager.DataEntry datawatcher_item = this.func_187219_c(datawatcherobject);
 
-        if (ObjectUtils.notEqual(t0, datawatcher_item.getValue())) {
-            datawatcher_item.setValue(t0);
-            this.entity.notifyDataManagerChange(datawatcherobject);
-            datawatcher_item.setDirty(true);
-            this.dirty = true;
+        if (ObjectUtils.notEqual(t0, datawatcher_item.func_187206_b())) {
+            datawatcher_item.func_187210_a(t0);
+            this.field_187233_b.func_184206_a(datawatcherobject);
+            datawatcher_item.func_187208_a(true);
+            this.field_187237_f = true;
         }
 
     }
 
-    public <T> void setDirty(DataParameter<T> datawatcherobject) {
-        this.getEntry(datawatcherobject).dirty = true;
-        this.dirty = true;
+    public <T> void func_187217_b(DataParameter<T> datawatcherobject) {
+        this.func_187219_c(datawatcherobject).field_187213_c = true;
+        this.field_187237_f = true;
     }
 
-    public boolean isDirty() {
-        return this.dirty;
+    public boolean func_187223_a() {
+        return this.field_187237_f;
     }
 
-    public static void writeEntries(List<EntityDataManager.DataEntry<?>> list, PacketBuffer packetdataserializer) throws IOException {
+    public static void func_187229_a(List<EntityDataManager.DataEntry<?>> list, PacketBuffer packetdataserializer) throws IOException {
         if (list != null) {
             int i = 0;
 
             for (int j = list.size(); i < j; ++i) {
                 EntityDataManager.DataEntry datawatcher_item = (EntityDataManager.DataEntry) list.get(i);
 
-                writeEntry(packetdataserializer, datawatcher_item);
+                func_187220_a(packetdataserializer, datawatcher_item);
             }
         }
 
@@ -159,81 +159,81 @@ public class EntityDataManager {
     }
 
     @Nullable
-    public List<EntityDataManager.DataEntry<?>> getDirty() {
+    public List<EntityDataManager.DataEntry<?>> func_187221_b() {
         ArrayList arraylist = null;
 
-        if (this.dirty) {
-            this.lock.readLock().lock();
-            Iterator iterator = this.entries.values().iterator();
+        if (this.field_187237_f) {
+            this.field_187235_d.readLock().lock();
+            Iterator iterator = this.field_187234_c.values().iterator();
 
             while (iterator.hasNext()) {
                 EntityDataManager.DataEntry datawatcher_item = (EntityDataManager.DataEntry) iterator.next();
 
-                if (datawatcher_item.isDirty()) {
-                    datawatcher_item.setDirty(false);
+                if (datawatcher_item.func_187209_c()) {
+                    datawatcher_item.func_187208_a(false);
                     if (arraylist == null) {
                         arraylist = Lists.newArrayList();
                     }
 
-                    arraylist.add(datawatcher_item.copy());
+                    arraylist.add(datawatcher_item.func_192735_d());
                 }
             }
 
-            this.lock.readLock().unlock();
+            this.field_187235_d.readLock().unlock();
         }
 
-        this.dirty = false;
+        this.field_187237_f = false;
         return arraylist;
     }
 
-    public void writeEntries(PacketBuffer packetdataserializer) throws IOException {
-        this.lock.readLock().lock();
-        Iterator iterator = this.entries.values().iterator();
+    public void func_187216_a(PacketBuffer packetdataserializer) throws IOException {
+        this.field_187235_d.readLock().lock();
+        Iterator iterator = this.field_187234_c.values().iterator();
 
         while (iterator.hasNext()) {
             EntityDataManager.DataEntry datawatcher_item = (EntityDataManager.DataEntry) iterator.next();
 
-            writeEntry(packetdataserializer, datawatcher_item);
+            func_187220_a(packetdataserializer, datawatcher_item);
         }
 
-        this.lock.readLock().unlock();
+        this.field_187235_d.readLock().unlock();
         packetdataserializer.writeByte(255);
     }
 
     @Nullable
-    public List<EntityDataManager.DataEntry<?>> getAll() {
+    public List<EntityDataManager.DataEntry<?>> func_187231_c() {
         ArrayList arraylist = null;
 
-        this.lock.readLock().lock();
+        this.field_187235_d.readLock().lock();
 
         EntityDataManager.DataEntry datawatcher_item;
 
-        for (Iterator iterator = this.entries.values().iterator(); iterator.hasNext(); arraylist.add(datawatcher_item.copy())) {
+        for (Iterator iterator = this.field_187234_c.values().iterator(); iterator.hasNext(); arraylist.add(datawatcher_item.func_192735_d())) {
             datawatcher_item = (EntityDataManager.DataEntry) iterator.next();
             if (arraylist == null) {
                 arraylist = Lists.newArrayList();
             }
         }
 
-        this.lock.readLock().unlock();
+        this.field_187235_d.readLock().unlock();
         return arraylist;
     }
 
-    private static <T> void writeEntry(PacketBuffer packetdataserializer, EntityDataManager.DataEntry<T> datawatcher_item) throws IOException {
-        DataParameter datawatcherobject = datawatcher_item.getKey();
-        int i = DataSerializers.getSerializerId(datawatcherobject.getSerializer());
+    private static <T> void func_187220_a(PacketBuffer packetdataserializer, EntityDataManager.DataEntry<T> datawatcher_item) throws IOException {
+        DataParameter datawatcherobject = datawatcher_item.func_187205_a();
+        int i = DataSerializers.func_187188_b(datawatcherobject.func_187156_b());
 
         if (i < 0) {
-            throw new EncoderException("Unknown serializer type " + datawatcherobject.getSerializer());
+            throw new EncoderException("Unknown serializer type " + datawatcherobject.func_187156_b());
         } else {
-            packetdataserializer.writeByte(datawatcherobject.getId());
-            packetdataserializer.writeVarInt(i);
-            datawatcherobject.getSerializer().write(packetdataserializer, datawatcher_item.getValue());
+            packetdataserializer.writeByte(datawatcherobject.func_187155_a());
+            packetdataserializer.func_150787_b(i);
+            datawatcherobject.func_187156_b().func_187160_a(packetdataserializer, datawatcher_item.func_187206_b());
         }
     }
 
     @Nullable
-    public static List<EntityDataManager.DataEntry<?>> readEntries(PacketBuffer packetdataserializer) throws IOException {
+    public static List<EntityDataManager.DataEntry<?>> func_187215_b(PacketBuffer packetdataserializer) throws IOException {
         ArrayList arraylist = null;
 
         short short0;
@@ -243,71 +243,71 @@ public class EntityDataManager {
                 arraylist = Lists.newArrayList();
             }
 
-            int i = packetdataserializer.readVarInt();
-            DataSerializer datawatcherserializer = DataSerializers.getSerializer(i);
+            int i = packetdataserializer.func_150792_a();
+            DataSerializer datawatcherserializer = DataSerializers.func_187190_a(i);
 
             if (datawatcherserializer == null) {
                 throw new DecoderException("Unknown serializer type " + i);
             }
 
-            arraylist.add(new EntityDataManager.DataEntry(datawatcherserializer.createKey(short0), datawatcherserializer.read(packetdataserializer)));
+            arraylist.add(new EntityDataManager.DataEntry(datawatcherserializer.func_187161_a(short0), datawatcherserializer.func_187159_a(packetdataserializer)));
         }
 
         return arraylist;
     }
 
-    public boolean isEmpty() {
-        return this.empty;
+    public boolean func_187228_d() {
+        return this.field_187236_e;
     }
 
-    public void setClean() {
-        this.dirty = false;
-        this.lock.readLock().lock();
-        Iterator iterator = this.entries.values().iterator();
+    public void func_187230_e() {
+        this.field_187237_f = false;
+        this.field_187235_d.readLock().lock();
+        Iterator iterator = this.field_187234_c.values().iterator();
 
         while (iterator.hasNext()) {
             EntityDataManager.DataEntry datawatcher_item = (EntityDataManager.DataEntry) iterator.next();
 
-            datawatcher_item.setDirty(false);
+            datawatcher_item.func_187208_a(false);
         }
 
-        this.lock.readLock().unlock();
+        this.field_187235_d.readLock().unlock();
     }
 
     public static class DataEntry<T> {
 
-        private final DataParameter<T> key;
-        private T value;
-        private boolean dirty;
+        private final DataParameter<T> field_187211_a;
+        private T field_187212_b;
+        private boolean field_187213_c;
 
         public DataEntry(DataParameter<T> datawatcherobject, T t0) {
-            this.key = datawatcherobject;
-            this.value = t0;
-            this.dirty = true;
+            this.field_187211_a = datawatcherobject;
+            this.field_187212_b = t0;
+            this.field_187213_c = true;
         }
 
-        public DataParameter<T> getKey() {
-            return this.key;
+        public DataParameter<T> func_187205_a() {
+            return this.field_187211_a;
         }
 
-        public void setValue(T t0) {
-            this.value = t0;
+        public void func_187210_a(T t0) {
+            this.field_187212_b = t0;
         }
 
-        public T getValue() {
-            return this.value;
+        public T func_187206_b() {
+            return this.field_187212_b;
         }
 
-        public boolean isDirty() {
-            return this.dirty;
+        public boolean func_187209_c() {
+            return this.field_187213_c;
         }
 
-        public void setDirty(boolean flag) {
-            this.dirty = flag;
+        public void func_187208_a(boolean flag) {
+            this.field_187213_c = flag;
         }
 
-        public EntityDataManager.DataEntry<T> copy() {
-            return new EntityDataManager.DataEntry(this.key, this.key.getSerializer().copyValue(this.value));
+        public EntityDataManager.DataEntry<T> func_192735_d() {
+            return new EntityDataManager.DataEntry(this.field_187211_a, this.field_187211_a.func_187156_b().func_192717_a(this.field_187212_b));
         }
     }
 }

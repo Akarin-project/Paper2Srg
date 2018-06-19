@@ -10,14 +10,14 @@ public class WorldGenWaterlily extends WorldGenerator {
 
     public WorldGenWaterlily() {}
 
-    public boolean generate(World world, Random random, BlockPos blockposition) {
+    public boolean func_180709_b(World world, Random random, BlockPos blockposition) {
         for (int i = 0; i < 10; ++i) {
-            int j = blockposition.getX() + random.nextInt(8) - random.nextInt(8);
-            int k = blockposition.getY() + random.nextInt(4) - random.nextInt(4);
-            int l = blockposition.getZ() + random.nextInt(8) - random.nextInt(8);
+            int j = blockposition.func_177958_n() + random.nextInt(8) - random.nextInt(8);
+            int k = blockposition.func_177956_o() + random.nextInt(4) - random.nextInt(4);
+            int l = blockposition.func_177952_p() + random.nextInt(8) - random.nextInt(8);
 
-            if (world.isAirBlock(new BlockPos(j, k, l)) && Blocks.WATERLILY.canPlaceBlockAt(world, new BlockPos(j, k, l))) {
-                world.setBlockState(new BlockPos(j, k, l), Blocks.WATERLILY.getDefaultState(), 2);
+            if (world.func_175623_d(new BlockPos(j, k, l)) && Blocks.field_150392_bi.func_176196_c(world, new BlockPos(j, k, l))) {
+                world.func_180501_a(new BlockPos(j, k, l), Blocks.field_150392_bi.func_176223_P(), 2);
             }
         }
 

@@ -4,93 +4,93 @@ import net.minecraft.item.EnumDyeColor;
 
 public class MapColor {
 
-    public static final MapColor[] COLORS = new MapColor[64];
-    public static final MapColor[] BLOCK_COLORS = new MapColor[16];
-    public static final MapColor AIR = new MapColor(0, 0);
-    public static final MapColor GRASS = new MapColor(1, 8368696);
-    public static final MapColor SAND = new MapColor(2, 16247203);
-    public static final MapColor CLOTH = new MapColor(3, 13092807);
-    public static final MapColor TNT = new MapColor(4, 16711680);
-    public static final MapColor ICE = new MapColor(5, 10526975);
-    public static final MapColor IRON = new MapColor(6, 10987431);
-    public static final MapColor FOLIAGE = new MapColor(7, 31744);
-    public static final MapColor SNOW = new MapColor(8, 16777215);
-    public static final MapColor CLAY = new MapColor(9, 10791096);
-    public static final MapColor DIRT = new MapColor(10, 9923917);
-    public static final MapColor STONE = new MapColor(11, 7368816);
-    public static final MapColor WATER = new MapColor(12, 4210943);
-    public static final MapColor WOOD = new MapColor(13, 9402184);
-    public static final MapColor QUARTZ = new MapColor(14, 16776437);
-    public static final MapColor ADOBE = new MapColor(15, 14188339);
-    public static final MapColor MAGENTA = new MapColor(16, 11685080);
-    public static final MapColor LIGHT_BLUE = new MapColor(17, 6724056);
-    public static final MapColor YELLOW = new MapColor(18, 15066419);
-    public static final MapColor LIME = new MapColor(19, 8375321);
-    public static final MapColor PINK = new MapColor(20, 15892389);
-    public static final MapColor GRAY = new MapColor(21, 5000268);
-    public static final MapColor SILVER = new MapColor(22, 10066329);
-    public static final MapColor CYAN = new MapColor(23, 5013401);
-    public static final MapColor PURPLE = new MapColor(24, 8339378);
-    public static final MapColor BLUE = new MapColor(25, 3361970);
-    public static final MapColor BROWN = new MapColor(26, 6704179);
-    public static final MapColor GREEN = new MapColor(27, 6717235);
-    public static final MapColor RED = new MapColor(28, 10040115);
-    public static final MapColor BLACK = new MapColor(29, 1644825);
-    public static final MapColor GOLD = new MapColor(30, 16445005);
-    public static final MapColor DIAMOND = new MapColor(31, 6085589);
-    public static final MapColor LAPIS = new MapColor(32, 4882687);
-    public static final MapColor EMERALD = new MapColor(33, '\ud93a');
-    public static final MapColor OBSIDIAN = new MapColor(34, 8476209);
-    public static final MapColor NETHERRACK = new MapColor(35, 7340544);
-    public static final MapColor WHITE_STAINED_HARDENED_CLAY = new MapColor(36, 13742497);
-    public static final MapColor ORANGE_STAINED_HARDENED_CLAY = new MapColor(37, 10441252);
-    public static final MapColor MAGENTA_STAINED_HARDENED_CLAY = new MapColor(38, 9787244);
-    public static final MapColor LIGHT_BLUE_STAINED_HARDENED_CLAY = new MapColor(39, 7367818);
-    public static final MapColor YELLOW_STAINED_HARDENED_CLAY = new MapColor(40, 12223780);
-    public static final MapColor LIME_STAINED_HARDENED_CLAY = new MapColor(41, 6780213);
-    public static final MapColor PINK_STAINED_HARDENED_CLAY = new MapColor(42, 10505550);
-    public static final MapColor GRAY_STAINED_HARDENED_CLAY = new MapColor(43, 3746083);
-    public static final MapColor SILVER_STAINED_HARDENED_CLAY = new MapColor(44, 8874850);
-    public static final MapColor CYAN_STAINED_HARDENED_CLAY = new MapColor(45, 5725276);
-    public static final MapColor PURPLE_STAINED_HARDENED_CLAY = new MapColor(46, 8014168);
-    public static final MapColor BLUE_STAINED_HARDENED_CLAY = new MapColor(47, 4996700);
-    public static final MapColor BROWN_STAINED_HARDENED_CLAY = new MapColor(48, 4993571);
-    public static final MapColor GREEN_STAINED_HARDENED_CLAY = new MapColor(49, 5001770);
-    public static final MapColor RED_STAINED_HARDENED_CLAY = new MapColor(50, 9321518);
-    public static final MapColor BLACK_STAINED_HARDENED_CLAY = new MapColor(51, 2430480);
-    public final int colorValue;
-    public final int colorIndex;
+    public static final MapColor[] field_76281_a = new MapColor[64];
+    public static final MapColor[] field_193575_b = new MapColor[16];
+    public static final MapColor field_151660_b = new MapColor(0, 0);
+    public static final MapColor field_151661_c = new MapColor(1, 8368696);
+    public static final MapColor field_151658_d = new MapColor(2, 16247203);
+    public static final MapColor field_151659_e = new MapColor(3, 13092807);
+    public static final MapColor field_151656_f = new MapColor(4, 16711680);
+    public static final MapColor field_151657_g = new MapColor(5, 10526975);
+    public static final MapColor field_151668_h = new MapColor(6, 10987431);
+    public static final MapColor field_151669_i = new MapColor(7, 31744);
+    public static final MapColor field_151666_j = new MapColor(8, 16777215);
+    public static final MapColor field_151667_k = new MapColor(9, 10791096);
+    public static final MapColor field_151664_l = new MapColor(10, 9923917);
+    public static final MapColor field_151665_m = new MapColor(11, 7368816);
+    public static final MapColor field_151662_n = new MapColor(12, 4210943);
+    public static final MapColor field_151663_o = new MapColor(13, 9402184);
+    public static final MapColor field_151677_p = new MapColor(14, 16776437);
+    public static final MapColor field_151676_q = new MapColor(15, 14188339);
+    public static final MapColor field_151675_r = new MapColor(16, 11685080);
+    public static final MapColor field_151674_s = new MapColor(17, 6724056);
+    public static final MapColor field_151673_t = new MapColor(18, 15066419);
+    public static final MapColor field_151672_u = new MapColor(19, 8375321);
+    public static final MapColor field_151671_v = new MapColor(20, 15892389);
+    public static final MapColor field_151670_w = new MapColor(21, 5000268);
+    public static final MapColor field_151680_x = new MapColor(22, 10066329);
+    public static final MapColor field_151679_y = new MapColor(23, 5013401);
+    public static final MapColor field_151678_z = new MapColor(24, 8339378);
+    public static final MapColor field_151649_A = new MapColor(25, 3361970);
+    public static final MapColor field_151650_B = new MapColor(26, 6704179);
+    public static final MapColor field_151651_C = new MapColor(27, 6717235);
+    public static final MapColor field_151645_D = new MapColor(28, 10040115);
+    public static final MapColor field_151646_E = new MapColor(29, 1644825);
+    public static final MapColor field_151647_F = new MapColor(30, 16445005);
+    public static final MapColor field_151648_G = new MapColor(31, 6085589);
+    public static final MapColor field_151652_H = new MapColor(32, 4882687);
+    public static final MapColor field_151653_I = new MapColor(33, '\ud93a');
+    public static final MapColor field_151654_J = new MapColor(34, 8476209);
+    public static final MapColor field_151655_K = new MapColor(35, 7340544);
+    public static final MapColor field_193561_M = new MapColor(36, 13742497);
+    public static final MapColor field_193562_N = new MapColor(37, 10441252);
+    public static final MapColor field_193563_O = new MapColor(38, 9787244);
+    public static final MapColor field_193564_P = new MapColor(39, 7367818);
+    public static final MapColor field_193565_Q = new MapColor(40, 12223780);
+    public static final MapColor field_193566_R = new MapColor(41, 6780213);
+    public static final MapColor field_193567_S = new MapColor(42, 10505550);
+    public static final MapColor field_193568_T = new MapColor(43, 3746083);
+    public static final MapColor field_193569_U = new MapColor(44, 8874850);
+    public static final MapColor field_193570_V = new MapColor(45, 5725276);
+    public static final MapColor field_193571_W = new MapColor(46, 8014168);
+    public static final MapColor field_193572_X = new MapColor(47, 4996700);
+    public static final MapColor field_193573_Y = new MapColor(48, 4993571);
+    public static final MapColor field_193574_Z = new MapColor(49, 5001770);
+    public static final MapColor field_193559_aa = new MapColor(50, 9321518);
+    public static final MapColor field_193560_ab = new MapColor(51, 2430480);
+    public final int field_76291_p;
+    public final int field_76290_q;
 
     private MapColor(int i, int j) {
         if (i >= 0 && i <= 63) {
-            this.colorIndex = i;
-            this.colorValue = j;
-            MapColor.COLORS[i] = this;
+            this.field_76290_q = i;
+            this.field_76291_p = j;
+            MapColor.field_76281_a[i] = this;
         } else {
             throw new IndexOutOfBoundsException("Map colour ID must be between 0 and 63 (inclusive)");
         }
     }
 
-    public static MapColor getBlockColor(EnumDyeColor enumcolor) {
-        return MapColor.BLOCK_COLORS[enumcolor.getMetadata()];
+    public static MapColor func_193558_a(EnumDyeColor enumcolor) {
+        return MapColor.field_193575_b[enumcolor.func_176765_a()];
     }
 
     static {
-        MapColor.BLOCK_COLORS[EnumDyeColor.WHITE.getMetadata()] = MapColor.SNOW;
-        MapColor.BLOCK_COLORS[EnumDyeColor.ORANGE.getMetadata()] = MapColor.ADOBE;
-        MapColor.BLOCK_COLORS[EnumDyeColor.MAGENTA.getMetadata()] = MapColor.MAGENTA;
-        MapColor.BLOCK_COLORS[EnumDyeColor.LIGHT_BLUE.getMetadata()] = MapColor.LIGHT_BLUE;
-        MapColor.BLOCK_COLORS[EnumDyeColor.YELLOW.getMetadata()] = MapColor.YELLOW;
-        MapColor.BLOCK_COLORS[EnumDyeColor.LIME.getMetadata()] = MapColor.LIME;
-        MapColor.BLOCK_COLORS[EnumDyeColor.PINK.getMetadata()] = MapColor.PINK;
-        MapColor.BLOCK_COLORS[EnumDyeColor.GRAY.getMetadata()] = MapColor.GRAY;
-        MapColor.BLOCK_COLORS[EnumDyeColor.SILVER.getMetadata()] = MapColor.SILVER;
-        MapColor.BLOCK_COLORS[EnumDyeColor.CYAN.getMetadata()] = MapColor.CYAN;
-        MapColor.BLOCK_COLORS[EnumDyeColor.PURPLE.getMetadata()] = MapColor.PURPLE;
-        MapColor.BLOCK_COLORS[EnumDyeColor.BLUE.getMetadata()] = MapColor.BLUE;
-        MapColor.BLOCK_COLORS[EnumDyeColor.BROWN.getMetadata()] = MapColor.BROWN;
-        MapColor.BLOCK_COLORS[EnumDyeColor.GREEN.getMetadata()] = MapColor.GREEN;
-        MapColor.BLOCK_COLORS[EnumDyeColor.RED.getMetadata()] = MapColor.RED;
-        MapColor.BLOCK_COLORS[EnumDyeColor.BLACK.getMetadata()] = MapColor.BLACK;
+        MapColor.field_193575_b[EnumDyeColor.WHITE.func_176765_a()] = MapColor.field_151666_j;
+        MapColor.field_193575_b[EnumDyeColor.ORANGE.func_176765_a()] = MapColor.field_151676_q;
+        MapColor.field_193575_b[EnumDyeColor.MAGENTA.func_176765_a()] = MapColor.field_151675_r;
+        MapColor.field_193575_b[EnumDyeColor.LIGHT_BLUE.func_176765_a()] = MapColor.field_151674_s;
+        MapColor.field_193575_b[EnumDyeColor.YELLOW.func_176765_a()] = MapColor.field_151673_t;
+        MapColor.field_193575_b[EnumDyeColor.LIME.func_176765_a()] = MapColor.field_151672_u;
+        MapColor.field_193575_b[EnumDyeColor.PINK.func_176765_a()] = MapColor.field_151671_v;
+        MapColor.field_193575_b[EnumDyeColor.GRAY.func_176765_a()] = MapColor.field_151670_w;
+        MapColor.field_193575_b[EnumDyeColor.SILVER.func_176765_a()] = MapColor.field_151680_x;
+        MapColor.field_193575_b[EnumDyeColor.CYAN.func_176765_a()] = MapColor.field_151679_y;
+        MapColor.field_193575_b[EnumDyeColor.PURPLE.func_176765_a()] = MapColor.field_151678_z;
+        MapColor.field_193575_b[EnumDyeColor.BLUE.func_176765_a()] = MapColor.field_151649_A;
+        MapColor.field_193575_b[EnumDyeColor.BROWN.func_176765_a()] = MapColor.field_151650_B;
+        MapColor.field_193575_b[EnumDyeColor.GREEN.func_176765_a()] = MapColor.field_151651_C;
+        MapColor.field_193575_b[EnumDyeColor.RED.func_176765_a()] = MapColor.field_151645_D;
+        MapColor.field_193575_b[EnumDyeColor.BLACK.func_176765_a()] = MapColor.field_151646_E;
     }
 }

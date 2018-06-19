@@ -33,41 +33,41 @@ public class CraftFurnace extends CraftContainer<TileEntityFurnace> implements F
 
     @Override
     public short getBurnTime() {
-        return (short) this.getSnapshot().getField(0);
+        return (short) this.getSnapshot().func_174887_a_(0);
     }
 
     @Override
     public void setBurnTime(short burnTime) {
-        this.getSnapshot().setField(0, burnTime);
+        this.getSnapshot().func_174885_b(0, burnTime);
     }
 
     @Override
     public short getCookTime() {
-        return (short) this.getSnapshot().getField(2);
+        return (short) this.getSnapshot().func_174887_a_(2);
     }
 
     @Override
     public void setCookTime(short cookTime) {
-        this.getSnapshot().setField(2, cookTime);
+        this.getSnapshot().func_174885_b(2, cookTime);
     }
 
     @Override
     public String getCustomName() {
         TileEntityFurnace furnace = this.getSnapshot();
-        return furnace.hasCustomName() ? furnace.getName() : null;
+        return furnace.func_145818_k_() ? furnace.func_70005_c_() : null;
     }
 
     @Override
     public void setCustomName(String name) {
-        this.getSnapshot().setCustomInventoryName(name);
+        this.getSnapshot().func_145951_a(name);
     }
 
     @Override
     public void applyTo(TileEntityFurnace furnace) {
         super.applyTo(furnace);
 
-        if (!this.getSnapshot().hasCustomName()) {
-            furnace.setCustomInventoryName(null);
+        if (!this.getSnapshot().func_145818_k_()) {
+            furnace.func_145951_a(null);
         }
     }
 }

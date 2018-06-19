@@ -6,11 +6,11 @@ public class ScoreCriteriaHealth extends ScoreCriteria {
         super(s);
     }
 
-    public boolean isReadOnly() {
+    public boolean func_96637_b() {
         return true;
     }
 
-    public IScoreCriteria.EnumRenderType getRenderType() {
+    public IScoreCriteria.EnumRenderType func_178790_c() {
         return IScoreCriteria.EnumRenderType.HEARTS;
     }
 }

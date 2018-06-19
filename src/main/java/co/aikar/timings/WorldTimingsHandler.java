@@ -52,7 +52,7 @@ public class WorldTimingsHandler {
     public final Timing lightingQueueTimer;
 
     public WorldTimingsHandler(World server) {
-        String name = server.worldInfo.getWorldName() +" - ";
+        String name = server.field_72986_A.func_76065_j() +" - ";
 
         mobSpawn = Timings.ofSafe(name + "mobSpawn");
         doChunkUnload = Timings.ofSafe(name + "doChunkUnload");

@@ -17,346 +17,346 @@ import net.minecraft.util.text.ITextComponent;
 
 public class DataSerializers {
 
-    private static final IntIdentityHashBiMap<DataSerializer<?>> REGISTRY = new IntIdentityHashBiMap(16);
-    public static final DataSerializer<Byte> BYTE = new DataSerializer<Byte>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, Byte obyte) {
+    private static final IntIdentityHashBiMap<DataSerializer<?>> field_187204_n = new IntIdentityHashBiMap(16);
+    public static final DataSerializer<Byte> field_187191_a = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, Byte obyte) {
             packetdataserializer.writeByte(obyte.byteValue());
         }
 
-        @Override
-        public Byte read(PacketBuffer packetdataserializer) {
+        public Byte b(PacketBuffer packetdataserializer) {
             return Byte.valueOf(packetdataserializer.readByte());
         }
 
-        @Override
-        public DataParameter<Byte> createKey(int i) {
+        public DataParameter<Byte> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public Byte copyValue(Byte obyte) {
+        public Byte a(Byte obyte) {
             return obyte;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<Integer> VARINT = new DataSerializer<Integer>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, Integer integer) {
-            packetdataserializer.writeVarInt(integer.intValue());
+    public static final DataSerializer<Integer> field_187192_b = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, Integer integer) {
+            packetdataserializer.func_150787_b(integer.intValue());
         }
 
-        @Override
-        public Integer read(PacketBuffer packetdataserializer) {
-            return Integer.valueOf(packetdataserializer.readVarInt());
+        public Integer b(PacketBuffer packetdataserializer) {
+            return Integer.valueOf(packetdataserializer.func_150792_a());
         }
 
-        @Override
-        public DataParameter<Integer> createKey(int i) {
+        public DataParameter<Integer> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public Integer copyValue(Integer integer) {
+        public Integer a(Integer integer) {
             return integer;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<Float> FLOAT = new DataSerializer<Float>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, Float ofloat) {
+    public static final DataSerializer<Float> field_187193_c = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, Float ofloat) {
             packetdataserializer.writeFloat(ofloat.floatValue());
         }
 
-        @Override
-        public Float read(PacketBuffer packetdataserializer) {
+        public Float b(PacketBuffer packetdataserializer) {
             return Float.valueOf(packetdataserializer.readFloat());
         }
 
-        @Override
-        public DataParameter<Float> createKey(int i) {
+        public DataParameter<Float> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public Float copyValue(Float ofloat) {
+        public Float a(Float ofloat) {
             return ofloat;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<String> STRING = new DataSerializer<String>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, String s) {
-            packetdataserializer.writeString(s);
+    public static final DataSerializer<String> field_187194_d = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, String s) {
+            packetdataserializer.func_180714_a(s);
         }
 
-        @Override
-        public String read(PacketBuffer packetdataserializer) {
-            return packetdataserializer.readString(32767);
+        public String b(PacketBuffer packetdataserializer) {
+            return packetdataserializer.func_150789_c(32767);
         }
 
-        @Override
-        public DataParameter<String> createKey(int i) {
+        public DataParameter<String> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public String copyValue(String s) {
+        public String a(String s) {
             return s;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<ITextComponent> TEXT_COMPONENT = new DataSerializer<ITextComponent>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, ITextComponent ichatbasecomponent) {
-            packetdataserializer.writeTextComponent(ichatbasecomponent);
+    public static final DataSerializer<ITextComponent> field_187195_e = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, ITextComponent ichatbasecomponent) {
+            packetdataserializer.func_179256_a(ichatbasecomponent);
         }
 
-        @Override
-        public ITextComponent read(PacketBuffer packetdataserializer) {
-            return packetdataserializer.readTextComponent();
+        public ITextComponent b(PacketBuffer packetdataserializer) {
+            return packetdataserializer.func_179258_d();
         }
 
-        @Override
-        public DataParameter<ITextComponent> createKey(int i) {
+        public DataParameter<ITextComponent> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public ITextComponent copyValue(ITextComponent ichatbasecomponent) {
-            return ichatbasecomponent.createCopy();
+        public ITextComponent a(ITextComponent ichatbasecomponent) {
+            return ichatbasecomponent.func_150259_f();
+        }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
         }
     };
-    public static final DataSerializer<ItemStack> ITEM_STACK = new DataSerializer<ItemStack>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, ItemStack itemstack) {
-            packetdataserializer.writeItemStack(itemstack);
+    public static final DataSerializer<ItemStack> field_187196_f = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, ItemStack itemstack) {
+            packetdataserializer.func_150788_a(itemstack);
         }
 
-        @Override
-        public ItemStack read(PacketBuffer packetdataserializer) {
-            return packetdataserializer.readItemStack();
+        public ItemStack b(PacketBuffer packetdataserializer) {
+            return packetdataserializer.func_150791_c();
         }
 
-        @Override
-        public DataParameter<ItemStack> createKey(int i) {
+        public DataParameter<ItemStack> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public ItemStack copyValue(ItemStack itemstack) {
-            return itemstack.copy();
+        public ItemStack a(ItemStack itemstack) {
+            return itemstack.func_77946_l();
+        }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
         }
     };
-    public static final DataSerializer<Optional<IBlockState>> OPTIONAL_BLOCK_STATE = new DataSerializer<Optional<IBlockState>>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, Optional<IBlockState> optional) {
+    public static final DataSerializer<Optional<IBlockState>> field_187197_g = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, Optional<IBlockState> optional) {
             if (optional.isPresent()) {
-                packetdataserializer.writeVarInt(Block.getStateId(optional.get()));
+                packetdataserializer.func_150787_b(Block.func_176210_f((IBlockState) optional.get()));
             } else {
-                packetdataserializer.writeVarInt(0);
+                packetdataserializer.func_150787_b(0);
             }
 
         }
 
-        @Override
-        public Optional<IBlockState> read(PacketBuffer packetdataserializer) {
-            int i = packetdataserializer.readVarInt();
+        public Optional<IBlockState> b(PacketBuffer packetdataserializer) {
+            int i = packetdataserializer.func_150792_a();
 
-            return i == 0 ? Optional.absent() : Optional.of(Block.getStateById(i));
+            return i == 0 ? Optional.absent() : Optional.of(Block.func_176220_d(i));
         }
 
-        @Override
-        public DataParameter<Optional<IBlockState>> createKey(int i) {
+        public DataParameter<Optional<IBlockState>> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public Optional<IBlockState> copyValue(Optional<IBlockState> optional) {
+        public Optional<IBlockState> a(Optional<IBlockState> optional) {
             return optional;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<Boolean> BOOLEAN = new DataSerializer<Boolean>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, Boolean obool) {
+    public static final DataSerializer<Boolean> field_187198_h = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, Boolean obool) {
             packetdataserializer.writeBoolean(obool.booleanValue());
         }
 
-        @Override
-        public Boolean read(PacketBuffer packetdataserializer) {
+        public Boolean b(PacketBuffer packetdataserializer) {
             return Boolean.valueOf(packetdataserializer.readBoolean());
         }
 
-        @Override
-        public DataParameter<Boolean> createKey(int i) {
+        public DataParameter<Boolean> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public Boolean copyValue(Boolean obool) {
+        public Boolean a(Boolean obool) {
             return obool;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<Rotations> ROTATIONS = new DataSerializer<Rotations>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, Rotations vector3f) {
-            packetdataserializer.writeFloat(vector3f.getX());
-            packetdataserializer.writeFloat(vector3f.getY());
-            packetdataserializer.writeFloat(vector3f.getZ());
+    public static final DataSerializer<Rotations> field_187199_i = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, Rotations vector3f) {
+            packetdataserializer.writeFloat(vector3f.func_179415_b());
+            packetdataserializer.writeFloat(vector3f.func_179416_c());
+            packetdataserializer.writeFloat(vector3f.func_179413_d());
         }
 
-        @Override
-        public Rotations read(PacketBuffer packetdataserializer) {
+        public Rotations b(PacketBuffer packetdataserializer) {
             return new Rotations(packetdataserializer.readFloat(), packetdataserializer.readFloat(), packetdataserializer.readFloat());
         }
 
-        @Override
-        public DataParameter<Rotations> createKey(int i) {
+        public DataParameter<Rotations> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public Rotations copyValue(Rotations vector3f) {
+        public Rotations a(Rotations vector3f) {
             return vector3f;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<BlockPos> BLOCK_POS = new DataSerializer<BlockPos>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, BlockPos blockposition) {
-            packetdataserializer.writeBlockPos(blockposition);
+    public static final DataSerializer<BlockPos> field_187200_j = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, BlockPos blockposition) {
+            packetdataserializer.func_179255_a(blockposition);
         }
 
-        @Override
-        public BlockPos read(PacketBuffer packetdataserializer) {
-            return packetdataserializer.readBlockPos();
+        public BlockPos b(PacketBuffer packetdataserializer) {
+            return packetdataserializer.func_179259_c();
         }
 
-        @Override
-        public DataParameter<BlockPos> createKey(int i) {
+        public DataParameter<BlockPos> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public BlockPos copyValue(BlockPos blockposition) {
+        public BlockPos a(BlockPos blockposition) {
             return blockposition;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<Optional<BlockPos>> OPTIONAL_BLOCK_POS = new DataSerializer<Optional<BlockPos>>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, Optional<BlockPos> optional) {
+    public static final DataSerializer<Optional<BlockPos>> field_187201_k = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, Optional<BlockPos> optional) {
             packetdataserializer.writeBoolean(optional.isPresent());
             if (optional.isPresent()) {
-                packetdataserializer.writeBlockPos(optional.get());
+                packetdataserializer.func_179255_a((BlockPos) optional.get());
             }
 
         }
 
-        @Override
-        public Optional<BlockPos> read(PacketBuffer packetdataserializer) {
-            return !packetdataserializer.readBoolean() ? Optional.absent() : Optional.of(packetdataserializer.readBlockPos());
+        public Optional<BlockPos> b(PacketBuffer packetdataserializer) {
+            return !packetdataserializer.readBoolean() ? Optional.absent() : Optional.of(packetdataserializer.func_179259_c());
         }
 
-        @Override
-        public DataParameter<Optional<BlockPos>> createKey(int i) {
+        public DataParameter<Optional<BlockPos>> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public Optional<BlockPos> copyValue(Optional<BlockPos> optional) {
+        public Optional<BlockPos> a(Optional<BlockPos> optional) {
             return optional;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<EnumFacing> FACING = new DataSerializer<EnumFacing>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, EnumFacing enumdirection) {
-            packetdataserializer.writeEnumValue(enumdirection);
+    public static final DataSerializer<EnumFacing> field_187202_l = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, EnumFacing enumdirection) {
+            packetdataserializer.func_179249_a((Enum) enumdirection);
         }
 
-        @Override
-        public EnumFacing read(PacketBuffer packetdataserializer) {
-            return packetdataserializer.readEnumValue(EnumFacing.class);
+        public EnumFacing b(PacketBuffer packetdataserializer) {
+            return (EnumFacing) packetdataserializer.func_179257_a(EnumFacing.class);
         }
 
-        @Override
-        public DataParameter<EnumFacing> createKey(int i) {
+        public DataParameter<EnumFacing> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public EnumFacing copyValue(EnumFacing enumdirection) {
+        public EnumFacing a(EnumFacing enumdirection) {
             return enumdirection;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<Optional<UUID>> OPTIONAL_UNIQUE_ID = new DataSerializer<Optional<UUID>>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, Optional<UUID> optional) {
+    public static final DataSerializer<Optional<UUID>> field_187203_m = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, Optional<UUID> optional) {
             packetdataserializer.writeBoolean(optional.isPresent());
             if (optional.isPresent()) {
-                packetdataserializer.writeUniqueId(optional.get());
+                packetdataserializer.func_179252_a((UUID) optional.get());
             }
 
         }
 
-        @Override
-        public Optional<UUID> read(PacketBuffer packetdataserializer) {
-            return !packetdataserializer.readBoolean() ? Optional.absent() : Optional.of(packetdataserializer.readUniqueId());
+        public Optional<UUID> b(PacketBuffer packetdataserializer) {
+            return !packetdataserializer.readBoolean() ? Optional.absent() : Optional.of(packetdataserializer.func_179253_g());
         }
 
-        @Override
-        public DataParameter<Optional<UUID>> createKey(int i) {
+        public DataParameter<Optional<UUID>> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public Optional<UUID> copyValue(Optional<UUID> optional) {
+        public Optional<UUID> a(Optional<UUID> optional) {
             return optional;
         }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
+        }
     };
-    public static final DataSerializer<NBTTagCompound> COMPOUND_TAG = new DataSerializer<NBTTagCompound>() {
-        @Override
-        public void write(PacketBuffer packetdataserializer, NBTTagCompound nbttagcompound) {
-            packetdataserializer.writeCompoundTag(nbttagcompound);
+    public static final DataSerializer<NBTTagCompound> field_192734_n = new DataSerializer() {
+        public void a(PacketBuffer packetdataserializer, NBTTagCompound nbttagcompound) {
+            packetdataserializer.func_150786_a(nbttagcompound);
         }
 
-        @Override
-        public NBTTagCompound read(PacketBuffer packetdataserializer) {
-            return packetdataserializer.readCompoundTag();
+        public NBTTagCompound b(PacketBuffer packetdataserializer) {
+            return packetdataserializer.func_150793_b();
         }
 
-        @Override
-        public DataParameter<NBTTagCompound> createKey(int i) {
+        public DataParameter<NBTTagCompound> func_187161_a(int i) {
             return new DataParameter(i, this);
         }
 
-        @Override
-        public NBTTagCompound copyValue(NBTTagCompound nbttagcompound) {
-            return nbttagcompound.copy();
+        public NBTTagCompound a(NBTTagCompound nbttagcompound) {
+            return nbttagcompound.func_74737_b();
+        }
+
+        public Object func_187159_a(PacketBuffer packetdataserializer) {
+            return this.b(packetdataserializer);
         }
     };
 
-    public static void registerSerializer(DataSerializer<?> datawatcherserializer) {
-        DataSerializers.REGISTRY.add(datawatcherserializer);
+    public static void func_187189_a(DataSerializer<?> datawatcherserializer) {
+        DataSerializers.field_187204_n.func_186808_c(datawatcherserializer);
     }
 
     @Nullable
-    public static DataSerializer<?> getSerializer(int i) {
-        return DataSerializers.REGISTRY.get(i);
+    public static DataSerializer<?> func_187190_a(int i) {
+        return (DataSerializer) DataSerializers.field_187204_n.func_186813_a(i);
     }
 
-    public static int getSerializerId(DataSerializer<?> datawatcherserializer) {
-        return DataSerializers.REGISTRY.getId(datawatcherserializer);
+    public static int func_187188_b(DataSerializer<?> datawatcherserializer) {
+        return DataSerializers.field_187204_n.func_186815_a(datawatcherserializer);
     }
 
     static {
-        registerSerializer(DataSerializers.BYTE);
-        registerSerializer(DataSerializers.VARINT);
-        registerSerializer(DataSerializers.FLOAT);
-        registerSerializer(DataSerializers.STRING);
-        registerSerializer(DataSerializers.TEXT_COMPONENT);
-        registerSerializer(DataSerializers.ITEM_STACK);
-        registerSerializer(DataSerializers.BOOLEAN);
-        registerSerializer(DataSerializers.ROTATIONS);
-        registerSerializer(DataSerializers.BLOCK_POS);
-        registerSerializer(DataSerializers.OPTIONAL_BLOCK_POS);
-        registerSerializer(DataSerializers.FACING);
-        registerSerializer(DataSerializers.OPTIONAL_UNIQUE_ID);
-        registerSerializer(DataSerializers.OPTIONAL_BLOCK_STATE);
-        registerSerializer(DataSerializers.COMPOUND_TAG);
+        func_187189_a(DataSerializers.field_187191_a);
+        func_187189_a(DataSerializers.field_187192_b);
+        func_187189_a(DataSerializers.field_187193_c);
+        func_187189_a(DataSerializers.field_187194_d);
+        func_187189_a(DataSerializers.field_187195_e);
+        func_187189_a(DataSerializers.field_187196_f);
+        func_187189_a(DataSerializers.field_187198_h);
+        func_187189_a(DataSerializers.field_187199_i);
+        func_187189_a(DataSerializers.field_187200_j);
+        func_187189_a(DataSerializers.field_187201_k);
+        func_187189_a(DataSerializers.field_187202_l);
+        func_187189_a(DataSerializers.field_187203_m);
+        func_187189_a(DataSerializers.field_187197_g);
+        func_187189_a(DataSerializers.field_192734_n);
     }
 }

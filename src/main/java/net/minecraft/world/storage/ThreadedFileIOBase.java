@@ -6,11 +6,11 @@ import java.util.List;
 
 public class ThreadedFileIOBase implements Runnable {
 
-    private static final ThreadedFileIOBase INSTANCE = new ThreadedFileIOBase();
-    private final List<IThreadedFileIO> threadedIOQueue = Collections.synchronizedList(Lists.newArrayList());
-    private volatile long writeQueuedCounter;
-    private volatile long savedIOCounter;
-    private volatile boolean isThreadWaiting;
+    private static final ThreadedFileIOBase field_75741_a = new ThreadedFileIOBase();
+    private final List<IThreadedFileIO> field_75739_b = Collections.synchronizedList(Lists.newArrayList());
+    private volatile long field_75740_c;
+    private volatile long field_75737_d;
+    private volatile boolean field_75738_e;
 
     private ThreadedFileIOBase() {
         Thread thread = new Thread(this, "File IO Thread");
@@ -19,30 +19,30 @@ public class ThreadedFileIOBase implements Runnable {
         thread.start();
     }
 
-    public static ThreadedFileIOBase getThreadedIOInstance() {
-        return ThreadedFileIOBase.INSTANCE;
+    public static ThreadedFileIOBase func_178779_a() {
+        return ThreadedFileIOBase.field_75741_a;
     }
 
     public void run() {
         while (true) {
-            this.processQueue();
+            this.func_75736_b();
         }
     }
 
-    private void processQueue() {
-        for (int i = 0; i < this.threadedIOQueue.size(); ++i) {
-            IThreadedFileIO iasyncchunksaver = (IThreadedFileIO) this.threadedIOQueue.get(i);
-            boolean flag = iasyncchunksaver.writeNextIO();
+    private void func_75736_b() {
+        for (int i = 0; i < this.field_75739_b.size(); ++i) {
+            IThreadedFileIO iasyncchunksaver = (IThreadedFileIO) this.field_75739_b.get(i);
+            boolean flag = iasyncchunksaver.func_75814_c();
 
             if (!flag) {
-                this.threadedIOQueue.remove(i--);
-                ++this.savedIOCounter;
+                this.field_75739_b.remove(i--);
+                ++this.field_75737_d;
             }
 
             // Paper start - Add toggle
             if (com.destroystokyo.paper.PaperConfig.enableFileIOThreadSleep) {
                 try {
-                    Thread.sleep(this.isThreadWaiting ? 0L : 2L);
+                    Thread.sleep(this.field_75738_e ? 0L : 2L);
                 } catch (InterruptedException interruptedexception) {
                     interruptedexception.printStackTrace();
                 }
@@ -50,7 +50,7 @@ public class ThreadedFileIOBase implements Runnable {
             // Paper end
         }
 
-        if (this.threadedIOQueue.isEmpty()) {
+        if (this.field_75739_b.isEmpty()) {
             try {
                 Thread.sleep(25L);
             } catch (InterruptedException interruptedexception1) {
@@ -60,20 +60,20 @@ public class ThreadedFileIOBase implements Runnable {
 
     }
 
-    public void queueIO(IThreadedFileIO iasyncchunksaver) {
-        if (!this.threadedIOQueue.contains(iasyncchunksaver)) {
-            ++this.writeQueuedCounter;
-            this.threadedIOQueue.add(iasyncchunksaver);
+    public void func_75735_a(IThreadedFileIO iasyncchunksaver) {
+        if (!this.field_75739_b.contains(iasyncchunksaver)) {
+            ++this.field_75740_c;
+            this.field_75739_b.add(iasyncchunksaver);
         }
     }
 
-    public void waitForFinish() throws InterruptedException {
-        this.isThreadWaiting = true;
+    public void func_75734_a() throws InterruptedException {
+        this.field_75738_e = true;
 
-        while (this.writeQueuedCounter != this.savedIOCounter) {
+        while (this.field_75740_c != this.field_75737_d) {
             Thread.sleep(10L);
         }
 
-        this.isThreadWaiting = false;
+        this.field_75738_e = false;
     }
 }

@@ -32,6 +32,7 @@ import net.minecraft.network.login.server.SPacketDisconnect;
 import net.minecraft.network.login.server.SPacketEnableCompression;
 import net.minecraft.network.login.server.SPacketEncryptionRequest;
 import net.minecraft.network.login.server.SPacketLoginSuccess;
+import net.minecraft.server.LoginListener.LoginHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.ITickable;
@@ -51,54 +52,53 @@ import org.bukkit.event.player.PlayerPreLoginEvent;
 
 public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable {
 
-    private static final AtomicInteger AUTHENTICATOR_THREAD_ID = new AtomicInteger(0);
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static final Random RANDOM = new Random();
-    private final byte[] verifyToken = new byte[4];
-    private final MinecraftServer server;
-    public final NetworkManager networkManager;
-    private NetHandlerLoginServer.LoginState currentLoginState;
-    private int connectionTimer;
-    private GameProfile loginGameProfile; private void setGameProfile(GameProfile profile) { loginGameProfile = profile; } private GameProfile getGameProfile() { return loginGameProfile; } // Paper - OBFHELPER
-    private final String serverId;
-    private SecretKey secretKey;
-    private EntityPlayerMP player;
+    private static final AtomicInteger field_147331_b = new AtomicInteger(0);
+    private static final Logger field_147332_c = LogManager.getLogger();
+    private static final Random field_147329_d = new Random();
+    private final byte[] field_147330_e = new byte[4];
+    private final MinecraftServer field_147327_f;
+    public final NetworkManager field_147333_a;
+    private NetHandlerLoginServer.LoginState field_147328_g;
+    private int field_147336_h;
+    private GameProfile field_147337_i; private void setGameProfile(GameProfile profile) { field_147337_i = profile; } private GameProfile getGameProfile() { return field_147337_i; } // Paper - OBFHELPER
+    private final String field_147334_j;
+    private SecretKey field_147335_k;
+    private EntityPlayerMP field_181025_l;
     public String hostname = ""; // CraftBukkit - add field
 
     public NetHandlerLoginServer(MinecraftServer minecraftserver, NetworkManager networkmanager) {
-        this.currentLoginState = NetHandlerLoginServer.LoginState.HELLO;
-        this.serverId = "";
-        this.server = minecraftserver;
-        this.networkManager = networkmanager;
-        NetHandlerLoginServer.RANDOM.nextBytes(this.verifyToken);
+        this.field_147328_g = NetHandlerLoginServer.LoginState.HELLO;
+        this.field_147334_j = "";
+        this.field_147327_f = minecraftserver;
+        this.field_147333_a = networkmanager;
+        NetHandlerLoginServer.field_147329_d.nextBytes(this.field_147330_e);
     }
 
-    @Override
-    public void update() {
+    public void func_73660_a() {
         // Paper start - Do not allow logins while the server is shutting down
-        if (!MinecraftServer.getServer().isServerRunning()) {
-            this.disconnect(new TextComponentTranslation(org.spigotmc.SpigotConfig.restartMessage));
+        if (!MinecraftServer.getServer().func_71278_l()) {
+            this.func_194026_b(new TextComponentTranslation(org.spigotmc.SpigotConfig.restartMessage));
             return;
         }
         // Paper end
-        if (this.currentLoginState == NetHandlerLoginServer.LoginState.READY_TO_ACCEPT) {
+        if (this.field_147328_g == NetHandlerLoginServer.LoginState.READY_TO_ACCEPT) {
             // Paper start - prevent logins to be processed even though disconnect was called
-            if (networkManager.isChannelOpen()) {
-                this.tryAcceptPlayer();
+            if (field_147333_a.func_150724_d()) {
+                this.func_147326_c();
             }
             // Paper end
-        } else if (this.currentLoginState == NetHandlerLoginServer.LoginState.DELAY_ACCEPT) {
-            EntityPlayerMP entityplayer = this.server.getPlayerList().getPlayerByUUID(this.loginGameProfile.getId());
+        } else if (this.field_147328_g == NetHandlerLoginServer.LoginState.DELAY_ACCEPT) {
+            EntityPlayerMP entityplayer = this.field_147327_f.func_184103_al().func_177451_a(this.field_147337_i.getId());
 
             if (entityplayer == null) {
-                this.currentLoginState = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
-                this.server.getPlayerList().initializeConnectionToPlayer(this.networkManager, this.player);
-                this.player = null;
+                this.field_147328_g = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
+                this.field_147327_f.func_184103_al().func_72355_a(this.field_147333_a, this.field_181025_l);
+                this.field_181025_l = null;
             }
         }
 
-        if (this.connectionTimer++ == 600) {
-            this.disconnect(new TextComponentTranslation("multiplayer.disconnect.slow_login", new Object[0]));
+        if (this.field_147336_h++ == 600) {
+            this.func_194026_b(new TextComponentTranslation("multiplayer.disconnect.slow_login", new Object[0]));
         }
 
     }
@@ -108,22 +108,22 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
     public void disconnect(String s) {
         try {
             ITextComponent ichatbasecomponent = new TextComponentString(s);
-            NetHandlerLoginServer.LOGGER.info("Disconnecting {}: {}", this.getConnectionInfo(), s);
-            this.networkManager.sendPacket(new SPacketDisconnect(ichatbasecomponent));
-            this.networkManager.closeChannel(ichatbasecomponent);
+            NetHandlerLoginServer.field_147332_c.info("Disconnecting {}: {}", this.func_147317_d(), s);
+            this.field_147333_a.func_179290_a(new SPacketDisconnect(ichatbasecomponent));
+            this.field_147333_a.func_150718_a(ichatbasecomponent);
         } catch (Exception exception) {
-            NetHandlerLoginServer.LOGGER.error("Error whilst disconnecting player", exception);
+            NetHandlerLoginServer.field_147332_c.error("Error whilst disconnecting player", exception);
         }
     }
     // CraftBukkit end
 
-    public void disconnect(ITextComponent ichatbasecomponent) {
+    public void func_194026_b(ITextComponent ichatbasecomponent) {
         try {
-            NetHandlerLoginServer.LOGGER.info("Disconnecting {}: {}", this.getConnectionInfo(), ichatbasecomponent.getUnformattedText());
-            this.networkManager.sendPacket(new SPacketDisconnect(ichatbasecomponent));
-            this.networkManager.closeChannel(ichatbasecomponent);
+            NetHandlerLoginServer.field_147332_c.info("Disconnecting {}: {}", this.func_147317_d(), ichatbasecomponent.func_150260_c());
+            this.field_147333_a.func_179290_a(new SPacketDisconnect(ichatbasecomponent));
+            this.field_147333_a.func_150718_a(ichatbasecomponent);
         } catch (Exception exception) {
-            NetHandlerLoginServer.LOGGER.error("Error whilst disconnecting player", exception);
+            NetHandlerLoginServer.field_147332_c.error("Error whilst disconnecting player", exception);
         }
 
     }
@@ -138,27 +138,27 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
     public void initUUID()
     {
         UUID uuid;
-        if ( networkManager.spoofedUUID != null )
+        if ( field_147333_a.spoofedUUID != null )
         {
-            uuid = networkManager.spoofedUUID;
+            uuid = field_147333_a.spoofedUUID;
         } else
         {
-            uuid = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + this.loginGameProfile.getName() ).getBytes( StandardCharsets.UTF_8 ) );
+            uuid = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + this.field_147337_i.getName() ).getBytes( StandardCharsets.UTF_8 ) );
         }
 
-        this.loginGameProfile = new GameProfile( uuid, this.loginGameProfile.getName() );
+        this.field_147337_i = new GameProfile( uuid, this.field_147337_i.getName() );
 
-        if (networkManager.spoofedProfile != null)
+        if (field_147333_a.spoofedProfile != null)
         {
-            for ( com.mojang.authlib.properties.Property property : networkManager.spoofedProfile )
+            for ( com.mojang.authlib.properties.Property property : field_147333_a.spoofedProfile )
             {
-                this.loginGameProfile.getProperties().put( property.getName(), property );
+                this.field_147337_i.getProperties().put( property.getName(), property );
             }
         }
     }
     // Spigot end
 
-    public void tryAcceptPlayer() {
+    public void func_147326_c() {
         // Spigot start - Moved to initUUID
         /*
         if (!this.i.isComplete()) {
@@ -168,55 +168,52 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
         // Spigot end
 
         // CraftBukkit start - fire PlayerLoginEvent
-        EntityPlayerMP s = this.server.getPlayerList().attemptLogin(this, this.loginGameProfile, hostname);
+        EntityPlayerMP s = this.field_147327_f.func_184103_al().attemptLogin(this, this.field_147337_i, hostname);
 
         if (s == null) {
             // this.disconnect(new ChatMessage(s, new Object[0]));
             // CraftBukkit end
         } else {
-            this.currentLoginState = NetHandlerLoginServer.LoginState.ACCEPTED;
-            if (this.server.getNetworkCompressionThreshold() >= 0 && !this.networkManager.isLocalChannel()) {
-                this.networkManager.sendPacket(new SPacketEnableCompression(this.server.getNetworkCompressionThreshold()), new ChannelFutureListener() {
+            this.field_147328_g = NetHandlerLoginServer.LoginState.ACCEPTED;
+            if (this.field_147327_f.func_175577_aI() >= 0 && !this.field_147333_a.func_150731_c()) {
+                this.field_147333_a.func_179288_a(new SPacketEnableCompression(this.field_147327_f.func_175577_aI()), new ChannelFutureListener() {
                     public void a(ChannelFuture channelfuture) throws Exception {
-                        NetHandlerLoginServer.this.networkManager.setCompressionThreshold(NetHandlerLoginServer.this.server.getNetworkCompressionThreshold());
+                        NetHandlerLoginServer.this.field_147333_a.func_179289_a(NetHandlerLoginServer.this.field_147327_f.func_175577_aI());
                     }
 
-                    @Override
                     public void operationComplete(ChannelFuture future) throws Exception { // CraftBukkit - fix decompile error
-                        this.a(future);
+                        this.a((ChannelFuture) future);
                     }
                 }, new GenericFutureListener[0]);
             }
 
-            this.networkManager.sendPacket(new SPacketLoginSuccess(this.loginGameProfile));
-            EntityPlayerMP entityplayer = this.server.getPlayerList().getPlayerByUUID(this.loginGameProfile.getId());
+            this.field_147333_a.func_179290_a(new SPacketLoginSuccess(this.field_147337_i));
+            EntityPlayerMP entityplayer = this.field_147327_f.func_184103_al().func_177451_a(this.field_147337_i.getId());
 
             if (entityplayer != null) {
-                this.currentLoginState = NetHandlerLoginServer.LoginState.DELAY_ACCEPT;
-                this.player = this.server.getPlayerList().processLogin(this.loginGameProfile, s); // CraftBukkit - add player reference
+                this.field_147328_g = NetHandlerLoginServer.LoginState.DELAY_ACCEPT;
+                this.field_181025_l = this.field_147327_f.func_184103_al().processLogin(this.field_147337_i, s); // CraftBukkit - add player reference
             } else {
-                this.server.getPlayerList().initializeConnectionToPlayer(this.networkManager, this.server.getPlayerList().processLogin(this.loginGameProfile, s)); // CraftBukkit - add player reference
+                this.field_147327_f.func_184103_al().func_72355_a(this.field_147333_a, this.field_147327_f.func_184103_al().processLogin(this.field_147337_i, s)); // CraftBukkit - add player reference
             }
         }
 
     }
 
-    @Override
-    public void onDisconnect(ITextComponent ichatbasecomponent) {
-        NetHandlerLoginServer.LOGGER.info("{} lost connection: {}", this.getConnectionInfo(), ichatbasecomponent.getUnformattedText());
+    public void func_147231_a(ITextComponent ichatbasecomponent) {
+        NetHandlerLoginServer.field_147332_c.info("{} lost connection: {}", this.func_147317_d(), ichatbasecomponent.func_150260_c());
     }
 
-    public String getConnectionInfo() {
-        return this.loginGameProfile != null ? this.loginGameProfile + " (" + this.networkManager.getRemoteAddress() + ")" : String.valueOf(this.networkManager.getRemoteAddress());
+    public String func_147317_d() {
+        return this.field_147337_i != null ? this.field_147337_i + " (" + this.field_147333_a.func_74430_c() + ")" : String.valueOf(this.field_147333_a.func_74430_c());
     }
 
-    @Override
-    public void processLoginStart(CPacketLoginStart packetlogininstart) {
-        Validate.validState(this.currentLoginState == NetHandlerLoginServer.LoginState.HELLO, "Unexpected hello packet", new Object[0]);
-        this.loginGameProfile = packetlogininstart.getProfile();
-        if (this.server.isServerInOnlineMode() && !this.networkManager.isLocalChannel()) {
-            this.currentLoginState = NetHandlerLoginServer.LoginState.KEY;
-            this.networkManager.sendPacket(new SPacketEncryptionRequest("", this.server.getKeyPair().getPublic(), this.verifyToken));
+    public void func_147316_a(CPacketLoginStart packetlogininstart) {
+        Validate.validState(this.field_147328_g == NetHandlerLoginServer.LoginState.HELLO, "Unexpected hello packet", new Object[0]);
+        this.field_147337_i = packetlogininstart.func_149304_c();
+        if (this.field_147327_f.func_71266_T() && !this.field_147333_a.func_150731_c()) {
+            this.field_147328_g = NetHandlerLoginServer.LoginState.KEY;
+            this.field_147333_a.func_179290_a(new SPacketEncryptionRequest("", this.field_147327_f.func_71250_E().getPublic(), this.field_147330_e));
         } else {
             // Spigot start
             // Paper start - Cache authenticator threads
@@ -226,10 +223,10 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
                     try {
                         initUUID();
                         new LoginHandler().fireEvents();
-                        NetHandlerLoginServer.this.currentLoginState = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
+                        NetHandlerLoginServer.this.field_147328_g = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
                     } catch (Exception ex) {
                         disconnect("Failed to verify username!");
-                        server.server.getLogger().log(java.util.logging.Level.WARNING, "Exception verifying " + loginGameProfile.getName(), ex);
+                        field_147327_f.server.getLogger().log(java.util.logging.Level.WARNING, "Exception verifying " + field_147337_i.getName(), ex);
                     }
                 }
             });
@@ -239,59 +236,57 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 
     }
 
-    @Override
-    public void processEncryptionResponse(CPacketEncryptionResponse packetlogininencryptionbegin) {
-        Validate.validState(this.currentLoginState == NetHandlerLoginServer.LoginState.KEY, "Unexpected key packet", new Object[0]);
-        PrivateKey privatekey = this.server.getKeyPair().getPrivate();
+    public void func_147315_a(CPacketEncryptionResponse packetlogininencryptionbegin) {
+        Validate.validState(this.field_147328_g == NetHandlerLoginServer.LoginState.KEY, "Unexpected key packet", new Object[0]);
+        PrivateKey privatekey = this.field_147327_f.func_71250_E().getPrivate();
 
-        if (!Arrays.equals(this.verifyToken, packetlogininencryptionbegin.getVerifyToken(privatekey))) {
+        if (!Arrays.equals(this.field_147330_e, packetlogininencryptionbegin.func_149299_b(privatekey))) {
             throw new IllegalStateException("Invalid nonce!");
         } else {
-            this.secretKey = packetlogininencryptionbegin.getSecretKey(privatekey);
-            this.currentLoginState = NetHandlerLoginServer.LoginState.AUTHENTICATING;
-            this.networkManager.enableEncryption(this.secretKey);
+            this.field_147335_k = packetlogininencryptionbegin.func_149300_a(privatekey);
+            this.field_147328_g = NetHandlerLoginServer.LoginState.AUTHENTICATING;
+            this.field_147333_a.func_150727_a(this.field_147335_k);
             // Paper start - Cache authenticator threads
             authenticatorPool.execute(new Runnable() {
-                @Override
                 public void run() {
-                    GameProfile gameprofile = NetHandlerLoginServer.this.loginGameProfile;
+                    GameProfile gameprofile = NetHandlerLoginServer.this.field_147337_i;
 
                     try {
-                        String s = (new BigInteger(CryptManager.getServerIdHash("", NetHandlerLoginServer.this.server.getKeyPair().getPublic(), NetHandlerLoginServer.this.secretKey))).toString(16);
+                        String s = (new BigInteger(CryptManager.func_75895_a("", NetHandlerLoginServer.this.field_147327_f.func_71250_E().getPublic(), NetHandlerLoginServer.this.field_147335_k))).toString(16);
 
-                        NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.server.getMinecraftSessionService().hasJoinedServer(new GameProfile((UUID) null, gameprofile.getName()), s, this.a());
-                        if (NetHandlerLoginServer.this.loginGameProfile != null) {
+                        NetHandlerLoginServer.this.field_147337_i = NetHandlerLoginServer.this.field_147327_f.func_147130_as().hasJoinedServer(new GameProfile((UUID) null, gameprofile.getName()), s, this.a());
+                        if (NetHandlerLoginServer.this.field_147337_i != null) {
                             // CraftBukkit start - fire PlayerPreLoginEvent
-                            if (!networkManager.isChannelOpen()) {
+                            if (!field_147333_a.func_150724_d()) {
                                 return;
                             }
 
                             new LoginHandler().fireEvents();
-                        } else if (NetHandlerLoginServer.this.server.isSinglePlayer()) {
-                            NetHandlerLoginServer.LOGGER.warn("Failed to verify username but will let them in anyway!");
-                            NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.getOfflineProfile(gameprofile);
-                            NetHandlerLoginServer.this.currentLoginState = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
+                        } else if (NetHandlerLoginServer.this.field_147327_f.func_71264_H()) {
+                            NetHandlerLoginServer.field_147332_c.warn("Failed to verify username but will let them in anyway!");
+                            NetHandlerLoginServer.this.field_147337_i = NetHandlerLoginServer.this.func_152506_a(gameprofile);
+                            NetHandlerLoginServer.this.field_147328_g = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
                         } else {
-                            NetHandlerLoginServer.this.disconnect(new TextComponentTranslation("multiplayer.disconnect.unverified_username", new Object[0]));
-                            NetHandlerLoginServer.LOGGER.error("Username \'{}\' tried to join with an invalid session", gameprofile.getName());
+                            NetHandlerLoginServer.this.func_194026_b(new TextComponentTranslation("multiplayer.disconnect.unverified_username", new Object[0]));
+                            NetHandlerLoginServer.field_147332_c.error("Username \'{}\' tried to join with an invalid session", gameprofile.getName());
                         }
                     } catch (AuthenticationUnavailableException authenticationunavailableexception) {
-                        if (NetHandlerLoginServer.this.server.isSinglePlayer()) {
-                            NetHandlerLoginServer.LOGGER.warn("Authentication servers are down but will let them in anyway!");
-                            NetHandlerLoginServer.this.loginGameProfile = NetHandlerLoginServer.this.getOfflineProfile(gameprofile);
-                            NetHandlerLoginServer.this.currentLoginState = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
+                        if (NetHandlerLoginServer.this.field_147327_f.func_71264_H()) {
+                            NetHandlerLoginServer.field_147332_c.warn("Authentication servers are down but will let them in anyway!");
+                            NetHandlerLoginServer.this.field_147337_i = NetHandlerLoginServer.this.func_152506_a(gameprofile);
+                            NetHandlerLoginServer.this.field_147328_g = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
                         } else {
                             // Paper start
                             if (com.destroystokyo.paper.PaperConfig.authenticationServersDownKickMessage != null) {
-                                NetHandlerLoginServer.this.disconnect(new TextComponentString(com.destroystokyo.paper.PaperConfig.authenticationServersDownKickMessage));
+                                NetHandlerLoginServer.this.func_194026_b(new TextComponentString(com.destroystokyo.paper.PaperConfig.authenticationServersDownKickMessage));
                             } else // Paper end
-                            NetHandlerLoginServer.this.disconnect(new TextComponentTranslation("multiplayer.disconnect.authservers_down", new Object[0]));
-                            NetHandlerLoginServer.LOGGER.error("Couldn\'t verify username because servers are unavailable");
+                            NetHandlerLoginServer.this.func_194026_b(new TextComponentTranslation("multiplayer.disconnect.authservers_down", new Object[0]));
+                            NetHandlerLoginServer.field_147332_c.error("Couldn\'t verify username because servers are unavailable");
                         }
                         // CraftBukkit start - catch all exceptions
                     } catch (Exception exception) {
                         disconnect("Failed to verify username!");
-                        server.server.getLogger().log(java.util.logging.Level.WARNING, "Exception verifying " + gameprofile.getName(), exception);
+                        field_147327_f.server.getLogger().log(java.util.logging.Level.WARNING, "Exception verifying " + gameprofile.getName(), exception);
                         // CraftBukkit end
                     }
 
@@ -299,9 +294,9 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 
                 @Nullable
                 private InetAddress a() {
-                    SocketAddress socketaddress = NetHandlerLoginServer.this.networkManager.getRemoteAddress();
+                    SocketAddress socketaddress = NetHandlerLoginServer.this.field_147333_a.func_74430_c();
 
-                    return NetHandlerLoginServer.this.server.getPreventProxyConnections() && socketaddress instanceof InetSocketAddress ? ((InetSocketAddress) socketaddress).getAddress() : null;
+                    return NetHandlerLoginServer.this.field_147327_f.func_190518_ac() && socketaddress instanceof InetSocketAddress ? ((InetSocketAddress) socketaddress).getAddress() : null;
                 }
             });
             // Paper end
@@ -312,10 +307,10 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
     public class LoginHandler {
 
         public void fireEvents() throws Exception {
-                            String playerName = loginGameProfile.getName();
-                            java.net.InetAddress address = ((java.net.InetSocketAddress) networkManager.getRemoteAddress()).getAddress();
-                            java.util.UUID uniqueId = loginGameProfile.getId();
-                            final org.bukkit.craftbukkit.CraftServer server = NetHandlerLoginServer.this.server.server;
+                            String playerName = field_147337_i.getName();
+                            java.net.InetAddress address = ((java.net.InetSocketAddress) field_147333_a.func_74430_c()).getAddress();
+                            java.util.UUID uniqueId = field_147337_i.getId();
+                            final org.bukkit.craftbukkit.CraftServer server = NetHandlerLoginServer.this.field_147327_f.server;
 
                             // Paper start
                             PlayerProfile profile = CraftPlayerProfile.asBukkitMirror(getGameProfile());
@@ -324,8 +319,8 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
                             profile = asyncEvent.getPlayerProfile();
                             profile.complete(true);
                             setGameProfile(CraftPlayerProfile.asAuthlib(profile));
-                            playerName = loginGameProfile.getName();
-                            uniqueId = loginGameProfile.getId();
+                            playerName = field_147337_i.getName();
+                            uniqueId = field_147337_i.getId();
                             // Paper end
 
                             if (PlayerPreLoginEvent.getHandlerList().getRegisteredListeners().length != 0) {
@@ -340,7 +335,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
                                         return event.getResult();
                                     }};
 
-                                NetHandlerLoginServer.this.server.processQueue.add(waitable);
+                                NetHandlerLoginServer.this.field_147327_f.processQueue.add(waitable);
                                 if (waitable.get() != PlayerPreLoginEvent.Result.ALLOWED) {
                                     disconnect(event.getKickMessage());
                                     return;
@@ -352,13 +347,13 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
                                 }
                             }
                             // CraftBukkit end
-                            NetHandlerLoginServer.LOGGER.info("UUID of player {} is {}", NetHandlerLoginServer.this.loginGameProfile.getName(), NetHandlerLoginServer.this.loginGameProfile.getId());
-                            NetHandlerLoginServer.this.currentLoginState = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
+                            NetHandlerLoginServer.field_147332_c.info("UUID of player {} is {}", NetHandlerLoginServer.this.field_147337_i.getName(), NetHandlerLoginServer.this.field_147337_i.getId());
+                            NetHandlerLoginServer.this.field_147328_g = NetHandlerLoginServer.LoginState.READY_TO_ACCEPT;
                 }
         }
     // Spigot end
 
-    protected GameProfile getOfflineProfile(GameProfile gameprofile) {
+    protected GameProfile func_152506_a(GameProfile gameprofile) {
         UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + gameprofile.getName()).getBytes(StandardCharsets.UTF_8));
 
         return new GameProfile(uuid, gameprofile.getName());

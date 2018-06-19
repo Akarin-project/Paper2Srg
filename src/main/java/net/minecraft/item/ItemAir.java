@@ -4,17 +4,17 @@ import net.minecraft.block.Block;
 
 public class ItemAir extends Item {
 
-    private final Block block;
+    private final Block field_190904_a;
 
     public ItemAir(Block block) {
-        this.block = block;
+        this.field_190904_a = block;
     }
 
-    public String getUnlocalizedName(ItemStack itemstack) {
-        return this.block.getUnlocalizedName();
+    public String func_77667_c(ItemStack itemstack) {
+        return this.field_190904_a.func_149739_a();
     }
 
-    public String getUnlocalizedName() {
-        return this.block.getUnlocalizedName();
+    public String func_77658_a() {
+        return this.field_190904_a.func_149739_a();
     }
 }

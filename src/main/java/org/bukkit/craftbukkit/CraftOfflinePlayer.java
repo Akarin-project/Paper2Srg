@@ -30,7 +30,7 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
     protected CraftOfflinePlayer(CraftServer server, GameProfile profile) {
         this.server = server;
         this.profile = profile;
-        this.storage = (SaveHandler) (server.console.worlds.get(0).getSaveHandler());
+        this.storage = (SaveHandler) (server.console.worlds.get(0).func_72860_G());
 
     }
 
@@ -56,8 +56,8 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
         NBTTagCompound data = getBukkitData();
 
         if (data != null) {
-            if (data.hasKey("lastKnownName")) {
-                return data.getString("lastKnownName");
+            if (data.func_74764_b("lastKnownName")) {
+                return data.func_74779_i("lastKnownName");
             }
         }
 
@@ -73,7 +73,7 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
     }
 
     public boolean isOp() {
-        return server.getHandle().canSendCommands(profile);
+        return server.getHandle().func_152596_g(profile);
     }
 
     public void setOp(boolean value) {
@@ -82,9 +82,9 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
         }
 
         if (value) {
-            server.getHandle().addOp(profile);
+            server.getHandle().func_152605_a(profile);
         } else {
-            server.getHandle().removeOp(profile);
+            server.getHandle().func_152610_b(profile);
         }
     }
 
@@ -109,14 +109,14 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
     }
 
     public boolean isWhitelisted() {
-        return server.getHandle().getWhitelistedPlayers().isWhitelisted(profile);
+        return server.getHandle().func_152599_k().func_152705_a(profile);
     }
 
     public void setWhitelisted(boolean value) {
         if (value) {
-            server.getHandle().addWhitelistedPlayer(profile);
+            server.getHandle().func_152601_d(profile);
         } else {
-            server.getHandle().removePlayerFromWhitelist(profile);
+            server.getHandle().func_152597_c(profile);
         }
     }
 
@@ -175,10 +175,10 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
         NBTTagCompound result = getData();
 
         if (result != null) {
-            if (!result.hasKey("bukkit")) {
-                result.setTag("bukkit", new NBTTagCompound());
+            if (!result.func_74764_b("bukkit")) {
+                result.func_74782_a("bukkit", new NBTTagCompound());
             }
-            result = result.getCompoundTag("bukkit");
+            result = result.func_74775_l("bukkit");
         }
 
         return result;
@@ -195,8 +195,8 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
         NBTTagCompound data = getBukkitData();
 
         if (data != null) {
-            if (data.hasKey("firstPlayed")) {
-                return data.getLong("firstPlayed");
+            if (data.func_74764_b("firstPlayed")) {
+                return data.func_74763_f("firstPlayed");
             } else {
                 File file = getDataFile();
                 return file.lastModified();
@@ -213,8 +213,8 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
         NBTTagCompound data = getBukkitData();
 
         if (data != null) {
-            if (data.hasKey("lastPlayed")) {
-                return data.getLong("lastPlayed");
+            if (data.func_74764_b("lastPlayed")) {
+                return data.func_74763_f("lastPlayed");
             } else {
                 File file = getDataFile();
                 return file.lastModified();
@@ -232,12 +232,12 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
         NBTTagCompound data = getData();
         if (data == null) return null;
 
-        if (data.hasKey("SpawnX") && data.hasKey("SpawnY") && data.hasKey("SpawnZ")) {
-            String spawnWorld = data.getString("SpawnWorld");
+        if (data.func_74764_b("SpawnX") && data.func_74764_b("SpawnY") && data.func_74764_b("SpawnZ")) {
+            String spawnWorld = data.func_74779_i("SpawnWorld");
             if (spawnWorld.equals("")) {
                 spawnWorld = server.getWorlds().get(0).getName();
             }
-            return new Location(server.getWorld(spawnWorld), data.getInteger("SpawnX"), data.getInteger("SpawnY"), data.getInteger("SpawnZ"));
+            return new Location(server.getWorld(spawnWorld), data.func_74762_e("SpawnX"), data.func_74762_e("SpawnY"), data.func_74762_e("SpawnZ"));
         }
         return null;
     }

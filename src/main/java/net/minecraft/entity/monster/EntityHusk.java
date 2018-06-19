@@ -23,52 +23,52 @@ public class EntityHusk extends EntityZombie {
         super(world);
     }
 
-    public static void registerFixesHusk(DataFixer dataconvertermanager) {
-        EntityLiving.registerFixesMob(dataconvertermanager, EntityHusk.class);
+    public static void func_190740_b(DataFixer dataconvertermanager) {
+        EntityLiving.func_189752_a(dataconvertermanager, EntityHusk.class);
     }
 
-    public boolean getCanSpawnHere() {
-        return super.getCanSpawnHere() && this.world.canSeeSky(new BlockPos(this));
+    public boolean func_70601_bi() {
+        return super.func_70601_bi() && this.field_70170_p.func_175678_i(new BlockPos(this));
     }
 
-    protected boolean shouldBurnInDay() {
+    protected boolean func_190730_o() {
         return false;
     }
 
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_HUSK_AMBIENT;
+    protected SoundEvent func_184639_G() {
+        return SoundEvents.field_190022_cI;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damagesource) {
-        return SoundEvents.ENTITY_HUSK_HURT;
+    protected SoundEvent func_184601_bQ(DamageSource damagesource) {
+        return SoundEvents.field_190024_cK;
     }
 
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_HUSK_DEATH;
+    protected SoundEvent func_184615_bR() {
+        return SoundEvents.field_190023_cJ;
     }
 
-    protected SoundEvent getStepSound() {
-        return SoundEvents.ENTITY_HUSK_STEP;
+    protected SoundEvent func_190731_di() {
+        return SoundEvents.field_190025_cL;
     }
 
     @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_HUSK;
+    protected ResourceLocation func_184647_J() {
+        return LootTableList.field_191182_ar;
     }
 
-    public boolean attackEntityAsMob(Entity entity) {
-        boolean flag = super.attackEntityAsMob(entity);
+    public boolean func_70652_k(Entity entity) {
+        boolean flag = super.func_70652_k(entity);
 
-        if (flag && this.getHeldItemMainhand().isEmpty() && entity instanceof EntityLivingBase) {
-            float f = this.world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty();
+        if (flag && this.func_184614_ca().func_190926_b() && entity instanceof EntityLivingBase) {
+            float f = this.field_70170_p.func_175649_E(new BlockPos(this)).func_180168_b();
 
-            ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.HUNGER, 140 * (int) f));
+            ((EntityLivingBase) entity).func_70690_d(new PotionEffect(MobEffects.field_76438_s, 140 * (int) f));
         }
 
         return flag;
     }
 
-    protected ItemStack getSkullDrop() {
-        return ItemStack.EMPTY;
+    protected ItemStack func_190732_dj() {
+        return ItemStack.field_190927_a;
     }
 }

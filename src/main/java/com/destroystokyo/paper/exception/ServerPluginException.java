@@ -2,7 +2,6 @@ package com.destroystokyo.paper.exception;
 
 import org.bukkit.plugin.Plugin;
 
-import static com.google.common.base.Preconditions.*;
 
 /**
  * Wrapper exception for all cases to which a plugin can be immediately blamed for

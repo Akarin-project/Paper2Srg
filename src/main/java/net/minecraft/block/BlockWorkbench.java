@@ -20,47 +20,47 @@ import net.minecraft.world.World;
 public class BlockWorkbench extends Block {
 
     protected BlockWorkbench() {
-        super(Material.WOOD);
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+        super(Material.field_151575_d);
+        this.func_149647_a(CreativeTabs.field_78031_c);
     }
 
-    public boolean onBlockActivated(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        if (world.isRemote) {
+    public boolean func_180639_a(World world, BlockPos blockposition, IBlockState iblockdata, EntityPlayer entityhuman, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        if (world.field_72995_K) {
             return true;
         } else {
-            entityhuman.displayGui(new BlockWorkbench.InterfaceCraftingTable(world, blockposition));
-            entityhuman.addStat(StatList.CRAFTING_TABLE_INTERACTION);
+            entityhuman.func_180468_a(new BlockWorkbench.InterfaceCraftingTable(world, blockposition));
+            entityhuman.func_71029_a(StatList.field_188062_ab);
             return true;
         }
     }
 
     public static class InterfaceCraftingTable implements IInteractionObject {
 
-        private final World world;
-        private final BlockPos position;
+        private final World field_175128_a;
+        private final BlockPos field_175127_b;
 
         public InterfaceCraftingTable(World world, BlockPos blockposition) {
-            this.world = world;
-            this.position = blockposition;
+            this.field_175128_a = world;
+            this.field_175127_b = blockposition;
         }
 
-        public String getName() {
+        public String func_70005_c_() {
             return "crafting_table";
         }
 
-        public boolean hasCustomName() {
+        public boolean func_145818_k_() {
             return false;
         }
 
-        public ITextComponent getDisplayName() {
-            return new TextComponentTranslation(Blocks.CRAFTING_TABLE.getUnlocalizedName() + ".name", new Object[0]);
+        public ITextComponent func_145748_c_() {
+            return new TextComponentTranslation(Blocks.field_150462_ai.func_149739_a() + ".name", new Object[0]);
         }
 
-        public Container createContainer(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
-            return new ContainerWorkbench(playerinventory, this.world, this.position);
+        public Container func_174876_a(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
+            return new ContainerWorkbench(playerinventory, this.field_175128_a, this.field_175127_b);
         }
 
-        public String getGuiID() {
+        public String func_174875_k() {
             return "minecraft:crafting_table";
         }
     }

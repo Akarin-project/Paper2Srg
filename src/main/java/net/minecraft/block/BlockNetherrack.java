@@ -10,11 +10,11 @@ import net.minecraft.world.IBlockAccess;
 public class BlockNetherrack extends Block {
 
     public BlockNetherrack() {
-        super(Material.ROCK);
-        this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+        super(Material.field_151576_e);
+        this.func_149647_a(CreativeTabs.field_78030_b);
     }
 
-    public MapColor getMapColor(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return MapColor.NETHERRACK;
+    public MapColor func_180659_g(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return MapColor.field_151655_K;
     }
 }

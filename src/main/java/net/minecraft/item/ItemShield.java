@@ -15,40 +15,40 @@ import net.minecraft.world.World;
 public class ItemShield extends Item {
 
     public ItemShield() {
-        this.maxStackSize = 1;
-        this.setCreativeTab(CreativeTabs.COMBAT);
-        this.setMaxDamage(336);
-        this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
+        this.field_77777_bU = 1;
+        this.func_77637_a(CreativeTabs.field_78037_j);
+        this.func_77656_e(336);
+        this.func_185043_a(new ResourceLocation("blocking"), new IItemPropertyGetter() {
         });
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, ItemArmor.DISPENSER_BEHAVIOR);
+        BlockDispenser.field_149943_a.func_82595_a(this, ItemArmor.field_96605_cw);
     }
 
-    public String getItemStackDisplayName(ItemStack itemstack) {
-        if (itemstack.getSubCompound("BlockEntityTag") != null) {
-            EnumDyeColor enumcolor = TileEntityBanner.getColor(itemstack);
+    public String func_77653_i(ItemStack itemstack) {
+        if (itemstack.func_179543_a("BlockEntityTag") != null) {
+            EnumDyeColor enumcolor = TileEntityBanner.func_190616_d(itemstack);
 
-            return I18n.translateToLocal("item.shield." + enumcolor.getUnlocalizedName() + ".name");
+            return I18n.func_74838_a("item.shield." + enumcolor.func_176762_d() + ".name");
         } else {
-            return I18n.translateToLocal("item.shield.name");
+            return I18n.func_74838_a("item.shield.name");
         }
     }
 
-    public EnumAction getItemUseAction(ItemStack itemstack) {
+    public EnumAction func_77661_b(ItemStack itemstack) {
         return EnumAction.BLOCK;
     }
 
-    public int getMaxItemUseDuration(ItemStack itemstack) {
+    public int func_77626_a(ItemStack itemstack) {
         return 72000;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        entityhuman.setActiveHand(enumhand);
+        entityhuman.func_184598_c(enumhand);
         return new ActionResult(EnumActionResult.SUCCESS, itemstack);
     }
 
-    public boolean getIsRepairable(ItemStack itemstack, ItemStack itemstack1) {
-        return itemstack1.getItem() == Item.getItemFromBlock(Blocks.PLANKS) ? true : super.getIsRepairable(itemstack, itemstack1);
+    public boolean func_82789_a(ItemStack itemstack, ItemStack itemstack1) {
+        return itemstack1.func_77973_b() == Item.func_150898_a(Blocks.field_150344_f) ? true : super.func_82789_a(itemstack, itemstack1);
     }
 }

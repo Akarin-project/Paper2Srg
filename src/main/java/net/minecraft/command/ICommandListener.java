@@ -2,5 +2,5 @@ package net.minecraft.command;
 
 public interface ICommandListener {
 
-    void notifyListener(ICommandSender icommandlistener, ICommand icommand, int i, String s, Object... aobject);
+    void func_152372_a(ICommandSender icommandlistener, ICommand icommand, int i, String s, Object... aobject);
 }

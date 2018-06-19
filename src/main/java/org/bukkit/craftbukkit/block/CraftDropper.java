@@ -42,9 +42,9 @@ public class CraftDropper extends CraftLootable<TileEntityDropper> implements Dr
 
         if (block.getType() == Material.DROPPER) {
             CraftWorld world = (CraftWorld) this.getWorld();
-            BlockDropper drop = (BlockDropper) Blocks.DROPPER;
+            BlockDropper drop = (BlockDropper) Blocks.field_150409_cd;
 
-            drop.dispense(world.getHandle(), new BlockPos(getX(), getY(), getZ()));
+            drop.func_176439_d(world.getHandle(), new BlockPos(getX(), getY(), getZ()));
         }
     }
 }

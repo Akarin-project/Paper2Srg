@@ -24,7 +24,7 @@ public class CraftFlowerPot extends CraftBlockEntityState<TileEntityFlowerPot> i
     public void load(TileEntityFlowerPot pot) {
         super.load(pot);
 
-        contents = (pot.getFlowerPotItem() == null) ? null : CraftItemStack.asBukkitCopy(pot.getFlowerItemStack()).getData();
+        contents = (pot.func_145965_a() == null) ? null : CraftItemStack.asBukkitCopy(pot.func_184403_b()).getData();
     }
 
     @Override
@@ -41,6 +41,6 @@ public class CraftFlowerPot extends CraftBlockEntityState<TileEntityFlowerPot> i
     public void applyTo(TileEntityFlowerPot pot) {
         super.applyTo(pot);
 
-        pot.setItemStack(contents == null ? ItemStack.EMPTY : CraftItemStack.asNMSCopy(contents.toItemStack(1)));
+        pot.func_190614_a(contents == null ? ItemStack.field_190927_a : CraftItemStack.asNMSCopy(contents.toItemStack(1)));
     }
 }

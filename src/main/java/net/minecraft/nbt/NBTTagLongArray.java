@@ -8,19 +8,19 @@ import java.util.List;
 
 public class NBTTagLongArray extends NBTBase {
 
-    private long[] data;
+    private long[] field_193587_b;
 
     NBTTagLongArray() {}
 
     public NBTTagLongArray(long[] along) {
-        this.data = along;
+        this.field_193587_b = along;
     }
 
     public NBTTagLongArray(List<Long> list) {
-        this(toArray(list));
+        this(func_193586_a(list));
     }
 
-    private static long[] toArray(List<Long> list) {
+    private static long[] func_193586_a(List<Long> list) {
         long[] along = new long[list.size()];
 
         for (int i = 0; i < list.size(); ++i) {
@@ -32,9 +32,9 @@ public class NBTTagLongArray extends NBTBase {
         return along;
     }
 
-    void write(DataOutput dataoutput) throws IOException {
-        dataoutput.writeInt(this.data.length);
-        long[] along = this.data;
+    void func_74734_a(DataOutput dataoutput) throws IOException {
+        dataoutput.writeInt(this.field_193587_b.length);
+        long[] along = this.field_193587_b;
         int i = along.length;
 
         for (int j = 0; j < i; ++j) {
@@ -45,53 +45,53 @@ public class NBTTagLongArray extends NBTBase {
 
     }
 
-    void read(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
-        nbtreadlimiter.read(192L);
+    void func_152446_a(DataInput datainput, int i, NBTSizeTracker nbtreadlimiter) throws IOException {
+        nbtreadlimiter.func_152450_a(192L);
         int j = datainput.readInt();
 
-        nbtreadlimiter.read((long) (64 * j));
-        this.data = new long[j];
+        nbtreadlimiter.func_152450_a((long) (64 * j));
+        this.field_193587_b = new long[j];
 
         for (int k = 0; k < j; ++k) {
-            this.data[k] = datainput.readLong();
+            this.field_193587_b[k] = datainput.readLong();
         }
 
     }
 
-    public byte getId() {
+    public byte func_74732_a() {
         return (byte) 12;
     }
 
     public String toString() {
         StringBuilder stringbuilder = new StringBuilder("[L;");
 
-        for (int i = 0; i < this.data.length; ++i) {
+        for (int i = 0; i < this.field_193587_b.length; ++i) {
             if (i != 0) {
                 stringbuilder.append(',');
             }
 
-            stringbuilder.append(this.data[i]).append('L');
+            stringbuilder.append(this.field_193587_b[i]).append('L');
         }
 
         return stringbuilder.append(']').toString();
     }
 
-    public NBTTagLongArray copy() {
-        long[] along = new long[this.data.length];
+    public NBTTagLongArray func_74737_b() {
+        long[] along = new long[this.field_193587_b.length];
 
-        System.arraycopy(this.data, 0, along, 0, this.data.length);
+        System.arraycopy(this.field_193587_b, 0, along, 0, this.field_193587_b.length);
         return new NBTTagLongArray(along);
     }
 
     public boolean equals(Object object) {
-        return super.equals(object) && Arrays.equals(this.data, ((NBTTagLongArray) object).data);
+        return super.equals(object) && Arrays.equals(this.field_193587_b, ((NBTTagLongArray) object).field_193587_b);
     }
 
     public int hashCode() {
-        return super.hashCode() ^ Arrays.hashCode(this.data);
+        return super.hashCode() ^ Arrays.hashCode(this.field_193587_b);
     }
 
     public NBTBase clone() {
-        return this.copy();
+        return this.func_74737_b();
     }
 }

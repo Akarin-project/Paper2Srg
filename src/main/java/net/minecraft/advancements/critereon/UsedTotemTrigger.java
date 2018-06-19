@@ -21,50 +21,50 @@ import net.minecraft.util.ResourceLocation;
 
 public class UsedTotemTrigger implements ICriterionTrigger<CriterionTriggerUsedTotem.b> {
 
-    private static final ResourceLocation ID = new ResourceLocation("used_totem");
-    private final Map<PlayerAdvancements, CriterionTriggerUsedTotem.a> listeners = Maps.newHashMap();
+    private static final ResourceLocation field_193188_a = new ResourceLocation("used_totem");
+    private final Map<PlayerAdvancements, CriterionTriggerUsedTotem.a> field_193189_b = Maps.newHashMap();
 
     public UsedTotemTrigger() {}
 
-    public ResourceLocation getId() {
-        return UsedTotemTrigger.ID;
+    public ResourceLocation func_192163_a() {
+        return UsedTotemTrigger.field_193188_a;
     }
 
     public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerUsedTotem.b> criteriontrigger_a) {
-        CriterionTriggerUsedTotem.a criteriontriggerusedtotem_a = (CriterionTriggerUsedTotem.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerUsedTotem.a criteriontriggerusedtotem_a = (CriterionTriggerUsedTotem.a) this.field_193189_b.get(advancementdataplayer);
 
         if (criteriontriggerusedtotem_a == null) {
             criteriontriggerusedtotem_a = new CriterionTriggerUsedTotem.a(advancementdataplayer);
-            this.listeners.put(advancementdataplayer, criteriontriggerusedtotem_a);
+            this.field_193189_b.put(advancementdataplayer, criteriontriggerusedtotem_a);
         }
 
         criteriontriggerusedtotem_a.a(criteriontrigger_a);
     }
 
     public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerUsedTotem.b> criteriontrigger_a) {
-        CriterionTriggerUsedTotem.a criteriontriggerusedtotem_a = (CriterionTriggerUsedTotem.a) this.listeners.get(advancementdataplayer);
+        CriterionTriggerUsedTotem.a criteriontriggerusedtotem_a = (CriterionTriggerUsedTotem.a) this.field_193189_b.get(advancementdataplayer);
 
         if (criteriontriggerusedtotem_a != null) {
             criteriontriggerusedtotem_a.b(criteriontrigger_a);
             if (criteriontriggerusedtotem_a.a()) {
-                this.listeners.remove(advancementdataplayer);
+                this.field_193189_b.remove(advancementdataplayer);
             }
         }
 
     }
 
-    public void removeAllListeners(PlayerAdvancements advancementdataplayer) {
-        this.listeners.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
+        this.field_193189_b.remove(advancementdataplayer);
     }
 
     public CriterionTriggerUsedTotem.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        ItemPredicate criterionconditionitem = ItemPredicate.deserialize(jsonobject.get("item"));
+        ItemPredicate criterionconditionitem = ItemPredicate.func_192492_a(jsonobject.get("item"));
 
         return new CriterionTriggerUsedTotem.b(criterionconditionitem);
     }
 
-    public void trigger(EntityPlayerMP entityplayer, ItemStack itemstack) {
-        CriterionTriggerUsedTotem.a criteriontriggerusedtotem_a = (CriterionTriggerUsedTotem.a) this.listeners.get(entityplayer.getAdvancements());
+    public void func_193187_a(EntityPlayerMP entityplayer, ItemStack itemstack) {
+        CriterionTriggerUsedTotem.a criteriontriggerusedtotem_a = (CriterionTriggerUsedTotem.a) this.field_193189_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerusedtotem_a != null) {
             criteriontriggerusedtotem_a.a(itemstack);
@@ -72,7 +72,7 @@ public class UsedTotemTrigger implements ICriterionTrigger<CriterionTriggerUsedT
 
     }
 
-    public ICriterionInstance deserializeInstance(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
@@ -131,12 +131,12 @@ public class UsedTotemTrigger implements ICriterionTrigger<CriterionTriggerUsedT
         private final ItemPredicate a;
 
         public b(ItemPredicate criterionconditionitem) {
-            super(UsedTotemTrigger.ID);
+            super(UsedTotemTrigger.field_193188_a);
             this.a = criterionconditionitem;
         }
 
         public boolean a(ItemStack itemstack) {
-            return this.a.test(itemstack);
+            return this.a.func_192493_a(itemstack);
         }
     }
 }

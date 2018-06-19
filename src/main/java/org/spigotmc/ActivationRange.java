@@ -110,19 +110,19 @@ public class ActivationRange
         maxRange = Math.min( ( world.spigotConfig.viewDistance << 4 ) - 8, maxRange );
 
         Chunk chunk; // Paper
-        for ( EntityPlayer player : world.playerEntities )
+        for ( EntityPlayer player : world.field_73010_i )
         {
 
             player.activatedTick = MinecraftServer.currentTick;
-            maxBB = player.getEntityBoundingBox().grow( maxRange, 256, maxRange );
-            miscBB = player.getEntityBoundingBox().grow( miscActivationRange, 256, miscActivationRange );
-            animalBB = player.getEntityBoundingBox().grow( animalActivationRange, 256, animalActivationRange );
-            monsterBB = player.getEntityBoundingBox().grow( monsterActivationRange, 256, monsterActivationRange );
+            maxBB = player.func_174813_aQ().func_72314_b( maxRange, 256, maxRange );
+            miscBB = player.func_174813_aQ().func_72314_b( miscActivationRange, 256, miscActivationRange );
+            animalBB = player.func_174813_aQ().func_72314_b( animalActivationRange, 256, animalActivationRange );
+            monsterBB = player.func_174813_aQ().func_72314_b( monsterActivationRange, 256, monsterActivationRange );
 
-            int i = MathHelper.floor( maxBB.minX / 16.0D );
-            int j = MathHelper.floor( maxBB.maxX / 16.0D );
-            int k = MathHelper.floor( maxBB.minZ / 16.0D );
-            int l = MathHelper.floor( maxBB.maxZ / 16.0D );
+            int i = MathHelper.func_76128_c( maxBB.field_72340_a / 16.0D );
+            int j = MathHelper.func_76128_c( maxBB.field_72336_d / 16.0D );
+            int k = MathHelper.func_76128_c( maxBB.field_72339_c / 16.0D );
+            int l = MathHelper.func_76128_c( maxBB.field_72334_f / 16.0D );
 
             for ( int i1 = i; i1 <= j; ++i1 )
             {
@@ -145,7 +145,7 @@ public class ActivationRange
      */
     private static void activateChunkEntities(Chunk chunk)
     {
-        for ( List<Entity> slice : chunk.entityLists )
+        for ( List<Entity> slice : chunk.field_76645_j )
         {
             for ( Entity entity : slice )
             {
@@ -159,20 +159,20 @@ public class ActivationRange
                     switch ( entity.activationType )
                     {
                         case 1:
-                            if ( monsterBB.intersects( entity.getEntityBoundingBox() ) )
+                            if ( monsterBB.func_72326_a( entity.func_174813_aQ() ) )
                             {
                                 entity.activatedTick = MinecraftServer.currentTick;
                             }
                             break;
                         case 2:
-                            if ( animalBB.intersects( entity.getEntityBoundingBox() ) )
+                            if ( animalBB.func_72326_a( entity.func_174813_aQ() ) )
                             {
                                 entity.activatedTick = MinecraftServer.currentTick;
                             }
                             break;
                         case 3:
                         default:
-                            if ( miscBB.intersects( entity.getEntityBoundingBox() ) )
+                            if ( miscBB.func_72326_a( entity.func_174813_aQ() ) )
                             {
                                 entity.activatedTick = MinecraftServer.currentTick;
                             }
@@ -192,17 +192,17 @@ public class ActivationRange
     public static boolean checkEntityImmunities(Entity entity)
     {
         // quick checks.
-        if ( entity.inWater || entity.fire > 0 )
+        if ( entity.field_70171_ac || entity.field_190534_ay > 0 )
         {
             return true;
         }
         if ( !( entity instanceof EntityArrow ) )
         {
-            if ( !entity.onGround || !entity.riddenByEntities.isEmpty() || entity.isRiding() )
+            if ( !entity.field_70122_E || !entity.field_184244_h.isEmpty() || entity.func_184218_aH() )
             {
                 return true;
             }
-        } else if ( !( (EntityArrow) entity ).inGround )
+        } else if ( !( (EntityArrow) entity ).field_70254_i )
         {
             return true;
         }
@@ -210,7 +210,7 @@ public class ActivationRange
         if ( entity instanceof EntityLivingBase )
         {
             EntityLivingBase living = (EntityLivingBase) entity;
-            if ( living.recentlyHit > 0 || living.hurtTime > 0 || living.activePotionsMap.size() > 0 ) // Paper
+            if ( living.field_70718_bc > 0 || living.field_70737_aN > 0 || living.field_70713_bf.size() > 0 ) // Paper
             {
                 return true;
             }
@@ -218,12 +218,12 @@ public class ActivationRange
             {
                 // Paper start
                 EntityCreature creature = (EntityCreature) entity;
-                if (creature.getAttackTarget() != null || creature.getMovingTarget() != null) {
+                if (creature.func_70638_az() != null || creature.getMovingTarget() != null) {
                     return true;
                 }
                 // Paper end
             }
-            if ( entity instanceof EntityVillager && ( (EntityVillager) entity ).isMating() )
+            if ( entity instanceof EntityVillager && ( (EntityVillager) entity ).func_70941_o() )
             {
                 return true;
             }
@@ -236,16 +236,16 @@ public class ActivationRange
             if ( entity instanceof EntityAnimal )
             {
                 EntityAnimal animal = (EntityAnimal) entity;
-                if ( animal.isChild() || animal.isInLove() )
+                if ( animal.func_70631_g_() || animal.func_70880_s() )
                 {
                     return true;
                 }
-                if ( entity instanceof EntitySheep && ( (EntitySheep) entity ).getSheared() )
+                if ( entity instanceof EntitySheep && ( (EntitySheep) entity ).func_70892_o() )
                 {
                     return true;
                 }
             }
-            if (entity instanceof EntityCreeper && ((EntityCreeper) entity).hasIgnited()) { // isExplosive
+            if (entity instanceof EntityCreeper && ((EntityCreeper) entity).func_146078_ca()) { // isExplosive
                 return true;
             }
         }
@@ -262,7 +262,7 @@ public class ActivationRange
     {
         // Never safe to skip fireworks or entities not yet added to chunk
         // PAIL: inChunk - boolean under datawatchers
-        if ( !entity.addedToChunk || entity instanceof EntityFireworkRocket ) {
+        if ( !entity.field_70175_ag || entity instanceof EntityFireworkRocket ) {
             return true;
         }
 
@@ -282,20 +282,20 @@ public class ActivationRange
                 isActive = true;
             }
             // Add a little performance juice to active entities. Skip 1/4 if not immune.
-        } else if ( !entity.defaultActivationState && entity.ticksExisted % 4 == 0 && !checkEntityImmunities( entity ) )
+        } else if ( !entity.defaultActivationState && entity.field_70173_aa % 4 == 0 && !checkEntityImmunities( entity ) )
         {
             isActive = false;
         }
-        int x = MathHelper.floor( entity.posX );
-        int z = MathHelper.floor( entity.posZ );
+        int x = MathHelper.func_76128_c( entity.field_70165_t );
+        int z = MathHelper.func_76128_c( entity.field_70161_v );
         // Make sure not on edge of unloaded chunk
-        Chunk chunk = entity.world.getChunkIfLoaded( x >> 4, z >> 4 );
+        Chunk chunk = entity.field_70170_p.getChunkIfLoaded( x >> 4, z >> 4 );
         if ( isActive && !( chunk != null && chunk.areNeighborsLoaded( 1 ) ) )
         {
             isActive = false;
         }
         // Paper start - Skip ticking in chunks scheduled for unload
-        if(entity.world.paperConfig.skipEntityTickingInChunksScheduledForUnload && (chunk == null || chunk.isUnloading() || chunk.scheduledForUnload != null))
+        if(entity.field_70170_p.paperConfig.skipEntityTickingInChunksScheduledForUnload && (chunk == null || chunk.isUnloading() || chunk.scheduledForUnload != null))
             isActive = false;
         // Paper end
         return isActive;

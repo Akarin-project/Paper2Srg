@@ -7,14 +7,14 @@ import net.minecraft.util.SoundCategory;
 
 public class TileEntityEnderChest extends TileEntity { // Paper - Remove ITickable
 
-    public float lidAngle; // Paper - lid angle
-    public float prevLidAngle;
-    public int numPlayersUsing; // Paper - Number of viewers
-    private int ticksSinceSync;
+    public float field_145972_a; // Paper - lid angle
+    public float field_145975_i;
+    public int field_145973_j; // Paper - Number of viewers
+    private int field_145974_k;
 
     public TileEntityEnderChest() {}
 
-    public void update() {
+    public void func_73660_a() {
         // Paper start - Disable all of this, just in case this does get ticked
         /*
         if (++this.h % 20 * 4 == 0) {
@@ -66,54 +66,54 @@ public class TileEntityEnderChest extends TileEntity { // Paper - Remove ITickab
 
     }
 
-    public boolean receiveClientEvent(int i, int j) {
+    public boolean func_145842_c(int i, int j) {
         if (i == 1) {
-            this.numPlayersUsing = j;
+            this.field_145973_j = j;
             return true;
         } else {
-            return super.receiveClientEvent(i, j);
+            return super.func_145842_c(i, j);
         }
     }
 
-    public void invalidate() {
-        this.updateContainingBlockInfo();
-        super.invalidate();
+    public void func_145843_s() {
+        this.func_145836_u();
+        super.func_145843_s();
     }
 
-    public void openChest() {
-        ++this.numPlayersUsing;
+    public void func_145969_a() {
+        ++this.field_145973_j;
 
         // Paper start - Move enderchest open sounds out of the tick loop
-        if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
-            this.lidAngle = 0.7F;
+        if (this.field_145973_j > 0 && this.field_145972_a == 0.0F) {
+            this.field_145972_a = 0.7F;
 
-            double d1 = (double) this.getPos().getX() + 0.5D;
-            double d0 = (double) this.getPos().getZ() + 0.5D;
+            double d1 = (double) this.func_174877_v().func_177958_n() + 0.5D;
+            double d0 = (double) this.func_174877_v().func_177952_p() + 0.5D;
 
-            this.world.playSound((EntityPlayer) null, d1, (double) this.getPos().getY() + 0.5D, d0, SoundEvents.BLOCK_ENDERCHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+            this.field_145850_b.func_184148_a((EntityPlayer) null, d1, (double) this.func_174877_v().func_177956_o() + 0.5D, d0, SoundEvents.field_187520_aJ, SoundCategory.BLOCKS, 0.5F, this.field_145850_b.field_73012_v.nextFloat() * 0.1F + 0.9F);
         }
         // Paper end
 
-        this.world.addBlockEvent(this.pos, Blocks.ENDER_CHEST, 1, this.numPlayersUsing);
+        this.field_145850_b.func_175641_c(this.field_174879_c, Blocks.field_150477_bB, 1, this.field_145973_j);
     }
 
-    public void closeChest() {
-        --this.numPlayersUsing;
+    public void func_145970_b() {
+        --this.field_145973_j;
 
         // Paper start - Move enderchest close sounds out of the tick loop
-        if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
-            double d0 = (double) this.getPos().getX() + 0.5D;
-            double d2 = (double) this.getPos().getZ() + 0.5D;
+        if (this.field_145973_j == 0 && this.field_145972_a > 0.0F || this.field_145973_j > 0 && this.field_145972_a < 1.0F) {
+            double d0 = (double) this.func_174877_v().func_177958_n() + 0.5D;
+            double d2 = (double) this.func_174877_v().func_177952_p() + 0.5D;
 
-            this.world.playSound((EntityPlayer) null, d0, (double) this.getPos().getY() + 0.5D, d2, SoundEvents.BLOCK_ENDERCHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
-            this.lidAngle = 0.0F;
+            this.field_145850_b.func_184148_a((EntityPlayer) null, d0, (double) this.func_174877_v().func_177956_o() + 0.5D, d2, SoundEvents.field_187519_aI, SoundCategory.BLOCKS, 0.5F, this.field_145850_b.field_73012_v.nextFloat() * 0.1F + 0.9F);
+            this.field_145972_a = 0.0F;
         }
         // Paper end
 
-        this.world.addBlockEvent(this.pos, Blocks.ENDER_CHEST, 1, this.numPlayersUsing);
+        this.field_145850_b.func_175641_c(this.field_174879_c, Blocks.field_150477_bB, 1, this.field_145973_j);
     }
 
-    public boolean canBeUsed(EntityPlayer entityhuman) {
-        return this.world.getTileEntity(this.pos) != this ? false : entityhuman.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+    public boolean func_145971_a(EntityPlayer entityhuman) {
+        return this.field_145850_b.func_175625_s(this.field_174879_c) != this ? false : entityhuman.func_70092_e((double) this.field_174879_c.func_177958_n() + 0.5D, (double) this.field_174879_c.func_177956_o() + 0.5D, (double) this.field_174879_c.func_177952_p() + 0.5D) <= 64.0D;
     }
 }

@@ -61,7 +61,7 @@ public class CraftBeacon extends CraftContainer<TileEntityBeacon> implements Bea
 
     @Override
     public int getTier() {
-        return this.getSnapshot().levels;
+        return this.getSnapshot().field_146012_l;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class CraftBeacon extends CraftContainer<TileEntityBeacon> implements Bea
 
     @Override
     public void setPrimaryEffect(PotionEffectType effect) {
-        this.getSnapshot().primaryEffect = (effect != null) ? Potion.getPotionById(effect.getId()) : null;
+        this.getSnapshot().field_146013_m = (effect != null) ? Potion.func_188412_a(effect.getId()) : null;
     }
 
     @Override
@@ -81,17 +81,17 @@ public class CraftBeacon extends CraftContainer<TileEntityBeacon> implements Bea
 
     @Override
     public void setSecondaryEffect(PotionEffectType effect) {
-        this.getSnapshot().secondaryEffect = (effect != null) ? Potion.getPotionById(effect.getId()) : null;
+        this.getSnapshot().field_146010_n = (effect != null) ? Potion.func_188412_a(effect.getId()) : null;
     }
 
     @Override
     public String getCustomName() {
         TileEntityBeacon beacon = this.getSnapshot();
-        return beacon.hasCustomName() ? beacon.getName() : null;
+        return beacon.func_145818_k_() ? beacon.func_70005_c_() : null;
     }
 
     @Override
     public void setCustomName(String name) {
-        this.getSnapshot().setName(name);
+        this.getSnapshot().func_145999_a(name);
     }
 }

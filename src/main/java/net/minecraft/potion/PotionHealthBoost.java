@@ -9,10 +9,10 @@ public class PotionHealthBoost extends Potion {
         super(flag, i);
     }
 
-    public void removeAttributesModifiersFromEntity(EntityLivingBase entityliving, AbstractAttributeMap attributemapbase, int i) {
-        super.removeAttributesModifiersFromEntity(entityliving, attributemapbase, i);
-        if (entityliving.getHealth() > entityliving.getMaxHealth()) {
-            entityliving.setHealth(entityliving.getMaxHealth());
+    public void func_111187_a(EntityLivingBase entityliving, AbstractAttributeMap attributemapbase, int i) {
+        super.func_111187_a(entityliving, attributemapbase, i);
+        if (entityliving.func_110143_aJ() > entityliving.func_110138_aP()) {
+            entityliving.func_70606_j(entityliving.func_110138_aP());
         }
 
     }

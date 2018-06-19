@@ -21,58 +21,58 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 
 public class BlockCrops extends BlockBush implements IGrowable {
 
-    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 7);
-    private static final AxisAlignedBB[] CROPS_AABB = new AxisAlignedBB[] { new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.375D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.625D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
+    public static final PropertyInteger field_176488_a = PropertyInteger.func_177719_a("age", 0, 7);
+    private static final AxisAlignedBB[] field_185530_a = new AxisAlignedBB[] { new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.375D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.625D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
 
     protected BlockCrops() {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(this.getAgeProperty(), Integer.valueOf(0)));
-        this.setTickRandomly(true);
-        this.setCreativeTab((CreativeTabs) null);
-        this.setHardness(0.0F);
-        this.setSoundType(SoundType.PLANT);
-        this.disableStats();
+        this.func_180632_j(this.field_176227_L.func_177621_b().func_177226_a(this.func_185524_e(), Integer.valueOf(0)));
+        this.func_149675_a(true);
+        this.func_149647_a((CreativeTabs) null);
+        this.func_149711_c(0.0F);
+        this.func_149672_a(SoundType.field_185850_c);
+        this.func_149649_H();
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
-        return BlockCrops.CROPS_AABB[((Integer) iblockdata.getValue(this.getAgeProperty())).intValue()];
+    public AxisAlignedBB func_185496_a(IBlockState iblockdata, IBlockAccess iblockaccess, BlockPos blockposition) {
+        return BlockCrops.field_185530_a[((Integer) iblockdata.func_177229_b(this.func_185524_e())).intValue()];
     }
 
-    protected boolean canSustainBush(IBlockState iblockdata) {
-        return iblockdata.getBlock() == Blocks.FARMLAND;
+    protected boolean func_185514_i(IBlockState iblockdata) {
+        return iblockdata.func_177230_c() == Blocks.field_150458_ak;
     }
 
-    protected PropertyInteger getAgeProperty() {
-        return BlockCrops.AGE;
+    protected PropertyInteger func_185524_e() {
+        return BlockCrops.field_176488_a;
     }
 
-    public int getMaxAge() {
+    public int func_185526_g() {
         return 7;
     }
 
-    protected int getAge(IBlockState iblockdata) {
-        return ((Integer) iblockdata.getValue(this.getAgeProperty())).intValue();
+    protected int func_185527_x(IBlockState iblockdata) {
+        return ((Integer) iblockdata.func_177229_b(this.func_185524_e())).intValue();
     }
 
-    public IBlockState withAge(int i) {
-        return this.getDefaultState().withProperty(this.getAgeProperty(), Integer.valueOf(i));
+    public IBlockState func_185528_e(int i) {
+        return this.func_176223_P().func_177226_a(this.func_185524_e(), Integer.valueOf(i));
     }
 
-    public boolean isMaxAge(IBlockState iblockdata) {
-        return ((Integer) iblockdata.getValue(this.getAgeProperty())).intValue() >= this.getMaxAge();
+    public boolean func_185525_y(IBlockState iblockdata) {
+        return ((Integer) iblockdata.func_177229_b(this.func_185524_e())).intValue() >= this.func_185526_g();
     }
 
-    public void updateTick(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
-        super.updateTick(world, blockposition, iblockdata, random);
-        if (world.isLightLevel(blockposition.up(), 9)) { // Paper
-            int i = this.getAge(iblockdata);
+    public void func_180650_b(World world, BlockPos blockposition, IBlockState iblockdata, Random random) {
+        super.func_180650_b(world, blockposition, iblockdata, random);
+        if (world.isLightLevel(blockposition.func_177984_a(), 9)) { // Paper
+            int i = this.func_185527_x(iblockdata);
 
-            if (i < this.getMaxAge()) {
-                float f = getGrowthChance((Block) this, world, blockposition);
+            if (i < this.func_185526_g()) {
+                float f = func_180672_a((Block) this, world, blockposition);
 
                 if (random.nextInt((int) ((100.0F / world.spigotConfig.wheatModifier) * (25.0F / f)) + 1) == 0) { // Spigot
                     // CraftBukkit start
-                    IBlockState data = this.withAge(i + 1);
-                    CraftEventFactory.handleBlockGrowEvent(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), this, getMetaFromState(data));
+                    IBlockState data = this.func_185528_e(i + 1);
+                    CraftEventFactory.handleBlockGrowEvent(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), this, func_176201_c(data));
                     // CraftBukkit end
                 }
             }
@@ -80,36 +80,36 @@ public class BlockCrops extends BlockBush implements IGrowable {
 
     }
 
-    public void grow(World world, BlockPos blockposition, IBlockState iblockdata) {
-        int i = this.getAge(iblockdata) + this.getBonemealAgeIncrease(world);
-        int j = this.getMaxAge();
+    public void func_176487_g(World world, BlockPos blockposition, IBlockState iblockdata) {
+        int i = this.func_185527_x(iblockdata) + this.func_185529_b(world);
+        int j = this.func_185526_g();
 
         if (i > j) {
             i = j;
         }
 
         // CraftBukkit start
-        IBlockState data = this.withAge(i);
-        CraftEventFactory.handleBlockGrowEvent(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), this, getMetaFromState(data));
+        IBlockState data = this.func_185528_e(i);
+        CraftEventFactory.handleBlockGrowEvent(world, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), this, func_176201_c(data));
         // CraftBukkit end
     }
 
-    protected int getBonemealAgeIncrease(World world) {
-        return MathHelper.getInt(world.rand, 2, 5);
+    protected int func_185529_b(World world) {
+        return MathHelper.func_76136_a(world.field_73012_v, 2, 5);
     }
 
-    protected static float getGrowthChance(Block block, World world, BlockPos blockposition) {
+    protected static float func_180672_a(Block block, World world, BlockPos blockposition) {
         float f = 1.0F;
-        BlockPos blockposition1 = blockposition.down();
+        BlockPos blockposition1 = blockposition.func_177977_b();
 
         for (int i = -1; i <= 1; ++i) {
             for (int j = -1; j <= 1; ++j) {
                 float f1 = 0.0F;
-                IBlockState iblockdata = world.getBlockState(blockposition1.add(i, 0, j));
+                IBlockState iblockdata = world.func_180495_p(blockposition1.func_177982_a(i, 0, j));
 
-                if (iblockdata.getBlock() == Blocks.FARMLAND) {
+                if (iblockdata.func_177230_c() == Blocks.field_150458_ak) {
                     f1 = 1.0F;
-                    if (((Integer) iblockdata.getValue(BlockFarmland.MOISTURE)).intValue() > 0) {
+                    if (((Integer) iblockdata.func_177229_b(BlockFarmland.field_176531_a)).intValue() > 0) {
                         f1 = 3.0F;
                     }
                 }
@@ -122,17 +122,17 @@ public class BlockCrops extends BlockBush implements IGrowable {
             }
         }
 
-        BlockPos blockposition2 = blockposition.north();
-        BlockPos blockposition3 = blockposition.south();
-        BlockPos blockposition4 = blockposition.west();
-        BlockPos blockposition5 = blockposition.east();
-        boolean flag = block == world.getBlockState(blockposition4).getBlock() || block == world.getBlockState(blockposition5).getBlock();
-        boolean flag1 = block == world.getBlockState(blockposition2).getBlock() || block == world.getBlockState(blockposition3).getBlock();
+        BlockPos blockposition2 = blockposition.func_177978_c();
+        BlockPos blockposition3 = blockposition.func_177968_d();
+        BlockPos blockposition4 = blockposition.func_177976_e();
+        BlockPos blockposition5 = blockposition.func_177974_f();
+        boolean flag = block == world.func_180495_p(blockposition4).func_177230_c() || block == world.func_180495_p(blockposition5).func_177230_c();
+        boolean flag1 = block == world.func_180495_p(blockposition2).func_177230_c() || block == world.func_180495_p(blockposition3).func_177230_c();
 
         if (flag && flag1) {
             f /= 2.0F;
         } else {
-            boolean flag2 = block == world.getBlockState(blockposition4.north()).getBlock() || block == world.getBlockState(blockposition5.north()).getBlock() || block == world.getBlockState(blockposition5.south()).getBlock() || block == world.getBlockState(blockposition4.south()).getBlock();
+            boolean flag2 = block == world.func_180495_p(blockposition4.func_177978_c()).func_177230_c() || block == world.func_180495_p(blockposition5.func_177978_c()).func_177230_c() || block == world.func_180495_p(blockposition5.func_177968_d()).func_177230_c() || block == world.func_180495_p(blockposition4.func_177968_d()).func_177230_c();
 
             if (flag2) {
                 f /= 2.0F;
@@ -142,29 +142,29 @@ public class BlockCrops extends BlockBush implements IGrowable {
         return f;
     }
 
-    public boolean canBlockStay(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return (world.getLight(blockposition) >= 8 || world.canSeeSky(blockposition)) && this.canSustainBush(world.getBlockState(blockposition.down()));
+    public boolean func_180671_f(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return (world.func_175699_k(blockposition) >= 8 || world.func_175678_i(blockposition)) && this.func_185514_i(world.func_180495_p(blockposition.func_177977_b()));
     }
 
-    protected Item getSeed() {
-        return Items.WHEAT_SEEDS;
+    protected Item func_149866_i() {
+        return Items.field_151014_N;
     }
 
-    protected Item getCrop() {
-        return Items.WHEAT;
+    protected Item func_149865_P() {
+        return Items.field_151015_O;
     }
 
-    public void dropBlockAsItemWithChance(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
-        super.dropBlockAsItemWithChance(world, blockposition, iblockdata, f, 0);
-        if (!world.isRemote) {
-            int j = this.getAge(iblockdata);
+    public void func_180653_a(World world, BlockPos blockposition, IBlockState iblockdata, float f, int i) {
+        super.func_180653_a(world, blockposition, iblockdata, f, 0);
+        if (!world.field_72995_K) {
+            int j = this.func_185527_x(iblockdata);
 
-            if (j >= this.getMaxAge()) {
+            if (j >= this.func_185526_g()) {
                 int k = 3 + i;
 
                 for (int l = 0; l < k; ++l) {
-                    if (world.rand.nextInt(2 * this.getMaxAge()) <= j) {
-                        spawnAsEntity(world, blockposition, new ItemStack(this.getSeed()));
+                    if (world.field_73012_v.nextInt(2 * this.func_185526_g()) <= j) {
+                        func_180635_a(world, blockposition, new ItemStack(this.func_149866_i()));
                     }
                 }
             }
@@ -172,35 +172,35 @@ public class BlockCrops extends BlockBush implements IGrowable {
         }
     }
 
-    public Item getItemDropped(IBlockState iblockdata, Random random, int i) {
-        return this.isMaxAge(iblockdata) ? this.getCrop() : this.getSeed();
+    public Item func_180660_a(IBlockState iblockdata, Random random, int i) {
+        return this.func_185525_y(iblockdata) ? this.func_149865_P() : this.func_149866_i();
     }
 
-    public ItemStack getItem(World world, BlockPos blockposition, IBlockState iblockdata) {
-        return new ItemStack(this.getSeed());
+    public ItemStack func_185473_a(World world, BlockPos blockposition, IBlockState iblockdata) {
+        return new ItemStack(this.func_149866_i());
     }
 
-    public boolean canGrow(World world, BlockPos blockposition, IBlockState iblockdata, boolean flag) {
-        return !this.isMaxAge(iblockdata);
+    public boolean func_176473_a(World world, BlockPos blockposition, IBlockState iblockdata, boolean flag) {
+        return !this.func_185525_y(iblockdata);
     }
 
-    public boolean canUseBonemeal(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
+    public boolean func_180670_a(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
         return true;
     }
 
-    public void grow(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
-        this.grow(world, blockposition, iblockdata);
+    public void func_176474_b(World world, Random random, BlockPos blockposition, IBlockState iblockdata) {
+        this.func_176487_g(world, blockposition, iblockdata);
     }
 
-    public IBlockState getStateFromMeta(int i) {
-        return this.withAge(i);
+    public IBlockState func_176203_a(int i) {
+        return this.func_185528_e(i);
     }
 
-    public int getMetaFromState(IBlockState iblockdata) {
-        return this.getAge(iblockdata);
+    public int func_176201_c(IBlockState iblockdata) {
+        return this.func_185527_x(iblockdata);
     }
 
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BlockCrops.AGE});
+    protected BlockStateContainer func_180661_e() {
+        return new BlockStateContainer(this, new IProperty[] { BlockCrops.field_176488_a});
     }
 }

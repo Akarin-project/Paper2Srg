@@ -13,25 +13,25 @@ import net.minecraft.world.World;
 
 public class ItemSeeds extends Item {
 
-    private final Block crops;
-    private final Block soilBlockID;
+    private final Block field_150925_a;
+    private final Block field_77838_b;
 
     public ItemSeeds(Block block, Block block1) {
-        this.crops = block;
-        this.soilBlockID = block1;
-        this.setCreativeTab(CreativeTabs.MATERIALS);
+        this.field_150925_a = block;
+        this.field_77838_b = block1;
+        this.func_77637_a(CreativeTabs.field_78035_l);
     }
 
-    public EnumActionResult onItemUse(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
-        ItemStack itemstack = entityhuman.getHeldItem(enumhand);
+    public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
+        ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
-        if (enumdirection == EnumFacing.UP && entityhuman.canPlayerEdit(blockposition.offset(enumdirection), enumdirection, itemstack) && world.getBlockState(blockposition).getBlock() == this.soilBlockID && world.isAirBlock(blockposition.up())) {
-            world.setBlockState(blockposition.up(), this.crops.getDefaultState());
+        if (enumdirection == EnumFacing.UP && entityhuman.func_175151_a(blockposition.func_177972_a(enumdirection), enumdirection, itemstack) && world.func_180495_p(blockposition).func_177230_c() == this.field_77838_b && world.func_175623_d(blockposition.func_177984_a())) {
+            world.func_175656_a(blockposition.func_177984_a(), this.field_150925_a.func_176223_P());
             if (entityhuman instanceof EntityPlayerMP) {
-                CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) entityhuman, blockposition.up(), itemstack);
+                CriteriaTriggers.field_193137_x.func_193173_a((EntityPlayerMP) entityhuman, blockposition.func_177984_a(), itemstack);
             }
 
-            itemstack.shrink(1);
+            itemstack.func_190918_g(1);
             return EnumActionResult.SUCCESS;
         } else {
             return EnumActionResult.FAIL;

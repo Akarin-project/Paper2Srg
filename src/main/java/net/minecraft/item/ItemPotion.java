@@ -24,79 +24,79 @@ import net.minecraft.world.World;
 public class ItemPotion extends Item {
 
     public ItemPotion() {
-        this.setMaxStackSize(1);
-        this.setCreativeTab(CreativeTabs.BREWING);
+        this.func_77625_d(1);
+        this.func_77637_a(CreativeTabs.field_78038_k);
     }
 
-    public ItemStack onItemUseFinish(ItemStack itemstack, World world, EntityLivingBase entityliving) {
+    public ItemStack func_77654_b(ItemStack itemstack, World world, EntityLivingBase entityliving) {
         EntityPlayer entityhuman = entityliving instanceof EntityPlayer ? (EntityPlayer) entityliving : null;
 
-        if (entityhuman == null || !entityhuman.capabilities.isCreativeMode) {
-            itemstack.shrink(1);
+        if (entityhuman == null || !entityhuman.field_71075_bZ.field_75098_d) {
+            itemstack.func_190918_g(1);
         }
 
         if (entityhuman instanceof EntityPlayerMP) {
-            CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) entityhuman, itemstack);
+            CriteriaTriggers.field_193138_y.func_193148_a((EntityPlayerMP) entityhuman, itemstack);
         }
 
-        if (!world.isRemote) {
-            List list = PotionUtils.getEffectsFromStack(itemstack);
+        if (!world.field_72995_K) {
+            List list = PotionUtils.func_185189_a(itemstack);
             Iterator iterator = list.iterator();
 
             while (iterator.hasNext()) {
                 PotionEffect mobeffect = (PotionEffect) iterator.next();
 
-                if (mobeffect.getPotion().isInstant()) {
-                    mobeffect.getPotion().affectEntity(entityhuman, entityhuman, entityliving, mobeffect.getAmplifier(), 1.0D);
+                if (mobeffect.func_188419_a().func_76403_b()) {
+                    mobeffect.func_188419_a().func_180793_a(entityhuman, entityhuman, entityliving, mobeffect.func_76458_c(), 1.0D);
                 } else {
-                    entityliving.addPotionEffect(new PotionEffect(mobeffect));
+                    entityliving.func_70690_d(new PotionEffect(mobeffect));
                 }
             }
         }
 
         if (entityhuman != null) {
-            entityhuman.addStat(StatList.getObjectUseStats((Item) this));
+            entityhuman.func_71029_a(StatList.func_188057_b((Item) this));
         }
 
-        if (entityhuman == null || !entityhuman.capabilities.isCreativeMode) {
-            if (itemstack.isEmpty()) {
-                return new ItemStack(Items.GLASS_BOTTLE);
+        if (entityhuman == null || !entityhuman.field_71075_bZ.field_75098_d) {
+            if (itemstack.func_190926_b()) {
+                return new ItemStack(Items.field_151069_bo);
             }
 
             if (entityhuman != null) {
-                entityhuman.inventory.addItemStackToInventory(new ItemStack(Items.GLASS_BOTTLE));
+                entityhuman.field_71071_by.func_70441_a(new ItemStack(Items.field_151069_bo));
             }
         }
 
         return itemstack;
     }
 
-    public int getMaxItemUseDuration(ItemStack itemstack) {
+    public int func_77626_a(ItemStack itemstack) {
         return 32;
     }
 
-    public EnumAction getItemUseAction(ItemStack itemstack) {
+    public EnumAction func_77661_b(ItemStack itemstack) {
         return EnumAction.DRINK;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entityhuman, EnumHand enumhand) {
-        entityhuman.setActiveHand(enumhand);
-        return new ActionResult(EnumActionResult.SUCCESS, entityhuman.getHeldItem(enumhand));
+    public ActionResult<ItemStack> func_77659_a(World world, EntityPlayer entityhuman, EnumHand enumhand) {
+        entityhuman.func_184598_c(enumhand);
+        return new ActionResult(EnumActionResult.SUCCESS, entityhuman.func_184586_b(enumhand));
     }
 
-    public String getItemStackDisplayName(ItemStack itemstack) {
-        return I18n.translateToLocal(PotionUtils.getPotionFromItem(itemstack).getNamePrefixed("potion.effect."));
+    public String func_77653_i(ItemStack itemstack) {
+        return I18n.func_74838_a(PotionUtils.func_185191_c(itemstack).func_185174_b("potion.effect."));
     }
 
-    public void getSubItems(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
-        if (this.isInCreativeTab(creativemodetab)) {
-            Iterator iterator = PotionType.REGISTRY.iterator();
+    public void func_150895_a(CreativeTabs creativemodetab, NonNullList<ItemStack> nonnulllist) {
+        if (this.func_194125_a(creativemodetab)) {
+            Iterator iterator = PotionType.field_185176_a.iterator();
 
             while (iterator.hasNext()) {
                 PotionType potionregistry = (PotionType) iterator.next();
 
-                if (potionregistry != PotionTypes.EMPTY) {
-                    nonnulllist.add(PotionUtils.addPotionToItemStack(new ItemStack(this), potionregistry));
+                if (potionregistry != PotionTypes.field_185229_a) {
+                    nonnulllist.add(PotionUtils.func_185188_a(new ItemStack(this), potionregistry));
                 }
             }
         }
