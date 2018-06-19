@@ -14,6 +14,7 @@ import net.minecraft.world.gen.feature.WorldGenSpikes;
 public enum DragonSpawnManager {
 
     START {;
+        @Override
         public void func_186079_a(WorldServer worldserver, DragonFightManager enderdragonbattle, List<EntityEnderCrystal> list, int i, BlockPos blockposition) {
             BlockPos blockposition1 = new BlockPos(0, 128, 0);
             Iterator iterator = list.iterator();
@@ -24,20 +25,22 @@ public enum DragonSpawnManager {
                 entityendercrystal.func_184516_a(blockposition1);
             }
 
-            enderdragonbattle.func_186095_a(null.PREPARING_TO_SUMMON_PILLARS);
+            enderdragonbattle.func_186095_a(PREPARING_TO_SUMMON_PILLARS);
         }
     }, PREPARING_TO_SUMMON_PILLARS {;
+    @Override
     public void func_186079_a(WorldServer worldserver, DragonFightManager enderdragonbattle, List<EntityEnderCrystal> list, int i, BlockPos blockposition) {
         if (i < 100) {
             if (i == 0 || i == 50 || i == 51 || i == 52 || i >= 95) {
                 worldserver.func_175718_b(3001, new BlockPos(0, 128, 0), 0);
             }
         } else {
-            enderdragonbattle.func_186095_a(null.SUMMONING_PILLARS);
+            enderdragonbattle.func_186095_a(SUMMONING_PILLARS);
         }
 
     }
 }, SUMMONING_PILLARS {;
+    @Override
     public void func_186079_a(WorldServer worldserver, DragonFightManager enderdragonbattle, List<EntityEnderCrystal> list, int i, BlockPos blockposition) {
         boolean flag = true;
         boolean flag1 = i % 40 == 0;
@@ -68,7 +71,7 @@ public enum DragonSpawnManager {
                         worldserver.func_175698_g(blockposition_mutableblockposition);
                     }
 
-                    worldserver.func_72876_a((Entity) null, (double) ((float) worldgenender_spike.func_186151_a() + 0.5F), (double) worldgenender_spike.func_186149_d(), (double) ((float) worldgenender_spike.func_186152_b() + 0.5F), 5.0F, true);
+                    worldserver.func_72876_a((Entity) null, worldgenender_spike.func_186151_a() + 0.5F, worldgenender_spike.func_186149_d(), worldgenender_spike.func_186152_b() + 0.5F, 5.0F, true);
                     WorldGenSpikes worldgenender = new WorldGenSpikes();
 
                     worldgenender.func_186143_a(worldgenender_spike);
@@ -77,18 +80,19 @@ public enum DragonSpawnManager {
                     worldgenender.func_180709_b(worldserver, new Random(), new BlockPos(worldgenender_spike.func_186151_a(), 45, worldgenender_spike.func_186152_b()));
                 }
             } else if (flag1) {
-                enderdragonbattle.func_186095_a(null.SUMMONING_DRAGON);
+                enderdragonbattle.func_186095_a(SUMMONING_DRAGON);
             }
         }
 
     }
 }, SUMMONING_DRAGON {;
+    @Override
     public void func_186079_a(WorldServer worldserver, DragonFightManager enderdragonbattle, List<EntityEnderCrystal> list, int i, BlockPos blockposition) {
         Iterator iterator;
         EntityEnderCrystal entityendercrystal;
 
         if (i >= 100) {
-            enderdragonbattle.func_186095_a(null.END);
+            enderdragonbattle.func_186095_a(END);
             enderdragonbattle.func_186087_f();
             iterator = list.iterator();
 
@@ -113,6 +117,7 @@ public enum DragonSpawnManager {
 
     }
 }, END {;
+    @Override
     public void func_186079_a(WorldServer worldserver, DragonFightManager enderdragonbattle, List<EntityEnderCrystal> list, int i, BlockPos blockposition) {}
 };
 

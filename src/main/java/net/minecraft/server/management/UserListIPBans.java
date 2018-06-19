@@ -10,6 +10,7 @@ public class UserListIPBans extends UserList<String, UserListIPBansEntry> {
         super(file);
     }
 
+    @Override
     protected UserListEntry<String> func_152682_a(JsonObject jsonobject) {
         return new UserListIPBansEntry(jsonobject);
     }
@@ -23,7 +24,7 @@ public class UserListIPBans extends UserList<String, UserListIPBansEntry> {
     public UserListIPBansEntry func_152709_b(SocketAddress socketaddress) {
         String s = this.func_152707_c(socketaddress);
 
-        return (UserListIPBansEntry) this.func_152709_b((Object) s);
+        return (UserListIPBansEntry) this.func_152709_b(s);
     }
 
     private String func_152707_c(SocketAddress socketaddress) {

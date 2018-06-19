@@ -55,14 +55,17 @@ public class PlayerProfileCache {
     protected final Gson field_152660_b;
     private final File field_152665_g;
     private static final ParameterizedType field_152666_h = new ParameterizedType() {
+        @Override
         public Type[] getActualTypeArguments() {
             return new Type[] { PlayerProfileCache.ProfileEntry.class};
         }
 
+        @Override
         public Type getRawType() {
             return List.class;
         }
 
+        @Override
         public Type getOwnerType() {
             return null;
         }
@@ -81,10 +84,12 @@ public class PlayerProfileCache {
     private static GameProfile func_187319_a(GameProfileRepository gameprofilerepository, String s) {
         final GameProfile[] agameprofile = new GameProfile[1];
         ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
+            @Override
             public void onProfileLookupSucceeded(GameProfile gameprofile) {
                 agameprofile[0] = gameprofile;
             }
 
+            @Override
             public void onProfileLookupFailed(GameProfile gameprofile, Exception exception) {
                 agameprofile[0] = null;
             }
@@ -128,7 +133,7 @@ public class PlayerProfileCache {
         PlayerProfileCache.ProfileEntry usercache_usercacheentry = new PlayerProfileCache.ProfileEntry(gameprofile, date, null);
 
         //if (this.e.containsKey(uuid)) { // Paper
-            PlayerProfileCache.ProfileEntry usercache_usercacheentry1 = (PlayerProfileCache.ProfileEntry) this.field_152662_d.get(uuid);
+            PlayerProfileCache.ProfileEntry usercache_usercacheentry1 = this.field_152662_d.get(uuid);
         if (usercache_usercacheentry1 != null) { // Paper
 
             this.field_152661_c.remove(usercache_usercacheentry1.func_152668_a().getName().toLowerCase(Locale.ROOT));
@@ -144,7 +149,7 @@ public class PlayerProfileCache {
     @Nullable
     public synchronized GameProfile func_152655_a(String s) { // Paper - synchronize
         String s1 = s.toLowerCase(Locale.ROOT);
-        PlayerProfileCache.ProfileEntry usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.field_152661_c.get(s1);
+        PlayerProfileCache.ProfileEntry usercache_usercacheentry = this.field_152661_c.get(s1);
 
         if (usercache_usercacheentry != null && (new Date()).getTime() >= usercache_usercacheentry.field_152673_c.getTime()) {
             this.field_152662_d.remove(usercache_usercacheentry.func_152668_a().getId());
@@ -163,7 +168,7 @@ public class PlayerProfileCache {
             gameprofile = func_187319_a(this.field_187323_g, s); // Spigot - use correct case for offline players
             if (gameprofile != null) {
                 this.func_152649_a(gameprofile);
-                usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.field_152661_c.get(s1);
+                usercache_usercacheentry = this.field_152661_c.get(s1);
             }
         }
 
@@ -187,13 +192,13 @@ public class PlayerProfileCache {
     @Nullable public GameProfile getProfile(UUID uuid) { return func_152652_a(uuid);  } // Paper - OBFHELPER
     @Nullable
     public synchronized GameProfile func_152652_a(UUID uuid) { // Paper - synchronize
-        PlayerProfileCache.ProfileEntry usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.field_152662_d.get(uuid);
+        PlayerProfileCache.ProfileEntry usercache_usercacheentry = this.field_152662_d.get(uuid);
 
         return usercache_usercacheentry == null ? null : usercache_usercacheentry.func_152668_a();
     }
 
     private PlayerProfileCache.ProfileEntry func_152653_b(UUID uuid) {
-        PlayerProfileCache.ProfileEntry usercache_usercacheentry = (PlayerProfileCache.ProfileEntry) this.field_152662_d.get(uuid);
+        PlayerProfileCache.ProfileEntry usercache_usercacheentry = this.field_152662_d.get(uuid);
 
         if (usercache_usercacheentry != null) {
             GameProfile gameprofile = usercache_usercacheentry.func_152668_a();
@@ -318,6 +323,7 @@ public class PlayerProfileCache {
 
         private Serializer() {}
 
+        @Override
         public JsonElement serialize(PlayerProfileCache.ProfileEntry usercache_usercacheentry, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
@@ -329,6 +335,7 @@ public class PlayerProfileCache {
             return jsonobject;
         }
 
+        @Override
         public PlayerProfileCache.ProfileEntry deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             if (jsonelement.isJsonObject()) {
                 JsonObject jsonobject = jsonelement.getAsJsonObject();
@@ -368,14 +375,6 @@ public class PlayerProfileCache {
             } else {
                 return null;
             }
-        }
-
-        public JsonElement serialize(ProfileEntry object, Type type, JsonSerializationContext jsonserializationcontext) { // CraftBukkit - decompile error
-            return this.serialize((PlayerProfileCache.ProfileEntry) object, type, jsonserializationcontext);
-        }
-
-        public ProfileEntry deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException { // CraftBukkit - decompile error
-            return this.deserialize(jsonelement, type, jsondeserializationcontext);
         }
 
         Serializer(Object object) {

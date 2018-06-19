@@ -73,7 +73,7 @@ public class Chunk {
     private boolean field_76650_s;
     public final Map<BlockPos, TileEntity> field_150816_i;
     public final List<Entity>[] field_76645_j; // Spigot
-    final PaperLightingQueue.LightingQueue lightingQueue = new PaperLightingQueue.LightingQueue(this); // Paper
+    public final PaperLightingQueue.LightingQueue lightingQueue = new PaperLightingQueue.LightingQueue(this); // Paper
     private boolean field_76646_k;
     private boolean field_150814_l;
     private boolean field_150815_m; private boolean isTicked() { return field_150815_m; }; // Paper - OBFHELPER
@@ -131,7 +131,7 @@ public class Chunk {
         this.field_150816_i = Maps.newHashMap();
         this.field_76649_t = 4096;
         this.field_177447_w = Queues.newConcurrentLinkedQueue();
-        this.field_76645_j = (List[]) (new List[16]); // Spigot
+        this.field_76645_j = (new List[16]); // Spigot
         this.field_76637_e = world;
         this.field_76635_g = i;
         this.field_76647_h = j;
@@ -497,6 +497,7 @@ public class Chunk {
                         return CrashReportCategory.func_184876_a(i, j, k);
                     }
 
+                    @Override
                     public Object call() throws Exception {
                         return this.a();
                     }
@@ -772,7 +773,7 @@ public class Chunk {
             tileentity = field_76637_e.capturedTileEntities.get(blockposition);
         }
         if (tileentity == null) {
-            tileentity = (TileEntity) this.field_150816_i.get(blockposition);
+            tileentity = this.field_150816_i.get(blockposition);
         }
         // CraftBukkit end
 
@@ -804,7 +805,7 @@ public class Chunk {
         tileentity.func_174878_a(blockposition);
         if (this.func_177435_g(blockposition).func_177230_c() instanceof ITileEntityProvider) {
             if (this.field_150816_i.containsKey(blockposition)) {
-                ((TileEntity) this.field_150816_i.get(blockposition)).func_145843_s();
+                this.field_150816_i.get(blockposition).func_145843_s();
             }
 
             tileentity.func_145829_t();
@@ -837,7 +838,7 @@ public class Chunk {
     public void removeTileEntity(BlockPos blockposition) { this.func_177425_e(blockposition); } // Paper - OBFHELPER
     public void func_177425_e(BlockPos blockposition) {
         if (this.field_76636_d) {
-            TileEntity tileentity = (TileEntity) this.field_150816_i.remove(blockposition);
+            TileEntity tileentity = this.field_150816_i.remove(blockposition);
 
             if (tileentity != null) {
                 tileentity.func_145843_s();
@@ -855,7 +856,7 @@ public class Chunk {
         for (int j = 0; j < i; ++j) {
             List entityslice = aentityslice[j]; // Spigot
 
-            this.field_76637_e.func_175650_b((Collection) entityslice);
+            this.field_76637_e.func_175650_b(entityslice);
         }
 
     }
@@ -869,7 +870,7 @@ public class Chunk {
             // Spigot Start
             if ( tileentity instanceof IInventory )
             {
-                for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList((List<org.bukkit.entity.HumanEntity>) ( (IInventory) tileentity ).getViewers() ) )
+                for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList(( (IInventory) tileentity ).getViewers() ) )
                 {
                     if ( h instanceof org.bukkit.craftbukkit.entity.CraftHumanEntity )
                     {
@@ -894,7 +895,7 @@ public class Chunk {
                 // Spigot Start
                 if ( entity instanceof IInventory )
                 {
-                    for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList( (List<org.bukkit.entity.HumanEntity>) ( (IInventory) entity ).getViewers() ) )
+                    for ( org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList( ( (IInventory) entity ).getViewers() ) )
                     {
                         if ( h instanceof org.bukkit.craftbukkit.entity.CraftHumanEntity )
                         {
@@ -1013,7 +1014,7 @@ public class Chunk {
     }
 
     public Random func_76617_a(long i) {
-        return new Random(this.field_76637_e.func_72905_C() + (long) (this.field_76635_g * this.field_76635_g * 4987142) + (long) (this.field_76635_g * 5947611) + (long) (this.field_76647_h * this.field_76647_h) * 4392871L + (long) (this.field_76647_h * 389711) ^ i);
+        return new Random(this.field_76637_e.func_72905_C() + this.field_76635_g * this.field_76635_g * 4987142 + this.field_76635_g * 5947611 + this.field_76647_h * this.field_76647_h * 4392871L + this.field_76647_h * 389711 ^ i);
     }
 
     public boolean func_76621_g() {
@@ -1093,7 +1094,7 @@ public class Chunk {
             random.setSeed(field_76637_e.func_72905_C());
             long xRand = random.nextLong() / 2L * 2L + 1L;
             long zRand = random.nextLong() / 2L * 2L + 1L;
-            random.setSeed((long) field_76635_g * xRand + (long) field_76647_h * zRand ^ field_76637_e.func_72905_C());
+            random.setSeed(field_76635_g * xRand + field_76647_h * zRand ^ field_76637_e.func_72905_C());
 
             org.bukkit.World world = this.field_76637_e.getWorld();
             if (world != null) {
@@ -1154,7 +1155,7 @@ public class Chunk {
         }
 
         while (!this.field_177447_w.isEmpty()) {
-            BlockPos blockposition = (BlockPos) this.field_177447_w.poll();
+            BlockPos blockposition = this.field_177447_w.poll();
 
             if (this.func_177424_a(blockposition, Chunk.EnumCreateEntityType.CHECK) == null && this.func_177435_g(blockposition).func_177230_c().func_149716_u()) {
                 TileEntity tileentity = this.func_177422_i(blockposition);
@@ -1371,7 +1372,7 @@ public class Chunk {
 
         for (l = k + 16 - 1; l > this.field_76637_e.func_181545_F() || l > 0 && !flag1; --l) {
             blockposition_mutableblockposition.func_181079_c(blockposition_mutableblockposition.func_177958_n(), l, blockposition_mutableblockposition.func_177952_p());
-            int i1 = this.func_177437_b((BlockPos) blockposition_mutableblockposition);
+            int i1 = this.func_177437_b(blockposition_mutableblockposition);
 
             if (i1 == 255 && blockposition_mutableblockposition.func_177956_o() < this.field_76637_e.func_181545_F()) {
                 flag1 = true;

@@ -9,12 +9,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 
-class PaperLightingQueue {
+public class PaperLightingQueue {
     private static final long MAX_TIME = (long) (1000000000 / 20 * .95);
     private static int updatesThisTick;
 
 
-    static void processQueue(long curTime) {
+    public static void processQueue(long curTime) {
         updatesThisTick = 0;
 
         final long startTime = System.nanoTime();
@@ -35,10 +35,10 @@ class PaperLightingQueue {
         }
     }
 
-    static class LightingQueue extends ArrayDeque<Runnable> {
+    public static class LightingQueue extends ArrayDeque<Runnable> {
         final private Chunk chunk;
 
-        LightingQueue(Chunk chunk) {
+        public LightingQueue(Chunk chunk) {
             super();
             this.chunk = chunk;
         }

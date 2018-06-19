@@ -188,6 +188,7 @@ public class ChunkGeneratorSettings {
 
         public Serializer() {}
 
+        @Override
         public ChunkGeneratorSettings.Factory deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             JsonObject jsonobject = jsonelement.getAsJsonObject();
             ChunkGeneratorSettings.Factory customworldsettingsfinal_customworldsettings = new ChunkGeneratorSettings.Factory();
@@ -287,6 +288,7 @@ public class ChunkGeneratorSettings {
             return customworldsettingsfinal_customworldsettings;
         }
 
+        @Override
         public JsonElement serialize(ChunkGeneratorSettings.Factory customworldsettingsfinal_customworldsettings, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
@@ -370,14 +372,6 @@ public class ChunkGeneratorSettings {
             jsonobject.addProperty("lapisCenterHeight", Integer.valueOf(customworldsettingsfinal_customworldsettings.field_177895_az));
             jsonobject.addProperty("lapisSpread", Integer.valueOf(customworldsettingsfinal_customworldsettings.field_177889_aA));
             return jsonobject;
-        }
-
-        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            return this.deserialize(jsonelement, type, jsondeserializationcontext);
-        }
-
-        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.serialize((ChunkGeneratorSettings.Factory) object, type, jsonserializationcontext);
         }
     }
 
@@ -470,13 +464,14 @@ public class ChunkGeneratorSettings {
                 return new ChunkGeneratorSettings.Factory();
             } else {
                 try {
-                    return (ChunkGeneratorSettings.Factory) JsonUtils.func_188178_a(ChunkGeneratorSettings.Factory.field_177901_a, s, ChunkGeneratorSettings.Factory.class);
+                    return JsonUtils.func_188178_a(ChunkGeneratorSettings.Factory.field_177901_a, s, ChunkGeneratorSettings.Factory.class);
                 } catch (Exception exception) {
                     return new ChunkGeneratorSettings.Factory();
                 }
             }
         }
 
+        @Override
         public String toString() {
             return ChunkGeneratorSettings.Factory.field_177901_a.toJson(this);
         }
@@ -567,6 +562,7 @@ public class ChunkGeneratorSettings {
             this.field_177889_aA = 16;
         }
 
+        @Override
         public boolean equals(Object object) {
             if (this == object) {
                 return true;
@@ -579,6 +575,7 @@ public class ChunkGeneratorSettings {
             }
         }
 
+        @Override
         public int hashCode() {
             int i = this.field_177899_b == 0.0F ? 0 : Float.floatToIntBits(this.field_177899_b);
 

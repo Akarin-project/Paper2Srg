@@ -11,6 +11,7 @@ public class UserListBans extends UserList<GameProfile, UserListBansEntry> {
         super(file);
     }
 
+    @Override
     protected UserListEntry<GameProfile> func_152682_a(JsonObject jsonobject) {
         return new UserListBansEntry(jsonobject);
     }
@@ -19,19 +20,21 @@ public class UserListBans extends UserList<GameProfile, UserListBansEntry> {
         return this.func_152692_d(gameprofile);
     }
 
+    @Override
     public String[] func_152685_a() {
         String[] astring = new String[this.func_152688_e().size()];
         int i = 0;
 
         UserListBansEntry gameprofilebanentry;
 
-        for (Iterator iterator = this.func_152688_e().values().iterator(); iterator.hasNext(); astring[i++] = ((GameProfile) gameprofilebanentry.func_152640_f()).getName()) {
+        for (Iterator iterator = this.func_152688_e().values().iterator(); iterator.hasNext(); astring[i++] = gameprofilebanentry.func_152640_f().getName()) {
             gameprofilebanentry = (UserListBansEntry) iterator.next();
         }
 
         return astring;
     }
 
+    @Override
     protected String func_152681_a(GameProfile gameprofile) {
         return gameprofile.getId().toString();
     }
@@ -47,12 +50,8 @@ public class UserListBans extends UserList<GameProfile, UserListBansEntry> {
             }
 
             gameprofilebanentry = (UserListBansEntry) iterator.next();
-        } while (!s.equalsIgnoreCase(((GameProfile) gameprofilebanentry.func_152640_f()).getName()));
+        } while (!s.equalsIgnoreCase(gameprofilebanentry.func_152640_f().getName()));
 
-        return (GameProfile) gameprofilebanentry.func_152640_f();
-    }
-
-    protected String func_152681_a(Object object) {
-        return this.func_152681_a((GameProfile) object);
+        return gameprofilebanentry.func_152640_f();
     }
 }

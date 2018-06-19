@@ -11,6 +11,7 @@ public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEn
         super(file);
     }
 
+    @Override
     protected UserListEntry<GameProfile> func_152682_a(JsonObject jsonobject) {
         return new UserListWhitelistEntry(jsonobject);
     }
@@ -19,19 +20,21 @@ public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEn
         return this.func_152692_d(gameprofile);
     }
 
+    @Override
     public String[] func_152685_a() {
         String[] astring = new String[this.func_152688_e().size()];
         int i = 0;
 
         UserListWhitelistEntry whitelistentry;
 
-        for (Iterator iterator = this.func_152688_e().values().iterator(); iterator.hasNext(); astring[i++] = ((GameProfile) whitelistentry.func_152640_f()).getName()) {
+        for (Iterator iterator = this.func_152688_e().values().iterator(); iterator.hasNext(); astring[i++] = whitelistentry.func_152640_f().getName()) {
             whitelistentry = (UserListWhitelistEntry) iterator.next();
         }
 
         return astring;
     }
 
+    @Override
     protected String func_152681_a(GameProfile gameprofile) {
         return gameprofile.getId().toString();
     }
@@ -47,12 +50,8 @@ public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEn
             }
 
             whitelistentry = (UserListWhitelistEntry) iterator.next();
-        } while (!s.equalsIgnoreCase(((GameProfile) whitelistentry.func_152640_f()).getName()));
+        } while (!s.equalsIgnoreCase(whitelistentry.func_152640_f().getName()));
 
-        return (GameProfile) whitelistentry.func_152640_f();
-    }
-
-    protected String func_152681_a(Object object) {
-        return this.func_152681_a((GameProfile) object);
+        return whitelistentry.func_152640_f();
     }
 }

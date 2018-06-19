@@ -40,14 +40,17 @@ public class UserList<K, V extends UserListEntry<K>> {
     private final Map<String, V> field_152696_d = Maps.newHashMap();
     private boolean field_152697_e = true;
     private static final ParameterizedType field_152698_f = new ParameterizedType() {
+        @Override
         public Type[] getActualTypeArguments() {
             return new Type[] { UserListEntry.class};
         }
 
+        @Override
         public Type getRawType() {
             return List.class;
         }
 
+        @Override
         public Type getOwnerType() {
             return null;
         }
@@ -86,7 +89,7 @@ public class UserList<K, V extends UserListEntry<K>> {
 
     public V func_152683_b(K k0) {
         this.func_152680_h();
-        return (V) this.field_152696_d.get(this.func_152681_a(k0)); // CraftBukkit - fix decompile error
+        return this.field_152696_d.get(this.func_152681_a(k0)); // CraftBukkit - fix decompile error
     }
 
     public void func_152684_c(K k0) {
@@ -101,7 +104,7 @@ public class UserList<K, V extends UserListEntry<K>> {
     }
 
     public String[] func_152685_a() {
-        return (String[]) this.field_152696_d.keySet().toArray(new String[this.field_152696_d.size()]);
+        return this.field_152696_d.keySet().toArray(new String[this.field_152696_d.size()]);
     }
 
     // CraftBukkit start
@@ -206,6 +209,7 @@ public class UserList<K, V extends UserListEntry<K>> {
 
         private Serializer() {}
 
+        @Override
         public JsonElement serialize(UserListEntry<K> jsonlistentry, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
@@ -213,6 +217,7 @@ public class UserList<K, V extends UserListEntry<K>> {
             return jsonobject;
         }
 
+        @Override
         public UserListEntry<K> deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             if (jsonelement.isJsonObject()) {
                 JsonObject jsonobject = jsonelement.getAsJsonObject();
@@ -221,14 +226,6 @@ public class UserList<K, V extends UserListEntry<K>> {
             } else {
                 return null;
             }
-        }
-
-        public JsonElement serialize(UserListEntry<K> object, Type type, JsonSerializationContext jsonserializationcontext) { // CraftBukkit - fix decompile error
-            return this.serialize((UserListEntry) object, type, jsonserializationcontext);
-        }
-
-        public UserListEntry<K> deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException { // CraftBukkit - fix decompile error
-            return this.deserialize(jsonelement, type, jsondeserializationcontext);
         }
 
         Serializer(Object object) {

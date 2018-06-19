@@ -32,13 +32,28 @@ import net.minecraft.network.play.server.SPacketTitle.Type;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.NotImplementedException;
-import org.bukkit.Statistic.Type;
+import org.bukkit.Achievement;
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
+import org.bukkit.Instrument;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Note;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.Statistic;
+import org.bukkit.WeatherType;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
 import org.bukkit.conversations.ManuallyAbandonedConversationCanceller;
 import org.bukkit.craftbukkit.block.CraftSign;
 import org.bukkit.craftbukkit.conversations.ConversationTracker;
+import org.bukkit.craftbukkit.CraftEffect;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftSound;
+import org.bukkit.craftbukkit.CraftStatistic;
 import org.bukkit.craftbukkit.advancement.CraftAdvancement;
 import org.bukkit.craftbukkit.advancement.CraftAdvancementProgress;
 import org.bukkit.craftbukkit.map.CraftMapView;
@@ -61,7 +76,6 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import javax.annotation.Nullable;
 
-import net;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -155,10 +169,12 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         perm.recalculatePermissions();
     }
 
+    @Override
     public boolean isOnline() {
         return server.getPlayer(getUniqueId()) != null;
     }
 
+    @Override
     public InetSocketAddress getAddress() {
         if (getHandle().field_71135_a == null) return null;
 
@@ -328,7 +344,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
             name = getName();
         }
         getHandle().listName = name.equals(getName()) ? null : CraftChatMessage.fromString(name)[0];
-        for (EntityPlayerMP player : (List<EntityPlayerMP>)server.getHandle().field_72404_b) {
+        for (EntityPlayerMP player : server.getHandle().field_72404_b) {
             if (player.getBukkitEntity().canSee(this)) {
                 player.field_71135_a.func_147359_a(new SPacketPlayerListItem(SPacketPlayerListItem.Action.UPDATE_DISPLAY_NAME, getHandle()));
             }
@@ -689,7 +705,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     public boolean setPassenger(org.bukkit.entity.Entity passenger) {
         boolean wasSet = super.setPassenger(passenger);
         if (wasSet) {
-            this.getHandle().field_71135_a.func_147359_a(new network.play.server.SPacketSetPassengers(this.getHandle()));
+            this.getHandle().field_71135_a.func_147359_a(new net.minecraft.network.play.server.SPacketSetPassengers(this.getHandle()));
         }
         return wasSet;
     }
@@ -770,7 +786,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     @Override
     public int getStatistic(Statistic statistic) {
         Validate.notNull(statistic, "Statistic cannot be null");
-        Validate.isTrue(statistic.getType() == Type.UNTYPED, "Must supply additional paramater for this statistic");
+        Validate.isTrue(statistic.getType() == org.bukkit.Statistic.Type.UNTYPED, "Must supply additional paramater for this statistic");
         return getHandle().func_147099_x().func_77444_a(CraftStatistic.getNMSStatistic(statistic));
     }
 
@@ -789,7 +805,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     @Override
     public void setStatistic(Statistic statistic, int newValue) {
         Validate.notNull(statistic, "Statistic cannot be null");
-        Validate.isTrue(statistic.getType() == Type.UNTYPED, "Must supply additional paramater for this statistic");
+        Validate.isTrue(statistic.getType() == org.bukkit.Statistic.Type.UNTYPED, "Must supply additional paramater for this statistic");
         Validate.isTrue(newValue >= 0, "Value must be greater than or equal to 0");
         net.minecraft.stats.StatBase nmsStatistic = CraftStatistic.getNMSStatistic(statistic);
         getHandle().func_147099_x().func_150873_a(getHandle(), nmsStatistic, newValue);
@@ -809,7 +825,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     public int getStatistic(Statistic statistic, Material material) {
         Validate.notNull(statistic, "Statistic cannot be null");
         Validate.notNull(material, "Material cannot be null");
-        Validate.isTrue(statistic.getType() == Type.BLOCK || statistic.getType() == Type.ITEM, "This statistic does not take a Material parameter");
+        Validate.isTrue(statistic.getType() == org.bukkit.Statistic.Type.BLOCK || statistic.getType() == org.bukkit.Statistic.Type.ITEM, "This statistic does not take a Material parameter");
         net.minecraft.stats.StatBase nmsStatistic = CraftStatistic.getMaterialStatistic(statistic, material);
         Validate.notNull(nmsStatistic, "The supplied Material does not have a corresponding statistic");
         return getHandle().func_147099_x().func_77444_a(nmsStatistic);
@@ -832,7 +848,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         Validate.notNull(statistic, "Statistic cannot be null");
         Validate.notNull(material, "Material cannot be null");
         Validate.isTrue(newValue >= 0, "Value must be greater than or equal to 0");
-        Validate.isTrue(statistic.getType() == Type.BLOCK || statistic.getType() == Type.ITEM, "This statistic does not take a Material parameter");
+        Validate.isTrue(statistic.getType() == org.bukkit.Statistic.Type.BLOCK || statistic.getType() == org.bukkit.Statistic.Type.ITEM, "This statistic does not take a Material parameter");
         net.minecraft.stats.StatBase nmsStatistic = CraftStatistic.getMaterialStatistic(statistic, material);
         Validate.notNull(nmsStatistic, "The supplied Material does not have a corresponding statistic");
         getHandle().func_147099_x().func_150873_a(getHandle(), nmsStatistic, newValue);
@@ -852,7 +868,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     public int getStatistic(Statistic statistic, EntityType entityType) {
         Validate.notNull(statistic, "Statistic cannot be null");
         Validate.notNull(entityType, "EntityType cannot be null");
-        Validate.isTrue(statistic.getType() == Type.ENTITY, "This statistic does not take an EntityType parameter");
+        Validate.isTrue(statistic.getType() == org.bukkit.Statistic.Type.ENTITY, "This statistic does not take an EntityType parameter");
         net.minecraft.stats.StatBase nmsStatistic = CraftStatistic.getEntityStatistic(statistic, entityType);
         Validate.notNull(nmsStatistic, "The supplied EntityType does not have a corresponding statistic");
         return getHandle().func_147099_x().func_77444_a(nmsStatistic);
@@ -875,7 +891,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         Validate.notNull(statistic, "Statistic cannot be null");
         Validate.notNull(entityType, "EntityType cannot be null");
         Validate.isTrue(newValue >= 0, "Value must be greater than or equal to 0");
-        Validate.isTrue(statistic.getType() == Type.ENTITY, "This statistic does not take an EntityType parameter");
+        Validate.isTrue(statistic.getType() == org.bukkit.Statistic.Type.ENTITY, "This statistic does not take an EntityType parameter");
         net.minecraft.stats.StatBase nmsStatistic = CraftStatistic.getEntityStatistic(statistic, entityType);
         Validate.notNull(nmsStatistic, "The supplied EntityType does not have a corresponding statistic");
         getHandle().func_147099_x().func_150873_a(getHandle(), nmsStatistic, newValue);
@@ -1196,6 +1212,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
             registerPlayer(player);
         }
     }
+    @Override
     public void setPlayerProfile(PlayerProfile profile) {
         EntityPlayerMP self = getHandle();
         self.setProfile(CraftPlayerProfile.asAuthlibCopy(profile));
@@ -1204,6 +1221,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
             player.getBukkitEntity().reregisterPlayer(self);
         }
     }
+    @Override
     public PlayerProfile getPlayerProfile() {
         return new CraftPlayerProfile(this).clone();
     }
@@ -1612,7 +1630,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
             getHandle().field_71135_a.func_147359_a(new SPacketEntityProperties(getHandle().func_145782_y(), set));
             sendHealthUpdate();
         }
-        getHandle().func_184212_Q().func_187227_b(EntityLivingBase.field_184632_c, (float) getScaledHealth());
+        getHandle().func_184212_Q().func_187227_b(EntityLivingBase.field_184632_c, getScaledHealth());
 
         getHandle().maxHealthCache = getMaxHealth();
     }
@@ -1765,6 +1783,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         // Paper end
     }
 
+    @Override
     public void setAffectsSpawning(boolean affects) {
         this.getHandle().affectsSpawning = affects;
     }
@@ -1953,6 +1972,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         }
     };
 
+    @Override
     public Player.Spigot spigot()
     {
         return spigot;

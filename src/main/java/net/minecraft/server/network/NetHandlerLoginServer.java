@@ -32,7 +32,6 @@ import net.minecraft.network.login.server.SPacketDisconnect;
 import net.minecraft.network.login.server.SPacketEnableCompression;
 import net.minecraft.network.login.server.SPacketEncryptionRequest;
 import net.minecraft.network.login.server.SPacketLoginSuccess;
-import net.minecraft.server.LoginListener.LoginHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.ITickable;
@@ -74,6 +73,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
         NetHandlerLoginServer.field_147329_d.nextBytes(this.field_147330_e);
     }
 
+    @Override
     public void func_73660_a() {
         // Paper start - Do not allow logins while the server is shutting down
         if (!MinecraftServer.getServer().func_71278_l()) {
@@ -181,8 +181,9 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
                         NetHandlerLoginServer.this.field_147333_a.func_179289_a(NetHandlerLoginServer.this.field_147327_f.func_175577_aI());
                     }
 
+                    @Override
                     public void operationComplete(ChannelFuture future) throws Exception { // CraftBukkit - fix decompile error
-                        this.a((ChannelFuture) future);
+                        this.a(future);
                     }
                 }, new GenericFutureListener[0]);
             }
@@ -200,6 +201,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 
     }
 
+    @Override
     public void func_147231_a(ITextComponent ichatbasecomponent) {
         NetHandlerLoginServer.field_147332_c.info("{} lost connection: {}", this.func_147317_d(), ichatbasecomponent.func_150260_c());
     }
@@ -208,6 +210,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
         return this.field_147337_i != null ? this.field_147337_i + " (" + this.field_147333_a.func_74430_c() + ")" : String.valueOf(this.field_147333_a.func_74430_c());
     }
 
+    @Override
     public void func_147316_a(CPacketLoginStart packetlogininstart) {
         Validate.validState(this.field_147328_g == NetHandlerLoginServer.LoginState.HELLO, "Unexpected hello packet", new Object[0]);
         this.field_147337_i = packetlogininstart.func_149304_c();
@@ -236,6 +239,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 
     }
 
+    @Override
     public void func_147315_a(CPacketEncryptionResponse packetlogininencryptionbegin) {
         Validate.validState(this.field_147328_g == NetHandlerLoginServer.LoginState.KEY, "Unexpected key packet", new Object[0]);
         PrivateKey privatekey = this.field_147327_f.func_71250_E().getPrivate();
@@ -248,6 +252,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
             this.field_147333_a.func_150727_a(this.field_147335_k);
             // Paper start - Cache authenticator threads
             authenticatorPool.execute(new Runnable() {
+                @Override
                 public void run() {
                     GameProfile gameprofile = NetHandlerLoginServer.this.field_147337_i;
 
