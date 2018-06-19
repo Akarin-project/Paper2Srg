@@ -1,9 +1,11 @@
 package net.minecraft.client.util;
 
 import com.google.common.collect.Lists;
-import it.unimi.dsi.fastutil.ints.Int2IntMap;
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntAVLTreeSet;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntCollection;
+import it.unimi.dsi.fastutil.ints.IntIterator;
+import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.IntListIterator;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntIterator;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -17,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.server.AutoRecipeStackManager.a;
 import net.minecraft.util.NonNullList;
 
 public class RecipeItemHelper {
@@ -40,7 +41,7 @@ public class RecipeItemHelper {
         Item item = itemstack.getItem();
         int i = item.getHasSubtypes() ? itemstack.getMetadata() : 0;
 
-        return Item.REGISTRY.getIDForObject((Object) item) << 16 | i & '\uffff';
+        return Item.REGISTRY.getIDForObject(item) << 16 | i & '\uffff';
     }
 
     public boolean containsItem(int i) {
@@ -108,7 +109,7 @@ public class RecipeItemHelper {
             this.g = new BitSet(this.d + this.f + this.d + this.d * this.f);
 
             for (int i = 0; i < this.c.size(); ++i) {
-                IntList intlist = ((Ingredient) this.c.get(i)).getValidItemStacksPacked();
+                IntList intlist = this.c.get(i).getValidItemStacksPacked();
 
                 for (int j = 0; j < this.f; ++j) {
                     if (intlist.contains(this.e[j])) {
@@ -132,7 +133,7 @@ public class RecipeItemHelper {
                     this.c(this.h.getInt(k));
 
                     for (int l = 0; l < k; ++l) {
-                        this.c((l & 1) == 0, ((Integer) this.h.get(l)).intValue(), ((Integer) this.h.get(l + 1)).intValue());
+                        this.c((l & 1) == 0, this.h.get(l).intValue(), this.h.get(l + 1).intValue());
                     }
 
                     this.h.clear();
@@ -314,7 +315,7 @@ public class RecipeItemHelper {
                 int k;
 
                 for (IntListIterator intlistiterator = recipeitemstack.getValidItemStacksPacked().iterator(); intlistiterator.hasNext(); j = Math.max(j, RecipeItemHelper.this.itemToCount.get(k))) {
-                    k = ((Integer) intlistiterator.next()).intValue();
+                    k = intlistiterator.next().intValue();
                 }
 
                 if (i > 0) {

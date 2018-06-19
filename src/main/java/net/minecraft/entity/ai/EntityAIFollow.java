@@ -26,13 +26,10 @@ public class EntityAIFollow extends EntityAIBase {
 
     public EntityAIFollow(final EntityLiving entityinsentient, double d0, float f, float f1) {
         this.entity = entityinsentient;
-        this.followPredicate = new Predicate() {
-            public boolean a(@Nullable EntityLiving entityinsentient) {
-                return entityinsentient != null && entityinsentient1.getClass() != entityinsentient.getClass();
-            }
-
-            public boolean apply(@Nullable Object object) {
-                return this.a((EntityLiving) object);
+        this.followPredicate = new Predicate<EntityLiving>() {
+            @Override
+            public boolean apply(@Nullable EntityLiving entity) {
+                return entity != null && entityinsentient.getClass() != entity.getClass();
             }
         };
         this.speedModifier = d0;
@@ -45,8 +42,9 @@ public class EntityAIFollow extends EntityAIBase {
         }
     }
 
+    @Override
     public boolean shouldExecute() {
-        List list = this.entity.world.getEntitiesWithinAABB(EntityLiving.class, this.entity.getEntityBoundingBox().grow((double) this.areaSize), this.followPredicate);
+        List list = this.entity.world.getEntitiesWithinAABB(EntityLiving.class, this.entity.getEntityBoundingBox().grow(this.areaSize), this.followPredicate);
 
         if (!list.isEmpty()) {
             Iterator iterator = list.iterator();
@@ -64,25 +62,29 @@ public class EntityAIFollow extends EntityAIBase {
         return false;
     }
 
+    @Override
     public boolean shouldContinueExecuting() {
-        return this.followingEntity != null && !this.navigation.noPath() && this.entity.getDistanceSq(this.followingEntity) > (double) (this.stopDistance * this.stopDistance);
+        return this.followingEntity != null && !this.navigation.noPath() && this.entity.getDistanceSq(this.followingEntity) > this.stopDistance * this.stopDistance;
     }
 
+    @Override
     public void startExecuting() {
         this.timeToRecalcPath = 0;
         this.oldWaterCost = this.entity.getPathPriority(PathNodeType.WATER);
         this.entity.setPathPriority(PathNodeType.WATER, 0.0F);
     }
 
+    @Override
     public void resetTask() {
         this.followingEntity = null;
         this.navigation.clearPath();
         this.entity.setPathPriority(PathNodeType.WATER, this.oldWaterCost);
     }
 
+    @Override
     public void updateTask() {
         if (this.followingEntity != null && !this.entity.getLeashed()) {
-            this.entity.getLookHelper().setLookPositionWithEntity(this.followingEntity, 10.0F, (float) this.entity.getVerticalFaceSpeed());
+            this.entity.getLookHelper().setLookPositionWithEntity(this.followingEntity, 10.0F, this.entity.getVerticalFaceSpeed());
             if (--this.timeToRecalcPath <= 0) {
                 this.timeToRecalcPath = 10;
                 double d0 = this.entity.posX - this.followingEntity.posX;
@@ -90,13 +92,13 @@ public class EntityAIFollow extends EntityAIBase {
                 double d2 = this.entity.posZ - this.followingEntity.posZ;
                 double d3 = d0 * d0 + d1 * d1 + d2 * d2;
 
-                if (d3 > (double) (this.stopDistance * this.stopDistance)) {
-                    this.navigation.tryMoveToEntityLiving((Entity) this.followingEntity, this.speedModifier);
+                if (d3 > this.stopDistance * this.stopDistance) {
+                    this.navigation.tryMoveToEntityLiving(this.followingEntity, this.speedModifier);
                 } else {
                     this.navigation.clearPath();
                     EntityLookHelper controllerlook = this.followingEntity.getLookHelper();
 
-                    if (d3 <= (double) this.stopDistance || controllerlook.getLookPosX() == this.entity.posX && controllerlook.getLookPosY() == this.entity.posY && controllerlook.getLookPosZ() == this.entity.posZ) {
+                    if (d3 <= this.stopDistance || controllerlook.getLookPosX() == this.entity.posX && controllerlook.getLookPosY() == this.entity.posY && controllerlook.getLookPosZ() == this.entity.posZ) {
                         double d4 = this.followingEntity.posX - this.entity.posX;
                         double d5 = this.followingEntity.posZ - this.entity.posZ;
 

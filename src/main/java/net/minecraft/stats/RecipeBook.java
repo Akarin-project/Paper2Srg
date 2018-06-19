@@ -41,7 +41,7 @@ public class RecipeBook {
     }
 
     protected static int getRecipeId(@Nullable IRecipe irecipe) {
-        return CraftingManager.REGISTRY.getIDForObject((Object) irecipe);
+        return CraftingManager.REGISTRY.getIDForObject(irecipe);
     }
 
     public void markSeen(IRecipe irecipe) {

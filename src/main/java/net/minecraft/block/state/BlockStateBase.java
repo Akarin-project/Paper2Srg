@@ -20,7 +20,7 @@ public abstract class BlockStateBase implements IBlockState {
             if (entry == null) {
                 return "<NULL>";
             } else {
-                IProperty iblockstate = (IProperty) entry.getKey();
+                IProperty iblockstate = entry.getKey();
 
                 return iblockstate.getName() + "=" + this.a(iblockstate, (Comparable) entry.getValue());
             }
@@ -30,6 +30,7 @@ public abstract class BlockStateBase implements IBlockState {
             return iblockstate.getName(comparable);
         }
 
+        @Override
         @Nullable
         public Object apply(@Nullable Object object) {
             return this.a((Entry) object);
@@ -38,12 +39,13 @@ public abstract class BlockStateBase implements IBlockState {
 
     public BlockStateBase() {}
 
+    @Override
     public <T extends Comparable<T>> IBlockState cycleProperty(IProperty<T> iblockstate) {
         return this.withProperty(iblockstate, (Comparable) cyclePropertyValue(iblockstate.getAllowedValues(), (Object) this.getValue(iblockstate)));
     }
 
     protected static <T> T cyclePropertyValue(Collection<T> collection, T t0) {
-        Iterator iterator = collection.iterator();
+        Iterator<T> iterator = collection.iterator();
 
         do {
             if (!iterator.hasNext()) {
@@ -58,6 +60,7 @@ public abstract class BlockStateBase implements IBlockState {
         }
     }
 
+    @Override
     public String toString() {
         StringBuilder stringbuilder = new StringBuilder();
 

@@ -13,13 +13,13 @@ import net.minecraft.util.ResourceLocation;
 
 public class FunctionObject {
 
-    private final CustomFunction.c[] entries;
+    private final FunctionObject.c[] entries;
 
-    public FunctionObject(CustomFunction.c[] acustomfunction_c) {
+    public FunctionObject(FunctionObject.c[] acustomfunction_c) {
         this.entries = acustomfunction_c;
     }
 
-    public CustomFunction.c[] a() {
+    public FunctionObject.c[] a() {
         return this.entries;
     }
 
@@ -47,16 +47,16 @@ public class FunctionObject {
                     throw new IllegalArgumentException("Unknown or invalid command \'" + s1 + "\'");
                 }
 
-                arraylist.add(new CustomFunction.b(s));
+                arraylist.add(new FunctionObject.b(s));
             }
         }
 
-        return new FunctionObject((CustomFunction.c[]) arraylist.toArray(new CustomFunction.c[arraylist.size()]));
+        return new FunctionObject((FunctionObject.c[]) arraylist.toArray(new FunctionObject.c[arraylist.size()]));
     }
 
     public static class a {
 
-        public static final CustomFunction.a a = new CustomFunction.a((ResourceLocation) null);
+        public static final FunctionObject.a a = new FunctionObject.a((ResourceLocation) null);
         @Nullable
         private final ResourceLocation b;
         private boolean c;
@@ -90,24 +90,25 @@ public class FunctionObject {
         }
     }
 
-    public static class d implements CustomFunction.c {
+    public static class d implements FunctionObject.c {
 
-        private final CustomFunction.a a;
+        private final FunctionObject.a a;
 
         public d(FunctionObject customfunction) {
-            this.a = new CustomFunction.a(customfunction);
+            this.a = new FunctionObject.a(customfunction);
         }
 
-        public void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<CustomFunctionData.a> arraydeque, int i) {
+        @Override
+        public void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<FunctionManager.a> arraydeque, int i) {
             FunctionObject customfunction = this.a.a(customfunctiondata);
 
             if (customfunction != null) {
-                CustomFunction.c[] acustomfunction_c = customfunction.a();
+                FunctionObject.c[] acustomfunction_c = customfunction.a();
                 int j = i - arraydeque.size();
                 int k = Math.min(acustomfunction_c.length, j);
 
                 for (int l = k - 1; l >= 0; --l) {
-                    arraydeque.addFirst(new CustomFunctionData.a(customfunctiondata, icommandlistener, acustomfunction_c[l]));
+                    arraydeque.addFirst(new FunctionManager.a(customfunctiondata, icommandlistener, acustomfunction_c[l]));
                 }
             }
 
@@ -119,7 +120,7 @@ public class FunctionObject {
         }
     }
 
-    public static class b implements CustomFunction.c {
+    public static class b implements FunctionObject.c {
 
         private final String a;
 
@@ -127,11 +128,12 @@ public class FunctionObject {
             this.a = s;
         }
 
-        public void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<CustomFunctionData.a> arraydeque, int i) {
+        @Override
+        public void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<FunctionManager.a> arraydeque, int i) {
             // CraftBukkit start
             org.bukkit.command.CommandSender sender;
-            if (icommandlistener instanceof CustomFunctionData.CustomFunctionListener) {
-                sender = ((CustomFunctionData.CustomFunctionListener) icommandlistener).sender;
+            if (icommandlistener instanceof FunctionManager.CustomFunctionListener) {
+                sender = ((FunctionManager.CustomFunctionListener) icommandlistener).sender;
             } else {
                 sender = CommandBlockBaseLogic.unwrapSender(icommandlistener);
             }
@@ -147,6 +149,6 @@ public class FunctionObject {
 
     public interface c {
 
-        void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<CustomFunctionData.a> arraydeque, int i);
+        void a(FunctionManager customfunctiondata, ICommandSender icommandlistener, ArrayDeque<FunctionManager.a> arraydeque, int i);
     }
 }

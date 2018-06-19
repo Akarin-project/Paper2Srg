@@ -16,20 +16,23 @@ public class AttributeMap extends AbstractAttributeMap {
 
     public AttributeMap() {}
 
+    @Override
     public ModifiableAttributeInstance getAttributeInstance(IAttribute iattribute) {
         return (ModifiableAttributeInstance) super.getAttributeInstance(iattribute);
     }
 
+    @Override
     public ModifiableAttributeInstance getAttributeInstanceByName(String s) {
         IAttributeInstance attributeinstance = super.getAttributeInstanceByName(s);
 
         if (attributeinstance == null) {
-            attributeinstance = (IAttributeInstance) this.instancesByName.get(s);
+            attributeinstance = this.instancesByName.get(s);
         }
 
         return (ModifiableAttributeInstance) attributeinstance;
     }
 
+    @Override
     public IAttributeInstance registerAttribute(IAttribute iattribute) {
         IAttributeInstance attributeinstance = super.registerAttribute(iattribute);
 
@@ -40,10 +43,12 @@ public class AttributeMap extends AbstractAttributeMap {
         return attributeinstance;
     }
 
+    @Override
     protected IAttributeInstance createInstance(IAttribute iattribute) {
         return new ModifiableAttributeInstance(this, iattribute);
     }
 
+    @Override
     public void onAttributeModified(IAttributeInstance attributeinstance) {
         if (attributeinstance.getAttribute().getShouldWatch()) {
             this.dirtyInstances.add(attributeinstance);
@@ -79,13 +84,5 @@ public class AttributeMap extends AbstractAttributeMap {
         }
 
         return hashset;
-    }
-
-    public IAttributeInstance getAttributeInstanceByName(String s) {
-        return this.getAttributeInstanceByName(s);
-    }
-
-    public IAttributeInstance getAttributeInstance(IAttribute iattribute) {
-        return this.getAttributeInstance(iattribute);
     }
 }

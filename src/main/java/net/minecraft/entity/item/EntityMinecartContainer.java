@@ -73,34 +73,41 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     private NonNullList<ItemStack> minecartContainerItems;
     private boolean dropContentsWhenDead;
     private ResourceLocation lootTable;
-    private long lootTableSeed;public long getLootTableSeed() { return lootTableSeed; } // Paper - OBFHELPER
+    private long lootTableSeed;@Override
+    public long getLootTableSeed() { return lootTableSeed; } // Paper - OBFHELPER
 
     // CraftBukkit start
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
     private int maxStack = MAX_STACK;
 
+    @Override
     public List<ItemStack> getContents() {
         return this.minecartContainerItems;
     }
 
+    @Override
     public void onOpen(CraftHumanEntity who) {
         transaction.add(who);
     }
 
+    @Override
     public void onClose(CraftHumanEntity who) {
         transaction.remove(who);
     }
 
+    @Override
     public List<HumanEntity> getViewers() {
         return transaction;
     }
 
+    @Override
     public InventoryHolder getOwner() {
         org.bukkit.entity.Entity cart = getBukkitEntity();
         if(cart instanceof InventoryHolder) return (InventoryHolder) cart;
         return null;
     }
 
+    @Override
     public void setMaxStackSize(int size) {
         maxStack = size;
     }
@@ -123,6 +130,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         this.dropContentsWhenDead = true;
     }
 
+    @Override
     public void killMinecart(DamageSource damagesource) {
         super.killMinecart(damagesource);
         if (this.world.getGameRules().getBoolean("doEntityDrops")) {
@@ -131,6 +139,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     }
 
+    @Override
     public boolean isEmpty() {
         Iterator iterator = this.minecartContainerItems.iterator();
 
@@ -147,19 +156,22 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         return false;
     }
 
+    @Override
     public ItemStack getStackInSlot(int i) {
         this.addLoot((EntityPlayer) null);
-        return (ItemStack) this.minecartContainerItems.get(i);
+        return this.minecartContainerItems.get(i);
     }
 
+    @Override
     public ItemStack decrStackSize(int i, int j) {
         this.addLoot((EntityPlayer) null);
         return ItemStackHelper.getAndSplit(this.minecartContainerItems, i, j);
     }
 
+    @Override
     public ItemStack removeStackFromSlot(int i) {
         this.addLoot((EntityPlayer) null);
-        ItemStack itemstack = (ItemStack) this.minecartContainerItems.get(i);
+        ItemStack itemstack = this.minecartContainerItems.get(i);
 
         if (itemstack.isEmpty()) {
             return ItemStack.EMPTY;
@@ -169,6 +181,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         }
     }
 
+    @Override
     public void setInventorySlotContents(int i, ItemStack itemstack) {
         this.addLoot((EntityPlayer) null);
         this.minecartContainerItems.set(i, itemstack);
@@ -178,30 +191,38 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     }
 
+    @Override
     public void markDirty() {}
 
+    @Override
     public boolean isUsableByPlayer(EntityPlayer entityhuman) {
         return this.isDead ? false : entityhuman.getDistanceSq(this) <= 64.0D;
     }
 
+    @Override
     public void openInventory(EntityPlayer entityhuman) {}
 
+    @Override
     public void closeInventory(EntityPlayer entityhuman) {}
 
+    @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
         return true;
     }
 
+    @Override
     public int getInventoryStackLimit() {
         return maxStack; // CraftBukkit
     }
 
+    @Override
     @Nullable
     public Entity changeDimension(int i) {
         this.dropContentsWhenDead = false;
         return super.changeDimension(i);
     }
 
+    @Override
     public void setDead() {
         if (this.dropContentsWhenDead) {
             InventoryHelper.dropInventoryItems(this.world, this, this);
@@ -210,15 +231,17 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         super.setDead();
     }
 
+    @Override
     public void setDropItemsWhenDead(boolean flag) {
         this.dropContentsWhenDead = flag;
     }
 
     public static void addDataFixers(DataFixer dataconvertermanager, Class<?> oclass) {
         EntityMinecart.registerFixesMinecart(dataconvertermanager, oclass);
-        dataconvertermanager.registerWalker(FixTypes.ENTITY, (IDataWalker) (new ItemStackDataLists(oclass, new String[] { "Items"})));
+        dataconvertermanager.registerWalker(FixTypes.ENTITY, (new ItemStackDataLists(oclass, new String[] { "Items"})));
     }
 
+    @Override
     protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         lootableData.saveNbt(nbttagcompound); // Paper
@@ -233,6 +256,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     }
 
+    @Override
     protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         lootableData.loadNbt(nbttagcompound); // Paper
@@ -246,6 +270,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     }
 
+    @Override
     public boolean processInitialInteract(EntityPlayer entityhuman, EnumHand enumhand) {
         if (!this.world.isRemote) {
             entityhuman.displayGUIChest(this);
@@ -254,36 +279,43 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         return true;
     }
 
+    @Override
     protected void applyDrag() {
         float f = 0.98F;
 
         if (this.lootTable == null) {
-            int i = 15 - Container.calcRedstoneFromInventory((IInventory) this);
+            int i = 15 - Container.calcRedstoneFromInventory(this);
 
-            f += (float) i * 0.001F;
+            f += i * 0.001F;
         }
 
-        this.motionX *= (double) f;
+        this.motionX *= f;
         this.motionY *= 0.0D;
-        this.motionZ *= (double) f;
+        this.motionZ *= f;
     }
 
+    @Override
     public int getField(int i) {
         return 0;
     }
 
+    @Override
     public void setField(int i, int j) {}
 
+    @Override
     public int getFieldCount() {
         return 0;
     }
 
+    @Override
     public boolean isLocked() {
         return false;
     }
 
+    @Override
     public void setLockCode(LockCode chestlock) {}
 
+    @Override
     public LockCode getLockCode() {
         return LockCode.EMPTY_CODE;
     }
@@ -301,7 +333,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
                 random = new Random(this.lootTableSeed);
             }
 
-            LootTableInfo.a loottableinfo_a = new LootTableInfo.a((WorldServer) this.world);
+            LootContext.a loottableinfo_a = new LootContext.a((WorldServer) this.world);
 
             if (entityhuman != null) {
                 loottableinfo_a.a(entityhuman.getLuck());
@@ -312,12 +344,12 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
     }
 
+    @Override
     public void clear() {
         this.addLoot((EntityPlayer) null);
         this.minecartContainerItems.clear();
     }
 
-    public void setLootTable(ResourceLocation key, long seed) { setLootTable(key, seed);} // Paper - OBFHELPER
     public void setLootTable(ResourceLocation minecraftkey, long i) {
         this.lootTable = minecraftkey;
         this.lootTableSeed = i;
@@ -325,6 +357,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 
 
     public ResourceLocation getLootTableKey() { return getLootTable(); } // Paper - OBFHELPER
+    @Override
     public ResourceLocation getLootTable() {
         return this.lootTable;
     }
@@ -347,6 +380,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         return this.world;
     }
 
+    @Override
     public String getLootTableName() {
         final ResourceLocation key = getLootTableKey();
         return key != null ? key.toString() : null;
@@ -362,7 +396,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     @Override
     public void clearLootTable() {
         //noinspection RedundantCast
-        this.lootTable = (ResourceLocation) null;
+        this.lootTable = null;
     }
     // Paper end
 }

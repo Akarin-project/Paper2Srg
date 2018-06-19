@@ -32,7 +32,6 @@ import net.minecraft.network.login.server.SPacketDisconnect;
 import net.minecraft.network.login.server.SPacketEnableCompression;
 import net.minecraft.network.login.server.SPacketEncryptionRequest;
 import net.minecraft.network.login.server.SPacketLoginSuccess;
-import net.minecraft.server.LoginListener.LoginHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.ITickable;
@@ -74,6 +73,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
         NetHandlerLoginServer.RANDOM.nextBytes(this.verifyToken);
     }
 
+    @Override
     public void update() {
         // Paper start - Do not allow logins while the server is shutting down
         if (!MinecraftServer.getServer().isServerRunning()) {
@@ -181,8 +181,9 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
                         NetHandlerLoginServer.this.networkManager.setCompressionThreshold(NetHandlerLoginServer.this.server.getNetworkCompressionThreshold());
                     }
 
+                    @Override
                     public void operationComplete(ChannelFuture future) throws Exception { // CraftBukkit - fix decompile error
-                        this.a((ChannelFuture) future);
+                        this.a(future);
                     }
                 }, new GenericFutureListener[0]);
             }
@@ -200,6 +201,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 
     }
 
+    @Override
     public void onDisconnect(ITextComponent ichatbasecomponent) {
         NetHandlerLoginServer.LOGGER.info("{} lost connection: {}", this.getConnectionInfo(), ichatbasecomponent.getUnformattedText());
     }
@@ -208,6 +210,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
         return this.loginGameProfile != null ? this.loginGameProfile + " (" + this.networkManager.getRemoteAddress() + ")" : String.valueOf(this.networkManager.getRemoteAddress());
     }
 
+    @Override
     public void processLoginStart(CPacketLoginStart packetlogininstart) {
         Validate.validState(this.currentLoginState == NetHandlerLoginServer.LoginState.HELLO, "Unexpected hello packet", new Object[0]);
         this.loginGameProfile = packetlogininstart.getProfile();
@@ -236,6 +239,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 
     }
 
+    @Override
     public void processEncryptionResponse(CPacketEncryptionResponse packetlogininencryptionbegin) {
         Validate.validState(this.currentLoginState == NetHandlerLoginServer.LoginState.KEY, "Unexpected key packet", new Object[0]);
         PrivateKey privatekey = this.server.getKeyPair().getPrivate();
@@ -248,6 +252,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
             this.networkManager.enableEncryption(this.secretKey);
             // Paper start - Cache authenticator threads
             authenticatorPool.execute(new Runnable() {
+                @Override
                 public void run() {
                     GameProfile gameprofile = NetHandlerLoginServer.this.loginGameProfile;
 

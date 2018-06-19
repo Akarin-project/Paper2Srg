@@ -78,14 +78,17 @@ public abstract class CommandBase implements ICommand {
         return 4;
     }
 
+    @Override
     public List<String> getAliases() {
         return Collections.emptyList();
     }
 
+    @Override
     public boolean checkPermission(MinecraftServer minecraftserver, ICommandSender icommandlistener) {
         return icommandlistener.canUseCommand(this.getRequiredPermissionLevel(), this.getName());
     }
 
+    @Override
     public List<String> getTabCompletions(MinecraftServer minecraftserver, ICommandSender icommandlistener, String[] astring, @Nullable BlockPos blockposition) {
         return Collections.emptyList();
     }
@@ -137,7 +140,7 @@ public abstract class CommandBase implements ICommand {
     public static BlockPos parseBlockPos(ICommandSender icommandlistener, String[] astring, int i, boolean flag) throws NumberInvalidException {
         BlockPos blockposition = icommandlistener.getPosition();
 
-        return new BlockPos(parseDouble((double) blockposition.getX(), astring[i], -30000000, 30000000, flag), parseDouble((double) blockposition.getY(), astring[i + 1], 0, 256, false), parseDouble((double) blockposition.getZ(), astring[i + 2], -30000000, 30000000, flag));
+        return new BlockPos(parseDouble(blockposition.getX(), astring[i], -30000000, 30000000, flag), parseDouble(blockposition.getY(), astring[i + 1], 0, 256, false), parseDouble(blockposition.getZ(), astring[i + 2], -30000000, 30000000, flag));
     }
 
     public static double parseDouble(String s) throws NumberInvalidException {
@@ -193,7 +196,7 @@ public abstract class CommandBase implements ICommand {
     public static List<EntityPlayerMP> getPlayers(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
         List list = EntitySelector.getPlayers(icommandlistener, s);
 
-        return (List) (list.isEmpty() ? Lists.newArrayList(new EntityPlayerMP[] { getPlayer(minecraftserver, (EntityPlayerMP) null, s)}) : list);
+        return list.isEmpty() ? Lists.newArrayList(new EntityPlayerMP[] { getPlayer(minecraftserver, (EntityPlayerMP) null, s)}) : list;
     }
 
     public static EntityPlayerMP getPlayer(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
@@ -254,7 +257,7 @@ public abstract class CommandBase implements ICommand {
     }
 
     public static List<Entity> getEntityList(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
-        return (List) (EntitySelector.isSelector(s) ? EntitySelector.matchEntities(icommandlistener, s, Entity.class) : Lists.newArrayList(new Entity[] { getEntity(minecraftserver, icommandlistener, s)}));
+        return EntitySelector.isSelector(s) ? EntitySelector.matchEntities(icommandlistener, s, Entity.class) : Lists.newArrayList(new Entity[] { getEntity(minecraftserver, icommandlistener, s)});
     }
 
     public static String getPlayerName(MinecraftServer minecraftserver, ICommandSender icommandlistener, String s) throws CommandException {
@@ -361,11 +364,11 @@ public abstract class CommandBase implements ICommand {
             double d2 = d1 + (flag1 ? d0 : 0.0D);
 
             if (i != 0 || j != 0) {
-                if (d2 < (double) i) {
+                if (d2 < i) {
                     throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d2)}), Integer.valueOf(i)});
                 }
 
-                if (d2 > (double) j) {
+                if (d2 > j) {
                     throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d2)}), Integer.valueOf(j)});
                 }
             }
@@ -400,11 +403,11 @@ public abstract class CommandBase implements ICommand {
             }
 
             if (i != 0 || j != 0) {
-                if (d1 < (double) i) {
+                if (d1 < i) {
                     throw new NumberInvalidException("commands.generic.num.tooSmall", new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d1)}), Integer.valueOf(i)});
                 }
 
-                if (d1 > (double) j) {
+                if (d1 > j) {
                     throw new NumberInvalidException("commands.generic.num.tooBig", new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d1)}), Integer.valueOf(j)});
                 }
             }
@@ -415,7 +418,7 @@ public abstract class CommandBase implements ICommand {
 
     public static Item getItemByText(ICommandSender icommandlistener, String s) throws NumberInvalidException {
         ResourceLocation minecraftkey = new ResourceLocation(s);
-        Item item = (Item) Item.REGISTRY.getObject(minecraftkey);
+        Item item = Item.REGISTRY.getObject(minecraftkey);
 
         if (item == null) {
             throw new NumberInvalidException("commands.give.item.notFound", new Object[] { minecraftkey});
@@ -430,7 +433,7 @@ public abstract class CommandBase implements ICommand {
         if (!Block.REGISTRY.containsKey(minecraftkey)) {
             throw new NumberInvalidException("commands.give.block.notFound", new Object[] { minecraftkey});
         } else {
-            return (Block) Block.REGISTRY.getObject(minecraftkey);
+            return Block.REGISTRY.getObject(minecraftkey);
         }
     }
 
@@ -477,6 +480,7 @@ public abstract class CommandBase implements ICommand {
                         return i == iblockdata.getBlock().getMetaFromState(iblockdata);
                     }
 
+                    @Override
                     public boolean apply(@Nullable Object object) {
                         return this.a((IBlockState) object);
                     }
@@ -505,6 +509,7 @@ public abstract class CommandBase implements ICommand {
                         }
                     }
 
+                    @Override
                     public boolean apply(@Nullable Object object) {
                         return this.a((IBlockState) object);
                     }
@@ -592,7 +597,7 @@ public abstract class CommandBase implements ICommand {
                 }
             }
 
-            chatcomponenttext.appendSibling((ITextComponent) list.get(i));
+            chatcomponenttext.appendSibling(list.get(i));
         }
 
         return chatcomponenttext;
@@ -652,7 +657,7 @@ public abstract class CommandBase implements ICommand {
 
     public static List<String> getListMatchingLast(String[] args, String... matches) { return getListOfStringsMatchingLastWord(args, matches); } // Paper - OBFHELPER
     public static List<String> getListOfStringsMatchingLastWord(String[] astring, String... astring1) {
-        return getListOfStringsMatchingLastWord(astring, (Collection) Arrays.asList(astring1));
+        return getListOfStringsMatchingLastWord(astring, Arrays.asList(astring1));
     }
 
     public static List<String> getListOfStringsMatchingLastWord(String[] astring, Collection<?> collection) {
@@ -686,6 +691,7 @@ public abstract class CommandBase implements ICommand {
         return arraylist;
     }
 
+    @Override
     public boolean isUsernameIndex(String[] astring, int i) {
         return false;
     }
@@ -705,12 +711,9 @@ public abstract class CommandBase implements ICommand {
         CommandBase.commandListener = icommanddispatcher;
     }
 
+    @Override
     public int compareTo(ICommand icommand) {
         return this.getName().compareTo(icommand.getName());
-    }
-
-    public int compareTo(ICommand object) { // Paper - fix decompile error
-        return this.compareTo((ICommand) object);
     }
 
     public static class CoordinateArg {

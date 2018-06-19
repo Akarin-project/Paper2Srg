@@ -14,13 +14,10 @@ import net.minecraft.block.state.IBlockState;
 
 public class BlockStateMatcher implements Predicate<IBlockState> {
 
-    public static final Predicate<IBlockState> ANY = new Predicate() {
-        public boolean a(@Nullable IBlockState iblockdata) {
+    public static final Predicate<IBlockState> ANY = new Predicate<IBlockState>() {
+        @Override
+        public boolean apply(@Nullable IBlockState iblockdata) {
             return true;
-        }
-
-        public boolean apply(@Nullable Object object) {
-            return this.a((IBlockState) object);
         }
     };
     private final BlockStateContainer blockstate;
@@ -34,6 +31,7 @@ public class BlockStateMatcher implements Predicate<IBlockState> {
         return new BlockStateMatcher(block.getBlockState());
     }
 
+    @Override
     public boolean apply(@Nullable IBlockState iblockdata) {
         if (iblockdata != null && iblockdata.getBlock().equals(this.blockstate.getBlock())) {
             if (this.propertyPredicates.isEmpty()) {
@@ -58,7 +56,7 @@ public class BlockStateMatcher implements Predicate<IBlockState> {
         }
     }
 
-    protected <T extends Comparable<T>> boolean matches(IBlockState iblockdata, IProperty<T> iblockstate, Predicate<?> predicate) {
+    protected <T extends Comparable<T>> boolean matches(IBlockState iblockdata, IProperty<T> iblockstate, Predicate predicate) {
         return predicate.apply(iblockdata.getValue(iblockstate));
     }
 
@@ -69,9 +67,5 @@ public class BlockStateMatcher implements Predicate<IBlockState> {
             this.propertyPredicates.put(iblockstate, predicate);
             return this;
         }
-    }
-
-    public boolean apply(@Nullable Object object) {
-        return this.apply((IBlockState) object);
     }
 }

@@ -48,12 +48,14 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
                 return t0 == null ? false : (predicate != null && !predicate.apply(t0) ? false : (!EntitySelectors.NOT_SPECTATING.apply(t0) ? false : EntityAINearestAttackableTarget.this.isSuitableTarget(t0, false)));
             }
 
+            @Override
             public boolean apply(@Nullable Object object) {
                 return this.a((T) object); // CraftBukkit - fix decompile error
             }
         };
     }
 
+    @Override
     public boolean shouldExecute() {
         if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0) {
             return false;
@@ -68,7 +70,7 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
                 return true;
             }
         } else {
-            this.targetEntity = (T) this.taskOwner.world.getNearestAttackablePlayer(this.taskOwner.posX, this.taskOwner.posY + (double) this.taskOwner.getEyeHeight(), this.taskOwner.posZ, this.getTargetDistance(), this.getTargetDistance(), new Function<EntityPlayer, Double>() { // CraftBukkit - fix decompile error
+            this.targetEntity = (T) this.taskOwner.world.getNearestAttackablePlayer(this.taskOwner.posX, this.taskOwner.posY + this.taskOwner.getEyeHeight(), this.taskOwner.posZ, this.getTargetDistance(), this.getTargetDistance(), new Function<EntityPlayer, Double>() { // CraftBukkit - fix decompile error
                 @Nullable
                 public Double a(@Nullable EntityPlayer entityhuman) {
                     ItemStack itemstack = entityhuman.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
@@ -87,9 +89,10 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
                     return Double.valueOf(1.0D);
                 }
 
+                @Override
                 @Nullable
                 public Double apply(@Nullable EntityPlayer object) { // CraftBukkit - fix decompile error
-                    return this.a((EntityPlayer) object);
+                    return this.a(object);
                 }
             }, (Predicate<EntityPlayer>) this.targetEntitySelector); // CraftBukkit - fix decompile error
             return this.targetEntity != null;
@@ -100,6 +103,7 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
         return this.taskOwner.getEntityBoundingBox().grow(d0, 4.0D, d0);
     }
 
+    @Override
     public void startExecuting() {
         this.taskOwner.setGoalTarget(this.targetEntity, targetEntity instanceof EntityPlayerMP ? org.bukkit.event.entity.EntityTargetEvent.TargetReason.CLOSEST_PLAYER : org.bukkit.event.entity.EntityTargetEvent.TargetReason.CLOSEST_ENTITY, true); // Craftbukkit - reason
         super.startExecuting();
@@ -113,15 +117,12 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
             this.entity = entity;
         }
 
+        @Override
         public int compare(Entity entity, Entity entity1) {
             double d0 = this.entity.getDistanceSq(entity);
             double d1 = this.entity.getDistanceSq(entity1);
 
             return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
-        }
-
-        public int compare(Entity object, Entity object1) { // CraftBukkit - fix decompile error
-            return this.compare((Entity) object, (Entity) object1);
         }
     }
 }

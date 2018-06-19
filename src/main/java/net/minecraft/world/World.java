@@ -434,7 +434,7 @@ public abstract class World implements IBlockAccess {
         }
     }
 
-    protected abstract boolean isChunkLoaded(int i, int j, boolean flag);
+    public abstract boolean isChunkLoaded(int i, int j, boolean flag);
 
     public Chunk getChunkFromBlockCoords(BlockPos blockposition) {
         return this.getChunkFromChunkCoords(blockposition.getX() >> 4, blockposition.getZ() >> 4);

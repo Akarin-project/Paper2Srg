@@ -17,6 +17,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -36,22 +37,27 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         this.lastPosition = BlockPos.ORIGIN;
     }
 
+    @Override
     public EntityMinecart.Type getType() {
         return EntityMinecart.Type.HOPPER;
     }
 
+    @Override
     public IBlockState getDefaultDisplayTile() {
         return Blocks.HOPPER.getDefaultState();
     }
 
+    @Override
     public int getDefaultDisplayTileOffset() {
         return 1;
     }
 
+    @Override
     public int getSizeInventory() {
         return 5;
     }
 
+    @Override
     public boolean processInitialInteract(EntityPlayer entityhuman, EnumHand enumhand) {
         if (!this.world.isRemote) {
             entityhuman.displayGUIChest(this);
@@ -60,6 +66,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         return true;
     }
 
+    @Override
     public void onActivatorRailPass(int i, int j, int k, boolean flag) {
         boolean flag1 = !flag;
 
@@ -77,22 +84,29 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         this.isBlocked = flag;
     }
 
+    @Override
+    public World getWorld() { return getEntityWorld(); } // Akarin
+    @Override
     public World getEntityWorld() {
         return this.world;
     }
 
+    @Override
     public double getXPos() {
         return this.posX;
     }
 
+    @Override
     public double getYPos() {
         return this.posY + 0.5D;
     }
 
+    @Override
     public double getZPos() {
         return this.posZ;
     }
 
+    @Override
     public void onUpdate() {
         super.onUpdate();
         if (!this.world.isRemote && this.isEntityAlive() && this.getBlocked()) {
@@ -116,7 +130,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
     }
 
     public boolean captureDroppedItems() {
-        if (TileEntityHopper.pullItems((IHopper) this)) {
+        if (TileEntityHopper.pullItems(this)) {
             return true;
         } else {
             List list = this.world.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().grow(0.25D, 0.0D, 0.25D), EntitySelectors.IS_ALIVE);
@@ -129,6 +143,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         }
     }
 
+    @Override
     public void killMinecart(DamageSource damagesource) {
         super.killMinecart(damagesource);
         if (this.world.getGameRules().getBoolean("doEntityDrops")) {
@@ -141,12 +156,14 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         EntityMinecartContainer.addDataFixers(dataconvertermanager, EntityMinecartHopper.class);
     }
 
+    @Override
     protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
         super.writeEntityToNBT(nbttagcompound);
         nbttagcompound.setInteger("TransferCooldown", this.transferTicker);
         nbttagcompound.setBoolean("Enabled", this.isBlocked);
     }
 
+    @Override
     protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         super.readEntityFromNBT(nbttagcompound);
         this.transferTicker = nbttagcompound.getInteger("TransferCooldown");
@@ -161,10 +178,12 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         return this.transferTicker > 0;
     }
 
+    @Override
     public String getGuiID() {
         return "minecraft:hopper";
     }
 
+    @Override
     public Container createContainer(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
         return new ContainerHopper(playerinventory, this, entityhuman);
     }

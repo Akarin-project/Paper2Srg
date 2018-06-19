@@ -35,6 +35,7 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
                 return entity.isEntityAlive() && EntityAIAvoidEntity.this.entity.getEntitySenses().canSee(entity) && !EntityAIAvoidEntity.this.entity.isOnSameTeam(entity);
             }
 
+            @Override
             public boolean apply(@Nullable Object object) {
                 return this.a((Entity) object);
             }
@@ -49,13 +50,14 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
         this.setMutexBits(1);
     }
 
+    @Override
     public boolean shouldExecute() {
-        List list = this.entity.world.getEntitiesWithinAABB(this.classToAvoid, this.entity.getEntityBoundingBox().grow((double) this.avoidDistance, 3.0D, (double) this.avoidDistance), Predicates.and(new Predicate[] { EntitySelectors.CAN_AI_TARGET, this.canBeSeenSelector, this.avoidTargetSelector}));
+        List<T> list = this.entity.world.getEntitiesWithinAABB(this.classToAvoid, this.entity.getEntityBoundingBox().grow(this.avoidDistance, 3.0D, this.avoidDistance), Predicates.and(new Predicate[] { EntitySelectors.CAN_AI_TARGET, this.canBeSeenSelector, this.avoidTargetSelector}));
 
         if (list.isEmpty()) {
             return false;
         } else {
-            this.closestLivingEntity = (Entity) list.get(0);
+            this.closestLivingEntity = list.get(0);
             Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, new Vec3d(this.closestLivingEntity.posX, this.closestLivingEntity.posY, this.closestLivingEntity.posZ));
 
             if (vec3d == null) {
@@ -69,18 +71,22 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
         }
     }
 
+    @Override
     public boolean shouldContinueExecuting() {
         return !this.navigation.noPath();
     }
 
+    @Override
     public void startExecuting() {
         this.navigation.setPath(this.path, this.farSpeed);
     }
 
+    @Override
     public void resetTask() {
         this.closestLivingEntity = null;
     }
 
+    @Override
     public void updateTask() {
         if (this.entity.getDistanceSq(this.closestLivingEntity) < 49.0D) {
             this.entity.getNavigator().setSpeed(this.nearSpeed);

@@ -538,7 +538,7 @@ public abstract class EntityLiving extends EntityLivingBase {
             LootTable loottable = this.world.getLootTableManager().getLootTableFromLocation(minecraftkey);
 
             this.deathLootTable = null;
-            LootTableInfo.a loottableinfo_a = (new LootTableInfo.a((WorldServer) this.world)).a((Entity) this).a(damagesource);
+            LootContext.a loottableinfo_a = (new LootContext.a((WorldServer) this.world)).a(this).a(damagesource);
 
             if (flag && this.attackingPlayer != null) {
                 loottableinfo_a = loottableinfo_a.a(this.attackingPlayer).a(this.attackingPlayer.getLuck());

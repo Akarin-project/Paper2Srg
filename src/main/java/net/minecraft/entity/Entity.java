@@ -2207,7 +2207,6 @@ public abstract class Entity implements ICommandSender {
         return this.getFlag(5);
     }
 
-    @Nullable public Team getTeam() { return this.getTeam(); } // Paper - OBFHELPER
     @Nullable
     public Team getTeam() {
         if (!this.world.paperConfig.nonPlayerEntitiesOnScoreboards && !(this instanceof EntityPlayer)) { return null; } // Paper

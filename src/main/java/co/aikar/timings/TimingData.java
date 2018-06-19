@@ -25,6 +25,7 @@ package co.aikar.timings;
 
 import java.util.List;
 
+import static co.aikar.util.JSONUtil.toArray;
 
 /**
  * <p>Lightweight object for tracking timing data</p>
@@ -77,6 +78,7 @@ class TimingData {
         lagTotalTime = 0;
     }
 
+    @Override
     protected TimingData clone() {
         return new TimingData(this);
     }

@@ -36,7 +36,7 @@ public class FunctionManager implements ITickable {
 
     public class CustomFunctionListener implements ICommandSender {
 
-        protected org.bukkit.command.CommandSender sender = new org.bukkit.craftbukkit.command.CraftFunctionCommandSender(this);
+        public org.bukkit.command.CommandSender sender = new org.bukkit.craftbukkit.command.CraftFunctionCommandSender(this);
         // CraftBukkit end
 
         @Override

@@ -18,11 +18,8 @@ public class BlockMatcher implements Predicate<IBlockState> {
         return new BlockMatcher(block);
     }
 
+    @Override
     public boolean apply(@Nullable IBlockState iblockdata) {
         return iblockdata != null && iblockdata.getBlock() == this.block;
-    }
-
-    public boolean apply(@Nullable Object object) {
-        return this.apply((IBlockState) object);
     }
 }

@@ -22,7 +22,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.server.Explosion.CacheKey;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumParticleTypes;
@@ -85,9 +84,9 @@ public class Explosion {
             for (i = 0; i < 16; ++i) {
                 for (j = 0; j < 16; ++j) {
                     if (k == 0 || k == 15 || i == 0 || i == 15 || j == 0 || j == 15) {
-                        double d0 = (double) ((float) k / 15.0F * 2.0F - 1.0F);
-                        double d1 = (double) ((float) i / 15.0F * 2.0F - 1.0F);
-                        double d2 = (double) ((float) j / 15.0F * 2.0F - 1.0F);
+                        double d0 = k / 15.0F * 2.0F - 1.0F;
+                        double d1 = i / 15.0F * 2.0F - 1.0F;
+                        double d2 = j / 15.0F * 2.0F - 1.0F;
                         double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
 
                         d0 /= d3;
@@ -124,14 +123,14 @@ public class Explosion {
         this.affectedBlockPositions.addAll(hashset);
         float f3 = this.size * 2.0F;
 
-        i = MathHelper.floor(this.x - (double) f3 - 1.0D);
-        j = MathHelper.floor(this.x + (double) f3 + 1.0D);
-        int l = MathHelper.floor(this.y - (double) f3 - 1.0D);
-        int i1 = MathHelper.floor(this.y + (double) f3 + 1.0D);
-        int j1 = MathHelper.floor(this.z - (double) f3 - 1.0D);
-        int k1 = MathHelper.floor(this.z + (double) f3 + 1.0D);
+        i = MathHelper.floor(this.x - f3 - 1.0D);
+        j = MathHelper.floor(this.x + f3 + 1.0D);
+        int l = MathHelper.floor(this.y - f3 - 1.0D);
+        int i1 = MathHelper.floor(this.y + f3 + 1.0D);
+        int j1 = MathHelper.floor(this.z - f3 - 1.0D);
+        int k1 = MathHelper.floor(this.z + f3 + 1.0D);
         // Paper start - Fix lag from explosions processing dead entities
-        List list = this.world.getEntitiesInAABBexcluding(this.exploder, new AxisAlignedBB((double) i, (double) l, (double) j1, (double) j, (double) i1, (double) k1), new com.google.common.base.Predicate<Entity>() {
+        List list = this.world.getEntitiesInAABBexcluding(this.exploder, new AxisAlignedBB(i, l, j1, j, i1, k1), new com.google.common.base.Predicate<Entity>() {
             @Override
             public boolean apply(Entity entity) {
                 return EntitySelectors.CAN_AI_TARGET.apply(entity) && !entity.isDead;
@@ -144,13 +143,13 @@ public class Explosion {
             Entity entity = (Entity) list.get(l1);
 
             if (!entity.isImmuneToExplosions()) {
-                double d7 = entity.getDistance(this.x, this.y, this.z) / (double) f3;
+                double d7 = entity.getDistance(this.x, this.y, this.z) / f3;
 
                 if (d7 <= 1.0D) {
                     double d8 = entity.posX - this.x;
-                    double d9 = entity.posY + (double) entity.getEyeHeight() - this.y;
+                    double d9 = entity.posY + entity.getEyeHeight() - this.y;
                     double d10 = entity.posZ - this.z;
-                    double d11 = (double) MathHelper.sqrt(d8 * d8 + d9 * d9 + d10 * d10);
+                    double d11 = MathHelper.sqrt(d8 * d8 + d9 * d9 + d10 * d10);
 
                     if (d11 != 0.0D) {
                         d8 /= d11;
@@ -163,7 +162,7 @@ public class Explosion {
                         // entity.damageEntity(DamageSource.explosion(this), (float) ((int) ((d13 * d13 + d13) / 2.0D * 7.0D * (double) f3 + 1.0D)));
                         CraftEventFactory.entityDamage = exploder;
                         entity.forceExplosionKnockback = false;
-                        boolean wasDamaged = entity.attackEntityFrom(DamageSource.causeExplosionDamage(this), (float) ((int) ((d13 * d13 + d13) / 2.0D * 7.0D * (double) f3 + 1.0D)));
+                        boolean wasDamaged = entity.attackEntityFrom(DamageSource.causeExplosionDamage(this), ((int) ((d13 * d13 + d13) / 2.0D * 7.0D * f3 + 1.0D)));
                         CraftEventFactory.entityDamage = null;
                         if (!wasDamaged && !(entity instanceof EntityTNTPrimed || entity instanceof EntityFallingBlock) && !entity.forceExplosionKnockback) {
                             continue;
@@ -211,7 +210,7 @@ public class Explosion {
 
             List<org.bukkit.block.Block> blockList = Lists.newArrayList();
             for (int i1 = this.affectedBlockPositions.size() - 1; i1 >= 0; i1--) {
-                BlockPos cpos = (BlockPos) this.affectedBlockPositions.get(i1);
+                BlockPos cpos = this.affectedBlockPositions.get(i1);
                 org.bukkit.block.Block bblock = bworld.getBlockAt(cpos.getX(), cpos.getY(), cpos.getZ());
                 if (bblock.getType() != org.bukkit.Material.AIR) {
                     blockList.add(bblock);
@@ -257,20 +256,20 @@ public class Explosion {
                 this.world.chunkPacketBlockController.updateNearbyBlocks(this.world, blockposition); // Paper - Anti-Xray
 
                 if (flag) {
-                    double d0 = (double) ((float) blockposition.getX() + this.world.rand.nextFloat());
-                    double d1 = (double) ((float) blockposition.getY() + this.world.rand.nextFloat());
-                    double d2 = (double) ((float) blockposition.getZ() + this.world.rand.nextFloat());
+                    double d0 = blockposition.getX() + this.world.rand.nextFloat();
+                    double d1 = blockposition.getY() + this.world.rand.nextFloat();
+                    double d2 = blockposition.getZ() + this.world.rand.nextFloat();
                     double d3 = d0 - this.x;
                     double d4 = d1 - this.y;
                     double d5 = d2 - this.z;
-                    double d6 = (double) MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
+                    double d6 = MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
 
                     d3 /= d6;
                     d4 /= d6;
                     d5 /= d6;
-                    double d7 = 0.5D / (d6 / (double) this.size + 0.1D);
+                    double d7 = 0.5D / (d6 / this.size + 0.1D);
 
-                    d7 *= (double) (this.world.rand.nextFloat() * this.world.rand.nextFloat() + 0.3F);
+                    d7 *= this.world.rand.nextFloat() * this.world.rand.nextFloat() + 0.3F;
                     d3 *= d7;
                     d4 *= d7;
                     d5 *= d7;

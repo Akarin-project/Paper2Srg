@@ -117,7 +117,6 @@ public class EntityList {
     public static final Set<ResourceLocation> KNOWN_TYPES = Sets.newHashSet();
     private static final List<String> OLD_NAMES = Lists.newArrayList();
 
-    @Nullable public static ResourceLocation getKey(Entity entity) { return getKey(entity); } // Paper - OBFHELPER
     @Nullable
     public static ResourceLocation getKey(Entity entity) {
         return getKey(entity.getClass());
@@ -125,7 +124,7 @@ public class EntityList {
 
     @Nullable
     public static ResourceLocation getKey(Class<? extends Entity> oclass) {
-        return (ResourceLocation) EntityList.REGISTRY.getNameForObject(oclass);
+        return EntityList.REGISTRY.getNameForObject(oclass);
     }
 
     @Nullable
@@ -148,7 +147,7 @@ public class EntityList {
             return null;
         } else {
             try {
-                return (Entity) oclass.getConstructor(new Class[] { World.class}).newInstance(new Object[] { world});
+                return oclass.getConstructor(new Class[] { World.class}).newInstance(new Object[] { world});
             } catch (Exception exception) {
                 exception.printStackTrace();
                 return null;
@@ -158,7 +157,7 @@ public class EntityList {
 
     @Nullable
     public static Entity createEntityByIDFromName(ResourceLocation minecraftkey, World world) {
-        return newEntity((Class) EntityList.REGISTRY.getObject(minecraftkey), world);
+        return newEntity(EntityList.REGISTRY.getObject(minecraftkey), world);
     }
 
     @Nullable
@@ -175,7 +174,6 @@ public class EntityList {
         return entity;
     }
 
-    public static Set<ResourceLocation> getEntityNameList() { return getEntityNameList(); } // Paper - OBFHELPER
     public static Set<ResourceLocation> getEntityNameList() {
         return EntityList.KNOWN_TYPES;
     }
@@ -362,7 +360,7 @@ public class EntityList {
     protected static EntityList.EntityEggInfo addSpawnInfo(String s, int i, int j) {
         ResourceLocation minecraftkey = new ResourceLocation(s);
 
-        return (EntityList.EntityEggInfo) EntityList.ENTITY_EGGS.put(minecraftkey, new EntityList.EntityEggInfo(minecraftkey, i, j));
+        return EntityList.ENTITY_EGGS.put(minecraftkey, new EntityList.EntityEggInfo(minecraftkey, i, j));
     }
 
     public static class EntityEggInfo {
