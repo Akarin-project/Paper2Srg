@@ -147,7 +147,8 @@ public abstract class PlayerList {
     // CraftBukkit start
     private CraftServer cserver;
     private final Map<String,EntityPlayerMP> playersByName = new org.spigotmc.CaseInsensitiveMap<EntityPlayerMP>();
-    @Nullable String collideRuleTeamName; // Paper - Team name used for collideRule
+    @Nullable
+    public String collideRuleTeamName; // Paper - Team name used for collideRule
 
     public PlayerList(MinecraftServer minecraftserver) {
         this.cserver = minecraftserver.server = new CraftServer(minecraftserver, this);
@@ -350,28 +351,35 @@ public abstract class PlayerList {
         if (field_72412_k != null) return; // CraftBukkit
         this.field_72412_k = aworldserver[0].func_72860_G().func_75756_e();
         aworldserver[0].func_175723_af().func_177737_a(new IBorderListener() {
+            @Override
             public void func_177694_a(WorldBorder worldborder, double d0) {
                 PlayerList.this.sendAll(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.SET_SIZE), worldborder.world);
             }
 
+            @Override
             public void func_177692_a(WorldBorder worldborder, double d0, double d1, long i) {
                 PlayerList.this.sendAll(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.LERP_SIZE), worldborder.world);
             }
 
+            @Override
             public void func_177693_a(WorldBorder worldborder, double d0, double d1) {
                 PlayerList.this.sendAll(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.SET_CENTER), worldborder.world);
             }
 
+            @Override
             public void func_177691_a(WorldBorder worldborder, int i) {
                 PlayerList.this.sendAll(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.SET_WARNING_TIME), worldborder.world);
             }
 
+            @Override
             public void func_177690_b(WorldBorder worldborder, int i) {
                 PlayerList.this.sendAll(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.SET_WARNING_BLOCKS), worldborder.world);
             }
 
+            @Override
             public void func_177696_b(WorldBorder worldborder, double d0) {}
 
+            @Override
             public void func_177695_c(WorldBorder worldborder, double d0) {}
         });
     }
@@ -417,13 +425,13 @@ public abstract class PlayerList {
     protected void func_72391_b(EntityPlayerMP entityplayer) {
         entityplayer.lastSave = MinecraftServer.currentTick; // Paper
         this.field_72412_k.func_75753_a(entityplayer);
-        StatisticsManagerServer serverstatisticmanager = (StatisticsManagerServer) entityplayer.func_147099_x(); // CraftBukkit
+        StatisticsManagerServer serverstatisticmanager = entityplayer.func_147099_x(); // CraftBukkit
 
         if (serverstatisticmanager != null) {
             serverstatisticmanager.func_150883_b();
         }
 
-        PlayerAdvancements advancementdataplayer = (PlayerAdvancements) entityplayer.func_192039_O(); // CraftBukkit
+        PlayerAdvancements advancementdataplayer = entityplayer.func_192039_O(); // CraftBukkit
 
         if (advancementdataplayer != null) {
             advancementdataplayer.func_192749_b();
@@ -461,7 +469,7 @@ public abstract class PlayerList {
         SPacketPlayerListItem packet = new SPacketPlayerListItem(SPacketPlayerListItem.Action.ADD_PLAYER, entityplayer);
 
         for (int i = 0; i < this.field_72404_b.size(); ++i) {
-            EntityPlayerMP entityplayer1 = (EntityPlayerMP) this.field_72404_b.get(i);
+            EntityPlayerMP entityplayer1 = this.field_72404_b.get(i);
 
             if (entityplayer1.getBukkitEntity().canSee(entityplayer.getBukkitEntity())) {
                 entityplayer1.field_71135_a.func_147359_a(packet);
@@ -541,7 +549,7 @@ public abstract class PlayerList {
         this.field_72404_b.remove(entityplayer);
         this.playersByName.remove(entityplayer.func_70005_c_()); // Spigot
         UUID uuid = entityplayer.func_110124_au();
-        EntityPlayerMP entityplayer1 = (EntityPlayerMP) this.field_177454_f.get(uuid);
+        EntityPlayerMP entityplayer1 = this.field_177454_f.get(uuid);
 
         if (entityplayer1 == entityplayer) {
             this.field_177454_f.remove(uuid);
@@ -555,7 +563,7 @@ public abstract class PlayerList {
         //  this.sendAll(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.REMOVE_PLAYER, new EntityPlayer[] { entityplayer}));
         SPacketPlayerListItem packet = new SPacketPlayerListItem(SPacketPlayerListItem.Action.REMOVE_PLAYER, entityplayer);
         for (int i = 0; i < field_72404_b.size(); i++) {
-            EntityPlayerMP entityplayer2 = (EntityPlayerMP) this.field_72404_b.get(i);
+            EntityPlayerMP entityplayer2 = this.field_72404_b.get(i);
 
             if (entityplayer2.getBukkitEntity().canSee(entityplayer.getBukkitEntity())) {
                 entityplayer2.field_71135_a.func_147359_a(packet);
@@ -581,7 +589,7 @@ public abstract class PlayerList {
         EntityPlayerMP entityplayer;
 
         for (int i = 0; i < this.field_72404_b.size(); ++i) {
-            entityplayer = (EntityPlayerMP) this.field_72404_b.get(i);
+            entityplayer = this.field_72404_b.get(i);
             if (entityplayer.func_110124_au().equals(uuid)) {
                 arraylist.add(entityplayer);
             }
@@ -606,7 +614,7 @@ public abstract class PlayerList {
         String s;
 
         if (func_152608_h().func_152702_a(gameprofile) && !func_152608_h().func_152683_b(gameprofile).func_73682_e()) {
-            UserListBansEntry gameprofilebanentry = (UserListBansEntry) this.field_72401_g.func_152683_b(gameprofile);
+            UserListBansEntry gameprofilebanentry = this.field_72401_g.func_152683_b(gameprofile);
 
             s = "You are banned from this server!\nReason: " + gameprofilebanentry.func_73686_f();
             if (gameprofilebanentry.func_73680_d() != null) {
@@ -743,7 +751,7 @@ public abstract class PlayerList {
                 blockposition1 = EntityPlayer.func_180467_a(cworld.getHandle(), blockposition, flag1);
                 if (blockposition1 != null) {
                     isBedSpawn = true;
-                    location = new Location(cworld, (double) ((float) blockposition1.func_177958_n() + 0.5F), (double) ((float) blockposition1.func_177956_o() + 0.1F), (double) ((float) blockposition1.func_177952_p() + 0.5F));
+                    location = new Location(cworld, blockposition1.func_177958_n() + 0.5F, blockposition1.func_177956_o() + 0.1F, blockposition1.func_177952_p() + 0.5F);
                 } else {
                     entityplayer1.func_180473_a(null, true);
                     entityplayer1.field_71135_a.func_147359_a(new SPacketChangeGameState(0, 0.0F));
@@ -753,7 +761,7 @@ public abstract class PlayerList {
             if (location == null) {
                 cworld = (CraftWorld) this.field_72400_f.server.getWorlds().get(0);
                 blockposition = entityplayer1.getSpawnPoint(this.field_72400_f, cworld.getHandle());
-                location = new Location(cworld, (double) ((float) blockposition.func_177958_n() + 0.5F), (double) ((float) blockposition.func_177956_o() + 0.1F), (double) ((float) blockposition.func_177952_p() + 0.5F));
+                location = new Location(cworld, blockposition.func_177958_n() + 0.5F, blockposition.func_177956_o() + 0.1F, blockposition.func_177952_p() + 0.5F);
             }
 
             Player respawnPlayer = cserver.getPlayer(entityplayer1);
@@ -852,7 +860,7 @@ public abstract class PlayerList {
         if (exitWorld != null) {
             if ((cause == TeleportCause.END_PORTAL) && (i == 0)) {
                 // THE_END -> NORMAL; use bed if available, otherwise default spawn
-                exit = ((org.bukkit.craftbukkit.entity.CraftPlayer) entityplayer.getBukkitEntity()).getBedSpawnLocation();
+                exit = entityplayer.getBukkitEntity().getBedSpawnLocation();
                 if (exit == null || ((CraftWorld) exit.getWorld()).getHandle().dimension != 0) {
                     BlockPos randomSpawn = entityplayer.getSpawnPoint(field_72400_f, exitWorld);
                     exit = new Location(exitWorld.getWorld(), randomSpawn.func_177958_n(), randomSpawn.func_177956_o(), randomSpawn.func_177952_p());
@@ -898,7 +906,7 @@ public abstract class PlayerList {
 
     public void func_187243_f(EntityPlayerMP entityplayer) {
         GameProfile gameprofile = entityplayer.func_146103_bH();
-        int i = this.func_152596_g(gameprofile) ? this.field_72414_i.func_152681_a(gameprofile) : 0;
+        int i = this.func_152596_g(gameprofile) ? this.field_72414_i.func_187452_a(gameprofile) : 0;
 
         i = this.field_72400_f.func_71264_H() && this.field_72400_f.field_71305_c[0].func_72912_H().func_76086_u() ? 4 : i;
         i = this.field_72407_n ? 4 : i;
@@ -942,7 +950,7 @@ public abstract class PlayerList {
     // Copy of original changeWorld(Entity, int, WorldServer, WorldServer) method with only location calculation logic
     public Location calculateTarget(Location enter, World target) {
         WorldServer worldserver = ((CraftWorld) enter.getWorld()).getHandle();
-        WorldServer worldserver1 = ((CraftWorld) target.getWorld()).getHandle();
+        WorldServer worldserver1 = target.getWorld().getHandle();
         int i = worldserver.dimension;
 
         double y = enter.getY();
@@ -988,9 +996,9 @@ public abstract class PlayerList {
                 blockposition = worldserver1.func_180504_m();
             }
 
-            d0 = (double) blockposition.func_177958_n();
-            y = (double) blockposition.func_177956_o();
-            d1 = (double) blockposition.func_177952_p();
+            d0 = blockposition.func_177958_n();
+            y = blockposition.func_177956_o();
+            d1 = blockposition.func_177952_p();
             /*
             entity.setPositionRotation(d0, entity.locY, d1, 90.0F, 0.0F);
             if (entity.isAlive()) {
@@ -1002,8 +1010,8 @@ public abstract class PlayerList {
         worldserver.field_72984_F.func_76319_b();
         if (i != 1) {
             worldserver.field_72984_F.func_76320_a("placing");
-            d0 = (double) MathHelper.func_76125_a((int) d0, -29999872, 29999872);
-            d1 = (double) MathHelper.func_76125_a((int) d1, -29999872, 29999872);
+            d0 = MathHelper.func_76125_a((int) d0, -29999872, 29999872);
+            d1 = MathHelper.func_76125_a((int) d1, -29999872, 29999872);
             /*
             if (entity.isAlive()) {
                 entity.setPositionRotation(d0, entity.locY, d1, entity.yaw, entity.pitch);
@@ -1107,7 +1115,7 @@ public abstract class PlayerList {
         if (++this.field_72408_o > 600) {
             // CraftBukkit start
             for (int i = 0; i < this.field_72404_b.size(); ++i) {
-                final EntityPlayerMP target = (EntityPlayerMP) this.field_72404_b.get(i);
+                final EntityPlayerMP target = this.field_72404_b.get(i);
 
                 target.field_71135_a.func_147359_a(new SPacketPlayerListItem(SPacketPlayerListItem.Action.UPDATE_LATENCY, Iterables.filter(this.field_72404_b, new Predicate<EntityPlayerMP>() {
                     @Override
@@ -1124,7 +1132,7 @@ public abstract class PlayerList {
 
     public void func_148540_a(Packet<?> packet) {
         for (int i = 0; i < this.field_72404_b.size(); ++i) {
-            ((EntityPlayerMP) this.field_72404_b.get(i)).field_71135_a.func_147359_a(packet);
+            this.field_72404_b.get(i).field_71135_a.func_147359_a(packet);
         }
 
     }
@@ -1136,7 +1144,7 @@ public abstract class PlayerList {
             if (entityhuman != null && entityhuman instanceof EntityPlayerMP && !entityplayer.getBukkitEntity().canSee(((EntityPlayerMP) entityhuman).getBukkitEntity())) {
                 continue;
             }
-            ((EntityPlayerMP) this.field_72404_b.get(i)).field_71135_a.func_147359_a(packet);
+            this.field_72404_b.get(i).field_71135_a.func_147359_a(packet);
         }
     }
 
@@ -1150,7 +1158,7 @@ public abstract class PlayerList {
 
     public void func_148537_a(Packet<?> packet, int i) {
         for (int j = 0; j < this.field_72404_b.size(); ++j) {
-            EntityPlayerMP entityplayer = (EntityPlayerMP) this.field_72404_b.get(j);
+            EntityPlayerMP entityplayer = this.field_72404_b.get(j);
 
             if (entityplayer.field_71093_bK == i) {
                 entityplayer.field_71135_a.func_147359_a(packet);
@@ -1185,7 +1193,7 @@ public abstract class PlayerList {
             this.func_148539_a(ichatbasecomponent);
         } else {
             for (int i = 0; i < this.field_72404_b.size(); ++i) {
-                EntityPlayerMP entityplayer = (EntityPlayerMP) this.field_72404_b.get(i);
+                EntityPlayerMP entityplayer = this.field_72404_b.get(i);
 
                 if (entityplayer.func_96124_cp() != scoreboardteambase) {
                     entityplayer.func_145747_a(ichatbasecomponent);
@@ -1217,7 +1225,7 @@ public abstract class PlayerList {
         String[] astring = new String[this.field_72404_b.size()];
 
         for (int i = 0; i < this.field_72404_b.size(); ++i) {
-            astring[i] = ((EntityPlayerMP) this.field_72404_b.get(i)).func_70005_c_();
+            astring[i] = this.field_72404_b.get(i).func_70005_c_();
         }
 
         return astring;
@@ -1227,7 +1235,7 @@ public abstract class PlayerList {
         GameProfile[] agameprofile = new GameProfile[this.field_72404_b.size()];
 
         for (int i = 0; i < this.field_72404_b.size(); ++i) {
-            agameprofile[i] = ((EntityPlayerMP) this.field_72404_b.get(i)).func_146103_bH();
+            agameprofile[i] = this.field_72404_b.get(i).func_146103_bH();
         }
 
         return agameprofile;
@@ -1313,7 +1321,7 @@ public abstract class PlayerList {
 
     public void func_148543_a(@Nullable EntityPlayer entityhuman, double d0, double d1, double d2, double d3, int i, Packet<?> packet) {
         for (int j = 0; j < this.field_72404_b.size(); ++j) {
-            EntityPlayerMP entityplayer = (EntityPlayerMP) this.field_72404_b.get(j);
+            EntityPlayerMP entityplayer = this.field_72404_b.get(j);
 
             // CraftBukkit start - Test if player receiving packet can see the source of the packet
             if (entityhuman != null && entityhuman instanceof EntityPlayerMP && !entityplayer.getBukkitEntity().canSee(((EntityPlayerMP) entityhuman).getBukkitEntity())) {
@@ -1535,7 +1543,7 @@ public abstract class PlayerList {
 
     public PlayerAdvancements func_192054_h(EntityPlayerMP entityplayer) {
         UUID uuid = entityplayer.func_110124_au();
-        PlayerAdvancements advancementdataplayer = (PlayerAdvancements) entityplayer.func_192039_O(); // CraftBukkit
+        PlayerAdvancements advancementdataplayer = entityplayer.func_192039_O(); // CraftBukkit
 
         if (advancementdataplayer == null) {
             File file = new File(this.field_72400_f.func_71218_a(0).func_72860_G().func_75765_b(), "advancements");
@@ -1574,7 +1582,7 @@ public abstract class PlayerList {
     }
 
     public EntityPlayerMP func_177451_a(UUID uuid) {
-        return (EntityPlayerMP) this.field_177454_f.get(uuid);
+        return this.field_177454_f.get(uuid);
     }
 
     public boolean func_183023_f(GameProfile gameprofile) {

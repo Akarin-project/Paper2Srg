@@ -25,8 +25,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.EntityIllagerIllusioner.a;
-import net.minecraft.server.EntityIllagerIllusioner.b;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
@@ -57,12 +55,13 @@ public class EntityIllusionIllager extends EntitySpellcasterIllager implements I
 
     }
 
+    @Override
     protected void func_184651_r() {
         super.func_184651_r();
         this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
-        this.field_70714_bg.func_75776_a(1, new EntityIllagerWizard.b());
-        this.field_70714_bg.func_75776_a(4, new EntityIllagerIllusioner.b(null));
-        this.field_70714_bg.func_75776_a(5, new EntityIllagerIllusioner.a(null));
+        this.field_70714_bg.func_75776_a(1, new EntitySpellcasterIllager.b());
+        this.field_70714_bg.func_75776_a(4, new b(null));
+        this.field_70714_bg.func_75776_a(5, new a(null));
         this.field_70714_bg.func_75776_a(6, new EntityAIAttackRangedBow(this, 0.5D, 20, 15.0F));
         this.field_70714_bg.func_75776_a(8, new EntityAIWander(this, 0.6D));
         this.field_70714_bg.func_75776_a(9, new EntityAIWatchClosest(this, EntityPlayer.class, 3.0F, 1.0F));
@@ -73,6 +72,7 @@ public class EntityIllusionIllager extends EntitySpellcasterIllager implements I
         this.field_70715_bh.func_75776_a(3, (new EntityAINearestAttackableTarget(this, EntityIronGolem.class, false)).func_190882_b(300));
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.5D);
@@ -80,19 +80,23 @@ public class EntityIllusionIllager extends EntitySpellcasterIllager implements I
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(32.0D);
     }
 
+    @Override
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, IEntityLivingData groupdataentity) {
         this.func_184201_a(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.field_151031_f));
         return super.func_180482_a(difficultydamagescaler, groupdataentity);
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
     }
 
+    @Override
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186419_a;
     }
 
+    @Override
     public void func_70636_d() {
         super.func_70636_d();
         if (this.field_70170_p.field_72995_K && this.func_82150_aj()) {
@@ -119,11 +123,11 @@ public class EntityIllusionIllager extends EntitySpellcasterIllager implements I
 
                 for (j = 0; j < 4; ++j) {
                     this.field_193100_bx[0][j] = this.field_193100_bx[1][j];
-                    this.field_193100_bx[1][j] = new Vec3d((double) (-6.0F + (float) this.field_70146_Z.nextInt(13)) * 0.5D, (double) Math.max(0, this.field_70146_Z.nextInt(6) - 4), (double) (-6.0F + (float) this.field_70146_Z.nextInt(13)) * 0.5D);
+                    this.field_193100_bx[1][j] = new Vec3d((-6.0F + this.field_70146_Z.nextInt(13)) * 0.5D, Math.max(0, this.field_70146_Z.nextInt(6) - 4), (-6.0F + this.field_70146_Z.nextInt(13)) * 0.5D);
                 }
 
                 for (j = 0; j < 16; ++j) {
-                    this.field_70170_p.func_175688_a(EnumParticleTypes.CLOUD, this.field_70165_t + (this.field_70146_Z.nextDouble() - 0.5D) * (double) this.field_70130_N, this.field_70163_u + this.field_70146_Z.nextDouble() * (double) this.field_70131_O, this.field_70161_v + (this.field_70146_Z.nextDouble() - 0.5D) * (double) this.field_70130_N, 0.0D, 0.0D, 0.0D, new int[0]);
+                    this.field_70170_p.func_175688_a(EnumParticleTypes.CLOUD, this.field_70165_t + (this.field_70146_Z.nextDouble() - 0.5D) * this.field_70130_N, this.field_70163_u + this.field_70146_Z.nextDouble() * this.field_70131_O, this.field_70161_v + (this.field_70146_Z.nextDouble() - 0.5D) * this.field_70130_N, 0.0D, 0.0D, 0.0D, new int[0]);
                 }
 
                 this.field_70170_p.func_184134_a(this.field_70165_t, this.field_70163_u, this.field_70161_v, SoundEvents.field_193788_dg, this.func_184176_by(), 1.0F, 1.0F, false);
@@ -132,34 +136,40 @@ public class EntityIllusionIllager extends EntitySpellcasterIllager implements I
 
     }
 
+    @Override
     public boolean func_184191_r(Entity entity) {
         return super.func_184191_r(entity) ? true : (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).func_70668_bt() == EnumCreatureAttribute.ILLAGER ? this.func_96124_cp() == null && entity.func_96124_cp() == null : false);
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return SoundEvents.field_193783_dc;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_193786_de;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_193787_df;
     }
 
+    @Override
     protected SoundEvent func_193086_dk() {
         return SoundEvents.field_193784_dd;
     }
 
+    @Override
     public void func_82196_d(EntityLivingBase entityliving, float f) {
         EntityArrow entityarrow = this.func_193097_t(f);
         double d0 = entityliving.field_70165_t - this.field_70165_t;
-        double d1 = entityliving.func_174813_aQ().field_72338_b + (double) (entityliving.field_70131_O / 3.0F) - entityarrow.field_70163_u;
+        double d1 = entityliving.func_174813_aQ().field_72338_b + entityliving.field_70131_O / 3.0F - entityarrow.field_70163_u;
         double d2 = entityliving.field_70161_v - this.field_70161_v;
-        double d3 = (double) MathHelper.func_76133_a(d0 * d0 + d2 * d2);
+        double d3 = MathHelper.func_76133_a(d0 * d0 + d2 * d2);
 
-        entityarrow.func_70186_c(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float) (14 - this.field_70170_p.func_175659_aa().func_151525_a() * 4));
+        entityarrow.func_70186_c(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, 14 - this.field_70170_p.func_175659_aa().func_151525_a() * 4);
         this.func_184185_a(SoundEvents.field_187866_fi, 1.0F, 1.0F / (this.func_70681_au().nextFloat() * 0.4F + 0.8F));
         this.field_70170_p.func_72838_d(entityarrow);
     }
@@ -167,15 +177,16 @@ public class EntityIllusionIllager extends EntitySpellcasterIllager implements I
     protected EntityArrow func_193097_t(float f) {
         EntityTippedArrow entitytippedarrow = new EntityTippedArrow(this.field_70170_p, this);
 
-        entitytippedarrow.func_190547_a((EntityLivingBase) this, f);
+        entitytippedarrow.func_190547_a(this, f);
         return entitytippedarrow;
     }
 
+    @Override
     public void func_184724_a(boolean flag) {
         this.func_193079_a(1, flag);
     }
 
-    class a extends EntityIllagerWizard.c {
+    class a extends EntitySpellcasterIllager.c {
 
         private int b;
 
@@ -183,31 +194,38 @@ public class EntityIllusionIllager extends EntitySpellcasterIllager implements I
             super();
         }
 
+        @Override
         public boolean func_75250_a() {
-            return !super.func_75250_a() ? false : (EntityIllusionIllager.this.func_70638_az() == null ? false : (EntityIllusionIllager.this.func_70638_az().func_145782_y() == this.b ? false : EntityIllusionIllager.this.field_70170_p.func_175649_E(new BlockPos(EntityIllusionIllager.this)).func_193845_a((float) EnumDifficulty.NORMAL.ordinal())));
+            return !super.func_75250_a() ? false : (EntityIllusionIllager.this.func_70638_az() == null ? false : (EntityIllusionIllager.this.func_70638_az().func_145782_y() == this.b ? false : EntityIllusionIllager.this.field_70170_p.func_175649_E(new BlockPos(EntityIllusionIllager.this)).func_193845_a(EnumDifficulty.NORMAL.ordinal())));
         }
 
+        @Override
         public void func_75249_e() {
             super.func_75249_e();
             this.b = EntityIllusionIllager.this.func_70638_az().func_145782_y();
         }
 
+        @Override
         protected int f() {
             return 20;
         }
 
+        @Override
         protected int i() {
             return 180;
         }
 
+        @Override
         protected void j() {
             EntityIllusionIllager.this.func_70638_az().func_70690_d(new PotionEffect(MobEffects.field_76440_q, 400));
         }
 
+        @Override
         protected SoundEvent k() {
             return SoundEvents.field_193789_dh;
         }
 
+        @Override
         protected EntitySpellcasterIllager.SpellType l() {
             return EntitySpellcasterIllager.SpellType.BLINDNESS;
         }
@@ -217,33 +235,39 @@ public class EntityIllusionIllager extends EntitySpellcasterIllager implements I
         }
     }
 
-    class b extends EntityIllagerWizard.c {
+    class b extends EntitySpellcasterIllager.c {
 
         private b() {
             super();
         }
 
+        @Override
         public boolean func_75250_a() {
             return !super.func_75250_a() ? false : !EntityIllusionIllager.this.func_70644_a(MobEffects.field_76441_p);
         }
 
+        @Override
         protected int f() {
             return 20;
         }
 
+        @Override
         protected int i() {
             return 340;
         }
 
+        @Override
         protected void j() {
             EntityIllusionIllager.this.func_70690_d(new PotionEffect(MobEffects.field_76441_p, 1200));
         }
 
+        @Override
         @Nullable
         protected SoundEvent k() {
             return SoundEvents.field_193790_di;
         }
 
+        @Override
         protected EntitySpellcasterIllager.SpellType l() {
             return EntitySpellcasterIllager.SpellType.DISAPPEAR;
         }

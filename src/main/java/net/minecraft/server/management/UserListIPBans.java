@@ -24,7 +24,7 @@ public class UserListIPBans extends UserList<String, UserListIPBansEntry> {
     public UserListIPBansEntry func_152709_b(SocketAddress socketaddress) {
         String s = this.func_152707_c(socketaddress);
 
-        return (UserListIPBansEntry) this.func_152709_b(s);
+        return this.func_152683_b(s);
     }
 
     private String func_152707_c(SocketAddress socketaddress) {

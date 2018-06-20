@@ -33,11 +33,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.server.EntityShulker.a;
-import net.minecraft.server.EntityShulker.b;
-import net.minecraft.server.EntityShulker.c;
-import net.minecraft.server.EntityShulker.d;
-import net.minecraft.server.EntityShulker.e;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -83,6 +78,7 @@ public class EntityShulker extends EntityGolem implements IMob {
         this.field_70728_aV = 5;
     }
 
+    @Override
     @Nullable
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
         this.field_70761_aq = 180.0F;
@@ -94,6 +90,7 @@ public class EntityShulker extends EntityGolem implements IMob {
         return super.func_180482_a(difficultydamagescaler, groupdataentity);
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_70714_bg.func_75776_a(1, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.field_70714_bg.func_75776_a(4, new EntityShulker.a());
@@ -104,18 +101,22 @@ public class EntityShulker extends EntityGolem implements IMob {
         this.field_70715_bh.func_75776_a(3, new EntityShulker.c(this));
     }
 
+    @Override
     protected boolean func_70041_e_() {
         return false;
     }
 
+    @Override
     public SoundCategory func_184176_by() {
         return SoundCategory.HOSTILE;
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return SoundEvents.field_187773_eO;
     }
 
+    @Override
     public void func_70642_aH() {
         if (!this.func_184686_df()) {
             super.func_70642_aH();
@@ -123,14 +124,17 @@ public class EntityShulker extends EntityGolem implements IMob {
 
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187781_eS;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return this.func_184686_df() ? SoundEvents.field_187785_eU : SoundEvents.field_187783_eT;
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityShulker.field_184700_a, EnumFacing.DOWN);
@@ -139,11 +143,13 @@ public class EntityShulker extends EntityGolem implements IMob {
         this.field_70180_af.func_187214_a(EntityShulker.field_190770_bw, Byte.valueOf((byte) EntityShulker.field_190771_bx.func_176765_a()));
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(30.0D);
     }
 
+    @Override
     protected EntityBodyHelper func_184650_s() {
         return new EntityShulker.b(this);
     }
@@ -152,6 +158,7 @@ public class EntityShulker extends EntityGolem implements IMob {
         EntityLiving.func_189752_a(dataconvertermanager, EntityShulker.class);
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.field_70180_af.func_187227_b(EntityShulker.field_184700_a, EnumFacing.func_82600_a(nbttagcompound.func_74771_c("AttachFace")));
@@ -169,11 +176,12 @@ public class EntityShulker extends EntityGolem implements IMob {
 
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
-        nbttagcompound.func_74774_a("AttachFace", (byte) ((EnumFacing) this.field_70180_af.func_187225_a(EntityShulker.field_184700_a)).func_176745_a());
-        nbttagcompound.func_74774_a("Peek", ((Byte) this.field_70180_af.func_187225_a(EntityShulker.field_184702_c)).byteValue());
-        nbttagcompound.func_74774_a("Color", ((Byte) this.field_70180_af.func_187225_a(EntityShulker.field_190770_bw)).byteValue());
+        nbttagcompound.func_74774_a("AttachFace", (byte) this.field_70180_af.func_187225_a(EntityShulker.field_184700_a).func_176745_a());
+        nbttagcompound.func_74774_a("Peek", this.field_70180_af.func_187225_a(EntityShulker.field_184702_c).byteValue());
+        nbttagcompound.func_74774_a("Color", this.field_70180_af.func_187225_a(EntityShulker.field_190770_bw).byteValue());
         BlockPos blockposition = this.func_184699_da();
 
         if (blockposition != null) {
@@ -184,6 +192,7 @@ public class EntityShulker extends EntityGolem implements IMob {
 
     }
 
+    @Override
     public void func_70071_h_() {
         super.func_70071_h_();
         BlockPos blockposition = (BlockPos) ((Optional) this.field_70180_af.func_187225_a(EntityShulker.field_184701_b)).orNull();
@@ -209,7 +218,7 @@ public class EntityShulker extends EntityGolem implements IMob {
                 EnumFacing enumdirection;
 
                 if (iblockdata.func_177230_c() == Blocks.field_180384_M) {
-                    enumdirection = (EnumFacing) iblockdata.func_177229_b(BlockPistonBase.field_176387_N);
+                    enumdirection = iblockdata.func_177229_b(BlockPistonBase.field_176387_N);
                     if (this.field_70170_p.func_175623_d(blockposition.func_177972_a(enumdirection))) {
                         blockposition = blockposition.func_177972_a(enumdirection);
                         this.field_70180_af.func_187227_b(EntityShulker.field_184701_b, Optional.of(blockposition));
@@ -217,7 +226,7 @@ public class EntityShulker extends EntityGolem implements IMob {
                         this.func_184689_o();
                     }
                 } else if (iblockdata.func_177230_c() == Blocks.field_150332_K) {
-                    enumdirection = (EnumFacing) iblockdata.func_177229_b(BlockPistonExtension.field_176387_N);
+                    enumdirection = iblockdata.func_177229_b(BlockPistonExtension.field_176387_N);
                     if (this.field_70170_p.func_175623_d(blockposition.func_177972_a(enumdirection))) {
                         blockposition = blockposition.func_177972_a(enumdirection);
                         this.field_70180_af.func_187227_b(EntityShulker.field_184701_b, Optional.of(blockposition));
@@ -259,7 +268,7 @@ public class EntityShulker extends EntityGolem implements IMob {
             }
         }
 
-        f = (float) this.func_184684_db() * 0.01F;
+        f = this.func_184684_db() * 0.01F;
         this.field_184705_bx = this.field_184706_by;
         if (this.field_184706_by > f) {
             this.field_184706_by = MathHelper.func_76131_a(this.field_184706_by - 0.05F, f, 1.0F);
@@ -276,17 +285,17 @@ public class EntityShulker extends EntityGolem implements IMob {
                 }
             }
 
-            this.field_70165_t = (double) blockposition.func_177958_n() + 0.5D;
-            this.field_70163_u = (double) blockposition.func_177956_o();
-            this.field_70161_v = (double) blockposition.func_177952_p() + 0.5D;
+            this.field_70165_t = blockposition.func_177958_n() + 0.5D;
+            this.field_70163_u = blockposition.func_177956_o();
+            this.field_70161_v = blockposition.func_177952_p() + 0.5D;
             this.field_70169_q = this.field_70165_t;
             this.field_70167_r = this.field_70163_u;
             this.field_70166_s = this.field_70161_v;
             this.field_70142_S = this.field_70165_t;
             this.field_70137_T = this.field_70163_u;
             this.field_70136_U = this.field_70161_v;
-            double d0 = 0.5D - (double) MathHelper.func_76126_a((0.5F + this.field_184706_by) * 3.1415927F) * 0.5D;
-            double d1 = 0.5D - (double) MathHelper.func_76126_a((0.5F + this.field_184705_bx) * 3.1415927F) * 0.5D;
+            double d0 = 0.5D - MathHelper.func_76126_a((0.5F + this.field_184706_by) * 3.1415927F) * 0.5D;
+            double d1 = 0.5D - MathHelper.func_76126_a((0.5F + this.field_184705_bx) * 3.1415927F) * 0.5D;
             double d2 = d0 - d1;
             double d3 = 0.0D;
             double d4 = 0.0D;
@@ -343,6 +352,7 @@ public class EntityShulker extends EntityGolem implements IMob {
 
     }
 
+    @Override
     public void func_70091_d(MoverType enummovetype, double d0, double d1, double d2) {
         if (enummovetype == MoverType.SHULKER_BOX) {
             this.func_184689_o();
@@ -352,10 +362,11 @@ public class EntityShulker extends EntityGolem implements IMob {
 
     }
 
+    @Override
     public void func_70107_b(double d0, double d1, double d2) {
         super.func_70107_b(d0, d1, d2);
         if (this.field_70180_af != null && this.field_70173_aa != 0) {
-            Optional optional = (Optional) this.field_70180_af.func_187225_a(EntityShulker.field_184701_b);
+            Optional optional = this.field_70180_af.func_187225_a(EntityShulker.field_184701_b);
             Optional optional1 = Optional.of(new BlockPos(d0, d1, d2));
 
             if (!optional1.equals(optional)) {
@@ -414,6 +425,7 @@ public class EntityShulker extends EntityGolem implements IMob {
         }
     }
 
+    @Override
     public void func_70636_d() {
         super.func_70636_d();
         this.field_70159_w = 0.0D;
@@ -424,6 +436,7 @@ public class EntityShulker extends EntityGolem implements IMob {
         this.field_70177_z = 180.0F;
     }
 
+    @Override
     public void func_184206_a(DataParameter<?> datawatcherobject) {
         if (EntityShulker.field_184701_b.equals(datawatcherobject) && this.field_70170_p.field_72995_K && !this.func_184218_aH()) {
             BlockPos blockposition = this.func_184699_da();
@@ -435,9 +448,9 @@ public class EntityShulker extends EntityGolem implements IMob {
                     this.field_184708_bA = 6;
                 }
 
-                this.field_70165_t = (double) blockposition.func_177958_n() + 0.5D;
-                this.field_70163_u = (double) blockposition.func_177956_o();
-                this.field_70161_v = (double) blockposition.func_177952_p() + 0.5D;
+                this.field_70165_t = blockposition.func_177958_n() + 0.5D;
+                this.field_70163_u = blockposition.func_177956_o();
+                this.field_70161_v = blockposition.func_177952_p() + 0.5D;
                 this.field_70169_q = this.field_70165_t;
                 this.field_70167_r = this.field_70163_u;
                 this.field_70166_s = this.field_70161_v;
@@ -450,6 +463,7 @@ public class EntityShulker extends EntityGolem implements IMob {
         super.func_184206_a(datawatcherobject);
     }
 
+    @Override
     public boolean func_70097_a(DamageSource damagesource, float f) {
         if (this.func_184686_df()) {
             Entity entity = damagesource.func_76364_f();
@@ -460,7 +474,7 @@ public class EntityShulker extends EntityGolem implements IMob {
         }
 
         if (super.func_70097_a(damagesource, f)) {
-            if ((double) this.func_110143_aJ() < (double) this.func_110138_aP() * 0.5D && this.field_70146_Z.nextInt(4) == 0) {
+            if (this.func_110143_aJ() < this.func_110138_aP() * 0.5D && this.field_70146_Z.nextInt(4) == 0) {
                 this.func_184689_o();
             }
 
@@ -474,13 +488,14 @@ public class EntityShulker extends EntityGolem implements IMob {
         return this.func_184684_db() == 0;
     }
 
+    @Override
     @Nullable
     public AxisAlignedBB func_70046_E() {
         return this.func_70089_S() ? this.func_174813_aQ() : null;
     }
 
     public EnumFacing func_184696_cZ() {
-        return (EnumFacing) this.field_70180_af.func_187225_a(EntityShulker.field_184700_a);
+        return this.field_70180_af.func_187225_a(EntityShulker.field_184700_a);
     }
 
     @Nullable
@@ -493,7 +508,7 @@ public class EntityShulker extends EntityGolem implements IMob {
     }
 
     public int func_184684_db() {
-        return ((Byte) this.field_70180_af.func_187225_a(EntityShulker.field_184702_c)).byteValue();
+        return this.field_70180_af.func_187225_a(EntityShulker.field_184702_c).byteValue();
     }
 
     public void func_184691_a(int i) {
@@ -510,24 +525,30 @@ public class EntityShulker extends EntityGolem implements IMob {
         this.field_70180_af.func_187227_b(EntityShulker.field_184702_c, Byte.valueOf((byte) i));
     }
 
+    @Override
     public float func_70047_e() {
         return 0.5F;
     }
 
+    @Override
     public int func_70646_bf() {
         return 180;
     }
 
+    @Override
     public int func_184649_cE() {
         return 180;
     }
 
+    @Override
     public void func_70108_f(Entity entity) {}
 
+    @Override
     public float func_70111_Y() {
         return 0.0F;
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186442_x;
@@ -541,16 +562,19 @@ public class EntityShulker extends EntityGolem implements IMob {
                     return entityliving instanceof IMob;
                 }
 
+                @Override
                 public boolean apply(@Nullable Object object) {
                     return this.a((EntityLivingBase) object);
                 }
             });
         }
 
+        @Override
         public boolean func_75250_a() {
             return this.field_75299_d.func_96124_cp() == null ? false : super.func_75250_a();
         }
 
+        @Override
         protected AxisAlignedBB func_188511_a(double d0) {
             EnumFacing enumdirection = ((EntityShulker) this.field_75299_d).func_184696_cZ();
 
@@ -564,10 +588,12 @@ public class EntityShulker extends EntityGolem implements IMob {
             super(entityshulker, EntityPlayer.class, true);
         }
 
+        @Override
         public boolean func_75250_a() {
             return EntityShulker.this.field_70170_p.func_175659_aa() == EnumDifficulty.PEACEFUL ? false : super.func_75250_a();
         }
 
+        @Override
         protected AxisAlignedBB func_188511_a(double d0) {
             EnumFacing enumdirection = ((EntityShulker) this.field_75299_d).func_184696_cZ();
 
@@ -583,21 +609,25 @@ public class EntityShulker extends EntityGolem implements IMob {
             this.func_75248_a(3);
         }
 
+        @Override
         public boolean func_75250_a() {
             EntityLivingBase entityliving = EntityShulker.this.func_70638_az();
 
             return entityliving != null && entityliving.func_70089_S() ? EntityShulker.this.field_70170_p.func_175659_aa() != EnumDifficulty.PEACEFUL : false;
         }
 
+        @Override
         public void func_75249_e() {
             this.b = 20;
             EntityShulker.this.func_184691_a(100);
         }
 
+        @Override
         public void func_75251_c() {
             EntityShulker.this.func_184691_a(0);
         }
 
+        @Override
         public void func_75246_d() {
             if (EntityShulker.this.field_70170_p.func_175659_aa() != EnumDifficulty.PEACEFUL) {
                 --this.b;
@@ -629,19 +659,23 @@ public class EntityShulker extends EntityGolem implements IMob {
 
         private e() {}
 
+        @Override
         public boolean func_75250_a() {
             return EntityShulker.this.func_70638_az() == null && EntityShulker.this.field_70146_Z.nextInt(40) == 0;
         }
 
+        @Override
         public boolean func_75253_b() {
             return EntityShulker.this.func_70638_az() == null && this.b > 0;
         }
 
+        @Override
         public void func_75249_e() {
             this.b = 20 * (1 + EntityShulker.this.field_70146_Z.nextInt(3));
             EntityShulker.this.func_184691_a(30);
         }
 
+        @Override
         public void func_75251_c() {
             if (EntityShulker.this.func_70638_az() == null) {
                 EntityShulker.this.func_184691_a(0);
@@ -649,6 +683,7 @@ public class EntityShulker extends EntityGolem implements IMob {
 
         }
 
+        @Override
         public void func_75246_d() {
             --this.b;
         }
@@ -664,6 +699,7 @@ public class EntityShulker extends EntityGolem implements IMob {
             super(entityliving);
         }
 
+        @Override
         public void func_75664_a() {}
     }
 }

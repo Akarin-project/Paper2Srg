@@ -72,7 +72,7 @@ public class PaperLightingQueue {
         /**
          * Flushes lighting updates to unload the chunk
          */
-        void processUnload() {
+        public void processUnload() {
             if (!chunk.field_76637_e.paperConfig.queueLightUpdates) {
                 return;
             }

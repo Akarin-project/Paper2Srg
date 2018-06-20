@@ -28,11 +28,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.server.EntityPolarBear.a;
-import net.minecraft.server.EntityPolarBear.b;
-import net.minecraft.server.EntityPolarBear.c;
-import net.minecraft.server.EntityPolarBear.d;
-import net.minecraft.server.EntityPolarBear.e;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -54,14 +49,17 @@ public class EntityPolarBear extends EntityAnimal {
         this.func_70105_a(1.3F, 1.4F);
     }
 
+    @Override
     public EntityAgeable func_90011_a(EntityAgeable entityageable) {
         return new EntityPolarBear(this.field_70170_p);
     }
 
+    @Override
     public boolean func_70877_b(ItemStack itemstack) {
         return false;
     }
 
+    @Override
     protected void func_184651_r() {
         super.func_184651_r();
         this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
@@ -75,6 +73,7 @@ public class EntityPolarBear extends EntityAnimal {
         this.field_70715_bh.func_75776_a(2, new EntityPolarBear.a());
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(30.0D);
@@ -84,18 +83,22 @@ public class EntityPolarBear extends EntityAnimal {
         this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(6.0D);
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return this.func_70631_g_() ? SoundEvents.field_190027_es : SoundEvents.field_190026_er;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_190029_eu;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_190028_et;
     }
 
+    @Override
     protected void func_180429_a(BlockPos blockposition, Block block) {
         this.func_184185_a(SoundEvents.field_190030_ev, 0.15F, 1.0F);
     }
@@ -108,16 +111,19 @@ public class EntityPolarBear extends EntityAnimal {
 
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_189969_E;
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityPolarBear.field_189798_bx, Boolean.valueOf(false));
     }
 
+    @Override
     public void func_70071_h_() {
         super.func_70071_h_();
         if (this.field_70170_p.field_72995_K) {
@@ -135,28 +141,31 @@ public class EntityPolarBear extends EntityAnimal {
 
     }
 
+    @Override
     public boolean func_70652_k(Entity entity) {
-        boolean flag = entity.func_70097_a(DamageSource.func_76358_a(this), (float) ((int) this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e()));
+        boolean flag = entity.func_70097_a(DamageSource.func_76358_a(this), ((int) this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e()));
 
         if (flag) {
-            this.func_174815_a((EntityLivingBase) this, entity);
+            this.func_174815_a(this, entity);
         }
 
         return flag;
     }
 
     public boolean func_189793_df() {
-        return ((Boolean) this.field_70180_af.func_187225_a(EntityPolarBear.field_189798_bx)).booleanValue();
+        return this.field_70180_af.func_187225_a(EntityPolarBear.field_189798_bx).booleanValue();
     }
 
     public void func_189794_p(boolean flag) {
         this.field_70180_af.func_187227_b(EntityPolarBear.field_189798_bx, Boolean.valueOf(flag));
     }
 
+    @Override
     protected float func_189749_co() {
         return 0.98F;
     }
 
+    @Override
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, IEntityLivingData groupdataentity) {
         if (groupdataentity instanceof EntityPolarBear.b) {
             if (((EntityPolarBear.b) groupdataentity).a) {
@@ -169,7 +178,7 @@ public class EntityPolarBear extends EntityAnimal {
             groupdataentity = entitypolarbear_b;
         }
 
-        return (IEntityLivingData) groupdataentity;
+        return groupdataentity;
     }
 
     class e extends EntityAIPanic {
@@ -178,6 +187,7 @@ public class EntityPolarBear extends EntityAnimal {
             super(EntityPolarBear.this, 2.0D);
         }
 
+        @Override
         public boolean func_75250_a() {
             return !EntityPolarBear.this.func_70631_g_() && !EntityPolarBear.this.func_70027_ad() ? false : super.func_75250_a();
         }
@@ -189,6 +199,7 @@ public class EntityPolarBear extends EntityAnimal {
             super(EntityPolarBear.this, 1.25D, true);
         }
 
+        @Override
         protected void func_190102_a(EntityLivingBase entityliving, double d0) {
             double d1 = this.func_179512_a(entityliving);
 
@@ -213,13 +224,15 @@ public class EntityPolarBear extends EntityAnimal {
 
         }
 
+        @Override
         public void func_75251_c() {
             EntityPolarBear.this.func_189794_p(false);
             super.func_75251_c();
         }
 
+        @Override
         protected double func_179512_a(EntityLivingBase entityliving) {
-            return (double) (4.0F + entityliving.field_70130_N);
+            return 4.0F + entityliving.field_70130_N;
         }
     }
 
@@ -229,6 +242,7 @@ public class EntityPolarBear extends EntityAnimal {
             super(EntityPolarBear.this, EntityPlayer.class, 20, true, true, (Predicate) null);
         }
 
+        @Override
         public boolean func_75250_a() {
             if (EntityPolarBear.this.func_70631_g_()) {
                 return false;
@@ -251,6 +265,7 @@ public class EntityPolarBear extends EntityAnimal {
             }
         }
 
+        @Override
         protected double func_111175_f() {
             return super.func_111175_f() * 0.5D;
         }
@@ -262,6 +277,7 @@ public class EntityPolarBear extends EntityAnimal {
             super(EntityPolarBear.this, false, new Class[0]);
         }
 
+        @Override
         public void func_75249_e() {
             super.func_75249_e();
             if (EntityPolarBear.this.func_70631_g_()) {
@@ -271,6 +287,7 @@ public class EntityPolarBear extends EntityAnimal {
 
         }
 
+        @Override
         protected void func_179446_a(EntityCreature entitycreature, EntityLivingBase entityliving) {
             if (entitycreature instanceof EntityPolarBear && !entitycreature.func_70631_g_()) {
                 super.func_179446_a(entitycreature, entityliving);

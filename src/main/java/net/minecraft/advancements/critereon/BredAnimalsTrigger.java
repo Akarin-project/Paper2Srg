@@ -16,34 +16,35 @@ import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.CriterionTriggerBredAnimals.a;
-import net.minecraft.server.CriterionTriggerBredAnimals.b;
 import net.minecraft.util.ResourceLocation;
 
-public class BredAnimalsTrigger implements ICriterionTrigger<CriterionTriggerBredAnimals.b> {
+public class BredAnimalsTrigger implements ICriterionTrigger<BredAnimalsTrigger.b> {
 
     private static final ResourceLocation field_192171_a = new ResourceLocation("bred_animals");
-    private final Map<PlayerAdvancements, CriterionTriggerBredAnimals.a> field_192172_b = Maps.newHashMap();
+    private final Map<PlayerAdvancements, BredAnimalsTrigger.a> field_192172_b = Maps.newHashMap();
 
     public BredAnimalsTrigger() {}
 
+    @Override
     public ResourceLocation func_192163_a() {
         return BredAnimalsTrigger.field_192171_a;
     }
 
-    public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerBredAnimals.b> criteriontrigger_a) {
-        CriterionTriggerBredAnimals.a criteriontriggerbredanimals_a = (CriterionTriggerBredAnimals.a) this.field_192172_b.get(advancementdataplayer);
+    @Override
+    public void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<BredAnimalsTrigger.b> criteriontrigger_a) {
+        BredAnimalsTrigger.a criteriontriggerbredanimals_a = this.field_192172_b.get(advancementdataplayer);
 
         if (criteriontriggerbredanimals_a == null) {
-            criteriontriggerbredanimals_a = new CriterionTriggerBredAnimals.a(advancementdataplayer);
+            criteriontriggerbredanimals_a = new BredAnimalsTrigger.a(advancementdataplayer);
             this.field_192172_b.put(advancementdataplayer, criteriontriggerbredanimals_a);
         }
 
         criteriontriggerbredanimals_a.a(criteriontrigger_a);
     }
 
-    public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerBredAnimals.b> criteriontrigger_a) {
-        CriterionTriggerBredAnimals.a criteriontriggerbredanimals_a = (CriterionTriggerBredAnimals.a) this.field_192172_b.get(advancementdataplayer);
+    @Override
+    public void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<BredAnimalsTrigger.b> criteriontrigger_a) {
+        BredAnimalsTrigger.a criteriontriggerbredanimals_a = this.field_192172_b.get(advancementdataplayer);
 
         if (criteriontriggerbredanimals_a != null) {
             criteriontriggerbredanimals_a.b(criteriontrigger_a);
@@ -54,20 +55,21 @@ public class BredAnimalsTrigger implements ICriterionTrigger<CriterionTriggerBre
 
     }
 
+    @Override
     public void func_192167_a(PlayerAdvancements advancementdataplayer) {
         this.field_192172_b.remove(advancementdataplayer);
     }
 
-    public CriterionTriggerBredAnimals.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public BredAnimalsTrigger.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         EntityPredicate criterionconditionentity = EntityPredicate.func_192481_a(jsonobject.get("parent"));
         EntityPredicate criterionconditionentity1 = EntityPredicate.func_192481_a(jsonobject.get("partner"));
         EntityPredicate criterionconditionentity2 = EntityPredicate.func_192481_a(jsonobject.get("child"));
 
-        return new CriterionTriggerBredAnimals.b(criterionconditionentity, criterionconditionentity1, criterionconditionentity2);
+        return new BredAnimalsTrigger.b(criterionconditionentity, criterionconditionentity1, criterionconditionentity2);
     }
 
     public void func_192168_a(EntityPlayerMP entityplayer, EntityAnimal entityanimal, EntityAnimal entityanimal1, EntityAgeable entityageable) {
-        CriterionTriggerBredAnimals.a criteriontriggerbredanimals_a = (CriterionTriggerBredAnimals.a) this.field_192172_b.get(entityplayer.func_192039_O());
+        BredAnimalsTrigger.a criteriontriggerbredanimals_a = this.field_192172_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerbredanimals_a != null) {
             criteriontriggerbredanimals_a.a(entityplayer, entityanimal, entityanimal1, entityageable);
@@ -75,14 +77,15 @@ public class BredAnimalsTrigger implements ICriterionTrigger<CriterionTriggerBre
 
     }
 
-    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    @Override
+    public b func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
     static class a {
 
         private final PlayerAdvancements a;
-        private final Set<CriterionTrigger.a<CriterionTriggerBredAnimals.b>> b = Sets.newHashSet();
+        private final Set<ICriterionTrigger.a<BredAnimalsTrigger.b>> b = Sets.newHashSet();
 
         public a(PlayerAdvancements advancementdataplayer) {
             this.a = advancementdataplayer;
@@ -92,11 +95,11 @@ public class BredAnimalsTrigger implements ICriterionTrigger<CriterionTriggerBre
             return this.b.isEmpty();
         }
 
-        public void a(CriterionTrigger.a<CriterionTriggerBredAnimals.b> criteriontrigger_a) {
+        public void a(ICriterionTrigger.a<BredAnimalsTrigger.b> criteriontrigger_a) {
             this.b.add(criteriontrigger_a);
         }
 
-        public void b(CriterionTrigger.a<CriterionTriggerBredAnimals.b> criteriontrigger_a) {
+        public void b(ICriterionTrigger.a<BredAnimalsTrigger.b> criteriontrigger_a) {
             this.b.remove(criteriontrigger_a);
         }
 
@@ -104,11 +107,11 @@ public class BredAnimalsTrigger implements ICriterionTrigger<CriterionTriggerBre
             ArrayList arraylist = null;
             Iterator iterator = this.b.iterator();
 
-            CriterionTrigger.a criteriontrigger_a;
+            ICriterionTrigger.a criteriontrigger_a;
 
             while (iterator.hasNext()) {
-                criteriontrigger_a = (CriterionTrigger.a) iterator.next();
-                if (((CriterionTriggerBredAnimals.b) criteriontrigger_a.a()).a(entityplayer, entityanimal, entityanimal1, entityageable)) {
+                criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
+                if (((BredAnimalsTrigger.b) criteriontrigger_a.a()).a(entityplayer, entityanimal, entityanimal1, entityageable)) {
                     if (arraylist == null) {
                         arraylist = Lists.newArrayList();
                     }
@@ -121,7 +124,7 @@ public class BredAnimalsTrigger implements ICriterionTrigger<CriterionTriggerBre
                 iterator = arraylist.iterator();
 
                 while (iterator.hasNext()) {
-                    criteriontrigger_a = (CriterionTrigger.a) iterator.next();
+                    criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
                     criteriontrigger_a.a(this.a);
                 }
             }

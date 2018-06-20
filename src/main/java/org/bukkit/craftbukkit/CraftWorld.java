@@ -32,10 +32,14 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.craftbukkit.block.CraftBlockState;
+import org.bukkit.craftbukkit.entity.CraftItem;
+import org.bukkit.craftbukkit.entity.CraftLightningStrike;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.metadata.BlockMetadataStore;
 import org.bukkit.craftbukkit.potion.CraftPotionUtil;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
+import org.bukkit.entity.*;
 import org.bukkit.entity.minecart.CommandMinecart;
 import org.bukkit.entity.minecart.ExplosiveMinecart;
 import org.bukkit.entity.minecart.HopperMinecart;
@@ -56,7 +60,7 @@ import org.bukkit.potion.PotionType;
 import org.bukkit.util.Consumer;
 import org.bukkit.util.Vector;
 
-import net;
+
 import net.minecraft.block.BlockChorusFlower;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockOldLeaf;
@@ -160,6 +164,7 @@ import net.minecraft.network.play.server.SPacketCustomSound;
 import net.minecraft.network.play.server.SPacketEffect;
 import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.network.play.server.SPacketTimeUpdate;
+import net.minecraft.server.MCUtil;
 import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -173,7 +178,6 @@ import net.minecraft.world.WorldProviderEnd;
 import net.minecraft.world.WorldProviderHell;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraft.world.gen.feature.WorldGenBigMushroom;
 import net.minecraft.world.gen.feature.WorldGenBigTree;
@@ -216,7 +220,7 @@ public class CraftWorld implements World {
     public int getTileEntityCount() {
         // We don't use the full world tile entity list, so we must iterate chunks
         int size = 0;
-        for (minecraft.world.chunk.Chunk chunk : ((ChunkProviderServer) world.func_72863_F()).field_73244_f.values()) {
+        for (net.minecraft.world.chunk.Chunk chunk : ((ChunkProviderServer) world.func_72863_F()).field_73244_f.values()) {
             size += chunk.field_150816_i.size();
         }
         return size;
@@ -325,7 +329,7 @@ public class CraftWorld implements World {
         org.bukkit.Chunk[] craftChunks = new CraftChunk[chunks.length];
 
         for (int i = 0; i < chunks.length; i++) {
-            minecraft.world.chunk.Chunk chunk = (minecraft.world.chunk.Chunk) chunks[i];
+            net.minecraft.world.chunk.Chunk chunk = (net.minecraft.world.chunk.Chunk) chunks[i];
             craftChunks[i] = chunk.bukkitChunk;
         }
 
@@ -358,7 +362,7 @@ public class CraftWorld implements World {
             return false;
         }
 
-        minecraft.world.chunk.Chunk chunk = world.func_72863_F().func_186026_b(x, z);
+        net.minecraft.world.chunk.Chunk chunk = world.func_72863_F().func_186026_b(x, z);
         if (chunk != null) {
             world.func_72863_F().func_189549_a(chunk);
         }
@@ -377,7 +381,7 @@ public class CraftWorld implements World {
 
     private boolean unloadChunk0(int x, int z, boolean save) {
         Boolean result = MCUtil.ensureMain("Unload Chunk", () -> { // Paper - Ensure never async
-        minecraft.world.chunk.Chunk chunk = world.func_72863_F().getChunkIfLoaded(x, z);
+        net.minecraft.world.chunk.Chunk chunk = world.func_72863_F().getChunkIfLoaded(x, z);
         if (chunk == null) {
             return true;
         }
@@ -395,7 +399,7 @@ public class CraftWorld implements World {
         final long chunkKey = ChunkPos.func_77272_a(x, z);
         world.func_72863_F().field_73248_b.remove(chunkKey);
 
-        minecraft.world.chunk.Chunk chunk = null;
+        net.minecraft.world.chunk.Chunk chunk = null;
 
         chunk = world.func_72863_F().field_186029_c.func_185932_a(x, z);
         PlayerChunkMapEntry playerChunk = world.func_184164_w().func_187301_b(x, z);
@@ -554,7 +558,7 @@ public class CraftWorld implements World {
     public boolean generateTree(Location loc, TreeType type) {
         BlockPos pos = new BlockPos(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 
-        world.gen.feature.WorldGenerator gen;
+        net.minecraft.world.gen.feature.WorldGenerator gen;
         switch (type) {
         case BIG_TREE:
             gen = new WorldGenBigTree(true);
@@ -633,12 +637,12 @@ public class CraftWorld implements World {
                 int y = blockstate.getY();
                 int z = blockstate.getZ();
                 BlockPos position = new BlockPos(x, y, z);
-                minecraft.block.state.IBlockState oldBlock = world.func_180495_p(position);
+                net.minecraft.block.state.IBlockState oldBlock = world.func_180495_p(position);
                 int typeId = blockstate.getTypeId();
                 int data = blockstate.getRawData();
                 int flag = ((CraftBlockState)blockstate).getFlag();
                 delegate.setTypeIdAndData(x, y, z, typeId, data);
-                minecraft.block.state.IBlockState newBlock = world.func_180495_p(position);
+                net.minecraft.block.state.IBlockState newBlock = world.func_180495_p(position);
                 world.notifyAndUpdatePhysics(position, null, oldBlock, newBlock, flag);
             }
             world.capturedBlockStates.clear();
@@ -777,13 +781,13 @@ public class CraftWorld implements World {
     }
 
     public void setBiome(int x, int z, Biome bio) {
-        Biome bb = CraftBlock.biomeToBiomeBase(bio);
+        net.minecraft.world.biome.Biome bb = CraftBlock.biomeToBiomeBase(bio);
         if (this.world.func_175667_e(new BlockPos(x, 0, z))) {
-            minecraft.world.chunk.Chunk chunk = this.world.func_175726_f(new BlockPos(x, 0, z));
+            net.minecraft.world.chunk.Chunk chunk = this.world.func_175726_f(new BlockPos(x, 0, z));
 
             if (chunk != null) {
                 byte[] biomevals = chunk.func_76605_m();
-                biomevals[((z & 0xF) << 4) | (x & 0xF)] = (byte) Biome.field_185377_q.func_148757_b(bb);
+                biomevals[((z & 0xF) << 4) | (x & 0xF)] = (byte) net.minecraft.world.biome.Biome.field_185377_q.func_148757_b(bb);
 
                 chunk.func_76630_e(); // SPIGOT-2890
             }
@@ -1737,7 +1741,7 @@ public class CraftWorld implements World {
         }
 
         ChunkProviderServer cps = world.func_72863_F();
-        for (minecraft.world.chunk.Chunk chunk : cps.field_73244_f.values()) {
+        for (net.minecraft.world.chunk.Chunk chunk : cps.field_73244_f.values()) {
             // If in use, skip it
             if (isChunkInUse(chunk.field_76635_g, chunk.field_76647_h) || chunk.scheduledForUnload != null) { // Paper - delayed chunk unloads
                 continue;

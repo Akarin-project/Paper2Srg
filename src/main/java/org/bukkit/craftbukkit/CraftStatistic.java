@@ -16,8 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 
-import net;
-
 public class CraftStatistic {
     private static final BiMap<String, org.bukkit.Statistic> statistics;
 
@@ -99,7 +97,7 @@ public class CraftStatistic {
     }
 
     public static net.minecraft.stats.StatBase getEntityStatistic(org.bukkit.Statistic stat, EntityType entity) {
-        EntityEggInfo monsteregginfo = (EntityEggInfo) EntityList.field_75627_a.get(new ResourceLocation(entity.getName()));
+        EntityEggInfo monsteregginfo = EntityList.field_75627_a.get(new ResourceLocation(entity.getName()));
 
         if (monsteregginfo != null) {
             if (stat == org.bukkit.Statistic.KILL_ENTITY) {
@@ -120,11 +118,11 @@ public class CraftStatistic {
     public static Material getMaterialFromStatistic(net.minecraft.stats.StatBase statistic) {
         String statisticString = statistic.field_75975_e;
         String val = statisticString.substring(statisticString.lastIndexOf(".") + 1);
-        Item item = (Item) Item.field_150901_e.func_82594_a(new ResourceLocation(val));
+        Item item = Item.field_150901_e.func_82594_a(new ResourceLocation(val));
         if (item != null) {
             return Material.getMaterial(Item.func_150891_b(item));
         }
-        Block block = (Block) Block.field_149771_c.func_82594_a(new ResourceLocation(val));
+        Block block = Block.field_149771_c.func_82594_a(new ResourceLocation(val));
         if (block != null) {
             return Material.getMaterial(Block.func_149682_b(block));
         }

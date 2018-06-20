@@ -52,6 +52,7 @@ public class EntityChicken extends EntityAnimal {
         this.func_184644_a(PathNodeType.WATER, 0.0F);
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
         this.field_70714_bg.func_75776_a(1, new EntityAIPanic(this, 1.4D));
@@ -63,16 +64,19 @@ public class EntityChicken extends EntityAnimal {
         this.field_70714_bg.func_75776_a(7, new EntityAILookIdle(this));
     }
 
+    @Override
     public float func_70047_e() {
         return this.field_70131_O;
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(4.0D);
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
     }
 
+    @Override
     public void func_70636_d() {
         // CraftBukkit start
         if (this.func_152116_bZ()) {
@@ -82,13 +86,13 @@ public class EntityChicken extends EntityAnimal {
         super.func_70636_d();
         this.field_70888_h = this.field_70886_e;
         this.field_70884_g = this.field_70883_f;
-        this.field_70883_f = (float) ((double) this.field_70883_f + (double) (this.field_70122_E ? -1 : 4) * 0.3D);
+        this.field_70883_f = (float) (this.field_70883_f + (this.field_70122_E ? -1 : 4) * 0.3D);
         this.field_70883_f = MathHelper.func_76131_a(this.field_70883_f, 0.0F, 1.0F);
         if (!this.field_70122_E && this.field_70889_i < 1.0F) {
             this.field_70889_i = 1.0F;
         }
 
-        this.field_70889_i = (float) ((double) this.field_70889_i * 0.9D);
+        this.field_70889_i = (float) (this.field_70889_i * 0.9D);
         if (!this.field_70122_E && this.field_70181_x < 0.0D) {
             this.field_70181_x *= 0.6D;
         }
@@ -104,37 +108,46 @@ public class EntityChicken extends EntityAnimal {
 
     }
 
+    @Override
     public void func_180430_e(float f, float f1) {}
 
+    @Override
     protected SoundEvent func_184639_G() {
         return SoundEvents.field_187660_W;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187666_Z;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187663_X;
     }
 
+    @Override
     protected void func_180429_a(BlockPos blockposition, Block block) {
         this.func_184185_a(SoundEvents.field_187538_aa, 0.15F, 1.0F);
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186394_B;
     }
 
+    @Override
     public EntityChicken func_90011_a(EntityAgeable entityageable) {
         return new EntityChicken(this.field_70170_p);
     }
 
+    @Override
     public boolean func_70877_b(ItemStack itemstack) {
         return EntityChicken.field_184761_bD.contains(itemstack.func_77973_b());
     }
 
+    @Override
     protected int func_70693_a(EntityPlayer entityhuman) {
         return this.func_152116_bZ() ? 10 : super.func_70693_a(entityhuman);
     }
@@ -143,6 +156,7 @@ public class EntityChicken extends EntityAnimal {
         EntityLiving.func_189752_a(dataconvertermanager, EntityChicken.class);
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.field_152118_bv = nbttagcompound.func_74767_n("IsChickenJockey");
@@ -152,16 +166,19 @@ public class EntityChicken extends EntityAnimal {
 
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74757_a("IsChickenJockey", this.field_152118_bv);
         nbttagcompound.func_74768_a("EggLayTime", this.field_70887_j);
     }
 
-    protected boolean func_70692_ba() {
+    @Override
+    public boolean func_70692_ba() {
         return this.func_152116_bZ() && !this.func_184207_aI();
     }
 
+    @Override
     public void func_184232_k(Entity entity) {
         super.func_184232_k(entity);
         float f = MathHelper.func_76126_a(this.field_70761_aq * 0.017453292F);
@@ -169,7 +186,7 @@ public class EntityChicken extends EntityAnimal {
         float f2 = 0.1F;
         float f3 = 0.0F;
 
-        entity.func_70107_b(this.field_70165_t + (double) (0.1F * f), this.field_70163_u + (double) (this.field_70131_O * 0.5F) + entity.func_70033_W() + 0.0D, this.field_70161_v - (double) (0.1F * f1));
+        entity.func_70107_b(this.field_70165_t + 0.1F * f, this.field_70163_u + this.field_70131_O * 0.5F + entity.func_70033_W() + 0.0D, this.field_70161_v - 0.1F * f1);
         if (entity instanceof EntityLivingBase) {
             ((EntityLivingBase) entity).field_70761_aq = this.field_70761_aq;
         }
@@ -182,9 +199,5 @@ public class EntityChicken extends EntityAnimal {
 
     public void func_152117_i(boolean flag) {
         this.field_152118_bv = flag;
-    }
-
-    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
     }
 }

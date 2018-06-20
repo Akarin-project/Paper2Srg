@@ -16,7 +16,7 @@ public class TupleIntJsonSerializable {
     }
 
     public <T extends IJsonSerializable> T func_151187_b() {
-        return this.field_151191_b;
+        return (T) this.field_151191_b;
     }
 
     public void func_151190_a(IJsonSerializable ijsonstatistic) {

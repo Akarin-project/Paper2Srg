@@ -15,7 +15,6 @@ import org.bukkit.craftbukkit.potion.CraftPotionUtil;
 import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.potion.PotionData;
@@ -129,7 +128,7 @@ public class CraftAreaEffectCloud extends CraftEntity implements AreaEffectCloud
     }
 
     @Override
-    public boolean addCustomEffect(PotionEffect effect, boolean override) {
+    public boolean addCustomEffect(org.bukkit.potion.PotionEffect effect, boolean override) {
         int effectId = effect.getType().getId();
         PotionEffect existing = null;
         for (PotionEffect mobEffect : getHandle().field_184503_f) {
@@ -155,8 +154,8 @@ public class CraftAreaEffectCloud extends CraftEntity implements AreaEffectCloud
     }
 
     @Override
-    public List<PotionEffect> getCustomEffects() {
-        ImmutableList.Builder<PotionEffect> builder = ImmutableList.builder();
+    public List<org.bukkit.potion.PotionEffect> getCustomEffects() {
+        ImmutableList.Builder<org.bukkit.potion.PotionEffect> builder = ImmutableList.builder();
         for (PotionEffect effect : getHandle().field_184503_f) {
             builder.add(CraftPotionUtil.toBukkit(effect));
         }
@@ -206,14 +205,16 @@ public class CraftAreaEffectCloud extends CraftEntity implements AreaEffectCloud
         return CraftPotionUtil.toBukkit(getHandle().getType());
     }
 
+    @Override
     public ProjectileSource getSource() {
         EntityLivingBase source = getHandle().func_184494_w();
         return (source == null) ? null : (LivingEntity) source.getBukkitEntity();
     }
 
+    @Override
     public void setSource(ProjectileSource shooter) {
         if (shooter instanceof CraftLivingEntity) {
-            getHandle().func_184481_a((EntityLivingBase) ((CraftLivingEntity) shooter).getHandle());
+            getHandle().func_184481_a(((CraftLivingEntity) shooter).getHandle());
         } else {
             getHandle().func_184481_a((EntityLivingBase) null);
         }

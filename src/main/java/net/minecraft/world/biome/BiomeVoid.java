@@ -2,7 +2,7 @@ package net.minecraft.world.biome;
 
 public class BiomeVoid extends Biome {
 
-    public BiomeVoid(BiomeBase.a biomebase_a) {
+    public BiomeVoid(Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_76761_J.clear();
         this.field_76762_K.clear();

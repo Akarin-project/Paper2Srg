@@ -67,7 +67,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
     }
 
     public ITextComponent func_145749_h() {
-        return (ITextComponent) (this.field_145762_d == null ? new TextComponentString("") : this.field_145762_d);
+        return this.field_145762_d == null ? new TextComponentString("") : this.field_145762_d;
     }
 
     public NBTTagCompound func_189510_a(NBTTagCompound nbttagcompound) {
@@ -122,6 +122,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
         this.field_175575_g.func_179668_a(nbttagcompound);
     }
 
+    @Override
     public boolean func_70003_b(int i, String s) {
         return i <= 2;
     }
@@ -159,6 +160,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
                                 return CommandBlockBaseLogic.this.func_145753_i();
                             }
 
+                            @Override
                             public Object call() throws Exception {
                                 return this.a();
                             }
@@ -168,6 +170,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
                                 return CommandBlockBaseLogic.this.func_70005_c_();
                             }
 
+                            @Override
                             public Object call() throws Exception {
                                 return this.a();
                             }
@@ -314,7 +317,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
 
     private static ArrayList<String[]> buildCommands(ICommandSender sender, String[] args, int pos) throws CommandException {
         ArrayList<String[]> commands = new ArrayList<String[]>();
-        java.util.List<EntityPlayerMP> players = (java.util.List<EntityPlayerMP>)EntitySelector.func_179656_b(sender, args[pos], EntityPlayerMP.class);
+        java.util.List<EntityPlayerMP> players = EntitySelector.func_179656_b(sender, args[pos], EntityPlayerMP.class);
 
         if (players != null) {
             for (EntityPlayerMP player : players) {
@@ -339,8 +342,8 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
                 sender = ((RConConsoleSource) listener).func_184102_h().remoteConsole;
             } else if (listener instanceof CommandBlockBaseLogic) {
                 sender = ((CommandBlockBaseLogic) listener).sender;
-            } else if (listener instanceof CustomFunctionData.CustomFunctionListener) {
-                sender = ((CustomFunctionData.CustomFunctionListener) listener).sender;
+            } else if (listener instanceof FunctionManager.CustomFunctionListener) {
+                sender = ((FunctionManager.CustomFunctionListener) listener).sender;
             } else if (listener instanceof CommandSenderWrapper) {
                 listener = ((CommandSenderWrapper) listener).field_193043_a; // Search deeper
             } else if (VanillaCommandWrapper.lastSender != null) {
@@ -356,6 +359,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
     }
     // CraftBukkit end
 
+    @Override
     public String func_70005_c_() {
         return this.field_145761_f;
     }
@@ -364,6 +368,7 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
         this.field_145761_f = s;
     }
 
+    @Override
     public void func_145747_a(ITextComponent ichatbasecomponent) {
         if (this.field_145765_c && this.func_130014_f_() != null && !this.func_130014_f_().field_72995_K) {
             this.field_145762_d = (new TextComponentString("[" + CommandBlockBaseLogic.field_145766_a.format(new Date()) + "] ")).func_150257_a(ichatbasecomponent);
@@ -372,12 +377,14 @@ public abstract class CommandBlockBaseLogic implements ICommandSender {
 
     }
 
+    @Override
     public boolean func_174792_t_() {
         MinecraftServer minecraftserver = this.func_184102_h();
 
         return minecraftserver == null || !minecraftserver.func_175578_N() || minecraftserver.field_71305_c[0].func_82736_K().func_82766_b("commandBlockOutput");
     }
 
+    @Override
     public void func_174794_a(CommandResultStats.Type commandobjectiveexecutor_enumcommandresult, int i) {
         this.field_175575_g.func_184932_a(this.func_184102_h(), this, commandobjectiveexecutor_enumcommandresult, i);
     }

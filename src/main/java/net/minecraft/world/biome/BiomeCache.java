@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import java.util.List;
 
-import net.minecraft.server.BiomeCache.a;
 import net.minecraft.server.MinecraftServer;
 
 public class BiomeCache {
@@ -22,8 +21,8 @@ public class BiomeCache {
     public BiomeCache.a a(int i, int j) {
         i >>= 4;
         j >>= 4;
-        long k = (long) i & 4294967295L | ((long) j & 4294967295L) << 32;
-        BiomeCache.a biomecache_a = (BiomeCache.a) this.field_76843_c.get(k);
+        long k = i & 4294967295L | (j & 4294967295L) << 32;
+        BiomeCache.a biomecache_a = this.field_76843_c.get(k);
 
         if (biomecache_a == null) {
             biomecache_a = new BiomeCache.a(i, j);
@@ -49,12 +48,12 @@ public class BiomeCache {
             this.field_76842_b = i;
 
             for (int k = 0; k < this.field_76841_d.size(); ++k) {
-                BiomeCache.a biomecache_a = (BiomeCache.a) this.field_76841_d.get(k);
+                BiomeCache.a biomecache_a = this.field_76841_d.get(k);
                 long l = i - biomecache_a.d;
 
                 if (l > 30000L || l < 0L) {
                     this.field_76841_d.remove(k--);
-                    long i1 = (long) biomecache_a.b & 4294967295L | ((long) biomecache_a.c & 4294967295L) << 32;
+                    long i1 = biomecache_a.b & 4294967295L | (biomecache_a.c & 4294967295L) << 32;
 
                     this.field_76843_c.remove(i1);
                 }

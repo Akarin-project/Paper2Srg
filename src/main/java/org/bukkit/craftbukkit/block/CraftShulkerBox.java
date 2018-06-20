@@ -11,7 +11,7 @@ import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 import org.bukkit.inventory.Inventory;
 
-import net;
+
 
 public class CraftShulkerBox extends CraftLootable<TileEntityShulkerBox> implements ShulkerBox, CraftLootableBlockInventory {
 

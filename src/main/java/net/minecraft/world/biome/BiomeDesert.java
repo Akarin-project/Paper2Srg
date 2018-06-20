@@ -15,7 +15,7 @@ import net.minecraft.world.gen.feature.WorldGenFossils;
 
 public class BiomeDesert extends Biome {
 
-    public BiomeDesert(BiomeBase.a biomebase_a) {
+    public BiomeDesert(Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_76762_K.clear();
         this.field_76752_A = Blocks.field_150354_m.func_176223_P();

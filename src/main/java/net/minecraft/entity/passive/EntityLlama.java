@@ -39,9 +39,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.server.EntityLlama.a;
-import net.minecraft.server.EntityLlama.b;
-import net.minecraft.server.EntityLlama.c;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
@@ -79,9 +76,10 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
     }
 
     public int func_190707_dL() {
-        return ((Integer) this.field_70180_af.func_187225_a(EntityLlama.field_190720_bG)).intValue();
+        return this.field_70180_af.func_187225_a(EntityLlama.field_190720_bG).intValue();
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("Variant", this.func_190719_dM());
@@ -92,6 +90,7 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
 
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         this.func_190706_p(nbttagcompound.func_74762_e("Strength"));
         super.func_70037_a(nbttagcompound);
@@ -103,6 +102,7 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
         this.func_110232_cE();
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
         this.field_70714_bg.func_75776_a(1, new EntityAIRunAroundLikeCrazy(this, 1.2D));
@@ -118,11 +118,13 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
         this.field_70715_bh.func_75776_a(2, new EntityLlama.a(this));
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111265_b).func_111128_a(40.0D);
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityLlama.field_190720_bG, Integer.valueOf(0));
@@ -131,35 +133,40 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
     }
 
     public int func_190719_dM() {
-        return MathHelper.func_76125_a(((Integer) this.field_70180_af.func_187225_a(EntityLlama.field_190722_bI)).intValue(), 0, 3);
+        return MathHelper.func_76125_a(this.field_70180_af.func_187225_a(EntityLlama.field_190722_bI).intValue(), 0, 3);
     }
 
     public void func_190710_o(int i) {
         this.field_70180_af.func_187227_b(EntityLlama.field_190722_bI, Integer.valueOf(i));
     }
 
+    @Override
     protected int func_190686_di() {
         return this.func_190695_dh() ? 2 + 3 * this.func_190696_dl() : super.func_190686_di();
     }
 
+    @Override
     public void func_184232_k(Entity entity) {
         if (this.func_184196_w(entity)) {
             float f = MathHelper.func_76134_b(this.field_70761_aq * 0.017453292F);
             float f1 = MathHelper.func_76126_a(this.field_70761_aq * 0.017453292F);
             float f2 = 0.3F;
 
-            entity.func_70107_b(this.field_70165_t + (double) (0.3F * f1), this.field_70163_u + this.func_70042_X() + entity.func_70033_W(), this.field_70161_v - (double) (0.3F * f));
+            entity.func_70107_b(this.field_70165_t + 0.3F * f1, this.field_70163_u + this.func_70042_X() + entity.func_70033_W(), this.field_70161_v - 0.3F * f);
         }
     }
 
+    @Override
     public double func_70042_X() {
-        return (double) this.field_70131_O * 0.67D;
+        return this.field_70131_O * 0.67D;
     }
 
+    @Override
     public boolean func_82171_bF() {
         return false;
     }
 
+    @Override
     protected boolean func_190678_b(EntityPlayer entityhuman, ItemStack itemstack) {
         byte b0 = 0;
         byte b1 = 0;
@@ -187,7 +194,7 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
         }
 
         if (this.func_70631_g_() && b0 > 0) {
-            this.field_70170_p.func_175688_a(EnumParticleTypes.VILLAGER_HAPPY, this.field_70165_t + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, this.field_70163_u + 0.5D + (double) (this.field_70146_Z.nextFloat() * this.field_70131_O), this.field_70161_v + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.field_70170_p.func_175688_a(EnumParticleTypes.VILLAGER_HAPPY, this.field_70165_t + this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F - this.field_70130_N, this.field_70163_u + 0.5D + this.field_70146_Z.nextFloat() * this.field_70131_O, this.field_70161_v + this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F - this.field_70130_N, 0.0D, 0.0D, 0.0D, new int[0]);
             if (!this.field_70170_p.field_72995_K) {
                 this.func_110195_a(b0);
             }
@@ -209,10 +216,12 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
         return flag;
     }
 
+    @Override
     protected boolean func_70610_aX() {
         return this.func_110143_aJ() <= 0.0F || this.func_110204_cc();
     }
 
+    @Override
     @Nullable
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
         Object object = super.func_180482_a(difficultydamagescaler, groupdataentity);
@@ -231,30 +240,37 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
         return (IEntityLivingData) object;
     }
 
+    @Override
     protected SoundEvent func_184785_dv() {
         return SoundEvents.field_191250_dA;
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return SoundEvents.field_191260_dz;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_191254_dE;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_191252_dC;
     }
 
+    @Override
     protected void func_180429_a(BlockPos blockposition, Block block) {
         this.func_184185_a(SoundEvents.field_191256_dG, 0.15F, 1.0F);
     }
 
+    @Override
     protected void func_190697_dk() {
         this.func_184185_a(SoundEvents.field_191251_dB, 1.0F, (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F + 1.0F);
     }
 
+    @Override
     public void func_190687_dF() {
         SoundEvent soundeffect = this.func_184785_dv();
 
@@ -264,27 +280,33 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
 
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_191187_aw;
     }
 
+    @Override
     public int func_190696_dl() {
         return this.func_190707_dL();
     }
 
+    @Override
     public boolean func_190677_dK() {
         return true;
     }
 
+    @Override
     public boolean func_190682_f(ItemStack itemstack) {
         return itemstack.func_77973_b() == Item.func_150898_a(Blocks.field_150404_cg);
     }
 
+    @Override
     public boolean func_190685_dA() {
         return false;
     }
 
+    @Override
     public void func_76316_a(IInventory iinventory) {
         EnumDyeColor enumcolor = this.func_190704_dO();
 
@@ -297,6 +319,7 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
 
     }
 
+    @Override
     protected void func_110232_cE() {
         if (!this.field_70170_p.field_72995_K) {
             super.func_110232_cE();
@@ -319,23 +342,26 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
 
     @Nullable
     public EnumDyeColor func_190704_dO() {
-        int i = ((Integer) this.field_70180_af.func_187225_a(EntityLlama.field_190721_bH)).intValue();
+        int i = this.field_70180_af.func_187225_a(EntityLlama.field_190721_bH).intValue();
 
         return i == -1 ? null : EnumDyeColor.func_176764_b(i);
     }
 
+    @Override
     public int func_190676_dC() {
         return 30;
     }
 
+    @Override
     public boolean func_70878_b(EntityAnimal entityanimal) {
         return entityanimal != this && entityanimal instanceof EntityLlama && this.func_110200_cJ() && ((EntityLlama) entityanimal).func_110200_cJ();
     }
 
+    @Override
     public EntityLlama func_90011_a(EntityAgeable entityageable) {
         EntityLlama entityllama = new EntityLlama(this.field_70170_p);
 
-        this.func_190681_a(entityageable, (AbstractHorse) entityllama);
+        this.func_190681_a(entityageable, entityllama);
         EntityLlama entityllama1 = (EntityLlama) entityageable;
         int i = this.field_70146_Z.nextInt(Math.max(this.func_190707_dL(), entityllama1.func_190707_dL())) + 1;
 
@@ -351,11 +377,11 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
     private void func_190713_e(EntityLivingBase entityliving) {
         EntityLlamaSpit entityllamaspit = new EntityLlamaSpit(this.field_70170_p, this);
         double d0 = entityliving.field_70165_t - this.field_70165_t;
-        double d1 = entityliving.func_174813_aQ().field_72338_b + (double) (entityliving.field_70131_O / 3.0F) - entityllamaspit.field_70163_u;
+        double d1 = entityliving.func_174813_aQ().field_72338_b + entityliving.field_70131_O / 3.0F - entityllamaspit.field_70163_u;
         double d2 = entityliving.field_70161_v - this.field_70161_v;
         float f = MathHelper.func_76133_a(d0 * d0 + d2 * d2) * 0.2F;
 
-        entityllamaspit.func_70186_c(d0, d1 + (double) f, d2, 1.5F, 10.0F);
+        entityllamaspit.func_70186_c(d0, d1 + f, d2, 1.5F, 10.0F);
         this.field_70170_p.func_184148_a((EntityPlayer) null, this.field_70165_t, this.field_70163_u, this.field_70161_v, SoundEvents.field_191255_dF, this.func_184176_by(), 1.0F, 1.0F + (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F);
         this.field_70170_p.func_72838_d(entityllamaspit);
         this.field_190723_bJ = true;
@@ -365,24 +391,25 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
         this.field_190723_bJ = flag;
     }
 
+    @Override
     public void func_180430_e(float f, float f1) {
         int i = MathHelper.func_76123_f((f * 0.5F - 3.0F) * f1);
 
         if (i > 0) {
             if (f >= 6.0F) {
-                this.func_70097_a(DamageSource.field_76379_h, (float) i);
+                this.func_70097_a(DamageSource.field_76379_h, i);
                 if (this.func_184207_aI()) {
                     Iterator iterator = this.func_184182_bu().iterator();
 
                     while (iterator.hasNext()) {
                         Entity entity = (Entity) iterator.next();
 
-                        entity.func_70097_a(DamageSource.field_76379_h, (float) i);
+                        entity.func_70097_a(DamageSource.field_76379_h, i);
                     }
                 }
             }
 
-            IBlockState iblockdata = this.field_70170_p.func_180495_p(new BlockPos(this.field_70165_t, this.field_70163_u - 0.2D - (double) this.field_70126_B, this.field_70161_v));
+            IBlockState iblockdata = this.field_70170_p.func_180495_p(new BlockPos(this.field_70165_t, this.field_70163_u - 0.2D - this.field_70126_B, this.field_70161_v));
             Block block = iblockdata.func_177230_c();
 
             if (iblockdata.func_185904_a() != Material.field_151579_a && !this.func_174814_R()) {
@@ -421,10 +448,12 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
         return this.field_190724_bK;
     }
 
+    @Override
     protected double func_190634_dg() {
         return 2.0D;
     }
 
+    @Override
     protected void func_190679_dD() {
         if (!this.func_190718_dR() && this.func_70631_g_()) {
             super.func_190679_dD();
@@ -432,19 +461,18 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
 
     }
 
+    @Override
     public boolean func_190684_dE() {
         return false;
     }
 
+    @Override
     public void func_82196_d(EntityLivingBase entityliving, float f) {
         this.func_190713_e(entityliving);
     }
 
+    @Override
     public void func_184724_a(boolean flag) {}
-
-    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
-    }
 
     static class a extends EntityAINearestAttackableTarget<EntityWolf> {
 
@@ -452,8 +480,9 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
             super(entityllama, EntityWolf.class, 16, false, true, (Predicate) null);
         }
 
+        @Override
         public boolean func_75250_a() {
-            if (super.func_75250_a() && this.field_75309_a != null && !((EntityWolf) this.field_75309_a).func_70909_n()) {
+            if (super.func_75250_a() && this.field_75309_a != null && !this.field_75309_a.func_70909_n()) {
                 return true;
             } else {
                 this.field_75299_d.func_70624_b((EntityLivingBase) null);
@@ -461,6 +490,7 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
             }
         }
 
+        @Override
         protected double func_111175_f() {
             return super.func_111175_f() * 0.25D;
         }
@@ -472,6 +502,7 @@ public class EntityLlama extends AbstractChestHorse implements IRangedAttackMob 
             super(entityllama, false, new Class[0]);
         }
 
+        @Override
         public boolean func_75253_b() {
             if (this.field_75299_d instanceof EntityLlama) {
                 EntityLlama entityllama = (EntityLlama) this.field_75299_d;

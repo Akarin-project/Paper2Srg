@@ -9,24 +9,23 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
 
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
 import org.bukkit.potion.PotionBrewer;
 import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffect;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 
 public class CraftPotionBrewer implements PotionBrewer {
-    private static final Map<PotionType, Collection<PotionEffect>> cache = Maps.newHashMap();
+    private static final Map<org.bukkit.potion.PotionType, Collection<org.bukkit.potion.PotionEffect>> cache = Maps.newHashMap();
 
-    public Collection<PotionEffect> getEffects(PotionType damage, boolean upgraded, boolean extended) {
+    @Override
+    public Collection<org.bukkit.potion.PotionEffect> getEffects(org.bukkit.potion.PotionType damage, boolean upgraded, boolean extended) {
         if (cache.containsKey(damage))
             return cache.get(damage);
 
         List<PotionEffect> mcEffects = PotionType.func_185168_a(CraftPotionUtil.fromBukkit(new PotionData(damage, extended, upgraded))).func_185170_a();
 
-        ImmutableList.Builder<PotionEffect> builder = new ImmutableList.Builder<PotionEffect>();
+        ImmutableList.Builder<org.bukkit.potion.PotionEffect> builder = new ImmutableList.Builder<org.bukkit.potion.PotionEffect>();
         for (PotionEffect effect : mcEffects) {
             builder.add(CraftPotionUtil.toBukkit(effect));
         }
@@ -37,12 +36,12 @@ public class CraftPotionBrewer implements PotionBrewer {
     }
 
     @Override
-    public Collection<PotionEffect> getEffectsFromDamage(int damage) {
-        return new ArrayList<PotionEffect>();
+    public Collection<org.bukkit.potion.PotionEffect> getEffectsFromDamage(int damage) {
+        return new ArrayList<org.bukkit.potion.PotionEffect>();
     }
 
     @Override
-    public PotionEffect createEffect(PotionEffectType potion, int duration, int amplifier) {
-        return new PotionEffect(potion, potion.isInstant() ? 1 : (int) (duration * potion.getDurationModifier()), amplifier);
+    public org.bukkit.potion.PotionEffect createEffect(PotionEffectType potion, int duration, int amplifier) {
+        return new org.bukkit.potion.PotionEffect(potion, potion.isInstant() ? 1 : (int) (duration * potion.getDurationModifier()), amplifier);
     }
 }

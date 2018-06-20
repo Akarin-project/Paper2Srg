@@ -56,6 +56,7 @@ public class EntityPig extends EntityAnimal {
         this.func_70105_a(0.9F, 0.9F);
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
         this.field_70714_bg.func_75776_a(1, new EntityAIPanic(this, 1.25D));
@@ -68,17 +69,20 @@ public class EntityPig extends EntityAnimal {
         this.field_70714_bg.func_75776_a(8, new EntityAILookIdle(this));
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
     }
 
+    @Override
     @Nullable
     public Entity func_184179_bs() {
         return this.func_184188_bt().isEmpty() ? null : (Entity) this.func_184188_bt().get(0);
     }
 
+    @Override
     public boolean func_82171_bF() {
         Entity entity = this.func_184179_bs();
 
@@ -91,16 +95,18 @@ public class EntityPig extends EntityAnimal {
         }
     }
 
+    @Override
     public void func_184206_a(DataParameter<?> datawatcherobject) {
         if (EntityPig.field_191520_bx.equals(datawatcherobject) && this.field_70170_p.field_72995_K) {
             this.field_184765_bx = true;
             this.field_184766_bz = 0;
-            this.field_184767_bA = ((Integer) this.field_70180_af.func_187225_a(EntityPig.field_191520_bx)).intValue();
+            this.field_184767_bA = this.field_70180_af.func_187225_a(EntityPig.field_191520_bx).intValue();
         }
 
         super.func_184206_a(datawatcherobject);
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityPig.field_184763_bv, Boolean.valueOf(false));
@@ -111,38 +117,45 @@ public class EntityPig extends EntityAnimal {
         EntityLiving.func_189752_a(dataconvertermanager, EntityPig.class);
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74757_a("Saddle", this.func_70901_n());
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.func_70900_e(nbttagcompound.func_74767_n("Saddle"));
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return SoundEvents.field_187697_dL;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187703_dN;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187700_dM;
     }
 
+    @Override
     protected void func_180429_a(BlockPos blockposition, Block block) {
         this.func_184185_a(SoundEvents.field_187709_dP, 0.15F, 1.0F);
     }
 
+    @Override
     public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         if (!super.func_184645_a(entityhuman, enumhand)) {
             ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
             if (itemstack.func_77973_b() == Items.field_151057_cb) {
-                itemstack.func_111282_a(entityhuman, (EntityLivingBase) this, enumhand);
+                itemstack.func_111282_a(entityhuman, this, enumhand);
                 return true;
             } else if (this.func_70901_n() && !this.func_184207_aI()) {
                 if (!this.field_70170_p.field_72995_K) {
@@ -151,7 +164,7 @@ public class EntityPig extends EntityAnimal {
 
                 return true;
             } else if (itemstack.func_77973_b() == Items.field_151141_av) {
-                itemstack.func_111282_a(entityhuman, (EntityLivingBase) this, enumhand);
+                itemstack.func_111282_a(entityhuman, this, enumhand);
                 return true;
             } else {
                 return false;
@@ -161,6 +174,7 @@ public class EntityPig extends EntityAnimal {
         }
     }
 
+    @Override
     public void func_70645_a(DamageSource damagesource) {
         // super.die(damagesource); // CraftBukkit - Moved to end
         if (!this.field_70170_p.field_72995_K) {
@@ -172,13 +186,14 @@ public class EntityPig extends EntityAnimal {
         super.func_70645_a(damagesource); // CraftBukkit - Moved from above
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186395_C;
     }
 
     public boolean func_70901_n() {
-        return ((Boolean) this.field_70180_af.func_187225_a(EntityPig.field_184763_bv)).booleanValue();
+        return this.field_70180_af.func_187225_a(EntityPig.field_184763_bv).booleanValue();
     }
 
     public void func_70900_e(boolean flag) {
@@ -190,6 +205,7 @@ public class EntityPig extends EntityAnimal {
 
     }
 
+    @Override
     public void func_70077_a(EntityLightningBolt entitylightning) {
         if (!this.field_70170_p.field_72995_K && !this.field_70128_L) {
             EntityPigZombie entitypigzombie = new EntityPigZombie(this.field_70170_p);
@@ -220,6 +236,7 @@ public class EntityPig extends EntityAnimal {
         }
     }
 
+    @Override
     public void func_191986_a(float f, float f1, float f2) {
         Entity entity = this.func_184188_bt().isEmpty() ? null : (Entity) this.func_184188_bt().get(0);
 
@@ -281,15 +298,13 @@ public class EntityPig extends EntityAnimal {
         }
     }
 
+    @Override
     public EntityPig func_90011_a(EntityAgeable entityageable) {
         return new EntityPig(this.field_70170_p);
     }
 
+    @Override
     public boolean func_70877_b(ItemStack itemstack) {
         return EntityPig.field_184764_bw.contains(itemstack.func_77973_b());
-    }
-
-    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
     }
 }

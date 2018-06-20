@@ -122,7 +122,6 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.ServerRecipeBookHelper;
-import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -148,7 +147,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -190,7 +188,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -232,7 +229,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
     private long field_194404_h; private void setKeepAliveID(long keepAliveID) { this.field_194404_h = keepAliveID;}; private long getKeepAliveID() {return this.field_194404_h; };  // Paper - OBFHELPER
     // CraftBukkit start - multithreaded fields
     private volatile int field_147374_l;
-    private static final AtomicIntegerFieldUpdater chatSpamField = AtomicIntegerFieldUpdater.newUpdater(NetHandlerPlayServer.class, "chatThrottle");
+    private static final AtomicIntegerFieldUpdater chatSpamField = AtomicIntegerFieldUpdater.newUpdater(NetHandlerPlayServer.class, "field_147374_l");
     // CraftBukkit end
     private int field_147375_m;
     private final IntHashMap<Short> field_147372_n = new IntHashMap();
@@ -297,6 +294,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
     private final static HashSet<Integer> invalidItems = new HashSet<Integer>(java.util.Arrays.asList(8, 9, 10, 11, 26, 34, 36, 43, 51, 55, 59, 62, 63, 64, 68, 71, 74, 75, 83, 90, 92, 93, 94, 104, 105, 115, 117, 118, 119, 125, 127, 132, 140, 141, 142, 144)); // TODO: Check after every update.
     // CraftBukkit end
 
+    @Override
     public void func_73660_a() {
         this.func_184342_d();
         this.field_147369_b.func_71127_g();
@@ -373,7 +371,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
             --this.field_147375_m;
         }
 
-        if (this.field_147369_b.func_154331_x() > 0L && this.field_147367_d.func_143007_ar() > 0 && MinecraftServer.func_130071_aq() - this.field_147369_b.func_154331_x() > (long) (this.field_147367_d.func_143007_ar() * 1000 * 60)) {
+        if (this.field_147369_b.func_154331_x() > 0L && this.field_147367_d.func_143007_ar() > 0 && MinecraftServer.func_130071_aq() - this.field_147369_b.func_154331_x() > this.field_147367_d.func_143007_ar() * 1000 * 60) {
             this.field_147369_b.func_143004_u(); // CraftBukkit - SPIGOT-854
             this.func_194028_b(new TextComponentTranslation("multiplayer.disconnect.idling", new Object[0]));
         }
@@ -423,6 +421,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         final TextComponentString chatcomponenttext = new TextComponentString(s);
 
         this.field_147371_a.func_179288_a(new SPacketDisconnect(chatcomponenttext), new GenericFutureListener() {
+            @Override
             public void operationComplete(Future future) throws Exception { // CraftBukkit - decompile error
                 NetHandlerPlayServer.this.field_147371_a.func_150718_a(chatcomponenttext);
             }
@@ -431,12 +430,14 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         this.field_147371_a.func_150721_g();
         // CraftBukkit - Don't wait
         this.field_147367_d.func_152344_a(new Runnable() {
+            @Override
             public void run() {
                 NetHandlerPlayServer.this.field_147371_a.func_179293_l();
             }
         });
     }
 
+    @Override
     public void func_147358_a(CPacketInput packetplayinsteervehicle) {
         PacketThreadUtil.func_180031_a(packetplayinsteervehicle, this, this.field_147369_b.func_71121_q());
         this.field_147369_b.func_110430_a(packetplayinsteervehicle.func_149620_c(), packetplayinsteervehicle.func_192620_b(), packetplayinsteervehicle.func_149618_e(), packetplayinsteervehicle.func_149617_f());
@@ -450,6 +451,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         return !Doubles.isFinite(packetplayinvehiclemove.func_187004_a()) || !Doubles.isFinite(packetplayinvehiclemove.func_187002_b()) || !Doubles.isFinite(packetplayinvehiclemove.func_187003_c()) || !Floats.isFinite(packetplayinvehiclemove.func_187005_e()) || !Floats.isFinite(packetplayinvehiclemove.func_187006_d());
     }
 
+    @Override
     public void func_184338_a(CPacketVehicleMove packetplayinvehiclemove) {
         PacketThreadUtil.func_180031_a(packetplayinvehiclemove, this, this.field_147369_b.func_71121_q());
         if (func_184341_b(packetplayinvehiclemove)) {
@@ -499,7 +501,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                 }
                 speed *= 2f; // TODO: Get the speed of the vehicle instead of the player
 
-                if (d10 - d9 > Math.max(100.0D, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2)) && (!this.field_147367_d.func_71264_H() || !this.field_147367_d.func_71214_G().equals(entity.func_70005_c_()))) { // Spigot
+                if (d10 - d9 > Math.max(100.0D, Math.pow(org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * i * speed, 2)) && (!this.field_147367_d.func_71264_H() || !this.field_147367_d.func_71214_G().equals(entity.func_70005_c_()))) { // Spigot
                 // CraftBukkit end
                     NetHandlerPlayServer.field_147370_c.warn("{} (vehicle of {}) moved too quickly! {},{},{}", entity.func_70005_c_(), this.field_147369_b.func_70005_c_(), Double.valueOf(d6), Double.valueOf(d7), Double.valueOf(d8));
                     this.field_147371_a.func_179290_a(new SPacketMoveVehicle(entity));
@@ -617,6 +619,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         }
     }
 
+    @Override
     public void func_184339_a(CPacketConfirmTeleport packetplayinteleportaccept) {
         PacketThreadUtil.func_180031_a(packetplayinteleportaccept, this, this.field_147369_b.func_71121_q());
         if (packetplayinteleportaccept.func_186987_a() == this.field_184363_z && this.field_184362_y != null) { // CraftBukkit
@@ -633,6 +636,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_191984_a(CPacketRecipeInfo packetplayinrecipedisplayed) {
         PacketThreadUtil.func_180031_a(packetplayinrecipedisplayed, this, this.field_147369_b.func_71121_q());
         if (packetplayinrecipedisplayed.func_194156_a() == CPacketRecipeInfo.Purpose.SHOWN) {
@@ -644,6 +648,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_194027_a(CPacketSeenAdvancements packetplayinadvancements) {
         PacketThreadUtil.func_180031_a(packetplayinadvancements, this, this.field_147369_b.func_71121_q());
         if (packetplayinadvancements.func_194162_b() == CPacketSeenAdvancements.Action.OPENED_TAB) {
@@ -657,6 +662,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_147347_a(CPacketPlayer packetplayinflying) {
         PacketThreadUtil.func_180031_a(packetplayinflying, this, this.field_147369_b.func_71121_q());
         if (func_183006_b(packetplayinflying)) {
@@ -738,7 +744,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                             if (!this.field_147369_b.func_184850_K() && (!this.field_147369_b.func_71121_q().func_82736_K().func_82766_b("disableElytraMovementCheck") || !this.field_147369_b.func_184613_cA())) {
                                 float f2 = this.field_147369_b.func_184613_cA() ? 300.0F : 100.0F;
 
-                                if (d11 - d10 > Math.max(f2, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2)) && (!this.field_147367_d.func_71264_H() || !this.field_147367_d.func_71214_G().equals(this.field_147369_b.func_70005_c_()))) { // Spigot
+                                if (d11 - d10 > Math.max(f2, Math.pow(org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * i * speed, 2)) && (!this.field_147367_d.func_71264_H() || !this.field_147367_d.func_71214_G().equals(this.field_147369_b.func_70005_c_()))) { // Spigot
                                 // CraftBukkit end
                                     NetHandlerPlayServer.field_147370_c.warn("{} moved too quickly! {},{},{}", this.field_147369_b.func_70005_c_(), Double.valueOf(d7), Double.valueOf(d8), Double.valueOf(d9));
                                     this.func_147364_a(this.field_147369_b.field_70165_t, this.field_147369_b.field_70163_u, this.field_147369_b.field_70161_v, this.field_147369_b.field_70177_z, this.field_147369_b.field_70125_A);
@@ -995,6 +1001,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         this.field_147369_b.field_71135_a.func_147359_a(new SPacketPlayerPosLook(d0, d1, d2, f, f1, set, this.field_184363_z));
     }
 
+    @Override
     public void func_147345_a(CPacketPlayerDigging packetplayinblockdig) {
         PacketThreadUtil.func_180031_a(packetplayinblockdig, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_70610_aX()) return; // CraftBukkit
@@ -1057,9 +1064,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         case START_DESTROY_BLOCK:
         case ABORT_DESTROY_BLOCK:
         case STOP_DESTROY_BLOCK:
-            double d0 = this.field_147369_b.field_70165_t - ((double) blockposition.func_177958_n() + 0.5D);
-            double d1 = this.field_147369_b.field_70163_u - ((double) blockposition.func_177956_o() + 0.5D) + 1.5D;
-            double d2 = this.field_147369_b.field_70161_v - ((double) blockposition.func_177952_p() + 0.5D);
+            double d0 = this.field_147369_b.field_70165_t - (blockposition.func_177958_n() + 0.5D);
+            double d1 = this.field_147369_b.field_70163_u - (blockposition.func_177956_o() + 0.5D) + 1.5D;
+            double d2 = this.field_147369_b.field_70161_v - (blockposition.func_177952_p() + 0.5D);
             double d3 = d0 * d0 + d1 * d1 + d2 * d2;
 
             if (d3 > 36.0D) {
@@ -1123,6 +1130,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
     }
     // Spigot end
 
+    @Override
     public void func_184337_a(CPacketPlayerTryUseItemOnBlock packetplayinuseitem) {
         PacketThreadUtil.func_180031_a(packetplayinuseitem, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_70610_aX()) return; // CraftBukkit
@@ -1139,7 +1147,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
             chatmessage.func_150256_b().func_150238_a(TextFormatting.RED);
             this.field_147369_b.field_71135_a.func_147359_a(new SPacketChat(chatmessage, ChatType.GAME_INFO));
-        } else if (this.field_184362_y == null && this.field_147369_b.func_70092_e((double) blockposition.func_177958_n() + 0.5D, (double) blockposition.func_177956_o() + 0.5D, (double) blockposition.func_177952_p() + 0.5D) < 64.0D && !this.field_147367_d.func_175579_a(worldserver, blockposition, this.field_147369_b) && worldserver.func_175723_af().func_177746_a(blockposition)) {
+        } else if (this.field_184362_y == null && this.field_147369_b.func_70092_e(blockposition.func_177958_n() + 0.5D, blockposition.func_177956_o() + 0.5D, blockposition.func_177952_p() + 0.5D) < 64.0D && !this.field_147367_d.func_175579_a(worldserver, blockposition, this.field_147369_b) && worldserver.func_175723_af().func_177746_a(blockposition)) {
             // CraftBukkit start - Check if we can actually do something over this large a distance
             Location eyeLoc = this.getPlayer().getEyeLocation();
             double reachDistance = NumberConversions.square(eyeLoc.getX() - blockposition.func_177958_n()) + NumberConversions.square(eyeLoc.getY() - blockposition.func_177956_o()) + NumberConversions.square(eyeLoc.getZ() - blockposition.func_177952_p());
@@ -1154,6 +1162,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         this.field_147369_b.field_71135_a.func_147359_a(new SPacketBlockChange(worldserver, blockposition.func_177972_a(enumdirection)));
     }
 
+    @Override
     public void func_147346_a(CPacketPlayerTryUseItem packetplayinblockplace) {
         PacketThreadUtil.func_180031_a(packetplayinblockplace, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_70610_aX()) return; // CraftBukkit
@@ -1169,7 +1178,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
             float f1 = this.field_147369_b.field_70125_A;
             float f2 = this.field_147369_b.field_70177_z;
             double d0 = this.field_147369_b.field_70165_t;
-            double d1 = this.field_147369_b.field_70163_u + (double) this.field_147369_b.func_70047_e();
+            double d1 = this.field_147369_b.field_70163_u + this.field_147369_b.func_70047_e();
             double d2 = this.field_147369_b.field_70161_v;
             Vec3d vec3d = new Vec3d(d0, d1, d2);
 
@@ -1180,7 +1189,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
             float f7 = f4 * f5;
             float f8 = f3 * f5;
             double d3 = field_147369_b.field_71134_c.func_73081_b()== GameType.CREATIVE ? 5.0D : 4.5D;
-            Vec3d vec3d1 = vec3d.func_72441_c((double) f7 * d3, (double) f6 * d3, (double) f8 * d3);
+            Vec3d vec3d1 = vec3d.func_72441_c(f7 * d3, f6 * d3, f8 * d3);
             RayTraceResult movingobjectposition = this.field_147369_b.field_70170_p.func_72901_a(vec3d, vec3d1, false);
 
             boolean cancelled;
@@ -1206,6 +1215,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         }
     }
 
+    @Override
     public void func_175088_a(CPacketSpectate packetplayinspectate) {
         PacketThreadUtil.func_180031_a(packetplayinspectate, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_175149_v()) {
@@ -1263,6 +1273,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
     }
 
     // CraftBukkit start
+    @Override
     public void func_175086_a(CPacketResourcePackStatus packetplayinresourcepackstatus) {
         PacketThreadUtil.func_180031_a(packetplayinresourcepackstatus, this, this.field_147369_b.func_71121_q());
         // Paper start
@@ -1274,6 +1285,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
     }
     // CraftBukkit end
 
+    @Override
     public void func_184340_a(CPacketSteerBoat packetplayinboatmove) {
         PacketThreadUtil.func_180031_a(packetplayinboatmove, this, this.field_147369_b.func_71121_q());
         Entity entity = this.field_147369_b.func_184187_bx();
@@ -1284,6 +1296,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_147231_a(ITextComponent ichatbasecomponent) {
         // CraftBukkit start - Rarely it would send a disconnect line twice
         if (this.processedDisconnect) {
@@ -1349,6 +1362,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                     return packet.getClass().getCanonicalName();
                 }
 
+                @Override
                 public Object call() throws Exception {
                     return this.a();
                 }
@@ -1357,6 +1371,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         }
     }
 
+    @Override
     public void func_147355_a(CPacketHeldItemChange packetplayinhelditemslot) {
         PacketThreadUtil.func_180031_a(packetplayinhelditemslot, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_70610_aX()) return; // CraftBukkit
@@ -1377,6 +1392,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         }
     }
 
+    @Override
     public void func_147354_a(CPacketChatMessage packetplayinchat) {
         // CraftBukkit start - async chat
         // SPIGOT-3638
@@ -1643,6 +1659,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         // CraftBukkit end
     }
 
+    @Override
     public void func_175087_a(CPacketAnimation packetplayinarmanimation) {
         PacketThreadUtil.func_180031_a(packetplayinarmanimation, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_70610_aX()) return; // CraftBukkit
@@ -1651,7 +1668,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         float f1 = this.field_147369_b.field_70125_A;
         float f2 = this.field_147369_b.field_70177_z;
         double d0 = this.field_147369_b.field_70165_t;
-        double d1 = this.field_147369_b.field_70163_u + (double) this.field_147369_b.func_70047_e();
+        double d1 = this.field_147369_b.field_70163_u + this.field_147369_b.func_70047_e();
         double d2 = this.field_147369_b.field_70161_v;
         Vec3d vec3d = new Vec3d(d0, d1, d2);
 
@@ -1662,7 +1679,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         float f7 = f4 * f5;
         float f8 = f3 * f5;
         double d3 = field_147369_b.field_71134_c.func_73081_b()== GameType.CREATIVE ? 5.0D : 4.5D;
-        Vec3d vec3d1 = vec3d.func_72441_c((double) f7 * d3, (double) f6 * d3, (double) f8 * d3);
+        Vec3d vec3d1 = vec3d.func_72441_c(f7 * d3, f6 * d3, f8 * d3);
         RayTraceResult movingobjectposition = this.field_147369_b.field_70170_p.func_72901_a(vec3d, vec3d1, false);
 
         if (movingobjectposition == null || movingobjectposition.field_72313_a != RayTraceResult.Type.BLOCK) {
@@ -1678,6 +1695,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         this.field_147369_b.func_184609_a(packetplayinarmanimation.func_187018_a());
     }
 
+    @Override
     public void func_147357_a(CPacketEntityAction packetplayinentityaction) {
         PacketThreadUtil.func_180031_a(packetplayinentityaction, this, this.field_147369_b.func_71121_q());
         // CraftBukkit start
@@ -1757,7 +1775,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
         case OPEN_INVENTORY:
             if (this.field_147369_b.func_184187_bx() instanceof AbstractHorse) {
-                ((AbstractHorse) this.field_147369_b.func_184187_bx()).func_110199_f((EntityPlayer) this.field_147369_b);
+                ((AbstractHorse) this.field_147369_b.func_184187_bx()).func_110199_f(this.field_147369_b);
             }
             break;
 
@@ -1779,11 +1797,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_147340_a(CPacketUseEntity packetplayinuseentity) {
         PacketThreadUtil.func_180031_a(packetplayinuseentity, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_70610_aX()) return; // CraftBukkit
         WorldServer worldserver = this.field_147367_d.func_71218_a(this.field_147369_b.field_71093_bK);
-        Entity entity = packetplayinuseentity.func_149564_a((World) worldserver);
+        Entity entity = packetplayinuseentity.func_149564_a(worldserver);
         // Spigot Start
         if ( entity == field_147369_b && !field_147369_b.func_175149_v() )
         {
@@ -1813,10 +1832,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                     Item origItem = this.field_147369_b.field_71071_by.func_70448_g() == null ? null : this.field_147369_b.field_71071_by.func_70448_g().func_77973_b();
                     PlayerInteractEntityEvent event;
                     if (packetplayinuseentity.func_149565_c() == CPacketUseEntity.Action.INTERACT) {
-                        event = new PlayerInteractEntityEvent((Player) this.getPlayer(), entity.getBukkitEntity(), (packetplayinuseentity.func_186994_b() == EnumHand.OFF_HAND) ? EquipmentSlot.OFF_HAND : EquipmentSlot.HAND);
+                        event = new PlayerInteractEntityEvent(this.getPlayer(), entity.getBukkitEntity(), (packetplayinuseentity.func_186994_b() == EnumHand.OFF_HAND) ? EquipmentSlot.OFF_HAND : EquipmentSlot.HAND);
                     } else {
                         Vec3d target = packetplayinuseentity.func_179712_b();
-                        event = new PlayerInteractAtEntityEvent((Player) this.getPlayer(), entity.getBukkitEntity(), new org.bukkit.util.Vector(target.field_72450_a, target.field_72448_b, target.field_72449_c), (packetplayinuseentity.func_186994_b() == EnumHand.OFF_HAND) ? EquipmentSlot.OFF_HAND : EquipmentSlot.HAND);
+                        event = new PlayerInteractAtEntityEvent(this.getPlayer(), entity.getBukkitEntity(), new org.bukkit.util.Vector(target.field_72450_a, target.field_72448_b, target.field_72449_c), (packetplayinuseentity.func_186994_b() == EnumHand.OFF_HAND) ? EquipmentSlot.OFF_HAND : EquipmentSlot.HAND);
                     }
                     this.server.getPluginManager().callEvent(event);
 
@@ -1882,6 +1901,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_147342_a(CPacketClientStatus packetplayinclientcommand) {
         PacketThreadUtil.func_180031_a(packetplayinclientcommand, this, this.field_147369_b.func_71121_q());
         this.field_147369_b.func_143004_u();
@@ -1913,6 +1933,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_147356_a(CPacketCloseWindow packetplayinclosewindow) {
         PacketThreadUtil.func_180031_a(packetplayinclosewindow, this, this.field_147369_b.func_71121_q());
 
@@ -1922,6 +1943,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         this.field_147369_b.func_71128_l();
     }
 
+    @Override
     public void func_147351_a(CPacketClickWindow packetplayinwindowclick) {
         PacketThreadUtil.func_180031_a(packetplayinwindowclick, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_70610_aX()) return; // CraftBukkit
@@ -1932,7 +1954,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                 NonNullList nonnulllist = NonNullList.func_191196_a();
 
                 for (int i = 0; i < this.field_147369_b.field_71070_bA.field_75151_b.size(); ++i) {
-                    nonnulllist.add(((Slot) this.field_147369_b.field_71070_bA.field_75151_b.get(i)).func_75211_c());
+                    nonnulllist.add(this.field_147369_b.field_71070_bA.field_75151_b.get(i).func_75211_c());
                 }
 
                 this.field_147369_b.func_71110_a(this.field_147369_b.field_71070_bA, nonnulllist);
@@ -1946,7 +1968,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                 SlotType type = CraftInventoryView.getSlotType(inventory, packetplayinwindowclick.func_149544_d());
 
                 InventoryClickEvent event;
-                ClickType click = ClickType.UNKNOWN;
+                org.bukkit.event.inventory.ClickType click = org.bukkit.event.inventory.ClickType.UNKNOWN;
                 InventoryAction action = InventoryAction.UNKNOWN;
 
                 ItemStack itemstack = ItemStack.field_190927_a;
@@ -1954,9 +1976,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                 switch (packetplayinwindowclick.func_186993_f()) {
                     case PICKUP:
                         if (packetplayinwindowclick.func_149543_e() == 0) {
-                            click = ClickType.LEFT;
+                            click = org.bukkit.event.inventory.ClickType.LEFT;
                         } else if (packetplayinwindowclick.func_149543_e() == 1) {
-                            click = ClickType.RIGHT;
+                            click = org.bukkit.event.inventory.ClickType.RIGHT;
                         }
                         if (packetplayinwindowclick.func_149543_e() == 0 || packetplayinwindowclick.func_149543_e() == 1) {
                             action = InventoryAction.NOTHING; // Don't want to repeat ourselves
@@ -2011,9 +2033,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                     // TODO check on updates
                     case QUICK_MOVE:
                         if (packetplayinwindowclick.func_149543_e() == 0) {
-                            click = ClickType.SHIFT_LEFT;
+                            click = org.bukkit.event.inventory.ClickType.SHIFT_LEFT;
                         } else if (packetplayinwindowclick.func_149543_e() == 1) {
-                            click = ClickType.SHIFT_RIGHT;
+                            click = org.bukkit.event.inventory.ClickType.SHIFT_RIGHT;
                         }
                         if (packetplayinwindowclick.func_149543_e() == 0 || packetplayinwindowclick.func_149543_e() == 1) {
                             if (packetplayinwindowclick.func_149544_d() < 0) {
@@ -2030,7 +2052,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                         break;
                     case SWAP:
                         if (packetplayinwindowclick.func_149543_e() >= 0 && packetplayinwindowclick.func_149543_e() < 9) {
-                            click = ClickType.NUMBER_KEY;
+                            click = org.bukkit.event.inventory.ClickType.NUMBER_KEY;
                             Slot clickedSlot = this.field_147369_b.field_71070_bA.func_75139_a(packetplayinwindowclick.func_149544_d());
                             if (clickedSlot.func_82869_a(field_147369_b)) {
                                 ItemStack hotbar = this.field_147369_b.field_71071_by.func_70301_a(packetplayinwindowclick.func_149543_e());
@@ -2053,7 +2075,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                         break;
                     case CLONE:
                         if (packetplayinwindowclick.func_149543_e() == 2) {
-                            click = ClickType.MIDDLE;
+                            click = org.bukkit.event.inventory.ClickType.MIDDLE;
                             if (packetplayinwindowclick.func_149544_d() < 0) { // Paper - GH-404
                                 action = InventoryAction.NOTHING;
                             } else {
@@ -2065,14 +2087,14 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                                 }
                             }
                         } else {
-                            click = ClickType.UNKNOWN;
+                            click = org.bukkit.event.inventory.ClickType.UNKNOWN;
                             action = InventoryAction.UNKNOWN;
                         }
                         break;
                     case THROW:
                         if (packetplayinwindowclick.func_149544_d() >= 0) {
                             if (packetplayinwindowclick.func_149543_e() == 0) {
-                                click = ClickType.DROP;
+                                click = org.bukkit.event.inventory.ClickType.DROP;
                                 Slot slot = this.field_147369_b.field_71070_bA.func_75139_a(packetplayinwindowclick.func_149544_d());
                                 if (slot != null && slot.func_75216_d() && slot.func_82869_a(field_147369_b) && !slot.func_75211_c().func_190926_b() && slot.func_75211_c().func_77973_b() != Item.func_150898_a(Blocks.field_150350_a)) {
                                     action = InventoryAction.DROP_ONE_SLOT;
@@ -2080,7 +2102,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                                     action = InventoryAction.NOTHING;
                                 }
                             } else if (packetplayinwindowclick.func_149543_e() == 1) {
-                                click = ClickType.CONTROL_DROP;
+                                click = org.bukkit.event.inventory.ClickType.CONTROL_DROP;
                                 Slot slot = this.field_147369_b.field_71070_bA.func_75139_a(packetplayinwindowclick.func_149544_d());
                                 if (slot != null && slot.func_75216_d() && slot.func_82869_a(field_147369_b) && !slot.func_75211_c().func_190926_b() && slot.func_75211_c().func_77973_b() != Item.func_150898_a(Blocks.field_150350_a)) {
                                     action = InventoryAction.DROP_ALL_SLOT;
@@ -2090,9 +2112,9 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                             }
                         } else {
                             // Sane default (because this happens when they are holding nothing. Don't ask why.)
-                            click = ClickType.LEFT;
+                            click = org.bukkit.event.inventory.ClickType.LEFT;
                             if (packetplayinwindowclick.func_149543_e() == 1) {
-                                click = ClickType.RIGHT;
+                                click = org.bukkit.event.inventory.ClickType.RIGHT;
                             }
                             action = InventoryAction.NOTHING;
                         }
@@ -2101,7 +2123,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                         itemstack = this.field_147369_b.field_71070_bA.func_184996_a(packetplayinwindowclick.func_149544_d(), packetplayinwindowclick.func_149543_e(), packetplayinwindowclick.func_186993_f(), this.field_147369_b);
                         break;
                     case PICKUP_ALL:
-                        click = ClickType.DOUBLE_CLICK;
+                        click = org.bukkit.event.inventory.ClickType.DOUBLE_CLICK;
                         action = InventoryAction.NOTHING;
                         if (packetplayinwindowclick.func_149544_d() >= 0 && !this.field_147369_b.field_71071_by.func_70445_o().func_190926_b()) {
                             ItemStack cursor = this.field_147369_b.field_71071_by.func_70445_o();
@@ -2117,7 +2139,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                 }
 
                 if (packetplayinwindowclick.func_186993_f() != ClickType.QUICK_CRAFT) {
-                    if (click == ClickType.NUMBER_KEY) {
+                    if (click == org.bukkit.event.inventory.ClickType.NUMBER_KEY) {
                         event = new InventoryClickEvent(inventory, type, packetplayinwindowclick.func_149544_d(), click, action, packetplayinwindowclick.func_149543_e());
                     } else {
                         event = new InventoryClickEvent(inventory, type, packetplayinwindowclick.func_149544_d(), click, action);
@@ -2127,7 +2149,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                     if (packetplayinwindowclick.func_149544_d() == 0 && top instanceof CraftingInventory) {
                         org.bukkit.inventory.Recipe recipe = ((CraftingInventory) top).getRecipe();
                         if (recipe != null) {
-                            if (click == ClickType.NUMBER_KEY) {
+                            if (click == org.bukkit.event.inventory.ClickType.NUMBER_KEY) {
                                 event = new CraftItemEvent(recipe, inventory, type, packetplayinwindowclick.func_149544_d(), click, action, packetplayinwindowclick.func_149543_e());
                             } else {
                                 event = new CraftItemEvent(recipe, inventory, type, packetplayinwindowclick.func_149544_d(), click, action);
@@ -2218,7 +2240,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                     NonNullList nonnulllist1 = NonNullList.func_191196_a();
 
                     for (int j = 0; j < this.field_147369_b.field_71070_bA.field_75151_b.size(); ++j) {
-                        ItemStack itemstack1 = ((Slot) this.field_147369_b.field_71070_bA.field_75151_b.get(j)).func_75211_c();
+                        ItemStack itemstack1 = this.field_147369_b.field_71070_bA.field_75151_b.get(j).func_75211_c();
                         ItemStack itemstack2 = itemstack1.func_190926_b() ? ItemStack.field_190927_a : itemstack1;
 
                         nonnulllist1.add(itemstack2);
@@ -2231,6 +2253,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_194308_a(CPacketPlaceRecipe packetplayinautorecipe) {
         PacketThreadUtil.func_180031_a(packetplayinautorecipe, this, this.field_147369_b.func_71121_q());
         this.field_147369_b.func_143004_u();
@@ -2239,6 +2262,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         }
     }
 
+    @Override
     public void func_147338_a(CPacketEnchantItem packetplayinenchantitem) {
         PacketThreadUtil.func_180031_a(packetplayinenchantitem, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_70610_aX()) return; // CraftBukkit
@@ -2250,6 +2274,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_147344_a(CPacketCreativeInventoryAction packetplayinsetcreativeslot) {
         PacketThreadUtil.func_180031_a(packetplayinsetcreativeslot, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.field_71134_c.func_73083_d()) {
@@ -2269,7 +2294,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                         nbttagcompound1.func_82580_o("x");
                         nbttagcompound1.func_82580_o("y");
                         nbttagcompound1.func_82580_o("z");
-                        itemstack.func_77983_a("BlockEntityTag", (NBTBase) nbttagcompound1);
+                        itemstack.func_77983_a("BlockEntityTag", nbttagcompound1);
                     }
                 }
             }
@@ -2335,10 +2360,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_147339_a(CPacketConfirmTransaction packetplayintransaction) {
         PacketThreadUtil.func_180031_a(packetplayintransaction, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_70610_aX()) return; // CraftBukkit
-        Short oshort = (Short) this.field_147372_n.func_76041_a(this.field_147369_b.field_71070_bA.field_75152_c);
+        Short oshort = this.field_147372_n.func_76041_a(this.field_147369_b.field_71070_bA.field_75152_c);
 
         if (oshort != null && packetplayintransaction.func_149533_d() == oshort.shortValue() && this.field_147369_b.field_71070_bA.field_75152_c == packetplayintransaction.func_149532_c() && !this.field_147369_b.field_71070_bA.func_75129_b(this.field_147369_b) && !this.field_147369_b.func_175149_v()) {
             this.field_147369_b.field_71070_bA.func_75128_a(this.field_147369_b, true);
@@ -2346,6 +2372,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_147343_a(CPacketUpdateSign packetplayinupdatesign) {
         PacketThreadUtil.func_180031_a(packetplayinupdatesign, this, this.field_147369_b.func_71121_q());
         if (this.field_147369_b.func_70610_aX()) return; // CraftBukkit
@@ -2381,7 +2408,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
             for (int i = 0; i < astring.length; ++i) {
                 lines[i] = ChatAllowedCharacters.func_71565_a(astring[i]); //Paper - Replaced with anvil color stripping method to stop exploits that allow colored signs to be created.
             }
-            SignChangeEvent event = new SignChangeEvent((org.bukkit.craftbukkit.block.CraftBlock) player.getWorld().getBlockAt(x, y, z), this.server.getPlayer(this.field_147369_b), lines);
+            SignChangeEvent event = new SignChangeEvent(player.getWorld().getBlockAt(x, y, z), this.server.getPlayer(this.field_147369_b), lines);
             this.server.getPluginManager().callEvent(event);
 
             if (!event.isCancelled()) {
@@ -2396,6 +2423,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
     }
 
+    @Override
     public void func_147353_a(CPacketKeepAlive packetplayinkeepalive) {
         //PlayerConnectionUtils.ensureMainThread(packetplayinkeepalive, this, this.player.x()); // CraftBukkit // Paper - This shouldn't be on the main thread
         if (this.field_194403_g && packetplayinkeepalive.func_149460_c() == this.field_194404_h) {
@@ -2420,6 +2448,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         return System.nanoTime() / 1000000L;
     }
 
+    @Override
     public void func_147348_a(CPacketPlayerAbilities packetplayinabilities) {
         PacketThreadUtil.func_180031_a(packetplayinabilities, this, this.field_147369_b.func_71121_q());
         // CraftBukkit start
@@ -2436,6 +2465,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
     }
 
     // Paper start - async tab completion
+    @Override
     public void func_147341_a(CPacketTabComplete packet) {
         // CraftBukkit start
         if (chatSpamField.addAndGet(this, 10) > 500 && !this.field_147367_d.func_184103_al().func_152596_g(this.field_147369_b.func_146103_bH())) {
@@ -2482,11 +2512,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
         // Paper end
     }
 
+    @Override
     public void func_147352_a(CPacketClientSettings packetplayinsettings) {
         PacketThreadUtil.func_180031_a(packetplayinsettings, this, this.field_147369_b.func_71121_q());
         this.field_147369_b.func_147100_a(packetplayinsettings);
     }
 
+    @Override
     public void func_147349_a(CPacketCustomPayload packetplayincustompayload) {
         PacketThreadUtil.func_180031_a(packetplayincustompayload, this, this.field_147369_b.func_71121_q());
         String s = packetplayincustompayload.func_149559_c();
@@ -2521,7 +2553,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
                 if (itemstack.func_77973_b() == Items.field_151099_bA && itemstack.func_77973_b() == itemstack1.func_77973_b()) {
                     itemstack1 = new ItemStack(Items.field_151099_bA); // CraftBukkit
-                    itemstack1.func_77983_a("pages", (NBTBase) itemstack.func_77978_p().func_150295_c("pages", 8));
+                    itemstack1.func_77983_a("pages", itemstack.func_77978_p().func_150295_c("pages", 8));
                     CraftEventFactory.handleEditBookEvent(field_147369_b, itemstack1); // CraftBukkit
                 }
             } catch (Exception exception) {
@@ -2558,19 +2590,19 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                     if (itemstack.func_77973_b() == Items.field_151099_bA && itemstack1.func_77973_b() == Items.field_151099_bA) {
                         ItemStack itemstack2 = new ItemStack(Items.field_151164_bB);
 
-                        itemstack2.func_77983_a("author", (NBTBase) (new NBTTagString(this.field_147369_b.func_70005_c_())));
-                        itemstack2.func_77983_a("title", (NBTBase) (new NBTTagString(itemstack.func_77978_p().func_74779_i("title"))));
+                        itemstack2.func_77983_a("author", (new NBTTagString(this.field_147369_b.func_70005_c_())));
+                        itemstack2.func_77983_a("title", (new NBTTagString(itemstack.func_77978_p().func_74779_i("title"))));
                         NBTTagList nbttaglist = itemstack.func_77978_p().func_150295_c("pages", 8);
 
                         for (int i = 0; i < nbttaglist.func_74745_c(); ++i) {
                             s1 = nbttaglist.func_150307_f(i);
                             TextComponentString chatcomponenttext = new TextComponentString(s1);
 
-                            s1 = ITextComponent.Serializer.func_150696_a((ITextComponent) chatcomponenttext);
+                            s1 = ITextComponent.Serializer.func_150696_a(chatcomponenttext);
                             nbttaglist.func_150304_a(i, new NBTTagString(s1));
                         }
 
-                        itemstack2.func_77983_a("pages", (NBTBase) nbttaglist);
+                        itemstack2.func_77983_a("pages", nbttaglist);
                         CraftEventFactory.handleEditBookEvent(field_147369_b, itemstack2); // CraftBukkit
                     }
                 } catch (Exception exception1) {
@@ -2668,7 +2700,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                         boolean flag3 = packetdataserializer.readBoolean();
 
                         if (commandblocklistenerabstract1 != null) {
-                            EnumFacing enumdirection = (EnumFacing) this.field_147369_b.field_70170_p.func_180495_p(blockposition).func_177229_b(BlockCommandBlock.field_185564_a);
+                            EnumFacing enumdirection = this.field_147369_b.field_70170_p.func_180495_p(blockposition).func_177229_b(BlockCommandBlock.field_185564_a);
                             IBlockState iblockdata;
 
                             switch (tileentitycommand_type) {
@@ -2697,7 +2729,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
                             tileentitycommand.func_184253_b(flag3);
                             commandblocklistenerabstract1.func_145756_e();
-                            if (!StringUtils.func_151246_b(s3)) {
+                            if (!StringUtils.isEmpty(s3)) {
                                 this.field_147369_b.func_145747_a(new TextComponentTranslation("advMode.setCommand.success", new Object[] { s3}));
                             }
                         }
@@ -2788,23 +2820,23 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
                                 if (b1 == 2) {
                                     if (tileentitystructure.func_184419_m()) {
-                                        this.field_147369_b.func_146105_b((ITextComponent) (new TextComponentTranslation("structure_block.save_success", new Object[] { s7})), false);
+                                        this.field_147369_b.func_146105_b((new TextComponentTranslation("structure_block.save_success", new Object[] { s7})), false);
                                     } else {
-                                        this.field_147369_b.func_146105_b((ITextComponent) (new TextComponentTranslation("structure_block.save_failure", new Object[] { s7})), false);
+                                        this.field_147369_b.func_146105_b((new TextComponentTranslation("structure_block.save_failure", new Object[] { s7})), false);
                                     }
                                 } else if (b1 == 3) {
                                     if (!tileentitystructure.func_189709_F()) {
-                                        this.field_147369_b.func_146105_b((ITextComponent) (new TextComponentTranslation("structure_block.load_not_found", new Object[] { s7})), false);
+                                        this.field_147369_b.func_146105_b((new TextComponentTranslation("structure_block.load_not_found", new Object[] { s7})), false);
                                     } else if (tileentitystructure.func_184412_n()) {
-                                        this.field_147369_b.func_146105_b((ITextComponent) (new TextComponentTranslation("structure_block.load_success", new Object[] { s7})), false);
+                                        this.field_147369_b.func_146105_b((new TextComponentTranslation("structure_block.load_success", new Object[] { s7})), false);
                                     } else {
-                                        this.field_147369_b.func_146105_b((ITextComponent) (new TextComponentTranslation("structure_block.load_prepare", new Object[] { s7})), false);
+                                        this.field_147369_b.func_146105_b((new TextComponentTranslation("structure_block.load_prepare", new Object[] { s7})), false);
                                     }
                                 } else if (b1 == 4) {
                                     if (tileentitystructure.func_184417_l()) {
-                                        this.field_147369_b.func_146105_b((ITextComponent) (new TextComponentTranslation("structure_block.size_success", new Object[] { s7})), false);
+                                        this.field_147369_b.func_146105_b((new TextComponentTranslation("structure_block.size_success", new Object[] { s7})), false);
                                     } else {
-                                        this.field_147369_b.func_146105_b((ITextComponent) (new TextComponentTranslation("structure_block.size_failure", new Object[0])), false);
+                                        this.field_147369_b.func_146105_b((new TextComponentTranslation("structure_block.size_failure", new Object[0])), false);
                                     }
                                 }
 

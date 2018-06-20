@@ -47,15 +47,11 @@ import net.minecraft.world.World;
 public class BlockStateContainer {
 
     private static final Pattern field_185921_a = Pattern.compile("^[a-z0-9_]+$");
-    private static final Function<IProperty<?>, String> field_177626_b = new Function() {
+    private static final Function<IProperty<?>, String> field_177626_b = new Function<IProperty<?>, String>() {
+        @Override
         @Nullable
-        public String a(@Nullable IProperty<?> iblockstate) {
+        public String apply(@Nullable IProperty<?> iblockstate) {
             return iblockstate == null ? "<NULL>" : iblockstate.func_177701_a();
-        }
-
-        @Nullable
-        public Object apply(@Nullable Object object) {
-            return this.a((IProperty) object);
         }
     };
     private final Block field_177627_c;
@@ -95,7 +91,7 @@ public class BlockStateContainer {
         while (iterator.hasNext()) {
             BlockStateContainer.StateImplementation blockstatelist_blockdata1 = (BlockStateContainer.StateImplementation) iterator.next();
 
-            blockstatelist_blockdata1.func_177235_a((Map) linkedhashmap);
+            blockstatelist_blockdata1.func_177235_a(linkedhashmap);
         }
 
         this.field_177625_e = ImmutableList.copyOf(arraylist);
@@ -118,7 +114,7 @@ public class BlockStateContainer {
 
                 Comparable comparable = (Comparable) iterator.next();
 
-                s1 = iblockstate.func_177702_a(comparable);
+                s1 = iblockstate.func_177702_a((T) comparable);
             } while (BlockStateContainer.field_185921_a.matcher(s1).matches());
 
             throw new IllegalArgumentException("Block: " + block.getClass() + " has property: " + s + " with invalidly named value: " + s1);
@@ -144,7 +140,7 @@ public class BlockStateContainer {
     }
 
     public IBlockState func_177621_b() {
-        return (IBlockState) this.field_177625_e.get(0);
+        return this.field_177625_e.get(0);
     }
 
     public Block func_177622_c() {
@@ -155,13 +151,14 @@ public class BlockStateContainer {
         return this.field_177624_d.values();
     }
 
+    @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).add("block", Block.field_149771_c.func_177774_c(this.field_177627_c)).add("properties", Iterables.transform(this.field_177624_d.values(), BlockStateContainer.field_177626_b)).toString();
     }
 
     @Nullable
     public IProperty<?> func_185920_a(String s) {
-        return (IProperty) this.field_177624_d.get(s);
+        return this.field_177624_d.get(s);
     }
 
     static class StateImplementation extends BlockStateBase {
@@ -175,29 +172,32 @@ public class BlockStateContainer {
             this.field_177237_b = immutablemap;
         }
 
+        @Override
         public Collection<IProperty<?>> func_177227_a() {
             return Collections.unmodifiableCollection(this.field_177237_b.keySet());
         }
 
+        @Override
         public <T extends Comparable<T>> T func_177229_b(IProperty<T> iblockstate) {
-            Comparable comparable = (Comparable) this.field_177237_b.get(iblockstate);
+            Comparable comparable = this.field_177237_b.get(iblockstate);
 
             if (comparable == null) {
                 throw new IllegalArgumentException("Cannot get property " + iblockstate + " as it does not exist in " + this.field_177239_a.func_176194_O());
             } else {
-                return (Comparable) iblockstate.func_177699_b().cast(comparable);
+                return iblockstate.func_177699_b().cast(comparable);
             }
         }
 
+        @Override
         public <T extends Comparable<T>, V extends T> IBlockState func_177226_a(IProperty<T> iblockstate, V v0) {
-            Comparable comparable = (Comparable) this.field_177237_b.get(iblockstate);
+            Comparable comparable = this.field_177237_b.get(iblockstate);
 
             if (comparable == null) {
                 throw new IllegalArgumentException("Cannot set property " + iblockstate + " as it does not exist in " + this.field_177239_a.func_176194_O());
             } else if (comparable == v0) {
                 return this;
             } else {
-                IBlockState iblockdata = (IBlockState) this.field_177238_c.get(iblockstate, v0);
+                IBlockState iblockdata = this.field_177238_c.get(iblockstate, v0);
 
                 if (iblockdata == null) {
                     throw new IllegalArgumentException("Cannot set property " + iblockstate + " to " + v0 + " on block " + Block.field_149771_c.func_177774_c(this.field_177239_a) + ", it is not an allowed value");
@@ -207,18 +207,22 @@ public class BlockStateContainer {
             }
         }
 
+        @Override
         public ImmutableMap<IProperty<?>, Comparable<?>> func_177228_b() {
             return this.field_177237_b;
         }
 
+        @Override
         public Block func_177230_c() {
             return this.field_177239_a;
         }
 
+        @Override
         public boolean equals(Object object) {
             return this == object;
         }
 
+        @Override
         public int hashCode() {
             return this.field_177237_b.hashCode();
         }
@@ -255,137 +259,170 @@ public class BlockStateContainer {
             return hashmap;
         }
 
+        @Override
         public Material func_185904_a() {
             return this.field_177239_a.func_149688_o(this);
         }
 
+        @Override
         public boolean func_185913_b() {
             return this.field_177239_a.func_149730_j(this);
         }
 
+        @Override
         public boolean func_189884_a(Entity entity) {
-            return this.field_177239_a.func_189872_a((IBlockState) this, entity);
+            return this.field_177239_a.func_189872_a(this, entity);
         }
 
+        @Override
         public int func_185891_c() {
             return this.field_177239_a.func_149717_k(this);
         }
 
+        @Override
         public int func_185906_d() {
             return this.field_177239_a.func_149750_m(this);
         }
 
+        @Override
         public boolean func_185916_f() {
             return this.field_177239_a.func_149710_n(this);
         }
 
+        @Override
         public MapColor func_185909_g(IBlockAccess iblockaccess, BlockPos blockposition) {
             return this.field_177239_a.func_180659_g(this, iblockaccess, blockposition);
         }
 
+        @Override
         public IBlockState func_185907_a(Rotation enumblockrotation) {
-            return this.field_177239_a.func_185499_a((IBlockState) this, enumblockrotation);
+            return this.field_177239_a.func_185499_a(this, enumblockrotation);
         }
 
+        @Override
         public IBlockState func_185902_a(Mirror enumblockmirror) {
-            return this.field_177239_a.func_185471_a((IBlockState) this, enumblockmirror);
+            return this.field_177239_a.func_185471_a(this, enumblockmirror);
         }
 
+        @Override
         public boolean func_185917_h() {
-            return this.field_177239_a.func_149686_d((IBlockState) this);
+            return this.field_177239_a.func_149686_d(this);
         }
 
+        @Override
         public EnumBlockRenderType func_185901_i() {
-            return this.field_177239_a.func_149645_b((IBlockState) this);
+            return this.field_177239_a.func_149645_b(this);
         }
 
+        @Override
         public boolean func_185898_k() {
             return this.field_177239_a.func_149637_q(this);
         }
 
+        @Override
         public boolean func_185915_l() {
             return this.field_177239_a.func_149721_r(this);
         }
 
+        @Override
         public boolean func_185897_m() {
             return this.field_177239_a.func_149744_f(this);
         }
 
+        @Override
         public int func_185911_a(IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection) {
-            return this.field_177239_a.func_180656_a((IBlockState) this, iblockaccess, blockposition, enumdirection);
+            return this.field_177239_a.func_180656_a(this, iblockaccess, blockposition, enumdirection);
         }
 
+        @Override
         public boolean func_185912_n() {
             return this.field_177239_a.func_149740_M(this);
         }
 
+        @Override
         public int func_185888_a(World world, BlockPos blockposition) {
             return this.field_177239_a.func_180641_l(this, world, blockposition);
         }
 
+        @Override
         public float func_185887_b(World world, BlockPos blockposition) {
-            return this.field_177239_a.func_176195_g((IBlockState) this, world, blockposition);
+            return this.field_177239_a.func_176195_g(this, world, blockposition);
         }
 
+        @Override
         public float func_185903_a(EntityPlayer entityhuman, World world, BlockPos blockposition) {
             return this.field_177239_a.func_180647_a(this, entityhuman, world, blockposition);
         }
 
+        @Override
         public int func_185893_b(IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection) {
             return this.field_177239_a.func_176211_b(this, iblockaccess, blockposition, enumdirection);
         }
 
+        @Override
         public EnumPushReaction func_185905_o() {
             return this.field_177239_a.func_149656_h(this);
         }
 
+        @Override
         public IBlockState func_185899_b(IBlockAccess iblockaccess, BlockPos blockposition) {
             return this.field_177239_a.func_176221_a(this, iblockaccess, blockposition);
         }
 
+        @Override
         public boolean func_185914_p() {
-            return this.field_177239_a.func_149662_c((IBlockState) this);
+            return this.field_177239_a.func_149662_c(this);
         }
 
+        @Override
         @Nullable
         public AxisAlignedBB func_185890_d(IBlockAccess iblockaccess, BlockPos blockposition) {
-            return this.field_177239_a.func_180646_a((IBlockState) this, iblockaccess, blockposition);
+            return this.field_177239_a.func_180646_a(this, iblockaccess, blockposition);
         }
 
+        @Override
         public void func_185908_a(World world, BlockPos blockposition, AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, @Nullable Entity entity, boolean flag) {
             this.field_177239_a.func_185477_a(this, world, blockposition, axisalignedbb, list, entity, flag);
         }
 
+        @Override
         public AxisAlignedBB func_185900_c(IBlockAccess iblockaccess, BlockPos blockposition) {
             return this.field_177239_a.func_185496_a(this, iblockaccess, blockposition);
         }
 
+        @Override
         public RayTraceResult func_185910_a(World world, BlockPos blockposition, Vec3d vec3d, Vec3d vec3d1) {
             return this.field_177239_a.func_180636_a(this, world, blockposition, vec3d, vec3d1);
         }
 
+        @Override
         public boolean func_185896_q() {
             return this.field_177239_a.func_185481_k(this);
         }
 
+        @Override
         public Vec3d func_191059_e(IBlockAccess iblockaccess, BlockPos blockposition) {
             return this.field_177239_a.func_190949_e(this, iblockaccess, blockposition);
         }
 
+        @Override
         public boolean func_189547_a(World world, BlockPos blockposition, int i, int j) {
             return this.field_177239_a.func_189539_a(this, world, blockposition, i, j);
         }
 
+        @Override
         public void func_189546_a(World world, BlockPos blockposition, Block block, BlockPos blockposition1) {
             this.field_177239_a.func_189540_a(this, world, blockposition, block, blockposition1);
         }
 
+        @Override
         public boolean func_191058_s() {
             return this.field_177239_a.func_176214_u(this);
         }
 
+        @Override
         public BlockFaceShape func_193401_d(IBlockAccess iblockaccess, BlockPos blockposition, EnumFacing enumdirection) {
-            return this.field_177239_a.func_193383_a(iblockaccess, (IBlockState) this, blockposition, enumdirection);
+            return this.field_177239_a.func_193383_a(iblockaccess, this, blockposition, enumdirection);
         }
 
         StateImplementation(Block block, ImmutableMap immutablemap, Object object) {

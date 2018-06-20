@@ -28,7 +28,7 @@ public class Scoreboard {
 
     @Nullable
     public ScoreObjective func_96518_b(String s) {
-        return (ScoreObjective) this.field_96545_a.get(s);
+        return this.field_96545_a.get(s);
     }
 
     public ScoreObjective func_96535_a(String s, IScoreCriteria iscoreboardcriteria) {
@@ -41,7 +41,7 @@ public class Scoreboard {
                 throw new IllegalArgumentException("An objective with the name \'" + s + "\' already exists!");
             } else {
                 scoreboardobjective = new ScoreObjective(this, s, iscoreboardcriteria);
-                Object object = (List) this.field_96543_b.get(iscoreboardcriteria);
+                List<ScoreObjective> object = this.field_96543_b.get(iscoreboardcriteria);
 
                 if (object == null) {
                     object = Lists.newArrayList();
@@ -57,13 +57,13 @@ public class Scoreboard {
     }
 
     public Collection<ScoreObjective> func_96520_a(IScoreCriteria iscoreboardcriteria) {
-        Collection collection = (Collection) this.field_96543_b.get(iscoreboardcriteria);
+        Collection collection = this.field_96543_b.get(iscoreboardcriteria);
 
         return collection == null ? Lists.newArrayList() : Lists.newArrayList(collection);
     }
 
     public boolean func_178819_b(String s, ScoreObjective scoreboardobjective) {
-        Map map = (Map) this.field_96544_c.get(s);
+        Map map = this.field_96544_c.get(s);
 
         if (map == null) {
             return false;
@@ -78,7 +78,7 @@ public class Scoreboard {
         if (s.length() > 40) {
             throw new IllegalArgumentException("The player name \'" + s + "\' is too long!");
         } else {
-            Object object = (Map) this.field_96544_c.get(s);
+            Map<ScoreObjective, Score> object = this.field_96544_c.get(s);
 
             if (object == null) {
                 object = Maps.newHashMap();
@@ -125,17 +125,17 @@ public class Scoreboard {
         Map map;
 
         if (scoreboardobjective == null) {
-            map = (Map) this.field_96544_c.remove(s);
+            map = this.field_96544_c.remove(s);
             if (map != null) {
                 this.func_96516_a(s);
             }
         } else {
-            map = (Map) this.field_96544_c.get(s);
+            map = this.field_96544_c.get(s);
             if (map != null) {
                 Score scoreboardscore = (Score) map.remove(scoreboardobjective);
 
                 if (map.size() < 1) {
-                    Map map1 = (Map) this.field_96544_c.remove(s);
+                    Map map1 = this.field_96544_c.remove(s);
 
                     if (map1 != null) {
                         this.func_96516_a(s);
@@ -163,7 +163,7 @@ public class Scoreboard {
     }
 
     public Map<ScoreObjective, Score> func_96510_d(String s) {
-        Object object = (Map) this.field_96544_c.get(s);
+        Object object = this.field_96544_c.get(s);
 
         if (object == null) {
             object = Maps.newHashMap();
@@ -181,7 +181,7 @@ public class Scoreboard {
             }
         }
 
-        List list = (List) this.field_96543_b.get(scoreboardobjective.func_96680_c());
+        List list = this.field_96543_b.get(scoreboardobjective.func_96680_c());
 
         if (list != null) {
             list.remove(scoreboardobjective);
@@ -208,7 +208,7 @@ public class Scoreboard {
     }
 
     public ScorePlayerTeam func_96508_e(String s) {
-        return (ScorePlayerTeam) this.field_96542_e.get(s);
+        return this.field_96542_e.get(s);
     }
 
     public ScorePlayerTeam func_96527_f(String s) {
@@ -289,7 +289,7 @@ public class Scoreboard {
 
     @Nullable
     public ScorePlayerTeam func_96509_i(String s) {
-        return (ScorePlayerTeam) this.field_96540_f.get(s);
+        return this.field_96540_f.get(s);
     }
 
     public void func_96522_a(ScoreObjective scoreboardobjective) {}

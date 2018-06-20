@@ -136,7 +136,6 @@ import net.md_5.bungee.api.chat.BaseComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.command.CommandBase;
@@ -151,6 +150,8 @@ import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.server.MCUtil;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedPlayerList;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.dedicated.PendingCommand;
@@ -965,8 +966,10 @@ public final class CraftServer implements Server {
             converter.func_75805_a(name, new IProgressUpdate() {
                 private long b = System.currentTimeMillis();
 
+                @Override
                 public void func_73720_a(String s) {}
 
+                @Override
                 public void func_73718_a(int i) {
                     if (System.currentTimeMillis() - this.b >= 1000L) {
                         this.b = System.currentTimeMillis();
@@ -975,6 +978,7 @@ public final class CraftServer implements Server {
 
                 }
 
+                @Override
                 public void func_73719_c(String s) {}
             });
         }
@@ -1390,6 +1394,7 @@ public final class CraftServer implements Server {
     }
 
     // Paper start
+    @Override
     @Nullable
     public UUID getPlayerUniqueId(String name) {
         Player player = Bukkit.getPlayerExact(name);
@@ -1934,6 +1939,7 @@ public final class CraftServer implements Server {
         }
     };
 
+    @Override
     public Spigot spigot()
     {
         return spigot;
@@ -1962,7 +1968,7 @@ public final class CraftServer implements Server {
 
     @Override
     public void reloadPermissions() {
-        ((SimplePluginManager) pluginManager).clearPermissions();
+        pluginManager.clearPermissions();
         loadCustomPermissions();
         for (Plugin plugin : pluginManager.getPlugins()) {
             plugin.getDescription().getPermissions().forEach((perm) -> {
@@ -1999,14 +2005,17 @@ public final class CraftServer implements Server {
         return com.destroystokyo.paper.PaperConfig.suggestPlayersWhenNullTabCompletions;
     }
 
+    @Override
     public com.destroystokyo.paper.profile.PlayerProfile createProfile(@Nonnull UUID uuid) {
         return createProfile(uuid, null);
     }
 
+    @Override
     public com.destroystokyo.paper.profile.PlayerProfile createProfile(@Nonnull String name) {
         return createProfile(null, name);
     }
 
+    @Override
     public com.destroystokyo.paper.profile.PlayerProfile createProfile(@Nullable UUID uuid, @Nullable String name) {
         Player player = uuid != null ? Bukkit.getPlayer(uuid) : (name != null ? Bukkit.getPlayerExact(name) : null);
         if (player != null) {

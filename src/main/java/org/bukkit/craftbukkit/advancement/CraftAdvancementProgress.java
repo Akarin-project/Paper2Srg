@@ -9,7 +9,7 @@ import net.minecraft.advancements.CriterionProgress;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
 
-import net;
+
 
 public class CraftAdvancementProgress implements AdvancementProgress {
 

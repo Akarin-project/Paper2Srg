@@ -6,7 +6,7 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 
-import net;
+
 
 public class CraftEnchantment extends Enchantment {
     private final net.minecraft.enchantment.Enchantment target;

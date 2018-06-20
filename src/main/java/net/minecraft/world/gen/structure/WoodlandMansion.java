@@ -9,7 +9,6 @@ import java.util.Random;
 
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
-import net.minecraft.server.WorldGenWoodlandMansion.a;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
@@ -30,10 +29,12 @@ public class WoodlandMansion extends MapGenStructure {
         this.field_191075_h = chunkprovidergenerate;
     }
 
+    @Override
     public String func_143025_a() {
         return "Mansion";
     }
 
+    @Override
     protected boolean func_75047_a(int i, int j) {
         int k = i;
         int l = j;
@@ -65,6 +66,7 @@ public class WoodlandMansion extends MapGenStructure {
         return false;
     }
 
+    @Override
     public BlockPos func_180706_b(World world, BlockPos blockposition, boolean flag) {
         this.field_75039_c = world;
         BiomeProvider worldchunkmanager = world.func_72959_q();
@@ -72,8 +74,9 @@ public class WoodlandMansion extends MapGenStructure {
         return worldchunkmanager.func_190944_c() && worldchunkmanager.func_190943_d() != Biomes.field_150585_R ? null : func_191069_a(world, this, blockposition, 80, 20, 10387319, true, 100, flag);
     }
 
+    @Override
     protected StructureStart func_75049_b(int i, int j) {
-        return new WorldGenWoodlandMansion.a(this.field_75039_c, this.field_191075_h, this.field_75038_b, i, j);
+        return new WoodlandMansion.a(this.field_75039_c, this.field_191075_h, this.field_75038_b, i, j);
     }
 
     public static class a extends StructureStart {
@@ -123,6 +126,7 @@ public class WoodlandMansion extends MapGenStructure {
             }
         }
 
+        @Override
         public void func_75068_a(World world, Random random, StructureBoundingBox structureboundingbox) {
             super.func_75068_a(world, random, structureboundingbox);
             int i = this.field_75074_b.field_78895_b;
@@ -131,14 +135,14 @@ public class WoodlandMansion extends MapGenStructure {
                 for (int k = structureboundingbox.field_78896_c; k <= structureboundingbox.field_78892_f; ++k) {
                     BlockPos blockposition = new BlockPos(j, i, k);
 
-                    if (!world.func_175623_d(blockposition) && this.field_75074_b.func_175898_b((Vec3i) blockposition)) {
+                    if (!world.func_175623_d(blockposition) && this.field_75074_b.func_175898_b(blockposition)) {
                         boolean flag = false;
                         Iterator iterator = this.field_75075_a.iterator();
 
                         while (iterator.hasNext()) {
                             StructureComponent structurepiece = (StructureComponent) iterator.next();
 
-                            if (structurepiece.field_74887_e.func_175898_b((Vec3i) blockposition)) {
+                            if (structurepiece.field_74887_e.func_175898_b(blockposition)) {
                                 flag = true;
                                 break;
                             }
@@ -161,6 +165,7 @@ public class WoodlandMansion extends MapGenStructure {
 
         }
 
+        @Override
         public boolean func_75069_d() {
             return this.c;
         }

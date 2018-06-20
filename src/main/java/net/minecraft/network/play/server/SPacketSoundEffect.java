@@ -32,9 +32,10 @@ public class SPacketSoundEffect implements Packet<INetHandlerPlayClient> {
         this.field_149214_f = f1;
     }
 
+    @Override
     public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
-        this.field_186979_a = (SoundEvent) SoundEvent.field_187505_a.func_148754_a(packetdataserializer.func_150792_a());
-        this.field_186980_b = (SoundCategory) packetdataserializer.func_179257_a(SoundCategory.class);
+        this.field_186979_a = SoundEvent.field_187505_a.func_148754_a(packetdataserializer.func_150792_a());
+        this.field_186980_b = packetdataserializer.func_179257_a(SoundCategory.class);
         this.field_149217_b = packetdataserializer.readInt();
         this.field_149218_c = packetdataserializer.readInt();
         this.field_149215_d = packetdataserializer.readInt();
@@ -42,9 +43,10 @@ public class SPacketSoundEffect implements Packet<INetHandlerPlayClient> {
         this.field_149214_f = packetdataserializer.readFloat();
     }
 
+    @Override
     public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
-        packetdataserializer.func_150787_b(SoundEvent.field_187505_a.func_148757_b((Object) this.field_186979_a));
-        packetdataserializer.func_179249_a((Enum) this.field_186980_b);
+        packetdataserializer.func_150787_b(SoundEvent.field_187505_a.func_148757_b(this.field_186979_a));
+        packetdataserializer.func_179249_a(this.field_186980_b);
         packetdataserializer.writeInt(this.field_149217_b);
         packetdataserializer.writeInt(this.field_149218_c);
         packetdataserializer.writeInt(this.field_149215_d);
@@ -52,6 +54,7 @@ public class SPacketSoundEffect implements Packet<INetHandlerPlayClient> {
         packetdataserializer.writeFloat(this.field_149214_f);
     }
 
+    @Override
     public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
         packetlistenerplayout.func_184327_a(this);
     }

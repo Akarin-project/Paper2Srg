@@ -18,11 +18,8 @@ public class BlockMatcher implements Predicate<IBlockState> {
         return new BlockMatcher(block);
     }
 
+    @Override
     public boolean apply(@Nullable IBlockState iblockdata) {
         return iblockdata != null && iblockdata.func_177230_c() == this.field_177644_a;
-    }
-
-    public boolean apply(@Nullable Object object) {
-        return this.apply((IBlockState) object);
     }
 }

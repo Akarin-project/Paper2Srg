@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.minecraft.inventory.Container;
 
-import net;
+
 
 public class CraftInventoryView extends InventoryView {
     private final Container container;

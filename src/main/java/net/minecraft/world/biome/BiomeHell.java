@@ -7,7 +7,7 @@ import net.minecraft.entity.monster.EntityPigZombie;
 
 public class BiomeHell extends Biome {
 
-    public BiomeHell(BiomeBase.a biomebase_a) {
+    public BiomeHell(Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_76761_J.clear();
         this.field_76762_K.clear();

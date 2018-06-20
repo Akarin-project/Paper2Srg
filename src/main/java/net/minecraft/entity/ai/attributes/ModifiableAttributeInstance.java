@@ -32,14 +32,17 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
 
     }
 
+    @Override
     public IAttribute func_111123_a() {
         return this.field_111136_b;
     }
 
+    @Override
     public double func_111125_b() {
         return this.field_111132_f;
     }
 
+    @Override
     public void func_111128_a(double d0) {
         if (d0 != this.func_111125_b()) {
             this.field_111132_f = d0;
@@ -47,10 +50,12 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
         }
     }
 
+    @Override
     public Collection<AttributeModifier> func_111130_a(int i) {
-        return (Collection) this.field_111137_c.get(Integer.valueOf(i));
+        return this.field_111137_c.get(Integer.valueOf(i));
     }
 
+    @Override
     public Collection<AttributeModifier> func_111122_c() {
         HashSet hashset = Sets.newHashSet();
 
@@ -61,20 +66,23 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
         return hashset;
     }
 
+    @Override
     @Nullable
     public AttributeModifier func_111127_a(UUID uuid) {
-        return (AttributeModifier) this.field_111135_e.get(uuid);
+        return this.field_111135_e.get(uuid);
     }
 
+    @Override
     public boolean func_180374_a(AttributeModifier attributemodifier) {
         return this.field_111135_e.get(attributemodifier.func_111167_a()) != null;
     }
 
+    @Override
     public void func_111121_a(AttributeModifier attributemodifier) {
         if (this.func_111127_a(attributemodifier.func_111167_a()) != null) {
             throw new IllegalArgumentException("Modifier is already applied on this attribute!");
         } else {
-            Object object = (Set) this.field_111134_d.get(attributemodifier.func_111166_b());
+            Set<AttributeModifier> object = this.field_111134_d.get(attributemodifier.func_111166_b());
 
             if (object == null) {
                 object = Sets.newHashSet();
@@ -90,17 +98,18 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
 
     protected void func_111131_f() {
         this.field_111133_g = true;
-        this.field_111138_a.func_180794_a((IAttributeInstance) this);
+        this.field_111138_a.func_180794_a(this);
     }
 
+    @Override
     public void func_111124_b(AttributeModifier attributemodifier) {
         for (int i = 0; i < 3; ++i) {
-            Set set = (Set) this.field_111137_c.get(Integer.valueOf(i));
+            Set set = this.field_111137_c.get(Integer.valueOf(i));
 
             set.remove(attributemodifier);
         }
 
-        Set set1 = (Set) this.field_111134_d.get(attributemodifier.func_111166_b());
+        Set set1 = this.field_111134_d.get(attributemodifier.func_111166_b());
 
         if (set1 != null) {
             set1.remove(attributemodifier);
@@ -113,6 +122,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
         this.func_111131_f();
     }
 
+    @Override
     public void func_188479_b(UUID uuid) {
         AttributeModifier attributemodifier = this.func_111127_a(uuid);
 
@@ -122,6 +132,7 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
 
     }
 
+    @Override
     public double func_111126_e() {
         if (this.field_111133_g) {
             this.field_111139_h = this.func_111129_g();

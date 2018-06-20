@@ -72,6 +72,7 @@ public class EntitySelector {
             return s != null && (EntitySelector.field_190830_d.contains(s) || s.length() > "score_".length() && s.startsWith("score_"));
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((String) object);
         }
@@ -85,7 +86,7 @@ public class EntitySelector {
 
     @Nullable
     public static EntityPlayerMP func_82386_a(ICommandSender icommandlistener, String s) throws CommandException {
-        return (EntityPlayerMP) func_179652_a(icommandlistener, s, EntityPlayerMP.class);
+        return func_179652_a(icommandlistener, s, EntityPlayerMP.class);
     }
 
     public static List<EntityPlayerMP> func_193531_b(ICommandSender icommandlistener, String s) throws CommandException {
@@ -94,9 +95,9 @@ public class EntitySelector {
 
     @Nullable
     public static <T extends Entity> T func_179652_a(ICommandSender icommandlistener, String s, Class<? extends T> oclass) throws CommandException {
-        List list = func_179656_b(icommandlistener, s, oclass);
+        List<T> list = func_179656_b(icommandlistener, s, oclass);
 
-        return list.size() == 1 ? (Entity) list.get(0) : null;
+        return list.size() == 1 ? list.get(0) : null;
     }
 
     @Nullable
@@ -115,7 +116,7 @@ public class EntitySelector {
                 arraylist.add(entity.func_145748_c_());
             }
 
-            return CommandBase.func_180530_a((List) arraylist);
+            return CommandBase.func_180530_a(arraylist);
         }
     }
 
@@ -171,7 +172,7 @@ public class EntitySelector {
 
                                 do {
                                     if (!iterator1.hasNext()) {
-                                        return Lists.newArrayList(new Entity[] { entity});
+                                        return (List<T>) Lists.newArrayList(new Entity[] { entity});
                                     }
 
                                     predicate = (Predicate) iterator1.next();
@@ -238,6 +239,7 @@ public class EntitySelector {
                     return EntityList.func_180123_a(entity, minecraftkey) != flag;
                 }
 
+                @Override
                 public boolean apply(@Nullable Object object) {
                     return this.a((Entity) object);
                 }
@@ -248,6 +250,7 @@ public class EntitySelector {
                     return entity instanceof EntityPlayer;
                 }
 
+                @Override
                 public boolean apply(@Nullable Object object) {
                     return this.a((Entity) object);
                 }
@@ -272,6 +275,7 @@ public class EntitySelector {
                     }
                 }
 
+                @Override
                 public boolean apply(@Nullable Object object) {
                     return this.a((Entity) object);
                 }
@@ -294,30 +298,28 @@ public class EntitySelector {
                 s = s.substring(1);
             }
 
-            final GameType enumgamemode;
+            GameType enumgamemode1;
 
             try {
                 int i = Integer.parseInt(s);
 
-                enumgamemode = GameType.func_185329_a(i, GameType.NOT_SET);
+                enumgamemode1 = GameType.func_185329_a(i, GameType.NOT_SET);
             } catch (Throwable throwable) {
-                enumgamemode = GameType.func_185328_a(s, GameType.NOT_SET);
+                enumgamemode1 = GameType.func_185328_a(s, GameType.NOT_SET);
             }
-
-            arraylist.add(new Predicate() {
-                public boolean a(@Nullable Entity entity) {
+            
+            final GameType fenumgamemode = enumgamemode1;
+            arraylist.add(new Predicate<Entity>() {
+                @Override
+                public boolean apply(@Nullable Entity entity) {
                     if (!(entity instanceof EntityPlayerMP)) {
                         return false;
                     } else {
                         EntityPlayerMP entityplayer = (EntityPlayerMP) entity;
                         GameType enumgamemode = entityplayer.field_71134_c.func_73081_b();
 
-                        return flag ? enumgamemode != enumgamemode1 : enumgamemode == enumgamemode1;
+                        return flag ? enumgamemode != fenumgamemode : enumgamemode == fenumgamemode;
                     }
-                }
-
-                public boolean apply(@Nullable Object object) {
-                    return this.a((Entity) object);
                 }
             });
             return arraylist;
@@ -326,16 +328,18 @@ public class EntitySelector {
 
     private static List<Predicate<Entity>> func_179659_d(Map<String, String> map) {
         ArrayList arraylist = Lists.newArrayList();
-        final String s = func_179651_b(map, EntitySelector.field_190847_u);
-        final boolean flag = s != null && s.startsWith("!");
+        String s1 = func_179651_b(map, EntitySelector.field_190847_u);
+        final boolean flag = s1 != null && s1.startsWith("!");
 
         if (flag) {
-            s = s.substring(1);
+            s1 = s1.substring(1);
         }
 
-        if (s != null) {
-            arraylist.add(new Predicate() {
-                public boolean a(@Nullable Entity entity) {
+        final String fs1 = s1;
+        if (s1 != null) {
+            arraylist.add(new Predicate<Entity>() {
+                @Override
+                public boolean apply(@Nullable Entity entity) {
                     if (!(entity instanceof EntityLivingBase)) {
                         return false;
                     } else {
@@ -343,12 +347,8 @@ public class EntitySelector {
                         Team scoreboardteambase = entityliving.func_96124_cp();
                         String s = scoreboardteambase == null ? "" : scoreboardteambase.func_96661_b();
 
-                        return s.equals(s1) != flag;
+                        return s.equals(fs1) != flag;
                     }
-                }
-
-                public boolean apply(@Nullable Object object) {
-                    return this.a((Entity) object);
                 }
             });
         }
@@ -359,8 +359,9 @@ public class EntitySelector {
     private static List<Predicate<Entity>> func_184952_c(final ICommandSender icommandlistener, Map<String, String> map) {
         final Map map1 = func_96560_a(map);
 
-        return (List) (map1.isEmpty() ? Collections.emptyList() : Lists.newArrayList(new Predicate[] { new Predicate() {
-            public boolean a(@Nullable Entity entity) {
+        return (List) (map1.isEmpty() ? Collections.emptyList() : Lists.newArrayList(new Predicate[] { new Predicate<Entity>() {
+            @Override
+            public boolean apply(@Nullable Entity entity) {
                 if (entity == null) {
                     return false;
                 } else {
@@ -408,30 +409,24 @@ public class EntitySelector {
                     return false;
                 }
             }
-
-            public boolean apply(@Nullable Object object) {
-                return this.a((Entity) object);
-            }
         }}));
     }
 
     private static List<Predicate<Entity>> func_179647_f(Map<String, String> map) {
         ArrayList arraylist = Lists.newArrayList();
-        final String s = func_179651_b(map, EntitySelector.field_190848_v);
+        String s = func_179651_b(map, EntitySelector.field_190848_v);
         final boolean flag = s != null && s.startsWith("!");
 
         if (flag) {
             s = s.substring(1);
         }
 
+        final String fs = s;
         if (s != null) {
-            arraylist.add(new Predicate() {
-                public boolean a(@Nullable Entity entity) {
-                    return entity != null && entity.func_70005_c_().equals(s) != flag;
-                }
-
-                public boolean apply(@Nullable Object object) {
-                    return this.a((Entity) object);
+            arraylist.add(new Predicate<Entity>() {
+                @Override
+                public boolean apply(@Nullable Entity entity) {
+                    return entity != null && entity.func_70005_c_().equals(fs) != flag;
                 }
             });
         }
@@ -441,21 +436,19 @@ public class EntitySelector {
 
     private static List<Predicate<Entity>> func_184951_f(Map<String, String> map) {
         ArrayList arraylist = Lists.newArrayList();
-        final String s = func_179651_b(map, EntitySelector.field_190850_x);
+        String s = func_179651_b(map, EntitySelector.field_190850_x);
         final boolean flag = s != null && s.startsWith("!");
 
         if (flag) {
             s = s.substring(1);
         }
 
+        final String fs = s;
         if (s != null) {
-            arraylist.add(new Predicate() {
-                public boolean a(@Nullable Entity entity) {
-                    return entity == null ? false : ("".equals(s) ? entity.func_184216_O().isEmpty() != flag : entity.func_184216_O().contains(s) != flag);
-                }
-
-                public boolean apply(@Nullable Object object) {
-                    return this.a((Entity) object);
+            arraylist.add(new Predicate<Entity>() {
+                @Override
+                public boolean apply(@Nullable Entity entity) {
+                    return entity == null ? false : ("".equals(fs) ? entity.func_184216_O().isEmpty() != flag : entity.func_184216_O().contains(fs) != flag);
                 }
             });
         }
@@ -464,8 +457,8 @@ public class EntitySelector {
     }
 
     private static List<Predicate<Entity>> func_180698_a(Map<String, String> map, final Vec3d vec3d) {
-        double d0 = (double) func_179653_a(map, EntitySelector.field_190832_f, -1);
-        double d1 = (double) func_179653_a(map, EntitySelector.field_190831_e, -1);
+        double d0 = func_179653_a(map, EntitySelector.field_190832_f, -1);
+        double d1 = func_179653_a(map, EntitySelector.field_190831_e, -1);
         final boolean flag = d0 < -0.5D;
         final boolean flag1 = d1 < -0.5D;
 
@@ -477,8 +470,9 @@ public class EntitySelector {
             double d4 = Math.max(d1, 1.0E-4D);
             final double d5 = d4 * d4;
 
-            return Lists.newArrayList(new Predicate[] { new Predicate() {
-                public boolean a(@Nullable Entity entity) {
+            return Lists.newArrayList(new Predicate[] { new Predicate<Entity>() {
+                @Override
+                public boolean apply(@Nullable Entity entity) {
                     if (entity == null) {
                         return false;
                     } else {
@@ -487,35 +481,28 @@ public class EntitySelector {
                         return (flag || d0 >= d1) && (flag1 || d0 <= d2);
                     }
                 }
-
-                public boolean apply(@Nullable Object object) {
-                    return this.a((Entity) object);
-                }
             }});
         }
     }
 
     private static List<Predicate<Entity>> func_179662_g(Map<String, String> map) {
         ArrayList arraylist = Lists.newArrayList();
-        final int i;
-        final int j;
+        int i;
+        int j;
 
         if (map.containsKey(EntitySelector.field_190844_r) || map.containsKey(EntitySelector.field_190843_q)) {
-            i = MathHelper.func_188209_b(func_179653_a(map, EntitySelector.field_190844_r, 0));
-            j = MathHelper.func_188209_b(func_179653_a(map, EntitySelector.field_190843_q, 359));
-            arraylist.add(new Predicate() {
-                public boolean a(@Nullable Entity entity) {
+            int fi = MathHelper.func_188209_b(func_179653_a(map, EntitySelector.field_190844_r, 0));
+            int fj = MathHelper.func_188209_b(func_179653_a(map, EntitySelector.field_190843_q, 359));
+            arraylist.add(new Predicate<Entity>() {
+                @Override
+                public boolean apply(@Nullable Entity entity) {
                     if (entity == null) {
                         return false;
                     } else {
-                        int i = MathHelper.func_188209_b(MathHelper.func_76141_d(entity.field_70177_z));
+                        int i1 = MathHelper.func_188209_b(MathHelper.func_76141_d(entity.field_70177_z));
 
-                        return j > field_190837_k ? i >= j || i <= field_190837_k : i >= j && i <= field_190837_k;
+                        return fi > fj ? i1 >= fj || i1 <= fj : i1 >= fj && i1 <= fj;
                     }
-                }
-
-                public boolean apply(@Nullable Object object) {
-                    return this.a((Entity) object);
                 }
             });
         }
@@ -523,19 +510,16 @@ public class EntitySelector {
         if (map.containsKey(EntitySelector.field_190842_p) || map.containsKey(EntitySelector.field_190841_o)) {
             i = MathHelper.func_188209_b(func_179653_a(map, EntitySelector.field_190842_p, 0));
             j = MathHelper.func_188209_b(func_179653_a(map, EntitySelector.field_190841_o, 359));
-            arraylist.add(new Predicate() {
-                public boolean a(@Nullable Entity entity) {
+            arraylist.add(new Predicate<Entity>() {
+                @Override
+                public boolean apply(@Nullable Entity entity) {
                     if (entity == null) {
                         return false;
                     } else {
-                        int i = MathHelper.func_188209_b(MathHelper.func_76141_d(entity.field_70125_A));
+                        int i1 = MathHelper.func_188209_b(MathHelper.func_76141_d(entity.field_70125_A));
 
-                        return j > field_190837_k ? i >= j || i <= field_190837_k : i >= j && i <= field_190837_k;
+                        return i > j ? i1 >= j || i1 <= j : i1 >= j && i1 <= j;
                     }
-                }
-
-                public boolean apply(@Nullable Object object) {
-                    return this.a((Entity) object);
                 }
             });
         }
@@ -560,7 +544,7 @@ public class EntitySelector {
 
         if (!map.containsKey(EntitySelector.field_190838_l) && !map.containsKey(EntitySelector.field_190839_m) && !map.containsKey(EntitySelector.field_190840_n)) {
             if (l >= 0) {
-                axisalignedbb = new AxisAlignedBB((double) (blockposition.func_177958_n() - l), (double) (blockposition.func_177956_o() - l), (double) (blockposition.func_177952_p() - l), (double) (blockposition.func_177958_n() + l + 1), (double) (blockposition.func_177956_o() + l + 1), (double) (blockposition.func_177952_p() + l + 1));
+                axisalignedbb = new AxisAlignedBB(blockposition.func_177958_n() - l, blockposition.func_177956_o() - l, blockposition.func_177952_p() - l, blockposition.func_177958_n() + l + 1, blockposition.func_177956_o() + l + 1, blockposition.func_177952_p() + l + 1);
                 if (flag && !flag1) {
                     arraylist.addAll(world.func_175661_b(oclass, predicate1));
                 } else {
@@ -581,6 +565,7 @@ public class EntitySelector {
                         return entity != null && axisalignedbb.func_72326_a(entity.func_174813_aQ());
                     }
 
+                    @Override
                     public boolean apply(@Nullable Object object) {
                         return this.a((Entity) object);
                     }
@@ -600,7 +585,7 @@ public class EntitySelector {
 
         if (!s.equals("p") && !s.equals("a") && !s.equals("e")) {
             if (s.equals("r")) {
-                Collections.shuffle((List) list);
+                Collections.shuffle(list);
             }
         } else {
             Collections.sort((List) list, new Comparator() {
@@ -608,6 +593,7 @@ public class EntitySelector {
                     return ComparisonChain.start().compare(entity.func_70092_e(vec3d.field_72450_a, vec3d.field_72448_b, vec3d.field_72449_c), entity1.func_70092_e(vec3d.field_72450_a, vec3d.field_72448_b, vec3d.field_72449_c)).result();
                 }
 
+                @Override
                 public int compare(Object object, Object object1) {
                     return this.a((Entity) object, (Entity) object1);
                 }
@@ -617,18 +603,18 @@ public class EntitySelector {
         Entity entity = icommandlistener.func_174793_f();
 
         if (entity != null && oclass.isAssignableFrom(entity.getClass()) && i == 1 && ((List) list).contains(entity) && !"r".equals(s)) {
-            list = Lists.newArrayList(new Entity[] { entity});
+            list = (List<T>) Lists.newArrayList(new Entity[] { entity});
         }
 
         if (i != 0) {
             if (i < 0) {
-                Collections.reverse((List) list);
+                Collections.reverse(list);
             }
 
             list = ((List) list).subList(0, Math.min(Math.abs(i), ((List) list).size()));
         }
 
-        return (List) list;
+        return list;
     }
 
     private static AxisAlignedBB func_179661_a(BlockPos blockposition, int i, int j, int k) {
@@ -642,7 +628,7 @@ public class EntitySelector {
         int l1 = blockposition.func_177956_o() + (flag1 ? 0 : j) + 1;
         int i2 = blockposition.func_177952_p() + (flag2 ? 0 : k) + 1;
 
-        return new AxisAlignedBB((double) l, (double) i1, (double) j1, (double) k1, (double) l1, (double) i2);
+        return new AxisAlignedBB(l, i1, j1, k1, l1, i2);
     }
 
     private static BlockPos func_179664_b(Map<String, String> map, BlockPos blockposition) {
@@ -654,7 +640,7 @@ public class EntitySelector {
     }
 
     private static double func_189211_a(Map<String, String> map, String s, double d0, boolean flag) {
-        return map.containsKey(s) ? (double) MathHelper.func_82715_a((String) map.get(s), MathHelper.func_76128_c(d0)) + (flag ? 0.5D : 0.0D) : d0;
+        return map.containsKey(s) ? MathHelper.func_82715_a(map.get(s), MathHelper.func_76128_c(d0)) + (flag ? 0.5D : 0.0D) : d0;
     }
 
     private static boolean func_179665_h(Map<String, String> map) {
@@ -674,12 +660,12 @@ public class EntitySelector {
     }
 
     private static int func_179653_a(Map<String, String> map, String s, int i) {
-        return map.containsKey(s) ? MathHelper.func_82715_a((String) map.get(s), i) : i;
+        return map.containsKey(s) ? MathHelper.func_82715_a(map.get(s), i) : i;
     }
 
     @Nullable
     private static String func_179651_b(Map<String, String> map, String s) {
-        return (String) map.get(s);
+        return map.get(s);
     }
 
     public static Map<String, Integer> func_96560_a(Map<String, String> map) {
@@ -690,7 +676,7 @@ public class EntitySelector {
             String s = (String) iterator.next();
 
             if (s.startsWith("score_") && s.length() > "score_".length()) {
-                hashmap.put(s.substring("score_".length()), Integer.valueOf(MathHelper.func_82715_a((String) map.get(s), 1)));
+                hashmap.put(s.substring("score_".length()), Integer.valueOf(MathHelper.func_82715_a(map.get(s), 1)));
             }
         }
 

@@ -16,10 +16,12 @@ public abstract class EntityWaterMob extends EntityLiving implements IAnimals {
         super(world);
     }
 
+    @Override
     public boolean func_70648_aU() {
         return true;
     }
 
+    @Override
     public boolean func_70601_bi() {
         // Paper start - Don't let water mobs spawn in non-water blocks
         // Based around EntityAnimal's implementation
@@ -32,22 +34,27 @@ public abstract class EntityWaterMob extends EntityLiving implements IAnimals {
         // Paper end
     }
 
+    @Override
     public boolean func_70058_J() {
-        return this.field_70170_p.func_72917_a(this.func_174813_aQ(), (Entity) this);
+        return this.field_70170_p.func_72917_a(this.func_174813_aQ(), this);
     }
 
+    @Override
     public int func_70627_aG() {
         return 120;
     }
 
-    protected boolean func_70692_ba() {
+    @Override
+    public boolean func_70692_ba() {
         return true;
     }
 
+    @Override
     protected int func_70693_a(EntityPlayer entityhuman) {
         return 1 + this.field_70170_p.field_73012_v.nextInt(3);
     }
 
+    @Override
     public void func_70030_z() {
         int i = this.func_70086_ai();
 
@@ -65,6 +72,7 @@ public abstract class EntityWaterMob extends EntityLiving implements IAnimals {
 
     }
 
+    @Override
     public boolean func_96092_aw() {
         return false;
     }

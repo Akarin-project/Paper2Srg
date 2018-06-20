@@ -14,7 +14,6 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
@@ -28,7 +27,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
     private final MapGenStronghold strongholdGen = new MapGenStronghold();
 
     private static class CustomBiomeGrid implements BiomeGrid {
-        Biome[] biome;
+        net.minecraft.world.biome.Biome[] biome;
 
         @Override
         public Biome getBiome(int x, int z) {
@@ -56,7 +55,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
 
         // Get default biome data for chunk
         CustomBiomeGrid biomegrid = new CustomBiomeGrid();
-        biomegrid.biome = new Biome[256];
+        biomegrid.biome = new net.minecraft.world.biome.Biome[256];
         world.func_72959_q().func_76933_b(biomegrid.biome, x << 4, z << 4, 16, 16);
 
         // Try ChunkData method (1.8+)
@@ -181,7 +180,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
         // Set biome grid
         byte[] biomeIndex = chunk.func_76605_m();
         for (int i = 0; i < biomeIndex.length; i++) {
-            biomeIndex[i] = (byte) (Biome.field_185377_q.func_148757_b(biomegrid.biome[i]) & 0xFF); // PAIL : rename
+            biomeIndex[i] = (byte) (net.minecraft.world.biome.Biome.field_185377_q.func_148757_b(biomegrid.biome[i]) & 0xFF); // PAIL : rename
         }
         // Initialize lighting
         chunk.func_76603_b();
@@ -225,8 +224,8 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
     }
 
     @Override
-    public List<Biome.SpawnListEntry> func_177458_a(EnumCreatureType type, BlockPos position) {
-        Biome biomebase = world.func_180494_b(position);
+    public List<net.minecraft.world.biome.Biome.SpawnListEntry> func_177458_a(EnumCreatureType type, BlockPos position) {
+        net.minecraft.world.biome.Biome biomebase = world.func_180494_b(position);
 
         return biomebase == null ? null : biomebase.func_76747_a(type);
     }

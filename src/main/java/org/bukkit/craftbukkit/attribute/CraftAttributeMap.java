@@ -6,7 +6,7 @@ import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 
-import net;
+
 
 public class CraftAttributeMap implements Attributable {
 
@@ -19,7 +19,7 @@ public class CraftAttributeMap implements Attributable {
     @Override
     public AttributeInstance getAttribute(Attribute attribute) {
         Preconditions.checkArgument(attribute != null, "attribute");
-        entity.ai.attributes.IAttributeInstance nms = handle.func_111152_a(toMinecraft(attribute.name()));
+        net.minecraft.entity.ai.attributes.IAttributeInstance nms = handle.func_111152_a(toMinecraft(attribute.name()));
 
         return (nms == null) ? null : new CraftAttributeInstance(nms, attribute);
     }

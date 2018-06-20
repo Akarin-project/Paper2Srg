@@ -22,7 +22,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.server.Explosion.CacheKey;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumParticleTypes;
@@ -85,9 +84,9 @@ public class Explosion {
             for (i = 0; i < 16; ++i) {
                 for (j = 0; j < 16; ++j) {
                     if (k == 0 || k == 15 || i == 0 || i == 15 || j == 0 || j == 15) {
-                        double d0 = (double) ((float) k / 15.0F * 2.0F - 1.0F);
-                        double d1 = (double) ((float) i / 15.0F * 2.0F - 1.0F);
-                        double d2 = (double) ((float) j / 15.0F * 2.0F - 1.0F);
+                        double d0 = k / 15.0F * 2.0F - 1.0F;
+                        double d1 = i / 15.0F * 2.0F - 1.0F;
+                        double d2 = j / 15.0F * 2.0F - 1.0F;
                         double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
 
                         d0 /= d3;
@@ -124,14 +123,14 @@ public class Explosion {
         this.field_77281_g.addAll(hashset);
         float f3 = this.field_77280_f * 2.0F;
 
-        i = MathHelper.func_76128_c(this.field_77284_b - (double) f3 - 1.0D);
-        j = MathHelper.func_76128_c(this.field_77284_b + (double) f3 + 1.0D);
-        int l = MathHelper.func_76128_c(this.field_77285_c - (double) f3 - 1.0D);
-        int i1 = MathHelper.func_76128_c(this.field_77285_c + (double) f3 + 1.0D);
-        int j1 = MathHelper.func_76128_c(this.field_77282_d - (double) f3 - 1.0D);
-        int k1 = MathHelper.func_76128_c(this.field_77282_d + (double) f3 + 1.0D);
+        i = MathHelper.func_76128_c(this.field_77284_b - f3 - 1.0D);
+        j = MathHelper.func_76128_c(this.field_77284_b + f3 + 1.0D);
+        int l = MathHelper.func_76128_c(this.field_77285_c - f3 - 1.0D);
+        int i1 = MathHelper.func_76128_c(this.field_77285_c + f3 + 1.0D);
+        int j1 = MathHelper.func_76128_c(this.field_77282_d - f3 - 1.0D);
+        int k1 = MathHelper.func_76128_c(this.field_77282_d + f3 + 1.0D);
         // Paper start - Fix lag from explosions processing dead entities
-        List list = this.field_77287_j.func_175674_a(this.field_77283_e, new AxisAlignedBB((double) i, (double) l, (double) j1, (double) j, (double) i1, (double) k1), new com.google.common.base.Predicate<Entity>() {
+        List list = this.field_77287_j.func_175674_a(this.field_77283_e, new AxisAlignedBB(i, l, j1, j, i1, k1), new com.google.common.base.Predicate<Entity>() {
             @Override
             public boolean apply(Entity entity) {
                 return EntitySelectors.field_188444_d.apply(entity) && !entity.field_70128_L;
@@ -144,13 +143,13 @@ public class Explosion {
             Entity entity = (Entity) list.get(l1);
 
             if (!entity.func_180427_aV()) {
-                double d7 = entity.func_70011_f(this.field_77284_b, this.field_77285_c, this.field_77282_d) / (double) f3;
+                double d7 = entity.func_70011_f(this.field_77284_b, this.field_77285_c, this.field_77282_d) / f3;
 
                 if (d7 <= 1.0D) {
                     double d8 = entity.field_70165_t - this.field_77284_b;
-                    double d9 = entity.field_70163_u + (double) entity.func_70047_e() - this.field_77285_c;
+                    double d9 = entity.field_70163_u + entity.func_70047_e() - this.field_77285_c;
                     double d10 = entity.field_70161_v - this.field_77282_d;
-                    double d11 = (double) MathHelper.func_76133_a(d8 * d8 + d9 * d9 + d10 * d10);
+                    double d11 = MathHelper.func_76133_a(d8 * d8 + d9 * d9 + d10 * d10);
 
                     if (d11 != 0.0D) {
                         d8 /= d11;
@@ -163,7 +162,7 @@ public class Explosion {
                         // entity.damageEntity(DamageSource.explosion(this), (float) ((int) ((d13 * d13 + d13) / 2.0D * 7.0D * (double) f3 + 1.0D)));
                         CraftEventFactory.entityDamage = field_77283_e;
                         entity.forceExplosionKnockback = false;
-                        boolean wasDamaged = entity.func_70097_a(DamageSource.func_94539_a(this), (float) ((int) ((d13 * d13 + d13) / 2.0D * 7.0D * (double) f3 + 1.0D)));
+                        boolean wasDamaged = entity.func_70097_a(DamageSource.func_94539_a(this), ((int) ((d13 * d13 + d13) / 2.0D * 7.0D * f3 + 1.0D)));
                         CraftEventFactory.entityDamage = null;
                         if (!wasDamaged && !(entity instanceof EntityTNTPrimed || entity instanceof EntityFallingBlock) && !entity.forceExplosionKnockback) {
                             continue;
@@ -211,7 +210,7 @@ public class Explosion {
 
             List<org.bukkit.block.Block> blockList = Lists.newArrayList();
             for (int i1 = this.field_77281_g.size() - 1; i1 >= 0; i1--) {
-                BlockPos cpos = (BlockPos) this.field_77281_g.get(i1);
+                BlockPos cpos = this.field_77281_g.get(i1);
                 org.bukkit.block.Block bblock = bworld.getBlockAt(cpos.func_177958_n(), cpos.func_177956_o(), cpos.func_177952_p());
                 if (bblock.getType() != org.bukkit.Material.AIR) {
                     blockList.add(bblock);
@@ -257,20 +256,20 @@ public class Explosion {
                 this.field_77287_j.chunkPacketBlockController.updateNearbyBlocks(this.field_77287_j, blockposition); // Paper - Anti-Xray
 
                 if (flag) {
-                    double d0 = (double) ((float) blockposition.func_177958_n() + this.field_77287_j.field_73012_v.nextFloat());
-                    double d1 = (double) ((float) blockposition.func_177956_o() + this.field_77287_j.field_73012_v.nextFloat());
-                    double d2 = (double) ((float) blockposition.func_177952_p() + this.field_77287_j.field_73012_v.nextFloat());
+                    double d0 = blockposition.func_177958_n() + this.field_77287_j.field_73012_v.nextFloat();
+                    double d1 = blockposition.func_177956_o() + this.field_77287_j.field_73012_v.nextFloat();
+                    double d2 = blockposition.func_177952_p() + this.field_77287_j.field_73012_v.nextFloat();
                     double d3 = d0 - this.field_77284_b;
                     double d4 = d1 - this.field_77285_c;
                     double d5 = d2 - this.field_77282_d;
-                    double d6 = (double) MathHelper.func_76133_a(d3 * d3 + d4 * d4 + d5 * d5);
+                    double d6 = MathHelper.func_76133_a(d3 * d3 + d4 * d4 + d5 * d5);
 
                     d3 /= d6;
                     d4 /= d6;
                     d5 /= d6;
-                    double d7 = 0.5D / (d6 / (double) this.field_77280_f + 0.1D);
+                    double d7 = 0.5D / (d6 / this.field_77280_f + 0.1D);
 
-                    d7 *= (double) (this.field_77287_j.field_73012_v.nextFloat() * this.field_77287_j.field_73012_v.nextFloat() + 0.3F);
+                    d7 *= this.field_77287_j.field_73012_v.nextFloat() * this.field_77287_j.field_73012_v.nextFloat() + 0.3F;
                     d3 *= d7;
                     d4 *= d7;
                     d5 *= d7;

@@ -382,7 +382,7 @@ public abstract class Entity implements ICommandSender {
 
     }
 
-    protected void func_70101_b(float f, float f1) {
+    public void func_70101_b(float f, float f1) {
         // CraftBukkit start - yaw was sometimes set to NaN, so we need to set it back to 0
         if (Float.isNaN(f)) {
             f = 0;
@@ -2745,6 +2745,7 @@ public abstract class Entity implements ICommandSender {
         return true;
     }
 
+    public AxisAlignedBB getBoundingBox() { return func_174813_aQ(); }
     public AxisAlignedBB func_174813_aQ() {
         return this.field_70121_D;
     }
@@ -2806,6 +2807,7 @@ public abstract class Entity implements ICommandSender {
         return new Vec3d(this.field_70165_t, this.field_70163_u, this.field_70161_v);
     }
 
+    public World getWorld() { return func_130014_f_(); }
     @Override
     public World func_130014_f_() {
         return this.field_70170_p;

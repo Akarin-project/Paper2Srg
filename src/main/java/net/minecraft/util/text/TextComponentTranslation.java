@@ -129,7 +129,7 @@ public class TextComponentTranslation extends TextComponentBase {
             Object object1;
 
             if (object instanceof ITextComponent) {
-                object1 = (ITextComponent) object;
+                object1 = object;
             } else {
                 object1 = new TextComponentString(object == null ? "null" : object.toString());
                 ((ITextComponent) object1).func_150256_b().func_150221_a(this.func_150256_b());
@@ -139,6 +139,7 @@ public class TextComponentTranslation extends TextComponentBase {
         }
     }
 
+    @Override
     public ITextComponent func_150255_a(Style chatmodifier) {
         super.func_150255_a(chatmodifier);
         Object[] aobject = this.field_150277_e;
@@ -165,11 +166,13 @@ public class TextComponentTranslation extends TextComponentBase {
         return this;
     }
 
+    @Override
     public Iterator<ITextComponent> iterator() {
         this.func_150270_g();
-        return Iterators.concat(func_150262_a((Iterable) this.field_150278_b), func_150262_a((Iterable) this.field_150264_a));
+        return Iterators.concat(func_150262_a(this.field_150278_b), func_150262_a(this.field_150264_a));
     }
 
+    @Override
     public String func_150261_e() {
         this.func_150270_g();
         StringBuilder stringbuilder = new StringBuilder();
@@ -184,6 +187,7 @@ public class TextComponentTranslation extends TextComponentBase {
         return stringbuilder.toString();
     }
 
+    @Override
     public TextComponentTranslation func_150259_f() {
         Object[] aobject = new Object[this.field_150277_e.length];
 
@@ -209,6 +213,7 @@ public class TextComponentTranslation extends TextComponentBase {
         return chatmessage;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -221,6 +226,7 @@ public class TextComponentTranslation extends TextComponentBase {
         }
     }
 
+    @Override
     public int hashCode() {
         int i = super.hashCode();
 
@@ -229,6 +235,7 @@ public class TextComponentTranslation extends TextComponentBase {
         return i;
     }
 
+    @Override
     public String toString() {
         return "TranslatableComponent{key=\'" + this.field_150276_d + '\'' + ", args=" + Arrays.toString(this.field_150277_e) + ", siblings=" + this.field_150264_a + ", style=" + this.func_150256_b() + '}';
     }
@@ -239,9 +246,5 @@ public class TextComponentTranslation extends TextComponentBase {
 
     public Object[] func_150271_j() {
         return this.field_150277_e;
-    }
-
-    public ITextComponent func_150259_f() {
-        return this.func_150259_f();
     }
 }

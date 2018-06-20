@@ -25,6 +25,7 @@ import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.IDataWalker;
 import net.minecraft.util.datafix.walkers.ItemStackData;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
@@ -66,9 +67,9 @@ public class EntityItem extends Entity implements HopperPusher {
         this.func_70105_a(0.25F, 0.25F);
         this.func_70107_b(d0, d1, d2);
         this.field_70177_z = (float) (Math.random() * 360.0D);
-        this.field_70159_w = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D));
+        this.field_70159_w = ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D));
         this.field_70181_x = 0.20000000298023224D;
-        this.field_70179_y = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D));
+        this.field_70179_y = ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D));
     }
 
     public EntityItem(World world, double d0, double d1, double d2, ItemStack itemstack) {
@@ -76,6 +77,7 @@ public class EntityItem extends Entity implements HopperPusher {
         this.func_92058_a(itemstack);
     }
 
+    @Override
     protected boolean func_70041_e_() {
         return false;
     }
@@ -88,10 +90,12 @@ public class EntityItem extends Entity implements HopperPusher {
         this.func_92058_a(ItemStack.field_190927_a);
     }
 
+    @Override
     protected void func_70088_a() {
         this.func_184212_Q().func_187214_a(EntityItem.field_184533_c, ItemStack.field_190927_a);
     }
 
+    @Override
     public void func_70071_h_() {
         if (this.func_92059_d().func_190926_b()) {
             this.func_70106_y();
@@ -128,8 +132,8 @@ public class EntityItem extends Entity implements HopperPusher {
             if (flag || this.field_70173_aa % 25 == 0) {
                 if (this.field_70170_p.func_180495_p(new BlockPos(this)).func_185904_a() == Material.field_151587_i) {
                     this.field_70181_x = 0.20000000298023224D;
-                    this.field_70159_w = (double) ((this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F);
-                    this.field_70179_y = (double) ((this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F);
+                    this.field_70159_w = (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F;
+                    this.field_70179_y = (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F;
                     this.func_184185_a(SoundEvents.field_187658_bx, 0.4F, 2.0F + this.field_70146_Z.nextFloat() * 0.4F);
                 }
 
@@ -144,9 +148,9 @@ public class EntityItem extends Entity implements HopperPusher {
                 f = this.field_70170_p.func_180495_p(new BlockPos(MathHelper.func_76128_c(this.field_70165_t), MathHelper.func_76128_c(this.func_174813_aQ().field_72338_b) - 1, MathHelper.func_76128_c(this.field_70161_v))).func_177230_c().field_149765_K * 0.98F;
             }
 
-            this.field_70159_w *= (double) f;
+            this.field_70159_w *= f;
             this.field_70181_x *= 0.9800000190734863D;
-            this.field_70179_y *= (double) f;
+            this.field_70179_y *= f;
             if (this.field_70122_E) {
                 this.field_70181_x *= -0.5D;
             }
@@ -268,8 +272,9 @@ public class EntityItem extends Entity implements HopperPusher {
         this.field_70292_b = 4800;
     }
 
+    @Override
     public boolean func_70072_I() {
-        if (this.field_70170_p.func_72918_a(this.func_174813_aQ(), Material.field_151586_h, (Entity) this)) {
+        if (this.field_70170_p.func_72918_a(this.func_174813_aQ(), Material.field_151586_h, this)) {
             if (!this.field_70171_ac && !this.field_70148_d) {
                 this.func_71061_d_();
             }
@@ -283,9 +288,10 @@ public class EntityItem extends Entity implements HopperPusher {
     }
 
     protected void burn(int i) {
-        this.func_70097_a(DamageSource.field_76372_a, (float) i);
+        this.func_70097_a(DamageSource.field_76372_a, i);
     }
 
+    @Override
     public boolean func_70097_a(DamageSource damagesource, float f) {
         if (this.func_180431_b(damagesource)) {
             return false;
@@ -298,7 +304,7 @@ public class EntityItem extends Entity implements HopperPusher {
             }
             // CraftBukkit end
             this.func_70018_K();
-            this.field_70291_e = (int) ((float) this.field_70291_e - f);
+            this.field_70291_e = (int) (this.field_70291_e - f);
             if (this.field_70291_e <= 0) {
                 this.func_70106_y();
             }
@@ -308,9 +314,10 @@ public class EntityItem extends Entity implements HopperPusher {
     }
 
     public static void func_189742_a(DataFixer dataconvertermanager) {
-        dataconvertermanager.func_188258_a(FixTypes.ENTITY, (IDataWalker) (new ItemStackData(EntityItem.class, new String[] { "Item"})));
+        dataconvertermanager.func_188258_a(FixTypes.ENTITY, (new ItemStackData(EntityItem.class, new String[] { "Item"})));
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         nbttagcompound.func_74777_a("Health", (short) this.field_70291_e);
         nbttagcompound.func_74777_a("Age", (short) this.field_70292_b);
@@ -329,6 +336,7 @@ public class EntityItem extends Entity implements HopperPusher {
 
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         this.field_70291_e = nbttagcompound.func_74765_d("Health");
         this.field_70292_b = nbttagcompound.func_74765_d("Age");
@@ -353,6 +361,7 @@ public class EntityItem extends Entity implements HopperPusher {
 
     }
 
+    @Override
     public void func_70100_b_(EntityPlayer entityhuman) {
         if (!this.field_70170_p.field_72995_K) {
             ItemStack itemstack = this.func_92059_d();
@@ -428,14 +437,17 @@ public class EntityItem extends Entity implements HopperPusher {
         }
     }
 
+    @Override
     public String func_70005_c_() {
         return this.func_145818_k_() ? this.func_95999_t() : I18n.func_74838_a("item." + this.func_92059_d().func_77977_a());
     }
 
+    @Override
     public boolean func_70075_an() {
         return false;
     }
 
+    @Override
     @Nullable
     public Entity func_184204_a(int i) {
         Entity entity = super.func_184204_a(i);
@@ -448,7 +460,7 @@ public class EntityItem extends Entity implements HopperPusher {
     }
 
     public ItemStack func_92059_d() {
-        return (ItemStack) this.func_184212_Q().func_187225_a(EntityItem.field_184533_c);
+        return this.func_184212_Q().func_187225_a(EntityItem.field_184533_c);
     }
 
     public void func_92058_a(ItemStack itemstack) {

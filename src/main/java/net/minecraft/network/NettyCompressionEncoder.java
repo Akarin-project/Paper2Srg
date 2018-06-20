@@ -16,6 +16,7 @@ public class NettyCompressionEncoder extends MessageToByteEncoder<ByteBuf> {
         this.field_179300_b = new Deflater();
     }
 
+    @Override
     protected void encode(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf, ByteBuf bytebuf1) throws Exception {
         int i = bytebuf.readableBytes();
         PacketBuffer packetdataserializer = new PacketBuffer(bytebuf1);
@@ -44,9 +45,5 @@ public class NettyCompressionEncoder extends MessageToByteEncoder<ByteBuf> {
 
     public void func_179299_a(int i) {
         this.field_179301_c = i;
-    }
-
-    protected void encode(ChannelHandlerContext channelhandlercontext, Object object, ByteBuf bytebuf) throws Exception {
-        this.encode(channelhandlercontext, (ByteBuf) object, bytebuf);
     }
 }

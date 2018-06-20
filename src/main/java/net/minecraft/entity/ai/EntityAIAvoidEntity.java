@@ -35,6 +35,7 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
                 return entity.func_70089_S() && EntityAIAvoidEntity.this.field_75380_a.func_70635_at().func_75522_a(entity) && !EntityAIAvoidEntity.this.field_75380_a.func_184191_r(entity);
             }
 
+            @Override
             public boolean apply(@Nullable Object object) {
                 return this.a((Entity) object);
             }
@@ -49,13 +50,14 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
         this.func_75248_a(1);
     }
 
+    @Override
     public boolean func_75250_a() {
-        List list = this.field_75380_a.field_70170_p.func_175647_a(this.field_181064_i, this.field_75380_a.func_174813_aQ().func_72314_b((double) this.field_179508_f, 3.0D, (double) this.field_179508_f), Predicates.and(new Predicate[] { EntitySelectors.field_188444_d, this.field_179509_a, this.field_179510_i}));
+        List list = this.field_75380_a.field_70170_p.func_175647_a(this.field_181064_i, this.field_75380_a.func_174813_aQ().func_72314_b(this.field_179508_f, 3.0D, this.field_179508_f), Predicates.and(new Predicate[] { EntitySelectors.field_188444_d, this.field_179509_a, this.field_179510_i}));
 
         if (list.isEmpty()) {
             return false;
         } else {
-            this.field_75376_d = (Entity) list.get(0);
+            this.field_75376_d = (T) list.get(0);
             Vec3d vec3d = RandomPositionGenerator.func_75461_b(this.field_75380_a, 16, 7, new Vec3d(this.field_75376_d.field_70165_t, this.field_75376_d.field_70163_u, this.field_75376_d.field_70161_v));
 
             if (vec3d == null) {
@@ -69,18 +71,22 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
         }
     }
 
+    @Override
     public boolean func_75253_b() {
         return !this.field_75375_g.func_75500_f();
     }
 
+    @Override
     public void func_75249_e() {
         this.field_75375_g.func_75484_a(this.field_75374_f, this.field_75378_b);
     }
 
+    @Override
     public void func_75251_c() {
         this.field_75376_d = null;
     }
 
+    @Override
     public void func_75246_d() {
         if (this.field_75380_a.func_70068_e(this.field_75376_d) < 49.0D) {
             this.field_75380_a.func_70661_as().func_75489_a(this.field_75379_c);

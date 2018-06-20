@@ -18,7 +18,7 @@ public class MapPopulator {
         while (iterator1.hasNext()) {
             Object object = iterator1.next();
 
-            map.put(object, iterator.next());
+            map.put((K) object, (V) iterator.next());
         }
 
         if (iterator.hasNext()) {

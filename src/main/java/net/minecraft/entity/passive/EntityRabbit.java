@@ -75,6 +75,7 @@ public class EntityRabbit extends EntityAnimal {
     }
     // CraftBukkit end
 
+    @Override
     protected void func_184651_r() {
         this.field_70714_bg.func_75776_a(1, new EntityAISwimming(this));
         this.field_70714_bg.func_75776_a(1, new EntityRabbit.AIPanic(this, 2.2D));
@@ -90,12 +91,13 @@ public class EntityRabbit extends EntityAnimal {
         this.field_70714_bg.func_75776_a(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
     }
 
+    @Override
     protected float func_175134_bD() {
         if (!this.field_70123_F && (!this.field_70765_h.func_75640_a() || this.field_70765_h.func_179919_e() <= this.field_70163_u + 0.5D)) {
             Path pathentity = this.field_70699_by.func_75505_d();
 
             if (pathentity != null && pathentity.func_75873_e() < pathentity.func_75874_d()) {
-                Vec3d vec3d = pathentity.func_75878_a((Entity) this);
+                Vec3d vec3d = pathentity.func_75878_a(this);
 
                 if (vec3d.field_72448_b > this.field_70163_u + 0.5D) {
                     return 0.5F;
@@ -108,6 +110,7 @@ public class EntityRabbit extends EntityAnimal {
         }
     }
 
+    @Override
     protected void func_70664_aZ() {
         super.func_70664_aZ();
         double d0 = this.field_70765_h.func_75638_b();
@@ -131,6 +134,7 @@ public class EntityRabbit extends EntityAnimal {
         this.field_70765_h.func_75642_a(this.field_70765_h.func_179917_d(), this.field_70765_h.func_179919_e(), this.field_70765_h.func_179918_f(), d0);
     }
 
+    @Override
     public void func_70637_d(boolean flag) {
         super.func_70637_d(flag);
         if (flag) {
@@ -145,11 +149,13 @@ public class EntityRabbit extends EntityAnimal {
         this.field_175540_bm = 0;
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityRabbit.field_184773_bv, Integer.valueOf(0));
     }
 
+    @Override
     public void func_70619_bc() {
         if (this.field_175538_bq > 0) {
             --this.field_175538_bq;
@@ -187,7 +193,7 @@ public class EntityRabbit extends EntityAnimal {
                     Vec3d vec3d = new Vec3d(this.field_70765_h.func_179917_d(), this.field_70765_h.func_179919_e(), this.field_70765_h.func_179918_f());
 
                     if (pathentity != null && pathentity.func_75873_e() < pathentity.func_75874_d()) {
-                        vec3d = pathentity.func_75878_a((Entity) this);
+                        vec3d = pathentity.func_75878_a(this);
                     }
 
                     this.func_175533_a(vec3d.field_72450_a, vec3d.field_72449_c);
@@ -201,6 +207,7 @@ public class EntityRabbit extends EntityAnimal {
         this.field_175537_bp = this.field_70122_E;
     }
 
+    @Override
     public void func_174830_Y() {}
 
     private void func_175533_a(double d0, double d1) {
@@ -229,6 +236,7 @@ public class EntityRabbit extends EntityAnimal {
         this.func_175520_cs();
     }
 
+    @Override
     public void func_70636_d() {
         super.func_70636_d();
         if (this.field_175540_bm != this.field_175535_bn) {
@@ -241,6 +249,7 @@ public class EntityRabbit extends EntityAnimal {
 
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(3.0D);
@@ -251,12 +260,14 @@ public class EntityRabbit extends EntityAnimal {
         EntityLiving.func_189752_a(dataconvertermanager, EntityRabbit.class);
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("RabbitType", this.func_175531_cl());
         nbttagcompound.func_74768_a("MoreCarrotTicks", this.field_175541_bs);
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.func_175529_r(nbttagcompound.func_74762_e("RabbitType"));
@@ -267,18 +278,22 @@ public class EntityRabbit extends EntityAnimal {
         return SoundEvents.field_187824_en;
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return SoundEvents.field_187816_ej;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187822_em;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187820_el;
     }
 
+    @Override
     public boolean func_70652_k(Entity entity) {
         if (this.func_175531_cl() == 99) {
             this.func_184185_a(SoundEvents.field_187818_ek, 1.0F, (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F + 1.0F);
@@ -288,14 +303,17 @@ public class EntityRabbit extends EntityAnimal {
         }
     }
 
+    @Override
     public SoundCategory func_184176_by() {
         return this.func_175531_cl() == 99 ? SoundCategory.HOSTILE : SoundCategory.NEUTRAL;
     }
 
+    @Override
     public boolean func_70097_a(DamageSource damagesource, float f) {
         return this.func_180431_b(damagesource) ? false : super.func_70097_a(damagesource, f);
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186393_A;
@@ -305,6 +323,7 @@ public class EntityRabbit extends EntityAnimal {
         return item == Items.field_151172_bF || item == Items.field_151150_bK || item == Item.func_150898_a(Blocks.field_150327_N);
     }
 
+    @Override
     public EntityRabbit func_90011_a(EntityAgeable entityageable) {
         EntityRabbit entityrabbit = new EntityRabbit(this.field_70170_p);
         int i = this.func_184772_dk();
@@ -321,12 +340,13 @@ public class EntityRabbit extends EntityAnimal {
         return entityrabbit;
     }
 
+    @Override
     public boolean func_70877_b(ItemStack itemstack) {
         return this.func_175525_a(itemstack.func_77973_b());
     }
 
     public int func_175531_cl() {
-        return ((Integer) this.field_70180_af.func_187225_a(EntityRabbit.field_184773_bv)).intValue();
+        return this.field_70180_af.func_187225_a(EntityRabbit.field_184773_bv).intValue();
     }
 
     public void func_175529_r(int i) {
@@ -344,6 +364,7 @@ public class EntityRabbit extends EntityAnimal {
         this.field_70180_af.func_187227_b(EntityRabbit.field_184773_bv, Integer.valueOf(i));
     }
 
+    @Override
     @Nullable
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
         Object object = super.func_180482_a(difficultydamagescaler, groupdataentity);
@@ -380,12 +401,8 @@ public class EntityRabbit extends EntityAnimal {
         BlockCarrot blockcarrots = (BlockCarrot) Blocks.field_150459_bM;
         IBlockState iblockdata = blockcarrots.func_185528_e(blockcarrots.func_185526_g());
 
-        this.field_70170_p.func_175688_a(EnumParticleTypes.BLOCK_DUST, this.field_70165_t + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, this.field_70163_u + 0.5D + (double) (this.field_70146_Z.nextFloat() * this.field_70131_O), this.field_70161_v + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, 0.0D, 0.0D, 0.0D, new int[] { Block.func_176210_f(iblockdata)});
+        this.field_70170_p.func_175688_a(EnumParticleTypes.BLOCK_DUST, this.field_70165_t + this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F - this.field_70130_N, this.field_70163_u + 0.5D + this.field_70146_Z.nextFloat() * this.field_70131_O, this.field_70161_v + this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F - this.field_70130_N, 0.0D, 0.0D, 0.0D, new int[] { Block.func_176210_f(iblockdata)});
         this.field_175541_bs = 40;
-    }
-
-    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
     }
 
     static class AIEvilAttack extends EntityAIAttackMelee {
@@ -394,8 +411,9 @@ public class EntityRabbit extends EntityAnimal {
             super(entityrabbit, 1.4D, true);
         }
 
+        @Override
         protected double func_179512_a(EntityLivingBase entityliving) {
-            return (double) (4.0F + entityliving.field_70130_N);
+            return 4.0F + entityliving.field_70130_N;
         }
     }
 
@@ -408,6 +426,7 @@ public class EntityRabbit extends EntityAnimal {
             this.field_179486_b = entityrabbit;
         }
 
+        @Override
         public void func_75246_d() {
             super.func_75246_d();
             this.field_179486_b.func_175515_b(this.field_75265_b);
@@ -425,6 +444,7 @@ public class EntityRabbit extends EntityAnimal {
             this.field_179500_c = entityrabbit;
         }
 
+        @Override
         public boolean func_75250_a() {
             if (this.field_179496_a <= 0) {
                 if (!this.field_179500_c.field_70170_p.func_82736_K().func_82766_b("mobGriefing")) {
@@ -439,13 +459,15 @@ public class EntityRabbit extends EntityAnimal {
             return super.func_75250_a();
         }
 
+        @Override
         public boolean func_75253_b() {
             return this.field_179499_e && super.func_75253_b();
         }
 
+        @Override
         public void func_75246_d() {
             super.func_75246_d();
-            this.field_179500_c.func_70671_ap().func_75650_a((double) this.field_179494_b.func_177958_n() + 0.5D, (double) (this.field_179494_b.func_177956_o() + 1), (double) this.field_179494_b.func_177952_p() + 0.5D, 10.0F, (float) this.field_179500_c.func_70646_bf());
+            this.field_179500_c.func_70671_ap().func_75650_a(this.field_179494_b.func_177958_n() + 0.5D, this.field_179494_b.func_177956_o() + 1, this.field_179494_b.func_177952_p() + 0.5D, 10.0F, this.field_179500_c.func_70646_bf());
             if (this.func_179487_f()) {
                 World world = this.field_179500_c.field_70170_p;
                 BlockPos blockposition = this.field_179494_b.func_177984_a();
@@ -453,7 +475,7 @@ public class EntityRabbit extends EntityAnimal {
                 Block block = iblockdata.func_177230_c();
 
                 if (this.field_179499_e && block instanceof BlockCarrot) {
-                    Integer integer = (Integer) iblockdata.func_177229_b(BlockCarrot.field_176488_a);
+                    Integer integer = iblockdata.func_177229_b(BlockCarrot.field_176488_a);
 
                     if (integer.intValue() == 0) {
                         // CraftBukkit start
@@ -486,6 +508,7 @@ public class EntityRabbit extends EntityAnimal {
 
         }
 
+        @Override
         protected boolean func_179488_a(World world, BlockPos blockposition) {
             Block block = world.func_180495_p(blockposition).func_177230_c();
 
@@ -513,6 +536,7 @@ public class EntityRabbit extends EntityAnimal {
             this.field_179511_d = entityrabbit;
         }
 
+        @Override
         public boolean func_75250_a() {
             return this.field_179511_d.func_175531_cl() != 99 && super.func_75250_a();
         }
@@ -528,6 +552,7 @@ public class EntityRabbit extends EntityAnimal {
             this.field_179929_g = entityrabbit;
         }
 
+        @Override
         public void func_75641_c() {
             if (this.field_179929_g.field_70122_E && !this.field_179929_g.field_70703_bu && !((EntityRabbit.RabbitJumpHelper) this.field_179929_g.field_70767_i).func_180067_c()) {
                 this.field_179929_g.func_175515_b(0.0D);
@@ -538,6 +563,7 @@ public class EntityRabbit extends EntityAnimal {
             super.func_75641_c();
         }
 
+        @Override
         public void func_75642_a(double d0, double d1, double d2, double d3) {
             if (this.field_179929_g.func_70090_H()) {
                 d3 = 1.5D;
@@ -573,6 +599,7 @@ public class EntityRabbit extends EntityAnimal {
             this.field_180068_d = flag;
         }
 
+        @Override
         public void func_75661_b() {
             if (this.field_75662_b) {
                 this.field_180070_c.func_184770_cZ();

@@ -14,36 +14,37 @@ import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.CriterionTriggerNetherTravel.a;
-import net.minecraft.server.CriterionTriggerNetherTravel.b;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.WorldServer;
 
-public class NetherTravelTrigger implements ICriterionTrigger<CriterionTriggerNetherTravel.b> {
+public class NetherTravelTrigger implements ICriterionTrigger<NetherTravelTrigger.b> {
 
     private static final ResourceLocation field_193169_a = new ResourceLocation("nether_travel");
-    private final Map<PlayerAdvancements, CriterionTriggerNetherTravel.a> field_193170_b = Maps.newHashMap();
+    private final Map<PlayerAdvancements, NetherTravelTrigger.a> field_193170_b = Maps.newHashMap();
 
     public NetherTravelTrigger() {}
 
+    @Override
     public ResourceLocation func_192163_a() {
         return NetherTravelTrigger.field_193169_a;
     }
 
-    public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerNetherTravel.b> criteriontrigger_a) {
-        CriterionTriggerNetherTravel.a criteriontriggernethertravel_a = (CriterionTriggerNetherTravel.a) this.field_193170_b.get(advancementdataplayer);
+    @Override
+    public void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<NetherTravelTrigger.b> criteriontrigger_a) {
+        NetherTravelTrigger.a criteriontriggernethertravel_a = this.field_193170_b.get(advancementdataplayer);
 
         if (criteriontriggernethertravel_a == null) {
-            criteriontriggernethertravel_a = new CriterionTriggerNetherTravel.a(advancementdataplayer);
+            criteriontriggernethertravel_a = new NetherTravelTrigger.a(advancementdataplayer);
             this.field_193170_b.put(advancementdataplayer, criteriontriggernethertravel_a);
         }
 
         criteriontriggernethertravel_a.a(criteriontrigger_a);
     }
 
-    public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerNetherTravel.b> criteriontrigger_a) {
-        CriterionTriggerNetherTravel.a criteriontriggernethertravel_a = (CriterionTriggerNetherTravel.a) this.field_193170_b.get(advancementdataplayer);
+    @Override
+    public void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<NetherTravelTrigger.b> criteriontrigger_a) {
+        NetherTravelTrigger.a criteriontriggernethertravel_a = this.field_193170_b.get(advancementdataplayer);
 
         if (criteriontriggernethertravel_a != null) {
             criteriontriggernethertravel_a.b(criteriontrigger_a);
@@ -54,20 +55,21 @@ public class NetherTravelTrigger implements ICriterionTrigger<CriterionTriggerNe
 
     }
 
+    @Override
     public void func_192167_a(PlayerAdvancements advancementdataplayer) {
         this.field_193170_b.remove(advancementdataplayer);
     }
 
-    public CriterionTriggerNetherTravel.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public NetherTravelTrigger.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         LocationPredicate criterionconditionlocation = LocationPredicate.func_193454_a(jsonobject.get("entered"));
         LocationPredicate criterionconditionlocation1 = LocationPredicate.func_193454_a(jsonobject.get("exited"));
         DistancePredicate criterionconditiondistance = DistancePredicate.func_193421_a(jsonobject.get("distance"));
 
-        return new CriterionTriggerNetherTravel.b(criterionconditionlocation, criterionconditionlocation1, criterionconditiondistance);
+        return new NetherTravelTrigger.b(criterionconditionlocation, criterionconditionlocation1, criterionconditiondistance);
     }
 
     public void func_193168_a(EntityPlayerMP entityplayer, Vec3d vec3d) {
-        CriterionTriggerNetherTravel.a criteriontriggernethertravel_a = (CriterionTriggerNetherTravel.a) this.field_193170_b.get(entityplayer.func_192039_O());
+        NetherTravelTrigger.a criteriontriggernethertravel_a = this.field_193170_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggernethertravel_a != null) {
             criteriontriggernethertravel_a.a(entityplayer.func_71121_q(), vec3d, entityplayer.field_70165_t, entityplayer.field_70163_u, entityplayer.field_70161_v);
@@ -75,14 +77,15 @@ public class NetherTravelTrigger implements ICriterionTrigger<CriterionTriggerNe
 
     }
 
-    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    @Override
+    public b func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
     static class a {
 
         private final PlayerAdvancements a;
-        private final Set<CriterionTrigger.a<CriterionTriggerNetherTravel.b>> b = Sets.newHashSet();
+        private final Set<ICriterionTrigger.a<NetherTravelTrigger.b>> b = Sets.newHashSet();
 
         public a(PlayerAdvancements advancementdataplayer) {
             this.a = advancementdataplayer;
@@ -92,11 +95,11 @@ public class NetherTravelTrigger implements ICriterionTrigger<CriterionTriggerNe
             return this.b.isEmpty();
         }
 
-        public void a(CriterionTrigger.a<CriterionTriggerNetherTravel.b> criteriontrigger_a) {
+        public void a(ICriterionTrigger.a<NetherTravelTrigger.b> criteriontrigger_a) {
             this.b.add(criteriontrigger_a);
         }
 
-        public void b(CriterionTrigger.a<CriterionTriggerNetherTravel.b> criteriontrigger_a) {
+        public void b(ICriterionTrigger.a<NetherTravelTrigger.b> criteriontrigger_a) {
             this.b.remove(criteriontrigger_a);
         }
 
@@ -104,11 +107,11 @@ public class NetherTravelTrigger implements ICriterionTrigger<CriterionTriggerNe
             ArrayList arraylist = null;
             Iterator iterator = this.b.iterator();
 
-            CriterionTrigger.a criteriontrigger_a;
+            ICriterionTrigger.a criteriontrigger_a;
 
             while (iterator.hasNext()) {
-                criteriontrigger_a = (CriterionTrigger.a) iterator.next();
-                if (((CriterionTriggerNetherTravel.b) criteriontrigger_a.a()).a(worldserver, vec3d, d0, d1, d2)) {
+                criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
+                if (((NetherTravelTrigger.b) criteriontrigger_a.a()).a(worldserver, vec3d, d0, d1, d2)) {
                     if (arraylist == null) {
                         arraylist = Lists.newArrayList();
                     }
@@ -121,7 +124,7 @@ public class NetherTravelTrigger implements ICriterionTrigger<CriterionTriggerNe
                 iterator = arraylist.iterator();
 
                 while (iterator.hasNext()) {
-                    criteriontrigger_a = (CriterionTrigger.a) iterator.next();
+                    criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
                     criteriontrigger_a.a(this.a);
                 }
             }

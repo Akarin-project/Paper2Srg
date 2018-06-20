@@ -37,7 +37,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 public class PlayerAdvancements {
 
     private static final Logger field_192753_a = LogManager.getLogger();
-    private static final Gson field_192754_b = (new GsonBuilder()).registerTypeAdapter(AdvancementProgress.class, new AdvancementProgress.a()).registerTypeAdapter(ResourceLocation.class, new MinecraftKey.a()).setPrettyPrinting().create();
+    private static final Gson field_192754_b = (new GsonBuilder()).registerTypeAdapter(AdvancementProgress.class, new AdvancementProgress.a()).registerTypeAdapter(ResourceLocation.class, new ResourceLocation.a()).setPrettyPrinting().create();
     private static final TypeToken<Map<ResourceLocation, AdvancementProgress>> field_192755_c = new TypeToken<Map<ResourceLocation, AdvancementProgress>>() { // CraftBukkit - decompile error
     };
     private final MinecraftServer field_192756_d;
@@ -102,7 +102,7 @@ public class PlayerAdvancements {
         while (iterator.hasNext()) {
             Entry<Advancement, AdvancementProgress> entry = (Entry) iterator.next(); // CraftBukkit - decompile error
 
-            if (((AdvancementProgress) entry.getValue()).func_192105_a()) {
+            if (entry.getValue().func_192105_a()) {
                 arraylist.add(entry.getKey());
                 this.field_192761_i.add(entry.getKey());
             }
@@ -262,7 +262,7 @@ public class PlayerAdvancements {
                         ICriterionTrigger criteriontrigger = CriteriaTriggers.func_192119_a(criterioninstance.func_192244_a());
 
                         if (criteriontrigger != null) {
-                            criteriontrigger.a(this, new CriterionTrigger.a(criterioninstance, advancement, (String) entry.getKey()));
+                            criteriontrigger.a(this, new ICriterionTrigger.a(criterioninstance, advancement, (String) entry.getKey()));
                         }
                     }
                 }
@@ -286,7 +286,7 @@ public class PlayerAdvancements {
                     ICriterionTrigger criteriontrigger = CriteriaTriggers.func_192119_a(criterioninstance.func_192244_a());
 
                     if (criteriontrigger != null) {
-                        criteriontrigger.b(this, new CriterionTrigger.a(criterioninstance, advancement, (String) entry.getKey()));
+                        criteriontrigger.b(this, new ICriterionTrigger.a(criterioninstance, advancement, (String) entry.getKey()));
                     }
                 }
             }
@@ -347,7 +347,7 @@ public class PlayerAdvancements {
     }
 
     public AdvancementProgress func_192747_a(Advancement advancement) {
-        AdvancementProgress advancementprogress = (AdvancementProgress) this.field_192758_f.get(advancement);
+        AdvancementProgress advancementprogress = this.field_192758_f.get(advancement);
 
         if (advancementprogress == null) {
             advancementprogress = new AdvancementProgress();

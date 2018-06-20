@@ -1,6 +1,5 @@
 package org.bukkit.craftbukkit.inventory;
 
-
 import java.util.Iterator;
 import java.util.Map;
 
@@ -18,7 +17,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.google.common.collect.ImmutableMap;
 
-import net;
+import static org.bukkit.craftbukkit.inventory.CraftMetaItem.ENCHANTMENTS;
+import static org.bukkit.craftbukkit.inventory.CraftMetaItem.ENCHANTMENTS_ID;
+import static org.bukkit.craftbukkit.inventory.CraftMetaItem.ENCHANTMENTS_LVL;
 
 @DelegateDeserialization(ItemStack.class)
 public final class CraftItemStack extends ItemStack {

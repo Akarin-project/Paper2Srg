@@ -22,7 +22,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.EntityVindicator.a;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -39,6 +38,7 @@ public class EntityVindicator extends AbstractIllager {
             return entity instanceof EntityLivingBase && ((EntityLivingBase) entity).func_190631_cK();
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
@@ -53,6 +53,7 @@ public class EntityVindicator extends AbstractIllager {
         EntityLiving.func_189752_a(dataconvertermanager, EntityVindicator.class);
     }
 
+    @Override
     protected void func_184651_r() {
         super.func_184651_r();
         this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
@@ -67,6 +68,7 @@ public class EntityVindicator extends AbstractIllager {
         this.field_70715_bh.func_75776_a(4, new EntityVindicator.a(this));
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.3499999940395355D);
@@ -75,10 +77,12 @@ public class EntityVindicator extends AbstractIllager {
         this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(5.0D);
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
     }
 
+    @Override
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_191186_av;
     }
@@ -87,6 +91,7 @@ public class EntityVindicator extends AbstractIllager {
         this.func_193079_a(1, flag);
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         if (this.field_190643_b) {
@@ -95,6 +100,7 @@ public class EntityVindicator extends AbstractIllager {
 
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         if (nbttagcompound.func_150297_b("Johnny", 99)) {
@@ -103,6 +109,7 @@ public class EntityVindicator extends AbstractIllager {
 
     }
 
+    @Override
     @Nullable
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
         IEntityLivingData groupdataentity1 = super.func_180482_a(difficultydamagescaler, groupdataentity);
@@ -112,19 +119,23 @@ public class EntityVindicator extends AbstractIllager {
         return groupdataentity1;
     }
 
+    @Override
     protected void func_180481_a(DifficultyInstance difficultydamagescaler) {
         this.func_184201_a(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.field_151036_c));
     }
 
+    @Override
     protected void func_70619_bc() {
         super.func_70619_bc();
         this.func_190636_a(this.func_70638_az() != null);
     }
 
+    @Override
     public boolean func_184191_r(Entity entity) {
         return super.func_184191_r(entity) ? true : (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).func_70668_bt() == EnumCreatureAttribute.ILLAGER ? this.func_96124_cp() == null && entity.func_96124_cp() == null : false);
     }
 
+    @Override
     public void func_96094_a(String s) {
         super.func_96094_a(s);
         if (!this.field_190643_b && "Johnny".equals(s)) {
@@ -133,14 +144,17 @@ public class EntityVindicator extends AbstractIllager {
 
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return SoundEvents.field_191268_hm;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_191269_hn;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_191270_ho;
     }
@@ -151,6 +165,7 @@ public class EntityVindicator extends AbstractIllager {
             super(entityvindicator, EntityLivingBase.class, 0, true, true, EntityVindicator.field_190644_c);
         }
 
+        @Override
         public boolean func_75250_a() {
             return ((EntityVindicator) this.field_75299_d).field_190643_b && super.func_75250_a();
         }

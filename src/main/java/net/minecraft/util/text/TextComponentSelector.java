@@ -14,10 +14,12 @@ public class TextComponentSelector extends TextComponentBase {
         return this.field_179993_b;
     }
 
+    @Override
     public String func_150261_e() {
         return this.field_179993_b;
     }
 
+    @Override
     public TextComponentSelector func_150259_f() {
         TextComponentSelector chatcomponentselector = new TextComponentSelector(this.field_179993_b);
 
@@ -33,6 +35,7 @@ public class TextComponentSelector extends TextComponentBase {
         return chatcomponentselector;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -45,11 +48,8 @@ public class TextComponentSelector extends TextComponentBase {
         }
     }
 
+    @Override
     public String toString() {
         return "SelectorComponent{pattern=\'" + this.field_179993_b + '\'' + ", siblings=" + this.field_150264_a + ", style=" + this.func_150256_b() + '}';
-    }
-
-    public ITextComponent func_150259_f() {
-        return this.func_150259_f();
     }
 }

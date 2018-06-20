@@ -18,7 +18,6 @@ import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.WorldGenMineshaftPieces.c;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.EnumFacing;
@@ -38,7 +37,7 @@ public class StructureMineshaftPieces {
         MapGenStructureIO.func_143031_a(StructureMineshaftPieces.Stairs.class, "MSStairs");
     }
 
-    private static WorldGenMineshaftPieces.c a(List<StructureComponent> list, Random random, int i, int j, int k, @Nullable EnumFacing enumdirection, int l, MapGenMineshaft.Type worldgenmineshaft_type) {
+    private static StructureMineshaftPieces.c a(List<StructureComponent> list, Random random, int i, int j, int k, @Nullable EnumFacing enumdirection, int l, MapGenMineshaft.Type worldgenmineshaft_type) {
         int i1 = random.nextInt(100);
         StructureBoundingBox structureboundingbox;
 
@@ -62,12 +61,12 @@ public class StructureMineshaftPieces {
         return null;
     }
 
-    private static WorldGenMineshaftPieces.c b(StructureComponent structurepiece, List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection, int l) {
+    private static StructureMineshaftPieces.c b(StructureComponent structurepiece, List<StructureComponent> list, Random random, int i, int j, int k, EnumFacing enumdirection, int l) {
         if (l > 8) {
             return null;
         } else if (Math.abs(i - structurepiece.func_74874_b().field_78897_a) <= 80 && Math.abs(k - structurepiece.func_74874_b().field_78896_c) <= 80) {
-            MapGenMineshaft.Type worldgenmineshaft_type = ((WorldGenMineshaftPieces.c) structurepiece).a;
-            WorldGenMineshaftPieces.c worldgenmineshaftpieces_c = a(list, random, i, j, k, enumdirection, l + 1, worldgenmineshaft_type);
+            MapGenMineshaft.Type worldgenmineshaft_type = ((StructureMineshaftPieces.c) structurepiece).a;
+            StructureMineshaftPieces.c worldgenmineshaftpieces_c = a(list, random, i, j, k, enumdirection, l + 1, worldgenmineshaft_type);
 
             if (worldgenmineshaftpieces_c != null) {
                 list.add(worldgenmineshaftpieces_c);
@@ -80,7 +79,7 @@ public class StructureMineshaftPieces {
         }
     }
 
-    public static class Stairs extends WorldGenMineshaftPieces.c {
+    public static class Stairs extends StructureMineshaftPieces.c {
 
         public Stairs() {}
 
@@ -118,6 +117,7 @@ public class StructureMineshaftPieces {
             return StructureComponent.func_74883_a(list, structureboundingbox) != null ? null : structureboundingbox;
         }
 
+        @Override
         public void func_74861_a(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
             int i = this.func_74877_c();
             EnumFacing enumdirection = this.func_186165_e();
@@ -144,6 +144,7 @@ public class StructureMineshaftPieces {
 
         }
 
+        @Override
         public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (this.func_74860_a(world, structureboundingbox)) {
                 return false;
@@ -160,19 +161,21 @@ public class StructureMineshaftPieces {
         }
     }
 
-    public static class Cross extends WorldGenMineshaftPieces.c {
+    public static class Cross extends StructureMineshaftPieces.c {
 
         private EnumFacing field_74953_a;
         private boolean field_74952_b;
 
         public Cross() {}
 
+        @Override
         protected void func_143012_a(NBTTagCompound nbttagcompound) {
             super.func_143012_a(nbttagcompound);
             nbttagcompound.func_74757_a("tf", this.field_74952_b);
             nbttagcompound.func_74768_a("D", this.field_74953_a.func_176736_b());
         }
 
+        @Override
         protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.func_143011_b(nbttagcompound, definedstructuremanager);
             this.field_74952_b = nbttagcompound.func_74767_n("tf");
@@ -222,6 +225,7 @@ public class StructureMineshaftPieces {
             return StructureComponent.func_74883_a(list, structureboundingbox) != null ? null : structureboundingbox;
         }
 
+        @Override
         public void func_74861_a(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
             int i = this.func_74877_c();
 
@@ -271,6 +275,7 @@ public class StructureMineshaftPieces {
 
         }
 
+        @Override
         public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (this.func_74860_a(world, structureboundingbox)) {
                 return false;
@@ -313,7 +318,7 @@ public class StructureMineshaftPieces {
         }
     }
 
-    public static class Corridor extends WorldGenMineshaftPieces.c {
+    public static class Corridor extends StructureMineshaftPieces.c {
 
         private boolean field_74958_a;
         private boolean field_74956_b;
@@ -322,6 +327,7 @@ public class StructureMineshaftPieces {
 
         public Corridor() {}
 
+        @Override
         protected void func_143012_a(NBTTagCompound nbttagcompound) {
             super.func_143012_a(nbttagcompound);
             nbttagcompound.func_74757_a("hr", this.field_74958_a);
@@ -330,6 +336,7 @@ public class StructureMineshaftPieces {
             nbttagcompound.func_74768_a("Num", this.field_74955_d);
         }
 
+        @Override
         protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.func_143011_b(nbttagcompound, definedstructuremanager);
             this.field_74958_a = nbttagcompound.func_74767_n("hr");
@@ -390,6 +397,7 @@ public class StructureMineshaftPieces {
             return l > 0 ? structureboundingbox : null;
         }
 
+        @Override
         public void func_74861_a(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
             int i = this.func_74877_c();
             int j = random.nextInt(4);
@@ -466,14 +474,15 @@ public class StructureMineshaftPieces {
 
         }
 
+        @Override
         protected boolean func_186167_a(World world, StructureBoundingBox structureboundingbox, Random random, int i, int j, int k, ResourceLocation minecraftkey) {
             BlockPos blockposition = new BlockPos(this.func_74865_a(i, k), this.func_74862_a(j), this.func_74873_b(i, k));
 
-            if (structureboundingbox.func_175898_b((Vec3i) blockposition) && world.func_180495_p(blockposition).func_185904_a() == Material.field_151579_a && world.func_180495_p(blockposition.func_177977_b()).func_185904_a() != Material.field_151579_a) {
+            if (structureboundingbox.func_175898_b(blockposition) && world.func_180495_p(blockposition).func_185904_a() == Material.field_151579_a && world.func_180495_p(blockposition.func_177977_b()).func_185904_a() != Material.field_151579_a) {
                 IBlockState iblockdata = Blocks.field_150448_aq.func_176223_P().func_177226_a(BlockRail.field_176565_b, random.nextBoolean() ? BlockRailBase.EnumRailDirection.NORTH_SOUTH : BlockRailBase.EnumRailDirection.EAST_WEST);
 
                 this.func_175811_a(world, iblockdata, i, j, k, structureboundingbox);
-                EntityMinecartChest entityminecartchest = new EntityMinecartChest(world, (double) ((float) blockposition.func_177958_n() + 0.5F), (double) ((float) blockposition.func_177956_o() + 0.5F), (double) ((float) blockposition.func_177952_p() + 0.5F));
+                EntityMinecartChest entityminecartchest = new EntityMinecartChest(world, blockposition.func_177958_n() + 0.5F, blockposition.func_177956_o() + 0.5F, blockposition.func_177952_p() + 0.5F);
 
                 entityminecartchest.func_184289_a(minecraftkey, random.nextLong());
                 world.func_72838_d(entityminecartchest);
@@ -483,6 +492,7 @@ public class StructureMineshaftPieces {
             }
         }
 
+        @Override
         public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (this.func_74860_a(world, structureboundingbox)) {
                 return false;
@@ -529,7 +539,7 @@ public class StructureMineshaftPieces {
                         int k1 = this.func_74873_b(1, i1);
                         BlockPos blockposition = new BlockPos(j1, l, k1);
 
-                        if (structureboundingbox.func_175898_b((Vec3i) blockposition) && this.func_189916_b(world, 1, 0, i1, structureboundingbox) < 8) {
+                        if (structureboundingbox.func_175898_b(blockposition) && this.func_189916_b(world, 1, 0, i1, structureboundingbox) < 8) {
                             this.field_74957_c = true;
                             world.func_180501_a(blockposition, Blocks.field_150474_ac.func_176223_P(), 2);
                             TileEntity tileentity = world.func_175625_s(blockposition);
@@ -600,7 +610,7 @@ public class StructureMineshaftPieces {
         }
     }
 
-    public static class Room extends WorldGenMineshaftPieces.c {
+    public static class Room extends StructureMineshaftPieces.c {
 
         private final List<StructureBoundingBox> field_74949_a = Lists.newLinkedList();
 
@@ -612,6 +622,7 @@ public class StructureMineshaftPieces {
             this.field_74887_e = new StructureBoundingBox(j, 50, k, j + 7 + random.nextInt(6), 54 + random.nextInt(6), k + 7 + random.nextInt(6));
         }
 
+        @Override
         public void func_74861_a(StructureComponent structurepiece, List<StructureComponent> list, Random random) {
             int i = this.func_74877_c();
             int j = this.field_74887_e.func_78882_c() - 3 - 1;
@@ -621,7 +632,7 @@ public class StructureMineshaftPieces {
             }
 
             int k;
-            WorldGenMineshaftPieces.c worldgenmineshaftpieces_c;
+            StructureMineshaftPieces.c worldgenmineshaftpieces_c;
             StructureBoundingBox structureboundingbox;
 
             for (k = 0; k < this.field_74887_e.func_78883_b(); k += 4) {
@@ -678,6 +689,7 @@ public class StructureMineshaftPieces {
 
         }
 
+        @Override
         public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (this.func_74860_a(world, structureboundingbox)) {
                 return false;
@@ -697,6 +709,7 @@ public class StructureMineshaftPieces {
             }
         }
 
+        @Override
         public void func_181138_a(int i, int j, int k) {
             super.func_181138_a(i, j, k);
             Iterator iterator = this.field_74949_a.iterator();
@@ -709,6 +722,7 @@ public class StructureMineshaftPieces {
 
         }
 
+        @Override
         protected void func_143012_a(NBTTagCompound nbttagcompound) {
             super.func_143012_a(nbttagcompound);
             NBTTagList nbttaglist = new NBTTagList();
@@ -723,6 +737,7 @@ public class StructureMineshaftPieces {
             nbttagcompound.func_74782_a("Entrances", nbttaglist);
         }
 
+        @Override
         protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.func_143011_b(nbttagcompound, definedstructuremanager);
             NBTTagList nbttaglist = nbttagcompound.func_150295_c("Entrances", 11);
@@ -745,10 +760,12 @@ public class StructureMineshaftPieces {
             this.a = worldgenmineshaft_type;
         }
 
+        @Override
         protected void func_143012_a(NBTTagCompound nbttagcompound) {
             nbttagcompound.func_74768_a("MST", this.a.ordinal());
         }
 
+        @Override
         protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             this.a = MapGenMineshaft.Type.func_189910_a(nbttagcompound.func_74762_e("MST"));
         }

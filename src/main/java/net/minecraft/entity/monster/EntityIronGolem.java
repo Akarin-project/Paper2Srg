@@ -37,7 +37,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
-import org;
 
 public class EntityIronGolem extends EntityGolem {
 
@@ -53,6 +52,7 @@ public class EntityIronGolem extends EntityGolem {
         this.func_70105_a(1.4F, 2.7F);
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_70714_bg.func_75776_a(1, new EntityAIAttackMelee(this, 1.0D, true));
         this.field_70714_bg.func_75776_a(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
@@ -69,17 +69,20 @@ public class EntityIronGolem extends EntityGolem {
                 return entityinsentient != null && IMob.field_175450_e.apply(entityinsentient) && !(entityinsentient instanceof EntityCreeper);
             }
 
+            @Override
             public boolean apply(@Nullable Object object) {
                 return this.a((EntityLiving) object);
             }
         }));
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityIronGolem.field_184750_a, Byte.valueOf((byte) 0));
     }
 
+    @Override
     protected void func_70619_bc() {
         if (--this.field_70858_e <= 0) {
             this.field_70858_e = 70 + this.field_70146_Z.nextInt(50);
@@ -89,13 +92,14 @@ public class EntityIronGolem extends EntityGolem {
             } else {
                 BlockPos blockposition = this.field_70857_d.func_180608_a();
 
-                this.func_175449_a(blockposition, (int) ((float) this.field_70857_d.func_75568_b() * 0.6F));
+                this.func_175449_a(blockposition, (int) (this.field_70857_d.func_75568_b() * 0.6F));
             }
         }
 
         super.func_70619_bc();
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(100.0D);
@@ -103,10 +107,12 @@ public class EntityIronGolem extends EntityGolem {
         this.func_110148_a(SharedMonsterAttributes.field_111266_c).func_111128_a(1.0D);
     }
 
+    @Override
     protected int func_70682_h(int i) {
         return i;
     }
 
+    @Override
     protected void func_82167_n(Entity entity) {
         if (entity instanceof IMob && !(entity instanceof EntityCreeper) && this.func_70681_au().nextInt(20) == 0) {
             this.setGoalTarget((EntityLivingBase) entity, org.bukkit.event.entity.EntityTargetLivingEntityEvent.TargetReason.COLLISION, true); // CraftBukkit - set reason
@@ -115,6 +121,7 @@ public class EntityIronGolem extends EntityGolem {
         super.func_82167_n(entity);
     }
 
+    @Override
     public void func_70636_d() {
         super.func_70636_d();
         if (this.field_70855_f > 0) {
@@ -132,12 +139,13 @@ public class EntityIronGolem extends EntityGolem {
             IBlockState iblockdata = this.field_70170_p.func_180495_p(new BlockPos(i, j, k));
 
             if (iblockdata.func_185904_a() != Material.field_151579_a) {
-                this.field_70170_p.func_175688_a(EnumParticleTypes.BLOCK_CRACK, this.field_70165_t + ((double) this.field_70146_Z.nextFloat() - 0.5D) * (double) this.field_70130_N, this.func_174813_aQ().field_72338_b + 0.1D, this.field_70161_v + ((double) this.field_70146_Z.nextFloat() - 0.5D) * (double) this.field_70130_N, 4.0D * ((double) this.field_70146_Z.nextFloat() - 0.5D), 0.5D, ((double) this.field_70146_Z.nextFloat() - 0.5D) * 4.0D, new int[] { Block.func_176210_f(iblockdata)});
+                this.field_70170_p.func_175688_a(EnumParticleTypes.BLOCK_CRACK, this.field_70165_t + (this.field_70146_Z.nextFloat() - 0.5D) * this.field_70130_N, this.func_174813_aQ().field_72338_b + 0.1D, this.field_70161_v + (this.field_70146_Z.nextFloat() - 0.5D) * this.field_70130_N, 4.0D * (this.field_70146_Z.nextFloat() - 0.5D), 0.5D, (this.field_70146_Z.nextFloat() - 0.5D) * 4.0D, new int[] { Block.func_176210_f(iblockdata)});
             }
         }
 
     }
 
+    @Override
     public boolean func_70686_a(Class<? extends EntityLivingBase> oclass) {
         return this.func_70850_q() && EntityPlayer.class.isAssignableFrom(oclass) ? false : (oclass == EntityCreeper.class ? false : super.func_70686_a(oclass));
     }
@@ -146,24 +154,27 @@ public class EntityIronGolem extends EntityGolem {
         EntityLiving.func_189752_a(dataconvertermanager, EntityIronGolem.class);
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74757_a("PlayerCreated", this.func_70850_q());
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.func_70849_f(nbttagcompound.func_74767_n("PlayerCreated"));
     }
 
+    @Override
     public boolean func_70652_k(Entity entity) {
         this.field_70855_f = 10;
         this.field_70170_p.func_72960_a(this, (byte) 4);
-        boolean flag = entity.func_70097_a(DamageSource.func_76358_a(this), (float) (7 + this.field_70146_Z.nextInt(15)));
+        boolean flag = entity.func_70097_a(DamageSource.func_76358_a(this), 7 + this.field_70146_Z.nextInt(15));
 
         if (flag) {
             entity.field_70181_x += 0.4000000059604645D;
-            this.func_174815_a((EntityLivingBase) this, entity);
+            this.func_174815_a(this, entity);
         }
 
         this.func_184185_a(SoundEvents.field_187596_cD, 1.0F, 1.0F);
@@ -185,18 +196,22 @@ public class EntityIronGolem extends EntityGolem {
 
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187602_cF;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187599_cE;
     }
 
+    @Override
     protected void func_180429_a(BlockPos blockposition, Block block) {
         this.func_184185_a(SoundEvents.field_187605_cG, 1.0F, 1.0F);
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186443_y;
@@ -207,11 +222,11 @@ public class EntityIronGolem extends EntityGolem {
     }
 
     public boolean func_70850_q() {
-        return (((Byte) this.field_70180_af.func_187225_a(EntityIronGolem.field_184750_a)).byteValue() & 1) != 0;
+        return (this.field_70180_af.func_187225_a(EntityIronGolem.field_184750_a).byteValue() & 1) != 0;
     }
 
     public void func_70849_f(boolean flag) {
-        byte b0 = ((Byte) this.field_70180_af.func_187225_a(EntityIronGolem.field_184750_a)).byteValue();
+        byte b0 = this.field_70180_af.func_187225_a(EntityIronGolem.field_184750_a).byteValue();
 
         if (flag) {
             this.field_70180_af.func_187227_b(EntityIronGolem.field_184750_a, Byte.valueOf((byte) (b0 | 1)));
@@ -221,6 +236,7 @@ public class EntityIronGolem extends EntityGolem {
 
     }
 
+    @Override
     public void func_70645_a(DamageSource damagesource) {
         if (!this.func_70850_q() && this.field_70717_bb != null && this.field_70857_d != null) {
             this.field_70857_d.func_82688_a(this.field_70717_bb.func_70005_c_(), -5);

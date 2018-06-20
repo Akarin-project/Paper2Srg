@@ -14,11 +14,8 @@ public class NettyEncryptingDecoder extends MessageToMessageDecoder<ByteBuf> {
         this.field_150509_a = new NettyEncryptionTranslator(cipher);
     }
 
+    @Override
     protected void decode(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf, List<Object> list) throws Exception {
         list.add(this.field_150509_a.func_150503_a(channelhandlercontext, bytebuf));
-    }
-
-    protected void decode(ChannelHandlerContext channelhandlercontext, Object object, List list) throws Exception {
-        this.decode(channelhandlercontext, (ByteBuf) object, list);
     }
 }

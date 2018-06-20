@@ -36,22 +36,27 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         this.field_174900_c = BlockPos.field_177992_a;
     }
 
+    @Override
     public EntityMinecart.Type func_184264_v() {
         return EntityMinecart.Type.HOPPER;
     }
 
+    @Override
     public IBlockState func_180457_u() {
         return Blocks.field_150438_bZ.func_176223_P();
     }
 
+    @Override
     public int func_94085_r() {
         return 1;
     }
 
+    @Override
     public int func_70302_i_() {
         return 5;
     }
 
+    @Override
     public boolean func_184230_a(EntityPlayer entityhuman, EnumHand enumhand) {
         if (!this.field_70170_p.field_72995_K) {
             entityhuman.func_71007_a(this);
@@ -60,6 +65,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         return true;
     }
 
+    @Override
     public void func_96095_a(int i, int j, int k, boolean flag) {
         boolean flag1 = !flag;
 
@@ -77,22 +83,27 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         this.field_96113_a = flag;
     }
 
+    @Override
     public World func_130014_f_() {
         return this.field_70170_p;
     }
 
+    @Override
     public double func_96107_aA() {
         return this.field_70165_t;
     }
 
+    @Override
     public double func_96109_aB() {
         return this.field_70163_u + 0.5D;
     }
 
+    @Override
     public double func_96108_aC() {
         return this.field_70161_v;
     }
 
+    @Override
     public void func_70071_h_() {
         super.func_70071_h_();
         if (!this.field_70170_p.field_72995_K && this.func_70089_S() && this.func_96111_ay()) {
@@ -116,7 +127,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
     }
 
     public boolean func_96112_aD() {
-        if (TileEntityHopper.func_145891_a((IHopper) this)) {
+        if (TileEntityHopper.func_145891_a(this)) {
             return true;
         } else {
             List list = this.field_70170_p.func_175647_a(EntityItem.class, this.func_174813_aQ().func_72314_b(0.25D, 0.0D, 0.25D), EntitySelectors.field_94557_a);
@@ -129,6 +140,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         }
     }
 
+    @Override
     public void func_94095_a(DamageSource damagesource) {
         super.func_94095_a(damagesource);
         if (this.field_70170_p.func_82736_K().func_82766_b("doEntityDrops")) {
@@ -141,12 +153,14 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         EntityMinecartContainer.func_190574_b(dataconvertermanager, EntityMinecartHopper.class);
     }
 
+    @Override
     protected void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("TransferCooldown", this.field_98044_b);
         nbttagcompound.func_74757_a("Enabled", this.field_96113_a);
     }
 
+    @Override
     protected void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.field_98044_b = nbttagcompound.func_74762_e("TransferCooldown");
@@ -161,11 +175,18 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         return this.field_98044_b > 0;
     }
 
+    @Override
     public String func_174875_k() {
         return "minecraft:hopper";
     }
 
+    @Override
     public Container func_174876_a(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
         return new ContainerHopper(playerinventory, this, entityhuman);
+    }
+
+    @Override
+    public World func_145831_w() {
+        return getWorld();
     }
 }

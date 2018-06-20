@@ -23,6 +23,7 @@ public class BiomeEndDecorator extends BiomeDecorator {
 
     public BiomeEndDecorator() {}
 
+    @Override
     protected void func_150513_a(Biome biomebase, World world, Random random) {
         this.func_76797_b(world, random);
         WorldGenSpikes.EndSpike[] aworldgenender_spike = func_185426_a(world);
@@ -44,13 +45,14 @@ public class BiomeEndDecorator extends BiomeDecorator {
         Random random = new Random(world.func_72905_C());
         long i = random.nextLong() & 65535L;
 
-        return (WorldGenSpikes.EndSpike[]) BiomeEndDecorator.field_185427_L.getUnchecked(Long.valueOf(i));
+        return BiomeEndDecorator.field_185427_L.getUnchecked(Long.valueOf(i));
     }
 
     static class SpikeCacheLoader extends CacheLoader<Long, WorldGenSpikes.EndSpike[]> {
 
         private SpikeCacheLoader() {}
 
+        @Override
         public WorldGenSpikes.EndSpike[] load(Long olong) throws Exception {
             ArrayList arraylist = Lists.newArrayList(ContiguousSet.create(Range.closedOpen(Integer.valueOf(0), Integer.valueOf(10)), DiscreteDomain.integers()));
 
@@ -58,8 +60,8 @@ public class BiomeEndDecorator extends BiomeDecorator {
             WorldGenSpikes.EndSpike[] aworldgenender_spike = new WorldGenSpikes.EndSpike[10];
 
             for (int i = 0; i < 10; ++i) {
-                int j = (int) (42.0D * Math.cos(2.0D * (-3.141592653589793D + 0.3141592653589793D * (double) i)));
-                int k = (int) (42.0D * Math.sin(2.0D * (-3.141592653589793D + 0.3141592653589793D * (double) i)));
+                int j = (int) (42.0D * Math.cos(2.0D * (-3.141592653589793D + 0.3141592653589793D * i)));
+                int k = (int) (42.0D * Math.sin(2.0D * (-3.141592653589793D + 0.3141592653589793D * i)));
                 int l = ((Integer) arraylist.get(i)).intValue();
                 int i1 = 2 + l / 3;
                 int j1 = 76 + l * 3;
@@ -69,10 +71,6 @@ public class BiomeEndDecorator extends BiomeDecorator {
             }
 
             return aworldgenender_spike;
-        }
-
-        public Object load(Object object) throws Exception {
-            return this.load((Long) object);
         }
 
         SpikeCacheLoader(Object object) {

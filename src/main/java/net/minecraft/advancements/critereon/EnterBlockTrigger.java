@@ -24,35 +24,34 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.CriterionTriggerEnterBlock.a;
-import net.minecraft.server.CriterionTriggerEnterBlock.b;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 
-public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnterBlock.b> {
+public class EnterBlockTrigger implements ICriterionTrigger<EnterBlockTrigger.b> {
 
     private static final ResourceLocation field_192196_a = new ResourceLocation("enter_block");
-    private final Map<PlayerAdvancements, CriterionTriggerEnterBlock.a> field_192197_b = Maps.newHashMap();
+    private final Map<PlayerAdvancements, EnterBlockTrigger.a> field_192197_b = Maps.newHashMap();
 
     public EnterBlockTrigger() {}
 
+    @Override
     public ResourceLocation func_192163_a() {
         return EnterBlockTrigger.field_192196_a;
     }
 
-    public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerEnterBlock.b> criteriontrigger_a) {
-        CriterionTriggerEnterBlock.a criteriontriggerenterblock_a = (CriterionTriggerEnterBlock.a) this.field_192197_b.get(advancementdataplayer);
+    public void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<EnterBlockTrigger.b> criteriontrigger_a) {
+        EnterBlockTrigger.a criteriontriggerenterblock_a = (EnterBlockTrigger.a) this.field_192197_b.get(advancementdataplayer);
 
         if (criteriontriggerenterblock_a == null) {
-            criteriontriggerenterblock_a = new CriterionTriggerEnterBlock.a(advancementdataplayer);
+            criteriontriggerenterblock_a = new EnterBlockTrigger.a(advancementdataplayer);
             this.field_192197_b.put(advancementdataplayer, criteriontriggerenterblock_a);
         }
 
         criteriontriggerenterblock_a.a(criteriontrigger_a);
     }
 
-    public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerEnterBlock.b> criteriontrigger_a) {
-        CriterionTriggerEnterBlock.a criteriontriggerenterblock_a = (CriterionTriggerEnterBlock.a) this.field_192197_b.get(advancementdataplayer);
+    public void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<EnterBlockTrigger.b> criteriontrigger_a) {
+        EnterBlockTrigger.a criteriontriggerenterblock_a = (EnterBlockTrigger.a) this.field_192197_b.get(advancementdataplayer);
 
         if (criteriontriggerenterblock_a != null) {
             criteriontriggerenterblock_a.b(criteriontrigger_a);
@@ -63,11 +62,12 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
 
     }
 
+    @Override
     public void func_192167_a(PlayerAdvancements advancementdataplayer) {
         this.field_192197_b.remove(advancementdataplayer);
     }
 
-    public CriterionTriggerEnterBlock.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public EnterBlockTrigger.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         Block block = null;
 
         if (jsonobject.has("block")) {
@@ -77,7 +77,7 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
                 throw new JsonSyntaxException("Unknown block type \'" + minecraftkey + "\'");
             }
 
-            block = (Block) Block.field_149771_c.func_82594_a(minecraftkey);
+            block = Block.field_149771_c.func_82594_a(minecraftkey);
         }
 
         HashMap hashmap = null;
@@ -113,11 +113,11 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
             }
         }
 
-        return new CriterionTriggerEnterBlock.b(block, hashmap);
+        return new EnterBlockTrigger.b(block, hashmap);
     }
 
     public void func_192193_a(EntityPlayerMP entityplayer, IBlockState iblockdata) {
-        CriterionTriggerEnterBlock.a criteriontriggerenterblock_a = (CriterionTriggerEnterBlock.a) this.field_192197_b.get(entityplayer.func_192039_O());
+        EnterBlockTrigger.a criteriontriggerenterblock_a = (EnterBlockTrigger.a) this.field_192197_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerenterblock_a != null) {
             criteriontriggerenterblock_a.a(iblockdata);
@@ -125,14 +125,15 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
 
     }
 
-    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    @Override
+    public b func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
     static class a {
 
         private final PlayerAdvancements a;
-        private final Set<CriterionTrigger.a<CriterionTriggerEnterBlock.b>> b = Sets.newHashSet();
+        private final Set<ICriterionTrigger.a<EnterBlockTrigger.b>> b = Sets.newHashSet();
 
         public a(PlayerAdvancements advancementdataplayer) {
             this.a = advancementdataplayer;
@@ -142,11 +143,11 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
             return this.b.isEmpty();
         }
 
-        public void a(CriterionTrigger.a<CriterionTriggerEnterBlock.b> criteriontrigger_a) {
+        public void a(ICriterionTrigger.a<EnterBlockTrigger.b> criteriontrigger_a) {
             this.b.add(criteriontrigger_a);
         }
 
-        public void b(CriterionTrigger.a<CriterionTriggerEnterBlock.b> criteriontrigger_a) {
+        public void b(ICriterionTrigger.a<EnterBlockTrigger.b> criteriontrigger_a) {
             this.b.remove(criteriontrigger_a);
         }
 
@@ -154,11 +155,11 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
             ArrayList arraylist = null;
             Iterator iterator = this.b.iterator();
 
-            CriterionTrigger.a criteriontrigger_a;
+            ICriterionTrigger.a criteriontrigger_a;
 
             while (iterator.hasNext()) {
-                criteriontrigger_a = (CriterionTrigger.a) iterator.next();
-                if (((CriterionTriggerEnterBlock.b) criteriontrigger_a.a()).a(iblockdata)) {
+                criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
+                if (((EnterBlockTrigger.b) criteriontrigger_a.a()).a(iblockdata)) {
                     if (arraylist == null) {
                         arraylist = Lists.newArrayList();
                     }
@@ -171,7 +172,7 @@ public class EnterBlockTrigger implements ICriterionTrigger<CriterionTriggerEnte
                 iterator = arraylist.iterator();
 
                 while (iterator.hasNext()) {
-                    criteriontrigger_a = (CriterionTrigger.a) iterator.next();
+                    criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
                     criteriontrigger_a.a(this.a);
                 }
             }

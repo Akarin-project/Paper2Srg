@@ -1,6 +1,9 @@
 package org.spigotmc;
 
 import com.google.common.base.Throwables;
+
+import gnu.trove.map.hash.TObjectIntHashMap;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -149,7 +152,7 @@ public class SpigotConfig
     private static <T> List getList(String path, T def)
     {
         config.addDefault( path, def );
-        return (List<T>) config.getList( path, config.getList( path ) );
+        return config.getList( path, config.getList( path ) );
     }
 
     private static String getString(String path, String def)
@@ -319,7 +322,7 @@ public class SpigotConfig
             set( "commands.replace-commands", config.getStringList( "replace-commands" ) );
             config.set( "replace-commands", null );
         }
-        replaceCommands = new HashSet<String>( (List<String>) getList( "commands.replace-commands",
+        replaceCommands = new HashSet<String>( getList( "commands.replace-commands",
                 Arrays.asList( "setblock", "summon", "testforblock", "tellraw" ) ) );
     }
 

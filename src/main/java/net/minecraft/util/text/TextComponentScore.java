@@ -32,6 +32,7 @@ public class TextComponentScore extends TextComponentBase {
         this.field_179998_d = s;
     }
 
+    @Override
     public String func_150261_e() {
         return this.field_179998_d;
     }
@@ -54,6 +55,7 @@ public class TextComponentScore extends TextComponentBase {
 
     }
 
+    @Override
     public TextComponentScore func_150259_f() {
         TextComponentScore chatcomponentscore = new TextComponentScore(this.field_179999_b, this.field_180000_c);
 
@@ -70,6 +72,7 @@ public class TextComponentScore extends TextComponentBase {
         return chatcomponentscore;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -82,11 +85,8 @@ public class TextComponentScore extends TextComponentBase {
         }
     }
 
+    @Override
     public String toString() {
         return "ScoreComponent{name=\'" + this.field_179999_b + '\'' + "objective=\'" + this.field_180000_c + '\'' + ", siblings=" + this.field_150264_a + ", style=" + this.func_150256_b() + '}';
-    }
-
-    public ITextComponent func_150259_f() {
-        return this.func_150259_f();
     }
 }

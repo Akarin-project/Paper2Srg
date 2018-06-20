@@ -40,7 +40,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.server.EntityWolf.a;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
@@ -77,6 +76,7 @@ public class EntityWolf extends EntityTameable {
         this.func_70903_f(false);
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_70911_d = new EntityAISit(this);
         this.field_70714_bg.func_75776_a(1, new EntityAISwimming(this));
@@ -98,6 +98,7 @@ public class EntityWolf extends EntityTameable {
                 return entity instanceof EntitySheep || entity instanceof EntityRabbit;
             }
 
+            @Override
             public boolean apply(@Nullable Object object) {
                 return this.a((Entity) object);
             }
@@ -105,6 +106,7 @@ public class EntityWolf extends EntityTameable {
         this.field_70715_bh.func_75776_a(5, new EntityAINearestAttackableTarget(this, AbstractSkeleton.class, false));
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.30000001192092896D);
@@ -133,6 +135,7 @@ public class EntityWolf extends EntityTameable {
     }
     // CraftBukkit end
 
+    @Override
     public void func_70624_b(@Nullable EntityLivingBase entityliving) {
         super.func_70624_b(entityliving);
         if (entityliving == null) {
@@ -143,10 +146,12 @@ public class EntityWolf extends EntityTameable {
 
     }
 
+    @Override
     protected void func_70619_bc() {
         this.field_70180_af.func_187227_b(EntityWolf.field_184759_bz, Float.valueOf(this.func_110143_aJ()));
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityWolf.field_184759_bz, Float.valueOf(this.func_110143_aJ()));
@@ -154,6 +159,7 @@ public class EntityWolf extends EntityTameable {
         this.field_70180_af.func_187214_a(EntityWolf.field_184758_bB, Integer.valueOf(EnumDyeColor.RED.func_176767_b()));
     }
 
+    @Override
     protected void func_180429_a(BlockPos blockposition, Block block) {
         this.func_184185_a(SoundEvents.field_187869_gK, 0.15F, 1.0F);
     }
@@ -162,12 +168,14 @@ public class EntityWolf extends EntityTameable {
         EntityLiving.func_189752_a(dataconvertermanager, EntityWolf.class);
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74757_a("Angry", this.func_70919_bu());
         nbttagcompound.func_74774_a("CollarColor", (byte) this.func_175546_cu().func_176767_b());
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.func_70916_h(nbttagcompound.func_74767_n("Angry"));
@@ -177,27 +185,33 @@ public class EntityWolf extends EntityTameable {
 
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
-        return this.func_70919_bu() ? SoundEvents.field_187861_gG : (this.field_70146_Z.nextInt(3) == 0 ? (this.func_70909_n() && ((Float) this.field_70180_af.func_187225_a(EntityWolf.field_184759_bz)).floatValue() < 10.0F ? SoundEvents.field_187871_gL : SoundEvents.field_187865_gI) : SoundEvents.field_187857_gE);
+        return this.func_70919_bu() ? SoundEvents.field_187861_gG : (this.field_70146_Z.nextInt(3) == 0 ? (this.func_70909_n() && this.field_70180_af.func_187225_a(EntityWolf.field_184759_bz).floatValue() < 10.0F ? SoundEvents.field_187871_gL : SoundEvents.field_187865_gI) : SoundEvents.field_187857_gE);
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187863_gH;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187859_gF;
     }
 
+    @Override
     protected float func_70599_aP() {
         return 0.4F;
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186401_I;
     }
 
+    @Override
     public void func_70636_d() {
         super.func_70636_d();
         if (!this.field_70170_p.field_72995_K && this.field_70925_g && !this.field_70928_h && !this.func_70781_l() && this.field_70122_E) {
@@ -213,6 +227,7 @@ public class EntityWolf extends EntityTameable {
 
     }
 
+    @Override
     public void func_70071_h_() {
         super.func_70071_h_();
         this.field_70924_f = this.field_70926_e;
@@ -249,21 +264,24 @@ public class EntityWolf extends EntityTameable {
                     float f1 = (this.field_70146_Z.nextFloat() * 2.0F - 1.0F) * this.field_70130_N * 0.5F;
                     float f2 = (this.field_70146_Z.nextFloat() * 2.0F - 1.0F) * this.field_70130_N * 0.5F;
 
-                    this.field_70170_p.func_175688_a(EnumParticleTypes.WATER_SPLASH, this.field_70165_t + (double) f1, (double) (f + 0.8F), this.field_70161_v + (double) f2, this.field_70159_w, this.field_70181_x, this.field_70179_y, new int[0]);
+                    this.field_70170_p.func_175688_a(EnumParticleTypes.WATER_SPLASH, this.field_70165_t + f1, f + 0.8F, this.field_70161_v + f2, this.field_70159_w, this.field_70181_x, this.field_70179_y, new int[0]);
                 }
             }
         }
 
     }
 
+    @Override
     public float func_70047_e() {
         return this.field_70131_O * 0.8F;
     }
 
+    @Override
     public int func_70646_bf() {
         return this.func_70906_o() ? 20 : super.func_70646_bf();
     }
 
+    @Override
     public boolean func_70097_a(DamageSource damagesource, float f) {
         if (this.func_180431_b(damagesource)) {
             return false;
@@ -282,16 +300,18 @@ public class EntityWolf extends EntityTameable {
         }
     }
 
+    @Override
     public boolean func_70652_k(Entity entity) {
-        boolean flag = entity.func_70097_a(DamageSource.func_76358_a(this), (float) ((int) this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e()));
+        boolean flag = entity.func_70097_a(DamageSource.func_76358_a(this), ((int) this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e()));
 
         if (flag) {
-            this.func_174815_a((EntityLivingBase) this, entity);
+            this.func_174815_a(this, entity);
         }
 
         return flag;
     }
 
+    @Override
     public void func_70903_f(boolean flag) {
         super.func_70903_f(flag);
         if (flag) {
@@ -303,6 +323,7 @@ public class EntityWolf extends EntityTameable {
         this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(4.0D);
     }
 
+    @Override
     public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
@@ -311,12 +332,12 @@ public class EntityWolf extends EntityTameable {
                 if (itemstack.func_77973_b() instanceof ItemFood) {
                     ItemFood itemfood = (ItemFood) itemstack.func_77973_b();
 
-                    if (itemfood.func_77845_h() && ((Float) this.field_70180_af.func_187225_a(EntityWolf.field_184759_bz)).floatValue() < 20.0F) {
+                    if (itemfood.func_77845_h() && this.field_70180_af.func_187225_a(EntityWolf.field_184759_bz).floatValue() < 20.0F) {
                         if (!entityhuman.field_71075_bZ.field_75098_d) {
                             itemstack.func_190918_g(1);
                         }
 
-                        this.heal((float) itemfood.func_150905_g(itemstack), org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason.EATING); // CraftBukkit
+                        this.heal(itemfood.func_150905_g(itemstack), org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason.EATING); // CraftBukkit
                         return true;
                     }
                 } else if (itemstack.func_77973_b() == Items.field_151100_aR) {
@@ -333,7 +354,7 @@ public class EntityWolf extends EntityTameable {
                 }
             }
 
-            if (this.func_152114_e((EntityLivingBase) entityhuman) && !this.field_70170_p.field_72995_K && !this.func_70877_b(itemstack)) {
+            if (this.func_152114_e(entityhuman) && !this.field_70170_p.field_72995_K && !this.func_70877_b(itemstack)) {
                 this.field_70911_d.func_75270_a(!this.func_70906_o());
                 this.field_70703_bu = false;
                 this.field_70699_by.func_75499_g();
@@ -366,20 +387,22 @@ public class EntityWolf extends EntityTameable {
         return super.func_184645_a(entityhuman, enumhand);
     }
 
+    @Override
     public boolean func_70877_b(ItemStack itemstack) {
         return itemstack.func_77973_b() instanceof ItemFood && ((ItemFood) itemstack.func_77973_b()).func_77845_h();
     }
 
+    @Override
     public int func_70641_bl() {
         return 8;
     }
 
     public boolean func_70919_bu() {
-        return (((Byte) this.field_70180_af.func_187225_a(EntityWolf.field_184755_bv)).byteValue() & 2) != 0;
+        return (this.field_70180_af.func_187225_a(EntityWolf.field_184755_bv).byteValue() & 2) != 0;
     }
 
     public void func_70916_h(boolean flag) {
-        byte b0 = ((Byte) this.field_70180_af.func_187225_a(EntityWolf.field_184755_bv)).byteValue();
+        byte b0 = this.field_70180_af.func_187225_a(EntityWolf.field_184755_bv).byteValue();
 
         if (flag) {
             this.field_70180_af.func_187227_b(EntityWolf.field_184755_bv, Byte.valueOf((byte) (b0 | 2)));
@@ -390,13 +413,14 @@ public class EntityWolf extends EntityTameable {
     }
 
     public EnumDyeColor func_175546_cu() {
-        return EnumDyeColor.func_176766_a(((Integer) this.field_70180_af.func_187225_a(EntityWolf.field_184758_bB)).intValue() & 15);
+        return EnumDyeColor.func_176766_a(this.field_70180_af.func_187225_a(EntityWolf.field_184758_bB).intValue() & 15);
     }
 
     public void func_175547_a(EnumDyeColor enumcolor) {
         this.field_70180_af.func_187227_b(EntityWolf.field_184758_bB, Integer.valueOf(enumcolor.func_176767_b()));
     }
 
+    @Override
     public EntityWolf func_90011_a(EntityAgeable entityageable) {
         EntityWolf entitywolf = new EntityWolf(this.field_70170_p);
         UUID uuid = this.func_184753_b();
@@ -413,6 +437,7 @@ public class EntityWolf extends EntityTameable {
         this.field_70180_af.func_187227_b(EntityWolf.field_184760_bA, Boolean.valueOf(flag));
     }
 
+    @Override
     public boolean func_70878_b(EntityAnimal entityanimal) {
         if (entityanimal == this) {
             return false;
@@ -428,9 +453,10 @@ public class EntityWolf extends EntityTameable {
     }
 
     public boolean func_70922_bv() {
-        return ((Boolean) this.field_70180_af.func_187225_a(EntityWolf.field_184760_bA)).booleanValue();
+        return this.field_70180_af.func_187225_a(EntityWolf.field_184760_bA).booleanValue();
     }
 
+    @Override
     public boolean func_142018_a(EntityLivingBase entityliving, EntityLivingBase entityliving1) {
         if (!(entityliving instanceof EntityCreeper) && !(entityliving instanceof EntityGhast)) {
             if (entityliving instanceof EntityWolf) {
@@ -447,12 +473,9 @@ public class EntityWolf extends EntityTameable {
         }
     }
 
+    @Override
     public boolean func_184652_a(EntityPlayer entityhuman) {
         return !this.func_70919_bu() && super.func_184652_a(entityhuman);
-    }
-
-    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
     }
 
     class a<T extends Entity> extends EntityAIAvoidEntity<T> {
@@ -464,6 +487,7 @@ public class EntityWolf extends EntityTameable {
             this.d = entitywolf;
         }
 
+        @Override
         public boolean func_75250_a() {
             return super.func_75250_a() && this.field_75376_d instanceof EntityLlama ? !this.d.func_70909_n() && this.a((EntityLlama) this.field_75376_d) : false;
         }
@@ -472,11 +496,13 @@ public class EntityWolf extends EntityTameable {
             return entityllama.func_190707_dL() >= EntityWolf.this.field_70146_Z.nextInt(5);
         }
 
+        @Override
         public void func_75249_e() {
             EntityWolf.this.func_70624_b((EntityLivingBase) null);
             super.func_75249_e();
         }
 
+        @Override
         public void func_75246_d() {
             EntityWolf.this.func_70624_b((EntityLivingBase) null);
             super.func_75246_d();

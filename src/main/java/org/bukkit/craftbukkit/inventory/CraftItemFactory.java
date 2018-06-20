@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.google.common.collect.ImmutableSet;
 
-import net;
+
 
 public final class CraftItemFactory implements ItemFactory {
     static final Color DEFAULT_LEATHER_COLOR = Color.fromRGB(0xA06540);

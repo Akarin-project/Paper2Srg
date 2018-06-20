@@ -16,20 +16,23 @@ public class AttributeMap extends AbstractAttributeMap {
 
     public AttributeMap() {}
 
+    @Override
     public ModifiableAttributeInstance func_111151_a(IAttribute iattribute) {
         return (ModifiableAttributeInstance) super.func_111151_a(iattribute);
     }
 
+    @Override
     public ModifiableAttributeInstance func_111152_a(String s) {
         IAttributeInstance attributeinstance = super.func_111152_a(s);
 
         if (attributeinstance == null) {
-            attributeinstance = (IAttributeInstance) this.field_111163_c.get(s);
+            attributeinstance = this.field_111163_c.get(s);
         }
 
         return (ModifiableAttributeInstance) attributeinstance;
     }
 
+    @Override
     public IAttributeInstance func_111150_b(IAttribute iattribute) {
         IAttributeInstance attributeinstance = super.func_111150_b(iattribute);
 
@@ -40,10 +43,12 @@ public class AttributeMap extends AbstractAttributeMap {
         return attributeinstance;
     }
 
+    @Override
     protected IAttributeInstance func_180376_c(IAttribute iattribute) {
         return new ModifiableAttributeInstance(this, iattribute);
     }
 
+    @Override
     public void func_180794_a(IAttributeInstance attributeinstance) {
         if (attributeinstance.func_111123_a().func_111111_c()) {
             this.field_111162_d.add(attributeinstance);
@@ -79,13 +84,5 @@ public class AttributeMap extends AbstractAttributeMap {
         }
 
         return hashset;
-    }
-
-    public IAttributeInstance func_111152_a(String s) {
-        return this.func_111152_a(s);
-    }
-
-    public IAttributeInstance func_111151_a(IAttribute iattribute) {
-        return this.func_111151_a(iattribute);
     }
 }

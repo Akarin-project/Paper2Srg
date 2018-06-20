@@ -7,8 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.server.EntityIllagerWizard.b;
-import net.minecraft.server.EntityIllagerWizard.c;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
@@ -25,23 +23,26 @@ public abstract class EntitySpellcasterIllager extends AbstractIllager {
         this.field_193089_bx = EntitySpellcasterIllager.SpellType.NONE;
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntitySpellcasterIllager.field_193088_c, Byte.valueOf((byte) 0));
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.field_193087_b = nbttagcompound.func_74762_e("SpellTicks");
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("SpellTicks", this.field_193087_b);
     }
 
     public boolean func_193082_dl() {
-        return this.field_70170_p.field_72995_K ? ((Byte) this.field_70180_af.func_187225_a(EntitySpellcasterIllager.field_193088_c)).byteValue() > 0 : this.field_193087_b > 0;
+        return this.field_70170_p.field_72995_K ? this.field_70180_af.func_187225_a(EntitySpellcasterIllager.field_193088_c).byteValue() > 0 : this.field_193087_b > 0;
     }
 
     public void func_193081_a(EntitySpellcasterIllager.SpellType entityillagerwizard_spell) {
@@ -50,9 +51,10 @@ public abstract class EntitySpellcasterIllager extends AbstractIllager {
     }
 
     public EntitySpellcasterIllager.SpellType func_193083_dm() {
-        return !this.field_70170_p.field_72995_K ? this.field_193089_bx : EntitySpellcasterIllager.SpellType.func_193337_a(((Byte) this.field_70180_af.func_187225_a(EntitySpellcasterIllager.field_193088_c)).byteValue());
+        return !this.field_70170_p.field_72995_K ? this.field_193089_bx : EntitySpellcasterIllager.SpellType.func_193337_a(this.field_70180_af.func_187225_a(EntitySpellcasterIllager.field_193088_c).byteValue());
     }
 
+    @Override
     protected void func_70619_bc() {
         super.func_70619_bc();
         if (this.field_193087_b > 0) {
@@ -61,6 +63,7 @@ public abstract class EntitySpellcasterIllager extends AbstractIllager {
 
     }
 
+    @Override
     public void func_70071_h_() {
         super.func_70071_h_();
         if (this.field_70170_p.field_72995_K && this.func_193082_dl()) {
@@ -68,12 +71,12 @@ public abstract class EntitySpellcasterIllager extends AbstractIllager {
             double d0 = entityillagerwizard_spell.field_193346_h[0];
             double d1 = entityillagerwizard_spell.field_193346_h[1];
             double d2 = entityillagerwizard_spell.field_193346_h[2];
-            float f = this.field_70761_aq * 0.017453292F + MathHelper.func_76134_b((float) this.field_70173_aa * 0.6662F) * 0.25F;
+            float f = this.field_70761_aq * 0.017453292F + MathHelper.func_76134_b(this.field_70173_aa * 0.6662F) * 0.25F;
             float f1 = MathHelper.func_76134_b(f);
             float f2 = MathHelper.func_76126_a(f);
 
-            this.field_70170_p.func_175688_a(EnumParticleTypes.SPELL_MOB, this.field_70165_t + (double) f1 * 0.6D, this.field_70163_u + 1.8D, this.field_70161_v + (double) f2 * 0.6D, d0, d1, d2, new int[0]);
-            this.field_70170_p.func_175688_a(EnumParticleTypes.SPELL_MOB, this.field_70165_t - (double) f1 * 0.6D, this.field_70163_u + 1.8D, this.field_70161_v - (double) f2 * 0.6D, d0, d1, d2, new int[0]);
+            this.field_70170_p.func_175688_a(EnumParticleTypes.SPELL_MOB, this.field_70165_t + f1 * 0.6D, this.field_70163_u + 1.8D, this.field_70161_v + f2 * 0.6D, d0, d1, d2, new int[0]);
+            this.field_70170_p.func_175688_a(EnumParticleTypes.SPELL_MOB, this.field_70165_t - f1 * 0.6D, this.field_70163_u + 1.8D, this.field_70161_v - f2 * 0.6D, d0, d1, d2, new int[0]);
         }
 
     }
@@ -93,7 +96,7 @@ public abstract class EntitySpellcasterIllager extends AbstractIllager {
 
         private SpellType(int i, double d0, double param5, double d1) {
             this.field_193345_g = i;
-            this.field_193346_h = new double[] { d0, d1, d2};
+            this.field_193346_h = new double[] { d0, param5, d1};
         }
 
         public static EntitySpellcasterIllager.SpellType func_193337_a(int i) {
@@ -119,14 +122,17 @@ public abstract class EntitySpellcasterIllager extends AbstractIllager {
 
         protected c() {}
 
+        @Override
         public boolean func_75250_a() {
             return EntitySpellcasterIllager.this.func_70638_az() == null ? false : (EntitySpellcasterIllager.this.func_193082_dl() ? false : EntitySpellcasterIllager.this.field_70173_aa >= this.d);
         }
 
+        @Override
         public boolean func_75253_b() {
             return EntitySpellcasterIllager.this.func_70638_az() != null && this.c > 0;
         }
 
+        @Override
         public void func_75249_e() {
             this.c = this.m();
             EntitySpellcasterIllager.this.field_193087_b = this.f();
@@ -140,6 +146,7 @@ public abstract class EntitySpellcasterIllager extends AbstractIllager {
             EntitySpellcasterIllager.this.func_193081_a(this.l());
         }
 
+        @Override
         public void func_75246_d() {
             --this.c;
             if (this.c == 0) {
@@ -171,23 +178,27 @@ public abstract class EntitySpellcasterIllager extends AbstractIllager {
             this.func_75248_a(3);
         }
 
+        @Override
         public boolean func_75250_a() {
             return EntitySpellcasterIllager.this.func_193085_dn() > 0;
         }
 
+        @Override
         public void func_75249_e() {
             super.func_75249_e();
             EntitySpellcasterIllager.this.field_70699_by.func_75499_g();
         }
 
+        @Override
         public void func_75251_c() {
             super.func_75251_c();
             EntitySpellcasterIllager.this.func_193081_a(EntitySpellcasterIllager.SpellType.NONE);
         }
 
+        @Override
         public void func_75246_d() {
             if (EntitySpellcasterIllager.this.func_70638_az() != null) {
-                EntitySpellcasterIllager.this.func_70671_ap().func_75651_a(EntitySpellcasterIllager.this.func_70638_az(), (float) EntitySpellcasterIllager.this.func_184649_cE(), (float) EntitySpellcasterIllager.this.func_70646_bf());
+                EntitySpellcasterIllager.this.func_70671_ap().func_75651_a(EntitySpellcasterIllager.this.func_70638_az(), EntitySpellcasterIllager.this.func_184649_cE(), EntitySpellcasterIllager.this.func_70646_bf());
             }
 
         }

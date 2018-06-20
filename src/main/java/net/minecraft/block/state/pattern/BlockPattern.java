@@ -155,15 +155,16 @@ public class BlockPattern {
         }
 
         public BlockWorldState func_177670_a(int i, int j, int k) {
-            return (BlockWorldState) this.field_177671_d.getUnchecked(BlockPattern.func_177683_a(this.field_177674_a, this.func_177669_b(), this.func_177668_c(), i, j, k));
+            return this.field_177671_d.getUnchecked(BlockPattern.func_177683_a(this.field_177674_a, this.func_177669_b(), this.func_177668_c(), i, j, k));
         }
 
+        @Override
         public String toString() {
             return MoreObjects.toStringHelper(this).add("up", this.field_177673_c).add("forwards", this.field_177672_b).add("frontTopLeft", this.field_177674_a).toString();
         }
     }
 
-    static class CacheLoader extends CacheLoader<BlockPos, BlockWorldState> {
+    static class CacheLoader extends com.google.common.cache.CacheLoader<BlockPos, BlockWorldState> {
 
         private final World field_177680_a;
         private final boolean field_181626_b;
@@ -173,12 +174,9 @@ public class BlockPattern {
             this.field_181626_b = flag;
         }
 
+        @Override
         public BlockWorldState load(BlockPos blockposition) throws Exception {
             return new BlockWorldState(this.field_177680_a, blockposition, this.field_181626_b);
-        }
-
-        public Object load(Object object) throws Exception {
-            return this.load((BlockPos) object);
         }
     }
 }

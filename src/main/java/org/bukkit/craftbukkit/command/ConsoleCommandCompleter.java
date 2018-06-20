@@ -12,7 +12,6 @@ import net.minecraft.server.dedicated.DedicatedServer;
 import org.bukkit.event.server.TabCompleteEvent;
 
 // Paper start - JLine update
-import net.minecraft.server.DedicatedServer; // Paper
 import org.jline.reader.Candidate;
 import org.jline.reader.Completer;
 import org.jline.reader.LineReader;
@@ -28,6 +27,7 @@ public class ConsoleCommandCompleter implements Completer {
     }
 
     // Paper start - Change method signature for JLine update
+    @Override
     public void complete(LineReader reader, ParsedLine line, List<Candidate> candidates) {
         final CraftServer server = this.server.server;
         final String buffer = line.line();

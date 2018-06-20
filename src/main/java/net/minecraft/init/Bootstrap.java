@@ -58,9 +58,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionHelper;
 import net.minecraft.potion.PotionType;
 import net.minecraft.server.DebugLoggingPrintStream;
-import net.minecraft.server.DispenserRegistry.a;
-import net.minecraft.server.DispenserRegistry.b;
-import net.minecraft.server.DispenserRegistry.c;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityDispenser;
@@ -103,6 +100,7 @@ public class Bootstrap {
 
     static void func_151353_a() {
         BlockDispenser.field_149943_a.func_82595_a(Items.field_151032_g, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile func_82499_a(World world, IPosition iposition, ItemStack itemstack) {
                 EntityTippedArrow entitytippedarrow = new EntityTippedArrow(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
 
@@ -111,6 +109,7 @@ public class Bootstrap {
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Items.field_185167_i, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile func_82499_a(World world, IPosition iposition, ItemStack itemstack) {
                 EntityTippedArrow entitytippedarrow = new EntityTippedArrow(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
 
@@ -120,6 +119,7 @@ public class Bootstrap {
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Items.field_185166_h, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile func_82499_a(World world, IPosition iposition, ItemStack itemstack) {
                 EntitySpectralArrow entityspectralarrow = new EntitySpectralArrow(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
 
@@ -128,39 +128,48 @@ public class Bootstrap {
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Items.field_151110_aK, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile func_82499_a(World world, IPosition iposition, ItemStack itemstack) {
                 return new EntityEgg(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Items.field_151126_ay, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile func_82499_a(World world, IPosition iposition, ItemStack itemstack) {
                 return new EntitySnowball(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Items.field_151062_by, new BehaviorProjectileDispense() {
+            @Override
             protected IProjectile func_82499_a(World world, IPosition iposition, ItemStack itemstack) {
                 return new EntityExpBottle(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c());
             }
 
+            @Override
             protected float func_82498_a() {
                 return super.func_82498_a() * 0.5F;
             }
 
+            @Override
             protected float func_82500_b() {
                 return super.func_82500_b() * 1.25F;
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Items.field_185155_bH, new IBehaviorDispenseItem() {
+            @Override
             public ItemStack func_82482_a(IBlockSource isourceblock, final ItemStack itemstack) {
                 return (new BehaviorProjectileDispense() {
+                    @Override
                     protected IProjectile func_82499_a(World world, IPosition iposition, ItemStack itemstack1) { // CraftBukkit - decompile issue
                         return new EntityPotion(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c(), itemstack1.func_77946_l());
                     }
 
+                    @Override
                     protected float func_82498_a() {
                         return super.func_82498_a() * 0.5F;
                     }
 
+                    @Override
                     protected float func_82500_b() {
                         return super.func_82500_b() * 1.25F;
                     }
@@ -168,16 +177,20 @@ public class Bootstrap {
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Items.field_185156_bI, new IBehaviorDispenseItem() {
+            @Override
             public ItemStack func_82482_a(IBlockSource isourceblock, final ItemStack itemstack) {
                 return (new BehaviorProjectileDispense() {
+                    @Override
                     protected IProjectile func_82499_a(World world, IPosition iposition, ItemStack itemstack1) { // CraftBukkit - decompile issue
                         return new EntityPotion(world, iposition.func_82615_a(), iposition.func_82617_b(), iposition.func_82616_c(), itemstack1.func_77946_l());
                     }
 
+                    @Override
                     protected float func_82498_a() {
                         return super.func_82498_a() * 0.5F;
                     }
 
+                    @Override
                     protected float func_82500_b() {
                         return super.func_82500_b() * 1.25F;
                     }
@@ -185,11 +198,12 @@ public class Bootstrap {
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Items.field_151063_bx, new BehaviorDefaultDispenseItem() {
+            @Override
             public ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
-                EnumFacing enumdirection = (EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
-                double d0 = isourceblock.func_82615_a() + (double) enumdirection.func_82601_c();
-                double d1 = (double) ((float) (isourceblock.func_180699_d().func_177956_o() + enumdirection.func_96559_d()) + 0.2F);
-                double d2 = isourceblock.func_82616_c() + (double) enumdirection.func_82599_e();
+                EnumFacing enumdirection = isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
+                double d0 = isourceblock.func_82615_a() + enumdirection.func_82601_c();
+                double d1 = isourceblock.func_180699_d().func_177956_o() + enumdirection.func_96559_d() + 0.2F;
+                double d2 = isourceblock.func_82616_c() + enumdirection.func_82599_e();
                 // Entity entity = ItemMonsterEgg.a(isourceblock.getWorld(), ItemMonsterEgg.h(itemstack), d0, d1, d2);
 
                 // CraftBukkit start
@@ -212,7 +226,7 @@ public class Bootstrap {
                     itemstack.func_190917_f(1);
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                     if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                         idispensebehavior.func_82482_a(isourceblock, eventStack);
                         return itemstack;
@@ -234,11 +248,12 @@ public class Bootstrap {
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Items.field_151152_bP, new BehaviorDefaultDispenseItem() {
+            @Override
             public ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
-                EnumFacing enumdirection = (EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
-                double d0 = isourceblock.func_82615_a() + (double) enumdirection.func_82601_c();
-                double d1 = (double) ((float) isourceblock.func_180699_d().func_177956_o() + 0.2F);
-                double d2 = isourceblock.func_82616_c() + (double) enumdirection.func_82599_e();
+                EnumFacing enumdirection = isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
+                double d0 = isourceblock.func_82615_a() + enumdirection.func_82601_c();
+                double d1 = isourceblock.func_180699_d().func_177956_o() + 0.2F;
+                double d2 = isourceblock.func_82616_c() + enumdirection.func_82599_e();
                 // CraftBukkit start
                 World world = isourceblock.func_82618_k();
                 ItemStack itemstack1 = itemstack.func_77979_a(1);
@@ -259,7 +274,7 @@ public class Bootstrap {
                     itemstack.func_190917_f(1);
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                     if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                         idispensebehavior.func_82482_a(isourceblock, eventStack);
                         return itemstack;
@@ -275,22 +290,24 @@ public class Bootstrap {
                 return itemstack;
             }
 
+            @Override
             protected void func_82485_a(IBlockSource isourceblock) {
                 isourceblock.func_82618_k().func_175718_b(1004, isourceblock.func_180699_d(), 0);
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Items.field_151059_bz, new BehaviorDefaultDispenseItem() {
+            @Override
             public ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
-                EnumFacing enumdirection = (EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
+                EnumFacing enumdirection = isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
                 IPosition iposition = BlockDispenser.func_149939_a(isourceblock);
-                double d0 = iposition.func_82615_a() + (double) ((float) enumdirection.func_82601_c() * 0.3F);
-                double d1 = iposition.func_82617_b() + (double) ((float) enumdirection.func_96559_d() * 0.3F);
-                double d2 = iposition.func_82616_c() + (double) ((float) enumdirection.func_82599_e() * 0.3F);
+                double d0 = iposition.func_82615_a() + enumdirection.func_82601_c() * 0.3F;
+                double d1 = iposition.func_82617_b() + enumdirection.func_96559_d() * 0.3F;
+                double d2 = iposition.func_82616_c() + enumdirection.func_82599_e() * 0.3F;
                 World world = isourceblock.func_82618_k();
                 Random random = world.field_73012_v;
-                double d3 = random.nextGaussian() * 0.05D + (double) enumdirection.func_82601_c();
-                double d4 = random.nextGaussian() * 0.05D + (double) enumdirection.func_96559_d();
-                double d5 = random.nextGaussian() * 0.05D + (double) enumdirection.func_82599_e();
+                double d3 = random.nextGaussian() * 0.05D + enumdirection.func_82601_c();
+                double d4 = random.nextGaussian() * 0.05D + enumdirection.func_96559_d();
+                double d5 = random.nextGaussian() * 0.05D + enumdirection.func_82599_e();
 
                 // CraftBukkit start
                 ItemStack itemstack1 = itemstack.func_77979_a(1);
@@ -311,7 +328,7 @@ public class Bootstrap {
                     itemstack.func_190917_f(1);
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                     if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                         idispensebehavior.func_82482_a(isourceblock, eventStack);
                         return itemstack;
@@ -327,22 +344,24 @@ public class Bootstrap {
                 return itemstack;
             }
 
+            @Override
             protected void func_82485_a(IBlockSource isourceblock) {
                 isourceblock.func_82618_k().func_175718_b(1018, isourceblock.func_180699_d(), 0);
             }
         });
-        BlockDispenser.field_149943_a.func_82595_a(Items.field_151124_az, new DispenserRegistry.a(EntityBoat.Type.OAK));
-        BlockDispenser.field_149943_a.func_82595_a(Items.field_185150_aH, new DispenserRegistry.a(EntityBoat.Type.SPRUCE));
-        BlockDispenser.field_149943_a.func_82595_a(Items.field_185151_aI, new DispenserRegistry.a(EntityBoat.Type.BIRCH));
-        BlockDispenser.field_149943_a.func_82595_a(Items.field_185152_aJ, new DispenserRegistry.a(EntityBoat.Type.JUNGLE));
-        BlockDispenser.field_149943_a.func_82595_a(Items.field_185154_aL, new DispenserRegistry.a(EntityBoat.Type.DARK_OAK));
-        BlockDispenser.field_149943_a.func_82595_a(Items.field_185153_aK, new DispenserRegistry.a(EntityBoat.Type.ACACIA));
+        BlockDispenser.field_149943_a.func_82595_a(Items.field_151124_az, new Bootstrap.a(EntityBoat.Type.OAK));
+        BlockDispenser.field_149943_a.func_82595_a(Items.field_185150_aH, new Bootstrap.a(EntityBoat.Type.SPRUCE));
+        BlockDispenser.field_149943_a.func_82595_a(Items.field_185151_aI, new Bootstrap.a(EntityBoat.Type.BIRCH));
+        BlockDispenser.field_149943_a.func_82595_a(Items.field_185152_aJ, new Bootstrap.a(EntityBoat.Type.JUNGLE));
+        BlockDispenser.field_149943_a.func_82595_a(Items.field_185154_aL, new Bootstrap.a(EntityBoat.Type.DARK_OAK));
+        BlockDispenser.field_149943_a.func_82595_a(Items.field_185153_aK, new Bootstrap.a(EntityBoat.Type.ACACIA));
         BehaviorDefaultDispenseItem dispensebehavioritem = new BehaviorDefaultDispenseItem() {
             private final BehaviorDefaultDispenseItem b = new BehaviorDefaultDispenseItem();
 
+            @Override
             public ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
                 ItemBucket itembucket = (ItemBucket) itemstack.func_77973_b();
-                BlockPos blockposition = isourceblock.func_180699_d().func_177972_a((EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
+                BlockPos blockposition = isourceblock.func_180699_d().func_177972_a(isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
 
                 // CraftBukkit start
                 World world = isourceblock.func_82618_k();
@@ -365,7 +384,7 @@ public class Bootstrap {
                     if (!event.getItem().equals(craftItem)) {
                         // Chain to handler for new item
                         ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                        IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                        IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                         if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                             idispensebehavior.func_82482_a(isourceblock, eventStack);
                             return itemstack;
@@ -399,18 +418,19 @@ public class Bootstrap {
         BlockDispenser.field_149943_a.func_82595_a(Items.field_151133_ar, new BehaviorDefaultDispenseItem() {
             private final BehaviorDefaultDispenseItem b = new BehaviorDefaultDispenseItem();
 
+            @Override
             public ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
                 World world = isourceblock.func_82618_k();
-                BlockPos blockposition = isourceblock.func_180699_d().func_177972_a((EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
+                BlockPos blockposition = isourceblock.func_180699_d().func_177972_a(isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
                 IBlockState iblockdata = world.func_180495_p(blockposition);
                 Block block = iblockdata.func_177230_c();
                 Material material = iblockdata.func_185904_a();
                 Item item;
 
-                if (Material.field_151586_h.equals(material) && block instanceof BlockLiquid && ((Integer) iblockdata.func_177229_b(BlockLiquid.field_176367_b)).intValue() == 0) {
+                if (Material.field_151586_h.equals(material) && block instanceof BlockLiquid && iblockdata.func_177229_b(BlockLiquid.field_176367_b).intValue() == 0) {
                     item = Items.field_151131_as;
                 } else {
-                    if (!Material.field_151587_i.equals(material) || !(block instanceof BlockLiquid) || ((Integer) iblockdata.func_177229_b(BlockLiquid.field_176367_b)).intValue() != 0) {
+                    if (!Material.field_151587_i.equals(material) || !(block instanceof BlockLiquid) || iblockdata.func_177229_b(BlockLiquid.field_176367_b).intValue() != 0) {
                         return super.func_82487_b(isourceblock, itemstack);
                     }
 
@@ -433,7 +453,7 @@ public class Bootstrap {
                 if (!event.getItem().equals(craftItem)) {
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                     if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                         idispensebehavior.func_82482_a(isourceblock, eventStack);
                         return itemstack;
@@ -454,7 +474,8 @@ public class Bootstrap {
                 }
             }
         });
-        BlockDispenser.field_149943_a.func_82595_a(Items.field_151033_d, new DispenserRegistry.b() {
+        BlockDispenser.field_149943_a.func_82595_a(Items.field_151033_d, new Bootstrap.b() {
+            @Override
             protected ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
                 World world = isourceblock.func_82618_k();
 
@@ -474,7 +495,7 @@ public class Bootstrap {
                 if (!event.getItem().equals(craftItem)) {
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                     if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                         idispensebehavior.func_82482_a(isourceblock, eventStack);
                         return itemstack;
@@ -483,7 +504,7 @@ public class Bootstrap {
                 // CraftBukkit end
 
                 this.b = true;
-                BlockPos blockposition = isourceblock.func_180699_d().func_177972_a((EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
+                BlockPos blockposition = isourceblock.func_180699_d().func_177972_a(isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
 
                 if (world.func_175623_d(blockposition)) {
                     // CraftBukkit start - Ignition by dispensing flint and steel
@@ -504,12 +525,13 @@ public class Bootstrap {
                 return itemstack;
             }
         });
-        BlockDispenser.field_149943_a.func_82595_a(Items.field_151100_aR, new DispenserRegistry.b() {
+        BlockDispenser.field_149943_a.func_82595_a(Items.field_151100_aR, new Bootstrap.b() {
+            @Override
             protected ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
                 this.b = true;
                 if (EnumDyeColor.WHITE == EnumDyeColor.func_176766_a(itemstack.func_77960_j())) {
                     World world = isourceblock.func_82618_k();
-                    BlockPos blockposition = isourceblock.func_180699_d().func_177972_a((EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
+                    BlockPos blockposition = isourceblock.func_180699_d().func_177972_a(isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
 
                     // CraftBukkit start
                     org.bukkit.block.Block block = world.getWorld().getBlockAt(isourceblock.func_180699_d().func_177958_n(), isourceblock.func_180699_d().func_177956_o(), isourceblock.func_180699_d().func_177952_p());
@@ -527,7 +549,7 @@ public class Bootstrap {
                     if (!event.getItem().equals(craftItem)) {
                         // Chain to handler for new item
                         ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                        IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                        IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                         if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                             idispensebehavior.func_82482_a(isourceblock, eventStack);
                             return itemstack;
@@ -572,9 +594,10 @@ public class Bootstrap {
             }
         });
         BlockDispenser.field_149943_a.func_82595_a(Item.func_150898_a(Blocks.field_150335_W), new BehaviorDefaultDispenseItem() {
+            @Override
             protected ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
                 World world = isourceblock.func_82618_k();
-                BlockPos blockposition = isourceblock.func_180699_d().func_177972_a((EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
+                BlockPos blockposition = isourceblock.func_180699_d().func_177972_a(isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
                 // EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, (double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D, (EntityLiving) null);
 
                 // CraftBukkit start
@@ -582,7 +605,7 @@ public class Bootstrap {
                 org.bukkit.block.Block block = world.getWorld().getBlockAt(isourceblock.func_180699_d().func_177958_n(), isourceblock.func_180699_d().func_177956_o(), isourceblock.func_180699_d().func_177952_p());
                 CraftItemStack craftItem = CraftItemStack.asCraftMirror(itemstack1);
 
-                BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(), new org.bukkit.util.Vector((double) blockposition.func_177958_n() + 0.5D, (double) blockposition.func_177956_o(), (double) blockposition.func_177952_p() + 0.5D));
+                BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(), new org.bukkit.util.Vector(blockposition.func_177958_n() + 0.5D, blockposition.func_177956_o(), blockposition.func_177952_p() + 0.5D));
                 if (!BlockDispenser.eventFired) {
                    world.getServer().getPluginManager().callEvent(event);
                 }
@@ -596,7 +619,7 @@ public class Bootstrap {
                     itemstack.func_190917_f(1);
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                     if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                         idispensebehavior.func_82482_a(isourceblock, eventStack);
                         return itemstack;
@@ -612,10 +635,11 @@ public class Bootstrap {
                 return itemstack;
             }
         });
-        BlockDispenser.field_149943_a.func_82595_a(Items.field_151144_bL, new DispenserRegistry.b() {
+        BlockDispenser.field_149943_a.func_82595_a(Items.field_151144_bL, new Bootstrap.b() {
+            @Override
             protected ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
                 World world = isourceblock.func_82618_k();
-                EnumFacing enumdirection = (EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
+                EnumFacing enumdirection = isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
                 BlockPos blockposition = isourceblock.func_180699_d().func_177972_a(enumdirection);
                 BlockSkull blockskull = Blocks.field_150465_bP;
 
@@ -635,7 +659,7 @@ public class Bootstrap {
                 if (!event.getItem().equals(craftItem)) {
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                     if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                         idispensebehavior.func_82482_a(isourceblock, eventStack);
                         return itemstack;
@@ -685,10 +709,11 @@ public class Bootstrap {
                 return itemstack;
             }
         });
-        BlockDispenser.field_149943_a.func_82595_a(Item.func_150898_a(Blocks.field_150423_aK), new DispenserRegistry.b() {
+        BlockDispenser.field_149943_a.func_82595_a(Item.func_150898_a(Blocks.field_150423_aK), new Bootstrap.b() {
+            @Override
             protected ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
                 World world = isourceblock.func_82618_k();
-                BlockPos blockposition = isourceblock.func_180699_d().func_177972_a((EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
+                BlockPos blockposition = isourceblock.func_180699_d().func_177972_a(isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a));
                 BlockPumpkin blockpumpkin = (BlockPumpkin) Blocks.field_150423_aK;
 
                 // CraftBukkit start
@@ -707,7 +732,7 @@ public class Bootstrap {
                 if (!event.getItem().equals(craftItem)) {
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                    IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                     if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                         idispensebehavior.func_82482_a(isourceblock, eventStack);
                         return itemstack;
@@ -739,7 +764,7 @@ public class Bootstrap {
         for (int j = 0; j < i; ++j) {
             EnumDyeColor enumcolor = aenumcolor[j];
 
-            BlockDispenser.field_149943_a.func_82595_a(Item.func_150898_a(BlockShulkerBox.func_190952_a(enumcolor)), new DispenserRegistry.c(null));
+            BlockDispenser.field_149943_a.func_82595_a(Item.func_150898_a(BlockShulkerBox.func_190952_a(enumcolor)), new Bootstrap.c(null));
         }
 
     }
@@ -791,14 +816,15 @@ public class Bootstrap {
 
     }
 
-    static class c extends DispenserRegistry.b {
+    static class c extends Bootstrap.b {
 
         private c() {}
 
+        @Override
         protected ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
             Block block = Block.func_149634_a(itemstack.func_77973_b());
             World world = isourceblock.func_82618_k();
-            EnumFacing enumdirection = (EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
+            EnumFacing enumdirection = isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
             BlockPos blockposition = isourceblock.func_180699_d().func_177972_a(enumdirection);
 
             // CraftBukkit start
@@ -817,7 +843,7 @@ public class Bootstrap {
             if (!event.getItem().equals(craftItem)) {
                 // Chain to handler for new item
                 ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                 if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                     idispensebehavior.func_82482_a(isourceblock, eventStack);
                     return itemstack;
@@ -859,6 +885,7 @@ public class Bootstrap {
 
         public b() {}
 
+        @Override
         protected void func_82485_a(IBlockSource isourceblock) {
             isourceblock.func_82618_k().func_175718_b(this.b ? 1000 : 1001, isourceblock.func_180699_d(), 0);
         }
@@ -873,12 +900,13 @@ public class Bootstrap {
             this.c = entityboat_enumboattype;
         }
 
+        @Override
         public ItemStack func_82487_b(IBlockSource isourceblock, ItemStack itemstack) {
-            EnumFacing enumdirection = (EnumFacing) isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
+            EnumFacing enumdirection = isourceblock.func_189992_e().func_177229_b(BlockDispenser.field_176441_a);
             World world = isourceblock.func_82618_k();
-            double d0 = isourceblock.func_82615_a() + (double) ((float) enumdirection.func_82601_c() * 1.125F);
-            double d1 = isourceblock.func_82617_b() + (double) ((float) enumdirection.func_96559_d() * 1.125F);
-            double d2 = isourceblock.func_82616_c() + (double) ((float) enumdirection.func_82599_e() * 1.125F);
+            double d0 = isourceblock.func_82615_a() + enumdirection.func_82601_c() * 1.125F;
+            double d1 = isourceblock.func_82617_b() + enumdirection.func_96559_d() * 1.125F;
+            double d2 = isourceblock.func_82616_c() + enumdirection.func_82599_e() * 1.125F;
             BlockPos blockposition = isourceblock.func_180699_d().func_177972_a(enumdirection);
             Material material = world.func_180495_p(blockposition).func_185904_a();
             double d3;
@@ -913,7 +941,7 @@ public class Bootstrap {
                 itemstack.func_190917_f(1);
                 // Chain to handler for new item
                 ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                IBehaviorDispenseItem idispensebehavior = (IBehaviorDispenseItem) BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
+                IBehaviorDispenseItem idispensebehavior = BlockDispenser.field_149943_a.func_82594_a(eventStack.func_77973_b());
                 if (idispensebehavior != IBehaviorDispenseItem.field_82483_a && idispensebehavior != this) {
                     idispensebehavior.func_82482_a(isourceblock, eventStack);
                     return itemstack;
@@ -930,6 +958,7 @@ public class Bootstrap {
             return itemstack;
         }
 
+        @Override
         protected void func_82485_a(IBlockSource isourceblock) {
             isourceblock.func_82618_k().func_175718_b(1000, isourceblock.func_180699_d(), 0);
         }

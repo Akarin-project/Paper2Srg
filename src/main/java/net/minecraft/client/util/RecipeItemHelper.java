@@ -17,7 +17,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.server.AutoRecipeStackManager.a;
 import net.minecraft.util.NonNullList;
 
 public class RecipeItemHelper {
@@ -40,7 +39,7 @@ public class RecipeItemHelper {
         Item item = itemstack.func_77973_b();
         int i = item.func_77614_k() ? itemstack.func_77960_j() : 0;
 
-        return Item.field_150901_e.func_148757_b((Object) item) << 16 | i & '\uffff';
+        return Item.field_150901_e.func_148757_b(item) << 16 | i & '\uffff';
     }
 
     public boolean func_194120_a(int i) {
@@ -67,7 +66,7 @@ public class RecipeItemHelper {
     }
 
     public boolean func_194118_a(IRecipe irecipe, @Nullable IntList intlist, int i) {
-        return (new AutoRecipeStackManager.a(irecipe)).a(i, intlist);
+        return (new RecipeItemHelper.a(irecipe)).a(i, intlist);
     }
 
     public int func_194114_b(IRecipe irecipe, @Nullable IntList intlist) {
@@ -75,7 +74,7 @@ public class RecipeItemHelper {
     }
 
     public int func_194121_a(IRecipe irecipe, int i, @Nullable IntList intlist) {
-        return (new AutoRecipeStackManager.a(irecipe)).b(i, intlist);
+        return (new RecipeItemHelper.a(irecipe)).b(i, intlist);
     }
 
     public static ItemStack func_194115_b(int i) {
@@ -100,7 +99,7 @@ public class RecipeItemHelper {
             this.b = irecipe;
             this.c.addAll(irecipe.func_192400_c());
             this.c.removeIf((var0) -> {
-                return recipeitemstack == Ingredient.field_193370_a;
+                return var0 == Ingredient.field_193370_a;
             });
             this.d = this.c.size();
             this.e = this.a();
@@ -108,7 +107,7 @@ public class RecipeItemHelper {
             this.g = new BitSet(this.d + this.f + this.d + this.d * this.f);
 
             for (int i = 0; i < this.c.size(); ++i) {
-                IntList intlist = ((Ingredient) this.c.get(i)).func_194139_b();
+                IntList intlist = this.c.get(i).func_194139_b();
 
                 for (int j = 0; j < this.f; ++j) {
                     if (intlist.contains(this.e[j])) {
@@ -132,7 +131,7 @@ public class RecipeItemHelper {
                     this.c(this.h.getInt(k));
 
                     for (int l = 0; l < k; ++l) {
-                        this.c((l & 1) == 0, ((Integer) this.h.get(l)).intValue(), ((Integer) this.h.get(l + 1)).intValue());
+                        this.c((l & 1) == 0, this.h.get(l).intValue(), this.h.get(l + 1).intValue());
                     }
 
                     this.h.clear();
@@ -314,7 +313,7 @@ public class RecipeItemHelper {
                 int k;
 
                 for (IntListIterator intlistiterator = recipeitemstack.func_194139_b().iterator(); intlistiterator.hasNext(); j = Math.max(j, RecipeItemHelper.this.field_194124_a.get(k))) {
-                    k = ((Integer) intlistiterator.next()).intValue();
+                    k = intlistiterator.next().intValue();
                 }
 
                 if (i > 0) {

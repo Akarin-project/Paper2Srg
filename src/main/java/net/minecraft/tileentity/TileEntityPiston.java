@@ -34,6 +34,7 @@ public class TileEntityPiston extends TileEntity implements ITickable {
             return null;
         }
 
+        @Override
         protected Object initialValue() {
             return this.a();
         }
@@ -54,10 +55,12 @@ public class TileEntityPiston extends TileEntity implements ITickable {
         return this.field_174932_a;
     }
 
+    @Override
     public NBTTagCompound func_189517_E_() {
         return this.func_189515_b(new NBTTagCompound());
     }
 
+    @Override
     public int func_145832_p() {
         return 0;
     }
@@ -86,7 +89,7 @@ public class TileEntityPiston extends TileEntity implements ITickable {
         f = this.func_184320_e(f);
         IBlockState iblockdata = this.func_190606_j();
 
-        return iblockdata.func_185900_c(iblockaccess, blockposition).func_72317_d((double) (f * (float) this.field_174931_f.func_82601_c()), (double) (f * (float) this.field_174931_f.func_96559_d()), (double) (f * (float) this.field_174931_f.func_82599_e()));
+        return iblockdata.func_185900_c(iblockaccess, blockposition).func_72317_d(f * this.field_174931_f.func_82601_c(), f * this.field_174931_f.func_96559_d(), f * this.field_174931_f.func_82599_e());
     }
 
     private IBlockState func_190606_j() {
@@ -95,12 +98,12 @@ public class TileEntityPiston extends TileEntity implements ITickable {
 
     private void func_184322_i(float f) {
         EnumFacing enumdirection = this.field_145875_k ? this.field_174931_f : this.field_174931_f.func_176734_d();
-        double d0 = (double) (f - this.field_145873_m);
+        double d0 = f - this.field_145873_m;
         ArrayList arraylist = Lists.newArrayList();
 
         this.func_190606_j().func_185908_a(this.field_145850_b, BlockPos.field_177992_a, new AxisAlignedBB(BlockPos.field_177992_a), arraylist, (Entity) null, true);
         if (!arraylist.isEmpty()) {
-            AxisAlignedBB axisalignedbb = this.func_190607_a(this.func_191515_a((List) arraylist));
+            AxisAlignedBB axisalignedbb = this.func_190607_a(this.func_191515_a(arraylist));
             List list = this.field_145850_b.func_72839_b((Entity) null, this.func_190610_a(axisalignedbb, enumdirection, d0).func_111270_a(axisalignedbb));
 
             if (!list.isEmpty()) {
@@ -113,15 +116,15 @@ public class TileEntityPiston extends TileEntity implements ITickable {
                         if (flag) {
                             switch (enumdirection.func_176740_k()) {
                             case X:
-                                entity.field_70159_w = (double) enumdirection.func_82601_c();
+                                entity.field_70159_w = enumdirection.func_82601_c();
                                 break;
 
                             case Y:
-                                entity.field_70181_x = (double) enumdirection.func_96559_d();
+                                entity.field_70181_x = enumdirection.func_96559_d();
                                 break;
 
                             case Z:
-                                entity.field_70179_y = (double) enumdirection.func_82599_e();
+                                entity.field_70179_y = enumdirection.func_82599_e();
                             }
                         }
 
@@ -142,8 +145,8 @@ public class TileEntityPiston extends TileEntity implements ITickable {
                         if (d1 > 0.0D) {
                             d1 = Math.min(d1, d0) + 0.01D;
                             TileEntityPiston.field_190613_i.set(enumdirection);
-                            entity.func_70091_d(MoverType.PISTON, d1 * (double) enumdirection.func_82601_c(), d1 * (double) enumdirection.func_96559_d(), d1 * (double) enumdirection.func_82599_e());
-                            TileEntityPiston.field_190613_i.set((Object) null);
+                            entity.func_70091_d(MoverType.PISTON, d1 * enumdirection.func_82601_c(), d1 * enumdirection.func_96559_d(), d1 * enumdirection.func_82599_e());
+                            TileEntityPiston.field_190613_i.set(null);
                             if (!this.field_145875_k && this.field_145872_l) {
                                 this.func_190605_a(entity, enumdirection, d0);
                             }
@@ -192,13 +195,13 @@ public class TileEntityPiston extends TileEntity implements ITickable {
     }
 
     private AxisAlignedBB func_190607_a(AxisAlignedBB axisalignedbb) {
-        double d0 = (double) this.func_184320_e(this.field_145873_m);
+        double d0 = this.func_184320_e(this.field_145873_m);
 
-        return axisalignedbb.func_72317_d((double) this.field_174879_c.func_177958_n() + d0 * (double) this.field_174931_f.func_82601_c(), (double) this.field_174879_c.func_177956_o() + d0 * (double) this.field_174931_f.func_96559_d(), (double) this.field_174879_c.func_177952_p() + d0 * (double) this.field_174931_f.func_82599_e());
+        return axisalignedbb.func_72317_d(this.field_174879_c.func_177958_n() + d0 * this.field_174931_f.func_82601_c(), this.field_174879_c.func_177956_o() + d0 * this.field_174931_f.func_96559_d(), this.field_174879_c.func_177952_p() + d0 * this.field_174931_f.func_82599_e());
     }
 
     private AxisAlignedBB func_190610_a(AxisAlignedBB axisalignedbb, EnumFacing enumdirection, double d0) {
-        double d1 = d0 * (double) enumdirection.func_176743_c().func_179524_a();
+        double d1 = d0 * enumdirection.func_176743_c().func_179524_a();
         double d2 = Math.min(d1, 0.0D);
         double d3 = Math.max(d1, 0.0D);
 
@@ -236,8 +239,8 @@ public class TileEntityPiston extends TileEntity implements ITickable {
             if (Math.abs(d1 - d2) < 0.01D) {
                 d1 = Math.min(d1, d0) + 0.01D;
                 TileEntityPiston.field_190613_i.set(enumdirection);
-                entity.func_70091_d(MoverType.PISTON, d1 * (double) enumdirection1.func_82601_c(), d1 * (double) enumdirection1.func_96559_d(), d1 * (double) enumdirection1.func_82599_e());
-                TileEntityPiston.field_190613_i.set((Object) null);
+                entity.func_70091_d(MoverType.PISTON, d1 * enumdirection1.func_82601_c(), d1 * enumdirection1.func_96559_d(), d1 * enumdirection1.func_82599_e());
+                TileEntityPiston.field_190613_i.set(null);
             }
         }
 
@@ -269,6 +272,7 @@ public class TileEntityPiston extends TileEntity implements ITickable {
 
     }
 
+    @Override
     public void func_73660_a() {
         this.field_145870_n = this.field_145873_m;
         if (this.field_145870_n >= 1.0F) {
@@ -293,6 +297,7 @@ public class TileEntityPiston extends TileEntity implements ITickable {
 
     public static void func_189685_a(DataFixer dataconvertermanager) {}
 
+    @Override
     public void func_145839_a(NBTTagCompound nbttagcompound) {
         super.func_145839_a(nbttagcompound);
         this.field_174932_a = Block.func_149729_e(nbttagcompound.func_74762_e("blockId")).func_176203_a(nbttagcompound.func_74762_e("blockData"));
@@ -303,6 +308,7 @@ public class TileEntityPiston extends TileEntity implements ITickable {
         this.field_145872_l = nbttagcompound.func_74767_n("source");
     }
 
+    @Override
     public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
         super.func_189515_b(nbttagcompound);
         nbttagcompound.func_74768_a("blockId", Block.func_149682_b(this.field_174932_a.func_177230_c()));
@@ -319,9 +325,9 @@ public class TileEntityPiston extends TileEntity implements ITickable {
             this.field_174932_a.func_177226_a(BlockPistonBase.field_176320_b, Boolean.valueOf(true)).func_185908_a(world, blockposition, axisalignedbb, list, entity, false);
         }
 
-        EnumFacing enumdirection = (EnumFacing) TileEntityPiston.field_190613_i.get();
+        EnumFacing enumdirection = TileEntityPiston.field_190613_i.get();
 
-        if ((double) this.field_145873_m >= 1.0D || enumdirection != (this.field_145875_k ? this.field_174931_f : this.field_174931_f.func_176734_d())) {
+        if (this.field_145873_m >= 1.0D || enumdirection != (this.field_145875_k ? this.field_174931_f : this.field_174931_f.func_176734_d())) {
             int i = list.size();
             IBlockState iblockdata;
 
@@ -332,14 +338,14 @@ public class TileEntityPiston extends TileEntity implements ITickable {
             }
 
             float f = this.func_184320_e(this.field_145873_m);
-            double d0 = (double) ((float) this.field_174931_f.func_82601_c() * f);
-            double d1 = (double) ((float) this.field_174931_f.func_96559_d() * f);
-            double d2 = (double) ((float) this.field_174931_f.func_82599_e() * f);
+            double d0 = this.field_174931_f.func_82601_c() * f;
+            double d1 = this.field_174931_f.func_96559_d() * f;
+            double d2 = this.field_174931_f.func_82599_e() * f;
 
             iblockdata.func_185908_a(world, blockposition, axisalignedbb.func_72317_d(-d0, -d1, -d2), list, entity, true);
 
             for (int j = i; j < list.size(); ++j) {
-                list.set(j, ((AxisAlignedBB) list.get(j)).func_72317_d(d0, d1, d2));
+                list.set(j, list.get(j).func_72317_d(d0, d1, d2));
             }
 
         }

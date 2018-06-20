@@ -10,7 +10,6 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.potion.CraftPotionUtil;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 
 import com.google.common.collect.ImmutableList;
 
@@ -19,14 +18,16 @@ public abstract class CraftThrownPotion extends CraftProjectile implements Throw
         super(server, entity);
     }
 
-    public Collection<PotionEffect> getEffects() {
-        ImmutableList.Builder<PotionEffect> builder = ImmutableList.builder();
+    @Override
+    public Collection<org.bukkit.potion.PotionEffect> getEffects() {
+        ImmutableList.Builder<org.bukkit.potion.PotionEffect> builder = ImmutableList.builder();
         for (PotionEffect effect : PotionUtils.func_185189_a(getHandle().func_184543_l())) {
             builder.add(CraftPotionUtil.toBukkit(effect));
         }
         return builder.build();
     }
 
+    @Override
     public ItemStack getItem() {
         return CraftItemStack.asBukkitCopy(getHandle().func_184543_l());
     }

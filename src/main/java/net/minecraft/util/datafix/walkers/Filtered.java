@@ -12,7 +12,7 @@ public abstract class Filtered implements IDataWalker {
 
     private final ResourceLocation field_188272_a;
 
-    public Filtered(Class<?> oclass) {
+    public Filtered(Class oclass) {
         if (Entity.class.isAssignableFrom(oclass)) {
             this.field_188272_a = EntityList.func_191306_a(oclass);
         } else if (TileEntity.class.isAssignableFrom(oclass)) {
@@ -23,6 +23,7 @@ public abstract class Filtered implements IDataWalker {
 
     }
 
+    @Override
     public NBTTagCompound func_188266_a(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
         if ((new ResourceLocation(nbttagcompound.func_74779_i("id"))).equals(this.field_188272_a)) {
             nbttagcompound = this.func_188271_b(dataconverter, nbttagcompound, i);

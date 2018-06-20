@@ -5,7 +5,7 @@ import java.util.List;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 
-import net;
+
 
 public class CraftMerchantRecipe extends MerchantRecipe {
 

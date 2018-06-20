@@ -8,8 +8,7 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-import net.minecraft.server.OptionSet;
+import joptsimple.OptionSet;
 
 public class PropertyManager {
 

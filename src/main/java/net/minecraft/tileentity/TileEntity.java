@@ -27,11 +27,11 @@ import org.bukkit.inventory.InventoryHolder;
 public abstract class TileEntity {
 
     public Timing tickTimer = MinecraftTimings.getTileEntityTimings(this); // Paper
-    boolean isLoadingStructure = false; // Paper
+    public boolean isLoadingStructure = false; // Paper
     private static final Logger field_145852_a = LogManager.getLogger();
     private static final RegistryNamespaced<ResourceLocation, Class<? extends TileEntity>> field_190562_f = new RegistryNamespaced();
-    protected World field_145850_b;
-    protected BlockPos field_174879_c;
+    public World field_145850_b;
+    public BlockPos field_174879_c;
     protected boolean field_145846_f;
     private int field_145847_g;
     protected Block field_145854_h;
@@ -47,7 +47,7 @@ public abstract class TileEntity {
 
     @Nullable
     public static ResourceLocation func_190559_a(Class<? extends TileEntity> oclass) {
-        return (ResourceLocation) TileEntity.field_190562_f.func_177774_c(oclass);
+        return TileEntity.field_190562_f.func_177774_c(oclass);
     }
 
     static boolean IGNORE_TILE_UPDATES = false; // Paper
@@ -72,7 +72,7 @@ public abstract class TileEntity {
     }
 
     private NBTTagCompound func_189516_d(NBTTagCompound nbttagcompound) {
-        ResourceLocation minecraftkey = (ResourceLocation) TileEntity.field_190562_f.func_177774_c(this.getClass());
+        ResourceLocation minecraftkey = TileEntity.field_190562_f.func_177774_c(this.getClass());
 
         if (minecraftkey == null) {
             throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
@@ -91,7 +91,7 @@ public abstract class TileEntity {
         String s = nbttagcompound.func_74779_i("id");
 
         try {
-            Class oclass = (Class) TileEntity.field_190562_f.func_82594_a(new ResourceLocation(s));
+            Class oclass = TileEntity.field_190562_f.func_82594_a(new ResourceLocation(s));
 
             if (oclass != null) {
                 tileentity = (TileEntity) oclass.newInstance();
@@ -189,6 +189,7 @@ public abstract class TileEntity {
                 return TileEntity.field_190562_f.func_177774_c(TileEntity.this.getClass()) + " // " + TileEntity.this.getClass().getCanonicalName();
             }
 
+            @Override
             public Object call() throws Exception {
                 return this.a();
             }
@@ -211,6 +212,7 @@ public abstract class TileEntity {
                     }
                 }
 
+                @Override
                 public Object call() throws Exception {
                     return this.a();
                 }
@@ -229,6 +231,7 @@ public abstract class TileEntity {
                     }
                 }
 
+                @Override
                 public Object call() throws Exception {
                     return this.a();
                 }

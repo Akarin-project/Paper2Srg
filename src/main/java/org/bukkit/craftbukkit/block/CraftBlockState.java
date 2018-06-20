@@ -18,7 +18,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.List;
 import net.minecraft.block.state.IBlockState;
 
-import net;
+
 
 public class CraftBlockState implements BlockState {
     private final CraftWorld world;

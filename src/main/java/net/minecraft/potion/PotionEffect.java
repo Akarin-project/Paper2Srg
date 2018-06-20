@@ -109,6 +109,7 @@ public class PotionEffect implements Comparable<PotionEffect> {
         return this.field_188420_b.func_76393_a();
     }
 
+    @Override
     public String toString() {
         String s;
 
@@ -129,6 +130,7 @@ public class PotionEffect implements Comparable<PotionEffect> {
         return s;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -141,6 +143,7 @@ public class PotionEffect implements Comparable<PotionEffect> {
         }
     }
 
+    @Override
     public int hashCode() {
         int i = this.field_188420_b.hashCode();
 
@@ -180,13 +183,10 @@ public class PotionEffect implements Comparable<PotionEffect> {
         }
     }
 
+    @Override
     public int compareTo(PotionEffect mobeffect) {
         boolean flag = true;
 
         return (this.func_76459_b() <= 32147 || mobeffect.func_76459_b() <= 32147) && (!this.func_82720_e() || !mobeffect.func_82720_e()) ? ComparisonChain.start().compare(Boolean.valueOf(this.func_82720_e()), Boolean.valueOf(mobeffect.func_82720_e())).compare(this.func_76459_b(), mobeffect.func_76459_b()).compare(this.func_188419_a().func_76401_j(), mobeffect.func_188419_a().func_76401_j()).result() : ComparisonChain.start().compare(Boolean.valueOf(this.func_82720_e()), Boolean.valueOf(mobeffect.func_82720_e())).compare(this.func_188419_a().func_76401_j(), mobeffect.func_188419_a().func_76401_j()).result();
-    }
-
-    public int compareTo(Object object) {
-        return this.compareTo((PotionEffect) object);
     }
 }

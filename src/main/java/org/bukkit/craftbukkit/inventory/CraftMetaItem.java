@@ -53,9 +53,9 @@ import org.bukkit.inventory.meta.ItemMeta.Spigot;
 
 // Spigot start
 import static org.spigotmc.ValidateUtils.*;
-import net.minecraft.server.GenericAttributes;
-import net.minecraft.server.IAttribute;
 // Spigot end
+
+import static org.spigotmc.ValidateUtils.*;
 
 /**
  * Children must include the following:
@@ -169,6 +169,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
             }
         }
 
+        @Override
         public Map<String, Object> serialize() {
             throw new AssertionError();
         }
@@ -200,32 +201,32 @@ class CraftMetaItem implements ItemMeta, Repairable {
 
     static final ItemMetaKey NAME = new ItemMetaKey("Name", "display-name");
     static final ItemMetaKey LOCNAME = new ItemMetaKey("LocName", "loc-name");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey DISPLAY = new ItemMetaKey("display");
     static final ItemMetaKey LORE = new ItemMetaKey("Lore", "lore");
     static final ItemMetaKey ENCHANTMENTS = new ItemMetaKey("ench", "enchants");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey ENCHANTMENTS_ID = new ItemMetaKey("id");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey ENCHANTMENTS_LVL = new ItemMetaKey("lvl");
     static final ItemMetaKey REPAIR = new ItemMetaKey("RepairCost", "repair-cost");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey ATTRIBUTES = new ItemMetaKey("AttributeModifiers");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey ATTRIBUTES_IDENTIFIER = new ItemMetaKey("AttributeName");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey ATTRIBUTES_NAME = new ItemMetaKey("Name");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey ATTRIBUTES_VALUE = new ItemMetaKey("Amount");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey ATTRIBUTES_TYPE = new ItemMetaKey("Operation");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey ATTRIBUTES_UUID_HIGH = new ItemMetaKey("UUIDMost");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey ATTRIBUTES_UUID_LOW = new ItemMetaKey("UUIDLeast");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey HIDEFLAGS = new ItemMetaKey("HideFlags", "ItemFlags");
-    @Specific(Specific.To.NBT)
+    @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
     static final ItemMetaKey UNBREAKABLE = new ItemMetaKey("Unbreakable");
 
     private String displayName;
@@ -429,7 +430,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
                 if (!(nbttaglist.func_150305_b(i) instanceof NBTTagCompound)) {
                     continue;
                 }
-                NBTTagCompound nbttagcompound = (NBTTagCompound) nbttaglist.func_150305_b(i);
+                NBTTagCompound nbttagcompound = nbttaglist.func_150305_b(i);
 
                 if (!nbttagcompound.func_150297_b(ATTRIBUTES_UUID_HIGH.NBT, CraftMagicNumbers.NBT.TAG_ANY_NUMBER)) {
                     continue;
@@ -484,8 +485,8 @@ class CraftMetaItem implements ItemMeta, Repairable {
         EnchantmentMap enchantments = new EnchantmentMap(); // Paper
 
         for (int i = 0; i < ench.func_74745_c(); i++) {
-            int id = 0xffff & ((NBTTagCompound) ench.func_150305_b(i)).func_74765_d(ENCHANTMENTS_ID.NBT);
-            int level = 0xffff & ((NBTTagCompound) ench.func_150305_b(i)).func_74765_d(ENCHANTMENTS_LVL.NBT);
+            int id = 0xffff & ench.func_150305_b(i).func_74765_d(ENCHANTMENTS_ID.NBT);
+            int level = 0xffff & ench.func_150305_b(i).func_74765_d(ENCHANTMENTS_LVL.NBT);
 
             Enchantment enchant = Enchantment.getById(id);
             if (enchant != null) {
@@ -658,14 +659,17 @@ class CraftMetaItem implements ItemMeta, Repairable {
         return !(hasDisplayName() || hasLocalizedName() || hasEnchants() || hasLore() || hasRepairCost() || !unhandledTags.isEmpty() || hideFlag != 0 || isUnbreakable());
     }
 
+    @Override
     public String getDisplayName() {
         return displayName;
     }
 
+    @Override
     public final void setDisplayName(String name) {
         this.displayName = name;
     }
 
+    @Override
     public boolean hasDisplayName() {
         return !Strings.isNullOrEmpty(displayName);
     }
@@ -685,19 +689,23 @@ class CraftMetaItem implements ItemMeta, Repairable {
         return !Strings.isNullOrEmpty(locName);
     }
 
+    @Override
     public boolean hasLore() {
         return this.lore != null && !this.lore.isEmpty();
     }
 
+    @Override
     public boolean hasRepairCost() {
         return repairCost > 0;
     }
 
+    @Override
     public boolean hasEnchant(Enchantment ench) {
         Validate.notNull(ench, "Enchantment cannot be null");
         return hasEnchants() && enchantments.containsKey(ench);
     }
 
+    @Override
     public int getEnchantLevel(Enchantment ench) {
         Validate.notNull(ench, "Enchantment cannot be null");
         Integer level = hasEnchants() ? enchantments.get(ench) : null;
@@ -707,10 +715,12 @@ class CraftMetaItem implements ItemMeta, Repairable {
         return level;
     }
 
+    @Override
     public Map<Enchantment, Integer> getEnchants() {
         return hasEnchants() ? ImmutableSortedMap.copyOfSorted(enchantments) : ImmutableMap.<Enchantment, Integer>of(); // Paper
     }
 
+    @Override
     public boolean addEnchant(Enchantment ench, int level, boolean ignoreRestrictions) {
         Validate.notNull(ench, "Enchantment cannot be null");
         if (enchantments == null) {
@@ -724,6 +734,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
         return false;
     }
 
+    @Override
     public boolean removeEnchant(Enchantment ench) {
         Validate.notNull(ench, "Enchantment cannot be null");
         // Spigot start
@@ -736,10 +747,12 @@ class CraftMetaItem implements ItemMeta, Repairable {
         // Spigot end
     }
 
+    @Override
     public boolean hasEnchants() {
         return !(enchantments == null || enchantments.isEmpty());
     }
 
+    @Override
     public boolean hasConflictingEnchant(Enchantment ench) {
         return checkConflictingEnchants(enchantments, ench);
     }
@@ -781,10 +794,12 @@ class CraftMetaItem implements ItemMeta, Repairable {
         return (byte) (1 << hideFlag.ordinal());
     }
 
+    @Override
     public List<String> getLore() {
         return this.lore == null ? null : new ArrayList<String>(this.lore);
     }
 
+    @Override
     public void setLore(List<String> lore) { // too tired to think if .clone is better
         if (lore == null) {
             this.lore = null;
@@ -798,10 +813,12 @@ class CraftMetaItem implements ItemMeta, Repairable {
         }
     }
 
+    @Override
     public int getRepairCost() {
         return repairCost;
     }
 
+    @Override
     public void setRepairCost(int cost) { // TODO: Does this have limits?
         repairCost = cost;
     }
@@ -895,6 +912,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
         }
     }
 
+    @Override
     public final Map<String, Object> serialize() {
         ImmutableMap.Builder<String, Object> map = ImmutableMap.builder();
         map.put(SerializableMeta.TYPE_FIELD, SerializableMeta.classMap.get(getClass()));
@@ -1062,6 +1080,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
             super((o1, o2) -> ((Integer) o1.getId()).compareTo(o2.getId()));
         }
 
+        @Override
         public EnchantmentMap clone() {
             return (EnchantmentMap) super.clone();
         }

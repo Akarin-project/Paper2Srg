@@ -9,15 +9,14 @@ import org.bukkit.craftbukkit.potion.CraftPotionUtil;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TippedArrow;
 import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 
 public class CraftTippedArrow extends CraftArrow implements TippedArrow {
 
@@ -41,7 +40,7 @@ public class CraftTippedArrow extends CraftArrow implements TippedArrow {
     }
 
     @Override
-    public boolean addCustomEffect(PotionEffect effect, boolean override) {
+    public boolean addCustomEffect(org.bukkit.potion.PotionEffect effect, boolean override) {
         int effectId = effect.getType().getId();
         PotionEffect existing = null;
         for (PotionEffect mobEffect : getHandle().field_184561_h) {
@@ -68,8 +67,8 @@ public class CraftTippedArrow extends CraftArrow implements TippedArrow {
     }
 
     @Override
-    public List<PotionEffect> getCustomEffects() {
-        ImmutableList.Builder<PotionEffect> builder = ImmutableList.builder();
+    public List<org.bukkit.potion.PotionEffect> getCustomEffects() {
+        ImmutableList.Builder<org.bukkit.potion.PotionEffect> builder = ImmutableList.builder();
         for (PotionEffect effect : getHandle().field_184561_h) {
             builder.add(CraftPotionUtil.toBukkit(effect));
         }

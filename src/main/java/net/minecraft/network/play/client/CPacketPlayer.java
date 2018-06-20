@@ -8,25 +8,28 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 
 public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
 
-    protected double field_149479_a;
-    protected double field_149477_b;
-    protected double field_149478_c;
-    protected float field_149476_e;
-    protected float field_149473_f;
+    public double field_149479_a;
+    public double field_149477_b;
+    public double field_149478_c;
+    public float field_149476_e;
+    public float field_149473_f;
     protected boolean field_149474_g;
-    protected boolean field_149480_h;
-    protected boolean field_149481_i;
+    public boolean field_149480_h;
+    public boolean field_149481_i;
 
     public CPacketPlayer() {}
 
+    @Override
     public void func_148833_a(INetHandlerPlayServer packetlistenerplayin) {
         packetlistenerplayin.func_147347_a(this);
     }
 
+    @Override
     public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
         this.field_149474_g = packetdataserializer.readUnsignedByte() != 0;
     }
 
+    @Override
     public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
         packetdataserializer.writeByte(this.field_149474_g ? 1 : 0);
     }
@@ -61,12 +64,14 @@ public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
             this.field_149481_i = true;
         }
 
+        @Override
         public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
             this.field_149476_e = packetdataserializer.readFloat();
             this.field_149473_f = packetdataserializer.readFloat();
             super.func_148837_a(packetdataserializer);
         }
 
+        @Override
         public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
             packetdataserializer.writeFloat(this.field_149476_e);
             packetdataserializer.writeFloat(this.field_149473_f);
@@ -80,6 +85,7 @@ public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
             this.field_149480_h = true;
         }
 
+        @Override
         public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
             this.field_149479_a = packetdataserializer.readDouble();
             this.field_149477_b = packetdataserializer.readDouble();
@@ -87,6 +93,7 @@ public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
             super.func_148837_a(packetdataserializer);
         }
 
+        @Override
         public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
             packetdataserializer.writeDouble(this.field_149479_a);
             packetdataserializer.writeDouble(this.field_149477_b);
@@ -102,6 +109,7 @@ public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
             this.field_149481_i = true;
         }
 
+        @Override
         public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
             this.field_149479_a = packetdataserializer.readDouble();
             this.field_149477_b = packetdataserializer.readDouble();
@@ -111,6 +119,7 @@ public class CPacketPlayer implements Packet<INetHandlerPlayServer> {
             super.func_148837_a(packetdataserializer);
         }
 
+        @Override
         public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
             packetdataserializer.writeDouble(this.field_149479_a);
             packetdataserializer.writeDouble(this.field_149477_b);

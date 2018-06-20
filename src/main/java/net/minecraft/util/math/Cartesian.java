@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
 public class Cartesian {
 
     public static <T> Iterable<T[]> func_179318_a(Class<T> oclass, Iterable<? extends Iterable<? extends T>> iterable) {
-        return new Cartesian.Product(oclass, (Iterable[]) func_179322_b(Iterable.class, iterable), null);
+        return new Cartesian.Product(oclass, func_179322_b(Iterable.class, iterable), null);
     }
 
     public static <T> Iterable<List<T>> func_179321_a(Iterable<? extends Iterable<? extends T>> iterable) {
@@ -37,11 +37,11 @@ public class Cartesian {
             arraylist.add(object);
         }
 
-        return (Object[]) arraylist.toArray(func_179319_b(oclass, arraylist.size()));
+        return (T[]) arraylist.toArray(func_179319_b(oclass, arraylist.size()));
     }
 
     private static <T> T[] func_179319_b(Class<? super T> oclass, int i) {
-        return (Object[]) ((Object[]) Array.newInstance(oclass, i));
+        return (T[]) ((Object[]) Array.newInstance(oclass, i));
     }
 
     static class Product<T> implements Iterable<T[]> {
@@ -54,8 +54,9 @@ public class Cartesian {
             this.field_179428_b = aiterable;
         }
 
+        @Override
         public Iterator<T[]> iterator() {
-            return (Iterator) (this.field_179428_b.length <= 0 ? Collections.singletonList((Object[]) Cartesian.func_179319_b(this.field_179429_a, 0)).iterator() : new Cartesian.Product.ProductIterator(this.field_179429_a, this.field_179428_b, null));
+            return this.field_179428_b.length <= 0 ? Collections.singletonList(Cartesian.func_179319_b(this.field_179429_a, 0)).iterator() : new Cartesian.Product.ProductIterator(this.field_179429_a, this.field_179428_b, null);
         }
 
         Product(Class oclass, Iterable[] aiterable, Object object) {
@@ -72,7 +73,7 @@ public class Cartesian {
             private ProductIterator(Class<T> oclass, Iterable<? extends T>[] aiterable) {
                 this.field_179426_a = -2;
                 this.field_179424_b = aiterable;
-                this.field_179425_c = (Iterator[]) Cartesian.func_179319_b(Iterator.class, this.field_179424_b.length);
+                this.field_179425_c = Cartesian.func_179319_b(Iterator.class, this.field_179424_b.length);
 
                 for (int i = 0; i < this.field_179424_b.length; ++i) {
                     this.field_179425_c[i] = aiterable[i].iterator();
@@ -87,6 +88,7 @@ public class Cartesian {
                 Arrays.fill(this.field_179423_d, (Object) null);
             }
 
+            @Override
             public boolean hasNext() {
                 if (this.field_179426_a == -2) {
                     this.field_179426_a = 0;
@@ -130,6 +132,7 @@ public class Cartesian {
                 }
             }
 
+            @Override
             public T[] next() {
                 if (!this.hasNext()) {
                     throw new NoSuchElementException();
@@ -139,12 +142,8 @@ public class Cartesian {
                         ++this.field_179426_a;
                     }
 
-                    return (Object[]) this.field_179423_d.clone();
+                    return this.field_179423_d.clone();
                 }
-            }
-
-            public Object next() {
-                return this.next();
             }
 
             ProductIterator(Class oclass, Iterable[] aiterable, Object object) {
@@ -157,12 +156,9 @@ public class Cartesian {
 
         private GetList() {}
 
+        @Override
         public List<T> apply(@Nullable Object[] aobject) {
-            return Arrays.asList((Object[]) aobject);
-        }
-
-        public Object apply(@Nullable Object object) {
-            return this.apply((Object[]) object);
+            return (List<T>) Arrays.asList(aobject);
         }
 
         GetList(Object object) {

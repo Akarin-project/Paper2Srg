@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.LootItemFunctionSetTag.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -25,6 +24,7 @@ public class SetNBT extends LootFunction {
         this.field_186570_a = nbttagcompound;
     }
 
+    @Override
     public ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo) {
         NBTTagCompound nbttagcompound = itemstack.func_77978_p();
 
@@ -38,12 +38,13 @@ public class SetNBT extends LootFunction {
         return itemstack;
     }
 
-    public static class a extends LootItemFunction.a<SetNBT> {
+    public static class a extends LootFunction.a<SetNBT> {
 
         public a() {
             super(new ResourceLocation("set_nbt"), SetNBT.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, SetNBT lootitemfunctionsettag, JsonSerializationContext jsonserializationcontext) {
             jsonobject.addProperty("tag", lootitemfunctionsettag.field_186570_a.toString());
         }
@@ -58,7 +59,8 @@ public class SetNBT extends LootFunction {
             }
         }
 
-        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        @Override
+        public SetNBT b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }

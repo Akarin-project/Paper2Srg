@@ -8,7 +8,7 @@ public class TextComponentKeybind extends TextComponentBase {
 
     public static Function<String, Supplier<String>> field_193637_b = (var0) -> {
         return () -> {
-            return s;
+            return var0;
         };
     };
     private final String field_193638_c;
@@ -18,14 +18,16 @@ public class TextComponentKeybind extends TextComponentBase {
         this.field_193638_c = s;
     }
 
+    @Override
     public String func_150261_e() {
         if (this.field_193639_d == null) {
-            this.field_193639_d = (Supplier) TextComponentKeybind.field_193637_b.apply(this.field_193638_c);
+            this.field_193639_d = TextComponentKeybind.field_193637_b.apply(this.field_193638_c);
         }
 
-        return (String) this.field_193639_d.get();
+        return this.field_193639_d.get();
     }
 
+    @Override
     public TextComponentKeybind func_150259_f() {
         TextComponentKeybind chatcomponentkeybind = new TextComponentKeybind(this.field_193638_c);
 
@@ -41,6 +43,7 @@ public class TextComponentKeybind extends TextComponentBase {
         return chatcomponentkeybind;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -53,15 +56,12 @@ public class TextComponentKeybind extends TextComponentBase {
         }
     }
 
+    @Override
     public String toString() {
         return "KeybindComponent{keybind=\'" + this.field_193638_c + '\'' + ", siblings=" + this.field_150264_a + ", style=" + this.func_150256_b() + '}';
     }
 
     public String func_193633_h() {
         return this.field_193638_c;
-    }
-
-    public ITextComponent func_150259_f() {
-        return this.func_150259_f();
     }
 }

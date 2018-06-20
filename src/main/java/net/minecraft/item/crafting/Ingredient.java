@@ -13,12 +13,9 @@ import net.minecraft.item.ItemStack;
 public class Ingredient implements Predicate<ItemStack> {
 
     public static final Ingredient field_193370_a = new Ingredient(new ItemStack[0], null) {
+        @Override
         public boolean apply(@Nullable ItemStack itemstack) {
             return itemstack.func_190926_b();
-        }
-
-        public boolean apply(@Nullable Object object) {
-            return this.apply((ItemStack) object);
         }
     };
     public final ItemStack[] field_193371_b;
@@ -28,6 +25,7 @@ public class Ingredient implements Predicate<ItemStack> {
         this.field_193371_b = aitemstack;
     }
 
+    @Override
     public boolean apply(@Nullable ItemStack itemstack) {
         if (itemstack == null) {
             return false;
@@ -98,10 +96,6 @@ public class Ingredient implements Predicate<ItemStack> {
         }
 
         return Ingredient.field_193370_a;
-    }
-
-    public boolean apply(@Nullable Object object) {
-        return this.apply((ItemStack) object);
     }
 
     Ingredient(ItemStack[] aitemstack, Object object) {

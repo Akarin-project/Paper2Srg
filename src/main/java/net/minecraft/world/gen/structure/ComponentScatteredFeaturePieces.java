@@ -24,7 +24,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.WorldGenRegistration.b;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
@@ -44,7 +43,7 @@ public class ComponentScatteredFeaturePieces {
         MapGenStructureIO.func_143031_a(ComponentScatteredFeaturePieces.DesertPyramid.class, "TeDP");
         MapGenStructureIO.func_143031_a(ComponentScatteredFeaturePieces.JunglePyramid.class, "TeJP");
         MapGenStructureIO.func_143031_a(ComponentScatteredFeaturePieces.SwampHut.class, "TeSH");
-        MapGenStructureIO.func_143031_a(WorldGenRegistration.b.class, "Iglu");
+        MapGenStructureIO.func_143031_a(ComponentScatteredFeaturePieces.b.class, "Iglu");
     }
 
     public static class b extends ComponentScatteredFeaturePieces.Feature {
@@ -59,6 +58,7 @@ public class ComponentScatteredFeaturePieces {
             super(random, i, 64, j, 7, 5, 8);
         }
 
+        @Override
         public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (!this.func_74935_a(world, structureboundingbox, -1)) {
                 return false;
@@ -69,21 +69,21 @@ public class ComponentScatteredFeaturePieces {
                 MinecraftServer minecraftserver = world.func_73046_m();
                 TemplateManager definedstructuremanager = world.func_72860_G().func_186340_h();
                 PlacementSettings definedstructureinfo = (new PlacementSettings()).func_186220_a(aenumblockrotation[random.nextInt(aenumblockrotation.length)]).func_186225_a(Blocks.field_189881_dj).func_186223_a(structureboundingbox1);
-                Template definedstructure = definedstructuremanager.func_186237_a(minecraftserver, WorldGenRegistration.b.e);
+                Template definedstructure = definedstructuremanager.func_186237_a(minecraftserver, ComponentScatteredFeaturePieces.b.e);
 
                 definedstructure.func_186260_a(world, blockposition, definedstructureinfo);
                 if (random.nextDouble() < 0.5D) {
-                    Template definedstructure1 = definedstructuremanager.func_186237_a(minecraftserver, WorldGenRegistration.b.f);
-                    Template definedstructure2 = definedstructuremanager.func_186237_a(minecraftserver, WorldGenRegistration.b.g);
+                    Template definedstructure1 = definedstructuremanager.func_186237_a(minecraftserver, ComponentScatteredFeaturePieces.b.f);
+                    Template definedstructure2 = definedstructuremanager.func_186237_a(minecraftserver, ComponentScatteredFeaturePieces.b.g);
                     int i = random.nextInt(8) + 4;
 
                     for (int j = 0; j < i; ++j) {
                         BlockPos blockposition1 = definedstructure.func_186262_a(definedstructureinfo, new BlockPos(3, -1 - j * 3, 5), definedstructureinfo, new BlockPos(1, 2, 1));
 
-                        definedstructure1.func_186260_a(world, blockposition.func_177971_a((Vec3i) blockposition1), definedstructureinfo);
+                        definedstructure1.func_186260_a(world, blockposition.func_177971_a(blockposition1), definedstructureinfo);
                     }
 
-                    BlockPos blockposition2 = blockposition.func_177971_a((Vec3i) definedstructure.func_186262_a(definedstructureinfo, new BlockPos(3, -1 - i * 3, 5), definedstructureinfo, new BlockPos(3, 5, 7)));
+                    BlockPos blockposition2 = blockposition.func_177971_a(definedstructure.func_186262_a(definedstructureinfo, new BlockPos(3, -1 - i * 3, 5), definedstructureinfo, new BlockPos(3, 5, 7)));
 
                     definedstructure2.func_186260_a(world, blockposition2, definedstructureinfo);
                     Map map = definedstructure2.func_186258_a(blockposition2, definedstructureinfo);
@@ -106,7 +106,7 @@ public class ComponentScatteredFeaturePieces {
                 } else {
                     BlockPos blockposition4 = Template.func_186266_a(definedstructureinfo, new BlockPos(3, 0, 5));
 
-                    world.func_180501_a(blockposition.func_177971_a((Vec3i) blockposition4), Blocks.field_150433_aE.func_176223_P(), 3);
+                    world.func_180501_a(blockposition.func_177971_a(blockposition4), Blocks.field_150433_aE.func_176223_P(), 3);
                 }
 
                 return true;
@@ -124,16 +124,19 @@ public class ComponentScatteredFeaturePieces {
             super(random, i, 64, j, 7, 7, 9);
         }
 
+        @Override
         protected void func_143012_a(NBTTagCompound nbttagcompound) {
             super.func_143012_a(nbttagcompound);
             nbttagcompound.func_74757_a("Witch", this.field_82682_h);
         }
 
+        @Override
         protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.func_143011_b(nbttagcompound, definedstructuremanager);
             this.field_82682_h = nbttagcompound.func_74767_n("Witch");
         }
 
+        @Override
         public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (!this.func_74935_a(world, structureboundingbox, 0)) {
                 return false;
@@ -183,12 +186,12 @@ public class ComponentScatteredFeaturePieces {
                     j = this.func_74862_a(2);
                     int k = this.func_74873_b(2, 5);
 
-                    if (structureboundingbox.func_175898_b((Vec3i) (new BlockPos(i, j, k)))) {
+                    if (structureboundingbox.func_175898_b((new BlockPos(i, j, k)))) {
                         this.field_82682_h = true;
                         EntityWitch entitywitch = new EntityWitch(world);
 
                         entitywitch.func_110163_bv();
-                        entitywitch.func_70012_b((double) i + 0.5D, (double) j, (double) k + 0.5D, 0.0F, 0.0F);
+                        entitywitch.func_70012_b(i + 0.5D, j, k + 0.5D, 0.0F, 0.0F);
                         entitywitch.func_180482_a(world.func_175649_E(new BlockPos(i, j, k)), (IEntityLivingData) null);
                         world.addEntity(entitywitch, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.CHUNK_GEN); // CraftBukkit - add SpawnReason
                     }
@@ -213,6 +216,7 @@ public class ComponentScatteredFeaturePieces {
             super(random, i, 64, j, 12, 10, 15);
         }
 
+        @Override
         protected void func_143012_a(NBTTagCompound nbttagcompound) {
             super.func_143012_a(nbttagcompound);
             nbttagcompound.func_74757_a("placedMainChest", this.field_74947_h);
@@ -221,6 +225,7 @@ public class ComponentScatteredFeaturePieces {
             nbttagcompound.func_74757_a("placedTrap2", this.field_74946_k);
         }
 
+        @Override
         protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.func_143011_b(nbttagcompound, definedstructuremanager);
             this.field_74947_h = nbttagcompound.func_74767_n("placedMainChest");
@@ -229,6 +234,7 @@ public class ComponentScatteredFeaturePieces {
             this.field_74946_k = nbttagcompound.func_74767_n("placedTrap2");
         }
 
+        @Override
         public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
             if (!this.func_74935_a(world, structureboundingbox, 0)) {
                 return false;
@@ -418,6 +424,7 @@ public class ComponentScatteredFeaturePieces {
 
             private Stones() {}
 
+            @Override
             public void func_75062_a(Random random, int i, int j, int k, boolean flag) {
                 if (random.nextFloat() < 0.4F) {
                     this.field_151562_a = Blocks.field_150347_e.func_176223_P();
@@ -443,6 +450,7 @@ public class ComponentScatteredFeaturePieces {
             super(random, i, 64, j, 21, 15, 21);
         }
 
+        @Override
         protected void func_143012_a(NBTTagCompound nbttagcompound) {
             super.func_143012_a(nbttagcompound);
             nbttagcompound.func_74757_a("hasPlacedChest0", this.field_74940_h[0]);
@@ -451,6 +459,7 @@ public class ComponentScatteredFeaturePieces {
             nbttagcompound.func_74757_a("hasPlacedChest3", this.field_74940_h[3]);
         }
 
+        @Override
         protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             super.func_143011_b(nbttagcompound, definedstructuremanager);
             this.field_74940_h[0] = nbttagcompound.func_74767_n("hasPlacedChest0");
@@ -459,6 +468,7 @@ public class ComponentScatteredFeaturePieces {
             this.field_74940_h[3] = nbttagcompound.func_74767_n("hasPlacedChest3");
         }
 
+        @Override
         public boolean func_74875_a(World world, Random random, StructureBoundingBox structureboundingbox) {
             this.func_175804_a(world, structureboundingbox, 0, -4, 0, this.field_74939_a - 1, 0, this.field_74938_c - 1, Blocks.field_150322_A.func_176223_P(), Blocks.field_150322_A.func_176223_P(), false);
 
@@ -686,6 +696,7 @@ public class ComponentScatteredFeaturePieces {
 
         }
 
+        @Override
         protected void func_143012_a(NBTTagCompound nbttagcompound) {
             nbttagcompound.func_74768_a("Width", this.field_74939_a);
             nbttagcompound.func_74768_a("Height", this.field_74937_b);
@@ -693,6 +704,7 @@ public class ComponentScatteredFeaturePieces {
             nbttagcompound.func_74768_a("HPos", this.field_74936_d);
         }
 
+        @Override
         protected void func_143011_b(NBTTagCompound nbttagcompound, TemplateManager definedstructuremanager) {
             this.field_74939_a = nbttagcompound.func_74762_e("Width");
             this.field_74937_b = nbttagcompound.func_74762_e("Height");
@@ -711,7 +723,7 @@ public class ComponentScatteredFeaturePieces {
                 for (int l = this.field_74887_e.field_78896_c; l <= this.field_74887_e.field_78892_f; ++l) {
                     for (int i1 = this.field_74887_e.field_78897_a; i1 <= this.field_74887_e.field_78893_d; ++i1) {
                         blockposition_mutableblockposition.func_181079_c(i1, 64, l);
-                        if (structureboundingbox.func_175898_b((Vec3i) blockposition_mutableblockposition)) {
+                        if (structureboundingbox.func_175898_b(blockposition_mutableblockposition)) {
                             j += Math.max(world.func_175672_r(blockposition_mutableblockposition).func_177956_o(), world.field_73011_w.func_76557_i());
                             ++k;
                         }

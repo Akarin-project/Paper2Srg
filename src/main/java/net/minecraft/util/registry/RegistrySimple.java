@@ -29,6 +29,7 @@ public class RegistrySimple<K, V> implements IRegistry<K, V> {
         return this.field_82596_a.get(k0);
     }
 
+    @Override
     public void func_82595_a(K k0, V v0) {
         Validate.notNull(k0);
         Validate.notNull(v0);
@@ -56,13 +57,14 @@ public class RegistrySimple<K, V> implements IRegistry<K, V> {
             this.field_186802_b = collection.toArray(new Object[collection.size()]);
         }
 
-        return this.field_186802_b[random.nextInt(this.field_186802_b.length)];
+        return (V) this.field_186802_b[random.nextInt(this.field_186802_b.length)];
     }
 
     public boolean func_148741_d(K k0) {
         return this.field_82596_a.containsKey(k0);
     }
 
+    @Override
     public Iterator<V> iterator() {
         return this.field_82596_a.values().iterator();
     }

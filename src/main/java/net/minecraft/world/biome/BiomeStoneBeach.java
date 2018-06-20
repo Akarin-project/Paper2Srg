@@ -4,7 +4,7 @@ import net.minecraft.init.Blocks;
 
 public class BiomeStoneBeach extends Biome {
 
-    public BiomeStoneBeach(BiomeBase.a biomebase_a) {
+    public BiomeStoneBeach(Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_76762_K.clear();
         this.field_76752_A = Blocks.field_150348_b.func_176223_P();

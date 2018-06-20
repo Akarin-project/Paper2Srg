@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LootItemFunctionSetData.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -25,6 +24,7 @@ public class SetMetadata extends LootFunction {
         this.field_186573_b = lootvaluebounds;
     }
 
+    @Override
     public ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo) {
         if (itemstack.func_77984_f()) {
             SetMetadata.field_186572_a.warn("Couldn\'t set data of loot item {}", itemstack);
@@ -35,21 +35,23 @@ public class SetMetadata extends LootFunction {
         return itemstack;
     }
 
-    public static class a extends LootItemFunction.a<SetMetadata> {
+    public static class a extends LootFunction.a<SetMetadata> {
 
         protected a() {
             super(new ResourceLocation("set_data"), SetMetadata.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, SetMetadata lootitemfunctionsetdata, JsonSerializationContext jsonserializationcontext) {
             jsonobject.add("data", jsonserializationcontext.serialize(lootitemfunctionsetdata.field_186573_b));
         }
 
         public SetMetadata a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
-            return new SetMetadata(alootitemcondition, (RandomValueRange) JsonUtils.func_188174_a(jsonobject, "data", jsondeserializationcontext, RandomValueRange.class));
+            return new SetMetadata(alootitemcondition, JsonUtils.func_188174_a(jsonobject, "data", jsondeserializationcontext, RandomValueRange.class));
         }
 
-        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        @Override
+        public SetMetadata b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }

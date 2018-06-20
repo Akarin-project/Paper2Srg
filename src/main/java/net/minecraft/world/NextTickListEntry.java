@@ -13,11 +13,12 @@ public class NextTickListEntry implements Comparable<NextTickListEntry> {
     private final long field_77178_g;
 
     public NextTickListEntry(BlockPos blockposition, Block block) {
-        this.field_77178_g = (long) (NextTickListEntry.field_77177_f++);
+        this.field_77178_g = (NextTickListEntry.field_77177_f++);
         this.field_180282_a = blockposition.func_185334_h();
         this.field_151352_g = block;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (!(object instanceof NextTickListEntry)) {
             return false;
@@ -28,6 +29,7 @@ public class NextTickListEntry implements Comparable<NextTickListEntry> {
         }
     }
 
+    @Override
     public int hashCode() {
         return this.field_180282_a.hashCode();
     }
@@ -41,19 +43,17 @@ public class NextTickListEntry implements Comparable<NextTickListEntry> {
         this.field_82754_f = i;
     }
 
+    @Override
     public int compareTo(NextTickListEntry nextticklistentry) {
         return this.field_77180_e < nextticklistentry.field_77180_e ? -1 : (this.field_77180_e > nextticklistentry.field_77180_e ? 1 : (this.field_82754_f != nextticklistentry.field_82754_f ? this.field_82754_f - nextticklistentry.field_82754_f : (this.field_77178_g < nextticklistentry.field_77178_g ? -1 : (this.field_77178_g > nextticklistentry.field_77178_g ? 1 : 0))));
     }
 
+    @Override
     public String toString() {
         return Block.func_149682_b(this.field_151352_g) + ": " + this.field_180282_a + ", " + this.field_77180_e + ", " + this.field_82754_f + ", " + this.field_77178_g;
     }
 
     public Block func_151351_a() {
         return this.field_151352_g;
-    }
-
-    public int compareTo(Object object) {
-        return this.compareTo((NextTickListEntry) object);
     }
 }

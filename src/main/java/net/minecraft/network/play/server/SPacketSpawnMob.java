@@ -33,7 +33,7 @@ public class SPacketSpawnMob implements Packet<INetHandlerPlayClient> {
     public SPacketSpawnMob(EntityLivingBase entityliving) {
         this.field_149042_a = entityliving.func_145782_y();
         this.field_186894_b = entityliving.func_110124_au();
-        this.field_149040_b = EntityList.field_191308_b.func_148757_b((Object) entityliving.getClass());
+        this.field_149040_b = EntityList.field_191308_b.func_148757_b(entityliving.getClass());
         this.field_149041_c = entityliving.field_70165_t;
         this.field_149038_d = entityliving.field_70163_u;
         this.field_149039_e = entityliving.field_70161_v;
@@ -75,6 +75,7 @@ public class SPacketSpawnMob implements Packet<INetHandlerPlayClient> {
         this.field_149043_l = entityliving.func_184212_Q();
     }
 
+    @Override
     public void func_148837_a(PacketBuffer packetdataserializer) throws IOException {
         this.field_149042_a = packetdataserializer.func_150792_a();
         this.field_186894_b = packetdataserializer.func_179253_g();
@@ -91,6 +92,7 @@ public class SPacketSpawnMob implements Packet<INetHandlerPlayClient> {
         this.field_149044_m = EntityDataManager.func_187215_b(packetdataserializer);
     }
 
+    @Override
     public void func_148840_b(PacketBuffer packetdataserializer) throws IOException {
         packetdataserializer.func_150787_b(this.field_149042_a);
         packetdataserializer.func_179252_a(this.field_186894_b);
@@ -107,6 +109,7 @@ public class SPacketSpawnMob implements Packet<INetHandlerPlayClient> {
         this.field_149043_l.func_187216_a(packetdataserializer);
     }
 
+    @Override
     public void func_148833_a(INetHandlerPlayClient packetlistenerplayout) {
         packetlistenerplayout.func_147281_a(this);
     }

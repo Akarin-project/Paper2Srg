@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionHelper;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
-import net.minecraft.server.ContainerBrewingStand.a;
 
 // CraftBukkit end
 
@@ -32,11 +31,11 @@ public class ContainerBrewingStand extends Container {
     public ContainerBrewingStand(InventoryPlayer playerinventory, IInventory iinventory) {
         player = playerinventory; // CraftBukkit
         this.field_75188_e = iinventory;
-        this.func_75146_a((Slot) (new ContainerBrewingStand.Potion(iinventory, 0, 56, 51)));
-        this.func_75146_a((Slot) (new ContainerBrewingStand.Potion(iinventory, 1, 79, 58)));
-        this.func_75146_a((Slot) (new ContainerBrewingStand.Potion(iinventory, 2, 102, 51)));
-        this.field_75186_f = this.func_75146_a((Slot) (new ContainerBrewingStand.Ingredient(iinventory, 3, 79, 17)));
-        this.func_75146_a((Slot) (new ContainerBrewingStand.a(iinventory, 4, 17, 17)));
+        this.func_75146_a((new ContainerBrewingStand.Potion(iinventory, 0, 56, 51)));
+        this.func_75146_a((new ContainerBrewingStand.Potion(iinventory, 1, 79, 58)));
+        this.func_75146_a((new ContainerBrewingStand.Potion(iinventory, 2, 102, 51)));
+        this.field_75186_f = this.func_75146_a((new ContainerBrewingStand.Ingredient(iinventory, 3, 79, 17)));
+        this.func_75146_a((new ContainerBrewingStand.a(iinventory, 4, 17, 17)));
 
         int i;
 
@@ -52,16 +51,18 @@ public class ContainerBrewingStand extends Container {
 
     }
 
+    @Override
     public void func_75132_a(IContainerListener icrafting) {
         super.func_75132_a(icrafting);
         icrafting.func_175173_a(this, this.field_75188_e);
     }
 
+    @Override
     public void func_75142_b() {
         super.func_75142_b();
 
         for (int i = 0; i < this.field_75149_d.size(); ++i) {
-            IContainerListener icrafting = (IContainerListener) this.field_75149_d.get(i);
+            IContainerListener icrafting = this.field_75149_d.get(i);
 
             if (this.field_184998_g != this.field_75188_e.func_174887_a_(0)) {
                 icrafting.func_71112_a(this, 0, this.field_75188_e.func_174887_a_(0));
@@ -76,14 +77,16 @@ public class ContainerBrewingStand extends Container {
         this.field_184999_h = this.field_75188_e.func_174887_a_(1);
     }
 
+    @Override
     public boolean func_75145_c(EntityPlayer entityhuman) {
         if (!this.checkReachable) return true; // CraftBukkit
         return this.field_75188_e.func_70300_a(entityhuman);
     }
 
+    @Override
     public ItemStack func_82846_b(EntityPlayer entityhuman, int i) {
         ItemStack itemstack = ItemStack.field_190927_a;
-        Slot slot = (Slot) this.field_75151_b.get(i);
+        Slot slot = this.field_75151_b.get(i);
 
         if (slot != null && slot.func_75216_d()) {
             ItemStack itemstack1 = slot.func_75211_c();
@@ -143,6 +146,7 @@ public class ContainerBrewingStand extends Container {
             super(iinventory, i, j, k);
         }
 
+        @Override
         public boolean func_75214_a(ItemStack itemstack) {
             return b_(itemstack);
         }
@@ -151,6 +155,7 @@ public class ContainerBrewingStand extends Container {
             return itemstack.func_77973_b() == Items.field_151065_br;
         }
 
+        @Override
         public int func_75219_a() {
             return 64;
         }
@@ -162,10 +167,12 @@ public class ContainerBrewingStand extends Container {
             super(iinventory, i, j, k);
         }
 
+        @Override
         public boolean func_75214_a(ItemStack itemstack) {
             return PotionHelper.func_185205_a(itemstack);
         }
 
+        @Override
         public int func_75219_a() {
             return 64;
         }
@@ -177,14 +184,17 @@ public class ContainerBrewingStand extends Container {
             super(iinventory, i, j, k);
         }
 
+        @Override
         public boolean func_75214_a(ItemStack itemstack) {
             return func_75243_a_(itemstack);
         }
 
+        @Override
         public int func_75219_a() {
             return 1;
         }
 
+        @Override
         public ItemStack func_190901_a(EntityPlayer entityhuman, ItemStack itemstack) {
             PotionType potionregistry = PotionUtils.func_185191_c(itemstack);
 

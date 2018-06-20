@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.inventory;
 
+import static org.bukkit.craftbukkit.inventory.CraftItemFactory.DEFAULT_LEATHER_COLOR;
 
 import java.util.Map;
 
@@ -83,10 +84,12 @@ class CraftMetaLeatherArmor extends CraftMetaItem implements LeatherArmorMeta {
         return (CraftMetaLeatherArmor) super.clone();
     }
 
+    @Override
     public Color getColor() {
         return color;
     }
 
+    @Override
     public void setColor(Color color) {
         this.color = color == null ? DEFAULT_LEATHER_COLOR : color;
     }

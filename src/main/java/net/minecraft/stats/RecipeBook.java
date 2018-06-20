@@ -41,7 +41,7 @@ public class RecipeBook {
     }
 
     protected static int func_194075_d(@Nullable IRecipe irecipe) {
-        return CraftingManager.field_193380_a.func_148757_b((Object) irecipe);
+        return CraftingManager.field_193380_a.func_148757_b(irecipe);
     }
 
     public void func_194074_f(IRecipe irecipe) {

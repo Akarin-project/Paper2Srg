@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.Nullable;
-import net;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -55,6 +54,7 @@ public class ShapedRecipes implements IRecipe {
     }
 
     // CraftBukkit start
+    @Override
     public org.bukkit.inventory.ShapedRecipe toBukkitRecipe() {
         CraftItemStack result = CraftItemStack.asCraftMirror(this.field_77575_e);
         CraftShapedRecipe recipe = new CraftShapedRecipe(result, this);
@@ -111,10 +111,12 @@ public class ShapedRecipes implements IRecipe {
     }
     // CraftBukkit end
 
+    @Override
     public ItemStack func_77571_b() {
         return this.field_77575_e;
     }
 
+    @Override
     public NonNullList<ItemStack> func_179532_b(InventoryCrafting inventorycrafting) {
         NonNullList nonnulllist = NonNullList.func_191197_a(inventorycrafting.func_70302_i_(), ItemStack.field_190927_a);
 
@@ -129,10 +131,12 @@ public class ShapedRecipes implements IRecipe {
         return nonnulllist;
     }
 
+    @Override
     public NonNullList<Ingredient> func_192400_c() {
         return this.field_77574_d;
     }
 
+    @Override
     public boolean func_77569_a(InventoryCrafting inventorycrafting, World world) {
         for (int i = 0; i <= 3 - this.field_77576_b; ++i) {
             for (int j = 0; j <= 3 - this.field_77577_c; ++j) {
@@ -158,9 +162,9 @@ public class ShapedRecipes implements IRecipe {
 
                 if (i1 >= 0 && j1 >= 0 && i1 < this.field_77576_b && j1 < this.field_77577_c) {
                     if (flag) {
-                        recipeitemstack = (Ingredient) this.field_77574_d.get(this.field_77576_b - i1 - 1 + j1 * this.field_77576_b);
+                        recipeitemstack = this.field_77574_d.get(this.field_77576_b - i1 - 1 + j1 * this.field_77576_b);
                     } else {
-                        recipeitemstack = (Ingredient) this.field_77574_d.get(i1 + j1 * this.field_77576_b);
+                        recipeitemstack = this.field_77574_d.get(i1 + j1 * this.field_77576_b);
                     }
                 }
 
@@ -173,6 +177,7 @@ public class ShapedRecipes implements IRecipe {
         return true;
     }
 
+    @Override
     public ItemStack func_77572_b(InventoryCrafting inventorycrafting) {
         return this.func_77571_b().func_77946_l();
     }
@@ -206,7 +211,7 @@ public class ShapedRecipes implements IRecipe {
         for (int k = 0; k < astring.length; ++k) {
             for (int l = 0; l < astring[k].length(); ++l) {
                 String s = astring[k].substring(l, l + 1);
-                Ingredient recipeitemstack = (Ingredient) map.get(s);
+                Ingredient recipeitemstack = map.get(s);
 
                 if (recipeitemstack == null) {
                     throw new JsonSyntaxException("Pattern references symbol \'" + s + "\' but it\'s not defined in the key");
@@ -358,7 +363,7 @@ public class ShapedRecipes implements IRecipe {
 
     public static ItemStack func_192405_a(JsonObject jsonobject, boolean flag) {
         String s = JsonUtils.func_151200_h(jsonobject, "item");
-        Item item = (Item) Item.field_150901_e.func_82594_a(new ResourceLocation(s));
+        Item item = Item.field_150901_e.func_82594_a(new ResourceLocation(s));
 
         if (item == null) {
             throw new JsonSyntaxException("Unknown item \'" + s + "\'");

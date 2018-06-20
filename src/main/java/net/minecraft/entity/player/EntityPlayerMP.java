@@ -247,7 +247,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
         if (worldserver.field_73011_w.func_191066_m() && worldserver.func_72912_H().func_76077_q() != GameType.ADVENTURE) {
             int i = Math.max(0, minecraftserver.func_184108_a(worldserver));
-            int j = MathHelper.func_76128_c(worldserver.func_175723_af().func_177729_b((double) blockposition.func_177958_n(), (double) blockposition.func_177952_p()));
+            int j = MathHelper.func_76128_c(worldserver.func_175723_af().func_177729_b(blockposition.func_177958_n(), blockposition.func_177952_p()));
 
             if (j < i) {
                 i = j;
@@ -264,6 +264,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
     // CraftBukkit end
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         if (this.field_70163_u > 300) this.field_70163_u = 257; // Paper - bring down to a saner Y level if out of world
@@ -291,6 +292,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     public static void func_191522_a(DataFixer dataconvertermanager) {
         dataconvertermanager.func_188258_a(FixTypes.PLAYER, new IDataWalker() {
+            @Override
             public NBTTagCompound func_188266_a(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
                 if (nbttagcompound.func_150297_b("RootVehicle", 10)) {
                     NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("RootVehicle");
@@ -305,6 +307,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         });
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("playerGameType", this.field_71134_c.func_73081_b().func_77148_a());
@@ -336,6 +339,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
 
     // CraftBukkit start - World fallback code, either respawn location or global spawn
+    @Override
     public void func_70029_a(World world) {
         super.func_70029_a(world);
         if (world == null) {
@@ -360,11 +364,13 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
     // CraftBukkit end
 
+    @Override
     public void func_82242_a(int i) {
         super.func_82242_a(i);
         this.field_71144_ck = -1;
     }
 
+    @Override
     public void func_192024_a(ItemStack itemstack, int i) {
         super.func_192024_a(itemstack, i);
         this.field_71144_ck = -1;
@@ -374,24 +380,29 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.field_71070_bA.func_75132_a(this);
     }
 
+    @Override
     public void func_152111_bt() {
         super.func_152111_bt();
         this.field_71135_a.func_147359_a(new SPacketCombatEvent(this.func_110142_aN(), SPacketCombatEvent.Event.ENTER_COMBAT));
     }
 
+    @Override
     public void func_152112_bu() {
         super.func_152112_bu();
         this.field_71135_a.func_147359_a(new SPacketCombatEvent(this.func_110142_aN(), SPacketCombatEvent.Event.END_COMBAT));
     }
 
+    @Override
     protected void func_191955_a(IBlockState iblockdata) {
         CriteriaTriggers.field_192124_d.func_192193_a(this, iblockdata);
     }
 
+    @Override
     protected CooldownTracker func_184815_l() {
         return new CooldownTrackerServer(this);
     }
 
+    @Override
     public void func_70071_h_() {
         // CraftBukkit start
         if (this.joining) {
@@ -466,7 +477,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
                 ItemStack itemstack = this.field_71071_by.func_70301_a(i);
 
                 if (!itemstack.func_190926_b() && itemstack.func_77973_b().func_77643_m_()) {
-                    Packet packet = ((ItemMapBase) itemstack.func_77973_b()).func_150911_c(itemstack, this.field_70170_p, (EntityPlayer) this);
+                    Packet packet = ((ItemMapBase) itemstack.func_77973_b()).func_150911_c(itemstack, this.field_70170_p, this);
 
                     if (packet != null) {
                         this.field_71135_a.func_147359_a(packet);
@@ -488,12 +499,12 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
             if (this.field_71100_bB.func_75116_a() != this.field_184852_bV) {
                 this.field_184852_bV = this.field_71100_bB.func_75116_a();
-                this.func_184849_a(IScoreCriteria.field_186698_h, MathHelper.func_76123_f((float) this.field_184852_bV));
+                this.func_184849_a(IScoreCriteria.field_186698_h, MathHelper.func_76123_f(this.field_184852_bV));
             }
 
             if (this.func_70086_ai() != this.field_184853_bW) {
                 this.field_184853_bW = this.func_70086_ai();
-                this.func_184849_a(IScoreCriteria.field_186699_i, MathHelper.func_76123_f((float) this.field_184853_bW));
+                this.func_184849_a(IScoreCriteria.field_186699_i, MathHelper.func_76123_f(this.field_184853_bW));
             }
 
             // CraftBukkit start - Force max health updates
@@ -504,17 +515,17 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
             if (this.func_70658_aO() != this.field_184854_bX) {
                 this.field_184854_bX = this.func_70658_aO();
-                this.func_184849_a(IScoreCriteria.field_186700_j, MathHelper.func_76123_f((float) this.field_184854_bX));
+                this.func_184849_a(IScoreCriteria.field_186700_j, MathHelper.func_76123_f(this.field_184854_bX));
             }
 
             if (this.field_71067_cb != this.field_184856_bZ) {
                 this.field_184856_bZ = this.field_71067_cb;
-                this.func_184849_a(IScoreCriteria.field_186701_k, MathHelper.func_76123_f((float) this.field_184856_bZ));
+                this.func_184849_a(IScoreCriteria.field_186701_k, MathHelper.func_76123_f(this.field_184856_bZ));
             }
 
             if (this.field_71068_ca != this.field_184855_bY) {
                 this.field_184855_bY = this.field_71068_ca;
-                this.func_184849_a(IScoreCriteria.field_186702_l, MathHelper.func_76123_f((float) this.field_184855_bY));
+                this.func_184849_a(IScoreCriteria.field_186702_l, MathHelper.func_76123_f(this.field_184855_bY));
             }
 
             if (this.field_71067_cb != this.field_71144_ck) {
@@ -532,7 +543,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
             }
 
             if (this.oldLevel != this.field_71068_ca) {
-                CraftEventFactory.callPlayerLevelChangeEvent(this.field_70170_p.getServer().getPlayer((EntityPlayerMP) this), this.oldLevel, this.field_71068_ca);
+                CraftEventFactory.callPlayerLevelChangeEvent(this.field_70170_p.getServer().getPlayer(this), this.oldLevel, this.field_71068_ca);
                 this.oldLevel = this.field_71068_ca;
             }
             // CraftBukkit end
@@ -557,6 +568,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void func_70645_a(DamageSource damagesource) {
         boolean flag = this.field_70170_p.func_82736_K().func_82766_b("showDeathMessages");
 
@@ -589,9 +601,9 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
                 if (scoreboardteambase != null && scoreboardteambase.func_178771_j() != Team.EnumVisible.ALWAYS) {
                     if (scoreboardteambase.func_178771_j() == Team.EnumVisible.HIDE_FOR_OTHER_TEAMS) {
-                        this.field_71133_b.func_184103_al().func_177453_a((EntityPlayer) this, chatmessage);
+                        this.field_71133_b.func_184103_al().func_177453_a(this, chatmessage);
                     } else if (scoreboardteambase.func_178771_j() == Team.EnumVisible.HIDE_FOR_OWN_TEAM) {
-                        this.field_71133_b.func_184103_al().func_177452_b((EntityPlayer) this, chatmessage);
+                        this.field_71133_b.func_184103_al().func_177452_b(this, chatmessage);
                     }
                 } else {
                     this.field_71133_b.func_184103_al().func_148539_a(chatmessage);
@@ -624,7 +636,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         EntityLivingBase entityliving = this.func_94060_bK();
 
         if (entityliving != null) {
-            EntityList.EntityEggInfo entitytypes_monsteregginfo = (EntityList.EntityEggInfo) EntityList.field_75627_a.get(EntityList.func_191301_a((Entity) entityliving));
+            EntityList.EntityEggInfo entitytypes_monsteregginfo = EntityList.field_75627_a.get(EntityList.func_191301_a(entityliving));
 
             if (entitytypes_monsteregginfo != null) {
                 this.func_71029_a(entitytypes_monsteregginfo.field_151513_e);
@@ -640,6 +652,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.func_110142_aN().func_94549_h();
     }
 
+    @Override
     public void func_191956_a(Entity entity, int i, DamageSource damagesource) {
         if (entity != this) {
             super.func_191956_a(entity, i, damagesource);
@@ -708,6 +721,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return Lists.newArrayList();
     }
 
+    @Override
     public boolean func_70097_a(DamageSource damagesource, float f) {
         if (this.func_180431_b(damagesource)) {
             return false;
@@ -738,6 +752,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public boolean func_96122_a(EntityPlayer entityhuman) {
         return !this.func_175400_cq() ? false : super.func_96122_a(entityhuman);
     }
@@ -747,6 +762,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return this.field_70170_p.pvpMode;
     }
 
+    @Override
     @Nullable
     public Entity func_184204_a(int i) {
         if (this.func_70608_bn()) return this; // CraftBukkit - SPIGOT-3154
@@ -785,6 +801,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public boolean func_174827_a(EntityPlayerMP entityplayer) {
         return entityplayer.func_175149_v() ? this.func_175398_C() == this : (this.func_175149_v() ? false : super.func_174827_a(entityplayer));
     }
@@ -800,11 +817,13 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void func_71001_a(Entity entity, int i) {
         super.func_71001_a(entity, i);
         this.field_71070_bA.func_75142_b();
     }
 
+    @Override
     public EntityPlayer.SleepResult func_180469_a(BlockPos blockposition) {
         EntityPlayer.SleepResult entityhuman_enumbedresult = super.func_180469_a(blockposition);
 
@@ -812,7 +831,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
             this.func_71029_a(StatList.field_188064_ad);
             SPacketUseBed packetplayoutbed = new SPacketUseBed(this, blockposition);
 
-            this.func_71121_q().func_73039_n().func_151247_a((Entity) this, (Packet) packetplayoutbed);
+            this.func_71121_q().func_73039_n().func_151247_a(this, packetplayoutbed);
             this.field_71135_a.func_147364_a(this.field_70165_t, this.field_70163_u, this.field_70161_v, this.field_70177_z, this.field_70125_A);
             this.field_71135_a.func_147359_a(packetplayoutbed);
             CriteriaTriggers.field_192136_p.func_192215_a(this);
@@ -821,6 +840,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return entityhuman_enumbedresult;
     }
 
+    @Override
     public void func_70999_a(boolean flag, boolean flag1, boolean flag2) {
         if (!this.field_71083_bS) return; // CraftBukkit - Can't leave bed if not in one!
         if (this.func_70608_bn()) {
@@ -834,6 +854,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public boolean func_184205_a(Entity entity, boolean flag) {
         Entity entity1 = this.func_184187_bx();
 
@@ -850,6 +871,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public void func_184210_p() {
         Entity entity = this.func_184187_bx();
 
@@ -869,12 +891,15 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public boolean func_180431_b(DamageSource damagesource) {
         return super.func_180431_b(damagesource) || this.func_184850_K();
     }
 
+    @Override
     protected void func_184231_a(double d0, boolean flag, IBlockState iblockdata, BlockPos blockposition) {}
 
+    @Override
     protected void func_184594_b(BlockPos blockposition) {
         if (!this.func_175149_v()) {
             super.func_184594_b(blockposition);
@@ -903,8 +928,9 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         super.func_184231_a(d0, flag, iblockdata, blockposition);
     }
 
+    @Override
     public void func_175141_a(TileEntitySign tileentitysign) {
-        tileentitysign.func_145912_a((EntityPlayer) this);
+        tileentitysign.func_145912_a(this);
         this.field_71135_a.func_147359_a(new SPacketSignEditorOpen(tileentitysign.func_174877_v()));
     }
 
@@ -913,6 +939,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return field_71139_cq; // CraftBukkit
     }
 
+    @Override
     public void func_180468_a(IInteractionObject itileentitycontainer) {
         // CraftBukkit start - Inventory open hook
         if (false && itileentitycontainer instanceof ILootContainer && ((ILootContainer) itileentitycontainer).func_184276_b() != null && this.func_175149_v()) {
@@ -932,6 +959,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public void func_71007_a(IInventory iinventory) {
         // CraftBukkit start - Inventory open hook
         // Copied from below
@@ -991,6 +1019,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public void func_180472_a(IMerchant imerchant) {
         // CraftBukkit start - Inventory open hook
         Container container = CraftEventFactory.callInventoryOpenEvent(this, new ContainerMerchant(this.field_71071_by, imerchant, this.field_70170_p));
@@ -1018,6 +1047,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void func_184826_a(AbstractHorse entityhorseabstract, IInventory iinventory) {
         // CraftBukkit start - Inventory open hook
         Container container = CraftEventFactory.callInventoryOpenEvent(this, new ContainerHorseInventory(this.field_71071_by, iinventory, entityhorseabstract, this));
@@ -1037,23 +1067,26 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.field_71070_bA.func_75132_a(this);
     }
 
+    @Override
     public void func_184814_a(ItemStack itemstack, EnumHand enumhand) {
         Item item = itemstack.func_77973_b();
 
         if (item == Items.field_151164_bB) {
             PacketBuffer packetdataserializer = new PacketBuffer(Unpooled.buffer());
 
-            packetdataserializer.func_179249_a((Enum) enumhand);
+            packetdataserializer.func_179249_a(enumhand);
             this.field_71135_a.func_147359_a(new SPacketCustomPayload("MC|BOpen", packetdataserializer));
         }
 
     }
 
+    @Override
     public void func_184824_a(TileEntityCommandBlock tileentitycommand) {
         tileentitycommand.func_184252_d(true);
-        this.func_147097_b((TileEntity) tileentitycommand);
+        this.func_147097_b(tileentitycommand);
     }
 
+    @Override
     public void func_71111_a(Container container, int i, ItemStack itemstack) {
         if (!(container.func_75139_a(i) instanceof SlotCrafting)) {
             if (container == this.field_71069_bz) {
@@ -1070,6 +1103,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.func_71110_a(container, container.func_75138_a());
     }
 
+    @Override
     public void func_71110_a(Container container, NonNullList<ItemStack> nonnulllist) {
         this.field_71135_a.func_147359_a(new SPacketWindowItems(container.field_75152_c, nonnulllist));
         this.field_71135_a.func_147359_a(new SPacketSetSlot(-1, -1, this.field_71071_by.func_70445_o()));
@@ -1080,10 +1114,12 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         // CraftBukkit end
     }
 
+    @Override
     public void func_71112_a(Container container, int i, int j) {
         this.field_71135_a.func_147359_a(new SPacketWindowProperty(container.field_75152_c, i, j));
     }
 
+    @Override
     public void func_175173_a(Container container, IInventory iinventory) {
         for (int i = 0; i < iinventory.func_174890_g(); ++i) {
             this.field_71135_a.func_147359_a(new SPacketWindowProperty(container.field_75152_c, i, iinventory.func_174887_a_(i)));
@@ -1091,6 +1127,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void func_71053_j() {
         CraftEventFactory.handleInventoryCloseEvent(this); // CraftBukkit
         this.field_71135_a.func_147359_a(new SPacketCloseWindow(this.field_71070_bA.field_75152_c));
@@ -1104,7 +1141,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
 
     public void func_71128_l() {
-        this.field_71070_bA.func_75134_a((EntityPlayer) this);
+        this.field_71070_bA.func_75134_a(this);
         this.field_71070_bA = this.field_71069_bz;
     }
 
@@ -1124,6 +1161,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void func_71064_a(StatBase statistic, int i) {
         if (statistic != null) {
             this.field_147103_bO.func_150871_b(this, statistic, i);
@@ -1138,6 +1176,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public void func_175145_a(StatBase statistic) {
         if (statistic != null) {
             this.field_147103_bO.func_150873_a(this, statistic, 0);
@@ -1152,10 +1191,12 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         }
     }
 
+    @Override
     public void func_192021_a(List<IRecipe> list) {
         this.field_192041_cq.func_193835_a(list, this);
     }
 
+    @Override
     public void func_193102_a(ResourceLocation[] aminecraftkey) {
         ArrayList arraylist = Lists.newArrayList();
         ResourceLocation[] aminecraftkey1 = aminecraftkey;
@@ -1173,9 +1214,10 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
             arraylist.add(CraftingManager.func_193373_a(minecraftkey));
         }
 
-        this.func_192021_a((List<IRecipe>) arraylist); // CraftBukkit - decompile error
+        this.func_192021_a(arraylist); // CraftBukkit - decompile error
     }
 
+    @Override
     public void func_192022_b(List<IRecipe> list) {
         this.field_192041_cq.func_193834_b(list, this);
     }
@@ -1206,10 +1248,12 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
     // CraftBukkit end
 
+    @Override
     public void func_146105_b(ITextComponent ichatbasecomponent, boolean flag) {
         this.field_71135_a.func_147359_a(new SPacketChat(ichatbasecomponent, flag ? ChatType.GAME_INFO : ChatType.CHAT));
     }
 
+    @Override
     protected void func_71036_o() {
         if (!this.field_184627_bm.func_190926_b() && this.func_184587_cr()) {
             this.field_71135_a.func_147359_a(new SPacketEntityStatus(this, (byte) 9));
@@ -1256,6 +1300,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.func_192031_i(entityplayer.func_192025_dl());
     }
 
+    @Override
     protected void func_70670_a(PotionEffect mobeffect) {
         super.func_70670_a(mobeffect);
         this.field_71135_a.func_147359_a(new SPacketEntityEffect(this.func_145782_y(), mobeffect));
@@ -1267,12 +1312,14 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         CriteriaTriggers.field_193139_z.func_193153_a(this);
     }
 
+    @Override
     protected void func_70695_b(PotionEffect mobeffect, boolean flag) {
         super.func_70695_b(mobeffect, flag);
         this.field_71135_a.func_147359_a(new SPacketEntityEffect(this.func_145782_y(), mobeffect));
         CriteriaTriggers.field_193139_z.func_193153_a(this);
     }
 
+    @Override
     protected void func_70688_c(PotionEffect mobeffect) {
         super.func_70688_c(mobeffect);
         this.field_71135_a.func_147359_a(new SPacketRemoveEntityEffect(this.func_145782_y(), mobeffect.func_188419_a()));
@@ -1283,18 +1330,22 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         CriteriaTriggers.field_193139_z.func_193153_a(this);
     }
 
+    @Override
     public void func_70634_a(double d0, double d1, double d2) {
         this.field_71135_a.func_147364_a(d0, d1, d2, this.field_70177_z, this.field_70125_A);
     }
 
+    @Override
     public void func_71009_b(Entity entity) {
         this.func_71121_q().func_73039_n().func_151248_b(this, new SPacketAnimation(entity, 4));
     }
 
+    @Override
     public void func_71047_c(Entity entity) {
         this.func_71121_q().func_73039_n().func_151248_b(this, new SPacketAnimation(entity, 5));
     }
 
+    @Override
     public void func_71016_p() {
         if (this.field_71135_a != null) {
             this.field_71135_a.func_147359_a(new SPacketPlayerAbilities(this.field_71075_bZ));
@@ -1306,6 +1357,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return (WorldServer) this.field_70170_p;
     }
 
+    @Override
     public void func_71033_a(GameType enumgamemode) {
         // CraftBukkit start
         if (enumgamemode == this.field_71134_c.func_73081_b()) {
@@ -1320,7 +1372,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         // CraftBukkit end
 
         this.field_71134_c.func_73076_a(enumgamemode);
-        this.field_71135_a.func_147359_a(new SPacketChangeGameState(3, (float) enumgamemode.func_77148_a()));
+        this.field_71135_a.func_147359_a(new SPacketChangeGameState(3, enumgamemode.func_77148_a()));
         if (enumgamemode == GameType.SPECTATOR) {
             this.func_192030_dh();
             this.func_184210_p();
@@ -1332,18 +1384,22 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.func_175136_bO();
     }
 
+    @Override
     public boolean func_175149_v() {
         return this.field_71134_c.func_73081_b() == GameType.SPECTATOR;
     }
 
+    @Override
     public boolean func_184812_l_() {
         return this.field_71134_c.func_73081_b() == GameType.CREATIVE;
     }
 
+    @Override
     public void func_145747_a(ITextComponent ichatbasecomponent) {
         this.field_71135_a.func_147359_a(new SPacketChat(ichatbasecomponent));
     }
 
+    @Override
     public boolean func_70003_b(int i, String s) {
         /* CraftBukkit start
         if ("seed".equals(s) && !this.server.aa()) {
@@ -1416,6 +1472,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.field_71135_a.func_147359_a(new SPacketResourcePackSend(s, s1));
     }
 
+    @Override
     public BlockPos func_180425_c() {
         return new BlockPos(this.field_70165_t, this.field_70163_u + 0.5D, this.field_70161_v);
     }
@@ -1445,6 +1502,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         this.field_71130_g.remove(Integer.valueOf(entity.func_145782_y()));
     }
 
+    @Override
     protected void func_175135_B() {
         if (this.func_175149_v()) {
             this.func_175133_bi();
@@ -1457,13 +1515,13 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
 
     public Entity func_175398_C() {
-        return (Entity) (this.field_175401_bS == null ? this : this.field_175401_bS);
+        return this.field_175401_bS == null ? this : this.field_175401_bS;
     }
 
     public void func_175399_e(Entity entity) {
         Entity entity1 = this.func_175398_C();
 
-        this.field_175401_bS = (Entity) (entity == null ? this : entity);
+        this.field_175401_bS = entity == null ? this : entity;
         if (entity1 != this.field_175401_bS) {
             this.field_71135_a.func_147359_a(new SPacketCamera(this.field_175401_bS));
             this.field_71135_a.a(this.field_175401_bS.field_70165_t, this.field_175401_bS.field_70163_u, this.field_175401_bS.field_70161_v, this.field_70177_z, this.field_70125_A, TeleportCause.SPECTATE); // CraftBukkit
@@ -1471,6 +1529,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     protected void func_184173_H() {
         if (this.field_71088_bW > 0 && !this.field_184851_cj) {
             --this.field_71088_bW;
@@ -1478,6 +1537,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
 
     }
 
+    @Override
     public void func_71059_n(Entity entity) {
         if (this.field_71134_c.func_73081_b() == GameType.SPECTATOR) {
             this.func_175399_e(entity);
@@ -1496,6 +1556,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
         return listName; // CraftBukkit
     }
 
+    @Override
     public void func_184609_a(EnumHand enumhand) {
         super.func_184609_a(enumhand);
         this.func_184821_cY();
@@ -1623,7 +1684,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener {
     }
 
     @Override
-    protected boolean func_70610_aX() {
+    public boolean func_70610_aX() {
         return super.func_70610_aX() || (this.field_71135_a != null && this.field_71135_a.isDisconnected()); // Paper
     }
 

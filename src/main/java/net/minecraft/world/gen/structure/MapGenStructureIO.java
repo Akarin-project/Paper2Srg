@@ -28,11 +28,11 @@ public class MapGenStructureIO {
     }
 
     public static String func_143033_a(StructureStart structurestart) {
-        return (String) MapGenStructureIO.field_143038_b.get(structurestart.getClass());
+        return MapGenStructureIO.field_143038_b.get(structurestart.getClass());
     }
 
     public static String func_143036_a(StructureComponent structurepiece) {
-        return (String) MapGenStructureIO.field_143037_d.get(structurepiece.getClass());
+        return MapGenStructureIO.field_143037_d.get(structurepiece.getClass());
     }
 
     @Nullable
@@ -40,7 +40,7 @@ public class MapGenStructureIO {
         StructureStart structurestart = null;
 
         try {
-            Class oclass = (Class) MapGenStructureIO.field_143040_a.get(nbttagcompound.func_74779_i("id"));
+            Class oclass = MapGenStructureIO.field_143040_a.get(nbttagcompound.func_74779_i("id"));
 
             if (oclass != null) {
                 structurestart = (StructureStart) oclass.newInstance();
@@ -63,7 +63,7 @@ public class MapGenStructureIO {
         StructureComponent structurepiece = null;
 
         try {
-            Class oclass = (Class) MapGenStructureIO.field_143039_c.get(nbttagcompound.func_74779_i("id"));
+            Class oclass = MapGenStructureIO.field_143039_c.get(nbttagcompound.func_74779_i("id"));
 
             if (oclass != null) {
                 structurepiece = (StructureComponent) oclass.newInstance();
@@ -90,7 +90,7 @@ public class MapGenStructureIO {
         func_143034_b(MapGenScatteredFeature.Start.class, "Temple");
         func_143034_b(StructureOceanMonument.StartMonument.class, "Monument");
         func_143034_b(MapGenEndCity.Start.class, "EndCity");
-        func_143034_b(WorldGenWoodlandMansion.a.class, "Mansion");
+        func_143034_b(WoodlandMansion.a.class, "Mansion");
         StructureMineshaftPieces.func_143048_a();
         StructureVillagePieces.func_143016_a();
         StructureNetherBridgePieces.func_143049_a();

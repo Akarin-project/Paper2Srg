@@ -15,7 +15,7 @@ public class BiomeSavanna extends Biome {
 
     private static final WorldGenSavannaTree field_150627_aC = new WorldGenSavannaTree(false);
 
-    protected BiomeSavanna(BiomeBase.a biomebase_a) {
+    protected BiomeSavanna(Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_76762_K.add(new Biome.SpawnListEntry(EntityHorse.class, 1, 2, 6));
         this.field_76762_K.add(new Biome.SpawnListEntry(EntityDonkey.class, 1, 1, 1));

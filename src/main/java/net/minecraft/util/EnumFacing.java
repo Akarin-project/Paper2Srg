@@ -126,17 +126,19 @@ public enum EnumFacing implements IStringSerializable {
     }
 
     public float func_185119_l() {
-        return (float) ((this.field_176760_i & 3) * 90);
+        return (this.field_176760_i & 3) * 90;
     }
 
     public static EnumFacing func_176741_a(Random random) {
         return values()[random.nextInt(values().length)];
     }
 
+    @Override
     public String toString() {
         return this.field_176757_j;
     }
 
+    @Override
     public String func_176610_l() {
         return this.field_176757_j;
     }
@@ -157,14 +159,14 @@ public enum EnumFacing implements IStringSerializable {
     }
 
     public static EnumFacing func_190914_a(BlockPos blockposition, EntityLivingBase entityliving) {
-        if (Math.abs(entityliving.field_70165_t - (double) ((float) blockposition.func_177958_n() + 0.5F)) < 2.0D && Math.abs(entityliving.field_70161_v - (double) ((float) blockposition.func_177952_p() + 0.5F)) < 2.0D) {
-            double d0 = entityliving.field_70163_u + (double) entityliving.func_70047_e();
+        if (Math.abs(entityliving.field_70165_t - (blockposition.func_177958_n() + 0.5F)) < 2.0D && Math.abs(entityliving.field_70161_v - (blockposition.func_177952_p() + 0.5F)) < 2.0D) {
+            double d0 = entityliving.field_70163_u + entityliving.func_70047_e();
 
-            if (d0 - (double) blockposition.func_177956_o() > 2.0D) {
+            if (d0 - blockposition.func_177956_o() > 2.0D) {
                 return EnumFacing.UP;
             }
 
-            if ((double) blockposition.func_177956_o() - d0 > 0.0D) {
+            if (blockposition.func_177956_o() - d0 > 0.0D) {
                 return EnumFacing.DOWN;
             }
         }
@@ -214,16 +216,14 @@ public enum EnumFacing implements IStringSerializable {
             return aenumdirection[random.nextInt(aenumdirection.length)];
         }
 
+        @Override
         public boolean apply(@Nullable EnumFacing enumdirection) {
             return enumdirection != null && enumdirection.func_176740_k().func_176716_d() == this;
         }
 
+        @Override
         public Iterator<EnumFacing> iterator() {
             return Iterators.forArray(this.func_179516_a());
-        }
-
-        public boolean apply(@Nullable Object object) {
-            return this.apply((EnumFacing) object);
         }
     }
 
@@ -243,6 +243,7 @@ public enum EnumFacing implements IStringSerializable {
             return this.field_179528_c;
         }
 
+        @Override
         public String toString() {
             return this.field_179525_d;
         }
@@ -273,10 +274,12 @@ public enum EnumFacing implements IStringSerializable {
             return this.field_176723_f == EnumFacing.Plane.HORIZONTAL;
         }
 
+        @Override
         public String toString() {
             return this.field_176726_e;
         }
 
+        @Override
         public boolean apply(@Nullable EnumFacing enumdirection) {
             return enumdirection != null && enumdirection.func_176740_k() == this;
         }
@@ -285,12 +288,9 @@ public enum EnumFacing implements IStringSerializable {
             return this.field_176723_f;
         }
 
+        @Override
         public String func_176610_l() {
             return this.field_176726_e;
-        }
-
-        public boolean apply(@Nullable Object object) {
-            return this.apply((EnumFacing) object);
         }
 
         static {

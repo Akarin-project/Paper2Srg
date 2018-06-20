@@ -30,7 +30,7 @@ public class NonNullList<E> extends AbstractList<E> {
     }
 
     protected NonNullList() {
-        this(new ArrayList(), (Object) null);
+        this(new ArrayList(), null);
     }
 
     protected NonNullList(List<E> list, @Nullable E e0) {
@@ -38,29 +38,35 @@ public class NonNullList<E> extends AbstractList<E> {
         this.field_191199_b = e0;
     }
 
+    @Override
     @Nonnull
     public E get(int i) {
         return this.field_191198_a.get(i);
     }
 
+    @Override
     public E set(int i, E e0) {
         Validate.notNull(e0);
         return this.field_191198_a.set(i, e0);
     }
 
+    @Override
     public void add(int i, E e0) {
         Validate.notNull(e0);
         this.field_191198_a.add(i, e0);
     }
 
+    @Override
     public E remove(int i) {
         return this.field_191198_a.remove(i);
     }
 
+    @Override
     public int size() {
         return this.field_191198_a.size();
     }
 
+    @Override
     public void clear() {
         if (this.field_191199_b == null) {
             super.clear();

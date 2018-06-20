@@ -18,7 +18,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.server.EntityHorse.a;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -47,6 +46,7 @@ public class EntityHorse extends AbstractHorse {
         super(world);
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityHorse.field_184789_bG, Integer.valueOf(0));
@@ -55,9 +55,10 @@ public class EntityHorse extends AbstractHorse {
 
     public static void func_189803_b(DataFixer dataconvertermanager) {
         AbstractHorse.func_190683_c(dataconvertermanager, EntityHorse.class);
-        dataconvertermanager.func_188258_a(FixTypes.ENTITY, (IDataWalker) (new ItemStackData(EntityHorse.class, new String[] { "ArmorItem"})));
+        dataconvertermanager.func_188258_a(FixTypes.ENTITY, (new ItemStackData(EntityHorse.class, new String[] { "ArmorItem"})));
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("Variant", this.func_110202_bQ());
@@ -67,6 +68,7 @@ public class EntityHorse extends AbstractHorse {
 
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.func_110235_q(nbttagcompound.func_74762_e("Variant"));
@@ -87,13 +89,14 @@ public class EntityHorse extends AbstractHorse {
     }
 
     public int func_110202_bQ() {
-        return ((Integer) this.field_70180_af.func_187225_a(EntityHorse.field_184789_bG)).intValue();
+        return this.field_70180_af.func_187225_a(EntityHorse.field_184789_bG).intValue();
     }
 
     private void func_110230_cF() {
         this.field_110286_bQ = null;
     }
 
+    @Override
     protected void func_110232_cE() {
         super.func_110232_cE();
         this.func_146086_d(this.field_110296_bG.func_70301_a(1));
@@ -109,16 +112,17 @@ public class EntityHorse extends AbstractHorse {
             int i = enumhorsearmor.func_188578_c();
 
             if (i != 0) {
-                this.func_110148_a(SharedMonsterAttributes.field_188791_g).func_111121_a((new AttributeModifier(EntityHorse.field_184786_bD, "Horse armor bonus", (double) i, 0)).func_111168_a(false));
+                this.func_110148_a(SharedMonsterAttributes.field_188791_g).func_111121_a((new AttributeModifier(EntityHorse.field_184786_bD, "Horse armor bonus", i, 0)).func_111168_a(false));
             }
         }
 
     }
 
     public HorseArmorType func_184783_dl() {
-        return HorseArmorType.func_188575_a(((Integer) this.field_70180_af.func_187225_a(EntityHorse.field_184791_bI)).intValue());
+        return HorseArmorType.func_188575_a(this.field_70180_af.func_187225_a(EntityHorse.field_184791_bI).intValue());
     }
 
+    @Override
     public void func_76316_a(IInventory iinventory) {
         HorseArmorType enumhorsearmor = this.func_184783_dl();
 
@@ -131,6 +135,7 @@ public class EntityHorse extends AbstractHorse {
 
     }
 
+    @Override
     protected void func_190680_a(SoundType soundeffecttype) {
         super.func_190680_a(soundeffecttype);
         if (this.field_70146_Z.nextInt(10) == 0) {
@@ -139,13 +144,15 @@ public class EntityHorse extends AbstractHorse {
 
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
-        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a((double) this.func_110267_cL());
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(this.func_110267_cL());
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(this.func_110203_cN());
         this.func_110148_a(EntityHorse.field_110271_bv).func_111128_a(this.func_110245_cM());
     }
 
+    @Override
     public void func_70071_h_() {
         super.func_70071_h_();
         if (this.field_70170_p.field_72995_K && this.field_70180_af.func_187223_a()) {
@@ -155,30 +162,36 @@ public class EntityHorse extends AbstractHorse {
 
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         super.func_184639_G();
         return SoundEvents.field_187696_ck;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         super.func_184615_bR();
         return SoundEvents.field_187708_co;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         super.func_184601_bQ(damagesource);
         return SoundEvents.field_187717_cr;
     }
 
+    @Override
     protected SoundEvent func_184785_dv() {
         super.func_184785_dv();
         return SoundEvents.field_187699_cl;
     }
 
+    @Override
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186396_D;
     }
 
+    @Override
     public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         ItemStack itemstack = entityhuman.func_184586_b(enumhand);
         boolean flag = !itemstack.func_190926_b();
@@ -206,7 +219,7 @@ public class EntityHorse extends AbstractHorse {
                     return true;
                 }
 
-                if (itemstack.func_111282_a(entityhuman, (EntityLivingBase) this, enumhand)) {
+                if (itemstack.func_111282_a(entityhuman, this, enumhand)) {
                     return true;
                 }
 
@@ -233,10 +246,12 @@ public class EntityHorse extends AbstractHorse {
         }
     }
 
+    @Override
     public boolean func_70878_b(EntityAnimal entityanimal) {
         return entityanimal == this ? false : (!(entityanimal instanceof EntityDonkey) && !(entityanimal instanceof EntityHorse) ? false : this.func_110200_cJ() && ((AbstractHorse) entityanimal).func_110200_cJ());
     }
 
+    @Override
     public EntityAgeable func_90011_a(EntityAgeable entityageable) {
         Object object;
 
@@ -274,14 +289,17 @@ public class EntityHorse extends AbstractHorse {
         return (EntityAgeable) object;
     }
 
+    @Override
     public boolean func_190677_dK() {
         return true;
     }
 
+    @Override
     public boolean func_190682_f(ItemStack itemstack) {
         return HorseArmorType.func_188577_b(itemstack.func_77973_b());
     }
 
+    @Override
     @Nullable
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
         Object object = super.func_180482_a(difficultydamagescaler, groupdataentity);

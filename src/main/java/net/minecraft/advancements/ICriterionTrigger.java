@@ -3,16 +3,15 @@ package net.minecraft.advancements;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 
-import net.minecraft.server.CriterionTrigger.a;
 import net.minecraft.util.ResourceLocation;
 
 public interface ICriterionTrigger<T extends ICriterionInstance> {
 
     ResourceLocation func_192163_a();
 
-    void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<T> criteriontrigger_a);
+    void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<T> criteriontrigger_a);
 
-    void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<T> criteriontrigger_a);
+    void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<T> criteriontrigger_a);
 
     void func_192167_a(PlayerAdvancements advancementdataplayer);
 
@@ -38,11 +37,12 @@ public interface ICriterionTrigger<T extends ICriterionInstance> {
             advancementdataplayer.func_192750_a(this.b, this.c);
         }
 
+        @Override
         public boolean equals(Object object) {
             if (this == object) {
                 return true;
             } else if (object != null && this.getClass() == object.getClass()) {
-                CriterionTrigger.a criteriontrigger_a = (CriterionTrigger.a) object;
+                ICriterionTrigger.a criteriontrigger_a = (ICriterionTrigger.a) object;
 
                 return !this.a.equals(criteriontrigger_a.a) ? false : (!this.b.equals(criteriontrigger_a.b) ? false : this.c.equals(criteriontrigger_a.c));
             } else {
@@ -50,6 +50,7 @@ public interface ICriterionTrigger<T extends ICriterionInstance> {
             }
         }
 
+        @Override
         public int hashCode() {
             int i = this.a.hashCode();
 

@@ -9,7 +9,6 @@ import net.minecraft.scoreboard.Score;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
 
 /**
  * TL;DR: This class is special and lazily grabs a handle...
@@ -17,7 +16,7 @@ import org.bukkit.scoreboard.Score;
  * <p>
  * Also, as an added perk, a CraftScore will (intentionally) stay a valid reference so long as objective is valid.
  */
-final class CraftScore implements Score {
+final class CraftScore implements org.bukkit.scoreboard.Score {
     private final String entry;
     private final CraftObjective objective;
 
@@ -26,18 +25,22 @@ final class CraftScore implements Score {
         this.entry = entry;
     }
 
+    @Override
     public OfflinePlayer getPlayer() {
         return Bukkit.getOfflinePlayer(entry);
     }
 
+    @Override
     public String getEntry() {
         return entry;
     }
 
+    @Override
     public Objective getObjective() {
         return objective;
     }
 
+    @Override
     public int getScore() throws IllegalStateException {
         Scoreboard board = objective.checkState().board;
 
@@ -52,6 +55,7 @@ final class CraftScore implements Score {
         return 0; // Lazy
     }
 
+    @Override
     public void setScore(int score) throws IllegalStateException {
         objective.checkState().board.func_96529_a(entry, objective.getHandle()).func_96647_c(score);
     }
@@ -63,6 +67,7 @@ final class CraftScore implements Score {
         return board.func_96526_d().contains(entry) && board.func_96510_d(entry).containsKey(objective.getHandle());
     }
 
+    @Override
     public CraftScoreboard getScoreboard() {
         return objective.getScoreboard();
     }

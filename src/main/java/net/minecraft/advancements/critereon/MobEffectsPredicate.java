@@ -15,16 +15,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.CriterionConditionMobEffect.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 
 public class MobEffectsPredicate {
 
     public static final MobEffectsPredicate field_193473_a = new MobEffectsPredicate(Collections.emptyMap());
-    private final Map<Potion, CriterionConditionMobEffect.a> field_193474_b;
+    private final Map<Potion, MobEffectsPredicate.a> field_193474_b;
 
-    public MobEffectsPredicate(Map<Potion, CriterionConditionMobEffect.a> map) {
+    public MobEffectsPredicate(Map<Potion, MobEffectsPredicate.a> map) {
         this.field_193474_b = map;
     }
 
@@ -51,8 +50,8 @@ public class MobEffectsPredicate {
                 }
 
                 entry = (Entry) iterator.next();
-                mobeffect = (PotionEffect) map.get(entry.getKey());
-            } while (((CriterionConditionMobEffect.a) entry.getValue()).a(mobeffect));
+                mobeffect = map.get(entry.getKey());
+            } while (((MobEffectsPredicate.a) entry.getValue()).a(mobeffect));
 
             return false;
         }
@@ -67,13 +66,13 @@ public class MobEffectsPredicate {
             while (iterator.hasNext()) {
                 Entry entry = (Entry) iterator.next();
                 ResourceLocation minecraftkey = new ResourceLocation((String) entry.getKey());
-                Potion mobeffectlist = (Potion) Potion.field_188414_b.func_82594_a(minecraftkey);
+                Potion mobeffectlist = Potion.field_188414_b.func_82594_a(minecraftkey);
 
                 if (mobeffectlist == null) {
                     throw new JsonSyntaxException("Unknown effect \'" + minecraftkey + "\'");
                 }
 
-                CriterionConditionMobEffect.a criterionconditionmobeffect_a = MobEffectsPredicate.field_193473_a.func_193471_a(JsonUtils.func_151210_l((JsonElement) entry.getValue(), (String) entry.getKey()));
+                MobEffectsPredicate.a criterionconditionmobeffect_a = MobEffectsPredicate.a.a(JsonUtils.func_151210_l((JsonElement) entry.getValue(), (String) entry.getKey()));
 
                 hashmap.put(mobeffectlist, criterionconditionmobeffect_a);
             }
@@ -101,16 +100,16 @@ public class MobEffectsPredicate {
         }
 
         public boolean a(@Nullable PotionEffect mobeffect) {
-            return mobeffect == null ? false : (!this.a.func_192514_a((float) mobeffect.func_76458_c()) ? false : (!this.b.func_192514_a((float) mobeffect.func_76459_b()) ? false : (this.c != null && this.c.booleanValue() != mobeffect.func_82720_e() ? false : this.d == null || this.d.booleanValue() == mobeffect.func_188418_e())));
+            return mobeffect == null ? false : (!this.a.func_192514_a(mobeffect.func_76458_c()) ? false : (!this.b.func_192514_a(mobeffect.func_76459_b()) ? false : (this.c != null && this.c.booleanValue() != mobeffect.func_82720_e() ? false : this.d == null || this.d.booleanValue() == mobeffect.func_188418_e())));
         }
 
-        public static CriterionConditionMobEffect.a a(JsonObject jsonobject) {
+        public static MobEffectsPredicate.a a(JsonObject jsonobject) {
             MinMaxBounds criterionconditionvalue = MinMaxBounds.func_192515_a(jsonobject.get("amplifier"));
             MinMaxBounds criterionconditionvalue1 = MinMaxBounds.func_192515_a(jsonobject.get("duration"));
             Boolean obool = jsonobject.has("ambient") ? Boolean.valueOf(JsonUtils.func_151212_i(jsonobject, "ambient")) : null;
             Boolean obool1 = jsonobject.has("visible") ? Boolean.valueOf(JsonUtils.func_151212_i(jsonobject, "visible")) : null;
 
-            return new CriterionConditionMobEffect.a(criterionconditionvalue, criterionconditionvalue1, obool, obool1);
+            return new MobEffectsPredicate.a(criterionconditionvalue, criterionconditionvalue1, obool, obool1);
         }
     }
 }

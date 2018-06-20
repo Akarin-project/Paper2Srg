@@ -85,7 +85,7 @@ public class Chunk {
     private int field_76649_t;
     private final ConcurrentLinkedQueue<BlockPos> field_177447_w;
     public boolean field_189550_d; public void setShouldUnload(boolean unload) { this.field_189550_d = unload; } public boolean isUnloading() { return field_189550_d; } // Paper - OBFHELPER
-    protected gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<Class>(); // Spigot
+    public gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<Class>(); // Spigot
 
     // Paper start
     // Track the number of minecarts and items

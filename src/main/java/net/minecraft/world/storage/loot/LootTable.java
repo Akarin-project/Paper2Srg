@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LootTable.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.math.MathHelper;
 
@@ -134,26 +133,20 @@ public class LootTable {
 
         public a() {}
 
-        public LootTable a(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+        @Override
+        public LootTable deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "loot table");
-            LootPool[] alootselector = (LootPool[]) JsonUtils.func_188177_a(jsonobject, "pools", new LootPool[0], jsondeserializationcontext, LootPool[].class);
+            LootPool[] alootselector = JsonUtils.func_188177_a(jsonobject, "pools", new LootPool[0], jsondeserializationcontext, LootPool[].class);
 
             return new LootTable(alootselector);
         }
 
-        public JsonElement a(LootTable loottable, Type type, JsonSerializationContext jsonserializationcontext) {
+        @Override
+        public JsonElement serialize(LootTable loottable, Type type, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject = new JsonObject();
 
             jsonobject.add("pools", jsonserializationcontext.serialize(loottable.field_186466_c));
             return jsonobject;
-        }
-
-        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a((LootTable) object, type, jsonserializationcontext);
-        }
-
-        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            return this.a(jsonelement, type, jsondeserializationcontext);
         }
     }
 }

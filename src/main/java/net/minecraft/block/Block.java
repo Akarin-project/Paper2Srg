@@ -99,7 +99,7 @@ public class Block {
     }
 
     public static Block func_149729_e(int i) {
-        return (Block) Block.field_149771_c.func_148754_a(i);
+        return Block.field_149771_c.func_148754_a(i);
     }
 
     public static IBlockState func_176220_d(int i) {
@@ -118,10 +118,10 @@ public class Block {
         ResourceLocation minecraftkey = new ResourceLocation(s);
 
         if (Block.field_149771_c.func_148741_d(minecraftkey)) {
-            return (Block) Block.field_149771_c.func_82594_a(minecraftkey);
+            return Block.field_149771_c.func_82594_a(minecraftkey);
         } else {
             try {
-                return (Block) Block.field_149771_c.func_148754_a(Integer.parseInt(s));
+                return Block.field_149771_c.func_148754_a(Integer.parseInt(s));
             } catch (NumberFormatException numberformatexception) {
                 return null;
             }
@@ -415,10 +415,10 @@ public class Block {
     public static void func_180635_a(World world, BlockPos blockposition, ItemStack itemstack) {
         if (!world.field_72995_K && !itemstack.func_190926_b() && world.func_82736_K().func_82766_b("doTileDrops")) {
             float f = 0.5F;
-            double d0 = (double) (world.field_73012_v.nextFloat() * 0.5F) + 0.25D;
-            double d1 = (double) (world.field_73012_v.nextFloat() * 0.5F) + 0.25D;
-            double d2 = (double) (world.field_73012_v.nextFloat() * 0.5F) + 0.25D;
-            EntityItem entityitem = new EntityItem(world, (double) blockposition.func_177958_n() + d0, (double) blockposition.func_177956_o() + d1, (double) blockposition.func_177952_p() + d2, itemstack);
+            double d0 = world.field_73012_v.nextFloat() * 0.5F + 0.25D;
+            double d1 = world.field_73012_v.nextFloat() * 0.5F + 0.25D;
+            double d2 = world.field_73012_v.nextFloat() * 0.5F + 0.25D;
+            EntityItem entityitem = new EntityItem(world, blockposition.func_177958_n() + d0, blockposition.func_177956_o() + d1, blockposition.func_177952_p() + d2, itemstack);
 
             entityitem.func_174869_p();
             // CraftBukkit start
@@ -431,13 +431,13 @@ public class Block {
         }
     }
 
-    protected void dropExperience(World world, BlockPos blockposition, int i, EntityPlayerMP player) { // Paper
+    public void dropExperience(World world, BlockPos blockposition, int i, EntityPlayerMP player) { // Paper
         if (!world.field_72995_K && world.func_82736_K().func_82766_b("doTileDrops")) {
             while (i > 0) {
                 int j = EntityXPOrb.func_70527_a(i);
 
                 i -= j;
-                world.func_72838_d(new EntityXPOrb(world, (double) blockposition.func_177958_n() + 0.5D, (double) blockposition.func_177956_o() + 0.5D, (double) blockposition.func_177952_p() + 0.5D, j, org.bukkit.entity.ExperienceOrb.SpawnReason.BLOCK_BREAK, player)); // Paper
+                world.func_72838_d(new EntityXPOrb(world, blockposition.func_177958_n() + 0.5D, blockposition.func_177956_o() + 0.5D, blockposition.func_177952_p() + 0.5D, j, org.bukkit.entity.ExperienceOrb.SpawnReason.BLOCK_BREAK, player)); // Paper
             }
         }
 
@@ -459,11 +459,11 @@ public class Block {
 
     @Nullable
     protected RayTraceResult func_185503_a(BlockPos blockposition, Vec3d vec3d, Vec3d vec3d1, AxisAlignedBB axisalignedbb) {
-        Vec3d vec3d2 = vec3d.func_178786_a((double) blockposition.func_177958_n(), (double) blockposition.func_177956_o(), (double) blockposition.func_177952_p());
-        Vec3d vec3d3 = vec3d1.func_178786_a((double) blockposition.func_177958_n(), (double) blockposition.func_177956_o(), (double) blockposition.func_177952_p());
+        Vec3d vec3d2 = vec3d.func_178786_a(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
+        Vec3d vec3d3 = vec3d1.func_178786_a(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
         RayTraceResult movingobjectposition = axisalignedbb.func_72327_a(vec3d2, vec3d3);
 
-        return movingobjectposition == null ? null : new RayTraceResult(movingobjectposition.field_72307_f.func_72441_c((double) blockposition.func_177958_n(), (double) blockposition.func_177956_o(), (double) blockposition.func_177952_p()), movingobjectposition.field_178784_b, blockposition);
+        return movingobjectposition == null ? null : new RayTraceResult(movingobjectposition.field_72307_f.func_72441_c(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p()), movingobjectposition.field_178784_b, blockposition);
     }
 
     public void func_180652_a(World world, BlockPos blockposition, Explosion explosion) {}
@@ -665,7 +665,7 @@ public class Block {
         } else {
             long i = MathHelper.func_180187_c(blockposition.func_177958_n(), 0, blockposition.func_177952_p());
 
-            return new Vec3d(((double) ((float) (i >> 16 & 15L) / 15.0F) - 0.5D) * 0.5D, block_enumrandomoffset == Block.EnumOffsetType.XYZ ? ((double) ((float) (i >> 20 & 15L) / 15.0F) - 1.0D) * 0.2D : 0.0D, ((double) ((float) (i >> 24 & 15L) / 15.0F) - 0.5D) * 0.5D);
+            return new Vec3d(((i >> 16 & 15L) / 15.0F - 0.5D) * 0.5D, block_enumrandomoffset == Block.EnumOffsetType.XYZ ? ((i >> 20 & 15L) / 15.0F - 1.0D) * 0.2D : 0.0D, ((i >> 24 & 15L) / 15.0F - 0.5D) * 0.5D);
         }
     }
 
@@ -673,6 +673,7 @@ public class Block {
         return this.field_149762_H;
     }
 
+    @Override
     public String toString() {
         return "Block{" + Block.field_149771_c.func_177774_c(this) + "}";
     }
@@ -986,7 +987,7 @@ public class Block {
             }
         }
 
-        HashSet hashset = Sets.newHashSet(new Block[] { (Block) Block.field_149771_c.func_82594_a(new ResourceLocation("tripwire"))});
+        HashSet hashset = Sets.newHashSet(new Block[] { Block.field_149771_c.func_82594_a(new ResourceLocation("tripwire"))});
         Iterator iterator1 = Block.field_149771_c.iterator();
 
         while (iterator1.hasNext()) {

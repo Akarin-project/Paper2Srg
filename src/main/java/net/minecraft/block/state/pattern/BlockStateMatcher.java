@@ -19,6 +19,7 @@ public class BlockStateMatcher implements Predicate<IBlockState> {
             return true;
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((IBlockState) object);
         }
@@ -34,6 +35,7 @@ public class BlockStateMatcher implements Predicate<IBlockState> {
         return new BlockStateMatcher(block.func_176194_O());
     }
 
+    @Override
     public boolean apply(@Nullable IBlockState iblockdata) {
         if (iblockdata != null && iblockdata.func_177230_c().equals(this.field_177641_a.func_177622_c())) {
             if (this.field_177640_b.isEmpty()) {
@@ -58,7 +60,7 @@ public class BlockStateMatcher implements Predicate<IBlockState> {
         }
     }
 
-    protected <T extends Comparable<T>> boolean func_185927_a(IBlockState iblockdata, IProperty<T> iblockstate, Predicate<?> predicate) {
+    protected <T extends Comparable<T>> boolean func_185927_a(IBlockState iblockdata, IProperty<T> iblockstate, Predicate predicate) {
         return predicate.apply(iblockdata.func_177229_b(iblockstate));
     }
 
@@ -69,9 +71,5 @@ public class BlockStateMatcher implements Predicate<IBlockState> {
             this.field_177640_b.put(iblockstate, predicate);
             return this;
         }
-    }
-
-    public boolean apply(@Nullable Object object) {
-        return this.apply((IBlockState) object);
     }
 }

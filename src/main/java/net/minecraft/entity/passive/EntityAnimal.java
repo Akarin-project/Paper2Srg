@@ -29,6 +29,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
         this.field_175506_bl = Blocks.field_150349_c;
     }
 
+    @Override
     protected void func_70619_bc() {
         if (this.func_70874_b() != 0) {
             this.field_70881_d = 0;
@@ -37,6 +38,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
         super.func_70619_bc();
     }
 
+    @Override
     public void func_70636_d() {
         super.func_70636_d();
         if (this.func_70874_b() != 0) {
@@ -50,7 +52,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
                 double d1 = this.field_70146_Z.nextGaussian() * 0.02D;
                 double d2 = this.field_70146_Z.nextGaussian() * 0.02D;
 
-                this.field_70170_p.func_175688_a(EnumParticleTypes.HEART, this.field_70165_t + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, this.field_70163_u + 0.5D + (double) (this.field_70146_Z.nextFloat() * this.field_70131_O), this.field_70161_v + (double) (this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F) - (double) this.field_70130_N, d0, d1, d2, new int[0]);
+                this.field_70170_p.func_175688_a(EnumParticleTypes.HEART, this.field_70165_t + this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F - this.field_70130_N, this.field_70163_u + 0.5D + this.field_70146_Z.nextFloat() * this.field_70131_O, this.field_70161_v + this.field_70146_Z.nextFloat() * this.field_70130_N * 2.0F - this.field_70130_N, d0, d1, d2, new int[0]);
             }
         }
 
@@ -69,10 +71,12 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
     }
     // CraftBukkit end */
 
+    @Override
     public float func_180484_a(BlockPos blockposition) {
         return this.field_70170_p.func_180495_p(blockposition.func_177977_b()).func_177230_c() == this.field_175506_bl ? 10.0F : this.field_70170_p.func_175724_o(blockposition) - 0.5F;
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("InLove", this.field_70881_d);
@@ -82,16 +86,19 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
 
     }
 
+    @Override
     public double func_70033_W() {
         return 0.14D;
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.field_70881_d = nbttagcompound.func_74762_e("InLove");
         this.field_146084_br = nbttagcompound.func_186855_b("LoveCause") ? nbttagcompound.func_186857_a("LoveCause") : null;
     }
 
+    @Override
     public boolean func_70601_bi() {
         int i = MathHelper.func_76128_c(this.field_70165_t);
         int j = MathHelper.func_76128_c(this.func_174813_aQ().field_72338_b);
@@ -101,14 +108,17 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
         return this.field_70170_p.func_180495_p(blockposition.func_177977_b()).func_177230_c() == this.field_175506_bl && this.field_70170_p.func_175699_k(blockposition) > 8 && super.func_70601_bi();
     }
 
+    @Override
     public int func_70627_aG() {
         return 120;
     }
 
-    protected boolean func_70692_ba() {
+    @Override
+    public boolean func_70692_ba() {
         return false;
     }
 
+    @Override
     protected int func_70693_a(EntityPlayer entityhuman) {
         return 1 + this.field_70170_p.field_73012_v.nextInt(3);
     }
@@ -117,6 +127,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
         return itemstack.func_77973_b() == Items.field_151015_O;
     }
 
+    @Override
     public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
@@ -129,7 +140,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
 
             if (this.func_70631_g_() && this.func_70877_b(itemstack)) {
                 this.func_175505_a(entityhuman, itemstack);
-                this.func_175501_a((int) ((float) (-this.func_70874_b() / 20) * 0.1F), true);
+                this.func_175501_a((int) (-this.func_70874_b() / 20 * 0.1F), true);
                 return true;
             }
         }

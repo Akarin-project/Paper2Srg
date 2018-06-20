@@ -79,22 +79,22 @@ public class Item {
     private String field_77774_bZ;
 
     public static int func_150891_b(Item item) {
-        return item == null ? 0 : Item.field_150901_e.func_148757_b((Object) item);
+        return item == null ? 0 : Item.field_150901_e.func_148757_b(item);
     }
 
     public static Item func_150899_d(int i) {
-        return (Item) Item.field_150901_e.func_148754_a(i);
+        return Item.field_150901_e.func_148754_a(i);
     }
 
     public static Item func_150898_a(Block block) {
-        Item item = (Item) Item.field_179220_a.get(block);
+        Item item = Item.field_179220_a.get(block);
 
         return item == null ? Items.field_190931_a : item;
     }
 
     @Nullable
     public static Item func_111206_d(String s) {
-        Item item = (Item) Item.field_150901_e.func_82594_a(new ResourceLocation(s));
+        Item item = Item.field_150901_e.func_82594_a(new ResourceLocation(s));
 
         if (item == null) {
             try {
@@ -266,7 +266,7 @@ public class Item {
         float f = entityhuman.field_70125_A;
         float f1 = entityhuman.field_70177_z;
         double d0 = entityhuman.field_70165_t;
-        double d1 = entityhuman.field_70163_u + (double) entityhuman.func_70047_e();
+        double d1 = entityhuman.field_70163_u + entityhuman.func_70047_e();
         double d2 = entityhuman.field_70161_v;
         Vec3d vec3d = new Vec3d(d0, d1, d2);
         float f2 = MathHelper.func_76134_b(-f1 * 0.017453292F - 3.1415927F);
@@ -276,7 +276,7 @@ public class Item {
         float f6 = f3 * f4;
         float f7 = f2 * f4;
         double d3 = 5.0D;
-        Vec3d vec3d1 = vec3d.func_72441_c((double) f6 * 5.0D, (double) f5 * 5.0D, (double) f7 * 5.0D);
+        Vec3d vec3d1 = vec3d.func_72441_c(f6 * 5.0D, f5 * 5.0D, f7 * 5.0D);
 
         return world.func_147447_a(vec3d, vec3d1, flag, !flag, false);
     }
@@ -321,31 +321,36 @@ public class Item {
     }
 
     public static void func_150900_l() {
-        func_179214_a(Blocks.field_150350_a, (Item) (new ItemAir(Blocks.field_150350_a)));
+        func_179214_a(Blocks.field_150350_a, (new ItemAir(Blocks.field_150350_a)));
         func_179214_a(Blocks.field_150348_b, (new ItemMultiTexture(Blocks.field_150348_b, Blocks.field_150348_b, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockStone.EnumType.func_176643_a(itemstack.func_77960_j()).func_176644_c();
             }
         })).func_77655_b("stone"));
-        func_179214_a((Block) Blocks.field_150349_c, (Item) (new ItemColored(Blocks.field_150349_c, false)));
+        func_179214_a(Blocks.field_150349_c, (new ItemColored(Blocks.field_150349_c, false)));
         func_179214_a(Blocks.field_150346_d, (new ItemMultiTexture(Blocks.field_150346_d, Blocks.field_150346_d, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockDirt.DirtType.func_176924_a(itemstack.func_77960_j()).func_176927_c();
             }
         })).func_77655_b("dirt"));
         func_179216_c(Blocks.field_150347_e);
         func_179214_a(Blocks.field_150344_f, (new ItemMultiTexture(Blocks.field_150344_f, Blocks.field_150344_f, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockPlanks.EnumType.func_176837_a(itemstack.func_77960_j()).func_176840_c();
             }
         })).func_77655_b("wood"));
         func_179214_a(Blocks.field_150345_g, (new ItemMultiTexture(Blocks.field_150345_g, Blocks.field_150345_g, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockPlanks.EnumType.func_176837_a(itemstack.func_77960_j()).func_176840_c();
             }
         })).func_77655_b("sapling"));
         func_179216_c(Blocks.field_150357_h);
-        func_179214_a((Block) Blocks.field_150354_m, (new ItemMultiTexture(Blocks.field_150354_m, Blocks.field_150354_m, new ItemMultiTexture.a() {
+        func_179214_a(Blocks.field_150354_m, (new ItemMultiTexture(Blocks.field_150354_m, Blocks.field_150354_m, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockSand.EnumType.func_176686_a(itemstack.func_77960_j()).func_176685_d();
             }
@@ -355,18 +360,21 @@ public class Item {
         func_179216_c(Blocks.field_150366_p);
         func_179216_c(Blocks.field_150365_q);
         func_179214_a(Blocks.field_150364_r, (new ItemMultiTexture(Blocks.field_150364_r, Blocks.field_150364_r, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockPlanks.EnumType.func_176837_a(itemstack.func_77960_j()).func_176840_c();
             }
         })).func_77655_b("log"));
         func_179214_a(Blocks.field_150363_s, (new ItemMultiTexture(Blocks.field_150363_s, Blocks.field_150363_s, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockPlanks.EnumType.func_176837_a(itemstack.func_77960_j() + 4).func_176840_c();
             }
         })).func_77655_b("log"));
-        func_179214_a((Block) Blocks.field_150362_t, (new ItemLeaves(Blocks.field_150362_t)).func_77655_b("leaves"));
-        func_179214_a((Block) Blocks.field_150361_u, (new ItemLeaves(Blocks.field_150361_u)).func_77655_b("leaves"));
+        func_179214_a(Blocks.field_150362_t, (new ItemLeaves(Blocks.field_150362_t)).func_77655_b("leaves"));
+        func_179214_a(Blocks.field_150361_u, (new ItemLeaves(Blocks.field_150361_u)).func_77655_b("leaves"));
         func_179214_a(Blocks.field_150360_v, (new ItemMultiTexture(Blocks.field_150360_v, Blocks.field_150360_v, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return (itemstack.func_77960_j() & 1) == 1 ? "wet" : "dry";
             }
@@ -376,6 +384,7 @@ public class Item {
         func_179216_c(Blocks.field_150368_y);
         func_179216_c(Blocks.field_150367_z);
         func_179214_a(Blocks.field_150322_A, (new ItemMultiTexture(Blocks.field_150322_A, Blocks.field_150322_A, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockSandStone.EnumType.func_176673_a(itemstack.func_77960_j()).func_176676_c();
             }
@@ -383,27 +392,29 @@ public class Item {
         func_179216_c(Blocks.field_150323_B);
         func_179216_c(Blocks.field_150318_D);
         func_179216_c(Blocks.field_150319_E);
-        func_179214_a((Block) Blocks.field_150320_F, (Item) (new ItemPiston(Blocks.field_150320_F)));
+        func_179214_a(Blocks.field_150320_F, (new ItemPiston(Blocks.field_150320_F)));
         func_179216_c(Blocks.field_150321_G);
-        func_179214_a((Block) Blocks.field_150329_H, (Item) (new ItemColored(Blocks.field_150329_H, true)).func_150943_a(new String[] { "shrub", "grass", "fern"}));
-        func_179216_c((Block) Blocks.field_150330_I);
-        func_179214_a((Block) Blocks.field_150331_J, (Item) (new ItemPiston(Blocks.field_150331_J)));
+        func_179214_a(Blocks.field_150329_H, (new ItemColored(Blocks.field_150329_H, true)).func_150943_a(new String[] { "shrub", "grass", "fern"}));
+        func_179216_c(Blocks.field_150330_I);
+        func_179214_a(Blocks.field_150331_J, (new ItemPiston(Blocks.field_150331_J)));
         func_179214_a(Blocks.field_150325_L, (new ItemCloth(Blocks.field_150325_L)).func_77655_b("cloth"));
-        func_179214_a((Block) Blocks.field_150327_N, (new ItemMultiTexture(Blocks.field_150327_N, Blocks.field_150327_N, new ItemMultiTexture.a() {
+        func_179214_a(Blocks.field_150327_N, (new ItemMultiTexture(Blocks.field_150327_N, Blocks.field_150327_N, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockFlower.EnumFlowerType.func_176967_a(BlockFlower.EnumFlowerColor.YELLOW, itemstack.func_77960_j()).func_176963_d();
             }
         })).func_77655_b("flower"));
-        func_179214_a((Block) Blocks.field_150328_O, (new ItemMultiTexture(Blocks.field_150328_O, Blocks.field_150328_O, new ItemMultiTexture.a() {
+        func_179214_a(Blocks.field_150328_O, (new ItemMultiTexture(Blocks.field_150328_O, Blocks.field_150328_O, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockFlower.EnumFlowerType.func_176967_a(BlockFlower.EnumFlowerColor.RED, itemstack.func_77960_j()).func_176963_d();
             }
         })).func_77655_b("rose"));
-        func_179216_c((Block) Blocks.field_150338_P);
-        func_179216_c((Block) Blocks.field_150337_Q);
+        func_179216_c(Blocks.field_150338_P);
+        func_179216_c(Blocks.field_150337_Q);
         func_179216_c(Blocks.field_150340_R);
         func_179216_c(Blocks.field_150339_S);
-        func_179214_a((Block) Blocks.field_150333_U, (new ItemSlab(Blocks.field_150333_U, Blocks.field_150333_U, Blocks.field_150334_T)).func_77655_b("stoneSlab"));
+        func_179214_a(Blocks.field_150333_U, (new ItemSlab(Blocks.field_150333_U, Blocks.field_150333_U, Blocks.field_150334_T)).func_77655_b("stoneSlab"));
         func_179216_c(Blocks.field_150336_V);
         func_179216_c(Blocks.field_150335_W);
         func_179216_c(Blocks.field_150342_X);
@@ -416,10 +427,10 @@ public class Item {
         func_179216_c(Blocks.field_185767_cT);
         func_179216_c(Blocks.field_185768_cU);
         func_179216_c(Blocks.field_185769_cV);
-        func_179214_a((Block) Blocks.field_185771_cX, (new ItemSlab(Blocks.field_185771_cX, Blocks.field_185771_cX, Blocks.field_185770_cW)).func_77655_b("purpurSlab"));
+        func_179214_a(Blocks.field_185771_cX, (new ItemSlab(Blocks.field_185771_cX, Blocks.field_185771_cX, Blocks.field_185770_cW)).func_77655_b("purpurSlab"));
         func_179216_c(Blocks.field_150474_ac);
         func_179216_c(Blocks.field_150476_ad);
-        func_179216_c((Block) Blocks.field_150486_ae);
+        func_179216_c(Blocks.field_150486_ae);
         func_179216_c(Blocks.field_150482_ag);
         func_179216_c(Blocks.field_150484_ah);
         func_179216_c(Blocks.field_150462_ai);
@@ -434,10 +445,10 @@ public class Item {
         func_179216_c(Blocks.field_150450_ax);
         func_179216_c(Blocks.field_150429_aA);
         func_179216_c(Blocks.field_150430_aB);
-        func_179214_a(Blocks.field_150431_aC, (Item) (new ItemSnow(Blocks.field_150431_aC)));
+        func_179214_a(Blocks.field_150431_aC, (new ItemSnow(Blocks.field_150431_aC)));
         func_179216_c(Blocks.field_150432_aD);
         func_179216_c(Blocks.field_150433_aE);
-        func_179216_c((Block) Blocks.field_150434_aF);
+        func_179216_c(Blocks.field_150434_aF);
         func_179216_c(Blocks.field_150435_aG);
         func_179216_c(Blocks.field_150421_aI);
         func_179216_c(Blocks.field_180407_aO);
@@ -453,11 +464,13 @@ public class Item {
         func_179216_c(Blocks.field_150428_aP);
         func_179216_c(Blocks.field_150415_aT);
         func_179214_a(Blocks.field_150418_aU, (new ItemMultiTexture(Blocks.field_150418_aU, Blocks.field_150418_aU, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockSilverfish.EnumType.func_176879_a(itemstack.func_77960_j()).func_176882_c();
             }
         })).func_77655_b("monsterStoneEgg"));
         func_179214_a(Blocks.field_150417_aV, (new ItemMultiTexture(Blocks.field_150417_aV, Blocks.field_150417_aV, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockStoneBrick.EnumType.func_176613_a(itemstack.func_77960_j()).func_176614_c();
             }
@@ -467,7 +480,7 @@ public class Item {
         func_179216_c(Blocks.field_150411_aY);
         func_179216_c(Blocks.field_150410_aZ);
         func_179216_c(Blocks.field_150440_ba);
-        func_179214_a(Blocks.field_150395_bd, (Item) (new ItemColored(Blocks.field_150395_bd, false)));
+        func_179214_a(Blocks.field_150395_bd, (new ItemColored(Blocks.field_150395_bd, false)));
         func_179216_c(Blocks.field_180390_bo);
         func_179216_c(Blocks.field_180391_bp);
         func_179216_c(Blocks.field_180392_bq);
@@ -476,8 +489,8 @@ public class Item {
         func_179216_c(Blocks.field_180387_bt);
         func_179216_c(Blocks.field_150389_bf);
         func_179216_c(Blocks.field_150390_bg);
-        func_179216_c((Block) Blocks.field_150391_bh);
-        func_179214_a(Blocks.field_150392_bi, (Item) (new ItemLilyPad(Blocks.field_150392_bi)));
+        func_179216_c(Blocks.field_150391_bh);
+        func_179214_a(Blocks.field_150392_bi, (new ItemLilyPad(Blocks.field_150392_bi)));
         func_179216_c(Blocks.field_150385_bj);
         func_179216_c(Blocks.field_150386_bk);
         func_179216_c(Blocks.field_150387_bl);
@@ -487,18 +500,19 @@ public class Item {
         func_179216_c(Blocks.field_185772_cY);
         func_179216_c(Blocks.field_150380_bt);
         func_179216_c(Blocks.field_150379_bu);
-        func_179214_a((Block) Blocks.field_150376_bx, (new ItemSlab(Blocks.field_150376_bx, Blocks.field_150376_bx, Blocks.field_150373_bw)).func_77655_b("woodSlab"));
+        func_179214_a(Blocks.field_150376_bx, (new ItemSlab(Blocks.field_150376_bx, Blocks.field_150376_bx, Blocks.field_150373_bw)).func_77655_b("woodSlab"));
         func_179216_c(Blocks.field_150372_bz);
         func_179216_c(Blocks.field_150412_bA);
         func_179216_c(Blocks.field_150477_bB);
-        func_179216_c((Block) Blocks.field_150479_bC);
+        func_179216_c(Blocks.field_150479_bC);
         func_179216_c(Blocks.field_150475_bE);
         func_179216_c(Blocks.field_150485_bF);
         func_179216_c(Blocks.field_150487_bG);
         func_179216_c(Blocks.field_150481_bH);
         func_179216_c(Blocks.field_150483_bI);
-        func_179216_c((Block) Blocks.field_150461_bJ);
+        func_179216_c(Blocks.field_150461_bJ);
         func_179214_a(Blocks.field_150463_bK, (new ItemMultiTexture(Blocks.field_150463_bK, Blocks.field_150463_bK, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockWall.EnumType.func_176660_a(itemstack.func_77960_j()).func_176659_c();
             }
@@ -508,10 +522,10 @@ public class Item {
         func_179216_c(Blocks.field_150447_bR);
         func_179216_c(Blocks.field_150445_bS);
         func_179216_c(Blocks.field_150443_bT);
-        func_179216_c((Block) Blocks.field_150453_bW);
+        func_179216_c(Blocks.field_150453_bW);
         func_179216_c(Blocks.field_150451_bX);
         func_179216_c(Blocks.field_150449_bY);
-        func_179216_c((Block) Blocks.field_150438_bZ);
+        func_179216_c(Blocks.field_150438_bZ);
         func_179214_a(Blocks.field_150371_ca, (new ItemMultiTexture(Blocks.field_150371_ca, Blocks.field_150371_ca, new String[] { "default", "chiseled", "lines"})).func_77655_b("quartzBlock"));
         func_179216_c(Blocks.field_150370_cb);
         func_179216_c(Blocks.field_150408_cc);
@@ -528,26 +542,29 @@ public class Item {
         func_179216_c(Blocks.field_150401_cl);
         func_179216_c(Blocks.field_180399_cE);
         func_179216_c(Blocks.field_185774_da);
-        func_179214_a((Block) Blocks.field_150398_cm, (new ItemMultiTexture(Blocks.field_150398_cm, Blocks.field_150398_cm, new ItemMultiTexture.a() {
+        func_179214_a(Blocks.field_150398_cm, (new ItemMultiTexture(Blocks.field_150398_cm, Blocks.field_150398_cm, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockDoublePlant.EnumPlantType.func_176938_a(itemstack.func_77960_j()).func_176939_c();
             }
         })).func_77655_b("doublePlant"));
-        func_179214_a((Block) Blocks.field_150399_cn, (new ItemCloth(Blocks.field_150399_cn)).func_77655_b("stainedGlass"));
-        func_179214_a((Block) Blocks.field_150397_co, (new ItemCloth(Blocks.field_150397_co)).func_77655_b("stainedGlassPane"));
+        func_179214_a(Blocks.field_150399_cn, (new ItemCloth(Blocks.field_150399_cn)).func_77655_b("stainedGlass"));
+        func_179214_a(Blocks.field_150397_co, (new ItemCloth(Blocks.field_150397_co)).func_77655_b("stainedGlassPane"));
         func_179214_a(Blocks.field_180397_cI, (new ItemMultiTexture(Blocks.field_180397_cI, Blocks.field_180397_cI, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockPrismarine.EnumType.func_176810_a(itemstack.func_77960_j()).func_176809_c();
             }
         })).func_77655_b("prismarine"));
         func_179216_c(Blocks.field_180398_cJ);
         func_179214_a(Blocks.field_180395_cM, (new ItemMultiTexture(Blocks.field_180395_cM, Blocks.field_180395_cM, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 return BlockRedSandstone.EnumType.func_176825_a(itemstack.func_77960_j()).func_176828_c();
             }
         })).func_77655_b("redSandStone"));
         func_179216_c(Blocks.field_180396_cN);
-        func_179214_a((Block) Blocks.field_180389_cP, (new ItemSlab(Blocks.field_180389_cP, Blocks.field_180389_cP, Blocks.field_180388_cO)).func_77655_b("stoneSlab2"));
+        func_179214_a(Blocks.field_180389_cP, (new ItemSlab(Blocks.field_180389_cP, Blocks.field_180389_cP, Blocks.field_180388_cO)).func_77655_b("stoneSlab2"));
         func_179216_c(Blocks.field_185776_dc);
         func_179216_c(Blocks.field_185777_dd);
         func_179216_c(Blocks.field_189877_df);
@@ -556,22 +573,22 @@ public class Item {
         func_179216_c(Blocks.field_189880_di);
         func_179216_c(Blocks.field_189881_dj);
         func_179216_c(Blocks.field_190976_dk);
-        func_179214_a(Blocks.field_190977_dl, (Item) (new ItemShulkerBox(Blocks.field_190977_dl)));
-        func_179214_a(Blocks.field_190978_dm, (Item) (new ItemShulkerBox(Blocks.field_190978_dm)));
-        func_179214_a(Blocks.field_190979_dn, (Item) (new ItemShulkerBox(Blocks.field_190979_dn)));
-        func_179214_a(Blocks.field_190980_do, (Item) (new ItemShulkerBox(Blocks.field_190980_do)));
-        func_179214_a(Blocks.field_190981_dp, (Item) (new ItemShulkerBox(Blocks.field_190981_dp)));
-        func_179214_a(Blocks.field_190982_dq, (Item) (new ItemShulkerBox(Blocks.field_190982_dq)));
-        func_179214_a(Blocks.field_190983_dr, (Item) (new ItemShulkerBox(Blocks.field_190983_dr)));
-        func_179214_a(Blocks.field_190984_ds, (Item) (new ItemShulkerBox(Blocks.field_190984_ds)));
-        func_179214_a(Blocks.field_190985_dt, (Item) (new ItemShulkerBox(Blocks.field_190985_dt)));
-        func_179214_a(Blocks.field_190986_du, (Item) (new ItemShulkerBox(Blocks.field_190986_du)));
-        func_179214_a(Blocks.field_190987_dv, (Item) (new ItemShulkerBox(Blocks.field_190987_dv)));
-        func_179214_a(Blocks.field_190988_dw, (Item) (new ItemShulkerBox(Blocks.field_190988_dw)));
-        func_179214_a(Blocks.field_190989_dx, (Item) (new ItemShulkerBox(Blocks.field_190989_dx)));
-        func_179214_a(Blocks.field_190990_dy, (Item) (new ItemShulkerBox(Blocks.field_190990_dy)));
-        func_179214_a(Blocks.field_190991_dz, (Item) (new ItemShulkerBox(Blocks.field_190991_dz)));
-        func_179214_a(Blocks.field_190975_dA, (Item) (new ItemShulkerBox(Blocks.field_190975_dA)));
+        func_179214_a(Blocks.field_190977_dl, (new ItemShulkerBox(Blocks.field_190977_dl)));
+        func_179214_a(Blocks.field_190978_dm, (new ItemShulkerBox(Blocks.field_190978_dm)));
+        func_179214_a(Blocks.field_190979_dn, (new ItemShulkerBox(Blocks.field_190979_dn)));
+        func_179214_a(Blocks.field_190980_do, (new ItemShulkerBox(Blocks.field_190980_do)));
+        func_179214_a(Blocks.field_190981_dp, (new ItemShulkerBox(Blocks.field_190981_dp)));
+        func_179214_a(Blocks.field_190982_dq, (new ItemShulkerBox(Blocks.field_190982_dq)));
+        func_179214_a(Blocks.field_190983_dr, (new ItemShulkerBox(Blocks.field_190983_dr)));
+        func_179214_a(Blocks.field_190984_ds, (new ItemShulkerBox(Blocks.field_190984_ds)));
+        func_179214_a(Blocks.field_190985_dt, (new ItemShulkerBox(Blocks.field_190985_dt)));
+        func_179214_a(Blocks.field_190986_du, (new ItemShulkerBox(Blocks.field_190986_du)));
+        func_179214_a(Blocks.field_190987_dv, (new ItemShulkerBox(Blocks.field_190987_dv)));
+        func_179214_a(Blocks.field_190988_dw, (new ItemShulkerBox(Blocks.field_190988_dw)));
+        func_179214_a(Blocks.field_190989_dx, (new ItemShulkerBox(Blocks.field_190989_dx)));
+        func_179214_a(Blocks.field_190990_dy, (new ItemShulkerBox(Blocks.field_190990_dy)));
+        func_179214_a(Blocks.field_190991_dz, (new ItemShulkerBox(Blocks.field_190991_dz)));
+        func_179214_a(Blocks.field_190975_dA, (new ItemShulkerBox(Blocks.field_190975_dA)));
         func_179216_c(Blocks.field_192427_dB);
         func_179216_c(Blocks.field_192428_dC);
         func_179216_c(Blocks.field_192429_dD);
@@ -807,11 +824,11 @@ public class Item {
     }
 
     private static void func_179216_c(Block block) {
-        func_179214_a(block, (Item) (new ItemBlock(block)));
+        func_179214_a(block, (new ItemBlock(block)));
     }
 
     protected static void func_179214_a(Block block, Item item) {
-        func_179219_a(Block.func_149682_b(block), (ResourceLocation) Block.field_149771_c.func_177774_c(block), item);
+        func_179219_a(Block.func_149682_b(block), Block.field_149771_c.func_177774_c(block), item);
         Item.field_179220_a.put(block, item);
     }
 

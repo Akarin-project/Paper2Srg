@@ -301,7 +301,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
                 random = new Random(this.field_184291_d);
             }
 
-            LootTableInfo.a loottableinfo_a = new LootTableInfo.a((WorldServer) this.field_70170_p);
+            LootContext.a loottableinfo_a = new LootContext.a((WorldServer) this.field_70170_p);
 
             if (entityhuman != null) {
                 loottableinfo_a.a(entityhuman.func_184817_da());

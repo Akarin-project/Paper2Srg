@@ -41,7 +41,7 @@ public class StatisticsManagerServer extends StatisticsManager {
         for ( String name : org.spigotmc.SpigotConfig.forcedStats.keySet() )
         {
             TupleIntJsonSerializable wrapper = new TupleIntJsonSerializable();
-            wrapper.func_151190_a( org.spigotmc.SpigotConfig.forcedStats.get( name ) );
+            wrapper.func_151188_a( org.spigotmc.SpigotConfig.forcedStats.get( name ) );
             field_150875_a.put( StatList.func_151177_a( name ), wrapper );
         }
         // Spigot end

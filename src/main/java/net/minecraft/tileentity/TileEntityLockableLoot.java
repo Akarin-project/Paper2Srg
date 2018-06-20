@@ -66,7 +66,7 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
                 random = new Random(this.field_184285_n);
             }
 
-            LootTableInfo.a loottableinfo_a = new LootTableInfo.a((WorldServer) this.field_145850_b);
+            LootContext.a loottableinfo_a = new LootContext.a((WorldServer) this.field_145850_b);
 
             if (entityhuman != null) {
                 loottableinfo_a.a(entityhuman.func_184817_da());

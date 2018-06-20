@@ -45,6 +45,7 @@ public class Snooper {
             this.field_76477_g = true;
             this.func_152766_h();
             this.field_76479_e.schedule(new TimerTask() {
+                @Override
                 public void run() {
                     if (Snooper.this.field_76478_d.func_70002_Q()) {
                         HashMap hashmap;
@@ -55,13 +56,13 @@ public class Snooper {
                                 hashmap.putAll(Snooper.this.field_152773_a);
                             }
 
-                            hashmap.put("snooper_count", Integer.valueOf(Snooper.308(Snooper.this)));
+                            hashmap.put("snooper_count", Integer.valueOf(Snooper.this.field_76483_h++));
                             hashmap.put("snooper_token", Snooper.this.field_76480_b);
                         }
 
                         MinecraftServer minecraftserver = Snooper.this.field_76478_d instanceof MinecraftServer ? (MinecraftServer) Snooper.this.field_76478_d : null;
 
-                        HttpUtil.func_151226_a(Snooper.this.field_76481_c, (Map) hashmap, true, minecraftserver == null ? null : minecraftserver.func_110454_ao());
+                        HttpUtil.func_151226_a(Snooper.this.field_76481_c, hashmap, true, minecraftserver == null ? null : minecraftserver.func_110454_ao());
                     }
                 }
             }, 0L, 900000L);
@@ -131,9 +132,5 @@ public class Snooper {
 
     public long func_130105_g() {
         return this.field_98224_g;
-    }
-
-    static int 308(Snooper mojangstatisticsgenerator) {
-        return mojangstatisticsgenerator.field_76483_h++;
     }
 }

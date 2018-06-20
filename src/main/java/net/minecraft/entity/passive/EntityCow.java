@@ -44,6 +44,7 @@ public class EntityCow extends EntityAnimal {
         EntityLiving.func_189752_a(dataconvertermanager, EntityCow.class);
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
         this.field_70714_bg.func_75776_a(1, new EntityAIPanic(this, 2.0D));
@@ -55,37 +56,45 @@ public class EntityCow extends EntityAnimal {
         this.field_70714_bg.func_75776_a(7, new EntityAILookIdle(this));
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.20000000298023224D);
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return SoundEvents.field_187558_ak;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187562_am;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187560_al;
     }
 
+    @Override
     protected void func_180429_a(BlockPos blockposition, Block block) {
         this.func_184185_a(SoundEvents.field_187566_ao, 0.15F, 1.0F);
     }
 
+    @Override
     protected float func_70599_aP() {
         return 0.4F;
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186399_G;
     }
 
+    @Override
     public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
@@ -114,15 +123,13 @@ public class EntityCow extends EntityAnimal {
         }
     }
 
+    @Override
     public EntityCow func_90011_a(EntityAgeable entityageable) {
         return new EntityCow(this.field_70170_p);
     }
 
+    @Override
     public float func_70047_e() {
         return this.func_70631_g_() ? this.field_70131_O : 1.3F;
-    }
-
-    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
     }
 }

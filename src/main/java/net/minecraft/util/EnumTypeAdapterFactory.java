@@ -17,6 +17,7 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
 
     public EnumTypeAdapterFactory() {}
 
+    @Override
     @Nullable
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typetoken) {
         Class oclass = typetoken.getRawType();
@@ -34,7 +35,8 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
                 hashmap.put(this.func_151232_a(object), object);
             }
 
-            return new TypeAdapter() {
+            return new TypeAdapter<T>() {
+                @Override
                 public void write(JsonWriter jsonwriter, T t0) throws IOException {
                     if (t0 == null) {
                         jsonwriter.nullValue();
@@ -44,13 +46,14 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
 
                 }
 
+                @Override
                 @Nullable
                 public T read(JsonReader jsonreader) throws IOException {
                     if (jsonreader.peek() == JsonToken.NULL) {
                         jsonreader.nextNull();
                         return null;
                     } else {
-                        return hashmap.get(jsonreader.nextString());
+                        return (T) hashmap.get(jsonreader.nextString());
                     }
                 }
             };

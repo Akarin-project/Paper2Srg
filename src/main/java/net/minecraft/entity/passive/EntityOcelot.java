@@ -57,6 +57,7 @@ public class EntityOcelot extends EntityTameable {
         this.func_70105_a(0.6F, 0.7F);
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_70911_d = new EntityAISit(this);
         this.field_70914_e = new EntityAITempt(this, 0.6D, Items.field_151115_aP, true);
@@ -73,11 +74,13 @@ public class EntityOcelot extends EntityTameable {
         this.field_70715_bh.func_75776_a(1, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate) null));
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityOcelot.field_184757_bz, Integer.valueOf(0));
     }
 
+    @Override
     public void func_70619_bc() {
         if (this.func_70605_aq().func_75640_a()) {
             double d0 = this.func_70605_aq().func_75638_b();
@@ -99,53 +102,64 @@ public class EntityOcelot extends EntityTameable {
 
     }
 
-    protected boolean func_70692_ba() {
+    @Override
+    public boolean func_70692_ba() {
         return !this.func_70909_n() && !this.func_145818_k_() && !this.func_110167_bD() /*&& this.ticksLived > 2400*/; // CraftBukkit (ticks lived) - Paper (honor name and leash)
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.30000001192092896D);
     }
 
+    @Override
     public void func_180430_e(float f, float f1) {}
 
     public static void func_189787_b(DataFixer dataconvertermanager) {
         EntityLiving.func_189752_a(dataconvertermanager, EntityOcelot.class);
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("CatType", this.func_70913_u());
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.func_70912_b(nbttagcompound.func_74762_e("CatType"));
     }
 
+    @Override
     @Nullable
     protected SoundEvent func_184639_G() {
         return this.func_70909_n() ? (this.func_70880_s() ? SoundEvents.field_187645_R : (this.field_70146_Z.nextInt(4) == 0 ? SoundEvents.field_187648_S : SoundEvents.field_187636_O)) : null;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187642_Q;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187639_P;
     }
 
+    @Override
     protected float func_70599_aP() {
         return 0.4F;
     }
 
+    @Override
     public boolean func_70652_k(Entity entity) {
         return entity.func_70097_a(DamageSource.func_76358_a(this), 3.0F);
     }
 
+    @Override
     public boolean func_70097_a(DamageSource damagesource, float f) {
         if (this.func_180431_b(damagesource)) {
             return false;
@@ -159,16 +173,18 @@ public class EntityOcelot extends EntityTameable {
         }
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186402_J;
     }
 
+    @Override
     public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
         if (this.func_70909_n()) {
-            if (this.func_152114_e((EntityLivingBase) entityhuman) && !this.field_70170_p.field_72995_K && !this.func_70877_b(itemstack)) {
+            if (this.func_152114_e(entityhuman) && !this.field_70170_p.field_72995_K && !this.func_70877_b(itemstack)) {
                 this.field_70911_d.func_75270_a(!this.func_70906_o());
             }
         } else if ((this.field_70914_e == null || this.field_70914_e.func_75277_f()) && itemstack.func_77973_b() == Items.field_151115_aP && entityhuman.func_70068_e(this) < 9.0D) {
@@ -196,6 +212,7 @@ public class EntityOcelot extends EntityTameable {
         return super.func_184645_a(entityhuman, enumhand);
     }
 
+    @Override
     public EntityOcelot func_90011_a(EntityAgeable entityageable) {
         EntityOcelot entityocelot = new EntityOcelot(this.field_70170_p);
 
@@ -208,10 +225,12 @@ public class EntityOcelot extends EntityTameable {
         return entityocelot;
     }
 
+    @Override
     public boolean func_70877_b(ItemStack itemstack) {
         return itemstack.func_77973_b() == Items.field_151115_aP;
     }
 
+    @Override
     public boolean func_70878_b(EntityAnimal entityanimal) {
         if (entityanimal == this) {
             return false;
@@ -227,19 +246,21 @@ public class EntityOcelot extends EntityTameable {
     }
 
     public int func_70913_u() {
-        return ((Integer) this.field_70180_af.func_187225_a(EntityOcelot.field_184757_bz)).intValue();
+        return this.field_70180_af.func_187225_a(EntityOcelot.field_184757_bz).intValue();
     }
 
     public void func_70912_b(int i) {
         this.field_70180_af.func_187227_b(EntityOcelot.field_184757_bz, Integer.valueOf(i));
     }
 
+    @Override
     public boolean func_70601_bi() {
         return this.field_70170_p.field_73012_v.nextInt(3) != 0;
     }
 
+    @Override
     public boolean func_70058_J() {
-        if (this.field_70170_p.func_72917_a(this.func_174813_aQ(), (Entity) this) && this.field_70170_p.func_184144_a(this, this.func_174813_aQ()).isEmpty() && !this.field_70170_p.func_72953_d(this.func_174813_aQ())) {
+        if (this.field_70170_p.func_72917_a(this.func_174813_aQ(), this) && this.field_70170_p.func_184144_a(this, this.func_174813_aQ()).isEmpty() && !this.field_70170_p.func_72953_d(this.func_174813_aQ())) {
             BlockPos blockposition = new BlockPos(this.field_70165_t, this.func_174813_aQ().field_72338_b, this.field_70161_v);
 
             if (blockposition.func_177956_o() < this.field_70170_p.func_181545_F()) {
@@ -257,22 +278,25 @@ public class EntityOcelot extends EntityTameable {
         return false;
     }
 
+    @Override
     public String func_70005_c_() {
         return this.func_145818_k_() ? this.func_95999_t() : (this.func_70909_n() ? I18n.func_74838_a("entity.Cat.name") : super.func_70005_c_());
     }
 
+    @Override
     protected void func_175544_ck() {
         if (this.field_175545_bm == null) {
             this.field_175545_bm = new EntityAIAvoidEntity(this, EntityPlayer.class, 16.0F, 0.8D, 1.33D);
         }
 
-        this.field_70714_bg.func_85156_a((EntityAIBase) this.field_175545_bm);
+        this.field_70714_bg.func_85156_a(this.field_175545_bm);
         if (!this.func_70909_n()) {
             this.field_70714_bg.func_75776_a(4, this.field_175545_bm);
         }
 
     }
 
+    @Override
     @Nullable
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
         groupdataentity = super.func_180482_a(difficultydamagescaler, groupdataentity);
@@ -287,9 +311,5 @@ public class EntityOcelot extends EntityTameable {
         }
 
         return groupdataentity;
-    }
-
-    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
     }
 }

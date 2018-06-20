@@ -27,90 +27,111 @@ public class Style {
     private HoverEvent field_150252_i;
     private String field_179990_j;
     private static final Style field_150250_j = new Style() {
+        @Override
         @Nullable
         public TextFormatting func_150215_a() {
             return null;
         }
 
+        @Override
         public boolean func_150223_b() {
             return false;
         }
 
+        @Override
         public boolean func_150242_c() {
             return false;
         }
 
+        @Override
         public boolean func_150236_d() {
             return false;
         }
 
+        @Override
         public boolean func_150234_e() {
             return false;
         }
 
+        @Override
         public boolean func_150233_f() {
             return false;
         }
 
+        @Override
         @Nullable
         public ClickEvent func_150235_h() {
             return null;
         }
 
+        @Override
         @Nullable
         public HoverEvent func_150210_i() {
             return null;
         }
 
+        @Override
         @Nullable
         public String func_179986_j() {
             return null;
         }
 
+        @Override
         public Style func_150238_a(TextFormatting enumchatformat) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style func_150227_a(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style func_150217_b(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style func_150225_c(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style func_150228_d(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style func_150237_e(Boolean obool) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style func_150241_a(ClickEvent chatclickable) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style func_150209_a(HoverEvent chathoverable) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Style func_150221_a(Style chatmodifier) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public String toString() {
             return "Style.ROOT";
         }
 
+        @Override
         public Style clone() {
             return this;
         }
 
+        @Override
         public Style func_150206_m() {
             return this;
         }
@@ -216,10 +237,12 @@ public class Style {
         return this.field_150249_a == null ? Style.field_150250_j : this.field_150249_a;
     }
 
+    @Override
     public String toString() {
         return "Style{hasParent=" + (this.field_150249_a != null) + ", color=" + this.field_150247_b + ", bold=" + this.field_150248_c + ", italic=" + this.field_150245_d + ", underlined=" + this.field_150246_e + ", obfuscated=" + this.field_150244_g + ", clickEvent=" + this.func_150235_h() + ", hoverEvent=" + this.func_150210_i() + ", insertion=" + this.func_179986_j() + '}';
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -265,6 +288,7 @@ public class Style {
         }
     }
 
+    @Override
     public int hashCode() {
         // CraftBukkit start - fix npe
         int i = field_150247_b == null ? 0 : this.field_150247_b.hashCode();
@@ -316,6 +340,7 @@ public class Style {
 
         public Serializer() {}
 
+        @Override
         @Nullable
         public Style deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             if (jsonelement.isJsonObject()) {
@@ -390,6 +415,7 @@ public class Style {
             }
         }
 
+        @Override
         @Nullable
         public JsonElement serialize(Style chatmodifier, Type type, JsonSerializationContext jsonserializationcontext) {
             if (chatmodifier.func_150229_g()) {
@@ -443,16 +469,6 @@ public class Style {
 
                 return jsonobject;
             }
-        }
-
-        @Nullable
-        public JsonElement serialize(Style object, Type type, JsonSerializationContext jsonserializationcontext) { // CraftBukkit - fix decompile error
-            return this.serialize((Style) object, type, jsonserializationcontext);
-        }
-
-        @Nullable
-        public Style deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException { // CraftBukkit - fix decompile error
-            return this.deserialize(jsonelement, type, jsondeserializationcontext);
         }
     }
 }

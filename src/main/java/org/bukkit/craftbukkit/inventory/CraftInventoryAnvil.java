@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 
-import net;
+
 
 public class CraftInventoryAnvil extends CraftInventory implements AnvilInventory {
 

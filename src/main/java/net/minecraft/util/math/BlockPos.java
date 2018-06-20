@@ -48,7 +48,7 @@ public class BlockPos extends Vec3i {
 
     public BlockPos add(double x, double y, double z) { return this.func_177963_a(x, y, z); } // Paper - OBFHELPER
     public BlockPos func_177963_a(double d0, double d1, double d2) {
-        return d0 == 0.0D && d1 == 0.0D && d2 == 0.0D ? this : new BlockPos((double) this.func_177958_n() + d0, (double) this.func_177956_o() + d1, (double) this.func_177952_p() + d2);
+        return d0 == 0.0D && d1 == 0.0D && d2 == 0.0D ? this : new BlockPos(this.func_177958_n() + d0, this.func_177956_o() + d1, this.func_177952_p() + d2);
     }
 
     public BlockPos func_177982_a(int i, int j, int k) {
@@ -136,12 +136,13 @@ public class BlockPos extends Vec3i {
         }
     }
 
+    @Override
     public BlockPos func_177955_d(Vec3i baseblockposition) {
         return new BlockPos(this.func_177956_o() * baseblockposition.func_177952_p() - this.func_177952_p() * baseblockposition.func_177956_o(), this.func_177952_p() * baseblockposition.func_177958_n() - this.func_177958_n() * baseblockposition.func_177952_p(), this.func_177958_n() * baseblockposition.func_177956_o() - this.func_177956_o() * baseblockposition.func_177958_n());
     }
 
     public long func_177986_g() {
-        return ((long) this.func_177958_n() & BlockPos.field_177994_h) << BlockPos.field_177988_g | ((long) this.func_177956_o() & BlockPos.field_177995_i) << BlockPos.field_177987_f | ((long) this.func_177952_p() & BlockPos.field_177993_j) << 0;
+        return (this.func_177958_n() & BlockPos.field_177994_h) << BlockPos.field_177988_g | (this.func_177956_o() & BlockPos.field_177995_i) << BlockPos.field_177987_f | (this.func_177952_p() & BlockPos.field_177993_j) << 0;
     }
 
     public static BlockPos func_177969_a(long i) {
@@ -158,6 +159,7 @@ public class BlockPos extends Vec3i {
 
     public static Iterable<BlockPos> func_191532_a(final int i, final int j, final int k, final int l, final int i1, final int j1) {
         return new Iterable() {
+            @Override
             public Iterator<BlockPos> iterator() {
                 return new AbstractIterator() {
                     private boolean b = true;
@@ -190,6 +192,7 @@ public class BlockPos extends Vec3i {
                         }
                     }
 
+                    @Override
                     protected Object computeNext() {
                         return this.a();
                     }
@@ -208,6 +211,7 @@ public class BlockPos extends Vec3i {
 
     public static Iterable<BlockPos.MutableBlockPos> func_191531_b(final int i, final int j, final int k, final int l, final int i1, final int j1) {
         return new Iterable() {
+            @Override
             public Iterator<BlockPos.MutableBlockPos> iterator() {
                 return new AbstractIterator() {
                     private BlockPos.MutableBlockPos b;
@@ -236,16 +240,13 @@ public class BlockPos extends Vec3i {
                         }
                     }
 
+                    @Override
                     protected Object computeNext() {
                         return this.a();
                     }
                 };
             }
         };
-    }
-
-    public Vec3i func_177955_d(Vec3i baseblockposition) {
-        return this.func_177955_d(baseblockposition);
     }
 
     public static final class PooledMutableBlockPos extends BlockPos.MutableBlockPos {
@@ -271,7 +272,7 @@ public class BlockPos extends Vec3i {
 
             synchronized (BlockPos.PooledMutableBlockPos.field_185351_g) {
                 if (!BlockPos.PooledMutableBlockPos.field_185351_g.isEmpty()) {
-                    BlockPos.PooledMutableBlockPos blockposition_pooledblockposition = (BlockPos.PooledMutableBlockPos) BlockPos.PooledMutableBlockPos.field_185351_g.remove(BlockPos.PooledMutableBlockPos.field_185351_g.size() - 1);
+                    BlockPos.PooledMutableBlockPos blockposition_pooledblockposition = BlockPos.PooledMutableBlockPos.field_185351_g.remove(BlockPos.PooledMutableBlockPos.field_185351_g.size() - 1);
 
                     if (blockposition_pooledblockposition != null && blockposition_pooledblockposition.field_185350_f) {
                         blockposition_pooledblockposition.field_185350_f = false;
@@ -297,6 +298,7 @@ public class BlockPos extends Vec3i {
             }
         }
 
+        @Override
         public BlockPos.PooledMutableBlockPos func_181079_c(int i, int j, int k) {
             if (this.field_185350_f) {
                 BlockPos.field_185335_c.error("PooledMutableBlockPosition modified after it was released.", new Throwable());
@@ -306,40 +308,24 @@ public class BlockPos extends Vec3i {
             return (BlockPos.PooledMutableBlockPos) super.func_181079_c(i, j, k);
         }
 
+        @Override
         public BlockPos.PooledMutableBlockPos func_189532_c(double d0, double d1, double d2) {
             return (BlockPos.PooledMutableBlockPos) super.func_189532_c(d0, d1, d2);
         }
 
+        @Override
         public BlockPos.PooledMutableBlockPos func_189533_g(Vec3i baseblockposition) {
             return (BlockPos.PooledMutableBlockPos) super.func_189533_g(baseblockposition);
         }
 
+        @Override
         public BlockPos.PooledMutableBlockPos func_189536_c(EnumFacing enumdirection) {
             return (BlockPos.PooledMutableBlockPos) super.func_189536_c(enumdirection);
         }
 
+        @Override
         public BlockPos.PooledMutableBlockPos func_189534_c(EnumFacing enumdirection, int i) {
             return (BlockPos.PooledMutableBlockPos) super.func_189534_c(enumdirection, i);
-        }
-
-        public BlockPos.MutableBlockPos func_189534_c(EnumFacing enumdirection, int i) {
-            return this.func_189534_c(enumdirection, i);
-        }
-
-        public BlockPos.MutableBlockPos func_189536_c(EnumFacing enumdirection) {
-            return this.func_189536_c(enumdirection);
-        }
-
-        public BlockPos.MutableBlockPos func_189533_g(Vec3i baseblockposition) {
-            return this.func_189533_g(baseblockposition);
-        }
-
-        public BlockPos.MutableBlockPos func_189532_c(double d0, double d1, double d2) {
-            return this.func_189532_c(d0, d1, d2);
-        }
-
-        public BlockPos.MutableBlockPos func_181079_c(int i, int j, int k) {
-            return this.func_181079_c(i, j, k);
         }
     }
 
@@ -379,18 +365,22 @@ public class BlockPos extends Vec3i {
             // Paper end
         }
 
+        @Override
         public BlockPos func_177963_a(double d0, double d1, double d2) {
             return super.func_177963_a(d0, d1, d2).func_185334_h();
         }
 
+        @Override
         public BlockPos func_177982_a(int i, int j, int k) {
             return super.func_177982_a(i, j, k).func_185334_h();
         }
 
+        @Override
         public BlockPos func_177967_a(EnumFacing enumdirection, int i) {
             return super.func_177967_a(enumdirection, i).func_185334_h();
         }
 
+        @Override
         public BlockPos func_190942_a(Rotation enumblockrotation) {
             return super.func_190942_a(enumblockrotation).func_185334_h();
         }
@@ -441,11 +431,13 @@ public class BlockPos extends Vec3i {
             ((Vec3i) this).field_177960_b = i; // Paper - Modify base variable
         }
 
+        @Override
         public BlockPos func_185334_h() {
             return new BlockPos(this);
         }
 
-        public Vec3i func_177955_d(Vec3i baseblockposition) {
+        @Override
+        public BlockPos func_177955_d(Vec3i baseblockposition) {
             return super.func_177955_d(baseblockposition);
         }
     }

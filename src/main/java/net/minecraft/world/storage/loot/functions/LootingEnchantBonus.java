@@ -9,7 +9,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LootEnchantFunction.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -27,6 +26,7 @@ public class LootingEnchantBonus extends LootFunction {
         this.field_189971_b = i;
     }
 
+    @Override
     public ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo) {
         Entity entity = loottableinfo.func_186492_c();
 
@@ -37,7 +37,7 @@ public class LootingEnchantBonus extends LootFunction {
                 return itemstack;
             }
 
-            float f = (float) i * this.field_186563_a.func_186507_b(random);
+            float f = i * this.field_186563_a.func_186507_b(random);
 
             itemstack.func_190917_f(Math.round(f));
             if (this.field_189971_b != 0 && itemstack.func_190916_E() > this.field_189971_b) {
@@ -48,12 +48,13 @@ public class LootingEnchantBonus extends LootFunction {
         return itemstack;
     }
 
-    public static class a extends LootItemFunction.a<LootingEnchantBonus> {
+    public static class a extends LootFunction.a<LootingEnchantBonus> {
 
         protected a() {
             super(new ResourceLocation("looting_enchant"), LootingEnchantBonus.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, LootingEnchantBonus lootenchantfunction, JsonSerializationContext jsonserializationcontext) {
             jsonobject.add("count", jsonserializationcontext.serialize(lootenchantfunction.field_186563_a));
             if (lootenchantfunction.field_189971_b > 0) {
@@ -65,10 +66,11 @@ public class LootingEnchantBonus extends LootFunction {
         public LootingEnchantBonus a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             int i = JsonUtils.func_151208_a(jsonobject, "limit", 0);
 
-            return new LootingEnchantBonus(alootitemcondition, (RandomValueRange) JsonUtils.func_188174_a(jsonobject, "count", jsondeserializationcontext, RandomValueRange.class), i);
+            return new LootingEnchantBonus(alootitemcondition, JsonUtils.func_188174_a(jsonobject, "count", jsondeserializationcontext, RandomValueRange.class), i);
         }
 
-        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        @Override
+        public LootingEnchantBonus b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }

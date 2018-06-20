@@ -43,10 +43,12 @@ public class MapGenScatteredFeature extends MapGenStructure {
 
     }
 
+    @Override
     public String func_143025_a() {
         return "Temple";
     }
 
+    @Override
     protected boolean func_75047_a(int i, int j) {
         int k = i;
         int l = j;
@@ -88,11 +90,13 @@ public class MapGenScatteredFeature extends MapGenStructure {
         return false;
     }
 
+    @Override
     public BlockPos func_180706_b(World world, BlockPos blockposition, boolean flag) {
         this.field_75039_c = world;
         return func_191069_a(world, this, blockposition, this.field_82669_g, 8, this.field_75039_c.spigotConfig.largeFeatureSeed, false, 100, flag); // Spigot
     }
 
+    @Override
     protected StructureStart func_75049_b(int i, int j) {
         return new MapGenScatteredFeature.Start(this.field_75039_c, this.field_75038_b, i, j);
     }
@@ -101,7 +105,7 @@ public class MapGenScatteredFeature extends MapGenStructure {
         StructureStart structurestart = this.func_175797_c(blockposition);
 
         if (structurestart != null && structurestart instanceof MapGenScatteredFeature.Start && !structurestart.field_75075_a.isEmpty()) {
-            StructureComponent structurepiece = (StructureComponent) structurestart.field_75075_a.get(0);
+            StructureComponent structurepiece = structurestart.field_75075_a.get(0);
 
             return structurepiece instanceof ComponentScatteredFeaturePieces.SwampHut;
         } else {
@@ -130,7 +134,7 @@ public class MapGenScatteredFeature extends MapGenStructure {
                     this.field_75075_a.add(worldgenregistration_worldgenwitchhut);
                 } else if (biomebase != Biomes.field_76769_d && biomebase != Biomes.field_76786_s) {
                     if (biomebase == Biomes.field_76774_n || biomebase == Biomes.field_150584_S) {
-                        WorldGenRegistration.b worldgenregistration_b = new WorldGenRegistration.b(random, i * 16, j * 16);
+                        ComponentScatteredFeaturePieces.b worldgenregistration_b = new ComponentScatteredFeaturePieces.b(random, i * 16, j * 16);
 
                         this.field_75075_a.add(worldgenregistration_b);
                     }

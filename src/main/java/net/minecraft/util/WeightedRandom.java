@@ -10,7 +10,7 @@ public class WeightedRandom {
         int j = 0;
 
         for (int k = list.size(); j < k; ++j) {
-            WeightedRandom.Item weightedrandom_weightedrandomchoice = (WeightedRandom.Item) list.get(j);
+            WeightedRandom.Item weightedrandom_weightedrandomchoice = list.get(j);
 
             i += weightedrandom_weightedrandomchoice.field_76292_a;
         }
@@ -32,11 +32,11 @@ public class WeightedRandom {
         int j = 0;
 
         for (int k = list.size(); j < k; ++j) {
-            WeightedRandom.Item weightedrandom_weightedrandomchoice = (WeightedRandom.Item) list.get(j);
+            WeightedRandom.Item weightedrandom_weightedrandomchoice = list.get(j);
 
             i -= weightedrandom_weightedrandomchoice.field_76292_a;
             if (i < 0) {
-                return weightedrandom_weightedrandomchoice;
+                return (T) weightedrandom_weightedrandomchoice;
             }
         }
 

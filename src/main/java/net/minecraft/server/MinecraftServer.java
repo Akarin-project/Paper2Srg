@@ -39,7 +39,6 @@ import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import co.aikar.timings.MinecraftTimings;
-import net;
 import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.advancements.FunctionManager;
 import net.minecraft.command.ICommandManager;
@@ -236,8 +235,10 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
             this.func_71254_M().func_75805_a(s, new IProgressUpdate() {
                 private long field_96245_b = System.currentTimeMillis();
 
+                @Override
                 public void func_73720_a(String s) {}
 
+                @Override
                 public void func_73718_a(int i) {
                     if (System.currentTimeMillis() - this.field_96245_b >= 1000L) {
                         this.field_96245_b = System.currentTimeMillis();
@@ -246,6 +247,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
 
                 }
 
+                @Override
                 public void func_73719_c(String s) {}
             });
         }
@@ -661,6 +663,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
     }
     // Paper End
 
+    @Override
     public void run() {
         try {
             if (this.func_71197_b()) {
@@ -822,7 +825,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
             int j = MathHelper.func_76136_a(this.field_147146_q, 0, this.func_71233_x() - agameprofile.length);
 
             for (int k = 0; k < agameprofile.length; ++k) {
-                agameprofile[k] = ((EntityPlayerMP) this.field_71318_t.func_181057_v().get(j + k)).func_146103_bH();
+                agameprofile[k] = this.field_71318_t.func_181057_v().get(j + k).func_146103_bH();
             }
 
             Collections.shuffle(Arrays.asList(agameprofile));
@@ -913,7 +916,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
         // Send time updates to everyone, it will get the right time from the world the player is in.
         if (this.field_71315_w % 20 == 0) {
             for (int i = 0; i < this.func_184103_al().field_72404_b.size(); ++i) {
-                EntityPlayerMP entityplayer = (EntityPlayerMP) this.func_184103_al().field_72404_b.get(i);
+                EntityPlayerMP entityplayer = this.func_184103_al().field_72404_b.get(i);
                 entityplayer.field_71135_a.func_147359_a(new SPacketTimeUpdate(entityplayer.field_70170_p.func_82737_E(), entityplayer.getPlayerTime(), entityplayer.field_70170_p.func_82736_K().func_82766_b("doDaylightCycle"))); // Add support for per player time
             }
         }
@@ -1002,7 +1005,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
 
         MinecraftTimings.tickablesTimer.startTiming(); // Spigot
         for (i = 0; i < this.field_71322_p.size(); ++i) {
-            ((ITickable) this.field_71322_p.get(i)).func_73660_a();
+            this.field_71322_p.get(i).func_73660_a();
         }
         MinecraftTimings.tickablesTimer.stopTiming(); // Spigot
 
@@ -1208,18 +1211,16 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
                 return MinecraftServer.this.field_71304_b.field_76327_a ? MinecraftServer.this.field_71304_b.func_76322_c() : "N/A (disabled)";
             }
 
+            @Override
             public Object call() throws Exception {
                 return this.a();
             }
         });
         if (this.field_71318_t != null) {
             crashreport.func_85056_g().func_189529_a("Player Count", new ICrashReportDetail() {
+                @Override
                 public String call() {
                     return MinecraftServer.this.field_71318_t.func_72394_k() + " / " + MinecraftServer.this.field_71318_t.func_72352_l() + "; " + MinecraftServer.this.field_71318_t.func_181057_v();
-                }
-
-                public Object call() throws Exception {
-                    return this.call();
                 }
             });
         }
@@ -1280,15 +1281,18 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
         return true; // CraftBukkit
     }
 
+    @Override
     public String func_70005_c_() {
         return "Server";
     }
 
+    @Override
     public void func_145747_a(ITextComponent ichatbasecomponent) {
         // Paper - Log message with colors
-        MinecraftServer.field_147145_h.info(org.bukkit.craftbukkit.util.CraftChatMessage.fromComponent(ichatbasecomponent, minecraft.util.text.TextFormatting.WHITE));
+        MinecraftServer.field_147145_h.info(org.bukkit.craftbukkit.util.CraftChatMessage.fromComponent(ichatbasecomponent, net.minecraft.util.text.TextFormatting.WHITE));
     }
 
+    @Override
     public boolean func_70003_b(int i, String s) {
         return true;
     }
@@ -1391,6 +1395,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
         this.field_175588_P = s1;
     }
 
+    @Override
     public void func_70000_a(Snooper mojangstatisticsgenerator) {
         mojangstatisticsgenerator.func_152768_a("whitelist_enabled", Boolean.valueOf(false));
         mojangstatisticsgenerator.func_152768_a("whitelist_count", Integer.valueOf(0));
@@ -1430,6 +1435,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
         mojangstatisticsgenerator.func_152768_a("worlds", Integer.valueOf(i));
     }
 
+    @Override
     public void func_70001_b(Snooper mojangstatisticsgenerator) {
         mojangstatisticsgenerator.func_152767_b("singleplayer", Boolean.valueOf(this.func_71264_H()));
         mojangstatisticsgenerator.func_152767_b("server_brand", this.getServerModName());
@@ -1437,6 +1443,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
         mojangstatisticsgenerator.func_152767_b("dedicated", Boolean.valueOf(this.func_71262_S()));
     }
 
+    @Override
     public boolean func_70002_Q() {
         return true;
     }
@@ -1555,6 +1562,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
         this.field_71295_T = true;
     }
 
+    @Override
     public World func_130014_f_() {
         return this.worlds.get(0); // CraftBukkit
     }
@@ -1634,10 +1642,12 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
         return null;
     }
 
+    @Override
     public boolean func_174792_t_() {
         return worlds.get(0).func_82736_K().func_82766_b("sendCommandFeedback");
     }
 
+    @Override
     public MinecraftServer func_184102_h() {
         return this;
     }
@@ -1665,11 +1675,13 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IThre
         }
     }
 
+    @Override
     public ListenableFuture<Object> func_152344_a(Runnable runnable) {
         Validate.notNull(runnable);
         return this.func_175586_a(Executors.callable(runnable));
     }
 
+    @Override
     public boolean func_152345_ab() {
         return Thread.currentThread() == this.field_175590_aa;
     }

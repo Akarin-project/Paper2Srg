@@ -40,7 +40,7 @@ public class AdvancementRewards {
     private final ResourceLocation[] field_192117_d;
     private final FunctionObject.a field_193129_e;
 
-    public AdvancementRewards(int i, ResourceLocation[] aminecraftkey, ResourceLocation[] aminecraftkey1, CustomFunction.a customfunction_a) {
+    public AdvancementRewards(int i, ResourceLocation[] aminecraftkey, ResourceLocation[] aminecraftkey1, FunctionObject.a customfunction_a) {
         this.field_192115_b = i;
         this.field_192116_c = aminecraftkey;
         this.field_192117_d = aminecraftkey1;

@@ -27,6 +27,7 @@ public class DataFixer implements IDataFixer {
         return i >= 1343 ? nbttagcompound : this.func_188251_a(dataconvertertype, nbttagcompound, i);
     }
 
+    @Override
     public NBTTagCompound func_188251_a(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i) {
         if (i < this.field_188262_d) {
             nbttagcompound = this.func_188252_b(dataconvertertype, nbttagcompound, i);
@@ -37,7 +38,7 @@ public class DataFixer implements IDataFixer {
     }
 
     private NBTTagCompound func_188252_b(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i) {
-        List list = (List) this.field_188261_c.get(dataconvertertype);
+        List list = this.field_188261_c.get(dataconvertertype);
 
         if (list != null) {
             for (int j = 0; j < list.size(); ++j) {
@@ -53,7 +54,7 @@ public class DataFixer implements IDataFixer {
     }
 
     private NBTTagCompound func_188253_c(IFixType dataconvertertype, NBTTagCompound nbttagcompound, int i) {
-        List list = (List) this.field_188260_b.get(dataconvertertype);
+        List list = this.field_188260_b.get(dataconvertertype);
 
         if (list != null) {
             for (int j = 0; j < list.size(); ++j) {
@@ -65,7 +66,7 @@ public class DataFixer implements IDataFixer {
     }
 
     public void func_188258_a(FixTypes dataconvertertypes, IDataWalker datainspector) {
-        this.func_188255_a((IFixType) dataconvertertypes, datainspector);
+        this.func_188255_a(dataconvertertypes, datainspector);
     }
 
     public void func_188255_a(IFixType dataconvertertype, IDataWalker datainspector) {
@@ -94,13 +95,13 @@ public class DataFixer implements IDataFixer {
     }
 
     private <V> List<V> func_188254_a(Map<IFixType, List<V>> map, IFixType dataconvertertype) {
-        Object object = (List) map.get(dataconvertertype);
+        List<V> object = map.get(dataconvertertype);
 
         if (object == null) {
             object = Lists.newArrayList();
             map.put(dataconvertertype, object);
         }
 
-        return (List) object;
+        return object;
     }
 }

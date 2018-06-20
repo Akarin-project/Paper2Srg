@@ -30,8 +30,7 @@ public class UserListOps extends UserList<GameProfile, UserListOpsEntry> {
         return astring;
     }
 
-    @Override
-    public int func_152681_a(GameProfile gameprofile) {
+    public int func_187452_a(GameProfile gameprofile) {
         UserListOpsEntry oplistentry = this.func_152683_b(gameprofile);
 
         return oplistentry != null ? oplistentry.func_152644_a() : 0;
@@ -43,6 +42,7 @@ public class UserListOps extends UserList<GameProfile, UserListOpsEntry> {
         return oplistentry != null ? oplistentry.func_183024_b() : false;
     }
 
+    @Override
     protected String func_152681_a(GameProfile gameprofile) {
         return gameprofile.getId().toString();
     }

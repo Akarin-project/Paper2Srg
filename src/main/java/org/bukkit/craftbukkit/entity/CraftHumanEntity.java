@@ -33,7 +33,7 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
-import net;
+
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.entity.Entity;

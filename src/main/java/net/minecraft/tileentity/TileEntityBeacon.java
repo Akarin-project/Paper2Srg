@@ -39,20 +39,17 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.craftbukkit.potion.CraftPotionUtil;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
 
 // CraftBukkit start
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.craftbukkit.potion.CraftPotionUtil;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.potion.PotionEffect;
 // CraftBukkit end
 
 // Paper start
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffect;
 import com.destroystokyo.paper.event.block.BeaconEffectEvent;
 // Paper end
 
@@ -73,31 +70,36 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
     private int maxStack = MAX_STACK;
 
+    @Override
     public List<ItemStack> getContents() {
         return Arrays.asList(this.field_146011_o);
     }
 
+    @Override
     public void onOpen(CraftHumanEntity who) {
         transaction.add(who);
     }
 
+    @Override
     public void onClose(CraftHumanEntity who) {
         transaction.remove(who);
     }
 
+    @Override
     public List<HumanEntity> getViewers() {
         return transaction;
     }
 
+    @Override
     public void setMaxStackSize(int size) {
         maxStack = size;
     }
 
-    public PotionEffect getPrimaryEffect() {
+    public org.bukkit.potion.PotionEffect getPrimaryEffect() {
         return (this.field_146013_m != null) ? CraftPotionUtil.toBukkit(new PotionEffect(this.field_146013_m, getLevel(), getAmplification(), true, true)) : null;
     }
 
-    public PotionEffect getSecondaryEffect() {
+    public org.bukkit.potion.PotionEffect getSecondaryEffect() {
         return (hasSecondaryEffect()) ? CraftPotionUtil.toBukkit(new PotionEffect(this.field_146010_n, getLevel(), getAmplification(), true, true)) : null;
     }
     // CraftBukkit end
@@ -106,6 +108,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         this.field_146011_o = ItemStack.field_190927_a;
     }
 
+    @Override
     public void func_73660_a() {
         if (this.field_145850_b.func_82737_E() % 80L == 0L) {
             this.func_174908_m();
@@ -143,12 +146,12 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 
     public List getHumansInRange() {
         {
-            double d0 = (double) (this.field_146012_l * 10 + 10);
+            double d0 = this.field_146012_l * 10 + 10;
 
             int j = this.field_174879_c.func_177958_n();
             int k = this.field_174879_c.func_177956_o();
             int l = this.field_174879_c.func_177952_p();
-            AxisAlignedBB axisalignedbb = (new AxisAlignedBB((double) j, (double) k, (double) l, (double) (j + 1), (double) (k + 1), (double) (l + 1))).func_186662_g(d0).func_72321_a(0.0D, (double) this.field_145850_b.func_72800_K(), 0.0D);
+            AxisAlignedBB axisalignedbb = (new AxisAlignedBB(j, k, l, j + 1, k + 1, l + 1)).func_186662_g(d0).func_72321_a(0.0D, this.field_145850_b.func_72800_K(), 0.0D);
             List list = this.field_145850_b.func_72872_a(EntityPlayer.class, axisalignedbb);
 
             return list;
@@ -169,7 +172,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 
             // Paper start - BeaconEffectEvent
             org.bukkit.block.Block block = field_145850_b.getWorld().getBlockAt(field_174879_c.func_177958_n(), field_174879_c.func_177956_o(), field_174879_c.func_177952_p());
-            PotionEffect effect = CraftPotionUtil.toBukkit(new PotionEffect(effects, i, b0, true, true));
+            org.bukkit.potion.PotionEffect effect = CraftPotionUtil.toBukkit(new PotionEffect(effects, i, b0, true, true));
             // Paper end
 
             while (iterator.hasNext()) {
@@ -177,7 +180,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
                 // Paper start - BeaconEffectEvent
                 BeaconEffectEvent event = new BeaconEffectEvent(block, effect, (Player) entityhuman.getBukkitEntity(), isPrimary);
                 if (CraftEventFactory.callEvent(event).isCancelled()) continue;
-                PotionEffect eventEffect = event.getEffect();
+                org.bukkit.potion.PotionEffect eventEffect = event.getEffect();
                 entityhuman.getBukkitEntity().addPotionEffect(eventEffect, true);
                 // Paper end
             }
@@ -233,7 +236,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
             float[] afloat;
 
             if (iblockdata.func_177230_c() == Blocks.field_150399_cn) {
-                afloat = ((EnumDyeColor) iblockdata.func_177229_b(BlockStainedGlass.field_176547_a)).func_193349_f();
+                afloat = iblockdata.func_177229_b(BlockStainedGlass.field_176547_a).func_193349_f();
             } else {
                 if (iblockdata.func_177230_c() != Blocks.field_150397_co) {
                     if (iblockdata.func_185891_c() >= 15 && iblockdata.func_177230_c() != Blocks.field_150357_h) {
@@ -246,7 +249,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
                     continue;
                 }
 
-                afloat = ((EnumDyeColor) iblockdata.func_177229_b(BlockStainedGlassPane.field_176245_a)).func_193349_f();
+                afloat = iblockdata.func_177229_b(BlockStainedGlassPane.field_176245_a).func_193349_f();
             }
 
             if (!flag) {
@@ -295,7 +298,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         }
 
         if (!this.field_145850_b.field_72995_K && l < this.field_146012_l) {
-            Iterator iterator = this.field_145850_b.func_72872_a(EntityPlayerMP.class, (new AxisAlignedBB((double) i, (double) j, (double) k, (double) i, (double) (j - 4), (double) k)).func_72314_b(10.0D, 5.0D, 10.0D)).iterator();
+            Iterator iterator = this.field_145850_b.func_72872_a(EntityPlayerMP.class, (new AxisAlignedBB(i, j, k, i, j - 4, k)).func_72314_b(10.0D, 5.0D, 10.0D)).iterator();
 
             while (iterator.hasNext()) {
                 EntityPlayerMP entityplayer = (EntityPlayerMP) iterator.next();
@@ -310,11 +313,13 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         return this.field_146012_l;
     }
 
+    @Override
     @Nullable
     public SPacketUpdateTileEntity func_189518_D_() {
         return new SPacketUpdateTileEntity(this.field_174879_c, 3, this.func_189517_E_());
     }
 
+    @Override
     public NBTTagCompound func_189517_E_() {
         return this.func_189515_b(new NBTTagCompound());
     }
@@ -326,6 +331,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         return TileEntityBeacon.field_184280_f.contains(mobeffectlist) ? mobeffectlist : null;
     }
 
+    @Override
     public void func_145839_a(NBTTagCompound nbttagcompound) {
         super.func_145839_a(nbttagcompound);
         // Craftbukkit start - persist manually set non-default beacon effects (SPIGOT-3598)
@@ -335,6 +341,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         this.field_146012_l = nbttagcompound.func_74762_e("Levels");
     }
 
+    @Override
     public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
         super.func_189515_b(nbttagcompound);
         nbttagcompound.func_74768_a("Primary", Potion.func_188409_a(this.field_146013_m));
@@ -343,18 +350,22 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         return nbttagcompound;
     }
 
+    @Override
     public int func_70302_i_() {
         return 1;
     }
 
+    @Override
     public boolean func_191420_l() {
         return this.field_146011_o.func_190926_b();
     }
 
+    @Override
     public ItemStack func_70301_a(int i) {
         return i == 0 ? this.field_146011_o : ItemStack.field_190927_a;
     }
 
+    @Override
     public ItemStack func_70298_a(int i, int j) {
         if (i == 0 && !this.field_146011_o.func_190926_b()) {
             if (j >= this.field_146011_o.func_190916_E()) {
@@ -370,6 +381,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         }
     }
 
+    @Override
     public ItemStack func_70304_b(int i) {
         if (i == 0) {
             ItemStack itemstack = this.field_146011_o;
@@ -381,6 +393,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         }
     }
 
+    @Override
     public void func_70299_a(int i, ItemStack itemstack) {
         if (i == 0) {
             this.field_146011_o = itemstack;
@@ -388,10 +401,12 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 
     }
 
+    @Override
     public String func_70005_c_() {
         return this.func_145818_k_() ? this.field_146008_p : "container.beacon";
     }
 
+    @Override
     public boolean func_145818_k_() {
         return this.field_146008_p != null && !this.field_146008_p.isEmpty();
     }
@@ -400,30 +415,38 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         this.field_146008_p = s;
     }
 
+    @Override
     public int func_70297_j_() {
         return 1;
     }
 
+    @Override
     public boolean func_70300_a(EntityPlayer entityhuman) {
-        return this.field_145850_b.func_175625_s(this.field_174879_c) != this ? false : entityhuman.func_70092_e((double) this.field_174879_c.func_177958_n() + 0.5D, (double) this.field_174879_c.func_177956_o() + 0.5D, (double) this.field_174879_c.func_177952_p() + 0.5D) <= 64.0D;
+        return this.field_145850_b.func_175625_s(this.field_174879_c) != this ? false : entityhuman.func_70092_e(this.field_174879_c.func_177958_n() + 0.5D, this.field_174879_c.func_177956_o() + 0.5D, this.field_174879_c.func_177952_p() + 0.5D) <= 64.0D;
     }
 
+    @Override
     public void func_174889_b(EntityPlayer entityhuman) {}
 
+    @Override
     public void func_174886_c(EntityPlayer entityhuman) {}
 
+    @Override
     public boolean func_94041_b(int i, ItemStack itemstack) {
         return itemstack.func_77973_b() == Items.field_151166_bC || itemstack.func_77973_b() == Items.field_151045_i || itemstack.func_77973_b() == Items.field_151043_k || itemstack.func_77973_b() == Items.field_151042_j;
     }
 
+    @Override
     public String func_174875_k() {
         return "minecraft:beacon";
     }
 
+    @Override
     public Container func_174876_a(InventoryPlayer playerinventory, EntityPlayer entityhuman) {
         return new ContainerBeacon(playerinventory, this);
     }
 
+    @Override
     public int func_174887_a_(int i) {
         switch (i) {
         case 0:
@@ -440,6 +463,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         }
     }
 
+    @Override
     public void func_174885_b(int i, int j) {
         switch (i) {
         case 0:
@@ -456,14 +480,17 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 
     }
 
+    @Override
     public int func_174890_g() {
         return 3;
     }
 
+    @Override
     public void func_174888_l() {
         this.field_146011_o = ItemStack.field_190927_a;
     }
 
+    @Override
     public boolean func_145842_c(int i, int j) {
         if (i == 1) {
             this.func_174908_m();
@@ -473,14 +500,17 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
         }
     }
 
+    @Override
     public int[] func_180463_a(EnumFacing enumdirection) {
         return new int[0];
     }
 
+    @Override
     public boolean func_180462_a(int i, ItemStack itemstack, EnumFacing enumdirection) {
         return false;
     }
 
+    @Override
     public boolean func_180461_b(int i, ItemStack itemstack, EnumFacing enumdirection) {
         return false;
     }

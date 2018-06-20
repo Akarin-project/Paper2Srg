@@ -33,7 +33,8 @@ public class EntityElderGuardian extends EntityGuardian {
 
     }
 
-    protected void func_110147_ax() {
+    @Override
+    public void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.30000001192092896D);
         this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(8.0D);
@@ -44,31 +45,38 @@ public class EntityElderGuardian extends EntityGuardian {
         EntityLiving.func_189752_a(dataconvertermanager, EntityElderGuardian.class);
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186441_w;
     }
 
+    @Override
     public int func_175464_ck() {
         return 60;
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return this.func_70090_H() ? SoundEvents.field_187512_aB : SoundEvents.field_187513_aC;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return this.func_70090_H() ? SoundEvents.field_187517_aG : SoundEvents.field_187518_aH;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return this.func_70090_H() ? SoundEvents.field_187515_aE : SoundEvents.field_187516_aF;
     }
 
+    @Override
     protected SoundEvent func_190765_dj() {
         return SoundEvents.field_191240_aK;
     }
 
+    @Override
     protected void func_70619_bc() {
         super.func_70619_bc();
         boolean flag = true;
@@ -80,6 +88,7 @@ public class EntityElderGuardian extends EntityGuardian {
                     return EntityElderGuardian.this.func_70068_e(entityplayer) < 2500.0D && entityplayer.field_71134_c.func_180239_c();
                 }
 
+                @Override
                 public boolean apply(@Nullable Object object) {
                     return this.a((EntityPlayerMP) object);
                 }

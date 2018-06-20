@@ -11,7 +11,7 @@ public class ExtendedBlockStorage {
     private final int field_76684_a;
     private int field_76682_b;
     private int field_76683_c;
-    final BlockStateContainer field_177488_d; // Paper - package
+    public final BlockStateContainer field_177488_d; // Paper - package
     private NibbleArray field_76679_g;
     private NibbleArray field_76685_h;
 

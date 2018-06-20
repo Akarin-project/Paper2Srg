@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.server.LootItemFunctionSmelt.a;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
@@ -22,6 +21,7 @@ public class Smelt extends LootFunction {
         super(alootitemcondition);
     }
 
+    @Override
     public ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo) {
         if (itemstack.func_190926_b()) {
             return itemstack;
@@ -40,19 +40,21 @@ public class Smelt extends LootFunction {
         }
     }
 
-    public static class a extends LootItemFunction.a<Smelt> {
+    public static class a extends LootFunction.a<Smelt> {
 
         protected a() {
             super(new ResourceLocation("furnace_smelt"), Smelt.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, Smelt lootitemfunctionsmelt, JsonSerializationContext jsonserializationcontext) {}
 
         public Smelt a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return new Smelt(alootitemcondition);
         }
 
-        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        @Override
+        public Smelt b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }

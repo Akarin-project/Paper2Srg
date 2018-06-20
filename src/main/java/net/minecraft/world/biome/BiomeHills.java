@@ -19,7 +19,7 @@ public class BiomeHills extends Biome {
     private final WorldGenTaiga2 field_150634_aD;
     private final BiomeHills.Type field_150638_aH;
 
-    protected BiomeHills(BiomeHills.Type biomebighills_type, BiomeBase.a biomebase_a) {
+    protected BiomeHills(BiomeHills.Type biomebighills_type, Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_82915_S = new WorldGenMinable(Blocks.field_150418_aU.func_176223_P().func_177226_a(BlockSilverfish.field_176378_a, BlockSilverfish.EnumType.STONE), 9);
         this.field_150634_aD = new WorldGenTaiga2(false);

@@ -24,7 +24,6 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.server.DefinedStructure.a;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityStructure;
 import net.minecraft.util.Mirror;
@@ -67,7 +66,7 @@ public class Template {
 
     public void func_186254_a(World world, BlockPos blockposition, BlockPos blockposition1, boolean flag, @Nullable Block block) {
         if (blockposition1.func_177958_n() >= 1 && blockposition1.func_177956_o() >= 1 && blockposition1.func_177952_p() >= 1) {
-            BlockPos blockposition2 = blockposition.func_177971_a((Vec3i) blockposition1).func_177982_a(-1, -1, -1);
+            BlockPos blockposition2 = blockposition.func_177971_a(blockposition1).func_177982_a(-1, -1, -1);
             ArrayList arraylist = Lists.newArrayList();
             ArrayList arraylist1 = Lists.newArrayList();
             ArrayList arraylist2 = Lists.newArrayList();
@@ -119,6 +118,7 @@ public class Template {
                 return !(entity instanceof EntityPlayer);
             }
 
+            @Override
             public boolean apply(@Nullable Object object) {
                 return this.a((Entity) object);
             }
@@ -133,7 +133,7 @@ public class Template {
         for (Iterator iterator = list.iterator(); iterator.hasNext(); this.field_186271_b.add(new Template.EntityInfo(vec3d, blockposition2, nbttagcompound))) {
             Entity entity = (Entity) iterator.next();
 
-            vec3d = new Vec3d(entity.field_70165_t - (double) blockposition.func_177958_n(), entity.field_70163_u - (double) blockposition.func_177956_o(), entity.field_70161_v - (double) blockposition.func_177952_p());
+            vec3d = new Vec3d(entity.field_70165_t - blockposition.func_177958_n(), entity.field_70163_u - blockposition.func_177956_o(), entity.field_70161_v - blockposition.func_177952_p());
             nbttagcompound = new NBTTagCompound();
             entity.func_70039_c(nbttagcompound);
             if (entity instanceof EntityPainting) {
@@ -152,9 +152,9 @@ public class Template {
 
         while (iterator.hasNext()) {
             Template.BlockInfo definedstructure_blockinfo = (Template.BlockInfo) iterator.next();
-            BlockPos blockposition1 = func_186266_a(definedstructureinfo, definedstructure_blockinfo.field_186242_a).func_177971_a((Vec3i) blockposition);
+            BlockPos blockposition1 = func_186266_a(definedstructureinfo, definedstructure_blockinfo.field_186242_a).func_177971_a(blockposition);
 
-            if (structureboundingbox == null || structureboundingbox.func_175898_b((Vec3i) blockposition1)) {
+            if (structureboundingbox == null || structureboundingbox.func_175898_b(blockposition1)) {
                 IBlockState iblockdata = definedstructure_blockinfo.field_186243_b;
 
                 if (iblockdata.func_177230_c() == Blocks.field_185779_df && definedstructure_blockinfo.field_186244_c != null) {
@@ -205,13 +205,13 @@ public class Template {
 
             while (iterator.hasNext()) {
                 definedstructure_blockinfo = (Template.BlockInfo) iterator.next();
-                blockposition1 = func_186266_a(definedstructureinfo, definedstructure_blockinfo.field_186242_a).func_177971_a((Vec3i) blockposition);
+                blockposition1 = func_186266_a(definedstructureinfo, definedstructure_blockinfo.field_186242_a).func_177971_a(blockposition);
                 Template.BlockInfo definedstructure_blockinfo1 = definedstructureprocessor != null ? definedstructureprocessor.func_189943_a(world, blockposition1, definedstructure_blockinfo) : definedstructure_blockinfo;
 
                 if (definedstructure_blockinfo1 != null) {
                     Block block1 = definedstructure_blockinfo1.field_186243_b.func_177230_c();
 
-                    if ((block == null || block != block1) && (!definedstructureinfo.func_186227_h() || block1 != Blocks.field_185779_df) && (structureboundingbox == null || structureboundingbox.func_175898_b((Vec3i) blockposition1))) {
+                    if ((block == null || block != block1) && (!definedstructureinfo.func_186227_h() || block1 != Blocks.field_185779_df) && (structureboundingbox == null || structureboundingbox.func_175898_b(blockposition1))) {
                         IBlockState iblockdata = definedstructure_blockinfo1.field_186243_b.func_185902_a(definedstructureinfo.func_186212_b());
                         IBlockState iblockdata1 = iblockdata.func_185907_a(definedstructureinfo.func_186215_c());
                         TileEntity tileentity;
@@ -249,8 +249,8 @@ public class Template {
             while (iterator.hasNext()) {
                 definedstructure_blockinfo = (Template.BlockInfo) iterator.next();
                 if (block == null || block != definedstructure_blockinfo.field_186243_b.func_177230_c()) {
-                    blockposition1 = func_186266_a(definedstructureinfo, definedstructure_blockinfo.field_186242_a).func_177971_a((Vec3i) blockposition);
-                    if (structureboundingbox == null || structureboundingbox.func_175898_b((Vec3i) blockposition1)) {
+                    blockposition1 = func_186266_a(definedstructureinfo, definedstructure_blockinfo.field_186242_a).func_177971_a(blockposition);
+                    if (structureboundingbox == null || structureboundingbox.func_175898_b(blockposition1)) {
                         world.func_175722_b(blockposition1, definedstructure_blockinfo.field_186243_b.func_177230_c(), false);
                         if (definedstructure_blockinfo.field_186244_c != null) {
                             TileEntity tileentity1 = world.func_175625_s(blockposition1);
@@ -275,12 +275,12 @@ public class Template {
 
         while (iterator.hasNext()) {
             Template.EntityInfo definedstructure_entityinfo = (Template.EntityInfo) iterator.next();
-            BlockPos blockposition1 = func_186268_a(definedstructure_entityinfo.field_186248_b, enumblockmirror, enumblockrotation).func_177971_a((Vec3i) blockposition);
+            BlockPos blockposition1 = func_186268_a(definedstructure_entityinfo.field_186248_b, enumblockmirror, enumblockrotation).func_177971_a(blockposition);
 
-            if (structureboundingbox == null || structureboundingbox.func_175898_b((Vec3i) blockposition1)) {
+            if (structureboundingbox == null || structureboundingbox.func_175898_b(blockposition1)) {
                 NBTTagCompound nbttagcompound = definedstructure_entityinfo.field_186249_c;
                 Vec3d vec3d = func_186269_a(definedstructure_entityinfo.field_186247_a, enumblockmirror, enumblockrotation);
-                Vec3d vec3d1 = vec3d.func_72441_c((double) blockposition.func_177958_n(), (double) blockposition.func_177956_o(), (double) blockposition.func_177952_p());
+                Vec3d vec3d1 = vec3d.func_72441_c(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
                 NBTTagList nbttaglist = new NBTTagList();
 
                 nbttaglist.func_74742_a(new NBTTagDouble(vec3d1.field_72450_a));
@@ -421,6 +421,7 @@ public class Template {
 
     public static void func_191158_a(DataFixer dataconvertermanager) {
         dataconvertermanager.func_188258_a(FixTypes.STRUCTURE, new IDataWalker() {
+            @Override
             public NBTTagCompound func_188266_a(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
                 NBTTagList nbttaglist;
                 int j;
@@ -454,7 +455,7 @@ public class Template {
     }
 
     public NBTTagCompound func_189552_a(NBTTagCompound nbttagcompound) {
-        DefinedStructure.a definedstructure_a = new DefinedStructure.a(null);
+        Template.a definedstructure_a = new Template.a(null);
         NBTTagList nbttaglist = new NBTTagList();
 
         NBTTagCompound nbttagcompound1;
@@ -510,7 +511,7 @@ public class Template {
 
         this.field_186272_c = new BlockPos(nbttaglist.func_186858_c(0), nbttaglist.func_186858_c(1), nbttaglist.func_186858_c(2));
         this.field_186273_d = nbttagcompound.func_74779_i("author");
-        DefinedStructure.a definedstructure_a = new DefinedStructure.a(null);
+        Template.a definedstructure_a = new Template.a(null);
         NBTTagList nbttaglist1 = nbttagcompound.func_150295_c("palette", 10);
 
         for (int i = 0; i < nbttaglist1.func_74745_c(); ++i) {
@@ -630,11 +631,12 @@ public class Template {
 
         @Nullable
         public IBlockState a(int i) {
-            IBlockState iblockdata = (IBlockState) this.b.func_148745_a(i);
+            IBlockState iblockdata = this.b.func_148745_a(i);
 
             return iblockdata == null ? a : iblockdata; // Paper - decompile error - Blocks.AIR.getBlockData()
         }
 
+        @Override
         public Iterator<IBlockState> iterator() {
             return this.b.iterator();
         }

@@ -12,7 +12,6 @@ import org.bukkit.scoreboard.Team;
 import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.scoreboard.ScorePlayerTeam;
-import net.minecraft.scoreboard.Team;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.util.CraftChatMessage;
 
@@ -231,7 +230,7 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
                 team.func_178773_b(EnumVisible.values()[status.ordinal()]);
                 break;
             case COLLISION_RULE:
-                team.func_186682_a(Team.CollisionRule.values()[status.ordinal()]);
+                team.func_186682_a(net.minecraft.scoreboard.Team.CollisionRule.values()[status.ordinal()]);
                 break;
             default:
                 throw new IllegalArgumentException("Unrecognised option " + option);

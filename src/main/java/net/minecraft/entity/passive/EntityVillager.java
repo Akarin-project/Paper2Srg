@@ -65,7 +65,6 @@ import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Team;
-import net.minecraft.server.EntityVillager.h;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -145,6 +144,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         this.func_98053_h(true);
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
         this.field_70714_bg.func_75776_a(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
@@ -177,6 +177,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         }
     }
 
+    @Override
     protected void func_175500_n() {
         if (this.func_70946_n() == 0) {
             this.field_70714_bg.func_75776_a(8, new EntityAIHarvestFarmland(this, 0.6D));
@@ -185,6 +186,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         super.func_175500_n();
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.5D);
@@ -206,6 +208,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
     }
     // Spigot End
 
+    @Override
     protected void func_70619_bc() {
         if (--this.field_70955_e <= 0) {
             BlockPos blockposition = new BlockPos(this);
@@ -262,12 +265,13 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         super.func_70619_bc();
     }
 
+    @Override
     public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         ItemStack itemstack = entityhuman.func_184586_b(enumhand);
         boolean flag = itemstack.func_77973_b() == Items.field_151057_cb;
 
         if (flag) {
-            itemstack.func_111282_a(entityhuman, (EntityLivingBase) this, enumhand);
+            itemstack.func_111282_a(entityhuman, this, enumhand);
             return true;
         } else if (!this.func_190669_a(itemstack, this.getClass()) && this.func_70089_S() && !this.func_70940_q() && !this.func_70631_g_()) {
             if (this.field_70963_i == null) {
@@ -291,6 +295,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         }
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityVillager.field_184752_bw, Integer.valueOf(0));
@@ -298,8 +303,9 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
 
     public static void func_189785_b(DataFixer dataconvertermanager) {
         EntityLiving.func_189752_a(dataconvertermanager, EntityVillager.class);
-        dataconvertermanager.func_188258_a(FixTypes.ENTITY, (IDataWalker) (new ItemStackDataLists(EntityVillager.class, new String[] { "Inventory"})));
+        dataconvertermanager.func_188258_a(FixTypes.ENTITY, (new ItemStackDataLists(EntityVillager.class, new String[] { "Inventory"})));
         dataconvertermanager.func_188258_a(FixTypes.ENTITY, new IDataWalker() {
+            @Override
             public NBTTagCompound func_188266_a(IDataFixer dataconverter, NBTTagCompound nbttagcompound, int i) {
                 if (EntityList.func_191306_a(EntityVillager.class).equals(new ResourceLocation(nbttagcompound.func_74779_i("id"))) && nbttagcompound.func_150297_b("Offers", 10)) {
                     NBTTagCompound nbttagcompound1 = nbttagcompound.func_74775_l("Offers");
@@ -323,6 +329,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         });
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("Profession", this.func_70946_n());
@@ -347,6 +354,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         nbttagcompound.func_74782_a("Inventory", nbttaglist);
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.func_70938_b(nbttagcompound.func_74762_e("Profession"));
@@ -374,22 +382,27 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         this.func_175552_ct();
     }
 
-    protected boolean func_70692_ba() {
+    @Override
+    public boolean func_70692_ba() {
         return false;
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return this.func_70940_q() ? SoundEvents.field_187914_gn : SoundEvents.field_187910_gj;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187912_gl;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187911_gk;
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_191184_at;
@@ -400,7 +413,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
     }
 
     public int func_70946_n() {
-        return Math.max(((Integer) this.field_70180_af.func_187225_a(EntityVillager.field_184752_bw)).intValue() % 6, 0);
+        return Math.max(this.field_70180_af.func_187225_a(EntityVillager.field_184752_bw).intValue() % 6, 0);
     }
 
     public boolean func_70941_o() {
@@ -419,6 +432,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         return this.field_70953_g;
     }
 
+    @Override
     public void func_70604_c(@Nullable EntityLivingBase entityliving) {
         super.func_70604_c(entityliving);
         if (this.field_70954_d != null && entityliving != null) {
@@ -439,6 +453,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
 
     }
 
+    @Override
     public void func_70645_a(DamageSource damagesource) {
         if (this.field_70954_d != null) {
             Entity entity = damagesource.func_76346_g();
@@ -461,10 +476,12 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         super.func_70645_a(damagesource);
     }
 
+    @Override
     public void func_70932_a_(@Nullable EntityPlayer entityhuman) {
         this.field_70962_h = entityhuman;
     }
 
+    @Override
     @Nullable
     public EntityPlayer func_70931_l_() {
         return this.field_70962_h;
@@ -506,6 +523,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         this.field_175565_bs = flag;
     }
 
+    @Override
     public void func_70933_a(MerchantRecipe merchantrecipe) {
         merchantrecipe.func_77399_f();
         this.field_70757_a = -this.func_70627_aG();
@@ -539,6 +557,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
 
     }
 
+    @Override
     public void func_110297_a_(ItemStack itemstack) {
         if (!this.field_70170_p.field_72995_K && this.field_70757_a > -this.func_70627_aG() + 20) {
             this.field_70757_a = -this.func_70627_aG();
@@ -547,6 +566,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
 
     }
 
+    @Override
     @Nullable
     public MerchantRecipeList func_70934_b(EntityPlayer entityhuman) {
         if (this.field_70963_i == null) {
@@ -604,14 +624,17 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         }
     }
 
+    @Override
     public World func_190670_t_() {
         return this.field_70170_p;
     }
 
+    @Override
     public BlockPos func_190671_u_() {
         return new BlockPos(this);
     }
 
+    @Override
     public ITextComponent func_145748_c_() {
         Team scoreboardteambase = this.func_96124_cp();
         String s = this.func_95999_t();
@@ -692,10 +715,12 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         }
     }
 
+    @Override
     public float func_70047_e() {
         return this.func_70631_g_() ? 0.81F : 1.62F;
     }
 
+    @Override
     @Nullable
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
         return this.func_190672_a(difficultydamagescaler, groupdataentity, true);
@@ -716,6 +741,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         this.field_82190_bM = true;
     }
 
+    @Override
     public EntityVillager func_90011_a(EntityAgeable entityageable) {
         EntityVillager entityvillager = new EntityVillager(this.field_70170_p);
 
@@ -723,10 +749,12 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         return entityvillager;
     }
 
+    @Override
     public boolean func_184652_a(EntityPlayer entityhuman) {
         return false;
     }
 
+    @Override
     public void func_70077_a(EntityLightningBolt entitylightning) {
         if (!this.field_70170_p.field_72995_K && !this.field_70128_L) {
             EntityWitch entitywitch = new EntityWitch(this.field_70170_p);
@@ -754,6 +782,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         return this.field_175560_bz;
     }
 
+    @Override
     protected void func_175445_a(EntityItem entityitem) {
         ItemStack itemstack = entityitem.func_92059_d();
         Item item = itemstack.func_77973_b();
@@ -820,6 +849,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         return false;
     }
 
+    @Override
     public boolean func_174820_d(int i, ItemStack itemstack) {
         if (super.func_174820_d(i, itemstack)) {
             return true;
@@ -833,10 +863,6 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
                 return false;
             }
         }
-    }
-
-    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
     }
 
     static class ItemAndEmeraldToItem implements EntityVillager.ITradeList {
@@ -853,6 +879,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
             this.field_179408_d = entityvillager_merchantoptionrandomrange1;
         }
 
+        @Override
         public void func_190888_a(IMerchant imerchant, MerchantRecipeList merchantrecipelist, Random random) {
             int i = this.field_179409_b.func_179412_a(random);
             int j = this.field_179408_d.func_179412_a(random);
@@ -873,6 +900,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
             this.c = mapicon_type;
         }
 
+        @Override
         public void func_190888_a(IMerchant imerchant, MerchantRecipeList merchantrecipelist, Random random) {
             int i = this.a.func_179412_a(random);
             World world = imerchant.func_190670_t_();
@@ -880,7 +908,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
             BlockPos blockposition = world.func_190528_a(this.b, imerchant.func_190671_u_(), world.paperConfig.treasureMapsAlreadyDiscovered); // Paper - pass false to return first structure, regardless of if its been discovered. true returns only undiscovered.
 
             if (blockposition != null) {
-                ItemStack itemstack = ItemMap.func_190906_a(world, (double) blockposition.func_177958_n(), (double) blockposition.func_177952_p(), (byte) 2, true, true);
+                ItemStack itemstack = ItemMap.func_190906_a(world, blockposition.func_177958_n(), blockposition.func_177952_p(), (byte) 2, true, true);
 
                 ItemMap.func_190905_a(world, itemstack);
                 MapData.func_191094_a(itemstack, blockposition, "+", this.c);
@@ -895,8 +923,9 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
 
         public ListEnchantedBookForEmeralds() {}
 
+        @Override
         public void func_190888_a(IMerchant imerchant, MerchantRecipeList merchantrecipelist, Random random) {
-            Enchantment enchantment = (Enchantment) Enchantment.field_185264_b.func_186801_a(random);
+            Enchantment enchantment = Enchantment.field_185264_b.func_186801_a(random);
             int i = MathHelper.func_76136_a(random, enchantment.func_77319_d(), enchantment.func_77325_b());
             ItemStack itemstack = ItemEnchantedBook.func_92111_a(new EnchantmentData(enchantment, i));
             int j = 2 + random.nextInt(5 + i * 10) + 3 * i;
@@ -923,6 +952,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
             this.field_179406_b = entityvillager_merchantoptionrandomrange;
         }
 
+        @Override
         public void func_190888_a(IMerchant imerchant, MerchantRecipeList merchantrecipelist, Random random) {
             int i = 1;
 
@@ -952,6 +982,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
             this.field_179402_b = entityvillager_merchantoptionrandomrange;
         }
 
+        @Override
         public void func_190888_a(IMerchant imerchant, MerchantRecipeList merchantrecipelist, Random random) {
             int i = 1;
 
@@ -984,6 +1015,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
             this.field_179404_b = entityvillager_merchantoptionrandomrange;
         }
 
+        @Override
         public void func_190888_a(IMerchant imerchant, MerchantRecipeList merchantrecipelist, Random random) {
             int i = 1;
 
@@ -1011,7 +1043,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant {
         }
 
         public int func_179412_a(Random random) {
-            return ((Integer) this.func_76341_a()).intValue() >= ((Integer) this.func_76340_b()).intValue() ? ((Integer) this.func_76341_a()).intValue() : ((Integer) this.func_76341_a()).intValue() + random.nextInt(((Integer) this.func_76340_b()).intValue() - ((Integer) this.func_76341_a()).intValue() + 1);
+            return this.func_76341_a().intValue() >= this.func_76340_b().intValue() ? this.func_76341_a().intValue() : this.func_76341_a().intValue() + random.nextInt(this.func_76340_b().intValue() - this.func_76341_a().intValue() + 1);
         }
     }
 }

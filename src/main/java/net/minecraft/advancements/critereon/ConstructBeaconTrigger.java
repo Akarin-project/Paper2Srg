@@ -14,35 +14,36 @@ import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.CriterionTriggerConstructBeacon.a;
-import net.minecraft.server.CriterionTriggerConstructBeacon.b;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.ResourceLocation;
 
-public class ConstructBeaconTrigger implements ICriterionTrigger<CriterionTriggerConstructBeacon.b> {
+public class ConstructBeaconTrigger implements ICriterionTrigger<ConstructBeaconTrigger.b> {
 
     private static final ResourceLocation field_192181_a = new ResourceLocation("construct_beacon");
-    private final Map<PlayerAdvancements, CriterionTriggerConstructBeacon.a> field_192182_b = Maps.newHashMap();
+    private final Map<PlayerAdvancements, ConstructBeaconTrigger.a> field_192182_b = Maps.newHashMap();
 
     public ConstructBeaconTrigger() {}
 
+    @Override
     public ResourceLocation func_192163_a() {
         return ConstructBeaconTrigger.field_192181_a;
     }
 
-    public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerConstructBeacon.b> criteriontrigger_a) {
-        CriterionTriggerConstructBeacon.a criteriontriggerconstructbeacon_a = (CriterionTriggerConstructBeacon.a) this.field_192182_b.get(advancementdataplayer);
+    @Override
+    public void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<ConstructBeaconTrigger.b> criteriontrigger_a) {
+        ConstructBeaconTrigger.a criteriontriggerconstructbeacon_a = this.field_192182_b.get(advancementdataplayer);
 
         if (criteriontriggerconstructbeacon_a == null) {
-            criteriontriggerconstructbeacon_a = new CriterionTriggerConstructBeacon.a(advancementdataplayer);
+            criteriontriggerconstructbeacon_a = new ConstructBeaconTrigger.a(advancementdataplayer);
             this.field_192182_b.put(advancementdataplayer, criteriontriggerconstructbeacon_a);
         }
 
         criteriontriggerconstructbeacon_a.a(criteriontrigger_a);
     }
 
-    public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerConstructBeacon.b> criteriontrigger_a) {
-        CriterionTriggerConstructBeacon.a criteriontriggerconstructbeacon_a = (CriterionTriggerConstructBeacon.a) this.field_192182_b.get(advancementdataplayer);
+    @Override
+    public void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<ConstructBeaconTrigger.b> criteriontrigger_a) {
+        ConstructBeaconTrigger.a criteriontriggerconstructbeacon_a = this.field_192182_b.get(advancementdataplayer);
 
         if (criteriontriggerconstructbeacon_a != null) {
             criteriontriggerconstructbeacon_a.b(criteriontrigger_a);
@@ -53,18 +54,19 @@ public class ConstructBeaconTrigger implements ICriterionTrigger<CriterionTrigge
 
     }
 
+    @Override
     public void func_192167_a(PlayerAdvancements advancementdataplayer) {
         this.field_192182_b.remove(advancementdataplayer);
     }
 
-    public CriterionTriggerConstructBeacon.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public ConstructBeaconTrigger.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         MinMaxBounds criterionconditionvalue = MinMaxBounds.func_192515_a(jsonobject.get("level"));
 
-        return new CriterionTriggerConstructBeacon.b(criterionconditionvalue);
+        return new ConstructBeaconTrigger.b(criterionconditionvalue);
     }
 
     public void func_192180_a(EntityPlayerMP entityplayer, TileEntityBeacon tileentitybeacon) {
-        CriterionTriggerConstructBeacon.a criteriontriggerconstructbeacon_a = (CriterionTriggerConstructBeacon.a) this.field_192182_b.get(entityplayer.func_192039_O());
+        ConstructBeaconTrigger.a criteriontriggerconstructbeacon_a = this.field_192182_b.get(entityplayer.func_192039_O());
 
         if (criteriontriggerconstructbeacon_a != null) {
             criteriontriggerconstructbeacon_a.a(tileentitybeacon);
@@ -72,14 +74,15 @@ public class ConstructBeaconTrigger implements ICriterionTrigger<CriterionTrigge
 
     }
 
-    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    @Override
+    public b func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
     static class a {
 
         private final PlayerAdvancements a;
-        private final Set<CriterionTrigger.a<CriterionTriggerConstructBeacon.b>> b = Sets.newHashSet();
+        private final Set<ICriterionTrigger.a<ConstructBeaconTrigger.b>> b = Sets.newHashSet();
 
         public a(PlayerAdvancements advancementdataplayer) {
             this.a = advancementdataplayer;
@@ -89,11 +92,11 @@ public class ConstructBeaconTrigger implements ICriterionTrigger<CriterionTrigge
             return this.b.isEmpty();
         }
 
-        public void a(CriterionTrigger.a<CriterionTriggerConstructBeacon.b> criteriontrigger_a) {
+        public void a(ICriterionTrigger.a<ConstructBeaconTrigger.b> criteriontrigger_a) {
             this.b.add(criteriontrigger_a);
         }
 
-        public void b(CriterionTrigger.a<CriterionTriggerConstructBeacon.b> criteriontrigger_a) {
+        public void b(ICriterionTrigger.a<ConstructBeaconTrigger.b> criteriontrigger_a) {
             this.b.remove(criteriontrigger_a);
         }
 
@@ -101,11 +104,11 @@ public class ConstructBeaconTrigger implements ICriterionTrigger<CriterionTrigge
             ArrayList arraylist = null;
             Iterator iterator = this.b.iterator();
 
-            CriterionTrigger.a criteriontrigger_a;
+            ICriterionTrigger.a criteriontrigger_a;
 
             while (iterator.hasNext()) {
-                criteriontrigger_a = (CriterionTrigger.a) iterator.next();
-                if (((CriterionTriggerConstructBeacon.b) criteriontrigger_a.a()).a(tileentitybeacon)) {
+                criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
+                if (((ConstructBeaconTrigger.b) criteriontrigger_a.a()).a(tileentitybeacon)) {
                     if (arraylist == null) {
                         arraylist = Lists.newArrayList();
                     }
@@ -118,7 +121,7 @@ public class ConstructBeaconTrigger implements ICriterionTrigger<CriterionTrigge
                 iterator = arraylist.iterator();
 
                 while (iterator.hasNext()) {
-                    criteriontrigger_a = (CriterionTrigger.a) iterator.next();
+                    criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
                     criteriontrigger_a.a(this.a);
                 }
             }
@@ -136,7 +139,7 @@ public class ConstructBeaconTrigger implements ICriterionTrigger<CriterionTrigge
         }
 
         public boolean a(TileEntityBeacon tileentitybeacon) {
-            return this.a.func_192514_a((float) tileentitybeacon.func_191979_s());
+            return this.a.func_192514_a(tileentitybeacon.func_191979_s());
         }
     }
 }

@@ -89,6 +89,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                 this.start();
             }
 
+            @Override
             public void run() {
                 while (true) {
                     try {
@@ -101,8 +102,10 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         };
     }
 
+    @Override
     public boolean func_71197_b() throws IOException { // CraftBukkit - decompile error
         Thread thread = new Thread("Server console handler") {
+            @Override
             public void run() {
                 // CraftBukkit start
                 if (!org.bukkit.craftbukkit.Main.useConsole) {
@@ -231,7 +234,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                 this.func_71208_b(this.field_71340_o.func_73669_a("server-port", 25565));
             }
             // Spigot start
-            this.func_184105_a((PlayerList) (new DedicatedPlayerList(this)));
+            this.func_184105_a((new DedicatedPlayerList(this)));
             org.spigotmc.SpigotConfig.init((File) options.valueOf("spigot-settings"));
             org.spigotmc.SpigotConfig.registerCommands();
             // Spigot end
@@ -303,7 +306,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                             k = l;
                         }
                     } catch (NumberFormatException numberformatexception) {
-                        k = (long) s.hashCode();
+                        k = s.hashCode();
                     }
                 }
 
@@ -327,7 +330,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                 DedicatedServer.field_155771_h.info("Preparing level \"{}\"", this.func_71270_I());
                 this.func_71247_a(this.func_71270_I(), this.func_71270_I(), k, worldtype, s2);
                 long i1 = System.nanoTime() - j;
-                String s3 = String.format("%.3fs", new Object[] { Double.valueOf((double) i1 / 1.0E9D)});
+                String s3 = String.format("%.3fs", new Object[] { Double.valueOf(i1 / 1.0E9D)});
 
                 DedicatedServer.field_155771_h.info("Done ({})! For help, type \"help\" or \"?\"", s3);
                 if (this.field_71340_o.func_187239_a("announce-player-achievements")) {
@@ -408,27 +411,33 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         return s;
     }
 
+    @Override
     public void func_71235_a(GameType enumgamemode) {
         super.func_71235_a(enumgamemode);
         this.field_71337_q = enumgamemode;
     }
 
+    @Override
     public boolean func_71225_e() {
         return this.field_71338_p;
     }
 
+    @Override
     public GameType func_71265_f() {
         return this.field_71337_q;
     }
 
+    @Override
     public EnumDifficulty func_147135_j() {
         return EnumDifficulty.func_151523_a(this.field_71340_o.func_73669_a("difficulty", EnumDifficulty.NORMAL.func_151525_a()));
     }
 
+    @Override
     public boolean func_71199_h() {
         return this.field_71340_o.func_73670_a("hardcore", false);
     }
 
+    @Override
     public CrashReport func_71230_b(CrashReport crashreport) {
         crashreport = super.func_71230_b(crashreport);
         crashreport.func_85056_g().func_189529_a("Is Modded", new ICrashReportDetail() {
@@ -438,6 +447,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                 return !"vanilla".equals(s) ? "Definitely; Server brand changed to \'" + s + "\'" : "Unknown (can\'t tell)";
             }
 
+            @Override
             public Object call() throws Exception {
                 return this.a();
             }
@@ -447,6 +457,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                 return "Dedicated Server (map_server.txt)";
             }
 
+            @Override
             public Object call() throws Exception {
                 return this.a();
             }
@@ -454,29 +465,35 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         return crashreport;
     }
 
+    @Override
     public void func_71240_o() {
         System.exit(0);
     }
 
+    @Override
     public void func_71190_q() { // CraftBukkit - fix decompile error
         super.func_71190_q();
         this.func_71333_ah();
     }
 
+    @Override
     public boolean func_71255_r() {
         return this.field_71340_o.func_73670_a("allow-nether", true);
     }
 
+    @Override
     public boolean func_71193_K() {
         return this.field_71340_o.func_73670_a("spawn-monsters", true);
     }
 
+    @Override
     public void func_70000_a(Snooper mojangstatisticsgenerator) {
         mojangstatisticsgenerator.func_152768_a("whitelist_enabled", Boolean.valueOf(this.func_184103_al().func_72383_n()));
         mojangstatisticsgenerator.func_152768_a("whitelist_count", Integer.valueOf(this.func_184103_al().func_152598_l().length));
         super.func_70000_a(mojangstatisticsgenerator);
     }
 
+    @Override
     public boolean func_70002_Q() {
         return this.field_71340_o.func_73670_a("snooper-enabled", true);
     }
@@ -488,7 +505,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
     public void func_71333_ah() {
         MinecraftTimings.serverCommandTimer.startTiming(); // Spigot
         while (!this.field_71341_l.isEmpty()) {
-            PendingCommand servercommand = (PendingCommand) this.field_71341_l.remove(0);
+            PendingCommand servercommand = this.field_71341_l.remove(0);
 
             // CraftBukkit start - ServerCommand for preprocessing
             ServerCommandEvent event = new ServerCommandEvent(console, servercommand.field_73702_a);
@@ -504,22 +521,27 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         MinecraftTimings.serverCommandTimer.stopTiming(); // Spigot
     }
 
+    @Override
     public boolean func_71262_S() {
         return true;
     }
 
+    @Override
     public boolean func_181035_ah() {
         return this.field_71340_o.func_73670_a("use-native-transport", true);
     }
 
+    @Override
     public DedicatedPlayerList func_184103_al() {
         return (DedicatedPlayerList) super.func_184103_al();
     }
 
+    @Override
     public int func_71327_a(String s, int i) {
         return this.field_71340_o.func_73669_a(s, i);
     }
 
+    @Override
     public String func_71330_a(String s, String s1) {
         return this.field_71340_o.func_73671_a(s, s1);
     }
@@ -528,28 +550,34 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         return this.field_71340_o.func_73670_a(s, flag);
     }
 
+    @Override
     public void func_71328_a(String s, Object object) {
         this.field_71340_o.func_73667_a(s, object);
     }
 
+    @Override
     public void func_71326_a() {
         this.field_71340_o.func_73668_b();
     }
 
+    @Override
     public String func_71329_c() {
         File file = this.field_71340_o.func_73665_c();
 
         return file != null ? file.getAbsolutePath() : "No settings file";
     }
 
+    @Override
     public String func_71277_t() {
         return this.func_71211_k();
     }
 
+    @Override
     public int func_71234_u() {
         return this.func_71215_F();
     }
 
+    @Override
     public String func_71274_v() {
         return this.func_71273_Y();
     }
@@ -559,22 +587,27 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         this.field_71335_s = true;
     }
 
+    @Override
     public boolean func_71279_ae() {
         return this.field_71335_s;
     }
 
+    @Override
     public String func_71206_a(GameType enumgamemode, boolean flag) {
         return "";
     }
 
+    @Override
     public boolean func_82356_Z() {
         return this.field_71340_o.func_73670_a("enable-command-block", false);
     }
 
+    @Override
     public int func_82357_ak() {
         return this.field_71340_o.func_73669_a("spawn-protection", super.func_82357_ak());
     }
 
+    @Override
     public boolean func_175579_a(World world, BlockPos blockposition, EntityPlayer entityhuman) {
         if (world.field_73011_w.func_186058_p().func_186068_a() != 0) {
             return false;
@@ -594,24 +627,29 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         }
     }
 
+    @Override
     public int func_110455_j() {
         return this.field_71340_o.func_73669_a("op-permission-level", 4);
     }
 
+    @Override
     public void func_143006_e(int i) {
         super.func_143006_e(i);
         this.field_71340_o.func_73667_a("player-idle-timeout", Integer.valueOf(i));
         this.func_71326_a();
     }
 
+    @Override
     public boolean func_181034_q() {
         return this.field_71340_o.func_73670_a("broadcast-rcon-to-ops", true);
     }
 
+    @Override
     public boolean func_183002_r() {
         return this.field_71340_o.func_73670_a("broadcast-console-to-ops", true);
     }
 
+    @Override
     public int func_175580_aG() {
         int i = this.field_71340_o.func_73669_a("max-world-size", super.func_175580_aG());
 
@@ -624,6 +662,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         return i;
     }
 
+    @Override
     public int func_175577_aI() {
         return this.field_71340_o.func_73669_a("network-compression-threshold", super.func_175577_aI());
     }
@@ -640,7 +679,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                 this.func_152369_aG();
             }
 
-            flag = PreYggdrasilConverter.func_152724_a((MinecraftServer) this);
+            flag = PreYggdrasilConverter.func_152724_a(this);
         }
 
         boolean flag1 = false;
@@ -651,7 +690,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                 this.func_152369_aG();
             }
 
-            flag1 = PreYggdrasilConverter.func_152722_b((MinecraftServer) this);
+            flag1 = PreYggdrasilConverter.func_152722_b(this);
         }
 
         boolean flag2 = false;
@@ -662,7 +701,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                 this.func_152369_aG();
             }
 
-            flag2 = PreYggdrasilConverter.func_152718_c((MinecraftServer) this);
+            flag2 = PreYggdrasilConverter.func_152718_c(this);
         }
 
         boolean flag3 = false;
@@ -673,7 +712,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
                 this.func_152369_aG();
             }
 
-            flag3 = PreYggdrasilConverter.func_152710_d((MinecraftServer) this);
+            flag3 = PreYggdrasilConverter.func_152710_d(this);
         }
 
         boolean flag4 = false;
@@ -702,6 +741,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
         return this.field_71340_o.func_179885_a("max-tick-time", TimeUnit.MINUTES.toMillis(1L));
     }
 
+    @Override
     public String func_71258_A() {
         // CraftBukkit start - Whole method
         StringBuilder result = new StringBuilder();
@@ -730,6 +770,7 @@ public class DedicatedServer extends MinecraftServer implements IServer {
     }
 
     // CraftBukkit start - fire RemoteServerCommandEvent
+    @Override
     public String func_71252_i(final String s) {
         Waitable<String> waitable = new Waitable<String>() {
             @Override
@@ -770,10 +811,6 @@ public class DedicatedServer extends MinecraftServer implements IServer {
             throw new RuntimeException("Interrupted processing rcon command " + s, e);
         }
         // CraftBukkit end
-    }
-
-    public PlayerList func_184103_al() {
-        return this.func_184103_al();
     }
 
     // CraftBukkit start

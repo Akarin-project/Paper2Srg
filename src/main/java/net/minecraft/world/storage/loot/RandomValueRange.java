@@ -11,7 +11,6 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.util.Random;
 
-import net.minecraft.server.LootValueBounds.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.math.MathHelper;
 
@@ -47,14 +46,15 @@ public class RandomValueRange {
     }
 
     public boolean func_186510_a(int i) {
-        return (float) i <= this.field_186515_b && (float) i >= this.field_186514_a;
+        return i <= this.field_186515_b && i >= this.field_186514_a;
     }
 
     public static class a implements JsonDeserializer<RandomValueRange>, JsonSerializer<RandomValueRange> {
 
         public a() {}
 
-        public RandomValueRange a(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+        @Override
+        public RandomValueRange deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             if (JsonUtils.func_188175_b(jsonelement)) {
                 return new RandomValueRange(JsonUtils.func_151220_d(jsonelement, "value"));
             } else {
@@ -66,7 +66,8 @@ public class RandomValueRange {
             }
         }
 
-        public JsonElement a(RandomValueRange lootvaluebounds, Type type, JsonSerializationContext jsonserializationcontext) {
+        @Override
+        public JsonElement serialize(RandomValueRange lootvaluebounds, Type type, JsonSerializationContext jsonserializationcontext) {
             if (lootvaluebounds.field_186514_a == lootvaluebounds.field_186515_b) {
                 return new JsonPrimitive(Float.valueOf(lootvaluebounds.field_186514_a));
             } else {
@@ -76,14 +77,6 @@ public class RandomValueRange {
                 jsonobject.addProperty("max", Float.valueOf(lootvaluebounds.field_186515_b));
                 return jsonobject;
             }
-        }
-
-        public JsonElement serialize(Object object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a((RandomValueRange) object, type, jsonserializationcontext);
-        }
-
-        public Object deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            return this.a(jsonelement, type, jsondeserializationcontext);
         }
     }
 }

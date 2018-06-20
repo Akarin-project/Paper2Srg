@@ -1,4 +1,4 @@
-	package net.minecraft.world;
+package net.minecraft.world;
 
 import com.destroystokyo.paper.event.server.ServerExceptionEvent;
 import com.destroystokyo.paper.exception.ServerInternalException;
@@ -22,7 +22,6 @@ import com.google.common.collect.Sets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import net;
 import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.advancements.FunctionManager;
 import net.minecraft.block.Block;
@@ -163,15 +162,15 @@ public abstract class World implements IBlockAccess {
     protected int field_73005_l = (new Random()).nextInt();
     protected final int field_73006_m = 1013904223;
     protected float field_73003_n;
-    protected float field_73004_o;
+    public float field_73004_o;
     protected float field_73018_p;
-    protected float field_73017_q;
+    public float field_73017_q;
     private int field_73016_r;
     public final Random field_73012_v = new Random();
     public WorldProvider field_73011_w;
     protected PathWorldListener field_184152_t = new PathWorldListener();
     protected List<IWorldEventListener> field_73021_x;
-    protected IChunkProvider field_73020_y;
+    public IChunkProvider field_73020_y;
     protected final ISaveHandler field_73019_z;
     public WorldInfo field_72986_A;
     protected boolean field_72987_B;
@@ -274,28 +273,35 @@ public abstract class World implements IBlockAccess {
         func_175723_af().world = (WorldServer) this;
         // From PlayerList.setPlayerFileData
         func_175723_af().func_177737_a(new IBorderListener() {
+            @Override
             public void func_177694_a(WorldBorder worldborder, double d0) {
                 getServer().getHandle().sendAll(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.SET_SIZE), worldborder.world);
             }
 
+            @Override
             public void func_177692_a(WorldBorder worldborder, double d0, double d1, long i) {
                 getServer().getHandle().sendAll(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.LERP_SIZE), worldborder.world);
             }
 
+            @Override
             public void func_177693_a(WorldBorder worldborder, double d0, double d1) {
                 getServer().getHandle().sendAll(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.SET_CENTER), worldborder.world);
             }
 
+            @Override
             public void func_177691_a(WorldBorder worldborder, int i) {
                 getServer().getHandle().sendAll(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.SET_WARNING_TIME), worldborder.world);
             }
 
+            @Override
             public void func_177690_b(WorldBorder worldborder, int i) {
                 getServer().getHandle().sendAll(new SPacketWorldBorder(worldborder, SPacketWorldBorder.Action.SET_WARNING_BLOCKS), worldborder.world);
             }
 
+            @Override
             public void func_177696_b(WorldBorder worldborder, double d0) {}
 
+            @Override
             public void func_177695_c(WorldBorder worldborder, double d0) {}
         });
         this.getServer().addWorld(this.world);
@@ -325,6 +331,7 @@ public abstract class World implements IBlockAccess {
                         return CrashReportCategory.func_180522_a(blockposition);
                     }
 
+                    @Override
                     public Object call() throws Exception {
                         return this.a();
                     }
@@ -369,6 +376,7 @@ public abstract class World implements IBlockAccess {
         return blockposition.isInvalidYLocation(); // Paper
     }
 
+    @Override
     public boolean func_175623_d(BlockPos blockposition) {
         return this.func_180495_p(blockposition).func_185904_a() == Material.field_151579_a;
     }
@@ -426,7 +434,7 @@ public abstract class World implements IBlockAccess {
         }
     }
 
-    protected abstract boolean func_175680_a(int i, int j, boolean flag);
+    public abstract boolean func_175680_a(int i, int j, boolean flag);
 
     public Chunk func_175726_f(BlockPos blockposition) {
         return this.func_72964_e(blockposition.func_177958_n() >> 4, blockposition.func_177952_p() >> 4);
@@ -565,7 +573,7 @@ public abstract class World implements IBlockAccess {
 
     public void func_184138_a(BlockPos blockposition, IBlockState iblockdata, IBlockState iblockdata1, int i) {
         for (int j = 0; j < this.field_73021_x.size(); ++j) {
-            ((IWorldEventListener) this.field_73021_x.get(j)).func_184376_a(this, blockposition, iblockdata, iblockdata1, i);
+            this.field_73021_x.get(j).func_184376_a(this, blockposition, iblockdata, iblockdata1, i);
         }
 
     }
@@ -606,7 +614,7 @@ public abstract class World implements IBlockAccess {
 
     public void func_147458_c(int i, int j, int k, int l, int i1, int j1) {
         for (int k1 = 0; k1 < this.field_73021_x.size(); ++k1) {
-            ((IWorldEventListener) this.field_73021_x.get(k1)).func_147585_a(i, j, k, l, i1, j1);
+            this.field_73021_x.get(k1).func_147585_a(i, j, k, l, i1, j1);
         }
 
     }
@@ -696,6 +704,7 @@ public abstract class World implements IBlockAccess {
                         }
                     }
 
+                    @Override
                     public Object call() throws Exception {
                         return this.a();
                     }
@@ -726,6 +735,7 @@ public abstract class World implements IBlockAccess {
                             }
                         }
 
+                        @Override
                         public Object call() throws Exception {
                             return this.a();
                         }
@@ -926,7 +936,7 @@ public abstract class World implements IBlockAccess {
 
     public void func_175679_n(BlockPos blockposition) {
         for (int i = 0; i < this.field_73021_x.size(); ++i) {
-            ((IWorldEventListener) this.field_73021_x.get(i)).func_174959_b(blockposition);
+            this.field_73021_x.get(i).func_174959_b(blockposition);
         }
 
     }
@@ -956,6 +966,7 @@ public abstract class World implements IBlockAccess {
     }
     // Paper end
 
+    @Override
     public IBlockState func_180495_p(BlockPos blockposition) {
         // CraftBukkit start - tree generation
         // Paper start - optimize getType lookup to reduce instructions - getBlockData already enforces valid Y, move tree out
@@ -1042,25 +1053,25 @@ public abstract class World implements IBlockAccess {
                     double d2 = 999.0D;
 
                     if (i > l) {
-                        d0 = (double) l + 1.0D;
+                        d0 = l + 1.0D;
                     } else if (i < l) {
-                        d0 = (double) l + 0.0D;
+                        d0 = l + 0.0D;
                     } else {
                         flag3 = false;
                     }
 
                     if (j > i1) {
-                        d1 = (double) i1 + 1.0D;
+                        d1 = i1 + 1.0D;
                     } else if (j < i1) {
-                        d1 = (double) i1 + 0.0D;
+                        d1 = i1 + 0.0D;
                     } else {
                         flag4 = false;
                     }
 
                     if (k > j1) {
-                        d2 = (double) j1 + 1.0D;
+                        d2 = j1 + 1.0D;
                     } else if (k < j1) {
-                        d2 = (double) j1 + 0.0D;
+                        d2 = j1 + 0.0D;
                     } else {
                         flag5 = false;
                     }
@@ -1139,7 +1150,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public void func_184133_a(@Nullable EntityPlayer entityhuman, BlockPos blockposition, SoundEvent soundeffect, SoundCategory soundcategory, float f, float f1) {
-        this.func_184148_a(entityhuman, (double) blockposition.func_177958_n() + 0.5D, (double) blockposition.func_177956_o() + 0.5D, (double) blockposition.func_177952_p() + 0.5D, soundeffect, soundcategory, f, f1);
+        this.func_184148_a(entityhuman, blockposition.func_177958_n() + 0.5D, blockposition.func_177956_o() + 0.5D, blockposition.func_177952_p() + 0.5D, soundeffect, soundcategory, f, f1);
     }
 
     // Paper start - OBFHELPER
@@ -1150,7 +1161,7 @@ public abstract class World implements IBlockAccess {
 
     public void func_184148_a(@Nullable EntityPlayer entityhuman, double d0, double d1, double d2, SoundEvent soundeffect, SoundCategory soundcategory, float f, float f1) {
         for (int i = 0; i < this.field_73021_x.size(); ++i) {
-            ((IWorldEventListener) this.field_73021_x.get(i)).func_184375_a(entityhuman, soundeffect, soundcategory, d0, d1, d2, f, f1);
+            this.field_73021_x.get(i).func_184375_a(entityhuman, soundeffect, soundcategory, d0, d1, d2, f, f1);
         }
 
     }
@@ -1159,7 +1170,7 @@ public abstract class World implements IBlockAccess {
 
     public void func_184149_a(BlockPos blockposition, @Nullable SoundEvent soundeffect) {
         for (int i = 0; i < this.field_73021_x.size(); ++i) {
-            ((IWorldEventListener) this.field_73021_x.get(i)).func_184377_a(soundeffect, blockposition);
+            this.field_73021_x.get(i).func_184377_a(soundeffect, blockposition);
         }
 
     }
@@ -1170,14 +1181,14 @@ public abstract class World implements IBlockAccess {
 
     public void func_190523_a(int i, double d0, double d1, double d2, double d3, double d4, double d5, int... aint) {
         for (int j = 0; j < this.field_73021_x.size(); ++j) {
-            ((IWorldEventListener) this.field_73021_x.get(j)).func_190570_a(i, false, true, d0, d1, d2, d3, d4, d5, aint);
+            this.field_73021_x.get(j).func_190570_a(i, false, true, d0, d1, d2, d3, d4, d5, aint);
         }
 
     }
 
     private void func_175720_a(int i, boolean flag, double d0, double d1, double d2, double d3, double d4, double d5, int... aint) {
         for (int j = 0; j < this.field_73021_x.size(); ++j) {
-            ((IWorldEventListener) this.field_73021_x.get(j)).func_180442_a(i, flag, d0, d1, d2, d3, d4, d5, aint);
+            this.field_73021_x.get(j).func_180442_a(i, flag, d0, d1, d2, d3, d4, d5, aint);
         }
 
     }
@@ -1290,7 +1301,7 @@ public abstract class World implements IBlockAccess {
 
     protected void func_72923_a(Entity entity) {
         for (int i = 0; i < this.field_73021_x.size(); ++i) {
-            ((IWorldEventListener) this.field_73021_x.get(i)).func_72703_a(entity);
+            this.field_73021_x.get(i).func_72703_a(entity);
         }
 
         entity.valid = true; // CraftBukkit
@@ -1299,7 +1310,7 @@ public abstract class World implements IBlockAccess {
 
     protected void func_72847_b(Entity entity) {
         for (int i = 0; i < this.field_73021_x.size(); ++i) {
-            ((IWorldEventListener) this.field_73021_x.get(i)).func_72709_b(entity);
+            this.field_73021_x.get(i).func_72709_b(entity);
         }
 
         new com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent(entity.getBukkitEntity()).callEvent(); // Paper - fire while valid
@@ -1326,7 +1337,7 @@ public abstract class World implements IBlockAccess {
                 {
                     MapData map = (MapData) o;
                     map.field_76202_j.remove( entity );
-                    for ( Iterator<MapData.MapInfo> iter = (Iterator<MapData.MapInfo>) map.field_76196_g.iterator(); iter.hasNext(); )
+                    for ( Iterator<MapData.MapInfo> iter = map.field_76196_g.iterator(); iter.hasNext(); )
                     {
                         if ( iter.next().field_76211_a == entity )
                         {
@@ -1412,7 +1423,7 @@ public abstract class World implements IBlockAccess {
                                 blockposition_pooledblockposition.func_181079_c(k1, i2, l1);
                                 IBlockState iblockdata1;
 
-                                if (!flag && !worldborder.func_177746_a((BlockPos) blockposition_pooledblockposition) && flag2) {
+                                if (!flag && !worldborder.func_177746_a(blockposition_pooledblockposition) && flag2) {
                                     iblockdata1 = iblockdata;
                                 } else {
                                     iblockdata1 = this.func_180495_p(blockposition_pooledblockposition);
@@ -1496,8 +1507,8 @@ public abstract class World implements IBlockAccess {
 
         f2 = MathHelper.func_76131_a(f2, 0.0F, 1.0F);
         f2 = 1.0F - f2;
-        f2 = (float) ((double) f2 * (1.0D - (double) (this.func_72867_j(f) * 5.0F) / 16.0D));
-        f2 = (float) ((double) f2 * (1.0D - (double) (this.func_72819_i(f) * 5.0F) / 16.0D));
+        f2 = (float) (f2 * (1.0D - this.func_72867_j(f) * 5.0F / 16.0D));
+        f2 = (float) (f2 * (1.0D - this.func_72819_i(f) * 5.0F / 16.0D));
         f2 = 1.0F - f2;
         return (int) (f2 * 11.0F);
     }
@@ -1556,7 +1567,7 @@ public abstract class World implements IBlockAccess {
         Entity entity;
 
         for (i = 0; i < this.field_73007_j.size(); ++i) {
-            entity = (Entity) this.field_73007_j.get(i);
+            entity = this.field_73007_j.get(i);
             // CraftBukkit start - Fixed an NPE
             if (entity == null) {
                 continue;
@@ -1571,7 +1582,7 @@ public abstract class World implements IBlockAccess {
                 CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Entity being ticked");
 
                 if (entity == null) {
-                    crashreportsystemdetails.func_71507_a("Entity", (Object) "~~NULL~~");
+                    crashreportsystemdetails.func_71507_a("Entity", "~~NULL~~");
                 } else {
                     entity.func_85029_a(crashreportsystemdetails);
                 }
@@ -1623,7 +1634,7 @@ public abstract class World implements IBlockAccess {
         for (tickPosition = 0; tickPosition < field_72996_f.size(); tickPosition++) {
             // Paper end
             tickPosition = (tickPosition < field_72996_f.size()) ? tickPosition : 0;
-            entity = (Entity) this.field_72996_f.get(this.tickPosition);
+            entity = this.field_72996_f.get(this.tickPosition);
             // CraftBukkit end
             Entity entity1 = entity.func_184187_bx();
 
@@ -1693,7 +1704,7 @@ public abstract class World implements IBlockAccess {
         int tilesThisCycle = 0;
         for (tileTickPosition = 0; tileTickPosition < field_175730_i.size(); tileTickPosition++) { // Paper - Disable tick limiters
             tileTickPosition = (tileTickPosition < field_175730_i.size()) ? tileTickPosition : 0;
-            TileEntity tileentity = (TileEntity) this.field_175730_i.get(tileTickPosition);
+            TileEntity tileentity = this.field_175730_i.get(tileTickPosition);
             // Spigot start
             if (tileentity == null) {
                 getServer().getLogger().severe("Spigot has detected a null entity and has removed it, preventing a crash");
@@ -1707,7 +1718,7 @@ public abstract class World implements IBlockAccess {
                 BlockPos blockposition = tileentity.func_174877_v();
 
                 // Paper start - Skip ticking in chunks scheduled for unload
-                minecraft.world.chunk.Chunk chunk = this.getChunkIfLoaded(blockposition);
+                net.minecraft.world.chunk.Chunk chunk = this.getChunkIfLoaded(blockposition);
                 boolean shouldTick = chunk != null;
                 if(this.paperConfig.skipEntityTickingInChunksScheduledForUnload)
                     shouldTick = shouldTick && !chunk.isUnloading() && chunk.scheduledForUnload == null;
@@ -1755,7 +1766,7 @@ public abstract class World implements IBlockAccess {
         this.field_72984_F.func_76318_c("pendingBlockEntities");
         if (!this.field_147484_a.isEmpty()) {
             for (int i1 = 0; i1 < this.field_147484_a.size(); ++i1) {
-                TileEntity tileentity1 = (TileEntity) this.field_147484_a.get(i1);
+                TileEntity tileentity1 = this.field_147484_a.get(i1);
 
                 if (!tileentity1.func_145837_r()) {
                     /* CraftBukkit start - Order matters, moved down
@@ -1872,11 +1883,11 @@ public abstract class World implements IBlockAccess {
             entity.field_70161_v = entity.field_70136_U;
         }
 
-        if (Double.isNaN((double) entity.field_70125_A) || Double.isInfinite((double) entity.field_70125_A)) {
+        if (Double.isNaN(entity.field_70125_A) || Double.isInfinite(entity.field_70125_A)) {
             entity.field_70125_A = entity.field_70127_C;
         }
 
-        if (Double.isNaN((double) entity.field_70177_z) || Double.isInfinite((double) entity.field_70177_z)) {
+        if (Double.isNaN(entity.field_70177_z) || Double.isInfinite(entity.field_70177_z)) {
             entity.field_70177_z = entity.field_70126_B;
         }
 
@@ -2068,11 +2079,11 @@ public abstract class World implements IBlockAccess {
                         Block block = iblockdata.func_177230_c();
 
                         if (iblockdata.func_185904_a() == material) {
-                            double d0 = (double) ((float) (l1 + 1) - BlockLiquid.func_149801_b(((Integer) iblockdata.func_177229_b(BlockLiquid.field_176367_b)).intValue()));
+                            double d0 = l1 + 1 - BlockLiquid.func_149801_b(iblockdata.func_177229_b(BlockLiquid.field_176367_b).intValue());
 
-                            if ((double) l >= d0) {
+                            if (l >= d0) {
                                 flag = true;
-                                vec3d = block.func_176197_a(this, (BlockPos) blockposition_pooledblockposition, entity, vec3d);
+                                vec3d = block.func_176197_a(this, blockposition_pooledblockposition, entity, vec3d);
                             }
                         }
                     }
@@ -2140,12 +2151,12 @@ public abstract class World implements IBlockAccess {
             int i = 0;
             int j = 0;
 
-            for (float f = 0.0F; f <= 1.0F; f = (float) ((double) f + d0)) {
-                for (float f1 = 0.0F; f1 <= 1.0F; f1 = (float) ((double) f1 + d1)) {
-                    for (float f2 = 0.0F; f2 <= 1.0F; f2 = (float) ((double) f2 + d2)) {
-                        double d5 = axisalignedbb.field_72340_a + (axisalignedbb.field_72336_d - axisalignedbb.field_72340_a) * (double) f;
-                        double d6 = axisalignedbb.field_72338_b + (axisalignedbb.field_72337_e - axisalignedbb.field_72338_b) * (double) f1;
-                        double d7 = axisalignedbb.field_72339_c + (axisalignedbb.field_72334_f - axisalignedbb.field_72339_c) * (double) f2;
+            for (float f = 0.0F; f <= 1.0F; f = (float) (f + d0)) {
+                for (float f1 = 0.0F; f1 <= 1.0F; f1 = (float) (f1 + d1)) {
+                    for (float f2 = 0.0F; f2 <= 1.0F; f2 = (float) (f2 + d2)) {
+                        double d5 = axisalignedbb.field_72340_a + (axisalignedbb.field_72336_d - axisalignedbb.field_72340_a) * f;
+                        double d6 = axisalignedbb.field_72338_b + (axisalignedbb.field_72337_e - axisalignedbb.field_72338_b) * f1;
+                        double d7 = axisalignedbb.field_72339_c + (axisalignedbb.field_72334_f - axisalignedbb.field_72339_c) * f2;
 
                         if (this.func_72933_a(new Vec3d(d5 + d3, d6, d7 + d4), vec3d) == null) {
                             ++i;
@@ -2174,6 +2185,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public Map<BlockPos, TileEntity> capturedTileEntities = Maps.newHashMap();
+    @Override
     @Nullable
     public TileEntity func_175625_s(BlockPos blockposition) {
         if (blockposition.isInvalidYLocation()) { // Paper
@@ -2206,7 +2218,7 @@ public abstract class World implements IBlockAccess {
     @Nullable
     private TileEntity func_189508_F(BlockPos blockposition) {
         for (int i = 0; i < this.field_147484_a.size(); ++i) {
-            TileEntity tileentity = (TileEntity) this.field_147484_a.get(i);
+            TileEntity tileentity = this.field_147484_a.get(i);
 
             if (!tileentity.func_145837_r() && tileentity.func_174877_v().equals(blockposition)) {
                 return tileentity;
@@ -2373,17 +2385,17 @@ public abstract class World implements IBlockAccess {
 
                 this.field_73018_p = this.field_73017_q;
                 if (this.field_72986_A.func_76061_m()) {
-                    this.field_73017_q = (float) ((double) this.field_73017_q + 0.01D);
+                    this.field_73017_q = (float) (this.field_73017_q + 0.01D);
                 } else {
-                    this.field_73017_q = (float) ((double) this.field_73017_q - 0.01D);
+                    this.field_73017_q = (float) (this.field_73017_q - 0.01D);
                 }
 
                 this.field_73017_q = MathHelper.func_76131_a(this.field_73017_q, 0.0F, 1.0F);
                 this.field_73003_n = this.field_73004_o;
                 if (this.field_72986_A.func_76059_o()) {
-                    this.field_73004_o = (float) ((double) this.field_73004_o + 0.01D);
+                    this.field_73004_o = (float) (this.field_73004_o + 0.01D);
                 } else {
-                    this.field_73004_o = (float) ((double) this.field_73004_o - 0.01D);
+                    this.field_73004_o = (float) (this.field_73004_o - 0.01D);
                 }
 
                 this.field_73004_o = MathHelper.func_76131_a(this.field_73004_o, 0.0F, 1.0F);
@@ -2426,7 +2438,7 @@ public abstract class World implements IBlockAccess {
                 IBlockState iblockdata = this.func_180495_p(blockposition);
                 Block block = iblockdata.func_177230_c();
 
-                if ((block == Blocks.field_150355_j || block == Blocks.field_150358_i) && ((Integer) iblockdata.func_177229_b(BlockLiquid.field_176367_b)).intValue() == 0) {
+                if ((block == Blocks.field_150355_j || block == Blocks.field_150358_i) && iblockdata.func_177229_b(BlockLiquid.field_176367_b).intValue() == 0) {
                     if (!flag) {
                         return true;
                     }
@@ -2771,7 +2783,7 @@ public abstract class World implements IBlockAccess {
 
     @Nullable
     public Entity func_73045_a(int i) {
-        return (Entity) this.field_175729_l.func_76041_a(i);
+        return this.field_175729_l.func_76041_a(i);
     }
 
     public void func_175646_b(BlockPos blockposition, TileEntity tileentity) {
@@ -2849,6 +2861,7 @@ public abstract class World implements IBlockAccess {
         this.field_181546_a = i;
     }
 
+    @Override
     public int func_175627_a(BlockPos blockposition, EnumFacing enumdirection) {
         return this.func_180495_p(blockposition).func_185893_b(this, blockposition, enumdirection);
     }
@@ -2896,7 +2909,7 @@ public abstract class World implements IBlockAccess {
     public int func_175651_c(BlockPos blockposition, EnumFacing enumdirection) {
         IBlockState iblockdata = this.func_180495_p(blockposition);
 
-        return iblockdata.func_185915_l() ? this.func_175676_y(blockposition) : iblockdata.func_185911_a((IBlockAccess) this, blockposition, enumdirection);
+        return iblockdata.func_185915_l() ? this.func_175676_y(blockposition) : iblockdata.func_185911_a(this, blockposition, enumdirection);
     }
 
     public boolean func_175640_z(BlockPos blockposition) {
@@ -2947,7 +2960,7 @@ public abstract class World implements IBlockAccess {
         EntityPlayer entityhuman = null;
 
         for (int i = 0; i < this.field_73010_i.size(); ++i) {
-            EntityPlayer entityhuman1 = (EntityPlayer) this.field_73010_i.get(i);
+            EntityPlayer entityhuman1 = this.field_73010_i.get(i);
             // CraftBukkit start - Fixed an NPE
             if (entityhuman1 == null || entityhuman1.field_70128_L) {
                 continue;
@@ -2969,7 +2982,7 @@ public abstract class World implements IBlockAccess {
 
     public boolean func_175636_b(double d0, double d1, double d2, double d3) {
         for (int i = 0; i < this.field_73010_i.size(); ++i) {
-            EntityPlayer entityhuman = (EntityPlayer) this.field_73010_i.get(i);
+            EntityPlayer entityhuman = this.field_73010_i.get(i);
 
             if (EntitySelectors.field_180132_d.apply(entityhuman) && entityhuman.affectsSpawning) { // Paper - Affects Spawning API
                 double d4 = entityhuman.func_70092_e(d0, d1, d2);
@@ -2990,7 +3003,7 @@ public abstract class World implements IBlockAccess {
 
     @Nullable
     public EntityPlayer func_184139_a(BlockPos blockposition, double d0, double d1) {
-        return this.func_184150_a((double) ((float) blockposition.func_177958_n() + 0.5F), (double) ((float) blockposition.func_177956_o() + 0.5F), (double) ((float) blockposition.func_177952_p() + 0.5F), d0, d1, (Function) null, (Predicate) null);
+        return this.func_184150_a(blockposition.func_177958_n() + 0.5F, blockposition.func_177956_o() + 0.5F, blockposition.func_177952_p() + 0.5F, d0, d1, (Function) null, (Predicate) null);
     }
 
     @Nullable
@@ -2999,7 +3012,7 @@ public abstract class World implements IBlockAccess {
         EntityPlayer entityhuman = null;
 
         for (int i = 0; i < this.field_73010_i.size(); ++i) {
-            EntityPlayer entityhuman1 = (EntityPlayer) this.field_73010_i.get(i);
+            EntityPlayer entityhuman1 = this.field_73010_i.get(i);
 
             if (!entityhuman1.field_71075_bZ.field_75102_a && entityhuman1.func_70089_S() && !entityhuman1.func_175149_v() && (predicate == null || predicate.apply(entityhuman1))) {
                 double d6 = entityhuman1.func_70092_e(d0, entityhuman1.field_70163_u, d2);
@@ -3016,11 +3029,11 @@ public abstract class World implements IBlockAccess {
                         f = 0.1F;
                     }
 
-                    d7 *= (double) (0.7F * f);
+                    d7 *= 0.7F * f;
                 }
 
                 if (function != null) {
-                    d7 *= ((Double) MoreObjects.firstNonNull(function.apply(entityhuman1), Double.valueOf(1.0D))).doubleValue();
+                    d7 *= MoreObjects.firstNonNull(function.apply(entityhuman1), Double.valueOf(1.0D)).doubleValue();
                 }
 
                 if ((d4 < 0.0D || Math.abs(entityhuman1.field_70163_u - d1) < d4 * d4) && (d3 < 0.0D || d6 < d7 * d7) && (d5 == -1.0D || d6 < d5)) {
@@ -3036,7 +3049,7 @@ public abstract class World implements IBlockAccess {
     @Nullable
     public EntityPlayer func_72924_a(String s) {
         for (int i = 0; i < this.field_73010_i.size(); ++i) {
-            EntityPlayer entityhuman = (EntityPlayer) this.field_73010_i.get(i);
+            EntityPlayer entityhuman = this.field_73010_i.get(i);
 
             if (s.equals(entityhuman.func_70005_c_())) {
                 return entityhuman;
@@ -3049,7 +3062,7 @@ public abstract class World implements IBlockAccess {
     @Nullable
     public EntityPlayer func_152378_a(UUID uuid) {
         for (int i = 0; i < this.field_73010_i.size(); ++i) {
-            EntityPlayer entityhuman = (EntityPlayer) this.field_73010_i.get(i);
+            EntityPlayer entityhuman = this.field_73010_i.get(i);
 
             if (uuid.equals(entityhuman.func_110124_au())) {
                 return entityhuman;
@@ -3140,11 +3153,11 @@ public abstract class World implements IBlockAccess {
     }
 
     public boolean func_72911_I() {
-        return (double) this.func_72819_i(1.0F) > 0.9D;
+        return this.func_72819_i(1.0F) > 0.9D;
     }
 
     public boolean func_72896_J() {
-        return (double) this.func_72867_j(1.0F) > 0.2D;
+        return this.func_72867_j(1.0F) > 0.2D;
     }
 
     public boolean func_175727_C(BlockPos blockposition) {
@@ -3187,7 +3200,7 @@ public abstract class World implements IBlockAccess {
 
     public void func_175669_a(int i, BlockPos blockposition, int j) {
         for (int k = 0; k < this.field_73021_x.size(); ++k) {
-            ((IWorldEventListener) this.field_73021_x.get(k)).func_180440_a(i, blockposition, j);
+            this.field_73021_x.get(k).func_180440_a(i, blockposition, j);
         }
 
     }
@@ -3199,17 +3212,17 @@ public abstract class World implements IBlockAccess {
     public void func_180498_a(@Nullable EntityPlayer entityhuman, int i, BlockPos blockposition, int j) {
         try {
             for (int k = 0; k < this.field_73021_x.size(); ++k) {
-                ((IWorldEventListener) this.field_73021_x.get(k)).func_180439_a(entityhuman, i, blockposition, j);
+                this.field_73021_x.get(k).func_180439_a(entityhuman, i, blockposition, j);
             }
 
         } catch (Throwable throwable) {
             CrashReport crashreport = CrashReport.func_85055_a(throwable, "Playing level event");
             CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Level event being played");
 
-            crashreportsystemdetails.func_71507_a("Block coordinates", (Object) CrashReportCategory.func_180522_a(blockposition));
-            crashreportsystemdetails.func_71507_a("Event source", (Object) entityhuman);
-            crashreportsystemdetails.func_71507_a("Event type", (Object) Integer.valueOf(i));
-            crashreportsystemdetails.func_71507_a("Event data", (Object) Integer.valueOf(j));
+            crashreportsystemdetails.func_71507_a("Block coordinates", CrashReportCategory.func_180522_a(blockposition));
+            crashreportsystemdetails.func_71507_a("Event source", entityhuman);
+            crashreportsystemdetails.func_71507_a("Event type", Integer.valueOf(i));
+            crashreportsystemdetails.func_71507_a("Event data", Integer.valueOf(j));
             throw new ReportedException(crashreport);
         }
     }
@@ -3223,7 +3236,7 @@ public abstract class World implements IBlockAccess {
     }
 
     public Random func_72843_D(int i, int j, int k) {
-        long l = (long) i * 341873128712L + (long) j * 132897987541L + this.func_72912_H().func_76063_b() + (long) k;
+        long l = i * 341873128712L + j * 132897987541L + this.func_72912_H().func_76063_b() + k;
 
         this.field_73012_v.setSeed(l);
         return this.field_73012_v;
@@ -3232,12 +3245,13 @@ public abstract class World implements IBlockAccess {
     public CrashReportCategory func_72914_a(CrashReport crashreport) {
         CrashReportCategory crashreportsystemdetails = crashreport.func_85057_a("Affected level", 1);
 
-        crashreportsystemdetails.func_71507_a("Level name", (Object) (this.field_72986_A == null ? "????" : this.field_72986_A.func_76065_j()));
+        crashreportsystemdetails.func_71507_a("Level name", this.field_72986_A == null ? "????" : this.field_72986_A.func_76065_j());
         crashreportsystemdetails.func_189529_a("All players", new ICrashReportDetail() {
             public String a() {
                 return World.this.field_73010_i.size() + " total; " + World.this.field_73010_i;
             }
 
+            @Override
             public Object call() throws Exception {
                 return this.a();
             }
@@ -3247,6 +3261,7 @@ public abstract class World implements IBlockAccess {
                 return World.this.field_73020_y.func_73148_d();
             }
 
+            @Override
             public Object call() throws Exception {
                 return this.a();
             }
@@ -3263,7 +3278,7 @@ public abstract class World implements IBlockAccess {
 
     public void func_175715_c(int i, BlockPos blockposition, int j) {
         for (int k = 0; k < this.field_73021_x.size(); ++k) {
-            IWorldEventListener iworldaccess = (IWorldEventListener) this.field_73021_x.get(k);
+            IWorldEventListener iworldaccess = this.field_73021_x.get(k);
 
             iworldaccess.func_180441_b(i, blockposition, j);
         }

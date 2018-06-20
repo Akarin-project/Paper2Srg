@@ -11,10 +11,11 @@ public class RegistryDefaulted<K, V> extends RegistrySimple<K, V> {
         this.field_82597_b = v0;
     }
 
+    @Override
     @Nonnull
     public V func_82594_a(@Nullable K k0) {
         Object object = super.func_82594_a(k0);
 
-        return object == null ? this.field_82597_b : object;
+        return object == null ? this.field_82597_b : (V) object;
     }
 }

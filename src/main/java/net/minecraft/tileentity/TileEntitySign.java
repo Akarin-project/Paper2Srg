@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.TileEntitySign.ISignCommandListener;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
@@ -30,6 +29,7 @@ public class TileEntitySign extends TileEntity {
 
     public TileEntitySign() {}
 
+    @Override
     public NBTTagCompound func_189515_b(NBTTagCompound nbttagcompound) {
         super.func_189515_b(nbttagcompound);
 
@@ -49,34 +49,42 @@ public class TileEntitySign extends TileEntity {
         return nbttagcompound;
     }
 
+    @Override
     protected void func_190201_b(World world) {
         this.func_145834_a(world);
     }
 
+    @Override
     public void func_145839_a(NBTTagCompound nbttagcompound) {
         this.field_145916_j = false;
         super.func_145839_a(nbttagcompound);
         ICommandSender icommandlistener = new ISignCommandListener() { // Paper
+            @Override
             public String func_70005_c_() {
                 return "Sign";
             }
 
+            @Override
             public boolean func_70003_b(int i, String s) {
                 return true;
             }
 
+            @Override
             public BlockPos func_180425_c() {
                 return TileEntitySign.this.field_174879_c;
             }
 
+            @Override
             public Vec3d func_174791_d() {
-                return new Vec3d((double) TileEntitySign.this.field_174879_c.func_177958_n() + 0.5D, (double) TileEntitySign.this.field_174879_c.func_177956_o() + 0.5D, (double) TileEntitySign.this.field_174879_c.func_177952_p() + 0.5D);
+                return new Vec3d(TileEntitySign.this.field_174879_c.func_177958_n() + 0.5D, TileEntitySign.this.field_174879_c.func_177956_o() + 0.5D, TileEntitySign.this.field_174879_c.func_177952_p() + 0.5D);
             }
 
+            @Override
             public World func_130014_f_() {
                 return TileEntitySign.this.field_145850_b;
             }
 
+            @Override
             public MinecraftServer func_184102_h() {
                 return MinecraftServer.getServer(); // Paper - world may be null
             }
@@ -117,15 +125,18 @@ public class TileEntitySign extends TileEntity {
         this.field_174883_i.func_179668_a(nbttagcompound);
     }
 
+    @Override
     @Nullable
     public SPacketUpdateTileEntity func_189518_D_() {
         return new SPacketUpdateTileEntity(this.field_174879_c, 9, this.func_189517_E_());
     }
 
+    @Override
     public NBTTagCompound func_189517_E_() {
         return this.func_189515_b(new NBTTagCompound());
     }
 
+    @Override
     public boolean func_183000_F() {
         return true;
     }
@@ -144,40 +155,50 @@ public class TileEntitySign extends TileEntity {
 
     public boolean func_174882_b(final EntityPlayer entityhuman) {
         ICommandSender icommandlistener = new ISignCommandListener() { // Paper
+            @Override
             public String func_70005_c_() {
                 return entityhuman.func_70005_c_();
             }
 
+            @Override
             public ITextComponent func_145748_c_() {
                 return entityhuman.func_145748_c_();
             }
 
+            @Override
             public void func_145747_a(ITextComponent ichatbasecomponent) {}
 
+            @Override
             public boolean func_70003_b(int i, String s) {
                 return i <= 2;
             }
 
+            @Override
             public BlockPos func_180425_c() {
                 return TileEntitySign.this.field_174879_c;
             }
 
+            @Override
             public Vec3d func_174791_d() {
-                return new Vec3d((double) TileEntitySign.this.field_174879_c.func_177958_n() + 0.5D, (double) TileEntitySign.this.field_174879_c.func_177956_o() + 0.5D, (double) TileEntitySign.this.field_174879_c.func_177952_p() + 0.5D);
+                return new Vec3d(TileEntitySign.this.field_174879_c.func_177958_n() + 0.5D, TileEntitySign.this.field_174879_c.func_177956_o() + 0.5D, TileEntitySign.this.field_174879_c.func_177952_p() + 0.5D);
             }
 
+            @Override
             public World func_130014_f_() {
                 return entityhuman.func_130014_f_();
             }
 
+            @Override
             public Entity func_174793_f() {
                 return entityhuman;
             }
 
+            @Override
             public boolean func_174792_t_() {
                 return false;
             }
 
+            @Override
             public void func_174794_a(CommandResultStats.Type commandobjectiveexecutor_enumcommandresult, int i) {
                 if (TileEntitySign.this.field_145850_b != null && !TileEntitySign.this.field_145850_b.field_72995_K) {
                     TileEntitySign.this.field_174883_i.func_184932_a(TileEntitySign.this.field_145850_b.func_73046_m(), this, commandobjectiveexecutor_enumcommandresult, i);
@@ -185,6 +206,7 @@ public class TileEntitySign extends TileEntity {
 
             }
 
+            @Override
             public MinecraftServer func_184102_h() {
                 return entityhuman.func_184102_h();
             }

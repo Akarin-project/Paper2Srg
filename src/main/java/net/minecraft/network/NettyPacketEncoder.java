@@ -19,8 +19,9 @@ public class NettyPacketEncoder extends MessageToByteEncoder<Packet<?>> {
         this.field_152500_c = enumprotocoldirection;
     }
 
+    @Override
     protected void encode(ChannelHandlerContext channelhandlercontext, Packet<?> packet, ByteBuf bytebuf) throws Exception {
-        EnumConnectionState enumprotocol = (EnumConnectionState) channelhandlercontext.channel().attr(NetworkManager.field_150739_c).get();
+        EnumConnectionState enumprotocol = channelhandlercontext.channel().attr(NetworkManager.field_150739_c).get();
 
         if (enumprotocol == null) {
             throw new RuntimeException("ConnectionProtocol unknown: " + packet.toString());
@@ -46,9 +47,5 @@ public class NettyPacketEncoder extends MessageToByteEncoder<Packet<?>> {
 
             }
         }
-    }
-
-    protected void encode(ChannelHandlerContext channelhandlercontext, Object object, ByteBuf bytebuf) throws Exception {
-        this.encode(channelhandlercontext, (Packet) object, bytebuf);
     }
 }

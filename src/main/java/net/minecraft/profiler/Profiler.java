@@ -46,7 +46,7 @@ public class Profiler {
     public void func_194340_a(Supplier<String> supplier) {
         if (!ENABLED) return;  // CraftBukkit
         if (this.field_76327_a) {
-            this.func_76320_a((String) supplier.get());
+            this.func_76320_a(supplier.get());
         }
     }
 
@@ -54,19 +54,19 @@ public class Profiler {
         if (!ENABLED) return;  // CraftBukkit
         if (this.field_76327_a) {
             long i = System.nanoTime();
-            long j = ((Long) this.field_76326_c.remove(this.field_76326_c.size() - 1)).longValue();
+            long j = this.field_76326_c.remove(this.field_76326_c.size() - 1).longValue();
 
             this.field_76325_b.remove(this.field_76325_b.size() - 1);
             long k = i - j;
 
             if (this.field_76324_e.containsKey(this.field_76323_d)) {
-                this.field_76324_e.put(this.field_76323_d, Long.valueOf(((Long) this.field_76324_e.get(this.field_76323_d)).longValue() + k));
+                this.field_76324_e.put(this.field_76323_d, Long.valueOf(this.field_76324_e.get(this.field_76323_d).longValue() + k));
             } else {
                 this.field_76324_e.put(this.field_76323_d, Long.valueOf(k));
             }
 
             if (k > 100000000L) {
-                Profiler.field_151234_b.warn("Something\'s taking too long! \'{}\' took aprox {} ms", this.field_76323_d, Double.valueOf((double) k / 1000000.0D));
+                Profiler.field_151234_b.warn("Something\'s taking too long! \'{}\' took aprox {} ms", this.field_76323_d, Double.valueOf(k / 1000000.0D));
             }
 
             this.field_76323_d = this.field_76325_b.isEmpty() ? "" : (String) this.field_76325_b.get(this.field_76325_b.size() - 1);
@@ -77,8 +77,8 @@ public class Profiler {
         if (!ENABLED || !this.field_76327_a) {  // CraftBukkit
             return Collections.emptyList();
         } else {
-            long i = this.field_76324_e.containsKey("root") ? ((Long) this.field_76324_e.get("root")).longValue() : 0L;
-            long j = this.field_76324_e.containsKey(s) ? ((Long) this.field_76324_e.get(s)).longValue() : -1L;
+            long i = this.field_76324_e.containsKey("root") ? this.field_76324_e.get("root").longValue() : 0L;
+            long j = this.field_76324_e.containsKey(s) ? this.field_76324_e.get(s).longValue() : -1L;
             ArrayList arraylist = Lists.newArrayList();
 
             if (!s.isEmpty()) {
@@ -92,11 +92,11 @@ public class Profiler {
                 String s1 = (String) iterator.next();
 
                 if (s1.length() > s.length() && s1.startsWith(s) && s1.indexOf(".", s.length() + 1) < 0) {
-                    k += ((Long) this.field_76324_e.get(s1)).longValue();
+                    k += this.field_76324_e.get(s1).longValue();
                 }
             }
 
-            float f = (float) k;
+            float f = k;
 
             if (k < j) {
                 k = j;
@@ -113,9 +113,9 @@ public class Profiler {
             while (iterator1.hasNext()) {
                 s2 = (String) iterator1.next();
                 if (s2.length() > s.length() && s2.startsWith(s) && s2.indexOf(".", s.length() + 1) < 0) {
-                    long l = ((Long) this.field_76324_e.get(s2)).longValue();
-                    double d0 = (double) l * 100.0D / (double) k;
-                    double d1 = (double) l * 100.0D / (double) i;
+                    long l = this.field_76324_e.get(s2).longValue();
+                    double d0 = l * 100.0D / k;
+                    double d1 = l * 100.0D / i;
                     String s3 = s2.substring(s.length());
 
                     arraylist.add(new Profiler.Result(s3, d0, d1));
@@ -126,15 +126,15 @@ public class Profiler {
 
             while (iterator1.hasNext()) {
                 s2 = (String) iterator1.next();
-                this.field_76324_e.put(s2, Long.valueOf(((Long) this.field_76324_e.get(s2)).longValue() * 999L / 1000L));
+                this.field_76324_e.put(s2, Long.valueOf(this.field_76324_e.get(s2).longValue() * 999L / 1000L));
             }
 
-            if ((float) k > f) {
-                arraylist.add(new Profiler.Result("unspecified", (double) ((float) k - f) * 100.0D / (double) k, (double) ((float) k - f) * 100.0D / (double) i));
+            if (k > f) {
+                arraylist.add(new Profiler.Result("unspecified", (k - f) * 100.0D / k, (k - f) * 100.0D / i));
             }
 
             Collections.sort(arraylist);
-            arraylist.add(0, new Profiler.Result(s, 100.0D, (double) k * 100.0D / (double) i));
+            arraylist.add(0, new Profiler.Result(s, 100.0D, k * 100.0D / i));
             return arraylist;
         }
     }
@@ -162,12 +162,9 @@ public class Profiler {
             this.field_76330_b = d1;
         }
 
+        @Override
         public int compareTo(Profiler.Result methodprofiler_profilerinfo) {
             return methodprofiler_profilerinfo.field_76332_a < this.field_76332_a ? -1 : (methodprofiler_profilerinfo.field_76332_a > this.field_76332_a ? 1 : methodprofiler_profilerinfo.field_76331_c.compareTo(this.field_76331_c));
-        }
-
-        public int compareTo(Profiler.Result object) { // CraftBukkit: decompile error
-            return this.compareTo((Profiler.Result) object);
         }
     }
 }

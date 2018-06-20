@@ -8,14 +8,14 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 
-import net;
+
 
 public class CraftAttributeInstance implements AttributeInstance {
 
-    private final entity.ai.attributes.IAttributeInstance handle;
+    private final net.minecraft.entity.ai.attributes.IAttributeInstance handle;
     private final Attribute attribute;
 
-    public CraftAttributeInstance(entity.ai.attributes.IAttributeInstance handle, Attribute attribute) {
+    public CraftAttributeInstance(net.minecraft.entity.ai.attributes.IAttributeInstance handle, Attribute attribute) {
         this.handle = handle;
         this.attribute = attribute;
     }
@@ -38,7 +38,7 @@ public class CraftAttributeInstance implements AttributeInstance {
     @Override
     public Collection<AttributeModifier> getModifiers() {
         List<AttributeModifier> result = new ArrayList<AttributeModifier>();
-        for (entity.ai.attributes.AttributeModifier nms : handle.func_111122_c()) {
+        for (net.minecraft.entity.ai.attributes.AttributeModifier nms : handle.func_111122_c()) {
             result.add(convert(nms));
         }
 
@@ -67,11 +67,11 @@ public class CraftAttributeInstance implements AttributeInstance {
        return handle.func_111123_a().func_111110_b();
     }
 
-    private static entity.ai.attributes.AttributeModifier convert(AttributeModifier bukkit) {
-        return new entity.ai.attributes.AttributeModifier(bukkit.getUniqueId(), bukkit.getName(), bukkit.getAmount(), bukkit.getOperation().ordinal());
+    private static net.minecraft.entity.ai.attributes.AttributeModifier convert(AttributeModifier bukkit) {
+        return new net.minecraft.entity.ai.attributes.AttributeModifier(bukkit.getUniqueId(), bukkit.getName(), bukkit.getAmount(), bukkit.getOperation().ordinal());
     }
 
-    private static AttributeModifier convert(entity.ai.attributes.AttributeModifier nms) {
+    private static AttributeModifier convert(net.minecraft.entity.ai.attributes.AttributeModifier nms) {
         return new AttributeModifier(nms.func_111167_a(), nms.func_111166_b(), nms.func_111164_d(), AttributeModifier.Operation.values()[nms.func_111169_c()]);
     }
 }

@@ -58,6 +58,7 @@ public class EntitySheep extends EntityAnimal {
 
     private static final DataParameter<Byte> field_184774_bv = EntityDataManager.func_187226_a(EntitySheep.class, DataSerializers.field_187191_a);
     private final InventoryCrafting field_90016_e = new InventoryCrafting(new Container() {
+        @Override
         public boolean func_75145_c(EntityPlayer entityhuman) {
             return false;
         }
@@ -88,6 +89,7 @@ public class EntitySheep extends EntityAnimal {
         this.field_90016_e.resultInventory = new InventoryCraftResult(); // CraftBukkit - add result slot for event
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_146087_bs = new EntityAIEatGrass(this);
         this.field_70714_bg.func_75776_a(0, new EntityAISwimming(this));
@@ -101,11 +103,13 @@ public class EntitySheep extends EntityAnimal {
         this.field_70714_bg.func_75776_a(8, new EntityAILookIdle(this));
     }
 
+    @Override
     protected void func_70619_bc() {
         this.field_70899_e = this.field_146087_bs.func_151499_f();
         super.func_70619_bc();
     }
 
+    @Override
     public void func_70636_d() {
         if (this.field_70170_p.field_72995_K) {
             this.field_70899_e = Math.max(0, this.field_70899_e - 1);
@@ -114,17 +118,20 @@ public class EntitySheep extends EntityAnimal {
         super.func_70636_d();
     }
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(8.0D);
         this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.23000000417232513D);
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntitySheep.field_184774_bv, Byte.valueOf((byte) 0));
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         if (this.func_70892_o()) {
@@ -183,6 +190,7 @@ public class EntitySheep extends EntityAnimal {
         }
     }
 
+    @Override
     public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
@@ -205,9 +213,9 @@ public class EntitySheep extends EntityAnimal {
                     EntityItem entityitem = this.func_70099_a(new ItemStack(Item.func_150898_a(Blocks.field_150325_L), 1, this.func_175509_cj().func_176765_a()), 1.0F);
                     this.forceDrops = false; // CraftBukkit
 
-                    entityitem.field_70181_x += (double) (this.field_70146_Z.nextFloat() * 0.05F);
-                    entityitem.field_70159_w += (double) ((this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.1F);
-                    entityitem.field_70179_y += (double) ((this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.1F);
+                    entityitem.field_70181_x += this.field_70146_Z.nextFloat() * 0.05F;
+                    entityitem.field_70159_w += (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.1F;
+                    entityitem.field_70179_y += (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.1F;
                 }
             }
 
@@ -222,50 +230,56 @@ public class EntitySheep extends EntityAnimal {
         EntityLiving.func_189752_a(dataconvertermanager, EntitySheep.class);
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74757_a("Sheared", this.func_70892_o());
         nbttagcompound.func_74774_a("Color", (byte) this.func_175509_cj().func_176765_a());
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.func_70893_e(nbttagcompound.func_74767_n("Sheared"));
         this.func_175512_b(EnumDyeColor.func_176764_b(nbttagcompound.func_74771_c("Color")));
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return SoundEvents.field_187757_eG;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187761_eI;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187759_eH;
     }
 
+    @Override
     protected void func_180429_a(BlockPos blockposition, Block block) {
         this.func_184185_a(SoundEvents.field_187765_eK, 0.15F, 1.0F);
     }
 
     public EnumDyeColor func_175509_cj() {
-        return EnumDyeColor.func_176764_b(((Byte) this.field_70180_af.func_187225_a(EntitySheep.field_184774_bv)).byteValue() & 15);
+        return EnumDyeColor.func_176764_b(this.field_70180_af.func_187225_a(EntitySheep.field_184774_bv).byteValue() & 15);
     }
 
     public void func_175512_b(EnumDyeColor enumcolor) {
-        byte b0 = ((Byte) this.field_70180_af.func_187225_a(EntitySheep.field_184774_bv)).byteValue();
+        byte b0 = this.field_70180_af.func_187225_a(EntitySheep.field_184774_bv).byteValue();
 
         this.field_70180_af.func_187227_b(EntitySheep.field_184774_bv, Byte.valueOf((byte) (b0 & 240 | enumcolor.func_176765_a() & 15)));
     }
 
     public boolean func_70892_o() {
-        return (((Byte) this.field_70180_af.func_187225_a(EntitySheep.field_184774_bv)).byteValue() & 16) != 0;
+        return (this.field_70180_af.func_187225_a(EntitySheep.field_184774_bv).byteValue() & 16) != 0;
     }
 
     public void func_70893_e(boolean flag) {
-        byte b0 = ((Byte) this.field_70180_af.func_187225_a(EntitySheep.field_184774_bv)).byteValue();
+        byte b0 = this.field_70180_af.func_187225_a(EntitySheep.field_184774_bv).byteValue();
 
         if (flag) {
             this.field_70180_af.func_187227_b(EntitySheep.field_184774_bv, Byte.valueOf((byte) (b0 | 16)));
@@ -281,14 +295,16 @@ public class EntitySheep extends EntityAnimal {
         return i < 5 ? EnumDyeColor.BLACK : (i < 10 ? EnumDyeColor.GRAY : (i < 15 ? EnumDyeColor.SILVER : (i < 18 ? EnumDyeColor.BROWN : (random.nextInt(500) == 0 ? EnumDyeColor.PINK : EnumDyeColor.WHITE))));
     }
 
+    @Override
     public EntitySheep func_90011_a(EntityAgeable entityageable) {
         EntitySheep entitysheep = (EntitySheep) entityageable;
         EntitySheep entitysheep1 = new EntitySheep(this.field_70170_p);
 
-        entitysheep1.func_175512_b(this.func_175511_a((EntityAnimal) this, (EntityAnimal) entitysheep));
+        entitysheep1.func_175512_b(this.func_175511_a(this, entitysheep));
         return entitysheep1;
     }
 
+    @Override
     public void func_70615_aA() {
         // CraftBukkit start
         SheepRegrowWoolEvent event = new SheepRegrowWoolEvent((org.bukkit.entity.Sheep) this.getBukkitEntity());
@@ -303,6 +319,7 @@ public class EntitySheep extends EntityAnimal {
 
     }
 
+    @Override
     @Nullable
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
         groupdataentity = super.func_180482_a(difficultydamagescaler, groupdataentity);
@@ -328,12 +345,9 @@ public class EntitySheep extends EntityAnimal {
         return EnumDyeColor.func_176766_a(k);
     }
 
+    @Override
     public float func_70047_e() {
         return 0.95F * this.field_70131_O;
-    }
-
-    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
     }
 
     static {

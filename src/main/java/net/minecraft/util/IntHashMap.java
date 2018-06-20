@@ -26,7 +26,7 @@ public class IntHashMap<V> {
 
         for (IntHashMap.Entry inthashmap_inthashmapentry = this.field_76055_a[func_76043_a(j, this.field_76055_a.length)]; inthashmap_inthashmapentry != null; inthashmap_inthashmapentry = inthashmap_inthashmapentry.field_76034_c) {
             if (inthashmap_inthashmapentry.field_76035_a == i) {
-                return inthashmap_inthashmapentry.field_76033_b;
+                return (V) inthashmap_inthashmapentry.field_76033_b;
             }
         }
 
@@ -75,7 +75,7 @@ public class IntHashMap<V> {
 
             this.func_76048_a(ainthashmap_inthashmapentry1);
             this.field_76055_a = ainthashmap_inthashmapentry1;
-            this.field_76054_c = (int) ((float) i * this.field_76051_d);
+            this.field_76054_c = (int) (i * this.field_76051_d);
         }
     }
 
@@ -106,7 +106,7 @@ public class IntHashMap<V> {
 
     @Nullable
     public V func_76049_d(int i) {
-        IntHashMap.Entry inthashmap_inthashmapentry = this.func_76036_e(i);
+        IntHashMap.Entry<V> inthashmap_inthashmapentry = this.func_76036_e(i);
 
         return inthashmap_inthashmapentry == null ? null : inthashmap_inthashmapentry.field_76033_b;
     }
@@ -181,6 +181,7 @@ public class IntHashMap<V> {
             return this.field_76033_b;
         }
 
+        @Override
         public final boolean equals(Object object) {
             if (!(object instanceof IntHashMap.Entry)) {
                 return false;
@@ -200,10 +201,12 @@ public class IntHashMap<V> {
             }
         }
 
+        @Override
         public final int hashCode() {
             return IntHashMap.func_76044_g(this.field_76035_a);
         }
 
+        @Override
         public final String toString() {
             return this.func_76031_a() + "=" + this.func_76030_b();
         }

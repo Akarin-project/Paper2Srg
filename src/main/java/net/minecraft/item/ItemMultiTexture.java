@@ -1,7 +1,6 @@
 package net.minecraft.item;
-import net.minecraft.block.Block;
-import net.minecraft.server.ItemMultiTexture.a;
 
+import net.minecraft.block.Block;
 
 public class ItemMultiTexture extends ItemBlock {
 
@@ -18,6 +17,7 @@ public class ItemMultiTexture extends ItemBlock {
 
     public ItemMultiTexture(Block block, Block block1, final String[] astring) {
         this(block, block1, new ItemMultiTexture.a() {
+            @Override
             public String a(ItemStack itemstack) {
                 int i = itemstack.func_77960_j();
 
@@ -30,10 +30,12 @@ public class ItemMultiTexture extends ItemBlock {
         });
     }
 
+    @Override
     public int func_77647_b(int i) {
         return i;
     }
 
+    @Override
     public String func_77667_c(ItemStack itemstack) {
         return super.func_77658_a() + "." + this.field_179228_c.a(itemstack);
     }

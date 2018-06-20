@@ -11,7 +11,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Merchant;
 import org.bukkit.inventory.MerchantRecipe;
 
-import net;
+
 
 public class CraftMerchant implements Merchant {
 

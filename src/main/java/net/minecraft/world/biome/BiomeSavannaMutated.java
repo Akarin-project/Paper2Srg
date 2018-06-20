@@ -10,7 +10,7 @@ import net.minecraft.world.chunk.ChunkPrimer;
 
 public class BiomeSavannaMutated extends BiomeSavanna {
 
-    public BiomeSavannaMutated(BiomeBase.a biomebase_a) {
+    public BiomeSavannaMutated(Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_76760_I.field_76832_z = 2;
         this.field_76760_I.field_76802_A = 2;

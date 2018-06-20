@@ -38,7 +38,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketEffect;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.EntityWither.a;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumParticleTypes;
@@ -80,6 +79,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
             return entity instanceof EntityLivingBase && ((EntityLivingBase) entity).func_70668_bt() != EnumCreatureAttribute.UNDEAD && ((EntityLivingBase) entity).func_190631_cK();
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
@@ -95,6 +95,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
         this.field_70728_aV = 50;
     }
 
+    @Override
     protected void func_184651_r() {
         this.field_70714_bg.func_75776_a(0, new EntityWither.a());
         this.field_70714_bg.func_75776_a(1, new EntityAISwimming(this));
@@ -106,6 +107,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
         this.field_70715_bh.func_75776_a(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 0, false, false, EntityWither.field_82219_bJ));
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityWither.field_184741_a, Integer.valueOf(0));
@@ -118,11 +120,13 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
         EntityLiving.func_189752_a(dataconvertermanager, EntityWither.class);
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("Invul", this.func_82212_n());
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.func_82215_s(nbttagcompound.func_74762_e("Invul"));
@@ -132,23 +136,28 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
 
     }
 
+    @Override
     public void func_96094_a(String s) {
         super.func_96094_a(s);
         this.field_184744_bE.func_186739_a(this.func_145748_c_());
     }
 
+    @Override
     protected SoundEvent func_184639_G() {
         return SoundEvents.field_187925_gy;
     }
 
+    @Override
     protected SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187851_gB;
     }
 
+    @Override
     protected SoundEvent func_184615_bR() {
         return SoundEvents.field_187849_gA;
     }
 
+    @Override
     public void func_70636_d() {
         this.field_70181_x *= 0.6000000238418579D;
         double d0;
@@ -172,7 +181,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
                 d0 = entity.field_70161_v - this.field_70161_v;
                 d1 = d3 * d3 + d0 * d0;
                 if (d1 > 9.0D) {
-                    d2 = (double) MathHelper.func_76133_a(d1);
+                    d2 = MathHelper.func_76133_a(d1);
                     this.field_70159_w += (d3 / d2 * 0.5D - this.field_70159_w) * 0.6000000238418579D;
                     this.field_70179_y += (d0 / d2 * 0.5D - this.field_70179_y) * 0.6000000238418579D;
                 }
@@ -207,9 +216,9 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
                 d1 = this.func_82208_v(i + 1);
                 d2 = this.func_82213_w(i + 1);
                 double d4 = entity1.field_70165_t - d0;
-                double d5 = entity1.field_70163_u + (double) entity1.func_70047_e() - d1;
+                double d5 = entity1.field_70163_u + entity1.func_70047_e() - d1;
                 double d6 = entity1.field_70161_v - d2;
-                double d7 = (double) MathHelper.func_76133_a(d4 * d4 + d6 * d6);
+                double d7 = MathHelper.func_76133_a(d4 * d4 + d6 * d6);
                 float f = (float) (MathHelper.func_181159_b(d6, d4) * 57.2957763671875D) - 90.0F;
                 float f1 = (float) (-(MathHelper.func_181159_b(d5, d7) * 57.2957763671875D));
 
@@ -235,12 +244,13 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
 
         if (this.func_82212_n() > 0) {
             for (j = 0; j < 3; ++j) {
-                this.field_70170_p.func_175688_a(EnumParticleTypes.SPELL_MOB, this.field_70165_t + this.field_70146_Z.nextGaussian(), this.field_70163_u + (double) (this.field_70146_Z.nextFloat() * 3.3F), this.field_70161_v + this.field_70146_Z.nextGaussian(), 0.699999988079071D, 0.699999988079071D, 0.8999999761581421D, new int[0]);
+                this.field_70170_p.func_175688_a(EnumParticleTypes.SPELL_MOB, this.field_70165_t + this.field_70146_Z.nextGaussian(), this.field_70163_u + this.field_70146_Z.nextFloat() * 3.3F, this.field_70161_v + this.field_70146_Z.nextGaussian(), 0.699999988079071D, 0.699999988079071D, 0.8999999761581421D, new int[0]);
             }
         }
 
     }
 
+    @Override
     protected void func_70619_bc() {
         int i;
 
@@ -253,7 +263,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
                 this.field_70170_p.getServer().getPluginManager().callEvent(event);
 
                 if (!event.isCancelled()) {
-                    this.field_70170_p.func_72885_a(this, this.field_70165_t, this.field_70163_u + (double) this.func_70047_e(), this.field_70161_v, event.getRadius(), event.getFire(), this.field_70170_p.func_82736_K().func_82766_b("mobGriefing"));
+                    this.field_70170_p.func_72885_a(this, this.field_70165_t, this.field_70163_u + this.func_70047_e(), this.field_70161_v, event.getRadius(), event.getFire(), this.field_70170_p.func_82736_K().func_82766_b("mobGriefing"));
                 }
                 // CraftBukkit end
 
@@ -408,13 +418,16 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
         this.func_70606_j(this.func_110138_aP() / 3.0F);
     }
 
+    @Override
     public void func_70110_aj() {}
 
+    @Override
     public void func_184178_b(EntityPlayerMP entityplayer) {
         super.func_184178_b(entityplayer);
         this.field_184744_bE.func_186760_a(entityplayer);
     }
 
+    @Override
     public void func_184203_c(EntityPlayerMP entityplayer) {
         super.func_184203_c(entityplayer);
         this.field_184744_bE.func_186761_b(entityplayer);
@@ -424,10 +437,10 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
         if (i <= 0) {
             return this.field_70165_t;
         } else {
-            float f = (this.field_70761_aq + (float) (180 * (i - 1))) * 0.017453292F;
+            float f = (this.field_70761_aq + 180 * (i - 1)) * 0.017453292F;
             float f1 = MathHelper.func_76134_b(f);
 
-            return this.field_70165_t + (double) f1 * 1.3D;
+            return this.field_70165_t + f1 * 1.3D;
         }
     }
 
@@ -439,10 +452,10 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
         if (i <= 0) {
             return this.field_70161_v;
         } else {
-            float f = (this.field_70761_aq + (float) (180 * (i - 1))) * 0.017453292F;
+            float f = (this.field_70761_aq + 180 * (i - 1)) * 0.017453292F;
             float f1 = MathHelper.func_76126_a(f);
 
-            return this.field_70161_v + (double) f1 * 1.3D;
+            return this.field_70161_v + f1 * 1.3D;
         }
     }
 
@@ -461,7 +474,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
     }
 
     private void func_82216_a(int i, EntityLivingBase entityliving) {
-        this.func_82209_a(i, entityliving.field_70165_t, entityliving.field_70163_u + (double) entityliving.func_70047_e() * 0.5D, entityliving.field_70161_v, i == 0 && this.field_70146_Z.nextFloat() < 0.001F);
+        this.func_82209_a(i, entityliving.field_70165_t, entityliving.field_70163_u + entityliving.func_70047_e() * 0.5D, entityliving.field_70161_v, i == 0 && this.field_70146_Z.nextFloat() < 0.001F);
     }
 
     private void func_82209_a(int i, double d0, double d1, double d2, boolean flag) {
@@ -484,10 +497,12 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
         this.field_70170_p.func_72838_d(entitywitherskull);
     }
 
+    @Override
     public void func_82196_d(EntityLivingBase entityliving, float f) {
         this.func_82216_a(0, entityliving);
     }
 
+    @Override
     public boolean func_70097_a(DamageSource damagesource, float f) {
         if (this.func_180431_b(damagesource)) {
             return false;
@@ -524,6 +539,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
         }
     }
 
+    @Override
     protected void func_70628_a(boolean flag, int i) {
         EntityItem entityitem = this.func_145779_a(Items.field_151156_bN, 1);
 
@@ -533,14 +549,18 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
 
     }
 
+    @Override
     protected void func_70623_bb() {
         this.field_70708_bq = 0;
     }
 
+    @Override
     public void func_180430_e(float f, float f1) {}
 
+    @Override
     public void func_70690_d(PotionEffect mobeffect) {}
 
+    @Override
     protected void func_110147_ax() {
         super.func_110147_ax();
         this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(300.0D);
@@ -550,7 +570,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
     }
 
     public int func_82212_n() {
-        return ((Integer) this.field_70180_af.func_187225_a(EntityWither.field_184746_bw)).intValue();
+        return this.field_70180_af.func_187225_a(EntityWither.field_184746_bw).intValue();
     }
 
     public void func_82215_s(int i) {
@@ -558,7 +578,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
     }
 
     public int func_82203_t(int i) {
-        return ((Integer) this.field_70180_af.func_187225_a(EntityWither.field_184745_bv[i])).intValue();
+        return this.field_70180_af.func_187225_a(EntityWither.field_184745_bv[i]).intValue();
     }
 
     public void func_82211_c(int i, int j) {
@@ -569,18 +589,22 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
         return this.func_110143_aJ() <= this.func_110138_aP() / 2.0F;
     }
 
+    @Override
     public EnumCreatureAttribute func_70668_bt() {
         return EnumCreatureAttribute.UNDEAD;
     }
 
+    @Override
     protected boolean func_184228_n(Entity entity) {
         return false;
     }
 
+    @Override
     public boolean func_184222_aU() {
         return false;
     }
 
+    @Override
     public void func_184724_a(boolean flag) {}
 
     class a extends EntityAIBase {
@@ -589,6 +613,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob {
             this.func_75248_a(7);
         }
 
+        @Override
         public boolean func_75250_a() {
             return EntityWither.this.func_82212_n() > 0;
         }

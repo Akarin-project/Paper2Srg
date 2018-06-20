@@ -16,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.server.LootItemConditionEntityScore.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -32,6 +31,7 @@ public class EntityHasScore implements LootCondition {
         this.field_186635_b = loottableinfo_entitytarget;
     }
 
+    @Override
     public boolean func_186618_a(Random random, LootContext loottableinfo) {
         Entity entity = loottableinfo.func_186494_a(this.field_186635_b);
 
@@ -67,15 +67,16 @@ public class EntityHasScore implements LootCondition {
         }
     }
 
-    public static class a extends LootItemCondition.a<EntityHasScore> {
+    public static class a extends LootCondition.a<EntityHasScore> {
 
         protected a() {
             super(new ResourceLocation("entity_scores"), EntityHasScore.class);
         }
 
-        public void a(JsonObject jsonobject, EntityHasScore lootitemconditionentityscore, JsonSerializationContext jsonserializationcontext) {
+        @Override
+        public void a(JsonObject jsonobject, EntityHasScore LootConditionentityscore, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject1 = new JsonObject();
-            Iterator iterator = lootitemconditionentityscore.field_186634_a.entrySet().iterator();
+            Iterator iterator = LootConditionentityscore.field_186634_a.entrySet().iterator();
 
             while (iterator.hasNext()) {
                 Entry entry = (Entry) iterator.next();
@@ -84,7 +85,7 @@ public class EntityHasScore implements LootCondition {
             }
 
             jsonobject.add("scores", jsonobject1);
-            jsonobject.add("entity", jsonserializationcontext.serialize(lootitemconditionentityscore.field_186635_b));
+            jsonobject.add("entity", jsonserializationcontext.serialize(LootConditionentityscore.field_186635_b));
         }
 
         public EntityHasScore a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
@@ -98,10 +99,11 @@ public class EntityHasScore implements LootCondition {
                 linkedhashmap.put(entry.getKey(), JsonUtils.func_188179_a((JsonElement) entry.getValue(), "score", jsondeserializationcontext, RandomValueRange.class));
             }
 
-            return new EntityHasScore(linkedhashmap, (LootContext.EntityTarget) JsonUtils.func_188174_a(jsonobject, "entity", jsondeserializationcontext, LootContext.EntityTarget.class));
+            return new EntityHasScore(linkedhashmap, JsonUtils.func_188174_a(jsonobject, "entity", jsondeserializationcontext, LootContext.EntityTarget.class));
         }
 
-        public LootCondition b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+        @Override
+        public EntityHasScore b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
             return this.a(jsonobject, jsondeserializationcontext);
         }
     }

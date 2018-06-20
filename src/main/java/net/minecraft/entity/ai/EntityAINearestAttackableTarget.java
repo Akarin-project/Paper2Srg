@@ -48,12 +48,14 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
                 return t0 == null ? false : (predicate != null && !predicate.apply(t0) ? false : (!EntitySelectors.field_180132_d.apply(t0) ? false : EntityAINearestAttackableTarget.this.func_75296_a(t0, false)));
             }
 
+            @Override
             public boolean apply(@Nullable Object object) {
                 return this.a((T) object); // CraftBukkit - fix decompile error
             }
         };
     }
 
+    @Override
     public boolean func_75250_a() {
         if (this.field_75308_c > 0 && this.field_75299_d.func_70681_au().nextInt(this.field_75308_c) != 0) {
             return false;
@@ -68,7 +70,7 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
                 return true;
             }
         } else {
-            this.field_75309_a = (T) this.field_75299_d.field_70170_p.func_184150_a(this.field_75299_d.field_70165_t, this.field_75299_d.field_70163_u + (double) this.field_75299_d.func_70047_e(), this.field_75299_d.field_70161_v, this.func_111175_f(), this.func_111175_f(), new Function<EntityPlayer, Double>() { // CraftBukkit - fix decompile error
+            this.field_75309_a = (T) this.field_75299_d.field_70170_p.func_184150_a(this.field_75299_d.field_70165_t, this.field_75299_d.field_70163_u + this.field_75299_d.func_70047_e(), this.field_75299_d.field_70161_v, this.func_111175_f(), this.func_111175_f(), new Function<EntityPlayer, Double>() { // CraftBukkit - fix decompile error
                 @Nullable
                 public Double a(@Nullable EntityPlayer entityhuman) {
                     ItemStack itemstack = entityhuman.func_184582_a(EntityEquipmentSlot.HEAD);
@@ -87,9 +89,10 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
                     return Double.valueOf(1.0D);
                 }
 
+                @Override
                 @Nullable
                 public Double apply(@Nullable EntityPlayer object) { // CraftBukkit - fix decompile error
-                    return this.a((EntityPlayer) object);
+                    return this.a(object);
                 }
             }, (Predicate<EntityPlayer>) this.field_82643_g); // CraftBukkit - fix decompile error
             return this.field_75309_a != null;
@@ -100,6 +103,7 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
         return this.field_75299_d.func_174813_aQ().func_72314_b(d0, 4.0D, d0);
     }
 
+    @Override
     public void func_75249_e() {
         this.field_75299_d.setGoalTarget(this.field_75309_a, field_75309_a instanceof EntityPlayerMP ? org.bukkit.event.entity.EntityTargetEvent.TargetReason.CLOSEST_PLAYER : org.bukkit.event.entity.EntityTargetEvent.TargetReason.CLOSEST_ENTITY, true); // Craftbukkit - reason
         super.func_75249_e();
@@ -113,15 +117,12 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
             this.field_75459_b = entity;
         }
 
+        @Override
         public int compare(Entity entity, Entity entity1) {
             double d0 = this.field_75459_b.func_70068_e(entity);
             double d1 = this.field_75459_b.func_70068_e(entity1);
 
             return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
-        }
-
-        public int compare(Entity object, Entity object1) { // CraftBukkit - fix decompile error
-            return this.compare((Entity) object, (Entity) object1);
         }
     }
 }

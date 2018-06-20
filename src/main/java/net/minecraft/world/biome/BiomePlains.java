@@ -14,7 +14,7 @@ public class BiomePlains extends Biome {
 
     protected boolean field_150628_aC;
 
-    protected BiomePlains(boolean flag, BiomeBase.a biomebase_a) {
+    protected BiomePlains(boolean flag, Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_150628_aC = flag;
         this.field_76762_K.add(new Biome.SpawnListEntry(EntityHorse.class, 5, 2, 6));

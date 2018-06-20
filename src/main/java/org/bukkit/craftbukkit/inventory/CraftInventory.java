@@ -26,7 +26,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Material;
 
-import net;
+
 
 public class CraftInventory implements Inventory {
     protected final IInventory inventory;

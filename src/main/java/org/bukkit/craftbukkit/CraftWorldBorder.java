@@ -6,12 +6,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 
-import net;
-
 public class CraftWorldBorder implements WorldBorder {
 
     private final World world;
-    private final minecraft.world.border.WorldBorder handle;
+    private final net.minecraft.world.border.WorldBorder handle;
 
     public CraftWorldBorder(CraftWorld world) {
         this.world = world;

@@ -5,7 +5,7 @@ import net.minecraft.init.Blocks;
 
 public class BiomeEnd extends Biome {
 
-    public BiomeEnd(BiomeBase.a biomebase_a) {
+    public BiomeEnd(Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_76761_J.clear();
         this.field_76762_K.clear();

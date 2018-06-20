@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import java.util.ArrayList;
-import net;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.crash.CrashReport;
@@ -55,6 +54,7 @@ public class InventoryPlayer implements IInventory {
     public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
     private int maxStack = MAX_STACK;
 
+    @Override
     public List<ItemStack> getContents() {
         List<ItemStack> combined = new ArrayList<ItemStack>(field_70462_a.size() + field_70460_b.size() + field_184439_c.size());
         for (List<net.minecraft.item.ItemStack> sub : this.field_184440_g) {
@@ -68,22 +68,27 @@ public class InventoryPlayer implements IInventory {
         return this.field_70460_b;
     }
 
+    @Override
     public void onOpen(CraftHumanEntity who) {
         transaction.add(who);
     }
 
+    @Override
     public void onClose(CraftHumanEntity who) {
         transaction.remove(who);
     }
 
+    @Override
     public List<HumanEntity> getViewers() {
         return transaction;
     }
 
+    @Override
     public org.bukkit.inventory.InventoryHolder getOwner() {
         return this.field_70458_d.getBukkitEntity();
     }
 
+    @Override
     public void setMaxStackSize(int size) {
         maxStack = size;
     }
@@ -138,7 +143,7 @@ public class InventoryPlayer implements IInventory {
 
     public int func_70447_i() {
         for (int i = 0; i < this.field_70462_a.size(); ++i) {
-            if (((ItemStack) this.field_70462_a.get(i)).func_190926_b()) {
+            if (this.field_70462_a.get(i).func_190926_b()) {
                 return i;
             }
         }
@@ -148,7 +153,7 @@ public class InventoryPlayer implements IInventory {
 
     public void func_184430_d(int i) {
         this.field_70461_c = this.func_184433_k();
-        ItemStack itemstack = (ItemStack) this.field_70462_a.get(this.field_70461_c);
+        ItemStack itemstack = this.field_70462_a.get(this.field_70461_c);
 
         this.field_70462_a.set(this.field_70461_c, this.field_70462_a.get(i));
         this.field_70462_a.set(i, itemstack);
@@ -160,9 +165,9 @@ public class InventoryPlayer implements IInventory {
 
     public int func_194014_c(ItemStack itemstack) {
         for (int i = 0; i < this.field_70462_a.size(); ++i) {
-            ItemStack itemstack1 = (ItemStack) this.field_70462_a.get(i);
+            ItemStack itemstack1 = this.field_70462_a.get(i);
 
-            if (!((ItemStack) this.field_70462_a.get(i)).func_190926_b() && this.func_184431_b(itemstack, (ItemStack) this.field_70462_a.get(i)) && !((ItemStack) this.field_70462_a.get(i)).func_77951_h() && !itemstack1.func_77948_v() && !itemstack1.func_82837_s()) {
+            if (!this.field_70462_a.get(i).func_190926_b() && this.func_184431_b(itemstack, this.field_70462_a.get(i)) && !this.field_70462_a.get(i).func_77951_h() && !itemstack1.func_77948_v() && !itemstack1.func_82837_s()) {
                 return i;
             }
         }
@@ -176,14 +181,14 @@ public class InventoryPlayer implements IInventory {
 
         for (i = 0; i < 9; ++i) {
             j = (this.field_70461_c + i) % 9;
-            if (((ItemStack) this.field_70462_a.get(j)).func_190926_b()) {
+            if (this.field_70462_a.get(j).func_190926_b()) {
                 return j;
             }
         }
 
         for (i = 0; i < 9; ++i) {
             j = (this.field_70461_c + i) % 9;
-            if (!((ItemStack) this.field_70462_a.get(j)).func_77948_v()) {
+            if (!this.field_70462_a.get(j).func_77948_v()) {
                 return j;
             }
         }
@@ -297,7 +302,7 @@ public class InventoryPlayer implements IInventory {
             return 40;
         } else {
             for (int i = 0; i < this.field_70462_a.size(); ++i) {
-                if (this.func_184436_a((ItemStack) this.field_70462_a.get(i), itemstack)) {
+                if (this.func_184436_a(this.field_70462_a.get(i), itemstack)) {
                     return i;
                 }
             }
@@ -337,7 +342,7 @@ public class InventoryPlayer implements IInventory {
 
                     if (i >= 0) {
                         this.field_70462_a.set(i, itemstack.func_77946_l());
-                        ((ItemStack) this.field_70462_a.get(i)).func_190915_d(5);
+                        this.field_70462_a.get(i).func_190915_d(5);
                         itemstack.func_190920_e(0);
                         return true;
                     } else if (this.field_70458_d.field_71075_bZ.field_75098_d) {
@@ -369,13 +374,14 @@ public class InventoryPlayer implements IInventory {
                 CrashReport crashreport = CrashReport.func_85055_a(throwable, "Adding item to inventory");
                 CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Item being added");
 
-                crashreportsystemdetails.func_71507_a("Item ID", (Object) Integer.valueOf(Item.func_150891_b(itemstack.func_77973_b())));
-                crashreportsystemdetails.func_71507_a("Item data", (Object) Integer.valueOf(itemstack.func_77960_j()));
+                crashreportsystemdetails.func_71507_a("Item ID", Integer.valueOf(Item.func_150891_b(itemstack.func_77973_b())));
+                crashreportsystemdetails.func_71507_a("Item data", Integer.valueOf(itemstack.func_77960_j()));
                 crashreportsystemdetails.func_189529_a("Item name", new ICrashReportDetail() {
                     public String a() throws Exception {
                         return itemstack.func_82833_r();
                     }
 
+                    @Override
                     public Object call() throws Exception {
                         return this.a();
                     }
@@ -409,6 +415,7 @@ public class InventoryPlayer implements IInventory {
         }
     }
 
+    @Override
     public ItemStack func_70298_a(int i, int j) {
         NonNullList nonnulllist = null;
 
@@ -441,6 +448,7 @@ public class InventoryPlayer implements IInventory {
 
     }
 
+    @Override
     public ItemStack func_70304_b(int i) {
         NonNullList nonnulllist = null;
 
@@ -464,6 +472,7 @@ public class InventoryPlayer implements IInventory {
         }
     }
 
+    @Override
     public void func_70299_a(int i, ItemStack itemstack) {
         NonNullList nonnulllist = null;
 
@@ -486,8 +495,8 @@ public class InventoryPlayer implements IInventory {
     public float func_184438_a(IBlockState iblockdata) {
         float f = 1.0F;
 
-        if (!((ItemStack) this.field_70462_a.get(this.field_70461_c)).func_190926_b()) {
-            f *= ((ItemStack) this.field_70462_a.get(this.field_70461_c)).func_150997_a(iblockdata);
+        if (!this.field_70462_a.get(this.field_70461_c).func_190926_b()) {
+            f *= this.field_70462_a.get(this.field_70461_c).func_150997_a(iblockdata);
         }
 
         return f;
@@ -498,28 +507,28 @@ public class InventoryPlayer implements IInventory {
         NBTTagCompound nbttagcompound;
 
         for (i = 0; i < this.field_70462_a.size(); ++i) {
-            if (!((ItemStack) this.field_70462_a.get(i)).func_190926_b()) {
+            if (!this.field_70462_a.get(i).func_190926_b()) {
                 nbttagcompound = new NBTTagCompound();
                 nbttagcompound.func_74774_a("Slot", (byte) i);
-                ((ItemStack) this.field_70462_a.get(i)).func_77955_b(nbttagcompound);
+                this.field_70462_a.get(i).func_77955_b(nbttagcompound);
                 nbttaglist.func_74742_a(nbttagcompound);
             }
         }
 
         for (i = 0; i < this.field_70460_b.size(); ++i) {
-            if (!((ItemStack) this.field_70460_b.get(i)).func_190926_b()) {
+            if (!this.field_70460_b.get(i).func_190926_b()) {
                 nbttagcompound = new NBTTagCompound();
                 nbttagcompound.func_74774_a("Slot", (byte) (i + 100));
-                ((ItemStack) this.field_70460_b.get(i)).func_77955_b(nbttagcompound);
+                this.field_70460_b.get(i).func_77955_b(nbttagcompound);
                 nbttaglist.func_74742_a(nbttagcompound);
             }
         }
 
         for (i = 0; i < this.field_184439_c.size(); ++i) {
-            if (!((ItemStack) this.field_184439_c.get(i)).func_190926_b()) {
+            if (!this.field_184439_c.get(i).func_190926_b()) {
                 nbttagcompound = new NBTTagCompound();
                 nbttagcompound.func_74774_a("Slot", (byte) (i + 150));
-                ((ItemStack) this.field_184439_c.get(i)).func_77955_b(nbttagcompound);
+                this.field_184439_c.get(i).func_77955_b(nbttagcompound);
                 nbttaglist.func_74742_a(nbttagcompound);
             }
         }
@@ -550,10 +559,12 @@ public class InventoryPlayer implements IInventory {
 
     }
 
+    @Override
     public int func_70302_i_() {
         return this.field_70462_a.size() + this.field_70460_b.size() + this.field_184439_c.size();
     }
 
+    @Override
     public boolean func_191420_l() {
         Iterator iterator = this.field_70462_a.iterator();
 
@@ -590,6 +601,7 @@ public class InventoryPlayer implements IInventory {
         return false;
     }
 
+    @Override
     public ItemStack func_70301_a(int i) {
         NonNullList nonnulllist = null;
 
@@ -606,18 +618,22 @@ public class InventoryPlayer implements IInventory {
         return nonnulllist == null ? ItemStack.field_190927_a : (ItemStack) nonnulllist.get(i);
     }
 
+    @Override
     public String func_70005_c_() {
         return "container.inventory";
     }
 
+    @Override
     public boolean func_145818_k_() {
         return false;
     }
 
+    @Override
     public ITextComponent func_145748_c_() {
-        return (ITextComponent) (this.func_145818_k_() ? new TextComponentString(this.func_70005_c_()) : new TextComponentTranslation(this.func_70005_c_(), new Object[0]));
+        return this.func_145818_k_() ? new TextComponentString(this.func_70005_c_()) : new TextComponentTranslation(this.func_70005_c_(), new Object[0]);
     }
 
+    @Override
     public int func_70297_j_() {
         return maxStack; // CraftBukkit
     }
@@ -639,7 +655,7 @@ public class InventoryPlayer implements IInventory {
         }
 
         for (int i = 0; i < this.field_70460_b.size(); ++i) {
-            ItemStack itemstack = (ItemStack) this.field_70460_b.get(i);
+            ItemStack itemstack = this.field_70460_b.get(i);
 
             if (itemstack.func_77973_b() instanceof ItemArmor) {
                 itemstack.func_77972_a((int) f, this.field_70458_d);
@@ -666,6 +682,7 @@ public class InventoryPlayer implements IInventory {
 
     }
 
+    @Override
     public void func_70296_d() {
         ++this.field_194017_h;
     }
@@ -683,6 +700,7 @@ public class InventoryPlayer implements IInventory {
         return this.field_70457_g;
     }
 
+    @Override
     public boolean func_70300_a(EntityPlayer entityhuman) {
         return this.field_70458_d.field_70128_L ? false : entityhuman.func_70068_e(this.field_70458_d) <= 64.0D;
     }
@@ -706,10 +724,13 @@ public class InventoryPlayer implements IInventory {
         return false;
     }
 
+    @Override
     public void func_174889_b(EntityPlayer entityhuman) {}
 
+    @Override
     public void func_174886_c(EntityPlayer entityhuman) {}
 
+    @Override
     public boolean func_94041_b(int i, ItemStack itemstack) {
         return true;
     }
@@ -722,16 +743,20 @@ public class InventoryPlayer implements IInventory {
         this.field_70461_c = playerinventory.field_70461_c;
     }
 
+    @Override
     public int func_174887_a_(int i) {
         return 0;
     }
 
+    @Override
     public void func_174885_b(int i, int j) {}
 
+    @Override
     public int func_174890_g() {
         return 0;
     }
 
+    @Override
     public void func_174888_l() {
         Iterator iterator = this.field_184440_g.iterator();
 
@@ -753,7 +778,7 @@ public class InventoryPlayer implements IInventory {
         }
 
         if (flag) {
-            autorecipestackmanager.func_194112_a((ItemStack) this.field_184439_c.get(0));
+            autorecipestackmanager.func_194112_a(this.field_184439_c.get(0));
         }
 
     }

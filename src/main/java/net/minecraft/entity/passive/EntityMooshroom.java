@@ -30,6 +30,7 @@ public class EntityMooshroom extends EntityCow {
         EntityLiving.func_189752_a(dataconvertermanager, EntityMooshroom.class);
     }
 
+    @Override
     public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
@@ -52,7 +53,7 @@ public class EntityMooshroom extends EntityCow {
             }
             // CraftBukkit end
             this.func_70106_y();
-            this.field_70170_p.func_175688_a(EnumParticleTypes.EXPLOSION_LARGE, this.field_70165_t, this.field_70163_u + (double) (this.field_70131_O / 2.0F), this.field_70161_v, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.field_70170_p.func_175688_a(EnumParticleTypes.EXPLOSION_LARGE, this.field_70165_t, this.field_70163_u + this.field_70131_O / 2.0F, this.field_70161_v, 0.0D, 0.0D, 0.0D, new int[0]);
             if (!this.field_70170_p.field_72995_K) {
                 EntityCow entitycow = new EntityCow(this.field_70170_p);
 
@@ -66,7 +67,7 @@ public class EntityMooshroom extends EntityCow {
                 this.field_70170_p.func_72838_d(entitycow);
 
                 for (int i = 0; i < 5; ++i) {
-                    this.field_70170_p.func_72838_d(new EntityItem(this.field_70170_p, this.field_70165_t, this.field_70163_u + (double) this.field_70131_O, this.field_70161_v, new ItemStack(Blocks.field_150337_Q)));
+                    this.field_70170_p.func_72838_d(new EntityItem(this.field_70170_p, this.field_70165_t, this.field_70163_u + this.field_70131_O, this.field_70161_v, new ItemStack(Blocks.field_150337_Q)));
                 }
 
                 itemstack.func_77972_a(1, entityhuman);
@@ -79,20 +80,14 @@ public class EntityMooshroom extends EntityCow {
         }
     }
 
+    @Override
     public EntityMooshroom func_90011_a(EntityAgeable entityageable) {
         return new EntityMooshroom(this.field_70170_p);
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_186400_H;
-    }
-
-    public EntityCow func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
-    }
-
-    public EntityAgeable func_90011_a(EntityAgeable entityageable) {
-        return this.func_90011_a(entityageable);
     }
 }

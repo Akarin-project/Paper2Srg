@@ -22,7 +22,6 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LootItemFunctionEnchant.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -39,6 +38,7 @@ public class EnchantRandomly extends LootFunction {
         this.field_186558_b = list == null ? Collections.emptyList() : list;
     }
 
+    @Override
     public ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo) {
         Enchantment enchantment;
 
@@ -61,7 +61,7 @@ public class EnchantRandomly extends LootFunction {
 
             enchantment = (Enchantment) arraylist.get(random.nextInt(arraylist.size()));
         } else {
-            enchantment = (Enchantment) this.field_186558_b.get(random.nextInt(this.field_186558_b.size()));
+            enchantment = this.field_186558_b.get(random.nextInt(this.field_186558_b.size()));
         }
 
         int i = MathHelper.func_76136_a(random, enchantment.func_77319_d(), enchantment.func_77325_b());
@@ -76,12 +76,13 @@ public class EnchantRandomly extends LootFunction {
         return itemstack;
     }
 
-    public static class a extends LootItemFunction.a<EnchantRandomly> {
+    public static class a extends LootFunction.a<EnchantRandomly> {
 
         public a() {
             super(new ResourceLocation("enchant_randomly"), EnchantRandomly.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, EnchantRandomly lootitemfunctionenchant, JsonSerializationContext jsonserializationcontext) {
             if (!lootitemfunctionenchant.field_186558_b.isEmpty()) {
                 JsonArray jsonarray = new JsonArray();
@@ -89,7 +90,7 @@ public class EnchantRandomly extends LootFunction {
 
                 while (iterator.hasNext()) {
                     Enchantment enchantment = (Enchantment) iterator.next();
-                    ResourceLocation minecraftkey = (ResourceLocation) Enchantment.field_185264_b.func_177774_c(enchantment);
+                    ResourceLocation minecraftkey = Enchantment.field_185264_b.func_177774_c(enchantment);
 
                     if (minecraftkey == null) {
                         throw new IllegalArgumentException("Don\'t know how to serialize enchantment " + enchantment);
@@ -113,7 +114,7 @@ public class EnchantRandomly extends LootFunction {
                 while (iterator.hasNext()) {
                     JsonElement jsonelement = (JsonElement) iterator.next();
                     String s = JsonUtils.func_151206_a(jsonelement, "enchantment");
-                    Enchantment enchantment = (Enchantment) Enchantment.field_185264_b.func_82594_a(new ResourceLocation(s));
+                    Enchantment enchantment = Enchantment.field_185264_b.func_82594_a(new ResourceLocation(s));
 
                     if (enchantment == null) {
                         throw new JsonSyntaxException("Unknown enchantment \'" + s + "\'");
@@ -126,7 +127,8 @@ public class EnchantRandomly extends LootFunction {
             return new EnchantRandomly(alootitemcondition, arraylist);
         }
 
-        public LootFunction b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
+        @Override
+        public EnchantRandomly b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
             return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
         }
     }

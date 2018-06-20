@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Random;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.LotoSelectorEntry.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 
@@ -36,7 +35,7 @@ public abstract class LootEntry {
             return lastWeight;
         }
         // This is vanilla
-        float qualityModifer = (float) this.getQuality() * f;
+        float qualityModifer = this.getQuality() * f;
         double baseWeight = (this.getWeight() + qualityModifer);
         if (com.destroystokyo.paper.PaperConfig.useAlternativeLuckFormula) {
             // Random boost to avoid losing precision in the final int cast on return
@@ -75,7 +74,7 @@ public abstract class LootEntry {
             LootCondition[] alootitemcondition;
 
             if (jsonobject.has("conditions")) {
-                alootitemcondition = (LootCondition[]) JsonUtils.func_188174_a(jsonobject, "conditions", jsondeserializationcontext, LootCondition[].class);
+                alootitemcondition = JsonUtils.func_188174_a(jsonobject, "conditions", jsondeserializationcontext, LootCondition[].class);
             } else {
                 alootitemcondition = new LootCondition[0];
             }
@@ -116,10 +115,12 @@ public abstract class LootEntry {
             return jsonobject;
         }
 
+        @Override
         public JsonElement serialize(LootEntry object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a((LootEntry) object, type, jsonserializationcontext);
+            return this.a(object, type, jsonserializationcontext);
         }
 
+        @Override
         public LootEntry deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
             return this.a(jsonelement, type, jsondeserializationcontext);
         }

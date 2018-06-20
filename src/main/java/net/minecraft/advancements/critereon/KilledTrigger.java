@@ -15,37 +15,38 @@ import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.CriterionTriggerKilled.a;
-import net.minecraft.server.CriterionTriggerKilled.b;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 
-public class KilledTrigger implements ICriterionTrigger<CriterionTriggerKilled.b> {
+public class KilledTrigger implements ICriterionTrigger<KilledTrigger.b> {
 
-    private final Map<PlayerAdvancements, CriterionTriggerKilled.a> field_192213_a = Maps.newHashMap();
+    private final Map<PlayerAdvancements, KilledTrigger.a> field_192213_a = Maps.newHashMap();
     private final ResourceLocation field_192214_b;
 
     public KilledTrigger(ResourceLocation minecraftkey) {
         this.field_192214_b = minecraftkey;
     }
 
+    @Override
     public ResourceLocation func_192163_a() {
         return this.field_192214_b;
     }
 
-    public void a(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerKilled.b> criteriontrigger_a) {
-        CriterionTriggerKilled.a criteriontriggerkilled_a = (CriterionTriggerKilled.a) this.field_192213_a.get(advancementdataplayer);
+    @Override
+    public void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<KilledTrigger.b> criteriontrigger_a) {
+        KilledTrigger.a criteriontriggerkilled_a = this.field_192213_a.get(advancementdataplayer);
 
         if (criteriontriggerkilled_a == null) {
-            criteriontriggerkilled_a = new CriterionTriggerKilled.a(advancementdataplayer);
+            criteriontriggerkilled_a = new KilledTrigger.a(advancementdataplayer);
             this.field_192213_a.put(advancementdataplayer, criteriontriggerkilled_a);
         }
 
         criteriontriggerkilled_a.a(criteriontrigger_a);
     }
 
-    public void b(PlayerAdvancements advancementdataplayer, CriterionTrigger.a<CriterionTriggerKilled.b> criteriontrigger_a) {
-        CriterionTriggerKilled.a criteriontriggerkilled_a = (CriterionTriggerKilled.a) this.field_192213_a.get(advancementdataplayer);
+    @Override
+    public void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<KilledTrigger.b> criteriontrigger_a) {
+        KilledTrigger.a criteriontriggerkilled_a = this.field_192213_a.get(advancementdataplayer);
 
         if (criteriontriggerkilled_a != null) {
             criteriontriggerkilled_a.b(criteriontrigger_a);
@@ -56,16 +57,17 @@ public class KilledTrigger implements ICriterionTrigger<CriterionTriggerKilled.b
 
     }
 
+    @Override
     public void func_192167_a(PlayerAdvancements advancementdataplayer) {
         this.field_192213_a.remove(advancementdataplayer);
     }
 
-    public CriterionTriggerKilled.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        return new CriterionTriggerKilled.b(this.field_192214_b, EntityPredicate.func_192481_a(jsonobject.get("entity")), DamageSourcePredicate.func_192447_a(jsonobject.get("killing_blow")));
+    public KilledTrigger.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+        return new KilledTrigger.b(this.field_192214_b, EntityPredicate.func_192481_a(jsonobject.get("entity")), DamageSourcePredicate.func_192447_a(jsonobject.get("killing_blow")));
     }
 
     public void func_192211_a(EntityPlayerMP entityplayer, Entity entity, DamageSource damagesource) {
-        CriterionTriggerKilled.a criteriontriggerkilled_a = (CriterionTriggerKilled.a) this.field_192213_a.get(entityplayer.func_192039_O());
+        KilledTrigger.a criteriontriggerkilled_a = this.field_192213_a.get(entityplayer.func_192039_O());
 
         if (criteriontriggerkilled_a != null) {
             criteriontriggerkilled_a.a(entityplayer, entity, damagesource);
@@ -73,14 +75,15 @@ public class KilledTrigger implements ICriterionTrigger<CriterionTriggerKilled.b
 
     }
 
-    public ICriterionInstance func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    @Override
+    public b func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
         return this.b(jsonobject, jsondeserializationcontext);
     }
 
     static class a {
 
         private final PlayerAdvancements a;
-        private final Set<CriterionTrigger.a<CriterionTriggerKilled.b>> b = Sets.newHashSet();
+        private final Set<ICriterionTrigger.a<KilledTrigger.b>> b = Sets.newHashSet();
 
         public a(PlayerAdvancements advancementdataplayer) {
             this.a = advancementdataplayer;
@@ -90,11 +93,11 @@ public class KilledTrigger implements ICriterionTrigger<CriterionTriggerKilled.b
             return this.b.isEmpty();
         }
 
-        public void a(CriterionTrigger.a<CriterionTriggerKilled.b> criteriontrigger_a) {
+        public void a(ICriterionTrigger.a<KilledTrigger.b> criteriontrigger_a) {
             this.b.add(criteriontrigger_a);
         }
 
-        public void b(CriterionTrigger.a<CriterionTriggerKilled.b> criteriontrigger_a) {
+        public void b(ICriterionTrigger.a<KilledTrigger.b> criteriontrigger_a) {
             this.b.remove(criteriontrigger_a);
         }
 
@@ -102,11 +105,11 @@ public class KilledTrigger implements ICriterionTrigger<CriterionTriggerKilled.b
             ArrayList arraylist = null;
             Iterator iterator = this.b.iterator();
 
-            CriterionTrigger.a criteriontrigger_a;
+            ICriterionTrigger.a criteriontrigger_a;
 
             while (iterator.hasNext()) {
-                criteriontrigger_a = (CriterionTrigger.a) iterator.next();
-                if (((CriterionTriggerKilled.b) criteriontrigger_a.a()).a(entityplayer, entity, damagesource)) {
+                criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
+                if (((KilledTrigger.b) criteriontrigger_a.a()).a(entityplayer, entity, damagesource)) {
                     if (arraylist == null) {
                         arraylist = Lists.newArrayList();
                     }
@@ -119,7 +122,7 @@ public class KilledTrigger implements ICriterionTrigger<CriterionTriggerKilled.b
                 iterator = arraylist.iterator();
 
                 while (iterator.hasNext()) {
-                    criteriontrigger_a = (CriterionTrigger.a) iterator.next();
+                    criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
                     criteriontrigger_a.a(this.a);
                 }
             }

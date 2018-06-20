@@ -43,6 +43,7 @@ public class EntityZombieVillager extends EntityZombie {
         super(world);
     }
 
+    @Override
     protected void func_70088_a() {
         super.func_70088_a();
         this.field_70180_af.func_187214_a(EntityZombieVillager.field_184739_bx, Boolean.valueOf(false));
@@ -54,13 +55,14 @@ public class EntityZombieVillager extends EntityZombie {
     }
 
     public int func_190736_dl() {
-        return Math.max(((Integer) this.field_70180_af.func_187225_a(EntityZombieVillager.field_190739_c)).intValue() % 6, 0);
+        return Math.max(this.field_70180_af.func_187225_a(EntityZombieVillager.field_190739_c).intValue() % 6, 0);
     }
 
     public static void func_190737_b(DataFixer dataconvertermanager) {
         EntityLiving.func_189752_a(dataconvertermanager, EntityZombieVillager.class);
     }
 
+    @Override
     public void func_70014_b(NBTTagCompound nbttagcompound) {
         super.func_70014_b(nbttagcompound);
         nbttagcompound.func_74768_a("Profession", this.func_190736_dl());
@@ -71,6 +73,7 @@ public class EntityZombieVillager extends EntityZombie {
 
     }
 
+    @Override
     public void func_70037_a(NBTTagCompound nbttagcompound) {
         super.func_70037_a(nbttagcompound);
         this.func_190733_a(nbttagcompound.func_74762_e("Profession"));
@@ -80,12 +83,14 @@ public class EntityZombieVillager extends EntityZombie {
 
     }
 
+    @Override
     @Nullable
     public IEntityLivingData func_180482_a(DifficultyInstance difficultydamagescaler, @Nullable IEntityLivingData groupdataentity) {
         this.func_190733_a(this.field_70170_p.field_73012_v.nextInt(6));
         return super.func_180482_a(difficultydamagescaler, groupdataentity);
     }
 
+    @Override
     public void func_70071_h_() {
         if (!this.field_70170_p.field_72995_K && this.func_82230_o()) {
             int i = this.func_190735_dq();
@@ -104,6 +109,7 @@ public class EntityZombieVillager extends EntityZombie {
         super.func_70071_h_();
     }
 
+    @Override
     public boolean func_184645_a(EntityPlayer entityhuman, EnumHand enumhand) {
         ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
@@ -122,12 +128,13 @@ public class EntityZombieVillager extends EntityZombie {
         }
     }
 
-    protected boolean func_70692_ba() {
+    @Override
+    public boolean func_70692_ba() {
         return !this.func_82230_o();
     }
 
     public boolean func_82230_o() {
-        return ((Boolean) this.func_184212_Q().func_187225_a(EntityZombieVillager.field_184739_bx)).booleanValue();
+        return this.func_184212_Q().func_187225_a(EntityZombieVillager.field_184739_bx).booleanValue();
     }
 
     protected void func_191991_a(@Nullable UUID uuid, int i) {
@@ -197,31 +204,38 @@ public class EntityZombieVillager extends EntityZombie {
         return i;
     }
 
+    @Override
     protected float func_70647_i() {
         return this.func_70631_g_() ? (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F + 2.0F : (this.field_70146_Z.nextFloat() - this.field_70146_Z.nextFloat()) * 0.2F + 1.0F;
     }
 
+    @Override
     public SoundEvent func_184639_G() {
         return SoundEvents.field_187940_hn;
     }
 
+    @Override
     public SoundEvent func_184601_bQ(DamageSource damagesource) {
         return SoundEvents.field_187944_hr;
     }
 
+    @Override
     public SoundEvent func_184615_bR() {
         return SoundEvents.field_187943_hq;
     }
 
+    @Override
     public SoundEvent func_190731_di() {
         return SoundEvents.field_187946_ht;
     }
 
+    @Override
     @Nullable
     protected ResourceLocation func_184647_J() {
         return LootTableList.field_191183_as;
     }
 
+    @Override
     protected ItemStack func_190732_dj() {
         return ItemStack.field_190927_a;
     }

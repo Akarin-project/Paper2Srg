@@ -20,6 +20,7 @@ public final class EntitySelectors {
             return entity.func_70089_S();
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
@@ -29,6 +30,7 @@ public final class EntitySelectors {
             return entity.func_70089_S() && !entity.func_184207_aI() && !entity.func_184218_aH();
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
@@ -38,6 +40,7 @@ public final class EntitySelectors {
             return entity instanceof IInventory && entity.func_70089_S();
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
@@ -47,6 +50,7 @@ public final class EntitySelectors {
             return !(entity instanceof EntityPlayer) || !((EntityPlayer) entity).func_175149_v() && !((EntityPlayer) entity).func_184812_l_();
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
@@ -56,6 +60,7 @@ public final class EntitySelectors {
             return !(entity instanceof EntityPlayer) || !((EntityPlayer) entity).func_175149_v();
         }
 
+        @Override
         public boolean apply(@Nullable Object object) {
             return this.a((Entity) object);
         }
@@ -64,26 +69,24 @@ public final class EntitySelectors {
     public static <T extends Entity> Predicate<T> func_188443_a(final double d0, final double d1, final double d2, double d3) {
         final double d4 = d3 * d3;
 
-        return new Predicate() {
-            public boolean a(@Nullable T t0) {
+        return new Predicate<T>() {
+            @Override
+            public boolean apply(@Nullable T t0) {
                 return t0 != null && t0.func_70092_e(d0, d1, d2) <= d3;
-            }
-
-            public boolean apply(@Nullable Object object) {
-                return this.a((Entity) object);
             }
         };
     }
 
-    public static <T extends Entity> Predicate<T> func_188442_a(final Entity entity) {
-        final Team scoreboardteambase = entity.func_96124_cp();
-        final Team.CollisionRule scoreboardteambase_enumteampush = scoreboardteambase == null ? Team.CollisionRule.ALWAYS : scoreboardteambase.func_186681_k();
+    public static <T extends Entity> Predicate<T> func_188442_a(final Entity entity1) {
+        final Team scoreboardteambase1 = entity1.func_96124_cp();
+        final Team.CollisionRule scoreboardteambase_enumteampush1 = scoreboardteambase1 == null ? Team.CollisionRule.ALWAYS : scoreboardteambase1.func_186681_k();
 
-        return scoreboardteambase_enumteampush == Team.CollisionRule.NEVER ? Predicates.alwaysFalse() : Predicates.and(EntitySelectors.field_180132_d, new Predicate() {
-            public boolean a(@Nullable Entity entity) {
+        return scoreboardteambase_enumteampush1 == Team.CollisionRule.NEVER ? Predicates.alwaysFalse() : Predicates.and(EntitySelectors.field_180132_d, new Predicate<Entity>() {
+            @Override
+            public boolean apply(@Nullable Entity entity) {
                 if (!entity.func_70104_M()) {
                     return false;
-                } else if (entity1.world.isClientSide && (!(entity instanceof EntityPlayer) || !((EntityPlayer) entity).func_175144_cb())) {
+                } else if (!(entity instanceof EntityPlayer) || !((EntityPlayer) entity).func_175144_cb()) {
                     return false;
                 } else {
                     Team scoreboardteambase = entity.func_96124_cp();
@@ -92,22 +95,19 @@ public final class EntitySelectors {
                     if (scoreboardteambase_enumteampush == Team.CollisionRule.NEVER) {
                         return false;
                     } else {
-                        boolean flag = scoreboardteambase1 != null && scoreboardteambase1.isAlly(scoreboardteambase);
+                        boolean flag = scoreboardteambase1 != null && scoreboardteambase1.func_142054_a(scoreboardteambase);
 
                         return (scoreboardteambase_enumteampush1 == Team.CollisionRule.HIDE_FOR_OWN_TEAM || scoreboardteambase_enumteampush == Team.CollisionRule.HIDE_FOR_OWN_TEAM) && flag ? false : scoreboardteambase_enumteampush1 != Team.CollisionRule.HIDE_FOR_OTHER_TEAMS && scoreboardteambase_enumteampush != Team.CollisionRule.HIDE_FOR_OTHER_TEAMS || flag;
                     }
                 }
             }
-
-            public boolean apply(@Nullable Object object) {
-                return this.a((Entity) object);
-            }
         });
     }
 
-    public static Predicate<Entity> func_191324_b(final Entity entity) {
-        return new Predicate() {
-            public boolean a(@Nullable Entity entity) {
+    public static Predicate<Entity> func_191324_b(final Entity entity1) {
+        return new Predicate<Entity>() {
+            @Override
+            public boolean apply(@Nullable Entity entity) {
                 while (true) {
                     if (entity.func_184218_aH()) {
                         entity = entity.func_184187_bx();
@@ -121,10 +121,6 @@ public final class EntitySelectors {
                     return true;
                 }
             }
-
-            public boolean apply(@Nullable Object object) {
-                return this.a((Entity) object);
-            }
         };
     }
 
@@ -136,6 +132,7 @@ public final class EntitySelectors {
             this.field_96567_c = itemstack;
         }
 
+        @Override
         public boolean apply(@Nullable Entity entity) {
             if (!entity.func_70089_S()) {
                 return false;
@@ -146,10 +143,6 @@ public final class EntitySelectors {
 
                 return !entityliving.func_184582_a(EntityLiving.func_184640_d(this.field_96567_c)).func_190926_b() ? false : (entityliving instanceof EntityLiving ? ((EntityLiving) entityliving).func_98052_bS() : (entityliving instanceof EntityArmorStand ? true : entityliving instanceof EntityPlayer));
             }
-        }
-
-        public boolean apply(@Nullable Object object) {
-            return this.apply((Entity) object);
         }
     }
 }

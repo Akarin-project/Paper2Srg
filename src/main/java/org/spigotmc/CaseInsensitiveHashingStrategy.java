@@ -1,5 +1,6 @@
 package org.spigotmc;
 
+import gnu.trove.strategy.HashingStrategy;
 
 class CaseInsensitiveHashingStrategy implements HashingStrategy {
 

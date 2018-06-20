@@ -30,7 +30,7 @@ public class BiomeJungle extends Biome {
     private static final IBlockState field_181621_aF = Blocks.field_150362_t.func_176223_P().func_177226_a(BlockOldLeaf.field_176239_P, BlockPlanks.EnumType.JUNGLE).func_177226_a(BlockLeaves.field_176236_b, Boolean.valueOf(false));
     private static final IBlockState field_181622_aG = Blocks.field_150362_t.func_176223_P().func_177226_a(BlockOldLeaf.field_176239_P, BlockPlanks.EnumType.OAK).func_177226_a(BlockLeaves.field_176236_b, Boolean.valueOf(false));
 
-    public BiomeJungle(boolean flag, BiomeBase.a biomebase_a) {
+    public BiomeJungle(boolean flag, Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_150614_aC = flag;
         if (flag) {

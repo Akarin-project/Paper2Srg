@@ -2,7 +2,7 @@ package net.minecraft.world.biome;
 
 public class BiomeOcean extends Biome {
 
-    public BiomeOcean(BiomeBase.a biomebase_a) {
+    public BiomeOcean(Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_76762_K.clear();
     }

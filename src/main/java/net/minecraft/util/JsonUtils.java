@@ -250,7 +250,7 @@ public class JsonUtils {
             JsonReader jsonreader = new JsonReader(reader);
 
             jsonreader.setLenient(flag);
-            return gson.getAdapter(TypeToken.get(type)).read(jsonreader);
+            return (T) gson.getAdapter(TypeToken.get(type)).read(jsonreader);
         } catch (IOException ioexception) {
             throw new JsonParseException(ioexception);
         }

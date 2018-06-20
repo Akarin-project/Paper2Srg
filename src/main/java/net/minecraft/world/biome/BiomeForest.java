@@ -21,7 +21,7 @@ public class BiomeForest extends Biome {
     protected static final WorldGenCanopyTree field_150631_aE = new WorldGenCanopyTree(false);
     private final BiomeForest.Type field_150632_aF;
 
-    public BiomeForest(BiomeForest.Type biomeforest_type, BiomeBase.a biomebase_a) {
+    public BiomeForest(BiomeForest.Type biomeforest_type, Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_150632_aF = biomeforest_type;
         this.field_76760_I.field_76832_z = 10;

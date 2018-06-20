@@ -3,7 +3,7 @@ package org.bukkit.craftbukkit.entity;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Projectile;
 
-import net;
+
 
 public abstract class AbstractProjectile extends CraftEntity implements Projectile {
 

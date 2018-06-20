@@ -211,7 +211,7 @@ public final class NBTUtil {
         if (!nbttagcompound.func_150297_b("Name", 8)) {
             return Blocks.field_150350_a.func_176223_P();
         } else {
-            Block block = (Block) Block.field_149771_c.func_82594_a(new ResourceLocation(nbttagcompound.func_74779_i("Name")));
+            Block block = Block.field_149771_c.func_82594_a(new ResourceLocation(nbttagcompound.func_74779_i("Name")));
             IBlockState iblockdata = block.func_176223_P();
 
             if (nbttagcompound.func_150297_b("Properties", 10)) {
@@ -234,10 +234,10 @@ public final class NBTUtil {
     }
 
     private static <T extends Comparable<T>> IBlockState func_193590_a(IBlockState iblockdata, IProperty<T> iblockstate, String s, NBTTagCompound nbttagcompound, NBTTagCompound nbttagcompound1) {
-        Optional optional = iblockstate.func_185929_b(nbttagcompound.func_74779_i(s));
+        Optional<T> optional = iblockstate.func_185929_b(nbttagcompound.func_74779_i(s));
 
         if (optional.isPresent()) {
-            return iblockdata.func_177226_a(iblockstate, (Comparable) optional.get());
+            return iblockdata.func_177226_a(iblockstate, optional.get());
         } else {
             NBTUtil.field_193591_a.warn("Unable to read property: {} with value: {} for blockstate: {}", s, nbttagcompound.func_74779_i(s), nbttagcompound1.toString());
             return iblockdata;
@@ -245,7 +245,7 @@ public final class NBTUtil {
     }
 
     public static NBTTagCompound func_190009_a(NBTTagCompound nbttagcompound, IBlockState iblockdata) {
-        nbttagcompound.func_74778_a("Name", ((ResourceLocation) Block.field_149771_c.func_177774_c(iblockdata.func_177230_c())).toString());
+        nbttagcompound.func_74778_a("Name", Block.field_149771_c.func_177774_c(iblockdata.func_177230_c()).toString());
         if (!iblockdata.func_177228_b().isEmpty()) {
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             UnmodifiableIterator unmodifiableiterator = iblockdata.func_177228_b().entrySet().iterator();
@@ -264,6 +264,6 @@ public final class NBTUtil {
     }
 
     private static <T extends Comparable<T>> String func_190010_a(IProperty<T> iblockstate, Comparable<?> comparable) {
-        return iblockstate.func_177702_a(comparable);
+        return iblockstate.func_177702_a((T) comparable);
     }
 }

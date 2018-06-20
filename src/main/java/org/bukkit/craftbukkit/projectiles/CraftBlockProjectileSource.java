@@ -47,7 +47,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.block.BlockSourceImpl;
 import net.minecraft.tileentity.TileEntityDispenser;
 
-import net;
+
 
 public class CraftBlockProjectileSource implements BlockProjectileSource {
     private final TileEntityDispenser dispenserBlock;

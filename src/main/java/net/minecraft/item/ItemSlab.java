@@ -1,4 +1,5 @@
 package net.minecraft.item;
+
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
@@ -15,7 +16,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-
 public class ItemSlab extends ItemBlock {
 
     private final BlockSlab field_150949_c;
@@ -29,14 +29,17 @@ public class ItemSlab extends ItemBlock {
         this.func_77627_a(true);
     }
 
+    @Override
     public int func_77647_b(int i) {
         return i;
     }
 
+    @Override
     public String func_77667_c(ItemStack itemstack) {
         return this.field_150949_c.func_150002_b(itemstack.func_77960_j());
     }
 
+    @Override
     public EnumActionResult func_180614_a(EntityPlayer entityhuman, World world, BlockPos blockposition, EnumHand enumhand, EnumFacing enumdirection, float f, float f1, float f2) {
         ItemStack itemstack = entityhuman.func_184586_b(enumhand);
 
@@ -47,7 +50,7 @@ public class ItemSlab extends ItemBlock {
             if (iblockdata.func_177230_c() == this.field_150949_c) {
                 IProperty iblockstate = this.field_150949_c.func_176551_l();
                 Comparable comparable1 = iblockdata.func_177229_b(iblockstate);
-                BlockSlab.EnumBlockHalf blockstepabstract_enumslabhalf = (BlockSlab.EnumBlockHalf) iblockdata.func_177229_b(BlockSlab.field_176554_a);
+                BlockSlab.EnumBlockHalf blockstepabstract_enumslabhalf = iblockdata.func_177229_b(BlockSlab.field_176554_a);
 
                 if ((enumdirection == EnumFacing.UP && blockstepabstract_enumslabhalf == BlockSlab.EnumBlockHalf.BOTTOM || enumdirection == EnumFacing.DOWN && blockstepabstract_enumslabhalf == BlockSlab.EnumBlockHalf.TOP) && comparable1 == comparable) {
                     IBlockState iblockdata1 = this.func_185055_a(iblockstate, comparable1);
@@ -67,7 +70,7 @@ public class ItemSlab extends ItemBlock {
                 }
             }
 
-            return this.func_180615_a(entityhuman, itemstack, world, blockposition.func_177972_a(enumdirection), (Object) comparable) ? EnumActionResult.SUCCESS : super.func_180614_a(entityhuman, world, blockposition, enumhand, enumdirection, f, f1, f2);
+            return this.func_180615_a(entityhuman, itemstack, world, blockposition.func_177972_a(enumdirection), comparable) ? EnumActionResult.SUCCESS : super.func_180614_a(entityhuman, world, blockposition, enumhand, enumdirection, f, f1, f2);
         } else {
             return EnumActionResult.FAIL;
         }
@@ -98,6 +101,6 @@ public class ItemSlab extends ItemBlock {
     }
 
     protected <T extends Comparable<T>> IBlockState func_185055_a(IProperty<T> iblockstate, Comparable<?> comparable) {
-        return this.field_179226_c.func_176223_P().func_177226_a(iblockstate, comparable);
+        return this.field_179226_c.func_176223_P().func_177226_a(iblockstate, (T) comparable);
     }
 }

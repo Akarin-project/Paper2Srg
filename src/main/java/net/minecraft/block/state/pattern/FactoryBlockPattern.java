@@ -55,7 +55,7 @@ public class FactoryBlockPattern {
                         char c0 = achar[l];
 
                         if (!this.field_177666_c.containsKey(Character.valueOf(c0))) {
-                            this.field_177666_c.put(Character.valueOf(c0), (Object) null);
+                            this.field_177666_c.put(Character.valueOf(c0), null);
                         }
                     }
                 }
@@ -83,12 +83,12 @@ public class FactoryBlockPattern {
 
     private Predicate<BlockWorldState>[][][] func_177658_c() {
         this.func_177657_d();
-        Predicate[][][] apredicate = (Predicate[][][]) ((Predicate[][][]) Array.newInstance(Predicate.class, new int[] { this.field_177665_b.size(), this.field_177663_d, this.field_177664_e}));
+        Predicate[][][] apredicate = ((Predicate[][][]) Array.newInstance(Predicate.class, new int[] { this.field_177665_b.size(), this.field_177663_d, this.field_177664_e}));
 
         for (int i = 0; i < this.field_177665_b.size(); ++i) {
             for (int j = 0; j < this.field_177663_d; ++j) {
                 for (int k = 0; k < this.field_177664_e; ++k) {
-                    apredicate[i][j][k] = (Predicate) this.field_177666_c.get(Character.valueOf(((String[]) this.field_177665_b.get(i))[j].charAt(k)));
+                    apredicate[i][j][k] = this.field_177666_c.get(Character.valueOf(this.field_177665_b.get(i)[j].charAt(k)));
                 }
             }
         }

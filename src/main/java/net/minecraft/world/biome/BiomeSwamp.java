@@ -17,7 +17,7 @@ public class BiomeSwamp extends Biome {
 
     protected static final IBlockState field_185387_y = Blocks.field_150392_bi.func_176223_P();
 
-    protected BiomeSwamp(BiomeBase.a biomebase_a) {
+    protected BiomeSwamp(Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_76760_I.field_76832_z = 2;
         this.field_76760_I.field_76802_A = 1;

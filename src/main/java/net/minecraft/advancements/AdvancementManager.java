@@ -65,16 +65,12 @@ public class AdvancementManager {
 
     public void func_192779_a() {
         this.field_193768_e = false;
-        AdvancementManager.field_192784_c.func_192087_a();
-        Map map = this.func_192781_c();
-
+        field_192784_c.func_192087_a();
+        Map<ResourceLocation, Advancement.Builder> map = this.func_192781_c();
         this.func_192777_a(map);
-        AdvancementManager.field_192784_c.func_192083_a(map);
-        Iterator iterator = AdvancementManager.field_192784_c.func_192088_b().iterator();
+        field_192784_c.func_192083_a(map);
 
-        while (iterator.hasNext()) {
-            Advancement advancement = (Advancement) iterator.next();
-
+        for (Advancement advancement : field_192784_c.func_192088_b()) {
             if (advancement.func_192068_c() != null) {
                 AdvancementTreeNode.func_192323_a(advancement);
             }

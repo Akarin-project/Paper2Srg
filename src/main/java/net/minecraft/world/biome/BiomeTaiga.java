@@ -28,7 +28,7 @@ public class BiomeTaiga extends Biome {
     private static final WorldGenBlockBlob field_150643_aG = new WorldGenBlockBlob(Blocks.field_150341_Y, 0);
     private final BiomeTaiga.Type field_150644_aH;
 
-    public BiomeTaiga(BiomeTaiga.Type biometaiga_type, BiomeBase.a biomebase_a) {
+    public BiomeTaiga(BiomeTaiga.Type biometaiga_type, Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_150644_aH = biometaiga_type;
         this.field_76762_K.add(new Biome.SpawnListEntry(EntityWolf.class, 8, 4, 4));

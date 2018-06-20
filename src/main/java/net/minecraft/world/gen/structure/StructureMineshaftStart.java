@@ -17,7 +17,7 @@ public class StructureMineshaftStart extends StructureStart {
         StructureMineshaftPieces.Room worldgenmineshaftpieces_worldgenmineshaftroom = new StructureMineshaftPieces.Room(0, random, (i << 4) + 2, (j << 4) + 2, this.field_189908_c);
 
         this.field_75075_a.add(worldgenmineshaftpieces_worldgenmineshaftroom);
-        worldgenmineshaftpieces_worldgenmineshaftroom.func_74861_a((StructureComponent) worldgenmineshaftpieces_worldgenmineshaftroom, this.field_75075_a, random);
+        worldgenmineshaftpieces_worldgenmineshaftroom.func_74861_a(worldgenmineshaftpieces_worldgenmineshaftroom, this.field_75075_a, random);
         this.func_75072_c();
         if (worldgenmineshaft_type == MapGenMineshaft.Type.MESA) {
             boolean flag = true;

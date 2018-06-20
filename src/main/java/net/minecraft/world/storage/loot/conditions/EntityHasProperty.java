@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.server.LootItemConditionEntityProperty.a;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
@@ -27,6 +26,7 @@ public class EntityHasProperty implements LootCondition {
         this.field_186624_b = loottableinfo_entitytarget;
     }
 
+    @Override
     public boolean func_186618_a(Random random, LootContext loottableinfo) {
         Entity entity = loottableinfo.func_186494_a(this.field_186624_b);
 
@@ -48,12 +48,13 @@ public class EntityHasProperty implements LootCondition {
         }
     }
 
-    public static class a extends LootItemCondition.a<EntityHasProperty> {
+    public static class a extends LootCondition.a<EntityHasProperty> {
 
         protected a() {
             super(new ResourceLocation("entity_properties"), EntityHasProperty.class);
         }
 
+        @Override
         public void a(JsonObject jsonobject, EntityHasProperty lootitemconditionentityproperty, JsonSerializationContext jsonserializationcontext) {
             JsonObject jsonobject1 = new JsonObject();
             EntityProperty[] alootentityproperty = lootitemconditionentityproperty.field_186623_a;
@@ -61,7 +62,7 @@ public class EntityHasProperty implements LootCondition {
 
             for (int j = 0; j < i; ++j) {
                 EntityProperty lootentityproperty = alootentityproperty[j];
-                LootEntityProperty.a lootentityproperty_a = EntityPropertyManager.a(lootentityproperty);
+                EntityProperty.a lootentityproperty_a = EntityPropertyManager.a(lootentityproperty);
 
                 jsonobject1.add(lootentityproperty_a.a().toString(), lootentityproperty_a.a(lootentityproperty, jsonserializationcontext));
             }
@@ -81,10 +82,11 @@ public class EntityHasProperty implements LootCondition {
                 entry = (Entry) iterator.next();
             }
 
-            return new EntityHasProperty(alootentityproperty, (LootContext.EntityTarget) JsonUtils.func_188174_a(jsonobject, "entity", jsondeserializationcontext, LootContext.EntityTarget.class));
+            return new EntityHasProperty(alootentityproperty, JsonUtils.func_188174_a(jsonobject, "entity", jsondeserializationcontext, LootContext.EntityTarget.class));
         }
 
-        public LootCondition b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+        @Override
+        public EntityHasProperty b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
             return this.a(jsonobject, jsondeserializationcontext);
         }
     }

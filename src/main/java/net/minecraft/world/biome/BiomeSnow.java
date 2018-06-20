@@ -21,7 +21,7 @@ public class BiomeSnow extends Biome {
     private final WorldGenIceSpike field_150616_aD = new WorldGenIceSpike();
     private final WorldGenIcePath field_150617_aE = new WorldGenIcePath(4);
 
-    public BiomeSnow(boolean flag, BiomeBase.a biomebase_a) {
+    public BiomeSnow(boolean flag, Biome.a biomebase_a) {
         super(biomebase_a);
         this.field_150615_aC = flag;
         if (flag) {

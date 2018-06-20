@@ -70,13 +70,10 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
-
-import net;
 
 public class CraftLivingEntity extends CraftEntity implements LivingEntity {
     private CraftEntityEquipment equipment;
@@ -89,10 +86,12 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         }
     }
 
+    @Override
     public double getHealth() {
         return Math.min(Math.max(0, getHandle().func_110143_aJ()), getMaxHealth());
     }
 
+    @Override
     public void setHealth(double health) {
         health = (float) health;
         if ((health < 0) || (health > getMaxHealth())) {
@@ -109,10 +108,12 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         }
     }
 
+    @Override
     public double getMaxHealth() {
         return getHandle().func_110138_aP();
     }
 
+    @Override
     public void setMaxHealth(double amount) {
         Validate.isTrue(amount > 0, "Max health must be greater than 0");
 
@@ -123,14 +124,17 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         }
     }
 
+    @Override
     public void resetMaxHealth() {
         setMaxHealth(getHandle().func_110148_a(SharedMonsterAttributes.field_111267_a).func_111123_a().func_111110_b());
     }
 
+    @Override
     public double getEyeHeight() {
         return getHandle().func_70047_e();
     }
 
+    @Override
     public double getEyeHeight(boolean ignorePose) {
         return getEyeHeight();
     }
@@ -161,39 +165,48 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         return blocks;
     }
 
+    @Override
     public List<Block> getLineOfSight(Set<Material> transparent, int maxDistance) {
         return getLineOfSight(transparent, maxDistance, 0);
     }
 
+    @Override
     public Block getTargetBlock(Set<Material> transparent, int maxDistance) {
         List<Block> blocks = getLineOfSight(transparent, maxDistance, 1);
         return blocks.get(0);
     }
 
+    @Override
     public List<Block> getLastTwoTargetBlocks(Set<Material> transparent, int maxDistance) {
         return getLineOfSight(transparent, maxDistance, 2);
     }
 
+    @Override
     public int getRemainingAir() {
         return getHandle().func_70086_ai();
     }
 
+    @Override
     public void setRemainingAir(int ticks) {
         getHandle().func_70050_g(ticks);
     }
 
+    @Override
     public int getMaximumAir() {
         return getHandle().maxAirTicks;
     }
 
+    @Override
     public void setMaximumAir(int ticks) {
         getHandle().maxAirTicks = ticks;
     }
 
+    @Override
     public void damage(double amount) {
         damage(amount, null);
     }
 
+    @Override
     public void damage(double amount, org.bukkit.entity.Entity source) {
         DamageSource reason = DamageSource.field_76377_j;
 
@@ -206,32 +219,39 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         entity.func_70097_a(reason, (float) amount);
     }
 
+    @Override
     public Location getEyeLocation() {
         Location loc = getLocation();
         loc.setY(loc.getY() + getEyeHeight());
         return loc;
     }
 
+    @Override
     public int getMaximumNoDamageTicks() {
         return getHandle().field_70771_an;
     }
 
+    @Override
     public void setMaximumNoDamageTicks(int ticks) {
         getHandle().field_70771_an = ticks;
     }
 
+    @Override
     public double getLastDamage() {
         return getHandle().field_110153_bc;
     }
 
+    @Override
     public void setLastDamage(double damage) {
         getHandle().field_110153_bc = (float) damage;
     }
 
+    @Override
     public int getNoDamageTicks() {
         return getHandle().field_70172_ad;
     }
 
+    @Override
     public void setNoDamageTicks(int ticks) {
         getHandle().field_70172_ad = ticks;
     }
@@ -250,6 +270,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         return "CraftLivingEntity{" + "id=" + getEntityId() + '}';
     }
 
+    @Override
     public Player getKiller() {
         return getHandle().field_70717_bb == null ? null : (Player) getHandle().field_70717_bb.getBukkitEntity();
     }
@@ -257,18 +278,20 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
     // Paper start
     @Override
     public void setKiller(Player killer) {
-        minecraft.entity.player.EntityPlayerMP entityPlayer = killer == null ? null : ((CraftPlayer) killer).getHandle();
+        net.minecraft.entity.player.EntityPlayerMP entityPlayer = killer == null ? null : ((CraftPlayer) killer).getHandle();
         getHandle().field_70717_bb = entityPlayer;
         getHandle().field_70755_b = entityPlayer;
         getHandle().field_70718_bc = entityPlayer == null ? 0 : 100; // 100 value taken from EntityLiving#damageEntity
     }
     // Paper end
 
-    public boolean addPotionEffect(PotionEffect effect) {
+    @Override
+    public boolean addPotionEffect(org.bukkit.potion.PotionEffect effect) {
         return addPotionEffect(effect, false);
     }
 
-    public boolean addPotionEffect(PotionEffect effect, boolean force) {
+    @Override
+    public boolean addPotionEffect(org.bukkit.potion.PotionEffect effect, boolean force) {
         if (hasPotionEffect(effect.getType())) {
             if (!force) {
                 return false;
@@ -279,40 +302,46 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         return true;
     }
 
-    public boolean addPotionEffects(Collection<PotionEffect> effects) {
+    @Override
+    public boolean addPotionEffects(Collection<org.bukkit.potion.PotionEffect> effects) {
         boolean success = true;
-        for (PotionEffect effect : effects) {
+        for (org.bukkit.potion.PotionEffect effect : effects) {
             success &= addPotionEffect(effect);
         }
         return success;
     }
 
+    @Override
     public boolean hasPotionEffect(PotionEffectType type) {
         return getHandle().func_70644_a(Potion.func_188412_a(type.getId()));
     }
 
     @Override
-    public PotionEffect getPotionEffect(PotionEffectType type) {
+    public org.bukkit.potion.PotionEffect getPotionEffect(PotionEffectType type) {
         PotionEffect handle = getHandle().func_70660_b(Potion.func_188412_a(type.getId()));
-        return (handle == null) ? null : new PotionEffect(PotionEffectType.getById(Potion.func_188409_a(handle.func_188419_a())), handle.func_76459_b(), handle.func_76458_c(), handle.func_82720_e(), handle.func_188418_e());
+        return (handle == null) ? null : new org.bukkit.potion.PotionEffect(PotionEffectType.getById(Potion.func_188409_a(handle.func_188419_a())), handle.func_76459_b(), handle.func_76458_c(), handle.func_82720_e(), handle.func_188418_e());
     }
 
+    @Override
     public void removePotionEffect(PotionEffectType type) {
         getHandle().func_184589_d(Potion.func_188412_a(type.getId()));
     }
 
-    public Collection<PotionEffect> getActivePotionEffects() {
-        List<PotionEffect> effects = new ArrayList<PotionEffect>();
+    @Override
+    public Collection<org.bukkit.potion.PotionEffect> getActivePotionEffects() {
+        List<org.bukkit.potion.PotionEffect> effects = new ArrayList<org.bukkit.potion.PotionEffect>();
         for (PotionEffect handle : getHandle().field_70713_bf.values()) {
-            effects.add(new PotionEffect(PotionEffectType.getById(Potion.func_188409_a(handle.func_188419_a())), handle.func_76459_b(), handle.func_76458_c(), handle.func_82720_e(), handle.func_188418_e()));
+            effects.add(new org.bukkit.potion.PotionEffect(PotionEffectType.getById(Potion.func_188409_a(handle.func_188419_a())), handle.func_76459_b(), handle.func_76458_c(), handle.func_82720_e(), handle.func_188418_e()));
         }
         return effects;
     }
 
+    @Override
     public <T extends Projectile> T launchProjectile(Class<? extends T> projectile) {
         return launchProjectile(projectile, null);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public <T extends Projectile> T launchProjectile(Class<? extends T> projectile, Vector velocity) {
         net.minecraft.world.World world = ((CraftWorld) getWorld()).getHandle();
@@ -391,32 +420,39 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         return (T) launch.getBukkitEntity();
     }
 
+    @Override
     public EntityType getType() {
         return EntityType.UNKNOWN;
     }
 
+    @Override
     public boolean hasLineOfSight(Entity other) {
         return getHandle().func_70685_l(((CraftEntity) other).getHandle());
     }
 
+    @Override
     public boolean getRemoveWhenFarAway() {
         return getHandle() instanceof EntityLiving && !((EntityLiving) getHandle()).field_82179_bU;
     }
 
+    @Override
     public void setRemoveWhenFarAway(boolean remove) {
         if (getHandle() instanceof EntityLiving) {
             ((EntityLiving) getHandle()).field_82179_bU = !remove;
         }
     }
 
+    @Override
     public EntityEquipment getEquipment() {
         return equipment;
     }
 
+    @Override
     public void setCanPickupItems(boolean pickup) {
         getHandle().canPickUpLoot = pickup;
     }
 
+    @Override
     public boolean getCanPickupItems() {
         return getHandle().canPickUpLoot;
     }
@@ -430,6 +466,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         return super.teleport(location, cause);
     }
 
+    @Override
     public boolean isLeashed() {
         if (!(getHandle() instanceof EntityLiving)) {
             return false;
@@ -437,6 +474,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         return ((EntityLiving) getHandle()).func_110166_bE() != null;
     }
 
+    @Override
     public Entity getLeashHolder() throws IllegalStateException {
         if (!isLeashed()) {
             throw new IllegalStateException("Entity not leashed");
@@ -452,6 +490,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         return true;
     }
 
+    @Override
     public boolean setLeashHolder(Entity holder) {
         if ((getHandle() instanceof EntityWither) || !(getHandle() instanceof EntityLiving)) {
             return false;

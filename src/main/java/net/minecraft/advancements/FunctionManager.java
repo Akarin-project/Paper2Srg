@@ -36,7 +36,7 @@ public class FunctionManager implements ITickable {
 
     public class CustomFunctionListener implements ICommandSender {
 
-        protected org.bukkit.command.CommandSender sender = new org.bukkit.craftbukkit.command.CraftFunctionCommandSender(this);
+        public org.bukkit.command.CommandSender sender = new org.bukkit.craftbukkit.command.CraftFunctionCommandSender(this);
         // CraftBukkit end
 
         @Override
@@ -103,7 +103,7 @@ public class FunctionManager implements ITickable {
 
         if (this.field_194021_h) {
             if (this.field_194020_g.size() < i) {
-                this.field_194020_g.addFirst(new FunctionManager.a(this, icommandlistener, new CustomFunction.d(customfunction)));
+                this.field_194020_g.addFirst(new FunctionManager.a(this, icommandlistener, new FunctionObject.d(customfunction)));
             }
 
             return 0;
@@ -113,7 +113,7 @@ public class FunctionManager implements ITickable {
             try {
                 this.field_194021_h = true;
                 int k = 0;
-                CustomFunction.c[] acustomfunction_c = customfunction.a();
+                FunctionObject.c[] acustomfunction_c = customfunction.a();
 
                 for (j = acustomfunction_c.length - 1; j >= 0; --j) {
                     this.field_194020_g.push(new FunctionManager.a(this, icommandlistener, acustomfunction_c[j]));

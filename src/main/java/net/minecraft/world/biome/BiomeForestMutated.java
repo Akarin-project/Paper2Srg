@@ -6,7 +6,7 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
 public class BiomeForestMutated extends BiomeForest {
 
-    public BiomeForestMutated(BiomeBase.a biomebase_a) {
+    public BiomeForestMutated(Biome.a biomebase_a) {
         super(BiomeForest.Type.BIRCH, biomebase_a);
     }
 

@@ -30,6 +30,7 @@ public class Vec3i implements Comparable<Vec3i> {
         this(MathHelper.func_76128_c(d0), MathHelper.func_76128_c(d1), MathHelper.func_76128_c(d2));
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -42,10 +43,12 @@ public class Vec3i implements Comparable<Vec3i> {
         }
     }
 
+    @Override
     public int hashCode() {
         return (this.func_177956_o() + this.func_177952_p() * 31) * 31 + this.func_177958_n();
     }
 
+    @Override
     public int compareTo(Vec3i baseblockposition) {
         return this.func_177956_o() == baseblockposition.func_177956_o() ? (this.func_177952_p() == baseblockposition.func_177952_p() ? this.func_177958_n() - baseblockposition.func_177958_n() : this.func_177952_p() - baseblockposition.func_177952_p()) : this.func_177956_o() - baseblockposition.func_177956_o();
     }
@@ -69,38 +72,35 @@ public class Vec3i implements Comparable<Vec3i> {
     }
 
     public double func_185332_f(int i, int j, int k) {
-        double d0 = (double) (this.func_177958_n() - i);
-        double d1 = (double) (this.func_177956_o() - j);
-        double d2 = (double) (this.func_177952_p() - k);
+        double d0 = this.func_177958_n() - i;
+        double d1 = this.func_177956_o() - j;
+        double d2 = this.func_177952_p() - k;
 
         return Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
     }
 
     public double func_177954_c(double d0, double d1, double d2) {
-        double d3 = (double) this.func_177958_n() - d0;
-        double d4 = (double) this.func_177956_o() - d1;
-        double d5 = (double) this.func_177952_p() - d2;
+        double d3 = this.func_177958_n() - d0;
+        double d4 = this.func_177956_o() - d1;
+        double d5 = this.func_177952_p() - d2;
 
         return d3 * d3 + d4 * d4 + d5 * d5;
     }
 
     public double func_177957_d(double d0, double d1, double d2) {
-        double d3 = (double) this.func_177958_n() + 0.5D - d0;
-        double d4 = (double) this.func_177956_o() + 0.5D - d1;
-        double d5 = (double) this.func_177952_p() + 0.5D - d2;
+        double d3 = this.func_177958_n() + 0.5D - d0;
+        double d4 = this.func_177956_o() + 0.5D - d1;
+        double d5 = this.func_177952_p() + 0.5D - d2;
 
         return d3 * d3 + d4 * d4 + d5 * d5;
     }
 
     public double func_177951_i(Vec3i baseblockposition) {
-        return this.func_177954_c((double) baseblockposition.func_177958_n(), (double) baseblockposition.func_177956_o(), (double) baseblockposition.func_177952_p());
+        return this.func_177954_c(baseblockposition.func_177958_n(), baseblockposition.func_177956_o(), baseblockposition.func_177952_p());
     }
 
+    @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).add("x", this.func_177958_n()).add("y", this.func_177956_o()).add("z", this.func_177952_p()).toString();
-    }
-
-    public int compareTo(Vec3i object) { // Paper - decompile fix
-        return this.compareTo((Vec3i) object);
     }
 }

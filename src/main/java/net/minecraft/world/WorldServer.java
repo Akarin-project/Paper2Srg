@@ -151,7 +151,7 @@ public class WorldServer extends World implements IThreadListener {
         this.field_73061_a = minecraftserver;
         this.field_73062_L = new EntityTracker(this);
         this.field_73063_M = new PlayerChunkMap(this);
-        this.field_73011_w.func_76558_a((World) this);
+        this.field_73011_w.func_76558_a(this);
         this.field_73020_y = this.func_72970_h();
         this.field_85177_Q = new org.bukkit.craftbukkit.CraftTravelAgent(this); // CraftBukkit
         this.func_72966_v();
@@ -159,6 +159,7 @@ public class WorldServer extends World implements IThreadListener {
         this.func_175723_af().func_177725_a(minecraftserver.func_175580_aG());
     }
 
+    @Override
     public World func_175643_b() {
         this.field_72988_C = new MapStorage(this.field_73019_z);
         String s = VillageCollection.func_176062_a(this.field_73011_w);
@@ -169,7 +170,7 @@ public class WorldServer extends World implements IThreadListener {
             this.field_72988_C.func_75745_a(s, this.field_72982_D);
         } else {
             this.field_72982_D = persistentvillage;
-            this.field_72982_D.func_82566_a((World) this);
+            this.field_72982_D.func_82566_a(this);
         }
 
         if (getServer().getScoreboardManager() == null) { // CraftBukkit
@@ -182,7 +183,7 @@ public class WorldServer extends World implements IThreadListener {
         }
 
         persistentscoreboard.func_96499_a(this.field_96442_D);
-        ((ServerScoreboard) this.field_96442_D).func_186684_a((Runnable) (new WorldSavedDataCallableSave(persistentscoreboard)));
+        ((ServerScoreboard) this.field_96442_D).func_186684_a((new WorldSavedDataCallableSave(persistentscoreboard)));
         // CraftBukkit start
         } else {
             this.field_96442_D = getServer().getScoreboardManager().getMainScoreboard().getHandle();
@@ -359,6 +360,7 @@ public class WorldServer extends World implements IThreadListener {
     }
     // CraftBukkit end
 
+    @Override
     public void func_72835_b() {
         super.func_72835_b();
         if (this.func_72912_H().func_76093_s() && this.func_175659_aa() != EnumDifficulty.HARD) {
@@ -445,6 +447,7 @@ public class WorldServer extends World implements IThreadListener {
         return list != null && !list.isEmpty() ? list.contains(biomebase_biomemeta) : false;
     }
 
+    @Override
     public void func_72854_c() {
         this.field_73068_P = false;
         if (!this.field_73010_i.isEmpty()) {
@@ -469,7 +472,7 @@ public class WorldServer extends World implements IThreadListener {
 
     protected void func_73053_d() {
         this.field_73068_P = false;
-        List list = (List) this.field_73010_i.stream().filter(EntityPlayer::func_70608_bn).collect(Collectors.toList());
+        List list = this.field_73010_i.stream().filter(EntityPlayer::func_70608_bn).collect(Collectors.toList());
         Iterator iterator = list.iterator();
 
         while (iterator.hasNext()) {
@@ -532,7 +535,8 @@ public class WorldServer extends World implements IThreadListener {
         }
     }
 
-    protected boolean func_175680_a(int i, int j, boolean flag) {
+    @Override
+    public boolean func_175680_a(int i, int j, boolean flag) {
         return this.func_72863_F().func_73149_a(i, j);
     }
 
@@ -540,7 +544,7 @@ public class WorldServer extends World implements IThreadListener {
         this.field_72984_F.func_76320_a("playerCheckLight");
         if (spigotConfig.randomLightUpdates && !this.field_73010_i.isEmpty()) { // Spigot
             int i = this.field_73012_v.nextInt(this.field_73010_i.size());
-            EntityPlayer entityhuman = (EntityPlayer) this.field_73010_i.get(i);
+            EntityPlayer entityhuman = this.field_73010_i.get(i);
             int j = MathHelper.func_76128_c(entityhuman.field_70165_t) + this.field_73012_v.nextInt(11) - 5;
             int k = MathHelper.func_76128_c(entityhuman.field_70163_u) + this.field_73012_v.nextInt(11) - 5;
             int l = MathHelper.func_76128_c(entityhuman.field_70161_v) + this.field_73012_v.nextInt(11) - 5;
@@ -551,6 +555,7 @@ public class WorldServer extends World implements IThreadListener {
         this.field_72984_F.func_76319_b();
     }
 
+    @Override
     protected void func_147456_g() {
         this.func_184162_i();
         if (this.field_72986_A.func_76067_t() == WorldType.field_180272_g) {
@@ -590,16 +595,16 @@ public class WorldServer extends World implements IThreadListener {
                     if (this.func_175727_C(blockposition)) {
                         DifficultyInstance difficultydamagescaler = this.func_175649_E(blockposition);
 
-                        if (this.func_82736_K().func_82766_b("doMobSpawning") && this.field_73012_v.nextDouble() < (double) difficultydamagescaler.func_180168_b() * paperConfig.skeleHorseSpawnChance) {
+                        if (this.func_82736_K().func_82766_b("doMobSpawning") && this.field_73012_v.nextDouble() < difficultydamagescaler.func_180168_b() * paperConfig.skeleHorseSpawnChance) {
                             EntitySkeletonHorse entityhorseskeleton = new EntitySkeletonHorse(this);
 
                             entityhorseskeleton.func_190691_p(true);
                             entityhorseskeleton.func_70873_a(0);
-                            entityhorseskeleton.func_70107_b((double) blockposition.func_177958_n(), (double) blockposition.func_177956_o(), (double) blockposition.func_177952_p());
+                            entityhorseskeleton.func_70107_b(blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p());
                             this.addEntity(entityhorseskeleton, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.LIGHTNING); // CraftBukkit
-                            this.func_72942_c(new EntityLightningBolt(this, (double) blockposition.func_177958_n(), (double) blockposition.func_177956_o(), (double) blockposition.func_177952_p(), true));
+                            this.func_72942_c(new EntityLightningBolt(this, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), true));
                         } else {
-                            this.func_72942_c(new EntityLightningBolt(this, (double) blockposition.func_177958_n(), (double) blockposition.func_177956_o(), (double) blockposition.func_177952_p(), false));
+                            this.func_72942_c(new EntityLightningBolt(this, blockposition.func_177958_n(), blockposition.func_177956_o(), blockposition.func_177952_p(), false));
                         }
                     }
                 }
@@ -644,7 +649,7 @@ public class WorldServer extends World implements IThreadListener {
 
                                 this.field_72984_F.func_76320_a("randomTick");
                                 if (block.func_149653_t()) {
-                                    block.func_180645_a((World) this, new BlockPos(i2 + j, k2 + chunksection.func_76662_d(), j2 + k), iblockdata, this.field_73012_v);
+                                    block.func_180645_a(this, new BlockPos(i2 + j, k2 + chunksection.func_76662_d(), j2 + k), iblockdata, this.field_73012_v);
                                 }
 
                                 this.field_72984_F.func_76319_b();
@@ -667,6 +672,7 @@ public class WorldServer extends World implements IThreadListener {
                 return entityliving != null && entityliving.func_70089_S() && WorldServer.this.func_175678_i(entityliving.func_180425_c());
             }
 
+            @Override
             public boolean apply(@Nullable Object object) {
                 return this.a((EntityLivingBase) object);
             }
@@ -683,22 +689,26 @@ public class WorldServer extends World implements IThreadListener {
         }
     }
 
+    @Override
     public boolean func_175691_a(BlockPos blockposition, Block block) {
         NextTickListEntry nextticklistentry = new NextTickListEntry(blockposition, block);
 
         return this.field_94579_S.contains(nextticklistentry);
     }
 
+    @Override
     public boolean func_184145_b(BlockPos blockposition, Block block) {
         NextTickListEntry nextticklistentry = new NextTickListEntry(blockposition, block);
 
         return this.field_73065_O.contains(nextticklistentry); // CraftBukkit
     }
 
+    @Override
     public void func_175684_a(BlockPos blockposition, Block block, int i) {
         this.func_175654_a(blockposition, block, i, 0);
     }
 
+    @Override
     public void func_175654_a(BlockPos blockposition, Block block, int i, int j) {
         Material material = block.func_176223_P().func_185904_a();
 
@@ -708,7 +718,7 @@ public class WorldServer extends World implements IThreadListener {
                     IBlockState iblockdata = this.func_180495_p(blockposition);
 
                     if (iblockdata.func_185904_a() != Material.field_151579_a && iblockdata.func_177230_c() == block) {
-                        iblockdata.func_177230_c().func_180650_b((World) this, blockposition, iblockdata, this.field_73012_v);
+                        iblockdata.func_177230_c().func_180650_b(this, blockposition, iblockdata, this.field_73012_v);
                     }
                 }
 
@@ -722,7 +732,7 @@ public class WorldServer extends World implements IThreadListener {
 
         if (this.func_175667_e(blockposition)) {
             if (material != Material.field_151579_a) {
-                nextticklistentry.func_77176_a((long) i + this.field_72986_A.func_82573_f());
+                nextticklistentry.func_77176_a(i + this.field_72986_A.func_82573_f());
                 nextticklistentry.func_82753_a(j);
             }
 
@@ -734,6 +744,7 @@ public class WorldServer extends World implements IThreadListener {
 
     }
 
+    @Override
     public void func_180497_b(BlockPos blockposition, Block block, int i, int j) {
         NextTickListEntry nextticklistentry = new NextTickListEntry(blockposition, block);
 
@@ -741,7 +752,7 @@ public class WorldServer extends World implements IThreadListener {
         Material material = block.func_176223_P().func_185904_a();
 
         if (material != Material.field_151579_a) {
-            nextticklistentry.func_77176_a((long) i + this.field_72986_A.func_82573_f());
+            nextticklistentry.func_77176_a(i + this.field_72986_A.func_82573_f());
         }
 
         // CraftBukkit - use nextTickList
@@ -751,6 +762,7 @@ public class WorldServer extends World implements IThreadListener {
 
     }
 
+    @Override
     public void func_72939_s() {
         if (false && this.field_73010_i.isEmpty()) { // CraftBukkit - this prevents entity cleanup, other issues on servers with no players
             if (this.field_80004_Q++ >= 300) {
@@ -765,12 +777,13 @@ public class WorldServer extends World implements IThreadListener {
         spigotConfig.currentPrimedTnt = 0; // Spigot
     }
 
+    @Override
     protected void func_184147_l() {
         super.func_184147_l();
         this.field_72984_F.func_76318_c("players");
 
         for (int i = 0; i < this.field_73010_i.size(); ++i) {
-            Entity entity = (Entity) this.field_73010_i.get(i);
+            Entity entity = this.field_73010_i.get(i);
             Entity entity1 = entity.func_184187_bx();
 
             if (entity1 != null) {
@@ -817,6 +830,7 @@ public class WorldServer extends World implements IThreadListener {
         this.field_80004_Q = 0;
     }
 
+    @Override
     public boolean func_72955_a(boolean flag) {
         if (this.field_72986_A.func_76067_t() == WorldType.field_180272_g) {
             return false;
@@ -842,7 +856,7 @@ public class WorldServer extends World implements IThreadListener {
                 NextTickListEntry nextticklistentry;
 
                 for (int j = 0; j < i; ++j) {
-                    nextticklistentry = (NextTickListEntry) this.field_73065_O.first();
+                    nextticklistentry = this.field_73065_O.first();
                     if (!flag && nextticklistentry.field_77180_e > this.field_72986_A.func_82573_f()) {
                         break;
                     }
@@ -872,7 +886,7 @@ public class WorldServer extends World implements IThreadListener {
                         if (iblockdata.func_185904_a() != Material.field_151579_a && Block.func_149680_a(iblockdata.func_177230_c(), nextticklistentry.func_151351_a())) {
                             try {
                                 stopPhysicsEvent = !paperConfig.firePhysicsEventForRedstone && (iblockdata.func_177230_c() instanceof BlockRedstoneDiode || iblockdata.func_177230_c() instanceof BlockRedstoneTorch); // Paper
-                                iblockdata.func_177230_c().func_180650_b((World) this, nextticklistentry.field_180282_a, iblockdata, this.field_73012_v);
+                                iblockdata.func_177230_c().func_180650_b(this, nextticklistentry.field_180282_a, iblockdata, this.field_73012_v);
                             } catch (Throwable throwable) {
                                 CrashReport crashreport = CrashReport.func_85055_a(throwable, "Exception while ticking a block");
                                 CrashReportCategory crashreportsystemdetails = crashreport.func_85058_a("Block being ticked");
@@ -895,6 +909,7 @@ public class WorldServer extends World implements IThreadListener {
         }
     }
 
+    @Override
     @Nullable
     public List<NextTickListEntry> func_72920_a(Chunk chunk, boolean flag) {
         ChunkPos chunkcoordintpair = chunk.func_76632_l();
@@ -906,6 +921,7 @@ public class WorldServer extends World implements IThreadListener {
         return this.func_175712_a(new StructureBoundingBox(i, 0, k, j, 256, l), flag);
     }
 
+    @Override
     @Nullable
     public List<NextTickListEntry> func_175712_a(StructureBoundingBox structureboundingbox, boolean flag) {
         ArrayList arraylist = null;
@@ -966,6 +982,7 @@ public class WorldServer extends World implements IThreadListener {
         return this.field_73061_a.func_71268_U();
     }
 
+    @Override
     protected IChunkProvider func_72970_h() {
         IChunkLoader ichunkloader = this.field_73019_z.func_75763_a(this.field_73011_w);
 
@@ -1019,10 +1036,12 @@ public class WorldServer extends World implements IThreadListener {
         return arraylist;
     }
 
+    @Override
     public boolean func_175660_a(EntityPlayer entityhuman, BlockPos blockposition) {
         return !this.field_73061_a.func_175579_a(this, blockposition, entityhuman) && this.func_175723_af().func_177746_a(blockposition);
     }
 
+    @Override
     public void func_72963_a(WorldSettings worldsettings) {
         if (!this.field_72986_A.func_76070_v()) {
             try {
@@ -1081,10 +1100,10 @@ public class WorldServer extends World implements IThreadListener {
             // CraftBukkit start
             if (this.generator != null) {
                 Random rand = new Random(this.func_72905_C());
-                org.bukkit.Location spawn = this.generator.getFixedSpawnLocation(((WorldServer) this).getWorld(), rand);
+                org.bukkit.Location spawn = this.generator.getFixedSpawnLocation(this.getWorld(), rand);
 
                 if (spawn != null) {
-                    if (spawn.getWorld() != ((WorldServer) this).getWorld()) {
+                    if (spawn.getWorld() != this.getWorld()) {
                         throw new IllegalStateException("Cannot set spawn point for " + this.field_72986_A.func_76065_j() + " to be in another world (" + spawn.getWorld().getName() + ")");
                     } else {
                         this.field_72986_A.func_176143_a(new BlockPos(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ()));
@@ -1221,6 +1240,7 @@ public class WorldServer extends World implements IThreadListener {
     }
 
     // CraftBukkit start
+    @Override
     public boolean addEntity(Entity entity, SpawnReason spawnReason) { // Changed signature, added SpawnReason
         // World.addEntity(Entity) will call this, and we still want to perform
         // existing entity checking when it's called with a SpawnReason
@@ -1228,6 +1248,7 @@ public class WorldServer extends World implements IThreadListener {
     }
     // CraftBukkit end
 
+    @Override
     public void func_175650_b(Collection<Entity> collection) {
         ArrayList arraylist = Lists.newArrayList(collection);
         Iterator iterator = arraylist.iterator();
@@ -1251,7 +1272,7 @@ public class WorldServer extends World implements IThreadListener {
             UUID uuid = entity.func_110124_au();
 
             if (this.field_175741_N.containsKey(uuid)) {
-                Entity entity1 = (Entity) this.field_175741_N.get(uuid);
+                Entity entity1 = this.field_175741_N.get(uuid);
 
                 if (this.field_72997_g.contains(entity1)) {
                     this.field_72997_g.remove(entity1);
@@ -1271,6 +1292,7 @@ public class WorldServer extends World implements IThreadListener {
         }
     }
 
+    @Override
     protected void func_72923_a(Entity entity) {
         super.func_72923_a(entity);
         this.field_175729_l.func_76038_a(entity.func_145782_y(), entity);
@@ -1290,6 +1312,7 @@ public class WorldServer extends World implements IThreadListener {
 
     }
 
+    @Override
     protected void func_72847_b(Entity entity) {
         if (!entity.valid) return; // Paper - Already removed, dont fire twice - this looks like it can happen even without our changes
         super.func_72847_b(entity);
@@ -1310,6 +1333,7 @@ public class WorldServer extends World implements IThreadListener {
 
     }
 
+    @Override
     public boolean func_72942_c(Entity entity) {
         // CraftBukkit start
         LightningStrikeEvent lightning = new LightningStrikeEvent(this.getWorld(), (org.bukkit.entity.LightningStrike) entity.getBukkitEntity());
@@ -1327,14 +1351,17 @@ public class WorldServer extends World implements IThreadListener {
         }
     }
 
+    @Override
     public void func_72960_a(Entity entity, byte b0) {
         this.func_73039_n().func_151248_b(entity, new SPacketEntityStatus(entity, b0));
     }
 
+    @Override
     public ChunkProviderServer func_72863_F() {
         return (ChunkProviderServer) super.func_72863_F();
     }
 
+    @Override
     public Explosion func_72885_a(@Nullable Entity entity, double d0, double d1, double d2, float f, boolean flag, boolean flag1) {
         // CraftBukkit start
         Explosion explosion = super.func_72885_a(entity, d0, d1, d2, f, flag, flag1);
@@ -1360,13 +1387,14 @@ public class WorldServer extends World implements IThreadListener {
             EntityPlayer entityhuman = (EntityPlayer) iterator.next();
 
             if (entityhuman.func_70092_e(d0, d1, d2) < 4096.0D) {
-                ((EntityPlayerMP) entityhuman).field_71135_a.func_147359_a(new SPacketExplosion(d0, d1, d2, f, explosion.func_180343_e(), (Vec3d) explosion.func_77277_b().get(entityhuman)));
+                ((EntityPlayerMP) entityhuman).field_71135_a.func_147359_a(new SPacketExplosion(d0, d1, d2, f, explosion.func_180343_e(), explosion.func_77277_b().get(entityhuman)));
             }
         }
 
         return explosion;
     }
 
+    @Override
     public void func_175641_c(BlockPos blockposition, Block block, int i, int j) {
         BlockEventData blockactiondata = new BlockEventData(blockposition, block, i, j);
         Iterator iterator = this.field_147490_S[this.field_147489_T].iterator();
@@ -1396,7 +1424,7 @@ public class WorldServer extends World implements IThreadListener {
 
                 if (this.func_147485_a(blockactiondata)) {
                     // CraftBukkit - this.worldProvider.dimension -> this.dimension
-                    this.field_73061_a.func_184103_al().func_148543_a((EntityPlayer) null, (double) blockactiondata.func_180328_a().func_177958_n(), (double) blockactiondata.func_180328_a().func_177956_o(), (double) blockactiondata.func_180328_a().func_177952_p(), 64.0D, dimension, new SPacketBlockAction(blockactiondata.func_180328_a(), blockactiondata.func_151337_f(), blockactiondata.func_151339_d(), blockactiondata.func_151338_e()));
+                    this.field_73061_a.func_184103_al().func_148543_a((EntityPlayer) null, blockactiondata.func_180328_a().func_177958_n(), blockactiondata.func_180328_a().func_177956_o(), blockactiondata.func_180328_a().func_177952_p(), 64.0D, dimension, new SPacketBlockAction(blockactiondata.func_180328_a(), blockactiondata.func_151337_f(), blockactiondata.func_151339_d(), blockactiondata.func_151338_e()));
                 }
             }
 
@@ -1415,6 +1443,7 @@ public class WorldServer extends World implements IThreadListener {
         this.field_73019_z.func_75759_a();
     }
 
+    @Override
     protected void func_72979_l() {
         boolean flag = this.func_72896_J();
 
@@ -1456,6 +1485,7 @@ public class WorldServer extends World implements IThreadListener {
 
     }
 
+    @Override
     @Nullable
     public MinecraftServer func_73046_m() {
         return this.field_73061_a;
@@ -1525,17 +1555,20 @@ public class WorldServer extends World implements IThreadListener {
 
     @Nullable
     public Entity func_175733_a(UUID uuid) {
-        return (Entity) this.field_175741_N.get(uuid);
+        return this.field_175741_N.get(uuid);
     }
 
+    @Override
     public ListenableFuture<Object> func_152344_a(Runnable runnable) {
         return this.field_73061_a.func_152344_a(runnable);
     }
 
+    @Override
     public boolean func_152345_ab() {
         return this.field_73061_a.func_152345_ab();
     }
 
+    @Override
     @Nullable
     public BlockPos func_190528_a(String s, BlockPos blockposition, boolean flag) {
         return this.func_72863_F().func_180513_a(this, s, blockposition, flag);
@@ -1547,10 +1580,6 @@ public class WorldServer extends World implements IThreadListener {
 
     public FunctionManager func_193037_A() {
         return this.field_193036_D;
-    }
-
-    public IChunkProvider func_72863_F() {
-        return this.func_72863_F();
     }
 
     static class ServerBlockEventList extends ArrayList<BlockEventData> {
