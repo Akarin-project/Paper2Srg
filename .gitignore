@@ -20,3 +20,7 @@ manifest.mf
 
 # Linux temp files
 *~
+
+.settings
+.project
+.classpath
