@@ -262,7 +262,7 @@ public class PlayerAdvancements {
                         ICriterionTrigger criteriontrigger = CriteriaTriggers.func_192119_a(criterioninstance.func_192244_a());
 
                         if (criteriontrigger != null) {
-                            criteriontrigger.a(this, new ICriterionTrigger.a(criterioninstance, advancement, (String) entry.getKey()));
+                            criteriontrigger.func_192165_a(this, new ICriterionTrigger.Listener(criterioninstance, advancement, (String) entry.getKey()));
                         }
                     }
                 }
@@ -286,7 +286,7 @@ public class PlayerAdvancements {
                     ICriterionTrigger criteriontrigger = CriteriaTriggers.func_192119_a(criterioninstance.func_192244_a());
 
                     if (criteriontrigger != null) {
-                        criteriontrigger.b(this, new ICriterionTrigger.a(criterioninstance, advancement, (String) entry.getKey()));
+                        criteriontrigger.func_192164_b(this, new ICriterionTrigger.Listener(criterioninstance, advancement, (String) entry.getKey()));
                     }
                 }
             }

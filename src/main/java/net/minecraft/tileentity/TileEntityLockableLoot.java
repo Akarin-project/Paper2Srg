@@ -66,13 +66,13 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
                 random = new Random(this.field_184285_n);
             }
 
-            LootContext.a loottableinfo_a = new LootContext.a((WorldServer) this.field_145850_b);
+            LootContext.Builder loottableinfo_a = new LootContext.Builder((WorldServer) this.field_145850_b);
 
             if (entityhuman != null) {
-                loottableinfo_a.a(entityhuman.func_184817_da());
+                loottableinfo_a.func_186469_a(entityhuman.func_184817_da());
             }
 
-            loottable.func_186460_a(this, random, loottableinfo_a.a());
+            loottable.func_186460_a(this, random, loottableinfo_a.func_186471_a());
         }
 
     }

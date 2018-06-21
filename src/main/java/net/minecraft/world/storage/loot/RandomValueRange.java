@@ -10,73 +10,81 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.util.Random;
-
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.math.MathHelper;
 
-public class RandomValueRange {
-
+public class RandomValueRange
+{
     private final float field_186514_a;
     private final float field_186515_b;
 
-    public RandomValueRange(float f, float f1) {
-        this.field_186514_a = f;
-        this.field_186515_b = f1;
+    public RandomValueRange(float p_i46629_1_, float p_i46629_2_)
+    {
+        this.field_186514_a = p_i46629_1_;
+        this.field_186515_b = p_i46629_2_;
     }
 
-    public RandomValueRange(float f) {
-        this.field_186514_a = f;
-        this.field_186515_b = f;
+    public RandomValueRange(float p_i46630_1_)
+    {
+        this.field_186514_a = p_i46630_1_;
+        this.field_186515_b = p_i46630_1_;
     }
 
-    public float func_186509_a() {
+    public float func_186509_a()
+    {
         return this.field_186514_a;
     }
 
-    public float func_186512_b() {
+    public float func_186512_b()
+    {
         return this.field_186515_b;
     }
 
-    public int func_186511_a(Random random) {
-        return MathHelper.func_76136_a(random, MathHelper.func_76141_d(this.field_186514_a), MathHelper.func_76141_d(this.field_186515_b));
+    public int func_186511_a(Random p_186511_1_)
+    {
+        return MathHelper.func_76136_a(p_186511_1_, MathHelper.func_76141_d(this.field_186514_a), MathHelper.func_76141_d(this.field_186515_b));
     }
 
-    public float func_186507_b(Random random) {
-        return MathHelper.func_151240_a(random, this.field_186514_a, this.field_186515_b);
+    public float func_186507_b(Random p_186507_1_)
+    {
+        return MathHelper.func_151240_a(p_186507_1_, this.field_186514_a, this.field_186515_b);
     }
 
-    public boolean func_186510_a(int i) {
-        return i <= this.field_186515_b && i >= this.field_186514_a;
+    public boolean func_186510_a(int p_186510_1_)
+    {
+        return (float)p_186510_1_ <= this.field_186515_b && (float)p_186510_1_ >= this.field_186514_a;
     }
 
-    public static class a implements JsonDeserializer<RandomValueRange>, JsonSerializer<RandomValueRange> {
+    public static class Serializer implements JsonDeserializer<RandomValueRange>, JsonSerializer<RandomValueRange>
+        {
+            public RandomValueRange deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException
+            {
+                if (JsonUtils.func_188175_b(p_deserialize_1_))
+                {
+                    return new RandomValueRange(JsonUtils.func_151220_d(p_deserialize_1_, "value"));
+                }
+                else
+                {
+                    JsonObject jsonobject = JsonUtils.func_151210_l(p_deserialize_1_, "value");
+                    float f = JsonUtils.func_151217_k(jsonobject, "min");
+                    float f1 = JsonUtils.func_151217_k(jsonobject, "max");
+                    return new RandomValueRange(f, f1);
+                }
+            }
 
-        public a() {}
-
-        @Override
-        public RandomValueRange deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            if (JsonUtils.func_188175_b(jsonelement)) {
-                return new RandomValueRange(JsonUtils.func_151220_d(jsonelement, "value"));
-            } else {
-                JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "value");
-                float f = JsonUtils.func_151217_k(jsonobject, "min");
-                float f1 = JsonUtils.func_151217_k(jsonobject, "max");
-
-                return new RandomValueRange(f, f1);
+            public JsonElement serialize(RandomValueRange p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_)
+            {
+                if (p_serialize_1_.field_186514_a == p_serialize_1_.field_186515_b)
+                {
+                    return new JsonPrimitive(p_serialize_1_.field_186514_a);
+                }
+                else
+                {
+                    JsonObject jsonobject = new JsonObject();
+                    jsonobject.addProperty("min", Float.valueOf(p_serialize_1_.field_186514_a));
+                    jsonobject.addProperty("max", Float.valueOf(p_serialize_1_.field_186515_b));
+                    return jsonobject;
+                }
             }
         }
-
-        @Override
-        public JsonElement serialize(RandomValueRange lootvaluebounds, Type type, JsonSerializationContext jsonserializationcontext) {
-            if (lootvaluebounds.field_186514_a == lootvaluebounds.field_186515_b) {
-                return new JsonPrimitive(Float.valueOf(lootvaluebounds.field_186514_a));
-            } else {
-                JsonObject jsonobject = new JsonObject();
-
-                jsonobject.addProperty("min", Float.valueOf(lootvaluebounds.field_186514_a));
-                jsonobject.addProperty("max", Float.valueOf(lootvaluebounds.field_186515_b));
-                return jsonobject;
-            }
-        }
-    }
 }

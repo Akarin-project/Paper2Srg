@@ -538,13 +538,13 @@ public abstract class EntityLiving extends EntityLivingBase {
             LootTable loottable = this.field_70170_p.func_184146_ak().func_186521_a(minecraftkey);
 
             this.field_184659_bA = null;
-            LootContext.a loottableinfo_a = (new LootContext.a((WorldServer) this.field_70170_p)).a((Entity) this).a(damagesource);
+            LootContext.Builder loottableinfo_a = (new LootContext.Builder((WorldServer) this.field_70170_p)).func_186472_a(this).func_186473_a(damagesource);
 
             if (flag && this.field_70717_bb != null) {
-                loottableinfo_a = loottableinfo_a.a(this.field_70717_bb).a(this.field_70717_bb.func_184817_da());
+                loottableinfo_a = loottableinfo_a.func_186470_a(this.field_70717_bb).func_186469_a(this.field_70717_bb.func_184817_da());
             }
 
-            List list = loottable.func_186462_a(this.field_184653_bB == 0L ? this.field_70146_Z : new Random(this.field_184653_bB), loottableinfo_a.a());
+            List list = loottable.func_186462_a(this.field_184653_bB == 0L ? this.field_70146_Z : new Random(this.field_184653_bB), loottableinfo_a.func_186471_a());
             Iterator iterator = list.iterator();
 
             while (iterator.hasNext()) {

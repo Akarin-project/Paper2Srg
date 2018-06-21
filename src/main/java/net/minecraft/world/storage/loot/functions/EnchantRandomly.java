@@ -8,15 +8,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSyntaxException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.Nullable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Items;
@@ -27,109 +22,114 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class EnchantRandomly extends LootFunction {
-
+public class EnchantRandomly extends LootFunction
+{
     private static final Logger field_186557_a = LogManager.getLogger();
     private final List<Enchantment> field_186558_b;
 
-    public EnchantRandomly(LootCondition[] alootitemcondition, @Nullable List<Enchantment> list) {
-        super(alootitemcondition);
-        this.field_186558_b = list == null ? Collections.emptyList() : list;
+    public EnchantRandomly(LootCondition[] p_i46628_1_, @Nullable List<Enchantment> p_i46628_2_)
+    {
+        super(p_i46628_1_);
+        this.field_186558_b = p_i46628_2_ == null ? Collections.emptyList() : p_i46628_2_;
     }
 
-    @Override
-    public ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo) {
+    public ItemStack func_186553_a(ItemStack p_186553_1_, Random p_186553_2_, LootContext p_186553_3_)
+    {
         Enchantment enchantment;
 
-        if (this.field_186558_b.isEmpty()) {
-            ArrayList arraylist = Lists.newArrayList();
-            Iterator iterator = Enchantment.field_185264_b.iterator();
+        if (this.field_186558_b.isEmpty())
+        {
+            List<Enchantment> list = Lists.<Enchantment>newArrayList();
 
-            while (iterator.hasNext()) {
-                Enchantment enchantment1 = (Enchantment) iterator.next();
-
-                if (itemstack.func_77973_b() == Items.field_151122_aG || enchantment1.func_92089_a(itemstack)) {
-                    arraylist.add(enchantment1);
+            for (Enchantment enchantment1 : Enchantment.field_185264_b)
+            {
+                if (p_186553_1_.func_77973_b() == Items.field_151122_aG || enchantment1.func_92089_a(p_186553_1_))
+                {
+                    list.add(enchantment1);
                 }
             }
 
-            if (arraylist.isEmpty()) {
-                EnchantRandomly.field_186557_a.warn("Couldn\'t find a compatible enchantment for {}", itemstack);
-                return itemstack;
+            if (list.isEmpty())
+            {
+                field_186557_a.warn("Couldn't find a compatible enchantment for {}", (Object)p_186553_1_);
+                return p_186553_1_;
             }
 
-            enchantment = (Enchantment) arraylist.get(random.nextInt(arraylist.size()));
-        } else {
-            enchantment = this.field_186558_b.get(random.nextInt(this.field_186558_b.size()));
+            enchantment = list.get(p_186553_2_.nextInt(list.size()));
+        }
+        else
+        {
+            enchantment = this.field_186558_b.get(p_186553_2_.nextInt(this.field_186558_b.size()));
         }
 
-        int i = MathHelper.func_76136_a(random, enchantment.func_77319_d(), enchantment.func_77325_b());
+        int i = MathHelper.func_76136_a(p_186553_2_, enchantment.func_77319_d(), enchantment.func_77325_b());
 
-        if (itemstack.func_77973_b() == Items.field_151122_aG) {
-            itemstack = new ItemStack(Items.field_151134_bR);
-            ItemEnchantedBook.func_92115_a(itemstack, new EnchantmentData(enchantment, i));
-        } else {
-            itemstack.func_77966_a(enchantment, i);
+        if (p_186553_1_.func_77973_b() == Items.field_151122_aG)
+        {
+            p_186553_1_ = new ItemStack(Items.field_151134_bR);
+            ItemEnchantedBook.func_92115_a(p_186553_1_, new EnchantmentData(enchantment, i));
+        }
+        else
+        {
+            p_186553_1_.func_77966_a(enchantment, i);
         }
 
-        return itemstack;
+        return p_186553_1_;
     }
 
-    public static class a extends LootFunction.a<EnchantRandomly> {
-
-        public a() {
-            super(new ResourceLocation("enchant_randomly"), EnchantRandomly.class);
-        }
-
-        @Override
-        public void a(JsonObject jsonobject, EnchantRandomly lootitemfunctionenchant, JsonSerializationContext jsonserializationcontext) {
-            if (!lootitemfunctionenchant.field_186558_b.isEmpty()) {
-                JsonArray jsonarray = new JsonArray();
-                Iterator iterator = lootitemfunctionenchant.field_186558_b.iterator();
-
-                while (iterator.hasNext()) {
-                    Enchantment enchantment = (Enchantment) iterator.next();
-                    ResourceLocation minecraftkey = Enchantment.field_185264_b.func_177774_c(enchantment);
-
-                    if (minecraftkey == null) {
-                        throw new IllegalArgumentException("Don\'t know how to serialize enchantment " + enchantment);
-                    }
-
-                    jsonarray.add(new JsonPrimitive(minecraftkey.toString()));
-                }
-
-                jsonobject.add("enchantments", jsonarray);
+    public static class Serializer extends LootFunction.Serializer<EnchantRandomly>
+        {
+            public Serializer()
+            {
+                super(new ResourceLocation("enchant_randomly"), EnchantRandomly.class);
             }
 
-        }
+            public void func_186532_a(JsonObject p_186532_1_, EnchantRandomly p_186532_2_, JsonSerializationContext p_186532_3_)
+            {
+                if (!p_186532_2_.field_186558_b.isEmpty())
+                {
+                    JsonArray jsonarray = new JsonArray();
 
-        public EnchantRandomly a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
-            ArrayList arraylist = Lists.newArrayList();
+                    for (Enchantment enchantment : p_186532_2_.field_186558_b)
+                    {
+                        ResourceLocation resourcelocation = Enchantment.field_185264_b.func_177774_c(enchantment);
 
-            if (jsonobject.has("enchantments")) {
-                JsonArray jsonarray = JsonUtils.func_151214_t(jsonobject, "enchantments");
-                Iterator iterator = jsonarray.iterator();
+                        if (resourcelocation == null)
+                        {
+                            throw new IllegalArgumentException("Don't know how to serialize enchantment " + enchantment);
+                        }
 
-                while (iterator.hasNext()) {
-                    JsonElement jsonelement = (JsonElement) iterator.next();
-                    String s = JsonUtils.func_151206_a(jsonelement, "enchantment");
-                    Enchantment enchantment = Enchantment.field_185264_b.func_82594_a(new ResourceLocation(s));
-
-                    if (enchantment == null) {
-                        throw new JsonSyntaxException("Unknown enchantment \'" + s + "\'");
+                        jsonarray.add(new JsonPrimitive(resourcelocation.toString()));
                     }
 
-                    arraylist.add(enchantment);
+                    p_186532_1_.add("enchantments", jsonarray);
                 }
             }
 
-            return new EnchantRandomly(alootitemcondition, arraylist);
-        }
+            public EnchantRandomly func_186530_b(JsonObject p_186530_1_, JsonDeserializationContext p_186530_2_, LootCondition[] p_186530_3_)
+            {
+                List<Enchantment> list = Lists.<Enchantment>newArrayList();
 
-        @Override
-        public EnchantRandomly b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition) {
-            return this.a(jsonobject, jsondeserializationcontext, alootitemcondition);
+                if (p_186530_1_.has("enchantments"))
+                {
+                    for (JsonElement jsonelement : JsonUtils.func_151214_t(p_186530_1_, "enchantments"))
+                    {
+                        String s = JsonUtils.func_151206_a(jsonelement, "enchantment");
+                        Enchantment enchantment = Enchantment.field_185264_b.func_82594_a(new ResourceLocation(s));
+
+                        if (enchantment == null)
+                        {
+                            throw new JsonSyntaxException("Unknown enchantment '" + s + "'");
+                        }
+
+                        list.add(enchantment);
+                    }
+                }
+
+                return new EnchantRandomly(p_186530_3_, list);
+            }
         }
-    }
 }

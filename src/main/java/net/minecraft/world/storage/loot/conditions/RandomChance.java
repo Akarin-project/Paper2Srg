@@ -4,42 +4,39 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import java.util.Random;
-
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
 
-public class RandomChance implements LootCondition {
-
+public class RandomChance implements LootCondition
+{
     private final float field_186630_a;
 
-    public RandomChance(float f) {
-        this.field_186630_a = f;
+    public RandomChance(float p_i46615_1_)
+    {
+        this.field_186630_a = p_i46615_1_;
     }
 
-    @Override
-    public boolean func_186618_a(Random random, LootContext loottableinfo) {
-        return random.nextFloat() < this.field_186630_a;
+    public boolean func_186618_a(Random p_186618_1_, LootContext p_186618_2_)
+    {
+        return p_186618_1_.nextFloat() < this.field_186630_a;
     }
 
-    public static class a extends LootCondition.a<RandomChance> {
+    public static class Serializer extends LootCondition.Serializer<RandomChance>
+        {
+            protected Serializer()
+            {
+                super(new ResourceLocation("random_chance"), RandomChance.class);
+            }
 
-        protected a() {
-            super(new ResourceLocation("random_chance"), RandomChance.class);
-        }
+            public void func_186605_a(JsonObject p_186605_1_, RandomChance p_186605_2_, JsonSerializationContext p_186605_3_)
+            {
+                p_186605_1_.addProperty("chance", Float.valueOf(p_186605_2_.field_186630_a));
+            }
 
-        @Override
-        public void a(JsonObject jsonobject, RandomChance lootitemconditionrandomchance, JsonSerializationContext jsonserializationcontext) {
-            jsonobject.addProperty("chance", Float.valueOf(lootitemconditionrandomchance.field_186630_a));
+            public RandomChance func_186603_b(JsonObject p_186603_1_, JsonDeserializationContext p_186603_2_)
+            {
+                return new RandomChance(JsonUtils.func_151217_k(p_186603_1_, "chance"));
+            }
         }
-
-        public RandomChance a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-            return new RandomChance(JsonUtils.func_151217_k(jsonobject, "chance"));
-        }
-
-        @Override
-        public RandomChance b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-            return this.a(jsonobject, jsondeserializationcontext);
-        }
-    }
 }

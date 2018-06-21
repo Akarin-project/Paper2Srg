@@ -11,94 +11,109 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import java.lang.reflect.Type;
 import java.util.Map;
-
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 
-public class LootFunctionManager {
+public class LootFunctionManager
+{
+    private static final Map < ResourceLocation, LootFunction.Serializer<? >> field_186584_a = Maps. < ResourceLocation, LootFunction.Serializer<? >> newHashMap();
+    private static final Map < Class <? extends LootFunction > , LootFunction.Serializer<? >> field_186585_b = Maps. < Class <? extends LootFunction > , LootFunction.Serializer<? >> newHashMap();
 
-    private static final Map<ResourceLocation, LootFunction.a<?>> field_186584_a = Maps.newHashMap();
-    private static final Map<Class<? extends LootFunction>, LootFunction.a<?>> field_186585_b = Maps.newHashMap();
+    public static <T extends LootFunction> void func_186582_a(LootFunction.Serializer <? extends T > p_186582_0_)
+    {
+        ResourceLocation resourcelocation = p_186582_0_.func_186529_a();
+        Class<T> oclass = (Class<T>)p_186582_0_.func_186531_b();
 
-    public static <T extends LootFunction> void a(LootFunction.a<? extends T> LootFunction_a) {
-        ResourceLocation minecraftkey = LootFunction_a.a();
-        Class oclass = LootFunction_a.b();
-
-        if (LootFunctionManager.field_186584_a.containsKey(minecraftkey)) {
-            throw new IllegalArgumentException("Can\'t re-register item function name " + minecraftkey);
-        } else if (LootFunctionManager.field_186585_b.containsKey(oclass)) {
-            throw new IllegalArgumentException("Can\'t re-register item function class " + oclass.getName());
-        } else {
-            LootFunctionManager.field_186584_a.put(minecraftkey, LootFunction_a);
-            LootFunctionManager.field_186585_b.put(oclass, LootFunction_a);
+        if (field_186584_a.containsKey(resourcelocation))
+        {
+            throw new IllegalArgumentException("Can't re-register item function name " + resourcelocation);
+        }
+        else if (field_186585_b.containsKey(oclass))
+        {
+            throw new IllegalArgumentException("Can't re-register item function class " + oclass.getName());
+        }
+        else
+        {
+            field_186584_a.put(resourcelocation, p_186582_0_);
+            field_186585_b.put(oclass, p_186582_0_);
         }
     }
 
-    public static LootFunction.a<?> a(ResourceLocation minecraftkey) {
-        LootFunction.a LootFunction_a = LootFunctionManager.field_186584_a.get(minecraftkey);
+    public static LootFunction.Serializer<?> func_186583_a(ResourceLocation p_186583_0_)
+    {
+        LootFunction.Serializer<?> serializer = (LootFunction.Serializer)field_186584_a.get(p_186583_0_);
 
-        if (LootFunction_a == null) {
-            throw new IllegalArgumentException("Unknown loot item function \'" + minecraftkey + "\'");
-        } else {
-            return LootFunction_a;
+        if (serializer == null)
+        {
+            throw new IllegalArgumentException("Unknown loot item function '" + p_186583_0_ + "'");
+        }
+        else
+        {
+            return serializer;
         }
     }
 
-    public static <T extends LootFunction> LootFunction.a<T> a(T t0) {
-        LootFunction.a LootFunction_a = LootFunctionManager.field_186585_b.get(t0.getClass());
+    public static <T extends LootFunction> LootFunction.Serializer<T> func_186581_a(T p_186581_0_)
+    {
+        LootFunction.Serializer<T> serializer = (LootFunction.Serializer)field_186585_b.get(p_186581_0_.getClass());
 
-        if (LootFunction_a == null) {
-            throw new IllegalArgumentException("Unknown loot item function " + t0);
-        } else {
-            return LootFunction_a;
+        if (serializer == null)
+        {
+            throw new IllegalArgumentException("Unknown loot item function " + p_186581_0_);
+        }
+        else
+        {
+            return serializer;
         }
     }
 
-    static {
-        a(new SetCount.a());
-        a(new SetMetadata.a());
-        a(new EnchantWithLevels.a());
-        a(new EnchantRandomly.a());
-        a(new SetNBT.a());
-        a(new Smelt.a());
-        a(new LootingEnchantBonus.a());
-        a(new SetDamage.a());
-        a(new SetAttributes.b());
+    static
+    {
+        func_186582_a(new SetCount.Serializer());
+        func_186582_a(new SetMetadata.Serializer());
+        func_186582_a(new EnchantWithLevels.Serializer());
+        func_186582_a(new EnchantRandomly.Serializer());
+        func_186582_a(new SetNBT.Serializer());
+        func_186582_a(new Smelt.Serializer());
+        func_186582_a(new LootingEnchantBonus.Serializer());
+        func_186582_a(new SetDamage.Serializer());
+        func_186582_a(new SetAttributes.Serializer());
     }
 
-    public static class a implements JsonDeserializer<LootFunction>, JsonSerializer<LootFunction> {
+    public static class Serializer implements JsonDeserializer<LootFunction>, JsonSerializer<LootFunction>
+        {
+            public LootFunction deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException
+            {
+                JsonObject jsonobject = JsonUtils.func_151210_l(p_deserialize_1_, "function");
+                ResourceLocation resourcelocation = new ResourceLocation(JsonUtils.func_151200_h(jsonobject, "function"));
+                LootFunction.Serializer<?> serializer;
 
-        public a() {}
+                try
+                {
+                    serializer = LootFunctionManager.func_186583_a(resourcelocation);
+                }
+                catch (IllegalArgumentException var8)
+                {
+                    throw new JsonSyntaxException("Unknown function '" + resourcelocation + "'");
+                }
 
-        @Override
-        public LootFunction deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "function");
-            ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.func_151200_h(jsonobject, "function"));
-
-            LootFunction.a LootFunction_a;
-
-            try {
-                LootFunction_a = LootFunctionManager.a(minecraftkey);
-            } catch (IllegalArgumentException illegalargumentexception) {
-                throw new JsonSyntaxException("Unknown function \'" + minecraftkey + "\'");
+                return serializer.func_186530_b(jsonobject, p_deserialize_3_, (LootCondition[])JsonUtils.func_188177_a(jsonobject, "conditions", new LootCondition[0], p_deserialize_3_, LootCondition[].class));
             }
 
-            return LootFunction_a.b(jsonobject, jsondeserializationcontext, JsonUtils.func_188177_a(jsonobject, "conditions", new LootCondition[0], jsondeserializationcontext, LootCondition[].class));
-        }
+            public JsonElement serialize(LootFunction p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_)
+            {
+                LootFunction.Serializer<LootFunction> serializer = LootFunctionManager.<LootFunction>func_186581_a(p_serialize_1_);
+                JsonObject jsonobject = new JsonObject();
+                serializer.func_186532_a(jsonobject, p_serialize_1_, p_serialize_3_);
+                jsonobject.addProperty("function", serializer.func_186529_a().toString());
 
-        @Override
-        public JsonElement serialize(LootFunction LootFunction, Type type, JsonSerializationContext jsonserializationcontext) {
-            LootFunction.a LootFunction_a = LootFunctionManager.a(LootFunction);
-            JsonObject jsonobject = new JsonObject();
+                if (p_serialize_1_.func_186554_a() != null && p_serialize_1_.func_186554_a().length > 0)
+                {
+                    jsonobject.add("conditions", p_serialize_3_.serialize(p_serialize_1_.func_186554_a()));
+                }
 
-            LootFunction_a.a(jsonobject, LootFunction, jsonserializationcontext);
-            jsonobject.addProperty("function", LootFunction_a.a().toString());
-            if (LootFunction.func_186554_a() != null && LootFunction.func_186554_a().length > 0) {
-                jsonobject.add("conditions", jsonserializationcontext.serialize(LootFunction.func_186554_a()));
+                return jsonobject;
             }
-
-            return jsonobject;
         }
-    }
 }

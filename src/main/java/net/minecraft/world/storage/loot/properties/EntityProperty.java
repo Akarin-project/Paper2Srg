@@ -4,34 +4,36 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import java.util.Random;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-public interface EntityProperty {
+public interface EntityProperty
+{
+    boolean func_186657_a(Random p_186657_1_, Entity p_186657_2_);
 
-    boolean func_186657_a(Random random, Entity entity);
+    public abstract static class Serializer<T extends EntityProperty>
+        {
+            private final ResourceLocation field_186653_a;
+            private final Class<T> field_186654_b;
 
-    public abstract static class a<T extends EntityProperty> {
+            protected Serializer(ResourceLocation p_i46831_1_, Class<T> p_i46831_2_)
+            {
+                this.field_186653_a = p_i46831_1_;
+                this.field_186654_b = p_i46831_2_;
+            }
 
-        private final ResourceLocation a;
-        private final Class<T> b;
+            public ResourceLocation func_186649_a()
+            {
+                return this.field_186653_a;
+            }
 
-        protected a(ResourceLocation minecraftkey, Class<T> oclass) {
-            this.a = minecraftkey;
-            this.b = oclass;
+            public Class<T> func_186651_b()
+            {
+                return this.field_186654_b;
+            }
+
+            public abstract JsonElement func_186650_a(T p_186650_1_, JsonSerializationContext p_186650_2_);
+
+            public abstract T func_186652_a(JsonElement p_186652_1_, JsonDeserializationContext p_186652_2_);
         }
-
-        public ResourceLocation a() {
-            return this.a;
-        }
-
-        public Class<T> b() {
-            return this.b;
-        }
-
-        public abstract JsonElement a(T t0, JsonSerializationContext jsonserializationcontext);
-
-        public abstract T a(JsonElement jsonelement, JsonDeserializationContext jsondeserializationcontext);
-    }
 }

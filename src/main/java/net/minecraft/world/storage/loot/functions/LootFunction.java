@@ -4,46 +4,50 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import java.util.Random;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 
-public abstract class LootFunction {
-
+public abstract class LootFunction
+{
     private final LootCondition[] field_186555_a;
 
-    protected LootFunction(LootCondition[] alootitemcondition) {
-        this.field_186555_a = alootitemcondition;
+    protected LootFunction(LootCondition[] p_i46626_1_)
+    {
+        this.field_186555_a = p_i46626_1_;
     }
 
-    public abstract ItemStack func_186553_a(ItemStack itemstack, Random random, LootContext loottableinfo);
+    public abstract ItemStack func_186553_a(ItemStack p_186553_1_, Random p_186553_2_, LootContext p_186553_3_);
 
-    public LootCondition[] func_186554_a() {
+    public LootCondition[] func_186554_a()
+    {
         return this.field_186555_a;
     }
 
-    public abstract static class a<T extends LootFunction> {
+    public abstract static class Serializer<T extends LootFunction>
+        {
+            private final ResourceLocation field_186533_a;
+            private final Class<T> field_186534_b;
 
-        private final ResourceLocation a;
-        private final Class<T> b;
+            protected Serializer(ResourceLocation p_i47002_1_, Class<T> p_i47002_2_)
+            {
+                this.field_186533_a = p_i47002_1_;
+                this.field_186534_b = p_i47002_2_;
+            }
 
-        protected a(ResourceLocation minecraftkey, Class<T> oclass) {
-            this.a = minecraftkey;
-            this.b = oclass;
+            public ResourceLocation func_186529_a()
+            {
+                return this.field_186533_a;
+            }
+
+            public Class<T> func_186531_b()
+            {
+                return this.field_186534_b;
+            }
+
+            public abstract void func_186532_a(JsonObject p_186532_1_, T p_186532_2_, JsonSerializationContext p_186532_3_);
+
+            public abstract T func_186530_b(JsonObject p_186530_1_, JsonDeserializationContext p_186530_2_, LootCondition[] p_186530_3_);
         }
-
-        public ResourceLocation a() {
-            return this.a;
-        }
-
-        public Class<T> b() {
-            return this.b;
-        }
-
-        public abstract void a(JsonObject jsonobject, T t0, JsonSerializationContext jsonserializationcontext);
-
-        public abstract T b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext, LootCondition[] alootitemcondition);
-    }
 }

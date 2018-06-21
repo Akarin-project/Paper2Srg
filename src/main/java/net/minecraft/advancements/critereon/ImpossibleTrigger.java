@@ -2,45 +2,41 @@ package net.minecraft.advancements.critereon;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-
-import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.util.ResourceLocation;
 
-public class ImpossibleTrigger implements ICriterionTrigger<ImpossibleTrigger.a> {
-
+public class ImpossibleTrigger implements ICriterionTrigger<ImpossibleTrigger.Instance>
+{
     private static final ResourceLocation field_192205_a = new ResourceLocation("impossible");
 
-    public ImpossibleTrigger() {}
-
-    @Override
-    public ResourceLocation func_192163_a() {
-        return ImpossibleTrigger.field_192205_a;
+    public ResourceLocation func_192163_a()
+    {
+        return field_192205_a;
     }
 
-    @Override
-    public void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<ImpossibleTrigger.a> criteriontrigger_a) {}
-
-    @Override
-    public void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<ImpossibleTrigger.a> criteriontrigger_a) {}
-
-    @Override
-    public void func_192167_a(PlayerAdvancements advancementdataplayer) {}
-
-    public ImpossibleTrigger.a b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        return new ImpossibleTrigger.a();
+    public void func_192165_a(PlayerAdvancements p_192165_1_, ICriterionTrigger.Listener<ImpossibleTrigger.Instance> p_192165_2_)
+    {
     }
 
-    @Override
-    public a func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        return this.b(jsonobject, jsondeserializationcontext);
+    public void func_192164_b(PlayerAdvancements p_192164_1_, ICriterionTrigger.Listener<ImpossibleTrigger.Instance> p_192164_2_)
+    {
     }
 
-    public static class a extends AbstractCriterionInstance {
+    public void func_192167_a(PlayerAdvancements p_192167_1_)
+    {
+    }
 
-        public a() {
-            super(ImpossibleTrigger.field_192205_a);
+    public ImpossibleTrigger.Instance func_192166_a(JsonObject p_192166_1_, JsonDeserializationContext p_192166_2_)
+    {
+        return new ImpossibleTrigger.Instance();
+    }
+
+    public static class Instance extends AbstractCriterionInstance
+        {
+            public Instance()
+            {
+                super(ImpossibleTrigger.field_192205_a);
+            }
         }
-    }
 }

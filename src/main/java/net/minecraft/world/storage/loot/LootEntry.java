@@ -62,67 +62,74 @@ public abstract class LootEntry {
 
     protected abstract void func_186362_a(JsonObject jsonobject, JsonSerializationContext jsonserializationcontext);
 
-    public static class a implements JsonDeserializer<LootEntry>, JsonSerializer<LootEntry> {
-
-        public a() {}
-
-        public LootEntry a(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "loot item");
+    public static class Serializer implements JsonDeserializer<LootEntry>, JsonSerializer<LootEntry>
+    {
+        public LootEntry deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException
+        {
+            JsonObject jsonobject = JsonUtils.func_151210_l(p_deserialize_1_, "loot item");
             String s = JsonUtils.func_151200_h(jsonobject, "type");
             int i = JsonUtils.func_151208_a(jsonobject, "weight", 1);
             int j = JsonUtils.func_151208_a(jsonobject, "quality", 0);
-            LootCondition[] alootitemcondition;
+            LootCondition[] alootcondition;
 
-            if (jsonobject.has("conditions")) {
-                alootitemcondition = JsonUtils.func_188174_a(jsonobject, "conditions", jsondeserializationcontext, LootCondition[].class);
-            } else {
-                alootitemcondition = new LootCondition[0];
+            if (jsonobject.has("conditions"))
+            {
+                alootcondition = (LootCondition[])JsonUtils.func_188174_a(jsonobject, "conditions", p_deserialize_3_, LootCondition[].class);
+            }
+            else
+            {
+                alootcondition = new LootCondition[0];
             }
 
-            if ("item".equals(s)) {
-                return LootEntryItem.func_186367_a(jsonobject, jsondeserializationcontext, i, j, alootitemcondition);
-            } else if ("loot_table".equals(s)) {
-                return LootEntryTable.func_186370_a(jsonobject, jsondeserializationcontext, i, j, alootitemcondition);
-            } else if ("empty".equals(s)) {
-                return LootEntryEmpty.func_186372_a(jsonobject, jsondeserializationcontext, i, j, alootitemcondition);
-            } else {
-                throw new JsonSyntaxException("Unknown loot entry type \'" + s + "\'");
+            if ("item".equals(s))
+            {
+                return LootEntryItem.func_186367_a(jsonobject, p_deserialize_3_, i, j, alootcondition);
+            }
+            else if ("loot_table".equals(s))
+            {
+                return LootEntryTable.func_186370_a(jsonobject, p_deserialize_3_, i, j, alootcondition);
+            }
+            else if ("empty".equals(s))
+            {
+                return LootEntryEmpty.func_186372_a(jsonobject, p_deserialize_3_, i, j, alootcondition);
+            }
+            else
+            {
+                throw new JsonSyntaxException("Unknown loot entry type '" + s + "'");
             }
         }
 
-        public JsonElement a(LootEntry lotoselectorentry, Type type, JsonSerializationContext jsonserializationcontext) {
+        public JsonElement serialize(LootEntry p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_)
+        {
             JsonObject jsonobject = new JsonObject();
+            jsonobject.addProperty("weight", Integer.valueOf(p_serialize_1_.field_186364_c));
+            jsonobject.addProperty("quality", Integer.valueOf(p_serialize_1_.field_186365_d));
 
-            jsonobject.addProperty("weight", Integer.valueOf(lotoselectorentry.field_186364_c));
-            jsonobject.addProperty("quality", Integer.valueOf(lotoselectorentry.field_186365_d));
-            if (lotoselectorentry.field_186366_e.length > 0) {
-                jsonobject.add("conditions", jsonserializationcontext.serialize(lotoselectorentry.field_186366_e));
+            if (p_serialize_1_.field_186366_e.length > 0)
+            {
+                jsonobject.add("conditions", p_serialize_3_.serialize(p_serialize_1_.field_186366_e));
             }
 
-            if (lotoselectorentry instanceof LootEntryItem) {
+            if (p_serialize_1_ instanceof LootEntryItem)
+            {
                 jsonobject.addProperty("type", "item");
-            } else if (lotoselectorentry instanceof LootEntryTable) {
+            }
+            else if (p_serialize_1_ instanceof LootEntryTable)
+            {
                 jsonobject.addProperty("type", "loot_table");
-            } else {
-                if (!(lotoselectorentry instanceof LootEntryEmpty)) {
-                    throw new IllegalArgumentException("Don\'t know how to serialize " + lotoselectorentry);
+            }
+            else
+            {
+                if (!(p_serialize_1_ instanceof LootEntryEmpty))
+                {
+                    throw new IllegalArgumentException("Don't know how to serialize " + p_serialize_1_);
                 }
 
                 jsonobject.addProperty("type", "empty");
             }
 
-            lotoselectorentry.func_186362_a(jsonobject, jsonserializationcontext);
+            p_serialize_1_.func_186362_a(jsonobject, p_serialize_3_);
             return jsonobject;
-        }
-
-        @Override
-        public JsonElement serialize(LootEntry object, Type type, JsonSerializationContext jsonserializationcontext) {
-            return this.a(object, type, jsonserializationcontext);
-        }
-
-        @Override
-        public LootEntry deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            return this.a(jsonelement, type, jsondeserializationcontext);
         }
     }
 }

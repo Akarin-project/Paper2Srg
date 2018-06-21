@@ -5,141 +5,139 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class ConsumeItemTrigger implements ICriterionTrigger<ConsumeItemTrigger.b> {
-
+public class ConsumeItemTrigger implements ICriterionTrigger<ConsumeItemTrigger.Instance>
+{
     private static final ResourceLocation field_193149_a = new ResourceLocation("consume_item");
-    private final Map<PlayerAdvancements, ConsumeItemTrigger.a> field_193150_b = Maps.newHashMap();
+    private final Map<PlayerAdvancements, ConsumeItemTrigger.Listeners> field_193150_b = Maps.<PlayerAdvancements, ConsumeItemTrigger.Listeners>newHashMap();
 
-    public ConsumeItemTrigger() {}
-
-    @Override
-    public ResourceLocation func_192163_a() {
-        return ConsumeItemTrigger.field_193149_a;
+    public ResourceLocation func_192163_a()
+    {
+        return field_193149_a;
     }
 
-    @Override
-    public void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<ConsumeItemTrigger.b> criteriontrigger_a) {
-        ConsumeItemTrigger.a criteriontriggerconsumeitem_a = this.field_193150_b.get(advancementdataplayer);
+    public void func_192165_a(PlayerAdvancements p_192165_1_, ICriterionTrigger.Listener<ConsumeItemTrigger.Instance> p_192165_2_)
+    {
+        ConsumeItemTrigger.Listeners consumeitemtrigger$listeners = this.field_193150_b.get(p_192165_1_);
 
-        if (criteriontriggerconsumeitem_a == null) {
-            criteriontriggerconsumeitem_a = new ConsumeItemTrigger.a(advancementdataplayer);
-            this.field_193150_b.put(advancementdataplayer, criteriontriggerconsumeitem_a);
+        if (consumeitemtrigger$listeners == null)
+        {
+            consumeitemtrigger$listeners = new ConsumeItemTrigger.Listeners(p_192165_1_);
+            this.field_193150_b.put(p_192165_1_, consumeitemtrigger$listeners);
         }
 
-        criteriontriggerconsumeitem_a.a(criteriontrigger_a);
+        consumeitemtrigger$listeners.func_193239_a(p_192165_2_);
     }
 
-    @Override
-    public void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<ConsumeItemTrigger.b> criteriontrigger_a) {
-        ConsumeItemTrigger.a criteriontriggerconsumeitem_a = this.field_193150_b.get(advancementdataplayer);
+    public void func_192164_b(PlayerAdvancements p_192164_1_, ICriterionTrigger.Listener<ConsumeItemTrigger.Instance> p_192164_2_)
+    {
+        ConsumeItemTrigger.Listeners consumeitemtrigger$listeners = this.field_193150_b.get(p_192164_1_);
 
-        if (criteriontriggerconsumeitem_a != null) {
-            criteriontriggerconsumeitem_a.b(criteriontrigger_a);
-            if (criteriontriggerconsumeitem_a.a()) {
-                this.field_193150_b.remove(advancementdataplayer);
+        if (consumeitemtrigger$listeners != null)
+        {
+            consumeitemtrigger$listeners.func_193237_b(p_192164_2_);
+
+            if (consumeitemtrigger$listeners.func_193238_a())
+            {
+                this.field_193150_b.remove(p_192164_1_);
+            }
+        }
+    }
+
+    public void func_192167_a(PlayerAdvancements p_192167_1_)
+    {
+        this.field_193150_b.remove(p_192167_1_);
+    }
+
+    public ConsumeItemTrigger.Instance func_192166_a(JsonObject p_192166_1_, JsonDeserializationContext p_192166_2_)
+    {
+        ItemPredicate itempredicate = ItemPredicate.func_192492_a(p_192166_1_.get("item"));
+        return new ConsumeItemTrigger.Instance(itempredicate);
+    }
+
+    public void func_193148_a(EntityPlayerMP p_193148_1_, ItemStack p_193148_2_)
+    {
+        ConsumeItemTrigger.Listeners consumeitemtrigger$listeners = this.field_193150_b.get(p_193148_1_.func_192039_O());
+
+        if (consumeitemtrigger$listeners != null)
+        {
+            consumeitemtrigger$listeners.func_193240_a(p_193148_2_);
+        }
+    }
+
+    public static class Instance extends AbstractCriterionInstance
+        {
+            private final ItemPredicate field_193194_a;
+
+            public Instance(ItemPredicate p_i47562_1_)
+            {
+                super(ConsumeItemTrigger.field_193149_a);
+                this.field_193194_a = p_i47562_1_;
+            }
+
+            public boolean func_193193_a(ItemStack p_193193_1_)
+            {
+                return this.field_193194_a.func_192493_a(p_193193_1_);
             }
         }
 
-    }
+    static class Listeners
+        {
+            private final PlayerAdvancements field_193241_a;
+            private final Set<ICriterionTrigger.Listener<ConsumeItemTrigger.Instance>> field_193242_b = Sets.<ICriterionTrigger.Listener<ConsumeItemTrigger.Instance>>newHashSet();
 
-    @Override
-    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
-        this.field_193150_b.remove(advancementdataplayer);
-    }
+            public Listeners(PlayerAdvancements p_i47563_1_)
+            {
+                this.field_193241_a = p_i47563_1_;
+            }
 
-    public ConsumeItemTrigger.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        ItemPredicate criterionconditionitem = ItemPredicate.func_192492_a(jsonobject.get("item"));
+            public boolean func_193238_a()
+            {
+                return this.field_193242_b.isEmpty();
+            }
 
-        return new ConsumeItemTrigger.b(criterionconditionitem);
-    }
+            public void func_193239_a(ICriterionTrigger.Listener<ConsumeItemTrigger.Instance> p_193239_1_)
+            {
+                this.field_193242_b.add(p_193239_1_);
+            }
 
-    public void func_193148_a(EntityPlayerMP entityplayer, ItemStack itemstack) {
-        ConsumeItemTrigger.a criteriontriggerconsumeitem_a = this.field_193150_b.get(entityplayer.func_192039_O());
+            public void func_193237_b(ICriterionTrigger.Listener<ConsumeItemTrigger.Instance> p_193237_1_)
+            {
+                this.field_193242_b.remove(p_193237_1_);
+            }
 
-        if (criteriontriggerconsumeitem_a != null) {
-            criteriontriggerconsumeitem_a.a(itemstack);
-        }
+            public void func_193240_a(ItemStack p_193240_1_)
+            {
+                List<ICriterionTrigger.Listener<ConsumeItemTrigger.Instance>> list = null;
 
-    }
+                for (ICriterionTrigger.Listener<ConsumeItemTrigger.Instance> listener : this.field_193242_b)
+                {
+                    if (((ConsumeItemTrigger.Instance)listener.func_192158_a()).func_193193_a(p_193240_1_))
+                    {
+                        if (list == null)
+                        {
+                            list = Lists.<ICriterionTrigger.Listener<ConsumeItemTrigger.Instance>>newArrayList();
+                        }
 
-    @Override
-    public b func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        return this.b(jsonobject, jsondeserializationcontext);
-    }
-
-    static class a {
-
-        private final PlayerAdvancements a;
-        private final Set<ICriterionTrigger.a<ConsumeItemTrigger.b>> b = Sets.newHashSet();
-
-        public a(PlayerAdvancements advancementdataplayer) {
-            this.a = advancementdataplayer;
-        }
-
-        public boolean a() {
-            return this.b.isEmpty();
-        }
-
-        public void a(ICriterionTrigger.a<ConsumeItemTrigger.b> criteriontrigger_a) {
-            this.b.add(criteriontrigger_a);
-        }
-
-        public void b(ICriterionTrigger.a<ConsumeItemTrigger.b> criteriontrigger_a) {
-            this.b.remove(criteriontrigger_a);
-        }
-
-        public void a(ItemStack itemstack) {
-            ArrayList arraylist = null;
-            Iterator iterator = this.b.iterator();
-
-            ICriterionTrigger.a criteriontrigger_a;
-
-            while (iterator.hasNext()) {
-                criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
-                if (((ConsumeItemTrigger.b) criteriontrigger_a.a()).a(itemstack)) {
-                    if (arraylist == null) {
-                        arraylist = Lists.newArrayList();
+                        list.add(listener);
                     }
+                }
 
-                    arraylist.add(criteriontrigger_a);
+                if (list != null)
+                {
+                    for (ICriterionTrigger.Listener<ConsumeItemTrigger.Instance> listener1 : list)
+                    {
+                        listener1.func_192159_a(this.field_193241_a);
+                    }
                 }
             }
-
-            if (arraylist != null) {
-                iterator = arraylist.iterator();
-
-                while (iterator.hasNext()) {
-                    criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
-                    criteriontrigger_a.a(this.a);
-                }
-            }
-
         }
-    }
-
-    public static class b extends AbstractCriterionInstance {
-
-        private final ItemPredicate a;
-
-        public b(ItemPredicate criterionconditionitem) {
-            super(ConsumeItemTrigger.field_193149_a);
-            this.a = criterionconditionitem;
-        }
-
-        public boolean a(ItemStack itemstack) {
-            return this.a.func_192493_a(itemstack);
-        }
-    }
 }

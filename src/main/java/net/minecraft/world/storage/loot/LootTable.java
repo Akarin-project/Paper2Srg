@@ -9,144 +9,155 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.math.MathHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class LootTable {
-
+public class LootTable
+{
     private static final Logger field_186465_b = LogManager.getLogger();
     public static final LootTable field_186464_a = new LootTable(new LootPool[0]);
     private final LootPool[] field_186466_c;
 
-    public LootTable(LootPool[] alootselector) {
-        this.field_186466_c = alootselector;
+    public LootTable(LootPool[] p_i46641_1_)
+    {
+        this.field_186466_c = p_i46641_1_;
     }
 
-    public List<ItemStack> func_186462_a(Random random, LootContext loottableinfo) {
-        ArrayList arraylist = Lists.newArrayList();
+    public List<ItemStack> func_186462_a(Random p_186462_1_, LootContext p_186462_2_)
+    {
+        List<ItemStack> list = Lists.<ItemStack>newArrayList();
 
-        if (loottableinfo.func_186496_a(this)) {
-            LootPool[] alootselector = this.field_186466_c;
-            int i = alootselector.length;
-
-            for (int j = 0; j < i; ++j) {
-                LootPool lootselector = alootselector[j];
-
-                lootselector.func_186449_b(arraylist, random, loottableinfo);
+        if (p_186462_2_.func_186496_a(this))
+        {
+            for (LootPool lootpool : this.field_186466_c)
+            {
+                lootpool.func_186449_b(list, p_186462_1_, p_186462_2_);
             }
 
-            loottableinfo.func_186490_b(this);
-        } else {
-            LootTable.field_186465_b.warn("Detected infinite loop in loot tables");
+            p_186462_2_.func_186490_b(this);
+        }
+        else
+        {
+            field_186465_b.warn("Detected infinite loop in loot tables");
         }
 
-        return arraylist;
+        return list;
     }
 
-    public void func_186460_a(IInventory iinventory, Random random, LootContext loottableinfo) {
-        List list = this.func_186462_a(random, loottableinfo);
-        List list1 = this.func_186459_a(iinventory, random);
+    public void func_186460_a(IInventory p_186460_1_, Random p_186460_2_, LootContext p_186460_3_)
+    {
+        List<ItemStack> list = this.func_186462_a(p_186460_2_, p_186460_3_);
+        List<Integer> list1 = this.func_186459_a(p_186460_1_, p_186460_2_);
+        this.func_186463_a(list, list1.size(), p_186460_2_);
 
-        this.func_186463_a(list, list1.size(), random);
-        Iterator iterator = list.iterator();
-
-        while (iterator.hasNext()) {
-            ItemStack itemstack = (ItemStack) iterator.next();
-
-            if (list1.isEmpty()) {
-                LootTable.field_186465_b.warn("Tried to over-fill a container");
+        for (ItemStack itemstack : list)
+        {
+            if (list1.isEmpty())
+            {
+                field_186465_b.warn("Tried to over-fill a container");
                 return;
             }
 
-            if (itemstack.func_190926_b()) {
-                iinventory.func_70299_a(((Integer) list1.remove(list1.size() - 1)).intValue(), ItemStack.field_190927_a);
-            } else {
-                iinventory.func_70299_a(((Integer) list1.remove(list1.size() - 1)).intValue(), itemstack);
+            if (itemstack.func_190926_b())
+            {
+                p_186460_1_.func_70299_a(((Integer)list1.remove(list1.size() - 1)).intValue(), ItemStack.field_190927_a);
+            }
+            else
+            {
+                p_186460_1_.func_70299_a(((Integer)list1.remove(list1.size() - 1)).intValue(), itemstack);
             }
         }
-
     }
 
-    private void func_186463_a(List<ItemStack> list, int i, Random random) {
-        ArrayList arraylist = Lists.newArrayList();
-        Iterator iterator = list.iterator();
+    private void func_186463_a(List<ItemStack> p_186463_1_, int p_186463_2_, Random p_186463_3_)
+    {
+        List<ItemStack> list = Lists.<ItemStack>newArrayList();
+        Iterator<ItemStack> iterator = p_186463_1_.iterator();
 
-        while (iterator.hasNext()) {
-            ItemStack itemstack = (ItemStack) iterator.next();
+        while (iterator.hasNext())
+        {
+            ItemStack itemstack = iterator.next();
 
-            if (itemstack.func_190926_b()) {
+            if (itemstack.func_190926_b())
+            {
                 iterator.remove();
-            } else if (itemstack.func_190916_E() > 1) {
-                arraylist.add(itemstack);
+            }
+            else if (itemstack.func_190916_E() > 1)
+            {
+                list.add(itemstack);
                 iterator.remove();
             }
         }
 
-        i -= list.size();
+        p_186463_2_ = p_186463_2_ - p_186463_1_.size();
 
-        while (i > 0 && !arraylist.isEmpty()) {
-            ItemStack itemstack1 = (ItemStack) arraylist.remove(MathHelper.func_76136_a(random, 0, arraylist.size() - 1));
-            int j = MathHelper.func_76136_a(random, 1, itemstack1.func_190916_E() / 2);
-            ItemStack itemstack2 = itemstack1.func_77979_a(j);
+        while (p_186463_2_ > 0 && !list.isEmpty())
+        {
+            ItemStack itemstack2 = list.remove(MathHelper.func_76136_a(p_186463_3_, 0, list.size() - 1));
+            int i = MathHelper.func_76136_a(p_186463_3_, 1, itemstack2.func_190916_E() / 2);
+            ItemStack itemstack1 = itemstack2.func_77979_a(i);
 
-            if (itemstack1.func_190916_E() > 1 && random.nextBoolean()) {
-                arraylist.add(itemstack1);
-            } else {
-                list.add(itemstack1);
-            }
-
-            if (itemstack2.func_190916_E() > 1 && random.nextBoolean()) {
-                arraylist.add(itemstack2);
-            } else {
+            if (itemstack2.func_190916_E() > 1 && p_186463_3_.nextBoolean())
+            {
                 list.add(itemstack2);
             }
-        }
+            else
+            {
+                p_186463_1_.add(itemstack2);
+            }
 
-        list.addAll(arraylist);
-        Collections.shuffle(list, random);
-    }
-
-    private List<Integer> func_186459_a(IInventory iinventory, Random random) {
-        ArrayList arraylist = Lists.newArrayList();
-
-        for (int i = 0; i < iinventory.func_70302_i_(); ++i) {
-            if (iinventory.func_70301_a(i).func_190926_b()) {
-                arraylist.add(Integer.valueOf(i));
+            if (itemstack1.func_190916_E() > 1 && p_186463_3_.nextBoolean())
+            {
+                list.add(itemstack1);
+            }
+            else
+            {
+                p_186463_1_.add(itemstack1);
             }
         }
 
-        Collections.shuffle(arraylist, random);
-        return arraylist;
+        p_186463_1_.addAll(list);
+        Collections.shuffle(p_186463_1_, p_186463_3_);
     }
 
-    public static class a implements JsonDeserializer<LootTable>, JsonSerializer<LootTable> {
+    private List<Integer> func_186459_a(IInventory p_186459_1_, Random p_186459_2_)
+    {
+        List<Integer> list = Lists.<Integer>newArrayList();
 
-        public a() {}
-
-        @Override
-        public LootTable deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
-            JsonObject jsonobject = JsonUtils.func_151210_l(jsonelement, "loot table");
-            LootPool[] alootselector = JsonUtils.func_188177_a(jsonobject, "pools", new LootPool[0], jsondeserializationcontext, LootPool[].class);
-
-            return new LootTable(alootselector);
+        for (int i = 0; i < p_186459_1_.func_70302_i_(); ++i)
+        {
+            if (p_186459_1_.func_70301_a(i).func_190926_b())
+            {
+                list.add(Integer.valueOf(i));
+            }
         }
 
-        @Override
-        public JsonElement serialize(LootTable loottable, Type type, JsonSerializationContext jsonserializationcontext) {
-            JsonObject jsonobject = new JsonObject();
-
-            jsonobject.add("pools", jsonserializationcontext.serialize(loottable.field_186466_c));
-            return jsonobject;
-        }
+        Collections.shuffle(list, p_186459_2_);
+        return list;
     }
+
+    public static class Serializer implements JsonDeserializer<LootTable>, JsonSerializer<LootTable>
+        {
+            public LootTable deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException
+            {
+                JsonObject jsonobject = JsonUtils.func_151210_l(p_deserialize_1_, "loot table");
+                LootPool[] alootpool = (LootPool[])JsonUtils.func_188177_a(jsonobject, "pools", new LootPool[0], p_deserialize_3_, LootPool[].class);
+                return new LootTable(alootpool);
+            }
+
+            public JsonElement serialize(LootTable p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_)
+            {
+                JsonObject jsonobject = new JsonObject();
+                jsonobject.add("pools", p_serialize_3_.serialize(p_serialize_1_.field_186466_c));
+                return jsonobject;
+            }
+        }
 }

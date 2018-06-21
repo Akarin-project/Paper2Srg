@@ -5,113 +5,110 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 
-public class TickTrigger implements ICriterionTrigger<TickTrigger.b> {
-
+public class TickTrigger implements ICriterionTrigger<TickTrigger.Instance>
+{
     public static final ResourceLocation field_193183_a = new ResourceLocation("tick");
-    private final Map<PlayerAdvancements, TickTrigger.a> field_193184_b = Maps.newHashMap();
+    private final Map<PlayerAdvancements, TickTrigger.Listeners> field_193184_b = Maps.<PlayerAdvancements, TickTrigger.Listeners>newHashMap();
 
-    public TickTrigger() {}
-
-    @Override
-    public ResourceLocation func_192163_a() {
-        return TickTrigger.field_193183_a;
+    public ResourceLocation func_192163_a()
+    {
+        return field_193183_a;
     }
 
-    @Override
-    public void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<TickTrigger.b> criteriontrigger_a) {
-        TickTrigger.a criteriontriggertick_a = this.field_193184_b.get(advancementdataplayer);
+    public void func_192165_a(PlayerAdvancements p_192165_1_, ICriterionTrigger.Listener<TickTrigger.Instance> p_192165_2_)
+    {
+        TickTrigger.Listeners ticktrigger$listeners = this.field_193184_b.get(p_192165_1_);
 
-        if (criteriontriggertick_a == null) {
-            criteriontriggertick_a = new TickTrigger.a(advancementdataplayer);
-            this.field_193184_b.put(advancementdataplayer, criteriontriggertick_a);
+        if (ticktrigger$listeners == null)
+        {
+            ticktrigger$listeners = new TickTrigger.Listeners(p_192165_1_);
+            this.field_193184_b.put(p_192165_1_, ticktrigger$listeners);
         }
 
-        criteriontriggertick_a.a(criteriontrigger_a);
+        ticktrigger$listeners.func_193502_a(p_192165_2_);
     }
 
-    @Override
-    public void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<TickTrigger.b> criteriontrigger_a) {
-        TickTrigger.a criteriontriggertick_a = this.field_193184_b.get(advancementdataplayer);
+    public void func_192164_b(PlayerAdvancements p_192164_1_, ICriterionTrigger.Listener<TickTrigger.Instance> p_192164_2_)
+    {
+        TickTrigger.Listeners ticktrigger$listeners = this.field_193184_b.get(p_192164_1_);
 
-        if (criteriontriggertick_a != null) {
-            criteriontriggertick_a.b(criteriontrigger_a);
-            if (criteriontriggertick_a.a()) {
-                this.field_193184_b.remove(advancementdataplayer);
+        if (ticktrigger$listeners != null)
+        {
+            ticktrigger$listeners.func_193500_b(p_192164_2_);
+
+            if (ticktrigger$listeners.func_193501_a())
+            {
+                this.field_193184_b.remove(p_192164_1_);
+            }
+        }
+    }
+
+    public void func_192167_a(PlayerAdvancements p_192167_1_)
+    {
+        this.field_193184_b.remove(p_192167_1_);
+    }
+
+    public TickTrigger.Instance func_192166_a(JsonObject p_192166_1_, JsonDeserializationContext p_192166_2_)
+    {
+        return new TickTrigger.Instance();
+    }
+
+    public void func_193182_a(EntityPlayerMP p_193182_1_)
+    {
+        TickTrigger.Listeners ticktrigger$listeners = this.field_193184_b.get(p_193182_1_.func_192039_O());
+
+        if (ticktrigger$listeners != null)
+        {
+            ticktrigger$listeners.func_193503_b();
+        }
+    }
+
+    public static class Instance extends AbstractCriterionInstance
+        {
+            public Instance()
+            {
+                super(TickTrigger.field_193183_a);
             }
         }
 
-    }
+    static class Listeners
+        {
+            private final PlayerAdvancements field_193504_a;
+            private final Set<ICriterionTrigger.Listener<TickTrigger.Instance>> field_193505_b = Sets.<ICriterionTrigger.Listener<TickTrigger.Instance>>newHashSet();
 
-    @Override
-    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
-        this.field_193184_b.remove(advancementdataplayer);
-    }
-
-    public TickTrigger.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        return new TickTrigger.b();
-    }
-
-    public void func_193182_a(EntityPlayerMP entityplayer) {
-        TickTrigger.a criteriontriggertick_a = this.field_193184_b.get(entityplayer.func_192039_O());
-
-        if (criteriontriggertick_a != null) {
-            criteriontriggertick_a.b();
-        }
-
-    }
-
-    @Override
-    public b func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        return this.b(jsonobject, jsondeserializationcontext);
-    }
-
-    static class a {
-
-        private final PlayerAdvancements a;
-        private final Set<ICriterionTrigger.a<TickTrigger.b>> b = Sets.newHashSet();
-
-        public a(PlayerAdvancements advancementdataplayer) {
-            this.a = advancementdataplayer;
-        }
-
-        public boolean a() {
-            return this.b.isEmpty();
-        }
-
-        public void a(ICriterionTrigger.a<TickTrigger.b> criteriontrigger_a) {
-            this.b.add(criteriontrigger_a);
-        }
-
-        public void b(ICriterionTrigger.a<TickTrigger.b> criteriontrigger_a) {
-            this.b.remove(criteriontrigger_a);
-        }
-
-        public void b() {
-            Iterator iterator = Lists.newArrayList(this.b).iterator();
-
-            while (iterator.hasNext()) {
-                ICriterionTrigger.a criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
-
-                criteriontrigger_a.a(this.a);
+            public Listeners(PlayerAdvancements p_i47496_1_)
+            {
+                this.field_193504_a = p_i47496_1_;
             }
 
-        }
-    }
+            public boolean func_193501_a()
+            {
+                return this.field_193505_b.isEmpty();
+            }
 
-    public static class b extends AbstractCriterionInstance {
+            public void func_193502_a(ICriterionTrigger.Listener<TickTrigger.Instance> p_193502_1_)
+            {
+                this.field_193505_b.add(p_193502_1_);
+            }
 
-        public b() {
-            super(TickTrigger.field_193183_a);
+            public void func_193500_b(ICriterionTrigger.Listener<TickTrigger.Instance> p_193500_1_)
+            {
+                this.field_193505_b.remove(p_193500_1_);
+            }
+
+            public void func_193503_b()
+            {
+                for (ICriterionTrigger.Listener<TickTrigger.Instance> listener : Lists.newArrayList(this.field_193505_b))
+                {
+                    listener.func_192159_a(this.field_193504_a);
+                }
+            }
         }
-    }
 }

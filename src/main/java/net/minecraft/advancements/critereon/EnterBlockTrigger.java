@@ -8,15 +8,11 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 import javax.annotation.Nullable;
-
-import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.block.Block;
@@ -27,188 +23,200 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 
-public class EnterBlockTrigger implements ICriterionTrigger<EnterBlockTrigger.b> {
-
+public class EnterBlockTrigger implements ICriterionTrigger<EnterBlockTrigger.Instance>
+{
     private static final ResourceLocation field_192196_a = new ResourceLocation("enter_block");
-    private final Map<PlayerAdvancements, EnterBlockTrigger.a> field_192197_b = Maps.newHashMap();
+    private final Map<PlayerAdvancements, EnterBlockTrigger.Listeners> field_192197_b = Maps.<PlayerAdvancements, EnterBlockTrigger.Listeners>newHashMap();
 
-    public EnterBlockTrigger() {}
-
-    @Override
-    public ResourceLocation func_192163_a() {
-        return EnterBlockTrigger.field_192196_a;
+    public ResourceLocation func_192163_a()
+    {
+        return field_192196_a;
     }
 
-    public void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<EnterBlockTrigger.b> criteriontrigger_a) {
-        EnterBlockTrigger.a criteriontriggerenterblock_a = (EnterBlockTrigger.a) this.field_192197_b.get(advancementdataplayer);
+    public void func_192165_a(PlayerAdvancements p_192165_1_, ICriterionTrigger.Listener<EnterBlockTrigger.Instance> p_192165_2_)
+    {
+        EnterBlockTrigger.Listeners enterblocktrigger$listeners = this.field_192197_b.get(p_192165_1_);
 
-        if (criteriontriggerenterblock_a == null) {
-            criteriontriggerenterblock_a = new EnterBlockTrigger.a(advancementdataplayer);
-            this.field_192197_b.put(advancementdataplayer, criteriontriggerenterblock_a);
+        if (enterblocktrigger$listeners == null)
+        {
+            enterblocktrigger$listeners = new EnterBlockTrigger.Listeners(p_192165_1_);
+            this.field_192197_b.put(p_192165_1_, enterblocktrigger$listeners);
         }
 
-        criteriontriggerenterblock_a.a(criteriontrigger_a);
+        enterblocktrigger$listeners.func_192472_a(p_192165_2_);
     }
 
-    public void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<EnterBlockTrigger.b> criteriontrigger_a) {
-        EnterBlockTrigger.a criteriontriggerenterblock_a = (EnterBlockTrigger.a) this.field_192197_b.get(advancementdataplayer);
+    public void func_192164_b(PlayerAdvancements p_192164_1_, ICriterionTrigger.Listener<EnterBlockTrigger.Instance> p_192164_2_)
+    {
+        EnterBlockTrigger.Listeners enterblocktrigger$listeners = this.field_192197_b.get(p_192164_1_);
 
-        if (criteriontriggerenterblock_a != null) {
-            criteriontriggerenterblock_a.b(criteriontrigger_a);
-            if (criteriontriggerenterblock_a.a()) {
-                this.field_192197_b.remove(advancementdataplayer);
+        if (enterblocktrigger$listeners != null)
+        {
+            enterblocktrigger$listeners.func_192469_b(p_192164_2_);
+
+            if (enterblocktrigger$listeners.func_192470_a())
+            {
+                this.field_192197_b.remove(p_192164_1_);
             }
         }
-
     }
 
-    @Override
-    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
-        this.field_192197_b.remove(advancementdataplayer);
+    public void func_192167_a(PlayerAdvancements p_192167_1_)
+    {
+        this.field_192197_b.remove(p_192167_1_);
     }
 
-    public EnterBlockTrigger.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
+    public EnterBlockTrigger.Instance func_192166_a(JsonObject p_192166_1_, JsonDeserializationContext p_192166_2_)
+    {
         Block block = null;
 
-        if (jsonobject.has("block")) {
-            ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.func_151200_h(jsonobject, "block"));
+        if (p_192166_1_.has("block"))
+        {
+            ResourceLocation resourcelocation = new ResourceLocation(JsonUtils.func_151200_h(p_192166_1_, "block"));
 
-            if (!Block.field_149771_c.func_148741_d(minecraftkey)) {
-                throw new JsonSyntaxException("Unknown block type \'" + minecraftkey + "\'");
+            if (!Block.field_149771_c.func_148741_d(resourcelocation))
+            {
+                throw new JsonSyntaxException("Unknown block type '" + resourcelocation + "'");
             }
 
-            block = Block.field_149771_c.func_82594_a(minecraftkey);
+            block = Block.field_149771_c.func_82594_a(resourcelocation);
         }
 
-        HashMap hashmap = null;
+        Map < IProperty<?>, Object > map = null;
 
-        if (jsonobject.has("state")) {
-            if (block == null) {
-                throw new JsonSyntaxException("Can\'t define block state without a specific block type");
+        if (p_192166_1_.has("state"))
+        {
+            if (block == null)
+            {
+                throw new JsonSyntaxException("Can't define block state without a specific block type");
             }
 
-            BlockStateContainer blockstatelist = block.func_176194_O();
+            BlockStateContainer blockstatecontainer = block.func_176194_O();
 
-            IProperty iblockstate;
-            Optional optional;
+            for (Entry<String, JsonElement> entry : JsonUtils.func_152754_s(p_192166_1_, "state").entrySet())
+            {
+                IProperty<?> iproperty = blockstatecontainer.func_185920_a(entry.getKey());
 
-            for (Iterator iterator = JsonUtils.func_152754_s(jsonobject, "state").entrySet().iterator(); iterator.hasNext(); hashmap.put(iblockstate, optional.get())) {
-                Entry entry = (Entry) iterator.next();
-
-                iblockstate = blockstatelist.func_185920_a((String) entry.getKey());
-                if (iblockstate == null) {
-                    throw new JsonSyntaxException("Unknown block state property \'" + (String) entry.getKey() + "\' for block \'" + Block.field_149771_c.func_177774_c(block) + "\'");
+                if (iproperty == null)
+                {
+                    throw new JsonSyntaxException("Unknown block state property '" + (String)entry.getKey() + "' for block '" + Block.field_149771_c.func_177774_c(block) + "'");
                 }
 
-                String s = JsonUtils.func_151206_a((JsonElement) entry.getValue(), (String) entry.getKey());
+                String s = JsonUtils.func_151206_a(entry.getValue(), entry.getKey());
+                Optional<?> optional = iproperty.func_185929_b(s);
 
-                optional = iblockstate.func_185929_b(s);
-                if (!optional.isPresent()) {
-                    throw new JsonSyntaxException("Invalid block state value \'" + s + "\' for property \'" + (String) entry.getKey() + "\' on block \'" + Block.field_149771_c.func_177774_c(block) + "\'");
+                if (!optional.isPresent())
+                {
+                    throw new JsonSyntaxException("Invalid block state value '" + s + "' for property '" + (String)entry.getKey() + "' on block '" + Block.field_149771_c.func_177774_c(block) + "'");
                 }
 
-                if (hashmap == null) {
-                    hashmap = Maps.newHashMap();
+                if (map == null)
+                {
+                    map = Maps. < IProperty<?>, Object > newHashMap();
                 }
+
+                map.put(iproperty, optional.get());
             }
         }
 
-        return new EnterBlockTrigger.b(block, hashmap);
+        return new EnterBlockTrigger.Instance(block, map);
     }
 
-    public void func_192193_a(EntityPlayerMP entityplayer, IBlockState iblockdata) {
-        EnterBlockTrigger.a criteriontriggerenterblock_a = (EnterBlockTrigger.a) this.field_192197_b.get(entityplayer.func_192039_O());
+    public void func_192193_a(EntityPlayerMP p_192193_1_, IBlockState p_192193_2_)
+    {
+        EnterBlockTrigger.Listeners enterblocktrigger$listeners = this.field_192197_b.get(p_192193_1_.func_192039_O());
 
-        if (criteriontriggerenterblock_a != null) {
-            criteriontriggerenterblock_a.a(iblockdata);
-        }
-
-    }
-
-    @Override
-    public b func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        return this.b(jsonobject, jsondeserializationcontext);
-    }
-
-    static class a {
-
-        private final PlayerAdvancements a;
-        private final Set<ICriterionTrigger.a<EnterBlockTrigger.b>> b = Sets.newHashSet();
-
-        public a(PlayerAdvancements advancementdataplayer) {
-            this.a = advancementdataplayer;
-        }
-
-        public boolean a() {
-            return this.b.isEmpty();
-        }
-
-        public void a(ICriterionTrigger.a<EnterBlockTrigger.b> criteriontrigger_a) {
-            this.b.add(criteriontrigger_a);
-        }
-
-        public void b(ICriterionTrigger.a<EnterBlockTrigger.b> criteriontrigger_a) {
-            this.b.remove(criteriontrigger_a);
-        }
-
-        public void a(IBlockState iblockdata) {
-            ArrayList arraylist = null;
-            Iterator iterator = this.b.iterator();
-
-            ICriterionTrigger.a criteriontrigger_a;
-
-            while (iterator.hasNext()) {
-                criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
-                if (((EnterBlockTrigger.b) criteriontrigger_a.a()).a(iblockdata)) {
-                    if (arraylist == null) {
-                        arraylist = Lists.newArrayList();
-                    }
-
-                    arraylist.add(criteriontrigger_a);
-                }
-            }
-
-            if (arraylist != null) {
-                iterator = arraylist.iterator();
-
-                while (iterator.hasNext()) {
-                    criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
-                    criteriontrigger_a.a(this.a);
-                }
-            }
-
+        if (enterblocktrigger$listeners != null)
+        {
+            enterblocktrigger$listeners.func_192471_a(p_192193_2_);
         }
     }
 
-    public static class b extends AbstractCriterionInstance {
+    public static class Instance extends AbstractCriterionInstance
+        {
+            private final Block field_192261_a;
+            private final Map < IProperty<?>, Object > field_192262_b;
 
-        private final Block a;
-        private final Map<IProperty<?>, Object> b;
+            public Instance(@Nullable Block p_i47451_1_, @Nullable Map < IProperty<?>, Object > p_i47451_2_)
+            {
+                super(EnterBlockTrigger.field_192196_a);
+                this.field_192261_a = p_i47451_1_;
+                this.field_192262_b = p_i47451_2_;
+            }
 
-        public b(@Nullable Block block, @Nullable Map<IProperty<?>, Object> map) {
-            super(EnterBlockTrigger.field_192196_a);
-            this.a = block;
-            this.b = map;
-        }
-
-        public boolean a(IBlockState iblockdata) {
-            if (this.a != null && iblockdata.func_177230_c() != this.a) {
-                return false;
-            } else {
-                if (this.b != null) {
-                    Iterator iterator = this.b.entrySet().iterator();
-
-                    while (iterator.hasNext()) {
-                        Entry entry = (Entry) iterator.next();
-
-                        if (iblockdata.func_177229_b((IProperty) entry.getKey()) != entry.getValue()) {
-                            return false;
+            public boolean func_192260_a(IBlockState p_192260_1_)
+            {
+                if (this.field_192261_a != null && p_192260_1_.func_177230_c() != this.field_192261_a)
+                {
+                    return false;
+                }
+                else
+                {
+                    if (this.field_192262_b != null)
+                    {
+                        for (Entry < IProperty<?>, Object > entry : this.field_192262_b.entrySet())
+                        {
+                            if (p_192260_1_.func_177229_b(entry.getKey()) != entry.getValue())
+                            {
+                                return false;
+                            }
                         }
                     }
-                }
 
-                return true;
+                    return true;
+                }
             }
         }
-    }
+
+    static class Listeners
+        {
+            private final PlayerAdvancements field_192473_a;
+            private final Set<ICriterionTrigger.Listener<EnterBlockTrigger.Instance>> field_192474_b = Sets.<ICriterionTrigger.Listener<EnterBlockTrigger.Instance>>newHashSet();
+
+            public Listeners(PlayerAdvancements p_i47452_1_)
+            {
+                this.field_192473_a = p_i47452_1_;
+            }
+
+            public boolean func_192470_a()
+            {
+                return this.field_192474_b.isEmpty();
+            }
+
+            public void func_192472_a(ICriterionTrigger.Listener<EnterBlockTrigger.Instance> p_192472_1_)
+            {
+                this.field_192474_b.add(p_192472_1_);
+            }
+
+            public void func_192469_b(ICriterionTrigger.Listener<EnterBlockTrigger.Instance> p_192469_1_)
+            {
+                this.field_192474_b.remove(p_192469_1_);
+            }
+
+            public void func_192471_a(IBlockState p_192471_1_)
+            {
+                List<ICriterionTrigger.Listener<EnterBlockTrigger.Instance>> list = null;
+
+                for (ICriterionTrigger.Listener<EnterBlockTrigger.Instance> listener : this.field_192474_b)
+                {
+                    if (((EnterBlockTrigger.Instance)listener.func_192158_a()).func_192260_a(p_192471_1_))
+                    {
+                        if (list == null)
+                        {
+                            list = Lists.<ICriterionTrigger.Listener<EnterBlockTrigger.Instance>>newArrayList();
+                        }
+
+                        list.add(listener);
+                    }
+                }
+
+                if (list != null)
+                {
+                    for (ICriterionTrigger.Listener<EnterBlockTrigger.Instance> listener1 : list)
+                    {
+                        listener1.func_192159_a(this.field_192473_a);
+                    }
+                }
+            }
+        }
 }

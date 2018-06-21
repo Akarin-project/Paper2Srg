@@ -49,7 +49,8 @@ public class AdvancementRewards {
 
     public void func_192113_a(final EntityPlayerMP entityplayer) {
         entityplayer.func_71023_q(this.field_192115_b);
-        LootContext loottableinfo = (new LootContext.a(entityplayer.func_71121_q())).a((Entity) entityplayer).a();
+        LootContext loottableinfo = (new LootContext.Builder(entityplayer.func_71121_q())).func_186472_a((Entity) entityplayer).func_186471_a();
+        
         boolean flag = false;
         ResourceLocation[] aminecraftkey = this.field_192116_c;
         int i = aminecraftkey.length;

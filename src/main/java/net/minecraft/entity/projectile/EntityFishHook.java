@@ -462,10 +462,10 @@ public class EntityFishHook extends Entity {
                 this.field_70170_p.func_72960_a(this, (byte) 31);
                 i = this.field_146043_c instanceof EntityItem ? 3 : 5;
             } else if (this.field_146045_ax > 0) {
-                LootContext.a loottableinfo_a = new LootContext.a((WorldServer) this.field_70170_p);
+                LootContext.Builder loottableinfo_a = new LootContext.Builder((WorldServer) this.field_70170_p);
 
-                loottableinfo_a.a((float) this.field_191518_aw + this.field_146042_b.func_184817_da());
-                Iterator iterator = this.field_70170_p.func_184146_ak().func_186521_a(LootTableList.field_186387_al).func_186462_a(this.field_70146_Z, loottableinfo_a.a()).iterator();
+                loottableinfo_a.func_186469_a((float) this.field_191518_aw + this.field_146042_b.func_184817_da());
+                Iterator iterator = this.field_70170_p.func_184146_ak().func_186521_a(LootTableList.field_186387_al).func_186462_a(this.field_70146_Z, loottableinfo_a.func_186471_a()).iterator();
 
                 while (iterator.hasNext()) {
                     ItemStack itemstack = (ItemStack) iterator.next();

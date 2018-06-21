@@ -6,12 +6,9 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import net.minecraft.advancements.ICriterionInstance;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,134 +17,139 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 
-public class RecipeUnlockedTrigger implements ICriterionTrigger<RecipeUnlockedTrigger.b> {
-
+public class RecipeUnlockedTrigger implements ICriterionTrigger<RecipeUnlockedTrigger.Instance>
+{
     private static final ResourceLocation field_192227_a = new ResourceLocation("recipe_unlocked");
-    private final Map<PlayerAdvancements, RecipeUnlockedTrigger.a> field_192228_b = Maps.newHashMap();
+    private final Map<PlayerAdvancements, RecipeUnlockedTrigger.Listeners> field_192228_b = Maps.<PlayerAdvancements, RecipeUnlockedTrigger.Listeners>newHashMap();
 
-    public RecipeUnlockedTrigger() {}
-
-    @Override
-    public ResourceLocation func_192163_a() {
-        return RecipeUnlockedTrigger.field_192227_a;
+    public ResourceLocation func_192163_a()
+    {
+        return field_192227_a;
     }
 
-    @Override
-    public void a(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<RecipeUnlockedTrigger.b> criteriontrigger_a) {
-        RecipeUnlockedTrigger.a criteriontriggerrecipeunlocked_a = this.field_192228_b.get(advancementdataplayer);
+    public void func_192165_a(PlayerAdvancements p_192165_1_, ICriterionTrigger.Listener<RecipeUnlockedTrigger.Instance> p_192165_2_)
+    {
+        RecipeUnlockedTrigger.Listeners recipeunlockedtrigger$listeners = this.field_192228_b.get(p_192165_1_);
 
-        if (criteriontriggerrecipeunlocked_a == null) {
-            criteriontriggerrecipeunlocked_a = new RecipeUnlockedTrigger.a(advancementdataplayer);
-            this.field_192228_b.put(advancementdataplayer, criteriontriggerrecipeunlocked_a);
+        if (recipeunlockedtrigger$listeners == null)
+        {
+            recipeunlockedtrigger$listeners = new RecipeUnlockedTrigger.Listeners(p_192165_1_);
+            this.field_192228_b.put(p_192165_1_, recipeunlockedtrigger$listeners);
         }
 
-        criteriontriggerrecipeunlocked_a.a(criteriontrigger_a);
+        recipeunlockedtrigger$listeners.func_192528_a(p_192165_2_);
     }
 
-    @Override
-    public void b(PlayerAdvancements advancementdataplayer, ICriterionTrigger.a<RecipeUnlockedTrigger.b> criteriontrigger_a) {
-        RecipeUnlockedTrigger.a criteriontriggerrecipeunlocked_a = this.field_192228_b.get(advancementdataplayer);
+    public void func_192164_b(PlayerAdvancements p_192164_1_, ICriterionTrigger.Listener<RecipeUnlockedTrigger.Instance> p_192164_2_)
+    {
+        RecipeUnlockedTrigger.Listeners recipeunlockedtrigger$listeners = this.field_192228_b.get(p_192164_1_);
 
-        if (criteriontriggerrecipeunlocked_a != null) {
-            criteriontriggerrecipeunlocked_a.b(criteriontrigger_a);
-            if (criteriontriggerrecipeunlocked_a.a()) {
-                this.field_192228_b.remove(advancementdataplayer);
+        if (recipeunlockedtrigger$listeners != null)
+        {
+            recipeunlockedtrigger$listeners.func_192525_b(p_192164_2_);
+
+            if (recipeunlockedtrigger$listeners.func_192527_a())
+            {
+                this.field_192228_b.remove(p_192164_1_);
+            }
+        }
+    }
+
+    public void func_192167_a(PlayerAdvancements p_192167_1_)
+    {
+        this.field_192228_b.remove(p_192167_1_);
+    }
+
+    public RecipeUnlockedTrigger.Instance func_192166_a(JsonObject p_192166_1_, JsonDeserializationContext p_192166_2_)
+    {
+        ResourceLocation resourcelocation = new ResourceLocation(JsonUtils.func_151200_h(p_192166_1_, "recipe"));
+        IRecipe irecipe = CraftingManager.func_193373_a(resourcelocation);
+
+        if (irecipe == null)
+        {
+            throw new JsonSyntaxException("Unknown recipe '" + resourcelocation + "'");
+        }
+        else
+        {
+            return new RecipeUnlockedTrigger.Instance(irecipe);
+        }
+    }
+
+    public void func_192225_a(EntityPlayerMP p_192225_1_, IRecipe p_192225_2_)
+    {
+        RecipeUnlockedTrigger.Listeners recipeunlockedtrigger$listeners = this.field_192228_b.get(p_192225_1_.func_192039_O());
+
+        if (recipeunlockedtrigger$listeners != null)
+        {
+            recipeunlockedtrigger$listeners.func_193493_a(p_192225_2_);
+        }
+    }
+
+    public static class Instance extends AbstractCriterionInstance
+        {
+            private final IRecipe field_192282_a;
+
+            public Instance(IRecipe p_i47526_1_)
+            {
+                super(RecipeUnlockedTrigger.field_192227_a);
+                this.field_192282_a = p_i47526_1_;
+            }
+
+            public boolean func_193215_a(IRecipe p_193215_1_)
+            {
+                return this.field_192282_a == p_193215_1_;
             }
         }
 
-    }
+    static class Listeners
+        {
+            private final PlayerAdvancements field_192529_a;
+            private final Set<ICriterionTrigger.Listener<RecipeUnlockedTrigger.Instance>> field_192530_b = Sets.<ICriterionTrigger.Listener<RecipeUnlockedTrigger.Instance>>newHashSet();
 
-    @Override
-    public void func_192167_a(PlayerAdvancements advancementdataplayer) {
-        this.field_192228_b.remove(advancementdataplayer);
-    }
+            public Listeners(PlayerAdvancements p_i47397_1_)
+            {
+                this.field_192529_a = p_i47397_1_;
+            }
 
-    public RecipeUnlockedTrigger.b b(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        ResourceLocation minecraftkey = new ResourceLocation(JsonUtils.func_151200_h(jsonobject, "recipe"));
-        IRecipe irecipe = CraftingManager.func_193373_a(minecraftkey);
+            public boolean func_192527_a()
+            {
+                return this.field_192530_b.isEmpty();
+            }
 
-        if (irecipe == null) {
-            throw new JsonSyntaxException("Unknown recipe \'" + minecraftkey + "\'");
-        } else {
-            return new RecipeUnlockedTrigger.b(irecipe);
-        }
-    }
+            public void func_192528_a(ICriterionTrigger.Listener<RecipeUnlockedTrigger.Instance> p_192528_1_)
+            {
+                this.field_192530_b.add(p_192528_1_);
+            }
 
-    public void func_192225_a(EntityPlayerMP entityplayer, IRecipe irecipe) {
-        RecipeUnlockedTrigger.a criteriontriggerrecipeunlocked_a = this.field_192228_b.get(entityplayer.func_192039_O());
+            public void func_192525_b(ICriterionTrigger.Listener<RecipeUnlockedTrigger.Instance> p_192525_1_)
+            {
+                this.field_192530_b.remove(p_192525_1_);
+            }
 
-        if (criteriontriggerrecipeunlocked_a != null) {
-            criteriontriggerrecipeunlocked_a.a(irecipe);
-        }
+            public void func_193493_a(IRecipe p_193493_1_)
+            {
+                List<ICriterionTrigger.Listener<RecipeUnlockedTrigger.Instance>> list = null;
 
-    }
+                for (ICriterionTrigger.Listener<RecipeUnlockedTrigger.Instance> listener : this.field_192530_b)
+                {
+                    if (((RecipeUnlockedTrigger.Instance)listener.func_192158_a()).func_193215_a(p_193493_1_))
+                    {
+                        if (list == null)
+                        {
+                            list = Lists.<ICriterionTrigger.Listener<RecipeUnlockedTrigger.Instance>>newArrayList();
+                        }
 
-    @Override
-    public b func_192166_a(JsonObject jsonobject, JsonDeserializationContext jsondeserializationcontext) {
-        return this.b(jsonobject, jsondeserializationcontext);
-    }
-
-    static class a {
-
-        private final PlayerAdvancements a;
-        private final Set<ICriterionTrigger.a<RecipeUnlockedTrigger.b>> b = Sets.newHashSet();
-
-        public a(PlayerAdvancements advancementdataplayer) {
-            this.a = advancementdataplayer;
-        }
-
-        public boolean a() {
-            return this.b.isEmpty();
-        }
-
-        public void a(ICriterionTrigger.a<RecipeUnlockedTrigger.b> criteriontrigger_a) {
-            this.b.add(criteriontrigger_a);
-        }
-
-        public void b(ICriterionTrigger.a<RecipeUnlockedTrigger.b> criteriontrigger_a) {
-            this.b.remove(criteriontrigger_a);
-        }
-
-        public void a(IRecipe irecipe) {
-            ArrayList arraylist = null;
-            Iterator iterator = this.b.iterator();
-
-            ICriterionTrigger.a criteriontrigger_a;
-
-            while (iterator.hasNext()) {
-                criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
-                if (((RecipeUnlockedTrigger.b) criteriontrigger_a.a()).a(irecipe)) {
-                    if (arraylist == null) {
-                        arraylist = Lists.newArrayList();
+                        list.add(listener);
                     }
+                }
 
-                    arraylist.add(criteriontrigger_a);
+                if (list != null)
+                {
+                    for (ICriterionTrigger.Listener<RecipeUnlockedTrigger.Instance> listener1 : list)
+                    {
+                        listener1.func_192159_a(this.field_192529_a);
+                    }
                 }
             }
-
-            if (arraylist != null) {
-                iterator = arraylist.iterator();
-
-                while (iterator.hasNext()) {
-                    criteriontrigger_a = (ICriterionTrigger.a) iterator.next();
-                    criteriontrigger_a.a(this.a);
-                }
-            }
-
         }
-    }
-
-    public static class b extends AbstractCriterionInstance {
-
-        private final IRecipe a;
-
-        public b(IRecipe irecipe) {
-            super(RecipeUnlockedTrigger.field_192227_a);
-            this.a = irecipe;
-        }
-
-        public boolean a(IRecipe irecipe) {
-            return this.a == irecipe;
-        }
-    }
 }

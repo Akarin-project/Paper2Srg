@@ -12,65 +12,70 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import javax.annotation.Nullable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.conditions.LootConditionManager;
 import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class LootTableManager {
-
+public class LootTableManager
+{
     private static final Logger field_186525_a = LogManager.getLogger();
-    private static final Gson field_186526_b = (new GsonBuilder()).registerTypeAdapter(RandomValueRange.class, new RandomValueRange.a()).registerTypeAdapter(LootPool.class, new LootPool.a()).registerTypeAdapter(LootTable.class, new LootTable.a()).registerTypeHierarchyAdapter(LootEntry.class, new LootEntry.a()).registerTypeHierarchyAdapter(LootFunction.class, new LootFunctionManager.a()).registerTypeHierarchyAdapter(LootCondition.class, new LootConditionManager.a()).registerTypeHierarchyAdapter(LootContext.EntityTarget.class, new LootContext.EntityTarget.a()).create();
-    private final LoadingCache<ResourceLocation, LootTable> field_186527_c = CacheBuilder.newBuilder().build(new LootTableManager.a(null));
+    private static final Gson field_186526_b = (new GsonBuilder()).registerTypeAdapter(RandomValueRange.class, new RandomValueRange.Serializer()).registerTypeAdapter(LootPool.class, new LootPool.Serializer()).registerTypeAdapter(LootTable.class, new LootTable.Serializer()).registerTypeHierarchyAdapter(LootEntry.class, new LootEntry.Serializer()).registerTypeHierarchyAdapter(LootFunction.class, new LootFunctionManager.Serializer()).registerTypeHierarchyAdapter(LootCondition.class, new LootConditionManager.Serializer()).registerTypeHierarchyAdapter(LootContext.EntityTarget.class, new LootContext.EntityTarget.Serializer()).create();
+    private final LoadingCache<ResourceLocation, LootTable> field_186527_c = CacheBuilder.newBuilder().<ResourceLocation, LootTable>build(new LootTableManager.Loader());
     private final File field_186528_d;
 
-    public LootTableManager(@Nullable File file) {
-        this.field_186528_d = file;
+    public LootTableManager(@Nullable File p_i46632_1_)
+    {
+        this.field_186528_d = p_i46632_1_;
         this.func_186522_a();
     }
 
-    public LootTable func_186521_a(ResourceLocation minecraftkey) {
-        return this.field_186527_c.getUnchecked(minecraftkey);
+    public LootTable func_186521_a(ResourceLocation p_186521_1_)
+    {
+        return this.field_186527_c.getUnchecked(p_186521_1_);
     }
 
-    public void func_186522_a() {
+    public void func_186522_a()
+    {
         this.field_186527_c.invalidateAll();
-        Iterator iterator = LootTableList.func_186374_a().iterator();
 
-        while (iterator.hasNext()) {
-            ResourceLocation minecraftkey = (ResourceLocation) iterator.next();
+        for (ResourceLocation resourcelocation : LootTableList.func_186374_a())
+        {
+            this.func_186521_a(resourcelocation);
+        }
+    }
 
-            this.func_186521_a(minecraftkey);
+    class Loader extends CacheLoader<ResourceLocation, LootTable>
+    {
+        private Loader()
+        {
         }
 
-    }
-
-    class a extends CacheLoader<ResourceLocation, LootTable> {
-
-        private a() {}
-
-        @Override
-        public LootTable load(ResourceLocation minecraftkey) throws Exception {
-            if (minecraftkey.func_110623_a().contains(".")) {
-                LootTableManager.field_186525_a.debug("Invalid loot table name \'{}\' (can\'t contain periods)", minecraftkey);
+        public LootTable load(ResourceLocation p_load_1_) throws Exception
+        {
+            if (p_load_1_.func_110623_a().contains("."))
+            {
+                LootTableManager.field_186525_a.debug("Invalid loot table name '{}' (can't contain periods)", (Object)p_load_1_);
                 return LootTable.field_186464_a;
-            } else {
-                LootTable loottable = this.b(minecraftkey);
+            }
+            else
+            {
+                LootTable loottable = this.func_186517_b(p_load_1_);
 
-                if (loottable == null) {
-                    loottable = this.c(minecraftkey);
+                if (loottable == null)
+                {
+                    loottable = this.func_186518_c(p_load_1_);
                 }
 
-                if (loottable == null) {
+                if (loottable == null)
+                {
                     loottable = LootTable.field_186464_a;
-                    LootTableManager.field_186525_a.warn("Couldn\'t find resource table {}", minecraftkey);
+                    LootTableManager.field_186525_a.warn("Couldn't find resource table {}", (Object)p_load_1_);
                 }
 
                 return loottable;
@@ -78,66 +83,88 @@ public class LootTableManager {
         }
 
         @Nullable
-        private LootTable b(ResourceLocation minecraftkey) {
-            if (LootTableManager.this.field_186528_d == null) {
+        private LootTable func_186517_b(ResourceLocation p_186517_1_)
+        {
+            if (LootTableManager.this.field_186528_d == null)
+            {
                 return null;
-            } else {
-                File file = new File(new File(LootTableManager.this.field_186528_d, minecraftkey.func_110624_b()), minecraftkey.func_110623_a() + ".json");
+            }
+            else
+            {
+                File file1 = new File(new File(LootTableManager.this.field_186528_d, p_186517_1_.func_110624_b()), p_186517_1_.func_110623_a() + ".json");
 
-                if (file.exists()) {
-                    if (file.isFile()) {
+                if (file1.exists())
+                {
+                    if (file1.isFile())
+                    {
                         String s;
 
-                        try {
-                            s = Files.toString(file, StandardCharsets.UTF_8);
-                        } catch (IOException ioexception) {
-                            LootTableManager.field_186525_a.warn("Couldn\'t load loot table {} from {}", minecraftkey, file, ioexception);
+                        try
+                        {
+                            s = Files.toString(file1, StandardCharsets.UTF_8);
+                        }
+                        catch (IOException ioexception)
+                        {
+                            LootTableManager.field_186525_a.warn("Couldn't load loot table {} from {}", p_186517_1_, file1, ioexception);
                             return LootTable.field_186464_a;
                         }
 
-                        try {
-                            return JsonUtils.func_188178_a(LootTableManager.field_186526_b, s, LootTable.class);
-                        } catch (IllegalArgumentException | JsonParseException jsonparseexception) {
-                            LootTableManager.field_186525_a.error("Couldn\'t load loot table {} from {}", minecraftkey, file, jsonparseexception);
+                        try
+                        {
+                            return (LootTable)JsonUtils.func_188178_a(LootTableManager.field_186526_b, s, LootTable.class);
+                        }
+                        catch (IllegalArgumentException | JsonParseException jsonparseexception)
+                        {
+                            LootTableManager.field_186525_a.error("Couldn't load loot table {} from {}", p_186517_1_, file1, jsonparseexception);
                             return LootTable.field_186464_a;
                         }
-                    } else {
-                        LootTableManager.field_186525_a.warn("Expected to find loot table {} at {} but it was a folder.", minecraftkey, file);
+                    }
+                    else
+                    {
+                        LootTableManager.field_186525_a.warn("Expected to find loot table {} at {} but it was a folder.", p_186517_1_, file1);
                         return LootTable.field_186464_a;
                     }
-                } else {
+                }
+                else
+                {
                     return null;
                 }
             }
         }
 
         @Nullable
-        private LootTable c(ResourceLocation minecraftkey) {
-            URL url = LootTableManager.class.getResource("/assets/" + minecraftkey.func_110624_b() + "/loot_tables/" + minecraftkey.func_110623_a() + ".json");
+        private LootTable func_186518_c(ResourceLocation p_186518_1_)
+        {
+            URL url = LootTableManager.class.getResource("/assets/" + p_186518_1_.func_110624_b() + "/loot_tables/" + p_186518_1_.func_110623_a() + ".json");
 
-            if (url != null) {
+            if (url != null)
+            {
                 String s;
 
-                try {
+                try
+                {
                     s = Resources.toString(url, StandardCharsets.UTF_8);
-                } catch (IOException ioexception) {
-                    LootTableManager.field_186525_a.warn("Couldn\'t load loot table {} from {}", minecraftkey, url, ioexception);
+                }
+                catch (IOException ioexception)
+                {
+                    LootTableManager.field_186525_a.warn("Couldn't load loot table {} from {}", p_186518_1_, url, ioexception);
                     return LootTable.field_186464_a;
                 }
 
-                try {
-                    return JsonUtils.func_188178_a(LootTableManager.field_186526_b, s, LootTable.class);
-                } catch (JsonParseException jsonparseexception) {
-                    LootTableManager.field_186525_a.error("Couldn\'t load loot table {} from {}", minecraftkey, url, jsonparseexception);
+                try
+                {
+                    return (LootTable)JsonUtils.func_188178_a(LootTableManager.field_186526_b, s, LootTable.class);
+                }
+                catch (JsonParseException jsonparseexception)
+                {
+                    LootTableManager.field_186525_a.error("Couldn't load loot table {} from {}", p_186518_1_, url, jsonparseexception);
                     return LootTable.field_186464_a;
                 }
-            } else {
+            }
+            else
+            {
                 return null;
             }
-        }
-
-        a(Object object) {
-            this();
         }
     }
 }
