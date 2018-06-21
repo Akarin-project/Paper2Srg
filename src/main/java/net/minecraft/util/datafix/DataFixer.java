@@ -15,7 +15,7 @@ public class DataFixer implements IDataFixer {
     private static final Logger field_188259_a = LogManager.getLogger();
     private final Map<IFixType, List<IDataWalker>> field_188260_b = Maps.newHashMap();
     private final Map<IFixType, List<IFixableData>> field_188261_c = Maps.newHashMap();
-    private final int field_188262_d;
+    public final int field_188262_d;
 
     public DataFixer(int i) {
         this.field_188262_d = i;

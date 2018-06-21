@@ -49,7 +49,7 @@ public class WeightedRandom {
 
     public static class Item {
 
-        protected int field_76292_a;
+        public int field_76292_a;
 
         public Item(int i) {
             this.field_76292_a = i;

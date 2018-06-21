@@ -16,7 +16,7 @@ import net.minecraft.world.biome.Biome;
 
 public class MapGenVillage extends MapGenStructure {
 
-    public static final List<Biome> field_75055_e = Arrays.asList(new Biome[] { Biomes.field_76772_c, Biomes.field_76769_d, Biomes.field_150588_X, Biomes.field_76768_g});
+    public static List<Biome> field_75055_e = Arrays.asList(new Biome[] { Biomes.field_76772_c, Biomes.field_76769_d, Biomes.field_150588_X, Biomes.field_76768_g});
     private int field_75054_f;
     private int field_82665_g;
     private final int field_82666_h;

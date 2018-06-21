@@ -50,19 +50,19 @@ public class BiomeDecorator {
     protected WorldGenerator field_76825_v;
     protected WorldGenerator field_76824_w;
     protected WorldGenerator field_76834_x;
-    protected int field_76833_y;
-    protected int field_76832_z;
-    protected float field_189870_A;
-    protected int field_76802_A;
-    protected int field_76803_B;
-    protected int field_76804_C;
-    protected int field_76798_D;
-    protected int field_76799_E;
-    protected int field_76800_F;
-    protected int field_76801_G;
-    protected int field_76805_H;
-    protected int field_76806_I;
-    protected int field_76807_J;
+    public int field_76833_y;
+    public int field_76832_z;
+    public float field_189870_A;
+    public int field_76802_A;
+    public int field_76803_B;
+    public int field_76804_C;
+    public int field_76798_D;
+    public int field_76799_E;
+    public int field_76800_F;
+    public int field_76801_G;
+    public int field_76805_H;
+    public int field_76806_I;
+    public int field_76807_J;
     public boolean field_76808_K;
 
     public BiomeDecorator() {

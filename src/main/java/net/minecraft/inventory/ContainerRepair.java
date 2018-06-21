@@ -37,7 +37,7 @@ public class ContainerRepair extends Container {
     private final World field_82860_h;
     private final BlockPos field_178156_j;
     public int field_82854_e;
-    private int field_82856_l;
+    public int field_82856_l;
     public String field_82857_m;
     private final EntityPlayer field_82855_n;
     // CraftBukkit start

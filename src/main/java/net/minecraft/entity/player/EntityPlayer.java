@@ -682,7 +682,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
         }
     }
 
-    protected ItemStack func_184816_a(EntityItem entityitem) {
+    public ItemStack func_184816_a(EntityItem entityitem) {
         this.field_70170_p.func_72838_d(entityitem);
         return entityitem.func_92059_d();
     }

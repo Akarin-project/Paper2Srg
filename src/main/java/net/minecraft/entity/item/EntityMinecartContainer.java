@@ -71,7 +71,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     // Paper end
 
     private NonNullList<ItemStack> field_94113_a;
-    private boolean field_94112_b;
+    public boolean field_94112_b;
     private ResourceLocation field_184290_c;
     private long field_184291_d;public long getLootTableSeed() { return field_184291_d; } // Paper - OBFHELPER
 
