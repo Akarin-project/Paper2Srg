@@ -798,7 +798,7 @@ public class TileEntityHopper extends TileEntityLockableLoot implements IHopper,
         return this.field_145901_j > 0;
     }
 
-    private boolean func_174914_o() {
+    public boolean func_174914_o() {
         return this.field_145901_j > 8;
     }
 
