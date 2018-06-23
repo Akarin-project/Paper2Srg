@@ -25,7 +25,7 @@ public enum EnumFacing implements IStringSerializable {
     private final EnumFacing.Axis field_176758_k;
     private final EnumFacing.AxisDirection field_176755_l;
     private final Vec3i field_176756_m;
-    private static final EnumFacing[] field_82609_l = new EnumFacing[6];
+    public static final EnumFacing[] field_82609_l = new EnumFacing[6];
     private static final EnumFacing[] field_176754_o = new EnumFacing[4];
     private static final Map<String, EnumFacing> field_176761_p = Maps.newHashMap();
 

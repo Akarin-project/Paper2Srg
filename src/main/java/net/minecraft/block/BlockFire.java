@@ -239,13 +239,13 @@ public class BlockFire extends Block {
         return false;
     }
 
-    private int func_176532_c(Block block) {
+    int func_176532_c(Block block) {
         Integer integer = (Integer) this.field_149848_b.get(block);
 
         return integer == null ? 0 : integer.intValue();
     }
 
-    private int func_176534_d(Block block) {
+    public int func_176534_d(Block block) {
         Integer integer = (Integer) this.field_149849_a.get(block);
 
         return integer == null ? 0 : integer.intValue();
